@@ -1,12 +1,10 @@
 #include "DxLib.h"
 #include "Input.h"
-//#include "SceneTitle.h"
-//#include "SceneSelectStage.h"
-//#include "SceneOption.h"
-//#include "SceneStage1.h"
-//#include "SceneStage2.h"
-//#include "SceneClear.h"
-//#include "SceneGameover.h"
+#include "Message.h"
+#include "SceneTitle.h"
+#include "SceneSelect.h"
+#include "SceneMain.h"
+#include "SceneOption.h"
 #include "SceneDebug.h"
 
 // 定数
@@ -37,34 +35,22 @@ std::shared_ptr<SceneBase> SceneDebug::Update(Input& input)
 	// 遷移
 	if (input.IsTriggered("OK"))
 	{
-		//if (m_select == SelectScene::kTitle)
-		//{
-		//	return std::make_shared<SceneTitle>();
-		//}
-		//else if (m_select == SelectScene::kStageSelect)
-		//{
-		//	return std::make_shared<SceneSelectStage>();
-		//}
-		//else if (m_select == SelectScene::kOption)
-		//{
-		//	return std::make_shared<SceneOption>(shared_from_this());
-		//}
-		//else if (m_select == SelectScene::kStage1)
-		//{
-		//	return std::make_shared<SceneStage1>(pPlayer, pCamera, pStage);
-		//}
-		//else if (m_select == SelectScene::kStage2)
-		//{
-		//	return std::make_shared<SceneStage2>(pPlayer, pCamera, pStage);
-		//}
-		//else if (m_select == SelectScene::kClear)
-		//{
-		//	return std::make_shared<SceneClear>();
-		//}
-		//else if (m_select == SelectScene::kGameover)
-		//{
-		//	return std::make_shared<SceneGameover>(shared_from_this());
-		//}
+		if (m_select == SelectScene::kTitle)
+		{
+			return std::make_shared<SceneTitle>();
+		}
+		else if (m_select == SelectScene::kSelect)
+		{
+			return std::make_shared<SceneSelect>();
+		}
+		else if (m_select == SelectScene::kMain)
+		{
+			return std::make_shared<SceneMain>();
+		}
+		else if (m_select == SelectScene::kOption)
+		{
+			return std::make_shared<SceneOption>();
+		}
 	}
 
 	return shared_from_this();
@@ -77,22 +63,16 @@ void SceneDebug::Draw()
 {
 	int titleColor = kTextColor;
 	int selectColor = kTextColor;
-	int stageColor = kTextColor;
-	int debugColor = kTextColor;
+	int playColor = kTextColor;
 	int optionColor = kTextColor;
-	int endingColor = kTextColor;
 
 	if (m_select == SelectScene::kTitle) titleColor = kSelectTextColor;
 	if (m_select == SelectScene::kSelect) selectColor = kSelectTextColor;
-	if (m_select == SelectScene::kStage) stageColor = kSelectTextColor;
-	if (m_select == SelectScene::kDebug) debugColor = kSelectTextColor;
+	if (m_select == SelectScene::kMain) playColor = kSelectTextColor;
 	if (m_select == SelectScene::kOption) optionColor = kSelectTextColor;
-	if (m_select == SelectScene::kEnding) endingColor = kSelectTextColor;
 
-	DrawString(0, 20, "タイトル", titleColor);
-	DrawString(0, 40, "セレクト", selectColor);
-	DrawString(0, 60, "ステージ", stageColor);
-	DrawString(0, 80, "デバッグ用ステージ", debugColor);
-	DrawString(0, 100, "オプション", optionColor);
-	DrawString(0, 120, "エンディング", endingColor);
+	DrawString(0, 20, Message::GetInstance().Get_c("MSG_DEBUG_TITLE"), titleColor);
+	DrawString(0, 40, Message::GetInstance().Get_c("MSG_DEBUG_SELECT"), selectColor);
+	DrawString(0, 60, Message::GetInstance().Get_c("MSG_DEBUG_PLAYING"), playColor);
+	DrawString(0, 80, Message::GetInstance().Get_c("MSG_DEBUG_OPTION"), optionColor);
 }

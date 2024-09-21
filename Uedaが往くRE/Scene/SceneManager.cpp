@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 #include "SceneBase.h"
 #include "SceneDebug.h"
+#include "SceneTitle.h"
 #include "Input.h"
 
 /// <summary>

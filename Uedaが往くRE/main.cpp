@@ -1,6 +1,7 @@
 #include "DxLib.h"
 #include "EffekseerForDXLib.h"
 #include "Input.h"
+#include "Message.h"
 #include "Game.h"
 #include "SceneManager.h"
 
@@ -36,6 +37,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// 入力状態を取得
 	Input input;
+
+	// メッセージのロード
+	Message::GetInstance().Load();
 
 	// SceneManagerを生成
 	std::shared_ptr<SceneManager> pScene = std::make_shared<SceneManager>();

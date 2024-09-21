@@ -19,10 +19,8 @@ private:
 	{
 		kTitle,			// タイトル
 		kSelect,		// セレクト画面
-		kStage,			// ステージ
-		kDebug,			// デバッグ用ステージ
+		kMain,			// プレイ
 		kOption,		// オプション
-		kEnding,		// エンディング
 		kSelectNum		// シーンの数
 	};
 };

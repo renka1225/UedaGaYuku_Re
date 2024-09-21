@@ -15,6 +15,10 @@ public:
 	virtual std::shared_ptr<SceneBase> Update(Input& input) = 0;
 	virtual void Draw() = 0;
 
+#ifdef _DEBUG
+	void DrawSceneText(const char* sceneName); // 現在のシーンをデバッグ表示する
+#endif
+
 protected:
 	void UpdateSelect(Input& input, int selectNum);	// 選択状態を更新
 

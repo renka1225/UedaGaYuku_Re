@@ -1,5 +1,14 @@
-#include "SceneBase.h"
+#include "DxLib.h"
 #include "Input.h"
+#include "Message.h"
+#include "Vec2.h"
+#include "SceneBase.h"
+
+namespace
+{
+	const Vec2 kCurrentScenePos = { 0.0f, 0.0f }; // 現在のシーン名表示位置
+	constexpr int kTextW = 0xffffff; // 白色のテキスト
+}
 
 /// <summary>
 /// コンストラクタ
@@ -15,6 +24,16 @@ SceneBase::SceneBase():
 SceneBase::~SceneBase()
 {
 }
+
+#ifdef _DEBUG
+/// <summary>
+/// 現在のシーンをデバッグ表示する
+/// </summary>
+void SceneBase::DrawSceneText(const char* sceneName)
+{
+	DrawStringF(kCurrentScenePos.x, kCurrentScenePos.y, Message::GetInstance().Get_c(sceneName), kTextW);
+}
+#endif
 
 /// <summary>
 /// 選択状態更新
