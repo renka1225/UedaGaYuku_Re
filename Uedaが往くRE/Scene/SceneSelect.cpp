@@ -1,4 +1,5 @@
 #include "DxLib.h"
+#include "Game.h"
 #include "Input.h"
 #include "Message.h"
 #include "SceneTitle.h"
@@ -69,11 +70,11 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 void SceneSelect::Draw()
 {
 #ifdef _DEBUG
-	int mainColor = kTextColorW;
-	int optionColor = kTextColorW;
+	int mainColor = TextColor::kColorW;
+	int optionColor = TextColor::kColorW;
 
-	if (m_select == SelectScene::kMain) mainColor = kTextColorR;
-	if (m_select == SelectScene::kOption) optionColor = kTextColorR;
+	if (m_select == SelectScene::kMain) mainColor = TextColor::kColorR;
+	if (m_select == SelectScene::kOption) optionColor = TextColor::kColorR;
 
 	DrawString(0, 60, Message::GetInstance().Get_c("MSG_DEBUG_PLAYING"), mainColor);
 	DrawString(0, 80, Message::GetInstance().Get_c("MSG_DEBUG_OPTION"), optionColor);

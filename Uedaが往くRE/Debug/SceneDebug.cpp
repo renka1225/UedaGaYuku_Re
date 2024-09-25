@@ -1,4 +1,5 @@
 #include "DxLib.h"
+#include "Game.h"
 #include "Input.h"
 #include "Message.h"
 #include "SceneTitle.h"
@@ -6,14 +7,6 @@
 #include "SceneMain.h"
 #include "SceneOption.h"
 #include "SceneDebug.h"
-
-// 定数
-namespace
-{
-	// 文字色
-	constexpr int kTextColorW = 0xffffff; // 白
-	constexpr int kTextColorR = 0xff0000; // 赤
-}
 
 /// <summary>
 /// コンストラクタ
@@ -62,15 +55,15 @@ std::shared_ptr<SceneBase> SceneDebug::Update(Input& input)
 /// </summary>
 void SceneDebug::Draw()
 {
-	int titleColor = kTextColorW;
-	int selectColor = kTextColorW;
-	int playColor = kTextColorW;
-	int optionColor = kTextColorW;
+	int titleColor = TextColor::kColorW;
+	int selectColor = TextColor::kColorW;
+	int playColor = TextColor::kColorW;
+	int optionColor = TextColor::kColorW;
 
-	if (m_select == SelectScene::kTitle) titleColor = kTextColorR;
-	if (m_select == SelectScene::kSelect) selectColor = kTextColorR;
-	if (m_select == SelectScene::kMain) playColor = kTextColorR;
-	if (m_select == SelectScene::kOption) optionColor = kTextColorR;
+	if (m_select == SelectScene::kTitle) titleColor = TextColor::kColorR;
+	if (m_select == SelectScene::kSelect) selectColor = TextColor::kColorR;
+	if (m_select == SelectScene::kMain) playColor = TextColor::kColorR;
+	if (m_select == SelectScene::kOption) optionColor = TextColor::kColorR;
 
 	DrawString(0, 20, Message::GetInstance().Get_c("MSG_DEBUG_TITLE"), titleColor);
 	DrawString(0, 40, Message::GetInstance().Get_c("MSG_DEBUG_SELECT"), selectColor);

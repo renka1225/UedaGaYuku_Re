@@ -9,3 +9,11 @@ namespace Game
 	constexpr int kScreenHeight = 1080;	// 縦幅
 	constexpr int kColorDepth = 32;
 }
+
+namespace TextColor
+{
+	constexpr int kColorW = 0xffffff;	// 白色
+	constexpr int kColorR = 0xff0000;	// 赤色
+	constexpr int kColorG = 0x00ff00;	// 緑色
+	constexpr int kColorB = 0x0000ff;	// 青色
+}

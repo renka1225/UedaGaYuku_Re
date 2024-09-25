@@ -1,9 +1,11 @@
+#include "DebugDraw.h"
 #include "CharacterBase.h"
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
 CharacterBase::CharacterBase():
+	m_pos(VGet(0.0f, 0.0f, 0.0f)),
 	m_modelHandle(-1)
 {
 }
@@ -36,4 +38,9 @@ void CharacterBase::Update()
 void CharacterBase::Draw()
 {
 	MV1DrawModel(m_modelHandle);
+
+#ifdef _DEBUG
+	DebugDraw debug;
+	debug.DrawInfo(m_pos);
+#endif
 }
