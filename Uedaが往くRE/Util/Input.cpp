@@ -113,7 +113,7 @@ Input::Input()
 	m_commandTable["OK"] = { {InputType::keybd, KEY_INPUT_RETURN},
 							 {InputType::pad, PAD_INPUT_A} };
 
-	m_commandTable["back"] = { {InputType::keybd, KEY_INPUT_Q},
+	m_commandTable["back"] = { {InputType::keybd, KEY_INPUT_Z},
 							   {InputType::pad, PAD_INPUT_B} };
 
 	m_commandTable["A"] = { {InputType::keybd, KEY_INPUT_RETURN},

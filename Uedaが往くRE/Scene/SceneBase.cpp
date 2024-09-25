@@ -7,7 +7,7 @@
 namespace
 {
 	const Vec2 kCurrentScenePos = { 0.0f, 0.0f }; // 現在のシーン名表示位置
-	constexpr int kTextW = 0xffffff; // 白色のテキスト
+	constexpr int kTextColorW = 0xffffff;		  // 白色のテキスト
 }
 
 /// <summary>
@@ -31,7 +31,7 @@ SceneBase::~SceneBase()
 /// </summary>
 void SceneBase::DrawSceneText(const char* sceneName)
 {
-	DrawStringF(kCurrentScenePos.x, kCurrentScenePos.y, Message::GetInstance().Get_c(sceneName), kTextW);
+	DrawStringF(kCurrentScenePos.x, kCurrentScenePos.y, Message::GetInstance().Get_c(sceneName), kTextColorW);
 }
 #endif
 

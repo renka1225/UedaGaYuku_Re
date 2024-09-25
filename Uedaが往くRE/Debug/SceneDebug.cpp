@@ -10,8 +10,9 @@
 // 定数
 namespace
 {
-	constexpr int kTextColor = 0xffffff;		// 文字色
-	constexpr int kSelectTextColor = 0xff0000;	// 選択中の文字色
+	// 文字色
+	constexpr int kTextColorW = 0xffffff; // 白
+	constexpr int kTextColorR = 0xff0000; // 赤
 }
 
 /// <summary>
@@ -61,15 +62,15 @@ std::shared_ptr<SceneBase> SceneDebug::Update(Input& input)
 /// </summary>
 void SceneDebug::Draw()
 {
-	int titleColor = kTextColor;
-	int selectColor = kTextColor;
-	int playColor = kTextColor;
-	int optionColor = kTextColor;
+	int titleColor = kTextColorW;
+	int selectColor = kTextColorW;
+	int playColor = kTextColorW;
+	int optionColor = kTextColorW;
 
-	if (m_select == SelectScene::kTitle) titleColor = kSelectTextColor;
-	if (m_select == SelectScene::kSelect) selectColor = kSelectTextColor;
-	if (m_select == SelectScene::kMain) playColor = kSelectTextColor;
-	if (m_select == SelectScene::kOption) optionColor = kSelectTextColor;
+	if (m_select == SelectScene::kTitle) titleColor = kTextColorR;
+	if (m_select == SelectScene::kSelect) selectColor = kTextColorR;
+	if (m_select == SelectScene::kMain) playColor = kTextColorR;
+	if (m_select == SelectScene::kOption) optionColor = kTextColorR;
 
 	DrawString(0, 20, Message::GetInstance().Get_c("MSG_DEBUG_TITLE"), titleColor);
 	DrawString(0, 40, Message::GetInstance().Get_c("MSG_DEBUG_SELECT"), selectColor);

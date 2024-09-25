@@ -1,16 +1,16 @@
-#include "SceneMain.h"
 #include "Player.h"
 #include "Camera.h"
+#include "Stage.h"
+#include "SceneMain.h"
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
-SceneMain::SceneMain():
-	m_pPlayer(nullptr),
-	m_pCamera(nullptr)
+SceneMain::SceneMain()
 {
 	m_pPlayer = std::make_shared<Player>();
 	m_pCamera = std::make_shared<Camera>();
+	m_pStage = std::make_shared<Stage>();
 }
 
 /// <summary>
@@ -35,7 +35,7 @@ void SceneMain::Init()
 std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 {
 	m_pPlayer->Update();
-	m_pCamera->Update(input, *m_pPlayer);
+	m_pCamera->Update(input, *m_pPlayer, *m_pStage);
 
 	return shared_from_this();
 }
@@ -46,6 +46,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 void SceneMain::Draw()
 {
 	m_pPlayer->Draw();
+	m_pStage->Draw();
 
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_PLAYING");

@@ -4,6 +4,7 @@
 
 class Player;
 class Camera;
+class Stage;
 
 /// <summary>
 /// メインシーン
@@ -20,5 +21,6 @@ public:
 private:
 	std::shared_ptr<Player> m_pPlayer;	// プレイヤーのポインタ
 	std::shared_ptr<Camera> m_pCamera;	// カメラのポインタ
+	std::shared_ptr<Stage> m_pStage;	// ステージのポインタ
 };
 

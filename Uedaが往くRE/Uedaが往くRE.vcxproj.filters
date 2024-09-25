@@ -49,6 +49,12 @@
     <Filter Include="ヘッダー ファイル\Chara\Enemy">
       <UniqueIdentifier>{0a9aed9a-cefb-4b71-9b2d-20c5dab04855}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Stage">
+      <UniqueIdentifier>{6b9e0a3d-98cd-4a24-8bad-6c22d9d26a5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage">
+      <UniqueIdentifier>{9ea54125-cf2b-4194-ab94-3ac9480aa158}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scene\SceneManager.cpp">
@@ -81,9 +87,6 @@
     <ClCompile Include="Scene\SceneOption.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\SceneSelect.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Chara\Player\Player.cpp">
       <Filter>ソース ファイル\Chara\Player</Filter>
     </ClCompile>
@@ -92,6 +95,12 @@
     </ClCompile>
     <ClCompile Include="Util\Camera.cpp">
       <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage\Stage.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneSelect.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="Util\Camera.h">
       <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage\Stage.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

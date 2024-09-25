@@ -114,7 +114,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>DxLib;$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)Util;$(ProjectDir)Debug;$(ProjectDir)Chara;$(ProjectDir)Chara\Player;$(ProjectDir)Chara\Enemy</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>DxLib;$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)Util;$(ProjectDir)Debug;$(ProjectDir)Chara;$(ProjectDir)Stage;$(ProjectDir)Chara\Enemy;$(ProjectDir)Chara\Player</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
@@ -133,7 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>DxLib;$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)Util;$(ProjectDir)Debug;$(ProjectDir)Chara;$(ProjectDir)Chara\Player;$(ProjectDir)Chara\Enemy</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>DxLib;$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)Util;$(ProjectDir)Debug;$(ProjectDir)Chara;$(ProjectDir)Stage;$(ProjectDir)Chara\Enemy;$(ProjectDir)Chara\Player</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
@@ -155,6 +155,7 @@
     <ClCompile Include="Scene\SceneOption.cpp" />
     <ClCompile Include="Scene\SceneTitle.cpp" />
     <ClCompile Include="Scene\SceneMain.cpp" />
+    <ClCompile Include="Stage\Stage.cpp" />
     <ClCompile Include="Util\Camera.cpp" />
     <ClCompile Include="Util\Message.cpp" />
     <ClCompile Include="Scene\SceneBase.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="Scene\SceneOption.h" />
     <ClInclude Include="Scene\SceneTitle.h" />
     <ClInclude Include="Scene\SceneMain.h" />
+    <ClInclude Include="Stage\Stage.h" />
     <ClInclude Include="Util\Camera.h" />
     <ClInclude Include="Util\Message.h" />
     <ClInclude Include="Scene\SceneBase.h" />

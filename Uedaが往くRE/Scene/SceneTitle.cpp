@@ -1,3 +1,5 @@
+#include "Input.h"
+#include "SceneSelect.h"
 #include "SceneTitle.h"
 
 SceneTitle::SceneTitle()
@@ -20,6 +22,11 @@ void SceneTitle::Init()
 /// </summary>
 std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
 {
+	if (input.IsTriggered("OK"))
+	{
+		return std::make_shared<SceneSelect>();
+	}
+
 	return shared_from_this();
 }
 
