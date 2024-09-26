@@ -8,9 +8,9 @@
 namespace
 {
     // ステージサイズ
-    const VECTOR kStageScale = VGet(15.0f, 15.0f, 15.0f);
+    const VECTOR kStageScale = VGet(3.0f, 3.0f, 3.0f);
     const VECTOR kSkydoomScale = VGet(15.0f, 15.0f, 15.0f);
-    const VECTOR kStagePos = VGet(-10835.0f, 0.0f, 0.0f);
+    const VECTOR kStagePos = VGet(0.0f, 0.0f, 0.0f);
     const VECTOR kSkydoomPos = VGet(-2000.0f, 0.0f, 0.0f);
 
     // 当たり判定
@@ -33,13 +33,13 @@ Stage::Stage():
     m_floor(),
     m_wall()
 {
-	m_stageHandle = MV1LoadModel("data/Model/Stage/city.mv1");
-    m_skydoomHandle = MV1LoadModel("data/Model/Stage/skydoom.mv1");
+	m_stageHandle = MV1LoadModel("data/Model/city/city.mv1");
+    //m_skydoomHandle = MV1LoadModel("data/Model/Stage/skydoom.mv1");
 
     MV1SetScale(m_stageHandle, kStageScale);
     MV1SetPosition(m_stageHandle, kStagePos);
-    MV1SetScale(m_skydoomHandle, kSkydoomScale);
-    MV1SetPosition(m_skydoomHandle, kSkydoomPos);
+   // MV1SetScale(m_skydoomHandle, kSkydoomScale);
+    //MV1SetPosition(m_skydoomHandle, kSkydoomPos);
 
     // モデル全体のコリジョン情報のセットアップ
     MV1SetupCollInfo(m_stageHandle, -1);

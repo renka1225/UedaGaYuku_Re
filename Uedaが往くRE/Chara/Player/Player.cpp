@@ -5,7 +5,7 @@ namespace
 {
 	const char* kModelFileName = ("data/model/chara/player.mv1"); // モデルのファイル名
 	const VECTOR kInitPos = VGet(0.0f, 0.0f, 0.0f);				  // 初期位置
-	constexpr float kScale = 0.3f;
+	constexpr float kScale = 0.1f;
 }
 
 /// <summary>
