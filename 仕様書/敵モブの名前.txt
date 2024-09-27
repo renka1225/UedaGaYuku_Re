@@ -1,0 +1,8 @@
+敵モブの名前
+Nakayama
+Obuchi
+Kobayashi
+Hida
+Saito
+Yamada
+Tanaka

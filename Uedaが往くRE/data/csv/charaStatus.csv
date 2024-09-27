@@ -1,0 +1,3 @@
+ID,MaxHp,WalkSpeed,RunSpeed
+Chara_Player,100.0f,1.0f,2.0f
+Chara_Enemy_01,100.0f,1.0f,2.0f
