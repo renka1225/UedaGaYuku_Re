@@ -1,5 +1,6 @@
 #include "DxLib.h"
 #include "Input.h"
+#include "CsvLoad.h"
 #include "Camera.h"
 #include "Stage.h"
 #include "Player.h"
@@ -7,9 +8,8 @@
 namespace
 {
 	const char* kModelFileName = ("data/model/chara/player.mv1");	// モデルのファイル名
-	const VECTOR kInitPos = VGet(3000.0f, 12.0f, 3000.0f);			// 初期位置
+	const VECTOR kInitPos = VGet(2020.0, 12.0f, 1800.0f);			// 初期位置
 	constexpr float kScale = 0.05f;	// 拡大率
-	constexpr float kMove = 1.0f;	// 移動量
 }
 
 /// <summary>
@@ -19,6 +19,10 @@ Player::Player()
 {
 	m_pos = kInitPos;
 	m_modelHandle = MV1LoadModel(kModelFileName);
+
+	// ステータスを読み込む
+	CsvLoad::GetInstance().LoadStatus(m_status, "player");
+	m_hp = m_status.maxHp;
 }
 
 /// <summary>
@@ -62,19 +66,19 @@ void Player::Move(const Input& input)
 {
 	if (input.IsPressing("right"))
 	{
-		m_pos.x += kMove;
+		m_pos.x += m_status.walkSpeed;
 	}
 	if (input.IsPressing("left"))
 	{
-		m_pos.x -= kMove;
+		m_pos.x -= m_status.walkSpeed;
 	}
 	if (input.IsPressing("up"))
 	{
-		m_pos.z += kMove;
+		m_pos.z += m_status.walkSpeed;
 	}
 	if (input.IsPressing("down"))
 	{
-		m_pos.z -= kMove;
+		m_pos.z -= m_status.walkSpeed;
 	}
 
 	MV1SetPosition(m_modelHandle, m_pos);

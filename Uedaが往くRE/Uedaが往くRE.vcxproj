@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Chara\CharacterBase.cpp" />
+    <ClCompile Include="Util\CsvLoad.cpp" />
     <ClCompile Include="Debug\DebugDraw.cpp" />
     <ClCompile Include="Debug\SceneDebug.cpp" />
     <ClCompile Include="main.cpp" />
@@ -166,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chara\CharacterBase.h" />
+    <ClInclude Include="Util\CsvLoad.h" />
     <ClInclude Include="Debug\DebugDraw.h" />
     <ClInclude Include="Debug\SceneDebug.h" />
     <ClInclude Include="Chara\Player\Player.h" />
