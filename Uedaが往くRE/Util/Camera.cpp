@@ -10,8 +10,8 @@ namespace
 {
 	constexpr float kNear = 1.0f;							// カメラの手前クリップ距離
 	constexpr float kFar = 5000.0f;							// カメラの奥クリップ距離
-	constexpr float kDist = 30.0f;							// カメラからプレイヤーまでの距離
-	constexpr float kHeight = 15.0f;						// カメラの注視点
+	constexpr float kDist = 20.0f;							// カメラからプレイヤーまでの距離
+	constexpr float kHeight = 10.0f;						// カメラの注視点
 	constexpr float kAngle = 0.03f;							// カメラを動かす角度
 	constexpr float kInitAngleH = -0.6f;					// カメラの初期平行角度
 	constexpr float kInitAngleV = -0.3f;					// カメラの初期垂直角度
@@ -90,6 +90,7 @@ void Camera::Update(Input& input, const Player& player, const Stage& stage)
 
 	// カメラの注視点を設定する
 	m_target = VAdd(player.GetPos(), VGet(0.0f, kHeight, 0.0f));
+	printfDx("X:%2f,Y:%2f,Z:%2f)\n", m_target.x, m_target.y, m_target.z);
 
 	// カメラ位置補正
 	FixCameraPos();

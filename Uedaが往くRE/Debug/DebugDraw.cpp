@@ -35,5 +35,5 @@ void DebugDraw::Update()
 /// <param name="pos">ç¿ïW</param>
 void DebugDraw::DrawInfo(const VECTOR pos)
 {
-	DrawFormatString(0, 0, TextColor::kColorW, "ç¿ïW(X:%f, Y:%f, Z:%f)", pos.x, pos.y, pos.z);
+	DrawFormatString(0, 20, TextColor::kColorW, "ç¿ïW(X:%f, Y:%f, Z:%f)", pos.x, pos.y, pos.z);
 }

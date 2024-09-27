@@ -31,7 +31,7 @@ SceneBase::~SceneBase()
 /// </summary>
 void SceneBase::DrawSceneText(const char* sceneName)
 {
-	DrawStringF(kCurrentScenePos.x, kCurrentScenePos.y, Message::GetInstance().Get_c(sceneName), TextColor::kColorW);
+	DrawStringF(kCurrentScenePos.x, kCurrentScenePos.y, Message::GetInstance().Get_c(sceneName), TextColor::kColorR);
 }
 #endif
 

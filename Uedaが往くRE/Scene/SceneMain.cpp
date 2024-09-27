@@ -34,7 +34,7 @@ void SceneMain::Init()
 /// </summary>
 std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 {
-	m_pPlayer->Update();
+	m_pPlayer->Update(input, *m_pCamera, *m_pStage);
 	m_pCamera->Update(input, *m_pPlayer, *m_pStage);
 
 	return shared_from_this();
@@ -45,8 +45,8 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 /// </summary>
 void SceneMain::Draw()
 {
-	m_pPlayer->Draw();
 	m_pStage->Draw();
+	m_pPlayer->Draw();
 
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_PLAYING");
