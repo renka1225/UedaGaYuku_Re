@@ -38,9 +38,4 @@ void CharacterBase::Update()
 void CharacterBase::Draw()
 {
 	MV1DrawModel(m_modelHandle);
-
-#ifdef _DEBUG
-	DebugDraw debug;
-	debug.DrawInfo(m_pos);
-#endif
 }

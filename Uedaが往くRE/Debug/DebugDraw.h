@@ -1,5 +1,6 @@
 #pragma once
 #include "DxLib.h"
+#include <string>
 
 /// <summary>
 /// デバッグ表示
@@ -11,6 +12,6 @@ public:
 	~DebugDraw();
 	void Init();
 	void Update();
-	void DrawInfo(const VECTOR pos);
+	void DrawPlayerInfo(const VECTOR pos, int hp, std::string state);
 };
 

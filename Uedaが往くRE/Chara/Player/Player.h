@@ -1,5 +1,6 @@
 #pragma once
 #include "CharacterBase.h"
+#include "PlayerStateBase.h"
 
 class Input;
 class Camera;
@@ -8,7 +9,7 @@ class Stage;
 /// <summary>
 /// プレイヤー
 /// </summary>
-class Player : public CharacterBase
+class Player : public CharacterBase, public std::enable_shared_from_this<Player>
 {
 public:
 	Player();
@@ -19,5 +20,8 @@ public:
 
 private:
 	void Move(const Input& input);
+
+private:
+	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
 };
 

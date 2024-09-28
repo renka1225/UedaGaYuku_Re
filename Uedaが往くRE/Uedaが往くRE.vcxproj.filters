@@ -90,9 +90,6 @@
     <ClCompile Include="Chara\Player\Player.cpp">
       <Filter>ソース ファイル\Chara\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Chara\CharacterBase.cpp">
-      <Filter>ソース ファイル\Chara</Filter>
-    </ClCompile>
     <ClCompile Include="Stage\Stage.cpp">
       <Filter>ソース ファイル\Stage</Filter>
     </ClCompile>
@@ -107,6 +104,21 @@
     </ClCompile>
     <ClCompile Include="Util\Camera.cpp">
       <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Player\PlayerStateBase.cpp">
+      <Filter>ソース ファイル\Chara\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Player\PlayerStateIdle.cpp">
+      <Filter>ソース ファイル\Chara\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Player\PlayerStateRun.cpp">
+      <Filter>ソース ファイル\Chara\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Player\PlayerStateWalk.cpp">
+      <Filter>ソース ファイル\Chara\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\CharacterBase.cpp">
+      <Filter>ソース ファイル\Chara</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +172,18 @@
     </ClInclude>
     <ClInclude Include="Util\Camera.h">
       <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player\PlayerStateBase.h">
+      <Filter>ヘッダー ファイル\Chara\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player\PlayerStateIdle.h">
+      <Filter>ヘッダー ファイル\Chara\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player\PlayerStateRun.h">
+      <Filter>ヘッダー ファイル\Chara\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player\PlayerStateWalk.h">
+      <Filter>ヘッダー ファイル\Chara\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
