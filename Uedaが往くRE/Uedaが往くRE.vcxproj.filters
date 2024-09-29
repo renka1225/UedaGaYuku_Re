@@ -111,14 +111,14 @@
     <ClCompile Include="Chara\Player\PlayerStateIdle.cpp">
       <Filter>ソース ファイル\Chara\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Chara\CharacterBase.cpp">
+      <Filter>ソース ファイル\Chara</Filter>
+    </ClCompile>
     <ClCompile Include="Chara\Player\PlayerStateRun.cpp">
       <Filter>ソース ファイル\Chara\Player</Filter>
     </ClCompile>
     <ClCompile Include="Chara\Player\PlayerStateWalk.cpp">
       <Filter>ソース ファイル\Chara\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Chara\CharacterBase.cpp">
-      <Filter>ソース ファイル\Chara</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

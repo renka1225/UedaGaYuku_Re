@@ -2,8 +2,9 @@
 #include <memory>
 #include <string>
 
-class Player;
 class Input;
+class Camera;
+class Player;
 
 /// <summary>
 /// プレイヤーの状態を管理する基底クラス
@@ -20,7 +21,7 @@ public:
 	};
 
 	PlayerStateBase(std::shared_ptr<Player> pPlayer) { m_pPlayer = pPlayer; }
-	virtual void Update(Input input) = 0;
+	virtual void Update(const Input& input, const Camera& camera) = 0;
 	// 現在の状態を取得
 	virtual PlayerStateKind GetKind() = 0;
 

@@ -7,15 +7,6 @@
 class CharacterBase
 {
 public:
-	CharacterBase();
-	~CharacterBase();
-	virtual void Init();
-	virtual void Update();
-	virtual void Draw();
-
-	VECTOR GetPos() const { return m_pos; } // 現在位置取得
-
-public:
 	// ステータス構造体
 	struct Status
 	{
@@ -23,6 +14,16 @@ public:
 		float walkSpeed;	// 歩き速度
 		float runSpeed;		// 走り速度
 	};
+
+public:
+	CharacterBase();
+	~CharacterBase();
+	virtual void Init();
+	virtual void Update();
+	virtual void Draw();
+
+	VECTOR GetPos() const { return m_pos; }			// 現在位置取得
+	Status GetStatus() const { return m_status; }	// ステータス取得
 
 protected:
 	Status m_status;	// ステータス

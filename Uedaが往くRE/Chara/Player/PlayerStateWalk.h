@@ -9,7 +9,7 @@ class PlayerStateWalk : public PlayerStateBase
 public:
 	PlayerStateWalk(std::shared_ptr<Player> player) : PlayerStateBase(player) {};
 	void Init();
-	virtual void Update(Input input);
+	virtual void Update(const Input& input, const Camera& camera);
 	virtual PlayerStateKind GetKind() override { return PlayerStateKind::kWalk; }
 
 #ifdef _DEBUG

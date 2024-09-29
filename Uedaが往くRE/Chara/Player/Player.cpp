@@ -63,9 +63,7 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage)
 	}
 
 	// stateの更新
-	m_pState->Update(input);
-
-	//Move(input);
+	m_pState->Update(input, camera);
 }
 
 /// <summary>
@@ -84,26 +82,9 @@ void Player::Draw()
 /// <summary>
 /// 移動処理
 /// </summary>
-/// <param name="moveVec">移動ベクトル参照</param>
-/// <param name="stage">ステージ情報参照</param>
-void Player::Move(const Input& input)
+/// <param name="moveVec">移動量</param>
+void Player::Move(const VECTOR& moveVec)
 {
-	if (input.IsPressing("right"))
-	{
-		m_pos.x += m_status.walkSpeed;
-	}
-	if (input.IsPressing("left"))
-	{
-		m_pos.x -= m_status.walkSpeed;
-	}
-	if (input.IsPressing("up"))
-	{
-		m_pos.z += m_status.walkSpeed;
-	}
-	if (input.IsPressing("down"))
-	{
-		m_pos.z -= m_status.walkSpeed;
-	}
-
+	m_pos = VAdd(m_pos, moveVec);
 	MV1SetPosition(m_modelHandle, m_pos);
 }

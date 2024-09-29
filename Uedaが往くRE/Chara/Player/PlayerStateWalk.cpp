@@ -1,5 +1,9 @@
+#include "DxLib.h"
 #include "Input.h"
+#include "Camera.h"
 #include "Player.h"
+#include "PlayerStateRun.h"
+#include "PlayerStateIdle.h"
 #include "PlayerStateWalk.h"
 
 /// <summary>
@@ -14,7 +18,63 @@ void PlayerStateWalk::Init()
 /// 更新
 /// </summary>
 /// <param name="input">入力処理</param>
-void PlayerStateWalk::Update(Input input)
+void PlayerStateWalk::Update(const Input& input, const Camera& camera)
 {
-	// TODO:移動処理
+    // Aボタンを長押ししている場合
+    if (input.IsPressing("A") && (input.IsPressing("left") || input.IsPressing("right") || input.IsPressing("up") || input.IsPressing("down")))
+    {
+        // StateをRunに変更する
+        m_nextState = std::make_shared<PlayerStateRun>(m_pPlayer);
+        auto state = std::dynamic_pointer_cast<PlayerStateRun>(m_nextState);
+        state->Init();
+        return;
+    }
+	// ボタンを離した場合
+	else if (input.IsReleased("left") || input.IsReleased("right") || input.IsReleased("up") || input.IsReleased("down"))
+	{
+		// StateをIdleに変更する
+		m_nextState = std::make_shared<PlayerStateIdle>(m_pPlayer);
+		auto state = std::dynamic_pointer_cast<PlayerStateIdle>(m_nextState);
+		state->Init();
+		return;
+	}
+
+    VECTOR upMoveVec;		                 // 上ボタンを入力をしたときの移動方向ベクトル
+    VECTOR leftMoveVec;	                     // 左ボタンを入力をしたときの移動方向ベクトル
+    VECTOR moveVec = VGet(0.0f, 0.0f, 0.0f); // 移動ベクトル
+
+    // プレイヤーの移動方向ベクトルを求める
+    // 上ボタンを押したとき
+    upMoveVec = VSub(camera.GetAngle(), camera.GetPos());
+    upMoveVec.y = 0.0f;
+
+    // 左ボタンを押したとき
+    leftMoveVec = VCross(upMoveVec, VGet(0.0f, 1.0f, 0.0f));
+
+    // ベクトルの正規化
+    upMoveVec = VNorm(upMoveVec);
+    leftMoveVec = VNorm(leftMoveVec);
+
+    // ボタンを押した場合
+    if (input.IsPressing("left"))
+    {
+        moveVec = VAdd(moveVec, leftMoveVec);
+    }
+    if (input.IsPressing("right"))
+    {
+        moveVec = VAdd(moveVec, VScale(leftMoveVec, -1.0f));
+    }
+    if (input.IsPressing("up"))
+    {
+        moveVec = VAdd(moveVec, upMoveVec);
+    }
+    if (input.IsPressing("down"))
+    {
+        moveVec = VAdd(moveVec, VScale(upMoveVec, -1.0f));
+    }
+
+    moveVec = VScale(moveVec, m_pPlayer->GetStatus().walkSpeed);
+
+    // 移動情報を反映する
+    m_pPlayer->Move(moveVec);
 }

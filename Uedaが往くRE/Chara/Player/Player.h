@@ -18,8 +18,7 @@ public:
 	virtual void Update(const Input& input, const Camera& camera, Stage& stage);
 	virtual void Draw();
 
-private:
-	void Move(const Input& input);
+	void Move(const VECTOR& moveVec); // ˆÚ“®ˆ—
 
 private:
 	std::shared_ptr<PlayerStateBase> m_pState;	// stateƒpƒ^[ƒ“
