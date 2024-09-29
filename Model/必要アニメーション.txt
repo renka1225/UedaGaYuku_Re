@@ -1,0 +1,8 @@
+Idle
+Walk
+Run
+Punch(コンボ3種類)
+Kick
+Avoid
+Grab(敵、武器)
+
