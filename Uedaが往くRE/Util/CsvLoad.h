@@ -29,6 +29,8 @@ public:
 
 	// キャラクターのステータス情報を読み込む
 	void LoadStatus(CharacterBase::Status& data, const char* charaName);
+	// アニメーション情報を読み込む
+	void LoadAnimData(CharacterBase::AnimInfo& data, const char* charaName);
 
 private:
 	CsvLoad() = default;

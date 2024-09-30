@@ -11,7 +11,7 @@
 /// </summary>
 void PlayerStateWalk::Init()
 {
-	//m_pPlayer->ChangeAnim("Walk");
+	m_pPlayer->ChangeAnim("Walk");
 }
 
 /// <summary>
@@ -75,6 +75,6 @@ void PlayerStateWalk::Update(const Input& input, const Camera& camera)
 
     moveVec = VScale(moveVec, m_pPlayer->GetStatus().walkSpeed);
 
-    // 移動情報を反映する
-    m_pPlayer->Move(moveVec);
+    m_pPlayer->Move(moveVec);   // 移動情報を反映する
+    m_pPlayer->UpdateAnim();    // アニメーションを更新
 }

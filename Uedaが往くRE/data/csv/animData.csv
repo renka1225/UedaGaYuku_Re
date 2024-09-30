@@ -1,0 +1,4 @@
+AnimName,No,loopFrame,loopEndFrame,animSpeed
+StandIdle,1,0,0,1.0
+Walk,2,0,0,1.0
+Run,3,0,0,1.0

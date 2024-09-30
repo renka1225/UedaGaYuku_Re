@@ -9,7 +9,7 @@
 /// </summary>
 void PlayerStateIdle::Init()
 {
-	//m_pPlayer->ChangeAnim("Idle");
+	m_pPlayer->ChangeAnim("StandIdle");
 }
 
 /// <summary>
@@ -29,4 +29,6 @@ void PlayerStateIdle::Update(const Input& input, const Camera& camera)
 		// StateをWalkに変更する
 		m_nextState = std::make_shared<PlayerStateWalk>(m_pPlayer);
 	}
+
+	m_pPlayer->UpdateAnim(); // アニメーションを更新
 }
