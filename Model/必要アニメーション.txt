@@ -1,6 +1,7 @@
-Idle
-Walk
-Run
+StandIdle	〇
+FightIdle	
+Walk 		〇
+Run		〇
 Punch(コンボ3種類)
 Kick
 Avoid

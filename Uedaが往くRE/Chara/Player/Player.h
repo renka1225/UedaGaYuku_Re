@@ -18,7 +18,8 @@ public:
 	virtual void Update(const Input& input, const Camera& camera, Stage& stage);
 	virtual void Draw();
 
-	void Move(const VECTOR& moveVec); // 移動処理
+	void Move(const VECTOR& moveVec);	// 移動処理
+	void UpdateAngle();					// プレイヤーの角度を更新
 
 private:
 	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
