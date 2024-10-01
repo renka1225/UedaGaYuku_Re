@@ -1,2 +1,3 @@
-﻿  CharacterBase.cpp
-  Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Uedaが往くRE.exe
+﻿  LoadCsv.cpp
+C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Util\LoadCsv.cpp(106,45): warning C4101: 'e': ローカル変数は 1 度も使われていません。
+  Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Uedaが往くRE.exe

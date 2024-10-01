@@ -3,7 +3,7 @@ C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Player\PlayerStateBase.cpp;C:\GitH
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Player\PlayerStateIdle.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\PlayerStateIdle.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Player\PlayerStateRun.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\PlayerStateRun.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Player\PlayerStateWalk.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\PlayerStateWalk.obj
-C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Util\CsvLoad.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\CsvLoad.obj
+C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Util\LoadCsv.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\LoadCsv.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Debug\DebugDraw.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\DebugDraw.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Debug\SceneDebug.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\SceneDebug.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\main.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\main.obj

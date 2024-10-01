@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <iostream>
 
 LoadCsv* LoadCsv::m_instance = nullptr;
 
@@ -76,16 +77,34 @@ void LoadCsv::LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data)
 	std::vector<std::string> strvec;
 	m_data.clear();
 
-	while (std::getline(ifs, line))
-	{
-		strvec = split(line, ',');
-		const char* str = strvec[0].c_str();
-	}
+	//while (std::getline(ifs, line))
+	//{
+	//	strvec = split(line, ',');
+	//	const char* str = strvec[0].c_str();
 
-	// アニメーション情報を設定
-	std::string animName = strvec[0];
-	data[animName].number = std::stoi(strvec[1]);
-	data[animName].loopFrame = std::stof(strvec[2]);
-	data[animName].endFrame = std::stof(strvec[3]);
-	data[animName].playSpeed = std::stof(strvec[4]);
+	//	// アニメーション情報を設定
+	//	std::string animName = strvec[0];
+	//	data[animName].number = std::stoi(strvec[1]);
+	//	data[animName].loopFrame = std::stof(strvec[2]);
+	//	data[animName].endFrame = std::stof(strvec[3]);
+	//	data[animName].playSpeed = std::stof(strvec[4]);
+	//}
+
+    while (std::getline(ifs, line))
+    {
+        strvec = split(line, ',');
+
+        // アニメーション情報を設定
+        std::string animName = strvec[0];
+        try
+		{
+			data[animName].number = std::stoi(strvec[1]);
+			data[animName].loopFrame = std::stof(strvec[2]);
+			data[animName].endFrame = std::stof(strvec[3]);
+			data[animName].playSpeed = std::stof(strvec[4]);
+        }
+        catch (const std::invalid_argument& e)
+		{
+        }
+    }
 }
