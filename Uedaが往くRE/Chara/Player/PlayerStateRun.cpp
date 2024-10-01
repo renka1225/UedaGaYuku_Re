@@ -11,7 +11,7 @@
 /// </summary>
 void PlayerStateRun::Init()
 {
-	m_pPlayer->ChangeAnim("Walk");
+	m_pPlayer->ChangeAnim("Run");
 }
 
 /// <summary>
@@ -77,5 +77,4 @@ void PlayerStateRun::Update(const Input& input, const Camera& camera)
 
     m_pPlayer->Move(moveVec);   // 移動情報を反映する
     m_pPlayer->UpdateAnim();    // アニメーションを更新
-
 }

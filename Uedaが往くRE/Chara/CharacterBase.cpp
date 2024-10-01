@@ -1,5 +1,5 @@
 #include "DebugDraw.h"
-#include "CsvLoad.h"
+#include "LoadCsv.h"
 #include "CharacterBase.h"
 
 // 定数
@@ -16,16 +16,20 @@ CharacterBase::CharacterBase():
 	m_animData(),
 	m_status(),
 	m_pos(VGet(0.0f, 0.0f, 0.0f)),
+	m_moveDir(VGet(0.0f, 0.0f, 0.0f)),
 	m_angle(0.0f),
 	m_hp(0.0f),
 	m_modelHandle(-1),
 	m_currentPlayAnim(-1),
 	m_prevPlayAnim(-1),
+	m_animBlendRate(0.0f),
 	m_animPlaySpeed(0.0f),
 	m_currentAnimTime(0.0f),
 	m_prevAnimTime(0.0f),
 	m_totalAnimTime(0.0f),
-	m_animBlendRate(0.0f)
+	m_animLoopStartTime(0.0f),
+	m_animLoopEndTime(0.0f),
+	m_isLoopAnim(false)
 {
 }
 
@@ -42,7 +46,7 @@ CharacterBase::~CharacterBase()
 /// </summary>
 void CharacterBase::Init()
 {
-	//LoadAnimData(CsvLoad::GetInstance.LoadAnimData());
+	LoadCsv::GetInstance().LoadAnimData(m_animData);
 }
 
 /// <summary>
@@ -69,18 +73,46 @@ void CharacterBase::ChangeAnim(std::string animName)
 	// 前のアニメーションをデタッチする
 	if (m_prevAnimTime != -1)
 	{
-		MV1DetachAnim(m_modelHandle, static_cast<int>(m_prevAnimTime));
+		MV1DetachAnim(m_modelHandle, static_cast<int>(m_prevPlayAnim));
+		m_prevPlayAnim = -1;
+	}
+
+	// 再生中のアニメーションを1つ前に移動する
+	m_prevPlayAnim = m_currentPlayAnim;
+	m_prevAnimTime = m_currentAnimTime;
+
+	// アニメーションを設定
+	m_animPlaySpeed = m_animData[animName].playSpeed;
+	m_animLoopStartTime = m_animData[animName].loopFrame;
+	m_animLoopEndTime = m_animData[animName].endFrame;
+
+	printfDx("アニメーション名:%s ",animName.c_str());
+	printfDx("アニメーション:%d ", m_animData[animName].number);
+	printfDx("速度:%2f ", m_animData[animName].playSpeed);
+	printfDx("ループ開始:%2f ", m_animData[animName].loopFrame);
+	printfDx("ループエンド:%2f \n", m_animData[animName].endFrame);
+
+	// ループ終了フレームが0でない場合、ループフラグを立てる
+	if (m_animLoopEndTime > 0)
+	{
+		m_isLoopAnim = true;
 	}
 
 	// 新たにアニメーションをアタッチする
-	m_prevAnimTime = MV1AttachAnim(m_modelHandle, m_animData.number);
+	m_currentPlayAnim = MV1AttachAnim(m_modelHandle, m_animData[animName].number);
 	//アニメーションの総再生時間を設定
-	m_totalAnimTime = MV1GetAnimTotalTime(m_modelHandle, m_animData.number);
+	m_totalAnimTime = MV1GetAnimTotalTime(m_modelHandle, m_animData[animName].number);
 
-	//アニメの再生速度を設定
-	m_animPlaySpeed = m_animData.playSpeed;
+	// ブレンド率はprevが有効でない場合、1.0にする
+	if (m_prevPlayAnim == -1)
+	{
+		m_animBlendRate = kAnimBlendMax;
+	}
+	else
+	{
+		m_animBlendRate = 0.0f;
+	}
 }
-
 
 /// <summary>
 /// アニメーションを更新
@@ -88,15 +120,25 @@ void CharacterBase::ChangeAnim(std::string animName)
 void CharacterBase::UpdateAnim()
 {
 	// ブレンド率が1以下の場合
-	//if (m_animBlendRate < kAnimBlendMax)
-	//{
-	//	m_animBlendRate += m_animPlaySpeed;
-	//	m_animBlendRate = std::min(m_animBlendRate, kAnimBlendMax);
-	//}
+	if (m_animBlendRate < kAnimBlendMax)
+	{
+		m_animBlendRate += m_animPlaySpeed;
+		m_animBlendRate = std::min(m_animBlendRate, kAnimBlendMax);
+	}
 
-	// アニメーションの再生フレームを進める
+	// アニメーションの再生時間を進める
 	m_currentAnimTime += m_animPlaySpeed;
 
+	// アニメーションが繰り返し行われる場合
+	if (m_isLoopAnim)
+	{
+		if (m_currentAnimTime > m_animLoopEndTime)
+		{
+			m_currentAnimTime = m_animLoopStartTime;
+		}
+	}
+
+	// アニメーションの総再生時間を超えた場合
 	if (m_currentAnimTime > m_totalAnimTime)
 	{
 		m_currentAnimTime = 0.0f;

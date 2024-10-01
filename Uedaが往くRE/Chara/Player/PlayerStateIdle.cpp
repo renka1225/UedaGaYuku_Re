@@ -1,4 +1,5 @@
 #include "Input.h"
+#include "LoadCsv.h"
 #include "Player.h"
 #include "PlayerStateWalk.h"
 #include "PlayerStateRun.h"
@@ -23,11 +24,17 @@ void PlayerStateIdle::Update(const Input& input, const Camera& camera)
 	{
 		// StateをRunに変更する
 		m_nextState = std::make_shared<PlayerStateRun>(m_pPlayer);
+		auto state = std::dynamic_pointer_cast<PlayerStateRun>(m_nextState);
+		state->Init();
+		return;
 	}
 	else if (input.IsPressing("left") || input.IsPressing("right") || input.IsPressing("up") || input.IsPressing("down"))
 	{
 		// StateをWalkに変更する
 		m_nextState = std::make_shared<PlayerStateWalk>(m_pPlayer);
+		auto state = std::dynamic_pointer_cast<PlayerStateWalk>(m_nextState);
+		state->Init();
+		return;
 	}
 
 	m_pPlayer->UpdateAnim(); // アニメーションを更新

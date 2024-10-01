@@ -99,7 +99,7 @@
     <ClCompile Include="Debug\DebugDraw.cpp">
       <Filter>ソース ファイル\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="Util\CsvLoad.cpp">
+    <ClCompile Include="Util\LoadCsv.cpp">
       <Filter>ソース ファイル\Util</Filter>
     </ClCompile>
     <ClCompile Include="Util\Camera.cpp">
@@ -167,7 +167,7 @@
     <ClInclude Include="Debug\DebugDraw.h">
       <Filter>ヘッダー ファイル\Debug</Filter>
     </ClInclude>
-    <ClInclude Include="Util\CsvLoad.h">
+    <ClInclude Include="Util\LoadCsv.h">
       <Filter>ヘッダー ファイル\Util</Filter>
     </ClInclude>
     <ClInclude Include="Util\Camera.h">

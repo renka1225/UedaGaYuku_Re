@@ -152,7 +152,7 @@
     <ClCompile Include="Chara\Player\PlayerStateIdle.cpp" />
     <ClCompile Include="Chara\Player\PlayerStateRun.cpp" />
     <ClCompile Include="Chara\Player\PlayerStateWalk.cpp" />
-    <ClCompile Include="Util\CsvLoad.cpp" />
+    <ClCompile Include="Util\LoadCsv.cpp" />
     <ClCompile Include="Debug\DebugDraw.cpp" />
     <ClCompile Include="Debug\SceneDebug.cpp" />
     <ClCompile Include="main.cpp" />
@@ -175,7 +175,7 @@
     <ClInclude Include="Chara\Player\PlayerStateIdle.h" />
     <ClInclude Include="Chara\Player\PlayerStateRun.h" />
     <ClInclude Include="Chara\Player\PlayerStateWalk.h" />
-    <ClInclude Include="Util\CsvLoad.h" />
+    <ClInclude Include="Util\LoadCsv.h" />
     <ClInclude Include="Debug\DebugDraw.h" />
     <ClInclude Include="Debug\SceneDebug.h" />
     <ClInclude Include="Chara\Player\Player.h" />

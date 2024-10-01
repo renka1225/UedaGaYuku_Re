@@ -12,6 +12,6 @@ public:
 	~DebugDraw();
 	void Init();
 	void Update();
-	void DrawPlayerInfo(const VECTOR pos, int hp, std::string state);
+	void DrawPlayerInfo(const VECTOR pos, float hp, std::string state);
 };
 

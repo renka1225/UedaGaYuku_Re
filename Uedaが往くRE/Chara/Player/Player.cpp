@@ -1,7 +1,7 @@
 #include "DxLib.h"
 #include "DebugDraw.h"
 #include "Input.h"
-#include "CsvLoad.h"
+#include "LoadCsv.h"
 #include "Camera.h"
 #include "Stage.h"
 #include "PlayerStateIdle.h"
@@ -23,7 +23,7 @@ Player::Player()
 	m_modelHandle = MV1LoadModel(kModelFileName);
 
 	// ステータスを読み込む
-	CsvLoad::GetInstance().LoadStatus(m_status, "player");
+	LoadCsv::GetInstance().LoadStatus(m_status, "player");
 	m_hp = m_status.maxHp;
 }
 
@@ -40,6 +40,8 @@ Player::~Player()
 /// </summary>
 void Player::Init()
 {
+	CharacterBase::Init();
+
 	MV1SetScale(m_modelHandle, VGet(kScale, kScale, kScale));
 
 	m_pState = std::make_shared<PlayerStateIdle>(shared_from_this());

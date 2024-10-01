@@ -34,7 +34,7 @@ void DebugDraw::Update()
 /// </summary>
 /// <param name="pos">ç¿ïW</param>
 /// <param name="hp">åªç›ÇÃHP</param>
-void DebugDraw::DrawPlayerInfo(const VECTOR pos, int hp, std::string state)
+void DebugDraw::DrawPlayerInfo(const VECTOR pos, float hp, std::string state)
 {
 	DrawFormatString(0, 20, TextColor::kColorW, "ç¿ïW(X:%2f, Y:%2f, Z:%2f)", pos.x, pos.y, pos.z);
 	DrawFormatString(0, 40, TextColor::kColorW, "HP:%2f", hp);
