@@ -1,0 +1,2 @@
+ID,BodyHeight,BodyRadius,AimRadius,LegRadius,ArmStartPosX,ArmStartPosY,ArmStartPosZ,ArmEndtPosX,ArmEndPosY,ArmEndPosZ,LegStartPosX,LegStartPosY,LegStartPosZ,LegEndtPosX,LegEndtPosY,LegEndtPosZ
+player,43,10,15,12,5,35,10,-5,0,28,3,30,10,3,0,36
