@@ -7,6 +7,7 @@ namespace
 {
 	// アニメーション情報
 	constexpr float kAnimBlendMax = 1.0f;	 // アニメーションブレンドの最大値
+	constexpr float kAnimBlendSpeed = 0.2f;	 // アニメーションブレンドの変化速度
 }
 
 /// <summary>
@@ -86,12 +87,6 @@ void CharacterBase::ChangeAnim(std::string animName)
 	m_animLoopStartTime = m_animData[animName].loopFrame;
 	m_animLoopEndTime = m_animData[animName].endFrame;
 
-	printfDx("アニメーション名:%s ",animName.c_str());
-	printfDx("アニメーション:%d ", m_animData[animName].number);
-	printfDx("速度:%2f ", m_animData[animName].playSpeed);
-	printfDx("ループ開始:%2f ", m_animData[animName].loopFrame);
-	printfDx("ループエンド:%2f \n", m_animData[animName].endFrame);
-
 	// ループ終了フレームが0でない場合、ループフラグを立てる
 	if (m_animLoopEndTime > 0)
 	{
@@ -100,6 +95,7 @@ void CharacterBase::ChangeAnim(std::string animName)
 
 	// 新たにアニメーションをアタッチする
 	m_currentPlayAnim = MV1AttachAnim(m_modelHandle, m_animData[animName].number);
+	m_currentAnimTime = 0.0f;
 	//アニメーションの総再生時間を設定
 	m_totalAnimTime = MV1GetAnimTotalTime(m_modelHandle, m_animData[animName].number);
 
@@ -122,7 +118,7 @@ void CharacterBase::UpdateAnim()
 	// ブレンド率が1以下の場合
 	if (m_animBlendRate < kAnimBlendMax)
 	{
-		m_animBlendRate += m_animPlaySpeed;
+		m_animBlendRate += kAnimBlendSpeed;
 		m_animBlendRate = std::min(m_animBlendRate, kAnimBlendMax);
 	}
 
@@ -147,4 +143,6 @@ void CharacterBase::UpdateAnim()
 
 	// 再生時間を更新
 	MV1SetAttachAnimTime(m_modelHandle, m_currentPlayAnim, m_currentAnimTime);
+	// アニメーションのブレンド率を設定する
+	MV1SetAttachAnimBlendRate(m_modelHandle, m_prevPlayAnim, kAnimBlendMax - m_animBlendRate);
 }

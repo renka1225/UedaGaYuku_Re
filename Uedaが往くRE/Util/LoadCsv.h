@@ -37,7 +37,6 @@ private:
 	virtual ~LoadCsv() = default;
 
 private:
-	static LoadCsv* m_instance;				   // メッセージのインスタンス
-	std::map<std::string, std::string> m_data; // メッセージのデータ
+	static LoadCsv* m_instance;	 // インスタンス
 };
 

@@ -76,5 +76,4 @@ void PlayerStateRun::Update(const Input& input, const Camera& camera)
     moveVec = VScale(moveVec, m_pPlayer->GetStatus().runSpeed);
 
     m_pPlayer->Move(moveVec);   // 移動情報を反映する
-    m_pPlayer->UpdateAnim();    // アニメーションを更新
 }

@@ -102,7 +102,7 @@
     <ClCompile Include="Util\LoadCsv.cpp">
       <Filter>ソース ファイル\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Camera.cpp">
+    <ClCompile Include="Stage\Camera.cpp">
       <Filter>ソース ファイル\Stage</Filter>
     </ClCompile>
     <ClCompile Include="Chara\Player\PlayerStateBase.cpp">
@@ -170,7 +170,7 @@
     <ClInclude Include="Util\LoadCsv.h">
       <Filter>ヘッダー ファイル\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Util\Camera.h">
+    <ClInclude Include="Stage\Camera.h">
       <Filter>ヘッダー ファイル\Stage</Filter>
     </ClInclude>
     <ClInclude Include="Chara\Player\PlayerStateBase.h">

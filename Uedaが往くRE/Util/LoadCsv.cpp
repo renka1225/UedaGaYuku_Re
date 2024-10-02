@@ -2,7 +2,6 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
-#include <iostream>
 
 LoadCsv* LoadCsv::m_instance = nullptr;
 
@@ -40,7 +39,6 @@ void LoadCsv::LoadStatus(CharacterBase::Status& data, const char* charaName)
 	std::ifstream ifs(kCharaStatusFileName);
 	std::string line;
 	std::vector<std::string> strvec;
-	m_data.clear();
 
 	while (std::getline(ifs, line))
 	{
@@ -75,20 +73,6 @@ void LoadCsv::LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data)
 	std::ifstream ifs(kCharaAnimDataFileName);
 	std::string line;
 	std::vector<std::string> strvec;
-	m_data.clear();
-
-	//while (std::getline(ifs, line))
-	//{
-	//	strvec = split(line, ',');
-	//	const char* str = strvec[0].c_str();
-
-	//	// アニメーション情報を設定
-	//	std::string animName = strvec[0];
-	//	data[animName].number = std::stoi(strvec[1]);
-	//	data[animName].loopFrame = std::stof(strvec[2]);
-	//	data[animName].endFrame = std::stof(strvec[3]);
-	//	data[animName].playSpeed = std::stof(strvec[4]);
-	//}
 
     while (std::getline(ifs, line))
     {

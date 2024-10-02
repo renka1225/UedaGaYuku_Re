@@ -8,7 +8,7 @@
 namespace
 {
     // ステージサイズ
-    const VECTOR kStageScale = VGet(3.0f, 3.0f, 3.0f);
+    const VECTOR kStageScale = VGet(10.0f, 10.0f, 10.0f);
     const VECTOR kSkydoomScale = VGet(15.0f, 15.0f, 15.0f);
     const VECTOR kStagePos = VGet(0.0f, 0.0f, 0.0f);
     const VECTOR kSkydoomPos = VGet(-2000.0f, 0.0f, 0.0f);

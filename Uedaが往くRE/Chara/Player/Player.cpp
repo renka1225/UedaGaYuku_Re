@@ -10,8 +10,8 @@
 namespace
 {
 	const char* kModelFileName = ("data/model/chara/player.mv1");	// モデルのファイル名
-	const VECTOR kInitPos = VGet(2050.0, 12.0f, 1800.0f);			// 初期位置
-	constexpr float kScale = 0.05f;	// 拡大率
+	const VECTOR kInitPos = VGet(7425.0, 40.0f, 5190.0f);			// 初期位置
+	constexpr float kScale = 0.14f;									// 拡大率
 }
 
 /// <summary>
@@ -66,6 +66,7 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage)
 
 	m_pState->Update(input, camera); 	// stateの更新
 	UpdateAngle();	// プレイヤーの向きを更新
+	UpdateAnim();
 }
 
 /// <summary>

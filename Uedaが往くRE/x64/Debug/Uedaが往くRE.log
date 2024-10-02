@@ -1,3 +1,4 @@
-﻿  LoadCsv.cpp
-C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Util\LoadCsv.cpp(106,45): warning C4101: 'e': ローカル変数は 1 度も使われていません。
-  Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Uedaが往くRE.exe
+﻿  PlayerStateWalk.cpp
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Player\PlayerStateWalk.cpp(27,44): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Player\PlayerStateWalk.cpp(27,27): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+  Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Uedaが往くRE.exe

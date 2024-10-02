@@ -36,6 +36,4 @@ void PlayerStateIdle::Update(const Input& input, const Camera& camera)
 		state->Init();
 		return;
 	}
-
-	m_pPlayer->UpdateAnim(); // アニメーションを更新
 }

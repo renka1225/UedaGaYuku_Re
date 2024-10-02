@@ -23,5 +23,6 @@ public:
 
 private:
 	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
+	DINPUT_JOYSTATE AnalogInput; 	// アナログパッド情報取得
 };
 
