@@ -66,23 +66,23 @@ void Camera::Update(Input& input, const Player& player, const Stage& stage)
 	GetJoypadDirectInputState(DX_INPUT_PAD1, &m_analogInput); // “ü—Íó‘Ô‚ğæ“¾
 
 	// ¶“ü—Í
-	if (m_analogInput.Rx < 0.0f || input.IsPressing("rotateL"))
+	if (m_analogInput.Rx < 0.0f)
 	{
 		m_angleH -= kAngle;
 	}
 	// ‰E“ü—Í
-	if (m_analogInput.Rx > 0.0f || input.IsPressing("rotateR"))
+	if (m_analogInput.Rx > 0.0f)
 	{
 		m_angleH += kAngle;
 	}
 	// ã“ü—Í
-	if (m_analogInput.Ry > 0.0f || input.IsPressing("rotateU"))
+	if (m_analogInput.Ry > 0.0f)
 	{
 		m_angleV -= kAngle;
 		m_angleV = std::max(m_angleV, kMaxAngleV);
 	}
 	// ‰º“ü—Í
-	if (m_analogInput.Ry < 0.0f || input.IsPressing("rotateD"))
+	if (m_analogInput.Ry < 0.0f)
 	{
 		m_angleV += kAngle;
 		m_angleV = std::min(kMinAngleV, m_angleV);

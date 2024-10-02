@@ -24,9 +24,27 @@ void PlayerStateWalk::Update(const Input& input, const Camera& camera)
 
     VECTOR upMoveVec;		                            // 上ボタンを入力をしたときの移動方向ベクトル
     VECTOR leftMoveVec;	                                // 左ボタンを入力をしたときの移動方向ベクトル
-    VECTOR moveVec = VGet(m_analogX, 0.0f, m_analogY);  // 移動ベクトル
+    VECTOR moveVec = VGet(-m_analogX, 0.0f, m_analogY); // 移動ベクトル
 
-    // Aボタンを長押ししている場合
+    // プレイヤーの移動方向ベクトルを求める
+    upMoveVec = VSub(camera.GetAngle(), camera.GetPos());
+    upMoveVec.y = 0.0f;
+    leftMoveVec = VCross(upMoveVec, VGet(0.0f, 1.0f, 0.0f));
+
+    // ベクトルの正規化
+    upMoveVec = VNorm(upMoveVec);
+    leftMoveVec = VNorm(leftMoveVec);
+
+    float rate = VSize(moveVec) / 1000.0f; // ベクトルの長さを0.0～1.0の割合に変換する
+    moveVec = VScale(VNorm(moveVec), m_pPlayer->GetStatus().walkSpeed * rate);
+
+    // 移動方向を決定する
+    MATRIX mtx = MGetRotY(camera.GetAngleH() - DX_PI_F / 2);
+    moveVec = VTransform(moveVec, mtx);
+
+    m_pPlayer->Move(moveVec);   // 移動情報を反映する
+
+    // 移動中にAボタンを長押ししている場合
     if (input.IsPressing("A") && (m_analogX != 0.0f || m_analogY != 0.0f))
     {
         // StateをRunに変更する
@@ -35,7 +53,7 @@ void PlayerStateWalk::Update(const Input& input, const Camera& camera)
         state->Init();
         return;
     }
-	// ボタンを離した場合
+    // スティックを倒していない場合
 	else if (m_analogX == 0.0f && m_analogY == 0.0f)
 	{
 		// StateをIdleに変更する
@@ -44,48 +62,4 @@ void PlayerStateWalk::Update(const Input& input, const Camera& camera)
 		state->Init();
 		return;
 	}
-
-    // プレイヤーの移動方向ベクトルを求める
-    upMoveVec = VSub(camera.GetAngle(), camera.GetPos());
-    upMoveVec.y = 0.0f;
-    leftMoveVec = VCross(upMoveVec, VGet(0.0f, -1.0f, 0.0f));
-
-    // ベクトルの正規化
-    upMoveVec = VNorm(upMoveVec);
-    leftMoveVec = VNorm(leftMoveVec);
-    leftMoveVec = VAdd(leftMoveVec, VScale(leftMoveVec, -1));
-
-    float rate = VSize(moveVec) / 1000.0f; // ベクトルの長さを0.0～1.0の割合に変換する
-
-    moveVec = VScale(VNorm(moveVec), m_pPlayer->GetStatus().walkSpeed * rate);
-
-    // 移動方向を決定する
-    MATRIX mtx = MGetRotY(camera.GetAngleH() - DX_PI_F / 2);
-    moveVec = VTransform(moveVec, mtx);
-
-
-    m_pPlayer->Move(moveVec);   // 移動情報を反映する
-
-    printfDx("%.2f, (X:%.2f, Y:%.2f, Z:%.2f)\n", camera.GetAngleH(), moveVec.x, moveVec.y, moveVec.z);
-
-
-#ifdef false
-    // ボタンを押した場合
-    if (input.IsPressing("left"))
-    {
-        moveVec = VAdd(moveVec, leftMoveVec);
-    }
-    if (input.IsPressing("right"))
-    {
-        moveVec = VAdd(moveVec, VScale(leftMoveVec, -1.0f));
-    }
-    if (input.IsPressing("up"))
-    {
-        moveVec = VAdd(moveVec, upMoveVec);
-    }
-    if (input.IsPressing("down"))
-    {
-        moveVec = VAdd(moveVec, VScale(upMoveVec, -1.0f));
-    }
-#endif
 }
