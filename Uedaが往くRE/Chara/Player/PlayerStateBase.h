@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "DxLib.h"
 #include <memory>
 #include <string>
@@ -8,36 +8,36 @@ class Camera;
 class Player;
 
 /// <summary>
-/// ƒvƒŒƒCƒ„[‚Ìó‘Ô‚ğŠÇ—‚·‚éŠî’êƒNƒ‰ƒX
+/// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®çŠ¶æ…‹ã‚’ç®¡ç†ã™ã‚‹åŸºåº•ã‚¯ãƒ©ã‚¹
 /// </summary>
 class PlayerStateBase : public std::enable_shared_from_this<PlayerStateBase>
 {
 public:
-	// ƒvƒŒƒCƒ„[‚Ìó‘Ô
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®çŠ¶æ…‹
 	enum class PlayerStateKind
 	{
-		kIdle,	// ‘Ò‹@
-		kWalk,	// •à‚«
-		kRun	// ‘–‚è
+		kIdle,	// å¾…æ©Ÿ
+		kWalk,	// æ­©ã
+		kRun	// èµ°ã‚Š
 	};
 
 	PlayerStateBase(std::shared_ptr<Player> pPlayer);
 	virtual void Update(const Input& input, const Camera& camera) = 0;
-	// Œ»İ‚Ìó‘Ô‚ğæ“¾
+	// ç¾åœ¨ã®çŠ¶æ…‹ã‚’å–å¾—
 	virtual PlayerStateKind GetKind() = 0;
 
 #ifdef _DEBUG
-	// Œ»İ‚Ìó‘Ô–¼‚ğæ“¾
+	// ç¾åœ¨ã®çŠ¶æ…‹åã‚’å–å¾—
 	virtual std::string GetStateName() = 0;
 #endif
 
 public:
-	std::shared_ptr<PlayerStateBase> m_nextState;	// Ÿ‚ÌState‚ğ•Û‘¶‚·‚é
+	std::shared_ptr<PlayerStateBase> m_nextState;	// æ¬¡ã®Stateã‚’ä¿å­˜ã™ã‚‹
 
 protected:
-	std::shared_ptr<Player> m_pPlayer;				// ƒvƒŒƒCƒ„[‚Ìƒ|ƒCƒ“ƒ^
+	std::shared_ptr<Player> m_pPlayer;				// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒã‚¤ãƒ³ã‚¿
 
-	DINPUT_JOYSTATE m_analogInput; 	// ƒAƒiƒƒOƒXƒeƒBƒbƒNî•ñæ“¾
-	int m_analogX;	// ƒAƒiƒƒOƒXƒeƒBƒbƒN‚Ì¶‰E‚Ì“ü—Íó‘Ô
-	int m_analogY;	// ƒAƒiƒƒOƒXƒeƒBƒbƒN‚Ìã‰º‚Ì“ü—Íó‘Ô
+	DINPUT_JOYSTATE m_analogInput; 	// ã‚¢ãƒŠãƒ­ã‚°ã‚¹ãƒ†ã‚£ãƒƒã‚¯æƒ…å ±å–å¾—
+	int m_analogX;	// ã‚¢ãƒŠãƒ­ã‚°ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å·¦å³ã®å…¥åŠ›çŠ¶æ…‹
+	int m_analogY;	// ã‚¢ãƒŠãƒ­ã‚°ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®ä¸Šä¸‹ã®å…¥åŠ›çŠ¶æ…‹
 };

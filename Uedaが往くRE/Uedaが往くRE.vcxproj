@@ -114,7 +114,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>DxLib;$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)Util;$(ProjectDir)Debug;$(ProjectDir)Chara;$(ProjectDir)Stage;$(ProjectDir)Chara\Enemy;$(ProjectDir)Chara\Player</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>DxLib;$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)Util;$(ProjectDir)Debug;$(ProjectDir)Chara;$(ProjectDir)Object;$(ProjectDir)Chara\Enemy;$(ProjectDir)Chara\Player</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
@@ -133,7 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>DxLib;$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)Util;$(ProjectDir)Debug;$(ProjectDir)Chara;$(ProjectDir)Stage;$(ProjectDir)Chara\Enemy;$(ProjectDir)Chara\Player</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>DxLib;$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)Util;$(ProjectDir)Debug;$(ProjectDir)Chara;$(ProjectDir)Object;$(ProjectDir)Chara\Enemy;$(ProjectDir)Chara\Player</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
@@ -152,6 +152,7 @@
     <ClCompile Include="Chara\Player\PlayerStateIdle.cpp" />
     <ClCompile Include="Chara\Player\PlayerStateRun.cpp" />
     <ClCompile Include="Chara\Player\PlayerStateWalk.cpp" />
+    <ClCompile Include="ObjectBase.cpp" />
     <ClCompile Include="Util\LoadCsv.cpp" />
     <ClCompile Include="Debug\DebugDraw.cpp" />
     <ClCompile Include="Debug\SceneDebug.cpp" />
@@ -161,8 +162,8 @@
     <ClCompile Include="Scene\SceneOption.cpp" />
     <ClCompile Include="Scene\SceneTitle.cpp" />
     <ClCompile Include="Scene\SceneMain.cpp" />
-    <ClCompile Include="Stage\Stage.cpp" />
-    <ClCompile Include="Stage\Camera.cpp" />
+    <ClCompile Include="Object\Stage.cpp" />
+    <ClCompile Include="Object\Camera.cpp" />
     <ClCompile Include="Util\Message.cpp" />
     <ClCompile Include="Scene\SceneBase.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Chara\Player\PlayerStateIdle.h" />
     <ClInclude Include="Chara\Player\PlayerStateRun.h" />
     <ClInclude Include="Chara\Player\PlayerStateWalk.h" />
+    <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="Util\LoadCsv.h" />
     <ClInclude Include="Debug\DebugDraw.h" />
     <ClInclude Include="Debug\SceneDebug.h" />
@@ -183,8 +185,8 @@
     <ClInclude Include="Scene\SceneOption.h" />
     <ClInclude Include="Scene\SceneTitle.h" />
     <ClInclude Include="Scene\SceneMain.h" />
-    <ClInclude Include="Stage\Stage.h" />
-    <ClInclude Include="Stage\Camera.h" />
+    <ClInclude Include="Object\Stage.h" />
+    <ClInclude Include="Object\Camera.h" />
     <ClInclude Include="Util\Message.h" />
     <ClInclude Include="Scene\SceneBase.h" />
     <ClInclude Include="Scene\SceneManager.h" />

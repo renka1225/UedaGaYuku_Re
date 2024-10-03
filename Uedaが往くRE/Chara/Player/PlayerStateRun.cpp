@@ -1,4 +1,4 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "Input.h"
 #include "Camera.h"
 #include "Player.h"
@@ -7,7 +7,7 @@
 #include "PlayerStateRun.h"
 
 /// <summary>
-/// ‰Šú‰»
+/// åˆæœŸåŒ–
 /// </summary>
 void PlayerStateRun::Init()
 {
@@ -15,52 +15,51 @@ void PlayerStateRun::Init()
 }
 
 /// <summary>
-/// XV
+/// æ›´æ–°
 /// </summary>
-/// <param name="input">“ü—Íˆ—</param>
+/// <param name="input">å…¥åŠ›å‡¦ç†</param>
 void PlayerStateRun::Update(const Input& input, const Camera& camera)
 {
-    GetJoypadAnalogInput(&m_analogX, &m_analogY, DX_INPUT_PAD1); // ƒAƒiƒƒOƒXƒeƒBƒbƒN‚Ì“ü—Íó‘Ô
+    GetJoypadAnalogInput(&m_analogX, &m_analogY, DX_INPUT_PAD1); // ã‚¢ãƒŠãƒ­ã‚°ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å…¥åŠ›çŠ¶æ…‹
 
-    VECTOR upMoveVec;		                            // ãƒ{ƒ^ƒ“‚ğ“ü—Í‚ğ‚µ‚½‚Æ‚«‚ÌˆÚ“®•ûŒüƒxƒNƒgƒ‹
-    VECTOR leftMoveVec;	                                // ¶ƒ{ƒ^ƒ“‚ğ“ü—Í‚ğ‚µ‚½‚Æ‚«‚ÌˆÚ“®•ûŒüƒxƒNƒgƒ‹
-    VECTOR moveVec = VGet(-m_analogX, 0.0f, m_analogY); // ˆÚ“®ƒxƒNƒgƒ‹
+    VECTOR upMoveVec;		                            // ä¸Šãƒœã‚¿ãƒ³ã‚’å…¥åŠ›ã‚’ã—ãŸã¨ãã®ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«
+    VECTOR leftMoveVec;	                                // å·¦ãƒœã‚¿ãƒ³ã‚’å…¥åŠ›ã‚’ã—ãŸã¨ãã®ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«
+    VECTOR moveVec = VGet(static_cast<float>(-m_analogX), 0.0f, static_cast<float>(m_analogY)); // ç§»å‹•ãƒ™ã‚¯ãƒˆãƒ«
 
-    // ƒvƒŒƒCƒ„[‚ÌˆÚ“®•ûŒüƒxƒNƒgƒ‹‚ğ‹‚ß‚é
+    // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ±‚ã‚ã‚‹
     upMoveVec = VSub(camera.GetAngle(), camera.GetPos());
     upMoveVec.y = 0.0f;
     leftMoveVec = VCross(upMoveVec, VGet(0.0f, 1.0f, 0.0f));
 
-    // ƒxƒNƒgƒ‹‚Ì³‹K‰»
+    // ãƒ™ã‚¯ãƒˆãƒ«ã®æ­£è¦åŒ–
     upMoveVec = VNorm(upMoveVec);
     leftMoveVec = VNorm(leftMoveVec);
 
-    float rate = VSize(moveVec) / 1000.0f; // ƒxƒNƒgƒ‹‚Ì’·‚³‚ğ0.0`1.0‚ÌŠ„‡‚É•ÏŠ·‚·‚é
+    float rate = VSize(moveVec) / 1000.0f; // ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã‚’0.0ï½1.0ã®å‰²åˆã«å¤‰æ›ã™ã‚‹
     moveVec = VScale(VNorm(moveVec), m_pPlayer->GetStatus().runSpeed * rate);
 
-    // ˆÚ“®•ûŒü‚ğŒˆ’è‚·‚é
+    // ç§»å‹•æ–¹å‘ã‚’æ±ºå®šã™ã‚‹
     MATRIX mtx = MGetRotY(camera.GetAngleH() - DX_PI_F / 2);
     moveVec = VTransform(moveVec, mtx);
 
-    m_pPlayer->Move(moveVec);   // ˆÚ“®î•ñ‚ğ”½‰f‚·‚é
+    m_pPlayer->Move(moveVec);   // ç§»å‹•æƒ…å ±ã‚’åæ˜ ã™ã‚‹
 
-    // ˆÚ“®’†‚ÉAƒ{ƒ^ƒ“‚ğ—£‚µ‚½ê‡
-    if (input.IsReleased("A") && (m_analogX != 0.0f || m_analogY != 0.0f))
+    // ç§»å‹•ä¸­ã«Aãƒœã‚¿ãƒ³ã‚’é›¢ã—ãŸå ´åˆ
+    if (input.IsReleased("A") && (m_analogX != 0 || m_analogY != 0))
     {
-        // State‚ğWalk‚É•ÏX‚·‚é
+        // Stateã‚’Walkã«å¤‰æ›´ã™ã‚‹
         m_nextState = std::make_shared<PlayerStateWalk>(m_pPlayer);
         auto state = std::dynamic_pointer_cast<PlayerStateWalk>(m_nextState);
         state->Init();
         return;
     }
-    // ƒXƒeƒBƒbƒN‚ğ“|‚µ‚Ä‚¢‚È‚¢ê‡
-    else if (m_analogX == 0.0f && m_analogY == 0.0f)
+    // ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚’å€’ã—ã¦ã„ãªã„å ´åˆ
+    else if (m_analogX == 0 && m_analogY == 0)
     {
-        // State‚ğIdle‚É•ÏX‚·‚é
+        // Stateã‚’Idleã«å¤‰æ›´ã™ã‚‹
         m_nextState = std::make_shared<PlayerStateIdle>(m_pPlayer);
         auto state = std::dynamic_pointer_cast<PlayerStateIdle>(m_nextState);
         state->Init();
         return;
     }
-
 }

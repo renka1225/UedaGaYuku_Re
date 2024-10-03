@@ -1,63 +1,100 @@
-#pragma once
+ï»¿#pragma once
 #include "DxLib.h"
+#include "ObjectBase.h"
 #include <string>
 #include <vector>
 #include <map>
 
 /// <summary>
-/// ƒLƒƒƒ‰ƒNƒ^[‚ÌŠî’êƒNƒ‰ƒX
+/// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®åŸºåº•ã‚¯ãƒ©ã‚¹
 /// </summary>
-class CharacterBase
+class CharacterBase : public ObjectBase
 {
 public:
-	// ƒXƒe[ƒ^ƒX\‘¢‘Ì
-	struct Status
+	// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ç¨®é¡
+	enum CharaType
 	{
-		float maxHp;		// Å‘åHP
-		float walkSpeed;	// •à‚«‘¬“x
-		float runSpeed;		// ‘–‚è‘¬“x
+		kPlayer,	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
+		kEnemy_01,	// æ•µ
 	};
 
-	// ƒAƒjƒ[ƒVƒ‡ƒ“î•ñ
+	// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	struct Status
+	{
+		float maxHp;		// æœ€å¤§HP
+		float walkSpeed;	// æ­©ãé€Ÿåº¦
+		float runSpeed;		// èµ°ã‚Šé€Ÿåº¦
+	};
+
+	// å½“ãŸã‚Šåˆ¤å®šæƒ…å ±
+	struct ColData
+	{
+		VECTOR bodyStartPos; // å…¨èº«ã®å½“ãŸã‚Šåˆ¤å®šå§‹ç‚¹
+		VECTOR bodyEndPos;	 // å…¨èº«ã®å½“ãŸã‚Šåˆ¤å®šçµ‚ç‚¹
+		VECTOR armStartPos;	 // è…•ã®å½“ãŸã‚Šåˆ¤å®šå§‹ç‚¹
+		VECTOR armEndPos;	 // è…•ã®å½“ãŸã‚Šåˆ¤å®šçµ‚ç‚¹
+		VECTOR legStartPos;	 // è„šã®å½“ãŸã‚Šåˆ¤å®šå§‹ç‚¹
+		VECTOR legEndPos;	 // è„šã®å½“ãŸã‚Šåˆ¤å®šçµ‚ç‚¹
+		float bodyRadius;	 // å…¨èº«ã®å½“ãŸã‚Šåˆ¤å®šã®åŠå¾„
+		float aimRadius;	 // è…•ã®å½“ãŸã‚Šåˆ¤å®šã®åŠå¾„
+		float legRadius;	 // è„šã®å½“ãŸã‚Šåˆ¤å®šã®åŠå¾„
+	};
+
+	// å½“ãŸã‚Šåˆ¤å®šæ›´æ–°ãƒ‡ãƒ¼ã‚¿
+	struct UpdateColData
+	{
+		VECTOR bodyStartPos;	// å…¨èº«ã®å½“ãŸã‚Šåˆ¤å®šå§‹ç‚¹
+		VECTOR bodyEndPos;		// å…¨èº«ã®å½“ãŸã‚Šåˆ¤å®šçµ‚ç‚¹
+		VECTOR armStartPos;		// è…•ã®å½“ãŸã‚Šåˆ¤å®šå§‹ç‚¹
+		VECTOR armEndPos;		// è…•ã®å½“ãŸã‚Šåˆ¤å®šçµ‚ç‚¹
+		VECTOR legStartPos;		// è„šã®å½“ãŸã‚Šåˆ¤å®šå§‹ç‚¹
+		VECTOR legEndPos;		// è„šã®å½“ãŸã‚Šåˆ¤å®šçµ‚ç‚¹
+	};
+
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³æƒ…å ±
 	struct AnimInfo
 	{
-		int number = 0;
-		float loopFrame = 0.0f;
-		float endFrame = 0.0f;
-		float playSpeed = 0.0f;
+		int number;			// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ç•ªå·
+		float loopFrame;	// é–‹å§‹ãƒ•ãƒ¬ãƒ¼ãƒ 
+		float endFrame;		// çµ‚äº†ãƒ•ãƒ¬ãƒ¼ãƒ 
+		float playSpeed;	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®é€Ÿåº¦
 	};
 
 public:
 	CharacterBase();
 	~CharacterBase();
-	virtual void Init();
-	virtual void Update();
-	virtual void Draw();
+	virtual void Init() override;
+	virtual void Update() override;
+	virtual void Draw() override;
 
-	void ChangeAnim(std::string animName);				// ƒAƒjƒ[ƒVƒ‡ƒ“‚ğ•ÏX
-	void UpdateAnim();									// ƒAƒjƒ[ƒVƒ‡ƒ“‚ğXV
+	void ChangeAnim(std::string animName);				// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å¤‰æ›´
+	void UpdateAnim();									// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’æ›´æ–°
 
-	VECTOR GetPos() const { return m_pos; }				// Œ»İˆÊ’uæ“¾
-	Status GetStatus() const { return m_status; }		// ƒXƒe[ƒ^ƒXæ“¾
+	VECTOR GetPos() const { return m_pos; }				// ç¾åœ¨ä½ç½®å–å¾—
+	Status GetStatus() const { return m_status; }		// ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹å–å¾—
 
 protected:
-	std::map<std::string, AnimInfo> m_animData;		// ƒAƒjƒ[ƒVƒ‡ƒ“‚Ìƒf[ƒ^
-	Status m_status;	  // ƒXƒe[ƒ^ƒX
-	VECTOR m_pos;		  // Œ»İˆÊ’u
-	VECTOR m_moveDir;	  // Œü‚­‚×‚«•ûŒü‚ÌƒxƒNƒgƒ‹
-	float m_angle;		  // Œü‚¢‚Ä‚¢‚é•ûŒü‚ÌŠp“x
-	float m_hp;			  // HP
-	int m_modelHandle;	  // ƒLƒƒƒ‰ƒNƒ^[‚Ìƒ‚ƒfƒ‹
+	void UpdateCol();	// å½“ãŸã‚Šåˆ¤å®šä½ç½®ã®æ›´æ–°
 
-	int m_currentPlayAnim;		// Œ»İ‚ÌƒAƒjƒ[ƒVƒ‡ƒ“
-	int m_prevPlayAnim;			// ‘O‚ÉÄ¶‚µ‚Ä‚¢‚½ƒAƒjƒ[ƒVƒ‡ƒ“
-	float m_animBlendRate;		// Œ»İ‚Æ‰ß‹‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ÌƒuƒŒƒ“ƒh—¦
-	float m_currentAnimTime;	// Œ»İ‚ÌƒAƒjƒ[ƒVƒ‡ƒ“Ä¶ŠÔ
-	float m_prevAnimTime;		// ‘O‚ÌƒAƒjƒ[ƒVƒ‡ƒ“Ä¶ŠÔ
-	float m_totalAnimTime;		// ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì‘Ä¶ŠÔ
-	float m_animPlaySpeed; 		// ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌÄ¶‘¬“x
-	float m_animLoopStartTime;	// ƒAƒjƒ[ƒVƒ‡ƒ“‚ªƒ‹[ƒv‚ªn‚Ü‚éŠÔ
-	float m_animLoopEndTime;	// ƒAƒjƒ[ƒVƒ‡ƒ“‚ªƒ‹[ƒv‚ªI‚í‚éŠÔ
-	bool m_isLoopAnim;			// ƒAƒjƒ[ƒVƒ‡ƒ“‚ğƒ‹[ƒv‚³‚¹‚é‚©
+protected:
+	std::map<std::string, AnimInfo> m_animData;		// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ‡ãƒ¼ã‚¿
+	ColData m_colData;			// åˆæœŸå½“ãŸã‚Šåˆ¤å®š
+	UpdateColData m_updateCol;  // æ›´æ–°ã—ãŸå½“ãŸã‚Šåˆ¤å®š
+	Status m_status;			// ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	VECTOR m_moveDir;			// å‘ãã¹ãæ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«
+	float m_angle;			    // å‘ã„ã¦ã„ã‚‹æ–¹å‘ã®è§’åº¦
+	float m_hp;				    // HP
+	int m_modelHandle;		    // ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ãƒ¢ãƒ‡ãƒ«
+
+	int m_currentPlayAnim;		// ç¾åœ¨ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
+	int m_prevPlayAnim;			// å‰ã«å†ç”Ÿã—ã¦ã„ãŸã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
+	float m_animBlendRate;		// ç¾åœ¨ã¨éå»ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ–ãƒ¬ãƒ³ãƒ‰ç‡
+	float m_currentAnimTime;	// ç¾åœ¨ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³å†ç”Ÿæ™‚é–“
+	float m_prevAnimTime;		// å‰ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³å†ç”Ÿæ™‚é–“
+	float m_totalAnimTime;		// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ç·å†ç”Ÿæ™‚é–“
+	float m_animPlaySpeed; 		// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®å†ç”Ÿé€Ÿåº¦
+	float m_animLoopStartTime;	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãŒãƒ«ãƒ¼ãƒ—ãŒå§‹ã¾ã‚‹æ™‚é–“
+	float m_animLoopEndTime;	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãŒãƒ«ãƒ¼ãƒ—ãŒçµ‚ã‚ã‚‹æ™‚é–“
+	bool m_isLoopAnim;			// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ãƒ«ãƒ¼ãƒ—ã•ã›ã‚‹ã‹
 };
 

@@ -1,10 +1,10 @@
-#include "Player.h"
+ï»¿#include "Player.h"
 #include "Camera.h"
 #include "Stage.h"
 #include "SceneMain.h"
 
 /// <summary>
-/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 SceneMain::SceneMain()
 {
@@ -14,14 +14,14 @@ SceneMain::SceneMain()
 }
 
 /// <summary>
-/// ƒfƒXƒgƒ‰ƒNƒ^
+/// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 SceneMain::~SceneMain()
 {
 }
 
 /// <summary>
-/// ‰Šú‰»
+/// åˆæœŸåŒ–
 /// </summary>
 void SceneMain::Init()
 {
@@ -30,7 +30,7 @@ void SceneMain::Init()
 }
 
 /// <summary>
-/// XV
+/// æ›´æ–°
 /// </summary>
 std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 {
@@ -41,7 +41,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 }
 
 /// <summary>
-/// •`‰æ
+/// æç”»
 /// </summary>
 void SceneMain::Draw()
 {

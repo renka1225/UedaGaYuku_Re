@@ -1,4 +1,4 @@
-#include "LoadCsv.h"
+ï»¿#include "LoadCsv.h"
 #include <fstream>
 #include <sstream>
 #include <vector>
@@ -9,13 +9,17 @@ namespace
 {
 	const char* const kCharaStatusFileName = "data/csv/charaStatus.csv";
 	const char* const kCharaAnimDataFileName = "data/csv/animData.csv";
+	const char* const kColDataFileName = "data/csv/collisionData.csv";
+
+	constexpr int kStatusNum = 4;	// ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã®æƒ…å ±æ•°
+	constexpr int kColNum = 23;		// å½“ãŸã‚Šåˆ¤å®šã®æƒ…å ±æ•°
 
 	/// <summary>
-	/// •¶š—ñ‚ğ•ªŠ„‚·‚é
+	/// æ–‡å­—åˆ—ã‚’åˆ†å‰²ã™ã‚‹
 	/// </summary>
-	/// <param name="input">•¶š—ñ</param>
-	/// <param name="delimiter">‹æØ‚é•¶š(,)</param>
-	/// <returns>•ªŠ„‚µ‚½•¶š—ñ</returns>
+	/// <param name="input">æ–‡å­—åˆ—</param>
+	/// <param name="delimiter">åŒºåˆ‡ã‚‹æ–‡å­—(,)</param>
+	/// <returns>åˆ†å‰²ã—ãŸæ–‡å­—åˆ—</returns>
 	std::vector<std::string> split(std::string& input, char delimiter)
 	{
 		std::istringstream stream(input);
@@ -30,11 +34,11 @@ namespace
 }
 
 /// <summary>
-/// ƒLƒƒƒ‰ƒNƒ^[‚ÌƒXƒe[ƒ^ƒXî•ñ‚ğ“Ç‚İ‚Ş
+/// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹æƒ…å ±ã‚’èª­ã¿è¾¼ã‚€
 /// </summary>
-/// <param name="data">ƒXƒe[ƒ^ƒXî•ñ</param>
-/// <param name="charaName">ƒLƒƒƒ‰ƒNƒ^[‚Ì–¼‘O</param>
-void LoadCsv::LoadStatus(CharacterBase::Status& data, const char* charaName)
+/// <param name="data">ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹æƒ…å ±</param>
+/// <param name="charaName">ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®åå‰</param>
+void LoadCsv::LoadStatus(CharacterBase::Status& data, int charaName)
 {
 	std::ifstream ifs(kCharaStatusFileName);
 	std::string line;
@@ -45,29 +49,78 @@ void LoadCsv::LoadStatus(CharacterBase::Status& data, const char* charaName)
 		strvec = split(line, ',');
 		const char* str = strvec[0].c_str();
 
-		// QÆ‚µ‚½‚¢ƒLƒƒƒ‰‚ªŒ©‚Â‚©‚Á‚Ä‚¢‚½‚çˆ—‚ğ‚â‚ß‚é
-		// MEMO:strcmp •¶š—ñ‚ğ”äŠr‚·‚é ‘æ1ˆø” = ‘æ2ˆø”‚Ìê‡0
-		if (strcmp(str, charaName) == 0)
+		try
 		{
-			break;
+			// ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹æƒ…å ±ã‚’ä»£å…¥ã™ã‚‹
+			data.maxHp = std::stof(strvec[1 + charaName * kStatusNum]);
+			data.walkSpeed = std::stof(strvec[2 + charaName * kStatusNum]);
+			data.runSpeed = std::stof(strvec[3 + charaName * kStatusNum]);
 		}
-		else
+		catch (const std::invalid_argument&)
 		{
-			strvec.erase(strvec.begin(), strvec.end());
+			// ç„¡åŠ¹ãªæ–‡å­—åˆ—ã‚’ã‚¹ã‚­ãƒƒãƒ—
 		}
 	}
-
-	// ƒXƒe[ƒ^ƒXî•ñ‚ğ‘ã“ü‚·‚é
-	data.maxHp = std::stof(strvec[1]);
-	data.walkSpeed = std::stof(strvec[2]);
-	data.runSpeed = std::stof(strvec[3]);
 }
 
 /// <summary>
-/// ƒAƒjƒ[ƒVƒ‡ƒ“î•ñ‚ğ“Ç‚İ‚Ş
+/// å½“ãŸã‚Šåˆ¤å®šã®ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€
 /// </summary>
-/// <param name="data">ƒAƒjƒ[ƒVƒ‡ƒ“î•ñ</param>
-/// <param name="charaName">ƒLƒƒƒ‰ƒNƒ^[‚Ì–¼‘O</param>
+/// <param name="data"></param>
+/// <param name="charType"></param>
+void LoadCsv::LoadColData(CharacterBase::ColData& data, int charaName)
+{
+	std::ifstream ifs(kColDataFileName);
+	std::string line;
+	std::vector<std::string> strvec;
+	int charNum = charaName * kColNum;
+
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã®å…¥åŠ›å–å¾—
+	// std::getline(èª­ã¿å–ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã®å¤‰æ•°, å…¥åŠ›æ–‡å­—åˆ—ã‚’æ ¼ç´ã™ã‚‹å¤‰æ•°);
+	while (std::getline(ifs, line))
+	{
+		strvec = split(line, ',');
+		const char* str = strvec[0].c_str();
+
+		try
+		{
+
+			// å¤–éƒ¨ãƒ•ã‚¡ã‚¤ãƒ«ã®æƒ…å ±ã‚’å…¥ã‚Œã‚‹
+			data.bodyStartPos.x = std::stof(strvec[1 + charNum]);
+			data.bodyStartPos.y = std::stof(strvec[2 + charNum]);
+			data.bodyStartPos.z = std::stof(strvec[3 + charNum]);
+			data.bodyEndPos.x = std::stof(strvec[4 + charNum]);
+			data.bodyEndPos.y = std::stof(strvec[5 + charNum]);
+			data.bodyEndPos.z = std::stof(strvec[6 + charNum]);
+			data.armStartPos.x = std::stof(strvec[7 + charNum]);
+			data.armStartPos.y = std::stof(strvec[8 + charNum]);
+			data.armStartPos.z = std::stof(strvec[9 + charNum]);
+			data.armEndPos.x = std::stof(strvec[10 + charNum]);
+			data.armEndPos.y = std::stof(strvec[11 + charNum]);
+			data.armEndPos.z = std::stof(strvec[12 + charNum]);
+			data.legStartPos.x = std::stof(strvec[13 + charNum]);
+			data.legStartPos.y = std::stof(strvec[14 + charNum]);
+			data.legStartPos.z = std::stof(strvec[15 + charNum]);
+			data.legEndPos.x = std::stof(strvec[16 + charNum]);
+			data.legEndPos.y = std::stof(strvec[17 + charNum]);
+			data.legEndPos.z = std::stof(strvec[18 + charNum]);
+			data.bodyRadius = std::stof(strvec[19 + charNum]);
+			data.aimRadius = std::stof(strvec[20 + charNum]);
+			data.legRadius = std::stof(strvec[21 + charNum]);
+		}
+		catch (const std::invalid_argument&)
+		{
+			// ç„¡åŠ¹ãªæ–‡å­—åˆ—ã‚’ã‚¹ã‚­ãƒƒãƒ—
+		}
+	}
+}
+
+
+/// <summary>
+/// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³æƒ…å ±ã‚’èª­ã¿è¾¼ã‚€
+/// </summary>
+/// <param name="data">ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³æƒ…å ±</param>
+/// <param name="charaName">ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®åå‰</param>
 void LoadCsv::LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data)
 {
 	std::ifstream ifs(kCharaAnimDataFileName);
@@ -78,7 +131,7 @@ void LoadCsv::LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data)
     {
         strvec = split(line, ',');
 
-        // ƒAƒjƒ[ƒVƒ‡ƒ“î•ñ‚ğİ’è
+        // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³æƒ…å ±ã‚’è¨­å®š
         std::string animName = strvec[0];
         try
 		{
@@ -87,8 +140,9 @@ void LoadCsv::LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data)
 			data[animName].endFrame = std::stof(strvec[3]);
 			data[animName].playSpeed = std::stof(strvec[4]);
         }
-        catch (const std::invalid_argument& e)
+        catch (const std::invalid_argument&)
 		{
+			// ç„¡åŠ¹ãªæ–‡å­—åˆ—ã‚’ã‚¹ã‚­ãƒƒãƒ—
         }
     }
 }

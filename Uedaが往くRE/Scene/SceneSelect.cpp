@@ -1,4 +1,4 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "Game.h"
 #include "Input.h"
 #include "Message.h"
@@ -9,13 +9,13 @@
 
 namespace
 {
-	// •¶šF
-	constexpr int kTextColorW = 0xffffff; // ”’
-	constexpr int kTextColorR = 0xff0000; // Ô
+	// æ–‡å­—è‰²
+	constexpr int kColorW = 0xffffff; // ç™½
+	constexpr int kColorR = 0xff0000; // èµ¤
 }
 
 /// <summary>
-/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 SceneSelect::SceneSelect()
 {
@@ -23,28 +23,28 @@ SceneSelect::SceneSelect()
 }
 
 /// <summary>
-/// ƒfƒXƒgƒ‰ƒNƒ^
+/// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 SceneSelect::~SceneSelect()
 {
 }
 
 /// <summary>
-/// ‰Šú‰»
+/// åˆæœŸåŒ–
 /// </summary>
 void SceneSelect::Init()
 {
 }
 
 /// <summary>
-/// XV
+/// æ›´æ–°
 /// </summary>
 std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 {
-	// ‘I‘ğó‘ÔXV
+	// é¸æŠçŠ¶æ…‹æ›´æ–°
 	UpdateSelect(input, SelectScene::kSelectNum);
 
-	// ‘JˆÚ
+	// é·ç§»
 	if (input.IsTriggered("OK"))
 	{
 		if (m_select == SelectScene::kMain)
@@ -65,21 +65,21 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 }
 
 /// <summary>
-/// •`‰æ
+/// æç”»
 /// </summary>
 void SceneSelect::Draw()
 {
 #ifdef _DEBUG
-	int mainColor = TextColor::kColorW;
-	int optionColor = TextColor::kColorW;
+	int mainColor = Color::kColorW;
+	int optionColor = Color::kColorW;
 
-	if (m_select == SelectScene::kMain) mainColor = TextColor::kColorR;
-	if (m_select == SelectScene::kOption) optionColor = TextColor::kColorR;
+	if (m_select == SelectScene::kMain) mainColor = Color::kColorR;
+	if (m_select == SelectScene::kOption) optionColor = Color::kColorR;
 
 	DrawString(0, 60, Message::GetInstance().Get_c("MSG_DEBUG_PLAYING"), mainColor);
 	DrawString(0, 80, Message::GetInstance().Get_c("MSG_DEBUG_OPTION"), optionColor);
 
-	DrawSceneText("MSG_DEBUG_SELECT"); // ƒV[ƒ“–¼•\¦
+	DrawSceneText("MSG_DEBUG_SELECT"); // ã‚·ãƒ¼ãƒ³åè¡¨ç¤º
 #endif
 }
 

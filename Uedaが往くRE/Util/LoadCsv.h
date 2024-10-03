@@ -1,23 +1,23 @@
-#pragma once
+ï»¿#pragma once
 #include "CharacterBase.h"
 #include <string>
 #include <map>
 
 /// <summary>
-/// ƒVƒ“ƒOƒ‹ƒgƒ“‚ğg—p‚µ‚ÄCSVƒtƒ@ƒCƒ‹“Ç‚İ‚İ‚ğs‚¤
+/// ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚’ä½¿ç”¨ã—ã¦CSVãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ã‚’è¡Œã†
 /// </summary>
 class LoadCsv
 {
 public:
-	// ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ì‹Ö~
+	// ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®ç¦æ­¢
 	LoadCsv(const LoadCsv&) = delete;
-	// ƒ€[ƒuƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ì‹Ö~
+	// ãƒ ãƒ¼ãƒ–ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®ç¦æ­¢
 	LoadCsv(LoadCsv&&) = delete;
-	// ‘ã“ü‰‰Zq‚Ì‹Ö~
+	// ä»£å…¥æ¼”ç®—å­ã®ç¦æ­¢
 	LoadCsv& operator= (const LoadCsv&) = delete;
 	LoadCsv& operator= (LoadCsv&&) = delete;
 
-	// ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚é
+	// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹
 	static LoadCsv& GetInstance()
 	{
 		if (!m_instance)
@@ -27,9 +27,11 @@ public:
 		return *m_instance;
 	}
 
-	// ƒLƒƒƒ‰ƒNƒ^[‚ÌƒXƒe[ƒ^ƒXî•ñ‚ğ“Ç‚İ‚Ş
-	void LoadStatus(CharacterBase::Status& data, const char* charaName);
-	// ƒAƒjƒ[ƒVƒ‡ƒ“î•ñ‚ğ“Ç‚İ‚Ş
+	// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹æƒ…å ±ã‚’èª­ã¿è¾¼ã‚€
+	void LoadStatus(CharacterBase::Status& data, int charaName);
+		// å½“ãŸã‚Šåˆ¤å®šã®ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€
+	void LoadColData(CharacterBase::ColData& data, int charaName);
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³æƒ…å ±ã‚’èª­ã¿è¾¼ã‚€
 	void LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data);
 
 private:
@@ -37,6 +39,6 @@ private:
 	virtual ~LoadCsv() = default;
 
 private:
-	static LoadCsv* m_instance;	 // ƒCƒ“ƒXƒ^ƒ“ƒX
+	static LoadCsv* m_instance;	 // ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 };
 

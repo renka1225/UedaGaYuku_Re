@@ -1,4 +1,4 @@
-#include "Input.h"
+ï»¿#include "Input.h"
 #include "LoadCsv.h"
 #include "Player.h"
 #include "PlayerStateWalk.h"
@@ -6,7 +6,7 @@
 #include "PlayerStateIdle.h"
 
 /// <summary>
-/// ‰Šú‰»
+/// åˆæœŸåŒ–
 /// </summary>
 void PlayerStateIdle::Init()
 {
@@ -14,15 +14,15 @@ void PlayerStateIdle::Init()
 }
 
 /// <summary>
-/// XV
+/// æ›´æ–°
 /// </summary>
-/// <param name="input">“ü—Íˆ—</param>
+/// <param name="input">å…¥åŠ›å‡¦ç†</param>
 void PlayerStateIdle::Update(const Input& input, const Camera& camera)
 {
-	// ˆÚ“®ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚Ä‚¢‚éê‡
+	// ç§»å‹•ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã¦ã„ã‚‹å ´åˆ
 	if (input.IsPressing("A") && (input.IsPressing("left") || input.IsPressing("right") || input.IsPressing("up") || input.IsPressing("down")))
 	{
-		// State‚ğRun‚É•ÏX‚·‚é
+		// Stateã‚’Runã«å¤‰æ›´ã™ã‚‹
 		m_nextState = std::make_shared<PlayerStateRun>(m_pPlayer);
 		auto state = std::dynamic_pointer_cast<PlayerStateRun>(m_nextState);
 		state->Init();
@@ -30,7 +30,7 @@ void PlayerStateIdle::Update(const Input& input, const Camera& camera)
 	}
 	else if (input.IsPressing("left") || input.IsPressing("right") || input.IsPressing("up") || input.IsPressing("down"))
 	{
-		// State‚ğWalk‚É•ÏX‚·‚é
+		// Stateã‚’Walkã«å¤‰æ›´ã™ã‚‹
 		m_nextState = std::make_shared<PlayerStateWalk>(m_pPlayer);
 		auto state = std::dynamic_pointer_cast<PlayerStateWalk>(m_nextState);
 		state->Init();

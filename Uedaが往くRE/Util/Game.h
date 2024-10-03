@@ -1,19 +1,23 @@
-#pragma once
+ï»¿#pragma once
 
 /// <summary>
-/// ƒQ[ƒ€‰æ–Ê‚Ì’è”
+/// ã‚²ãƒ¼ãƒ ç”»é¢ã®å®šæ•°
 /// </summary>
 namespace Game
 {
-	constexpr int kScreenWidth = 1920;	// ‰¡•
-	constexpr int kScreenHeight = 1080;	// c•
+	constexpr int kScreenWidth = 1920;	// æ¨ªå¹…
+	constexpr int kScreenHeight = 1080;	// ç¸¦å¹…
 	constexpr int kColorDepth = 32;
 }
 
-namespace TextColor
+namespace Color
 {
-	constexpr int kColorW = 0xffffff;	// ”’F
-	constexpr int kColorR = 0xff0000;	// ÔF
-	constexpr int kColorG = 0x00ff00;	// —ÎF
-	constexpr int kColorB = 0x0000ff;	// ÂF
+	constexpr int kColorW = 0xffffff;	// ç™½è‰²
+	constexpr int kColorBK = 0x000000;	// é»’è‰²
+	constexpr int kColorR = 0xff0000;	// èµ¤è‰²
+	constexpr int kColorG = 0x00ff00;	// ç·‘è‰²
+	constexpr int kColorB = 0x0000ff;	// é’è‰²
+	constexpr int kColorY = 0xffff00;	// é»„è‰²
+	constexpr int kColorLB = 0x00ffff;	// æ°´è‰²
+	constexpr int kColorP = 0xff00ff;	// ç´«è‰²
 }

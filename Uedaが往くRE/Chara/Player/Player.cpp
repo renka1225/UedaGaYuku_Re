@@ -23,7 +23,8 @@ Player::Player()
 	m_modelHandle = MV1LoadModel(kModelFileName);
 
 	// ステータスを読み込む
-	LoadCsv::GetInstance().LoadStatus(m_status, "player");
+	LoadCsv::GetInstance().LoadStatus(m_status, CharaType::kPlayer);
+	LoadCsv::GetInstance().LoadColData(m_colData, CharaType::kPlayer);
 	m_hp = m_status.maxHp;
 }
 
@@ -49,6 +50,9 @@ void Player::Init()
 	
 	auto state = std::dynamic_pointer_cast<PlayerStateIdle>(m_pState);
 	state->Init();
+
+	// モデル全体のコリジョン情報のセットアップ
+	MV1SetupCollInfo(m_modelHandle, -1);
 }
 
 /// <summary>
@@ -56,6 +60,8 @@ void Player::Init()
 /// </summary>
 void Player::Update(const Input& input, const Camera& camera, Stage& stage)
 {
+	CharacterBase::Update();
+
 	// 前のフレームと違うstateの場合
 	if (m_pState->GetKind() != m_pState->m_nextState->GetKind())
 	{
@@ -64,9 +70,12 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage)
 		m_pState->m_nextState = m_pState;
 	}
 
-	m_pState->Update(input, camera); // stateの更新
-	UpdateAngle();	// プレイヤーの向きを更新
-	UpdateAnim();
+	m_pState->Update(input, camera);		// stateの更新
+	UpdateAngle();							// 向きを更新
+	UpdateAnim();							// アニメーションを更新
+	UpdateCol();							// 当たり判定の位置更新
+	MV1SetPosition(m_modelHandle, m_pos);	// 位置を更新
+
 }
 
 /// <summary>
@@ -79,6 +88,10 @@ void Player::Draw()
 #ifdef _DEBUG
 	DebugDraw debug;
 	debug.DrawPlayerInfo(m_pos, m_hp, m_pState->GetStateName()); // プレイヤーの情報を描画
+	// 当たり判定描画
+	//debug.DrawBodyCol(m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius); // 全身
+	//debug.DrawAimCol(m_updateCol.armStartPos, m_updateCol.armEndPos, m_colData.aimRadius);	   // 腕
+	//debug.DrawLegCol(m_updateCol.legStartPos, m_updateCol.legEndPos, m_colData.legRadius);	   // 脚
 #endif
 }
 

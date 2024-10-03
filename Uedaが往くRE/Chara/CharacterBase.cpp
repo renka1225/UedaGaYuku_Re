@@ -1,22 +1,22 @@
-#include "DebugDraw.h"
+ï»¿#include "DebugDraw.h"
 #include "LoadCsv.h"
 #include "CharacterBase.h"
 
-// ’è”
+// å®šæ•°
 namespace
 {
-	// ƒAƒjƒ[ƒVƒ‡ƒ“î•ñ
-	constexpr float kAnimBlendMax = 1.0f;	 // ƒAƒjƒ[ƒVƒ‡ƒ“ƒuƒŒƒ“ƒh‚ÌÅ‘å’l
-	constexpr float kAnimBlendSpeed = 0.2f;	 // ƒAƒjƒ[ƒVƒ‡ƒ“ƒuƒŒƒ“ƒh‚Ì•Ï‰»‘¬“x
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³æƒ…å ±
+	constexpr float kAnimBlendMax = 1.0f;	 // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãƒ–ãƒ¬ãƒ³ãƒ‰ã®æœ€å¤§å€¤
+	constexpr float kAnimBlendSpeed = 0.2f;	 // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãƒ–ãƒ¬ãƒ³ãƒ‰ã®å¤‰åŒ–é€Ÿåº¦
 }
 
 /// <summary>
-/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 CharacterBase::CharacterBase():
+	m_colData(),
 	m_animData(),
 	m_status(),
-	m_pos(VGet(0.0f, 0.0f, 0.0f)),
 	m_moveDir(VGet(0.0f, 0.0f, 0.0f)),
 	m_angle(0.0f),
 	m_hp(0.0f),
@@ -35,7 +35,7 @@ CharacterBase::CharacterBase():
 }
 
 /// <summary>
-/// ƒfƒXƒgƒ‰ƒNƒ^
+/// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 CharacterBase::~CharacterBase()
 {
@@ -43,7 +43,7 @@ CharacterBase::~CharacterBase()
 }
 
 /// <summary>
-/// ‰Šú‰»
+/// åˆæœŸåŒ–
 /// </summary>
 void CharacterBase::Init()
 {
@@ -51,14 +51,15 @@ void CharacterBase::Init()
 }
 
 /// <summary>
-/// XV
+/// æ›´æ–°
 /// </summary>
 void CharacterBase::Update()
 {
+	ObjectBase::Update();
 }
 
 /// <summary>
-/// •`‰æ
+/// æç”»
 /// </summary>
 void CharacterBase::Draw()
 {
@@ -66,40 +67,40 @@ void CharacterBase::Draw()
 }
 
 /// <summary>
-/// ƒAƒjƒ[ƒVƒ‡ƒ“‚ğ•ÏX‚·‚é
+/// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å¤‰æ›´ã™ã‚‹
 /// </summary>
-/// <param name="animName">ƒAƒjƒ[ƒVƒ‡ƒ“–¼</param>
+/// <param name="animName">ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³å</param>
 void CharacterBase::ChangeAnim(std::string animName)
 {
-	// ‘O‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğƒfƒ^ƒbƒ`‚·‚é
+	// å‰ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ãƒ‡ã‚¿ãƒƒãƒã™ã‚‹
 	if (m_prevAnimTime != -1)
 	{
 		MV1DetachAnim(m_modelHandle, static_cast<int>(m_prevPlayAnim));
 		m_prevPlayAnim = -1;
 	}
 
-	// Ä¶’†‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğ1‚Â‘O‚ÉˆÚ“®‚·‚é
+	// å†ç”Ÿä¸­ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’1ã¤å‰ã«ç§»å‹•ã™ã‚‹
 	m_prevPlayAnim = m_currentPlayAnim;
 	m_prevAnimTime = m_currentAnimTime;
 
-	// ƒAƒjƒ[ƒVƒ‡ƒ“‚ğİ’è
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’è¨­å®š
 	m_animPlaySpeed = m_animData[animName].playSpeed;
 	m_animLoopStartTime = m_animData[animName].loopFrame;
 	m_animLoopEndTime = m_animData[animName].endFrame;
 
-	// ƒ‹[ƒvI—¹ƒtƒŒ[ƒ€‚ª0‚Å‚È‚¢ê‡Aƒ‹[ƒvƒtƒ‰ƒO‚ğ—§‚Ä‚é
+	// ãƒ«ãƒ¼ãƒ—çµ‚äº†ãƒ•ãƒ¬ãƒ¼ãƒ ãŒ0ã§ãªã„å ´åˆã€ãƒ«ãƒ¼ãƒ—ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
 	if (m_animLoopEndTime > 0)
 	{
 		m_isLoopAnim = true;
 	}
 
-	// V‚½‚ÉƒAƒjƒ[ƒVƒ‡ƒ“‚ğƒAƒ^ƒbƒ`‚·‚é
+	// æ–°ãŸã«ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ã‚¢ã‚¿ãƒƒãƒã™ã‚‹
 	m_currentPlayAnim = MV1AttachAnim(m_modelHandle, m_animData[animName].number);
 	m_currentAnimTime = 0.0f;
-	//ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì‘Ä¶ŠÔ‚ğİ’è
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ç·å†ç”Ÿæ™‚é–“ã‚’è¨­å®š
 	m_totalAnimTime = MV1GetAnimTotalTime(m_modelHandle, m_animData[animName].number);
 
-	// ƒuƒŒƒ“ƒh—¦‚Íprev‚ª—LŒø‚Å‚È‚¢ê‡A1.0‚É‚·‚é
+	// ãƒ–ãƒ¬ãƒ³ãƒ‰ç‡ã¯prevãŒæœ‰åŠ¹ã§ãªã„å ´åˆã€1.0ã«ã™ã‚‹
 	if (m_prevPlayAnim == -1)
 	{
 		m_animBlendRate = kAnimBlendMax;
@@ -111,21 +112,21 @@ void CharacterBase::ChangeAnim(std::string animName)
 }
 
 /// <summary>
-/// ƒAƒjƒ[ƒVƒ‡ƒ“‚ğXV
+/// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’æ›´æ–°
 /// </summary>
 void CharacterBase::UpdateAnim()
 {
-	// ƒuƒŒƒ“ƒh—¦‚ª1ˆÈ‰º‚Ìê‡
+	// ãƒ–ãƒ¬ãƒ³ãƒ‰ç‡ãŒ1ä»¥ä¸‹ã®å ´åˆ
 	if (m_animBlendRate < kAnimBlendMax)
 	{
 		m_animBlendRate += kAnimBlendSpeed;
 		m_animBlendRate = std::min(m_animBlendRate, kAnimBlendMax);
 	}
 
-	// ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌÄ¶ŠÔ‚ği‚ß‚é
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®å†ç”Ÿæ™‚é–“ã‚’é€²ã‚ã‚‹
 	m_currentAnimTime += m_animPlaySpeed;
 
-	// ƒAƒjƒ[ƒVƒ‡ƒ“‚ªŒJ‚è•Ô‚µs‚í‚ê‚éê‡
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãŒç¹°ã‚Šè¿”ã—è¡Œã‚ã‚Œã‚‹å ´åˆ
 	if (m_isLoopAnim)
 	{
 		if (m_currentAnimTime > m_animLoopEndTime)
@@ -134,15 +135,36 @@ void CharacterBase::UpdateAnim()
 		}
 	}
 
-	// ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì‘Ä¶ŠÔ‚ğ’´‚¦‚½ê‡
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ç·å†ç”Ÿæ™‚é–“ã‚’è¶…ãˆãŸå ´åˆ
 	if (m_currentAnimTime > m_totalAnimTime)
 	{
 		m_currentAnimTime = 0.0f;
 		m_animPlaySpeed = 0.0f;
 	}
 
-	// Ä¶ŠÔ‚ğXV
+	// å†ç”Ÿæ™‚é–“ã‚’æ›´æ–°
 	MV1SetAttachAnimTime(m_modelHandle, m_currentPlayAnim, m_currentAnimTime);
-	// ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌƒuƒŒƒ“ƒh—¦‚ğİ’è‚·‚é
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ–ãƒ¬ãƒ³ãƒ‰ç‡ã‚’è¨­å®šã™ã‚‹
 	MV1SetAttachAnimBlendRate(m_modelHandle, m_prevPlayAnim, kAnimBlendMax - m_animBlendRate);
+}
+
+/// <summary>
+/// å½“ãŸã‚Šåˆ¤å®šæ›´æ–°
+/// </summary>
+void CharacterBase::UpdateCol()
+{
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å‘ãã‚’ã‚‚ã¨ã«å½“ãŸã‚Šåˆ¤å®šã®ä½ç½®ã‚’èª¿æ•´ã™ã‚‹
+	MATRIX rotationMatrix = MGetRotY(m_angle);
+
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å…¨ä½“ã®å½“ãŸã‚Šåˆ¤å®šä½ç½®ã‚’æ›´æ–°
+	m_updateCol.bodyStartPos = VAdd(m_pos, (VTransform(m_colData.bodyStartPos, rotationMatrix)));
+	m_updateCol.bodyEndPos = VAdd(m_colData.bodyStartPos, (VTransform(m_colData.bodyEndPos, rotationMatrix)));
+
+	// è…•ã®å½“ãŸã‚Šåˆ¤å®šä½ç½®ã‚’æ›´æ–°
+	m_updateCol.armStartPos = VAdd(m_pos, (VTransform(m_colData.armStartPos, rotationMatrix)));
+	m_updateCol.armEndPos = VAdd(m_colData.armStartPos, (VTransform(m_colData.armEndPos, rotationMatrix)));
+
+	// è„šã®å½“ãŸã‚Šåˆ¤å®šä½ç½®ã‚’æ›´æ–°
+	m_updateCol.legStartPos = VAdd(m_pos, (VTransform(m_colData.legStartPos, rotationMatrix)));
+	m_updateCol.legEndPos = VAdd(m_colData.legStartPos, (VTransform(m_colData.legEndPos, rotationMatrix)));
 }

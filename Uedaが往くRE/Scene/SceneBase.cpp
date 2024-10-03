@@ -1,4 +1,4 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "Game.h"
 #include "Input.h"
 #include "Message.h"
@@ -7,11 +7,11 @@
 
 namespace
 {
-	const Vec2 kCurrentScenePos = { 0.0f, 0.0f }; // Œ»İ‚ÌƒV[ƒ“–¼•\¦ˆÊ’u
+	const Vec2 kCurrentScenePos = { 0.0f, 0.0f }; // ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³åè¡¨ç¤ºä½ç½®
 }
 
 /// <summary>
-/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 SceneBase::SceneBase():
 	m_select(0)
@@ -19,7 +19,7 @@ SceneBase::SceneBase():
 }
 
 /// <summary>
-/// ƒfƒXƒgƒ‰ƒNƒ^
+/// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 SceneBase::~SceneBase()
 {
@@ -27,27 +27,27 @@ SceneBase::~SceneBase()
 
 #ifdef _DEBUG
 /// <summary>
-/// Œ»İ‚ÌƒV[ƒ“‚ğƒfƒoƒbƒO•\¦‚·‚é
+/// ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã‚’ãƒ‡ãƒãƒƒã‚°è¡¨ç¤ºã™ã‚‹
 /// </summary>
 void SceneBase::DrawSceneText(const char* sceneName)
 {
-	DrawStringF(kCurrentScenePos.x, kCurrentScenePos.y, Message::GetInstance().Get_c(sceneName), TextColor::kColorR);
+	DrawStringF(kCurrentScenePos.x, kCurrentScenePos.y, Message::GetInstance().Get_c(sceneName), Color::kColorR);
 }
 #endif
 
 /// <summary>
-/// ‘I‘ğó‘ÔXV
+/// é¸æŠçŠ¶æ…‹æ›´æ–°
 /// </summary>
-/// <param name="input">“ü—Íˆ—</param>
-/// <param name="selectNum">‘I‘ğˆ‚Ì”</param>
+/// <param name="input">å…¥åŠ›å‡¦ç†</param>
+/// <param name="selectNum">é¸æŠè‚¢ã®æ•°</param>
 void SceneBase::UpdateSelect(Input& input, int selectNum)
 {
-	// ‘I‘ğó‘Ô‚ğ1‚Â‰º‚°‚é
+	// é¸æŠçŠ¶æ…‹ã‚’1ã¤ä¸‹ã’ã‚‹
 	if (input.IsTriggered("down"))
 	{
 		m_select = (m_select + 1) % selectNum;
 	}
-	// ‘I‘ğó‘Ô‚ğ1‚Âã‚°‚é
+	// é¸æŠçŠ¶æ…‹ã‚’1ã¤ä¸Šã’ã‚‹
 	if (input.IsTriggered("up"))
 	{
 		m_select = (m_select + (selectNum - 1)) % selectNum;

@@ -1,4 +1,4 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "Game.h"
 #include "Input.h"
 #include "Message.h"
@@ -9,7 +9,7 @@
 #include "SceneDebug.h"
 
 /// <summary>
-/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 SceneDebug::SceneDebug()
 {
@@ -17,16 +17,16 @@ SceneDebug::SceneDebug()
 }
 
 /// <summary>
-/// XV
+/// æ›´æ–°
 /// </summary>
-/// <param name="input">“ü—Íó‘Ô</param>
+/// <param name="input">å…¥åŠ›çŠ¶æ…‹</param>
 /// <returns></returns>
 std::shared_ptr<SceneBase> SceneDebug::Update(Input& input)
 {
-	// ‘I‘ğó‘ÔXV
+	// é¸æŠçŠ¶æ…‹æ›´æ–°
 	UpdateSelect(input, kSelectNum);
 
-	// ‘JˆÚ
+	// é·ç§»
 	if (input.IsTriggered("OK"))
 	{
 		if (m_select == SelectScene::kTitle)
@@ -51,19 +51,19 @@ std::shared_ptr<SceneBase> SceneDebug::Update(Input& input)
 }
 
 /// <summary>
-/// •`‰æ
+/// æç”»
 /// </summary>
 void SceneDebug::Draw()
 {
-	int titleColor = TextColor::kColorW;
-	int selectColor = TextColor::kColorW;
-	int playColor = TextColor::kColorW;
-	int optionColor = TextColor::kColorW;
+	int titleColor = Color::kColorW;
+	int selectColor = Color::kColorW;
+	int playColor = Color::kColorW;
+	int optionColor = Color::kColorW;
 
-	if (m_select == SelectScene::kTitle) titleColor = TextColor::kColorR;
-	if (m_select == SelectScene::kSelect) selectColor = TextColor::kColorR;
-	if (m_select == SelectScene::kMain) playColor = TextColor::kColorR;
-	if (m_select == SelectScene::kOption) optionColor = TextColor::kColorR;
+	if (m_select == SelectScene::kTitle) titleColor = Color::kColorR;
+	if (m_select == SelectScene::kSelect) selectColor = Color::kColorR;
+	if (m_select == SelectScene::kMain) playColor = Color::kColorR;
+	if (m_select == SelectScene::kOption) optionColor = Color::kColorR;
 
 	DrawString(0, 20, Message::GetInstance().Get_c("MSG_DEBUG_TITLE"), titleColor);
 	DrawString(0, 40, Message::GetInstance().Get_c("MSG_DEBUG_SELECT"), selectColor);
