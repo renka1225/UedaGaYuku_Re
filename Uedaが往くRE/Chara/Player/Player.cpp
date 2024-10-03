@@ -1,4 +1,4 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "DebugDraw.h"
 #include "Input.h"
 #include "LoadCsv.h"
@@ -9,26 +9,26 @@
 
 namespace
 {
-	const char* kModelFileName = ("data/model/chara/player.mv1");	// ƒ‚ƒfƒ‹‚Ìƒtƒ@ƒCƒ‹–¼
-	const VECTOR kInitPos = VGet(7425.0, 40.0f, 5190.0f);			// ‰ŠúˆÊ’u
-	constexpr float kScale = 0.14f;									// Šg‘å—¦
+	const char* kModelFileName = ("data/model/chara/player.mv1");	// ãƒ¢ãƒ‡ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«å
+	const VECTOR kInitPos = VGet(7425.0, 40.0f, 5190.0f);			// åˆæœŸä½ç½®
+	constexpr float kScale = 0.14f;									// æ‹¡å¤§ç‡
 }
 
 /// <summary>
-/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 Player::Player()
 {
 	m_pos = kInitPos;
 	m_modelHandle = MV1LoadModel(kModelFileName);
 
-	// ƒXƒe[ƒ^ƒX‚ğ“Ç‚İ‚Ş
+	// ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’èª­ã¿è¾¼ã‚€
 	LoadCsv::GetInstance().LoadStatus(m_status, "player");
 	m_hp = m_status.maxHp;
 }
 
 /// <summary>
-/// ƒfƒXƒgƒ‰ƒNƒ^
+/// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 Player::~Player()
 {
@@ -36,7 +36,7 @@ Player::~Player()
 }
 
 /// <summary>
-/// ‰Šú‰»
+/// åˆæœŸåŒ–
 /// </summary>
 void Player::Init()
 {
@@ -52,25 +52,25 @@ void Player::Init()
 }
 
 /// <summary>
-/// XV
+/// æ›´æ–°
 /// </summary>
 void Player::Update(const Input& input, const Camera& camera, Stage& stage)
 {
-	// ‘O‚ÌƒtƒŒ[ƒ€‚Æˆá‚¤state‚Ìê‡
+	// å‰ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã¨é•ã†stateã®å ´åˆ
 	if (m_pState->GetKind() != m_pState->m_nextState->GetKind())
 	{
-		// state‚ğ•ÏX‚·‚é
+		// stateã‚’å¤‰æ›´ã™ã‚‹
 		m_pState = m_pState->m_nextState;
 		m_pState->m_nextState = m_pState;
 	}
 
-	m_pState->Update(input, camera); 	// state‚ÌXV
-	UpdateAngle();	// ƒvƒŒƒCƒ„[‚ÌŒü‚«‚ğXV
+	m_pState->Update(input, camera); // stateã®æ›´æ–°
+	UpdateAngle();	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å‘ãã‚’æ›´æ–°
 	UpdateAnim();
 }
 
 /// <summary>
-/// •`‰æ
+/// æç”»
 /// </summary>
 void Player::Draw()
 {
@@ -78,14 +78,14 @@ void Player::Draw()
 
 #ifdef _DEBUG
 	DebugDraw debug;
-	debug.DrawPlayerInfo(m_pos, m_hp, m_pState->GetStateName()); // ƒvƒŒƒCƒ„[‚Ìî•ñ‚ğ•`‰æ
+	debug.DrawPlayerInfo(m_pos, m_hp, m_pState->GetStateName()); // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æƒ…å ±ã‚’æç”»
 #endif
 }
 
 /// <summary>
-/// ˆÚ“®ˆ—
+/// ç§»å‹•å‡¦ç†
 /// </summary>
-/// <param name="moveVec">ˆÚ“®—Ê</param>
+/// <param name="moveVec">ç§»å‹•é‡</param>
 void Player::Move(const VECTOR& moveVec)
 {
 	m_pos = VAdd(m_pos, moveVec);
@@ -94,7 +94,7 @@ void Player::Move(const VECTOR& moveVec)
 }
 
 /// <summary>
-/// ƒvƒŒƒCƒ„[‚ÌŠp“x‚ğXV
+/// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è§’åº¦ã‚’æ›´æ–°
 /// </summary>
 void Player::UpdateAngle()
 {
