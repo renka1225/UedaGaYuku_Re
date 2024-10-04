@@ -1,11 +1,12 @@
-#pragma once
+ï»¿#pragma once
+#include "DxLib.h"
 
 class Input;
 class Player;
 class Stage;
 
 /// <summary>
-/// ƒJƒƒ‰ƒNƒ‰ƒX
+/// ã‚«ãƒ¡ãƒ©ã‚¯ãƒ©ã‚¹
 /// </summary>
 class Camera
 {
@@ -15,22 +16,22 @@ public:
 	void Init();
 	void Update(Input& input, const Player& player, const Stage& stage);
 
-	VECTOR GetAngle() const { return m_target; } // ƒJƒƒ‰‚ÌŠp“x‚ğæ“¾
-	VECTOR GetPos() const { return m_pos; }		 // ƒJƒƒ‰ˆÊ’u‚ğæ“¾
-	float GetAngleH() const{ return m_angleH; }	 // ƒJƒƒ‰‚Ì…•½Šp“x‚ğæ“¾
+	VECTOR GetAngle() const { return m_target; } // ã‚«ãƒ¡ãƒ©ã®è§’åº¦ã‚’å–å¾—
+	VECTOR GetPos() const { return m_pos; }		 // ã‚«ãƒ¡ãƒ©ä½ç½®ã‚’å–å¾—
+	float GetAngleH() const{ return m_angleH; }	 // ã‚«ãƒ¡ãƒ©ã®æ°´å¹³è§’åº¦ã‚’å–å¾—
 
 private:
-	void FixCameraPos();					 // ƒJƒƒ‰ˆÊ’u•â³
-	void CheckCameraCol(const Stage& stage); // ƒJƒƒ‰‚Ì“–‚½‚è”»’è‚ğƒ`ƒFƒbƒN‚·‚é
+	void FixCameraPos();					 // ã‚«ãƒ¡ãƒ©ä½ç½®è£œæ­£
+	void CheckCameraCol(const Stage& stage); // ã‚«ãƒ¡ãƒ©ã®å½“ãŸã‚Šåˆ¤å®šã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 
 private:
-	VECTOR m_pos;					// ƒJƒƒ‰À•W
-	VECTOR m_target;				// ’‹“_À•W
-	float m_angleH;					// …•½Šp“x
-	float m_angleV;					// ‚’¼Šp“x
-	MATRIX m_rotY;					// Y²‰ñ“]s—ñ
-	MATRIX m_rotZ;					// Z²‰ñ“]s—ñ
-	DINPUT_JOYSTATE m_analogInput; 	// ƒAƒiƒƒOƒpƒbƒhî•ñæ“¾
-	int m_lightHandle;				// ƒ‰ƒCƒgƒnƒ“ƒhƒ‹
+	VECTOR m_pos;					// ã‚«ãƒ¡ãƒ©åº§æ¨™
+	VECTOR m_target;				// æ³¨è¦–ç‚¹åº§æ¨™
+	float m_angleH;					// æ°´å¹³è§’åº¦
+	float m_angleV;					// å‚ç›´è§’åº¦
+	MATRIX m_rotY;					// Yè»¸å›è»¢è¡Œåˆ—
+	MATRIX m_rotZ;					// Zè»¸å›è»¢è¡Œåˆ—
+	DINPUT_JOYSTATE m_analogInput; 	// ã‚¢ãƒŠãƒ­ã‚°ãƒ‘ãƒƒãƒ‰æƒ…å ±å–å¾—
+	int m_lightHandle;				// ãƒ©ã‚¤ãƒˆãƒãƒ³ãƒ‰ãƒ«
 };
 

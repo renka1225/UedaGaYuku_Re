@@ -2,7 +2,7 @@
 
 namespace
 {
-	constexpr float kGravity = -10.0f; // 重力
+	constexpr float kGravity = -15.0f; // 重力
 }
 
 /// <summary>

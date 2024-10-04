@@ -1,4 +1,4 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "EffekseerForDXLib.h"
 #include "Input.h"
 #include "Message.h"
@@ -8,67 +8,67 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	SetMainWindowText("Ueda‚ª‰‚­RE:");
+	SetMainWindowText("UedaãŒå¾€ãRE:");
 
-	// windowƒ‚[ƒhİ’è
+	// windowãƒ¢ãƒ¼ãƒ‰è¨­å®š
 	ChangeWindowMode(true);
-	// ‰æ–ÊƒTƒCƒY•ÏX
+	// ç”»é¢ã‚µã‚¤ã‚ºå¤‰æ›´
 	SetGraphMode(Game::kScreenWidth, Game::kScreenHeight, Game::kColorDepth);
 
-	if (DxLib_Init() == -1)	// ‚c‚wƒ‰ƒCƒuƒ‰ƒŠ‰Šú‰»ˆ—
+	if (DxLib_Init() == -1)	// ï¼¤ï¼¸ãƒ©ã‚¤ãƒ–ãƒ©ãƒªåˆæœŸåŒ–å‡¦ç†
 	{
-		return -1;			// ƒGƒ‰[‚ª‹N‚«‚½‚ç’¼‚¿‚ÉI—¹
+		return -1;			// ã‚¨ãƒ©ãƒ¼ãŒèµ·ããŸã‚‰ç›´ã¡ã«çµ‚äº†
 	}
 
-	// Effekseer‚Ì‰Šú‰»
+	// Effekseerã®åˆæœŸåŒ–
 	Effekseer_Init(8000);
 
-	// ƒtƒ‹ƒXƒNƒŠ[ƒ“Ø‚è‘Ö‚¦‚É‚¨‚©‚µ‚­‚È‚ç‚È‚¢‚æ‚¤‚É
+	// ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆæ™‚ã«ãŠã‹ã—ããªã‚‰ãªã„ã‚ˆã†ã«
 	SetChangeScreenModeGraphicsSystemResetFlag(false);
 	Effekseer_SetGraphicsDeviceLostCallbackFunctions();
 
-	// Zƒoƒbƒtƒ@‚Ìİ’è
+	// Zãƒãƒƒãƒ•ã‚¡ã®è¨­å®š
 	SetUseZBuffer3D(true);
 	SetWriteZBuffer3D(true);
 	SetUseBackCulling(true);
 
-	// ƒ_ƒuƒ‹ƒoƒbƒtƒ@ƒ‚[ƒh
+	// ãƒ€ãƒ–ãƒ«ãƒãƒƒãƒ•ã‚¡ãƒ¢ãƒ¼ãƒ‰
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	// “ü—Íó‘Ô‚ğæ“¾
+	// å…¥åŠ›çŠ¶æ…‹ã‚’å–å¾—
 	Input input;
 
-	// ƒƒbƒZ[ƒW‚Ìƒ[ƒh
+	// ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®ãƒ­ãƒ¼ãƒ‰
 	Message::GetInstance().Load();
 
-	// SceneManager‚ğ¶¬
+	// SceneManagerã‚’ç”Ÿæˆ
 	std::shared_ptr<SceneManager> pScene = std::make_shared<SceneManager>();
 	pScene->Init();
 
 	while (ProcessMessage() == 0)
 	{
 		LONGLONG  time = GetNowHiPerformanceCount();
-		// ‰æ–Ê‚ÌƒNƒŠƒA
+		// ç”»é¢ã®ã‚¯ãƒªã‚¢
 		ClearDrawScreen();
 
-		// XV
+		// æ›´æ–°
 		input.Update();
 		pScene->Update(input);
 
-		// •`‰æ
+		// æç”»
 		pScene->Draw();
 
-		//— ‰æ–Ê‚ğ•\‰æ–Ê‚ğ“ü‚ê‘Ö‚¦‚é
+		//è£ç”»é¢ã‚’è¡¨ç”»é¢ã‚’å…¥ã‚Œæ›¿ãˆã‚‹
 		ScreenFlip();
 
-		// fps‚ğ60‚ÉŒÅ’è
+		// fpsã‚’60ã«å›ºå®š
 		while (GetNowHiPerformanceCount() - time < 16667)
 		{
 		}
 
 
 #ifdef _DEBUG
-		// ƒfƒoƒbƒO‚ÍESCƒL[‚ÅI—¹‚Å‚«‚é‚æ‚¤‚É‚·‚é
+		// ãƒ‡ãƒãƒƒã‚°æ™‚ã¯ESCã‚­ãƒ¼ã§çµ‚äº†ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 		if (input.IsTriggered("end"))
 		{
 			Effkseer_End();
@@ -77,8 +77,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 	}
 
-	Effkseer_End();	 // Effekseer‚ÌI—¹ˆ—
-	DxLib_End();	 // Dxƒ‰ƒCƒuƒ‰ƒŠg—p‚ÌI—¹ˆ—
+	Effkseer_End();	 // Effekseerã®çµ‚äº†å‡¦ç†
+	DxLib_End();	 // Dxãƒ©ã‚¤ãƒ–ãƒ©ãƒªä½¿ç”¨ã®çµ‚äº†å‡¦ç†
 
-	return 0;		// ƒ\ƒtƒg‚ÌI—¹ 
+	return 0;		// ã‚½ãƒ•ãƒˆã®çµ‚äº† 
 }

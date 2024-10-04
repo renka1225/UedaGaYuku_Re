@@ -1,13 +1,14 @@
-#pragma once
+ï»¿#pragma once
 #include "SceneBase.h"
 #include <memory>
 
+class EnemyBase;
 class Player;
 class Camera;
 class Stage;
 
 /// <summary>
-/// ƒƒCƒ“ƒV[ƒ“
+/// ãƒ¡ã‚¤ãƒ³ã‚·ãƒ¼ãƒ³
 /// </summary>
 class SceneMain :public SceneBase
 {
@@ -19,8 +20,9 @@ public:
 	virtual void Draw();
 
 private:
-	std::shared_ptr<Player> m_pPlayer;	// ƒvƒŒƒCƒ„[‚Ìƒ|ƒCƒ“ƒ^
-	std::shared_ptr<Camera> m_pCamera;	// ƒJƒƒ‰‚Ìƒ|ƒCƒ“ƒ^
-	std::shared_ptr<Stage> m_pStage;	// ƒXƒe[ƒW‚Ìƒ|ƒCƒ“ƒ^
+	std::shared_ptr<EnemyBase> m_pEnemy; // æ•µã®ãƒã‚¤ãƒ³ã‚¿
+	std::shared_ptr<Player> m_pPlayer;	 // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒã‚¤ãƒ³ã‚¿
+	std::shared_ptr<Camera> m_pCamera;	 // ã‚«ãƒ¡ãƒ©ã®ãƒã‚¤ãƒ³ã‚¿
+	std::shared_ptr<Stage> m_pStage;	 // ã‚¹ãƒ†ãƒ¼ã‚¸ã®ãƒã‚¤ãƒ³ã‚¿
 };
 

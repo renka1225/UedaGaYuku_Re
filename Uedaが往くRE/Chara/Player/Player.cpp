@@ -12,7 +12,7 @@ namespace
 	const std::string kCharaId = "player";							// キャラクターのID名
 	const char* kModelFileName = ("data/model/chara/player.mv1");	// モデルのファイル名
 	const VECTOR kInitPos = VGet(7425.0, 40.0f, 5190.0f);			// 初期位置
-	constexpr float kScale = 0.14f;									// 拡大率
+	constexpr float kScale = 0.14f;									// モデルの拡大率
 }
 
 /// <summary>
@@ -43,7 +43,6 @@ Player::~Player()
 void Player::Init()
 {
 	CharacterBase::Init();
-
 	MV1SetScale(m_modelHandle, VGet(kScale, kScale, kScale));
 
 	m_pState = std::make_shared<PlayerStateIdle>(shared_from_this());
@@ -51,9 +50,6 @@ void Player::Init()
 	
 	auto state = std::dynamic_pointer_cast<PlayerStateIdle>(m_pState);
 	state->Init();
-
-	// モデル全体のコリジョン情報のセットアップ
-	MV1SetupCollInfo(m_modelHandle, -1);
 }
 
 /// <summary>
@@ -72,11 +68,9 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage)
 	}
 
 	m_pState->Update(input, camera, stage);	// stateの更新
-	UpdateAngle();							// 向きを更新
-	UpdateAnim();							// アニメーションを更新
-	UpdateCol();							// 当たり判定の位置更新
-	MV1SetPosition(m_modelHandle, m_pos);	// 位置を更新
-
+	UpdateAngle();	// 向きを更新
+	UpdateAnim();	// アニメーションを更新
+	UpdateCol();	// 当たり判定の位置更新
 }
 
 /// <summary>

@@ -152,6 +152,10 @@
     <ClCompile Include="Chara\Player\PlayerStateIdle.cpp" />
     <ClCompile Include="Chara\Player\PlayerStateRun.cpp" />
     <ClCompile Include="Chara\Player\PlayerStateWalk.cpp" />
+    <ClCompile Include="Chara\Enemy\EnemyBase.cpp" />
+    <ClCompile Include="Chara\Enemy\Enemy01.cpp" />
+    <ClCompile Include="Chara\Enemy\EnemyStateBase.cpp" />
+    <ClCompile Include="Chara\Enemy\EnemyStateIdle.cpp" />
     <ClCompile Include="Object\ObjectBase.cpp" />
     <ClCompile Include="Util\LoadCsv.cpp" />
     <ClCompile Include="Debug\DebugDraw.cpp" />
@@ -176,6 +180,10 @@
     <ClInclude Include="Chara\Player\PlayerStateIdle.h" />
     <ClInclude Include="Chara\Player\PlayerStateRun.h" />
     <ClInclude Include="Chara\Player\PlayerStateWalk.h" />
+    <ClInclude Include="Chara\Enemy\EnemyBase.h" />
+    <ClInclude Include="Chara\Enemy\Enemy01.h" />
+    <ClInclude Include="Chara\Enemy\EnemyStateBase.h" />
+    <ClInclude Include="Chara\Enemy\EnemyStateIdle.h" />
     <ClInclude Include="Object\ObjectBase.h" />
     <ClInclude Include="Util\LoadCsv.h" />
     <ClInclude Include="Debug\DebugDraw.h" />

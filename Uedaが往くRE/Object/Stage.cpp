@@ -1,5 +1,4 @@
-﻿#include "DxLib.h"
-#include "Game.h"
+﻿#include "Game.h"
 #include "ObjectBase.h"
 #include "Stage.h"
 #include <cmath>
@@ -14,13 +13,13 @@ namespace
     const VECTOR kSkydoomPos = VGet(-2000.0f, 0.0f, 0.0f);
 
     // 当たり判定
-    constexpr float kDefaultSize = 100.0f;	 // 周囲のポリゴン検出に使用する球の初期サイズ
-    constexpr float kHitWidth = 10.0f;	     // 当たり判定カプセルの半径
-    constexpr float kHitHeight = 20.0f;	     // 当たり判定カプセルの高さ
-    constexpr float kHitBottom = -1.0f;	     // 当たり判定カプセルの位置
-    constexpr float kHitBottom2 = -40.0f;	 // 当たり判定カプセルの位置
+    constexpr float kDefaultSize = 50.0f;	 // 周囲のポリゴン検出に使用する球の初期サイズ
+    constexpr float kHitWidth = 8.0f;	     // 当たり判定カプセルの半径
+    constexpr float kHitHeight = 40.0f;	     // 当たり判定カプセルの高さ
+    constexpr float kHitBottom = 20.0f;	     // 当たり判定カプセルの位置
+    constexpr float kHitBottom2 = -20.0f;	 // 当たり判定カプセルの位置
     constexpr int kHitTryNum = 16;		     // 壁押し出し処理の最大試行回数
-    constexpr float kHitSlideLength = 1.0f;	 // 一度の壁押し出し処理でスライドさせる距離
+    constexpr float kHitSlideLength = 0.5f;	 // 一度の壁押し出し処理でスライドさせる距離
 }
 
 
