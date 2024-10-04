@@ -28,9 +28,9 @@ public:
 	}
 
 	// キャラクターのステータス情報を読み込む
-	void LoadStatus(CharacterBase::Status& data, int charaName);
+	void LoadStatus(CharacterBase::Status& data, std::string charaName);
 		// 当たり判定のデータを読み込む
-	void LoadColData(CharacterBase::ColData& data, int charaName);
+	void LoadColData(CharacterBase::ColData& data, std::string charaName);
 	// アニメーション情報を読み込む
 	void LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data);
 

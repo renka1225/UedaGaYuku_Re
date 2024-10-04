@@ -81,10 +81,8 @@ protected:
 	ColData m_colData;			// 初期当たり判定
 	UpdateColData m_updateCol;  // 更新した当たり判定
 	Status m_status;			// ステータス
-	VECTOR m_moveDir;			// 向くべき方向のベクトル
 	float m_angle;			    // 向いている方向の角度
 	float m_hp;				    // HP
-	int m_modelHandle;		    // キャラクターのモデル
 
 	int m_currentPlayAnim;		// 現在のアニメーション
 	int m_prevPlayAnim;			// 前に再生していたアニメーション

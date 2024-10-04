@@ -17,10 +17,13 @@ void PlayerStateIdle::Init()
 /// 更新
 /// </summary>
 /// <param name="input">入力処理</param>
-void PlayerStateIdle::Update(const Input& input, const Camera& camera)
+void PlayerStateIdle::Update(const Input& input, const Camera& camera, Stage& stage)
 {
+	PlayerStateBase::Update(input, camera, stage);
+	m_pPlayer->Move(VGet(0.0f, 0.0f, 0.0f), stage);   // 移動情報を反映する
+
 	// 移動ボタンが押されている場合
-	if (input.IsPressing("A") && (input.IsPressing("left") || input.IsPressing("right") || input.IsPressing("up") || input.IsPressing("down")))
+	if (input.IsPressing("A") && (m_analogX != 0 || m_analogY != 0))
 	{
 		// StateをRunに変更する
 		m_nextState = std::make_shared<PlayerStateRun>(m_pPlayer);
@@ -28,7 +31,7 @@ void PlayerStateIdle::Update(const Input& input, const Camera& camera)
 		state->Init();
 		return;
 	}
-	else if (input.IsPressing("left") || input.IsPressing("right") || input.IsPressing("up") || input.IsPressing("down"))
+	else if (m_analogX != 0 || m_analogY != 0)
 	{
 		// StateをWalkに変更する
 		m_nextState = std::make_shared<PlayerStateWalk>(m_pPlayer);

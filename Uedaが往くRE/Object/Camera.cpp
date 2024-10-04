@@ -1,28 +1,28 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "Input.h"
 #include "Stage.h"
 #include "Player.h"
 #include "Camera.h"
 #include <cmath>
 
-// ’è”
+// å®šæ•°
 namespace
 {
-	constexpr float kNear = 1.0f;							// ƒJƒƒ‰‚Ìè‘OƒNƒŠƒbƒv‹——£
-	constexpr float kFar = 5000.0f;							// ƒJƒƒ‰‚Ì‰œƒNƒŠƒbƒv‹——£
-	constexpr float kDist = 60.0f;							// ƒJƒƒ‰‚©‚çƒvƒŒƒCƒ„[‚Ü‚Å‚Ì‹——£
-	constexpr float kHeight = 30.0f;							// ƒJƒƒ‰‚Ì’‹“_
-	constexpr float kAngle = 0.03f;							// ƒJƒƒ‰‚ğ“®‚©‚·Šp“x
-	constexpr float kInitAngleH = -0.6f;					// ƒJƒƒ‰‚Ì‰Šú•½sŠp“x
-	constexpr float kInitAngleV = -0.3f;					// ƒJƒƒ‰‚Ì‰Šú‚’¼Šp“x
-	constexpr float kMinAngleV = DX_PI_F * 0.5f - 1.0f;		// Å¬‚Ì‚’¼Šp“x
-	constexpr float kMaxAngleV = -DX_PI_F * 0.5f + 0.6f;	// Å‘å‚Ì‚’¼Šp“x
-	constexpr float kColSize = 3.0f;						// ƒJƒƒ‰‚Ì“–‚½‚è”»’èƒTƒCƒY
-	constexpr float kHitLength = 0.1f;						// ƒJƒƒ‰‚ªƒXƒe[ƒW‚É“–‚½‚Á‚½‚©”»’è‚·‚é‹——£
+	constexpr float kNear = 1.0f;							// ã‚«ãƒ¡ãƒ©ã®æ‰‹å‰ã‚¯ãƒªãƒƒãƒ—è·é›¢
+	constexpr float kFar = 10000.0f;						// ã‚«ãƒ¡ãƒ©ã®å¥¥ã‚¯ãƒªãƒƒãƒ—è·é›¢
+	constexpr float kDist = 60.0f;							// ã‚«ãƒ¡ãƒ©ã‹ã‚‰ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¾ã§ã®è·é›¢
+	constexpr float kHeight = 30.0f;						// ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹
+	constexpr float kAngle = 0.03f;							// ã‚«ãƒ¡ãƒ©ã‚’å‹•ã‹ã™è§’åº¦
+	constexpr float kInitAngleH = -0.6f;					// ã‚«ãƒ¡ãƒ©ã®åˆæœŸå¹³è¡Œè§’åº¦
+	constexpr float kInitAngleV = -0.3f;					// ã‚«ãƒ¡ãƒ©ã®åˆæœŸå‚ç›´è§’åº¦
+	constexpr float kMinAngleV = DX_PI_F * 0.5f - 1.0f;		// æœ€å°ã®å‚ç›´è§’åº¦
+	constexpr float kMaxAngleV = -DX_PI_F * 0.5f + 0.6f;	// æœ€å¤§ã®å‚ç›´è§’åº¦
+	constexpr float kColSize = 3.0f;						// ã‚«ãƒ¡ãƒ©ã®å½“ãŸã‚Šåˆ¤å®šã‚µã‚¤ã‚º
+	constexpr float kHitLength = 0.1f;						// ã‚«ãƒ¡ãƒ©ãŒã‚¹ãƒ†ãƒ¼ã‚¸ã«å½“ãŸã£ãŸã‹åˆ¤å®šã™ã‚‹è·é›¢
 }
 
 /// <summary>
-/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 Camera::Camera() :
 	m_pos(VGet(0.0f, kHeight, 0.0f)),
@@ -38,15 +38,15 @@ Camera::Camera() :
 }
 
 /// <summary>
-/// ƒfƒXƒgƒ‰ƒNƒ^
+/// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 Camera::~Camera()
 {
-	// ˆ—‚È‚µ
+	// å‡¦ç†ãªã—
 }
 
 /// <summary>
-/// ‰Šú‰»
+/// åˆæœŸåŒ–
 /// </summary>
 void Camera::Init()
 {
@@ -59,102 +59,129 @@ void Camera::Init()
 }
 
 /// <summary>
-/// XV
+/// æ›´æ–°
 /// </summary>
 void Camera::Update(Input& input, const Player& player, const Stage& stage)
 {
-	GetJoypadDirectInputState(DX_INPUT_PAD1, &m_analogInput); // “ü—Íó‘Ô‚ğæ“¾
+	GetJoypadDirectInputState(DX_INPUT_PAD1, &m_analogInput); // å…¥åŠ›çŠ¶æ…‹ã‚’å–å¾—
 
-	// ¶“ü—Í
+	// å·¦å…¥åŠ›
 	if (m_analogInput.Rx < 0.0f)
 	{
 		m_angleH -= kAngle;
 	}
-	// ‰E“ü—Í
+	// å³å…¥åŠ›
 	if (m_analogInput.Rx > 0.0f)
 	{
 		m_angleH += kAngle;
 	}
-	// ã“ü—Í
+	// ä¸Šå…¥åŠ›
 	if (m_analogInput.Ry > 0.0f)
 	{
 		m_angleV -= kAngle;
 		m_angleV = std::max(m_angleV, kMaxAngleV);
 	}
-	// ‰º“ü—Í
+	// ä¸‹å…¥åŠ›
 	if (m_analogInput.Ry < 0.0f)
 	{
 		m_angleV += kAngle;
 		m_angleV = std::min(kMinAngleV, m_angleV);
 	}
 
-	// ƒJƒƒ‰‚Ì’‹“_‚ğİ’è‚·‚é
+	// ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹ã‚’è¨­å®šã™ã‚‹
 	m_target = VAdd(player.GetPos(), VGet(0.0f, kHeight, 0.0f));
 
-	// ƒJƒƒ‰ˆÊ’u•â³
+	//// ã‚«ãƒ¡ãƒ©ã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«è¿½å¾“ã•ã›ã‚‹
+	//VECTOR toCameraPos = VSub(m_pos, m_target);
+	//float height = toCameraPos.y;
+	//toCameraPos.y = 0.0f;
+	//float toCameraPosLen = VSize(toCameraPos);
+	//toCameraPos = VNorm(toCameraPos);
+
+	//// æ–°ã—ã„æ³¨è¦–ç‚¹ã‚’æ±ºã‚ã‚‹
+	//VECTOR target = player.GetPos();
+	//target.y += kHeight;
+
+	//// æ–°ã—ã„æ³¨è¦–ç‚¹ã¨ç¾åœ¨ã®ã‚«ãƒ¡ãƒ©ã®å§‹ç‚¹ã‹ã‚‰ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ±‚ã‚ã‚‹
+	//VECTOR toNewCameraPos = VSub(m_pos, target);
+	//toNewCameraPos.y = 0.0f;
+	//toNewCameraPos = VNorm(toNewCameraPos);
+
+	//printfDx("X:%.2f, Z:%.2f, Z:%.2f\n", toNewCameraPos.x, toNewCameraPos.y, toNewCameraPos.z);
+
+	//float weight = 0.7f;
+	//toNewCameraPos = VAdd(VScale(toNewCameraPos, weight), VScale(toCameraPos, (1.0f - weight)));
+	//toNewCameraPos = VNorm(toNewCameraPos);
+	//toNewCameraPos = VScale(toNewCameraPos, toCameraPosLen);
+	//toNewCameraPos.y = height;
+	//m_pos = VAdd(target, toNewCameraPos);
+	//m_target = target;
+
+	// ã‚«ãƒ¡ãƒ©ä½ç½®è£œæ­£
 	FixCameraPos();
+
 	SetCameraPositionAndTarget_UpVecY(m_pos, m_target);
 
-	// ƒJƒƒ‰‚Ì“–‚½‚è”»’è‚ğƒ`ƒFƒbƒN
-	//CheckHitCol(stage);
+	// ã‚«ãƒ¡ãƒ©ã®å½“ãŸã‚Šåˆ¤å®šã‚’ãƒã‚§ãƒƒã‚¯
+	CheckCameraCol(stage);
 
-	//ƒJƒƒ‰‚ÌŒ©‚Ä‚¢‚é•ûŒü‚ÉƒfƒBƒŒƒNƒVƒ‡ƒ“ƒ‰ƒCƒg‚ğİ’è‚·‚é
+	//ã‚«ãƒ¡ãƒ©ã®è¦‹ã¦ã„ã‚‹æ–¹å‘ã«ãƒ‡ã‚£ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ãƒ©ã‚¤ãƒˆã‚’è¨­å®šã™ã‚‹
 	SetLightDirectionHandle(m_lightHandle, VNorm(VSub(m_target, m_pos)));
 }
 
 /// <summary>
-/// ƒJƒƒ‰ˆÊ’u‚ğ•â³‚·‚é
+/// ã‚«ãƒ¡ãƒ©ä½ç½®ã‚’è£œæ­£ã™ã‚‹
 /// </summary>
 void Camera::FixCameraPos()
 {
-	m_rotY = MGetRotY(m_angleH);	// …•½•ûŒü‚Ì‰ñ“]
-	m_rotZ = MGetRotZ(m_angleV);	// ‚’¼•ûŒü‚Ì‰ñ“]
+	m_rotY = MGetRotY(m_angleH);	// æ°´å¹³æ–¹å‘ã®å›è»¢
+	m_rotZ = MGetRotZ(m_angleV);	// å‚ç›´æ–¹å‘ã®å›è»¢
 
-	// ƒJƒƒ‰‚ÌÀ•W‚ğ‹‚ß‚é
-	// X²‚ÉƒJƒƒ‰‚©‚çƒvƒŒƒCƒ„[‚Ü‚Å‚Ì‹——£•ªL‚Ñ‚½ƒxƒNƒgƒ‹‚ğ‚’¼•ûŒü‚É‰ñ“]‚·‚é(Z²‰ñ“])
+	// ã‚«ãƒ¡ãƒ©ã®åº§æ¨™ã‚’æ±‚ã‚ã‚‹
+	// Xè»¸ã«ã‚«ãƒ¡ãƒ©ã‹ã‚‰ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¾ã§ã®è·é›¢åˆ†ä¼¸ã³ãŸãƒ™ã‚¯ãƒˆãƒ«ã‚’å‚ç›´æ–¹å‘ã«å›è»¢ã™ã‚‹(Zè»¸å›è»¢)
 	m_pos = VTransform(VGet(-kDist, 0.0f, 0.0f), m_rotZ);
-	// …•½•ûŒü(Y²‰ñ“])‚É‰ñ“]‚·‚é
+	// æ°´å¹³æ–¹å‘(Yè»¸å›è»¢)ã«å›è»¢ã™ã‚‹
 	m_pos = VTransform(m_pos, m_rotY);
-	// ’‹“_‚ÌÀ•W‚ğ‘«‚·
+	// æ³¨è¦–ç‚¹ã®åº§æ¨™ã‚’è¶³ã™
 	m_pos = VAdd(m_pos, m_target);
 }
 
 
 /// <summary>
-/// “–‚½‚è”»’è‚ğƒ`ƒFƒbƒN‚·‚é
+/// å½“ãŸã‚Šåˆ¤å®šã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 /// </summary>
 void Camera::CheckCameraCol(const Stage& stage)
 {
-	// ’‹“_‚©‚çƒJƒƒ‰‚ÌÀ•W‚Ü‚Å‚ÌŠÔ‚ÉƒXƒe[ƒW‚Ìƒ|ƒŠƒSƒ“‚ª‚ ‚é‚©’²‚×‚é
-	float notHitLength = 0.0f;	// ƒ|ƒŠƒSƒ“‚É“–‚½‚ç‚È‚¢‹——£
-	float hitLength = kDist;	// ƒ|ƒŠƒSƒ“‚É“–‚½‚é‹——£
+	// æ³¨è¦–ç‚¹ã‹ã‚‰ã‚«ãƒ¡ãƒ©ã®åº§æ¨™ã¾ã§ã®é–“ã«ã‚¹ãƒ†ãƒ¼ã‚¸ã®ãƒãƒªã‚´ãƒ³ãŒã‚ã‚‹ã‹èª¿ã¹ã‚‹
+	float notHitLength = 0.0f;	// ãƒãƒªã‚´ãƒ³ã«å½“ãŸã‚‰ãªã„è·é›¢
+	float hitLength = kDist;	// ãƒãƒªã‚´ãƒ³ã«å½“ãŸã‚‹è·é›¢
 
 	do
 	{
-		// ƒJƒƒ‰‚ªƒXƒe[ƒW‚É“–‚½‚é‚©ƒeƒXƒg‚·‚é‹——£
-		// “–‚½‚ç‚È‚¢‹——£‚Æ“–‚½‚é‹——£‚Ì’†ŠÔ‚ğ‹‚ß‚é
+		// ã‚«ãƒ¡ãƒ©ãŒã‚¹ãƒ†ãƒ¼ã‚¸ã«å½“ãŸã‚‹ã‹ãƒ†ã‚¹ãƒˆã™ã‚‹è·é›¢
+		// å½“ãŸã‚‰ãªã„è·é›¢ã¨å½“ãŸã‚‹è·é›¢ã®ä¸­é–“ã‚’æ±‚ã‚ã‚‹
 		float testLength = notHitLength + (hitLength - notHitLength) * 0.5f;
-		// Ÿ‚ÌƒtƒŒ[ƒ€‚ÌƒJƒƒ‰À•W‚ğ‹‚ß‚é
+		// æ¬¡ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã®ã‚«ãƒ¡ãƒ©åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 		auto nextPos = VTransform(VGet(-testLength, 0.0f, 0.0f), m_rotZ);
 		nextPos = VTransform(nextPos, m_rotY);
 		nextPos = VAdd(nextPos, m_target);
 
-		// V‚µ‚¢À•W‚Å•Ç‚É“–‚½‚é‚©ƒeƒXƒg‚·‚é
+		// æ–°ã—ã„åº§æ¨™ã§å£ã«å½“ãŸã‚‹ã‹ãƒ†ã‚¹ãƒˆã™ã‚‹
 		auto hitResult = MV1CollCheck_Capsule(stage.GetStageHandle(), -1, m_target, nextPos, kColSize);
 		int hitNum = hitResult.HitNum;
 		MV1CollResultPolyDimTerminate(hitResult);
 
-		// “–‚½‚Á‚½ê‡
+		// å½“ãŸã£ãŸå ´åˆ
 		if (hitNum != 0)
 		{
 			hitLength = testLength;
-			// ƒJƒƒ‰À•W‚ğXV
+			// ã‚«ãƒ¡ãƒ©åº§æ¨™ã‚’æ›´æ–°
 			m_pos = nextPos;
 		}
 		else
 		{
-			// “–‚½‚ç‚È‚¢‹——£‚ğtestLenth‚É•ÏX‚·‚é
+			// å½“ãŸã‚‰ãªã„è·é›¢ã‚’testLenthã«å¤‰æ›´ã™ã‚‹
 			notHitLength = testLength;
 		}
-	} while (hitLength - notHitLength > kHitLength); // hitLength‚ÆNoHitLength‚ª\•ª‚É‹ß‚Ã‚¢‚Ä‚¢‚È‚¢ê‡ƒ‹[ƒv‚·‚é
+	} while (hitLength - notHitLength > kHitLength); // hitLengthã¨NoHitLengthãŒååˆ†ã«è¿‘ã¥ã„ã¦ã„ãªã„å ´åˆãƒ«ãƒ¼ãƒ—ã™ã‚‹
 }

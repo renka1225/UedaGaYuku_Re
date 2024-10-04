@@ -18,9 +18,9 @@ void PlayerStateWalk::Init()
 /// 更新
 /// </summary>
 /// <param name="input">入力処理</param>
-void PlayerStateWalk::Update(const Input& input, const Camera& camera)
+void PlayerStateWalk::Update(const Input& input, const Camera& camera, Stage& stage)
 {
-    GetJoypadAnalogInput(&m_analogX, &m_analogY, DX_INPUT_PAD1); // アナログスティックの入力状態
+    PlayerStateBase::Update(input, camera, stage);
 
     VECTOR upMoveVec;		                            // 上ボタンを入力をしたときの移動方向ベクトル
     VECTOR leftMoveVec;	                                // 左ボタンを入力をしたときの移動方向ベクトル
@@ -42,7 +42,7 @@ void PlayerStateWalk::Update(const Input& input, const Camera& camera)
     MATRIX mtx = MGetRotY(camera.GetAngleH() - DX_PI_F / 2);
     moveVec = VTransform(moveVec, mtx);
 
-    m_pPlayer->Move(moveVec);   // 移動情報を反映する
+    m_pPlayer->Move(moveVec, stage);   // 移動情報を反映する
 
     // 移動中にAボタンを長押ししている場合
     if (input.IsPressing("A") && (m_analogX != 0 || m_analogY != 0))

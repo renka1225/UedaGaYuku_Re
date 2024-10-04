@@ -120,7 +120,7 @@
     <ClCompile Include="Chara\Player\PlayerStateWalk.cpp">
       <Filter>ソース ファイル\Chara\Player</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectBase.cpp">
+    <ClCompile Include="Object\ObjectBase.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
   </ItemGroup>
@@ -188,7 +188,7 @@
     <ClInclude Include="Chara\Player\PlayerStateWalk.h">
       <Filter>ヘッダー ファイル\Chara\Player</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectBase.h">
+    <ClInclude Include="Object\ObjectBase.h">
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
   </ItemGroup>

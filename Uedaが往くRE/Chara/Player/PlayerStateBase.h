@@ -5,6 +5,7 @@
 
 class Input;
 class Camera;
+class Stage;
 class Player;
 
 /// <summary>
@@ -22,7 +23,7 @@ public:
 	};
 
 	PlayerStateBase(std::shared_ptr<Player> pPlayer);
-	virtual void Update(const Input& input, const Camera& camera) = 0;
+	virtual void Update(const Input& input, const Camera& camera, Stage& stage);
 	// 現在の状態を取得
 	virtual PlayerStateKind GetKind() = 0;
 
@@ -35,9 +36,9 @@ public:
 	std::shared_ptr<PlayerStateBase> m_nextState;	// 次のStateを保存する
 
 protected:
-	std::shared_ptr<Player> m_pPlayer;				// プレイヤーのポインタ
+	std::shared_ptr<Player> m_pPlayer;	// プレイヤーのポインタ
 
 	DINPUT_JOYSTATE m_analogInput; 	// アナログスティック情報取得
-	int m_analogX;	// アナログスティックの左右の入力状態
-	int m_analogY;	// アナログスティックの上下の入力状態
+	int m_analogX;					// アナログスティックの左右の入力状態
+	int m_analogY;					// アナログスティックの上下の入力状態
 };

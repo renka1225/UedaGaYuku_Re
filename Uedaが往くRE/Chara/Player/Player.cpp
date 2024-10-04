@@ -9,6 +9,7 @@
 
 namespace
 {
+	const std::string kCharaId = "player";							// キャラクターのID名
 	const char* kModelFileName = ("data/model/chara/player.mv1");	// モデルのファイル名
 	const VECTOR kInitPos = VGet(7425.0, 40.0f, 5190.0f);			// 初期位置
 	constexpr float kScale = 0.14f;									// 拡大率
@@ -23,8 +24,8 @@ Player::Player()
 	m_modelHandle = MV1LoadModel(kModelFileName);
 
 	// ステータスを読み込む
-	LoadCsv::GetInstance().LoadStatus(m_status, CharaType::kPlayer);
-	LoadCsv::GetInstance().LoadColData(m_colData, CharaType::kPlayer);
+	LoadCsv::GetInstance().LoadStatus(m_status, kCharaId);
+	LoadCsv::GetInstance().LoadColData(m_colData, kCharaId);
 	m_hp = m_status.maxHp;
 }
 
@@ -70,7 +71,7 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage)
 		m_pState->m_nextState = m_pState;
 	}
 
-	m_pState->Update(input, camera);		// stateの更新
+	m_pState->Update(input, camera, stage);	// stateの更新
 	UpdateAngle();							// 向きを更新
 	UpdateAnim();							// アニメーションを更新
 	UpdateCol();							// 当たり判定の位置更新
@@ -89,21 +90,10 @@ void Player::Draw()
 	DebugDraw debug;
 	debug.DrawPlayerInfo(m_pos, m_hp, m_pState->GetStateName()); // プレイヤーの情報を描画
 	// 当たり判定描画
-	//debug.DrawBodyCol(m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius); // 全身
-	//debug.DrawAimCol(m_updateCol.armStartPos, m_updateCol.armEndPos, m_colData.aimRadius);	   // 腕
-	//debug.DrawLegCol(m_updateCol.legStartPos, m_updateCol.legEndPos, m_colData.legRadius);	   // 脚
+	debug.DrawBodyCol(m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius); // 全身
+	//debug.DrawAimCol(m_updateCol.armStartPos, m_updateCol.armEndPos, m_colData.aimRadius);   // 腕
+	//debug.DrawLegCol(m_updateCol.legStartPos, m_updateCol.legEndPos, m_colData.legRadius);   // 脚
 #endif
-}
-
-/// <summary>
-/// 移動処理
-/// </summary>
-/// <param name="moveVec">移動量</param>
-void Player::Move(const VECTOR& moveVec)
-{
-	m_pos = VAdd(m_pos, moveVec);
-	m_moveDir = VNorm(moveVec);
-	MV1SetPosition(m_modelHandle, m_pos);
 }
 
 /// <summary>

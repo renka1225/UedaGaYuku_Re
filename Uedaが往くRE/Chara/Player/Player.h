@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "CharacterBase.h"
 #include "PlayerStateBase.h"
 
@@ -7,7 +7,7 @@ class Camera;
 class Stage;
 
 /// <summary>
-/// ƒvƒŒƒCƒ„[
+/// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
 /// </summary>
 class Player : public CharacterBase, public std::enable_shared_from_this<Player>
 {
@@ -18,10 +18,9 @@ public:
 	virtual void Update(const Input& input, const Camera& camera, Stage& stage);
 	virtual void Draw();
 
-	void Move(const VECTOR& moveVec);	// ˆÚ“®ˆ—
-	void UpdateAngle();					// ƒvƒŒƒCƒ„[‚ÌŠp“x‚ğXV
+	void UpdateAngle();					// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è§’åº¦ã‚’æ›´æ–°
 
 private:
-	std::shared_ptr<PlayerStateBase> m_pState;	// stateƒpƒ^[ƒ“
+	std::shared_ptr<PlayerStateBase> m_pState;	// stateãƒ‘ã‚¿ãƒ¼ãƒ³
 };
 

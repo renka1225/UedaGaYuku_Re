@@ -1,20 +1,20 @@
-#pragma once
+ï»¿#pragma once
 #include "PlayerStateBase.h"
 
 /// <summary>
-/// ‘–‚èó‘Ô
+/// èµ°ã‚ŠçŠ¶æ…‹
 /// </summary>
 class PlayerStateRun : public PlayerStateBase
 {
 public:
 	PlayerStateRun(std::shared_ptr<Player> player) : PlayerStateBase(player) {};
 	void Init();
-	virtual void Update(const Input& input, const Camera& camera);
+	virtual void Update(const Input& input, const Camera& camera, Stage& stage) override;
 	virtual PlayerStateKind GetKind() override { return PlayerStateKind::kRun; }
 
 #ifdef _DEBUG
-	// Œ»İ‚Ìó‘Ô–¼‚ğæ“¾
-	virtual std::string GetStateName() override { return "‘–‚è"; }
+	// ç¾åœ¨ã®çŠ¶æ…‹åã‚’å–å¾—
+	virtual std::string GetStateName() override { return "èµ°ã‚Š"; }
 #endif
 };
 

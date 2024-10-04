@@ -1,31 +1,31 @@
-#include "DxLib.h"
-#include "Stage.h"
-#include "Player.h"
+ï»¿#include "DxLib.h"
 #include "Game.h"
+#include "ObjectBase.h"
+#include "Stage.h"
 #include <cmath>
 
-// ’è”
+// å®šæ•°
 namespace
 {
-    // ƒXƒe[ƒWƒTƒCƒY
+    // ã‚¹ãƒ†ãƒ¼ã‚¸ã‚µã‚¤ã‚º
     const VECTOR kStageScale = VGet(10.0f, 10.0f, 10.0f);
     const VECTOR kSkydoomScale = VGet(15.0f, 15.0f, 15.0f);
     const VECTOR kStagePos = VGet(0.0f, 0.0f, 0.0f);
     const VECTOR kSkydoomPos = VGet(-2000.0f, 0.0f, 0.0f);
 
-    // “–‚½‚è”»’è
-    constexpr float kDefaultSize = 100.0f;	 // ŽüˆÍ‚Ìƒ|ƒŠƒSƒ“ŒŸo‚ÉŽg—p‚·‚é‹…‚Ì‰ŠúƒTƒCƒY
-    constexpr float kHitWidth = 10.0f;	     // “–‚½‚è”»’èƒJƒvƒZƒ‹‚Ì”¼Œa
-    constexpr float kHitHeight = 20.0f;	     // “–‚½‚è”»’èƒJƒvƒZƒ‹‚Ì‚‚³
-    constexpr float kHitBottom = -1.0f;	     // “–‚½‚è”»’èƒJƒvƒZƒ‹‚ÌˆÊ’u
-    constexpr float kHitBottom2 = -40.0f;	 // “–‚½‚è”»’èƒJƒvƒZƒ‹‚ÌˆÊ’u
-    constexpr int kHitTryNum = 16;		     // •Ç‰Ÿ‚µo‚µˆ—‚ÌÅ‘åŽŽs‰ñ”
-    constexpr float kHitSlideLength = 1.0f;	 // ˆê“x‚Ì•Ç‰Ÿ‚µo‚µˆ—‚ÅƒXƒ‰ƒCƒh‚³‚¹‚é‹——£
+    // å½“ãŸã‚Šåˆ¤å®š
+    constexpr float kDefaultSize = 100.0f;	 // å‘¨å›²ã®ãƒãƒªã‚´ãƒ³æ¤œå‡ºã«ä½¿ç”¨ã™ã‚‹çƒã®åˆæœŸã‚µã‚¤ã‚º
+    constexpr float kHitWidth = 10.0f;	     // å½“ãŸã‚Šåˆ¤å®šã‚«ãƒ—ã‚»ãƒ«ã®åŠå¾„
+    constexpr float kHitHeight = 20.0f;	     // å½“ãŸã‚Šåˆ¤å®šã‚«ãƒ—ã‚»ãƒ«ã®é«˜ã•
+    constexpr float kHitBottom = -1.0f;	     // å½“ãŸã‚Šåˆ¤å®šã‚«ãƒ—ã‚»ãƒ«ã®ä½ç½®
+    constexpr float kHitBottom2 = -40.0f;	 // å½“ãŸã‚Šåˆ¤å®šã‚«ãƒ—ã‚»ãƒ«ã®ä½ç½®
+    constexpr int kHitTryNum = 16;		     // å£æŠ¼ã—å‡ºã—å‡¦ç†ã®æœ€å¤§è©¦è¡Œå›žæ•°
+    constexpr float kHitSlideLength = 1.0f;	 // ä¸€åº¦ã®å£æŠ¼ã—å‡ºã—å‡¦ç†ã§ã‚¹ãƒ©ã‚¤ãƒ‰ã•ã›ã‚‹è·é›¢
 }
 
 
 /// <summary>
-/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 Stage::Stage():
     m_wallNum(0),
@@ -41,13 +41,13 @@ Stage::Stage():
    // MV1SetScale(m_skydoomHandle, kSkydoomScale);
     //MV1SetPosition(m_skydoomHandle, kSkydoomPos);
 
-    // ƒ‚ƒfƒ‹‘S‘Ì‚ÌƒRƒŠƒWƒ‡ƒ“î•ñ‚ÌƒZƒbƒgƒAƒbƒv
+    // ãƒ¢ãƒ‡ãƒ«å…¨ä½“ã®ã‚³ãƒªã‚¸ãƒ§ãƒ³æƒ…å ±ã®ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—
     MV1SetupCollInfo(m_stageHandle, -1);
 }
 
 
 /// <summary>
-/// ƒfƒXƒgƒ‰ƒNƒ^
+/// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 Stage::~Stage()
 {
@@ -57,119 +57,86 @@ Stage::~Stage()
 
 
 /// <summary>
-/// •`‰æ
+/// æç”»
 /// </summary>
 void Stage::Draw()
 {
-    // ƒXƒe[ƒW•`‰æ
+    // ã‚¹ãƒ†ãƒ¼ã‚¸æç”»
     MV1DrawModel(m_stageHandle);
     MV1DrawModel(m_skydoomHandle);
 }
 
-
 /// <summary>
-/// ƒvƒŒƒCƒ„[‚Æ“–‚½‚è”»’è‚ð‚µ‚ÄA•â³‚µ‚½ˆÚ“®æ‚Ìƒ|ƒWƒVƒ‡ƒ“‚ð•Ô‚·
+/// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨ã®å½“ãŸã‚Šåˆ¤å®šã‚’è¡Œã†
 /// </summary>
-/// <param name="player">ƒvƒŒƒCƒ„[ŽQÆ</param>
-/// <param name="moveVec">ƒvƒŒƒCƒ„[‚ÌˆÚ“®—Ê</param>
-/// <returns>ˆÚ“®Œã‚ÌÀ•W</returns>
-VECTOR Stage::CheckPlayerCol(Player& player, const VECTOR& moveVec)
+/// <param name="obj">ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ</param>
+/// <param name="moveVec">ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç§»å‹•ãƒ™ã‚¯ãƒˆãƒ«</param>
+/// <returns>è£œæ­£ä½ç½®</returns>
+VECTOR Stage::CheckObjectCol(ObjectBase& obj, const VECTOR& moveVec)
 {
-    VECTOR oldPos = player.GetPos();		// ˆÚ“®‘O‚ÌÀ•W	
-    VECTOR nextPos = VAdd(oldPos, moveVec);	// ˆÚ“®Œã‚ÌÀ•W
+    VECTOR oldPos = obj.GetPos();		    // ç§»å‹•å‰ã®åº§æ¨™	
+    VECTOR nextPos = VAdd(oldPos, moveVec);	// ç§»å‹•å¾Œã®åº§æ¨™
 
-    // ƒvƒŒƒCƒ„[‚ÌŽüˆÍ‚É‚ ‚éƒXƒe[ƒWƒ|ƒŠƒSƒ“‚ðŽæ“¾‚·‚é
+    // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å‘¨å›²ã«ã‚ã‚‹ã‚¹ãƒ†ãƒ¼ã‚¸ãƒãƒªã‚´ãƒ³ã‚’å–å¾—ã™ã‚‹
     auto hitDim = MV1CollCheck_Sphere(m_stageHandle, -1, oldPos, kDefaultSize + VSize(moveVec));
 
-    // ŒŸo‚³‚ê‚½ƒ|ƒŠƒSƒ“‚ª•Çƒ|ƒŠƒSƒ“‚©°ƒ|ƒŠƒSƒ“‚©”»•Ê‚µA•Û‘¶‚·‚é
-    // MEMO:•Çƒ|ƒŠƒSƒ“(XZ•½–Ê‚É‚’¼‚Èƒ|ƒŠƒSƒ“)A°ƒ|ƒŠƒSƒ“(XZ•½–Ê‚É‚’¼‚Å‚È‚¢ƒ|ƒŠƒSƒ“)
+    // æ¤œå‡ºã•ã‚ŒãŸãƒãƒªã‚´ãƒ³ãŒå£ãƒãƒªã‚´ãƒ³ã‹åºŠãƒãƒªã‚´ãƒ³ã‹åˆ¤åˆ¥ã—ã€ä¿å­˜ã™ã‚‹
+    // MEMO:å£ãƒãƒªã‚´ãƒ³(XZå¹³é¢ã«åž‚ç›´ãªãƒãƒªã‚´ãƒ³)ã€åºŠãƒãƒªã‚´ãƒ³(XZå¹³é¢ã«åž‚ç›´ã§ãªã„ãƒãƒªã‚´ãƒ³)
     AnalyzeWallAndFloor(hitDim, oldPos);
 
-    // •Çƒ|ƒŠƒSƒ“‚Æ‚Ì“–‚½‚è”»’è‚ðƒ`ƒFƒbƒN‚µAƒvƒŒƒCƒ„[‚ÌˆÚ“®ƒxƒNƒgƒ‹‚ð•â³‚·‚é
-    nextPos = CheckHitPlayerWithWall(player, nextPos);
-    // °ƒ|ƒŠƒSƒ“‚Æ‚Ì“–‚½‚è”»’è‚ðƒ`ƒFƒbƒN‚µAƒvƒŒƒCƒ„[‚ÌˆÚ“®ƒxƒNƒgƒ‹‚ð•â³‚·‚é
-    nextPos = CheckHitPlayerWithFloor(player, nextPos);
+    // å£ãƒãƒªã‚´ãƒ³ã¨ã®å½“ãŸã‚Šåˆ¤å®šã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
+    nextPos = CheckHitPlayerWithWall(obj, nextPos);
+    // åºŠãƒãƒªã‚´ãƒ³ã¨ã®å½“ãŸã‚Šåˆ¤å®šã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
+    nextPos = CheckHitPlayerWithFloor(obj, nextPos);
 
-    // ŒŸo‚µ‚½ƒvƒŒƒCƒ„[‚ÌŽüˆÍ‚Ìƒ|ƒŠƒSƒ“î•ñ‚ÌŒãŽn––‚ð‚·‚é
+    // æ¤œå‡ºã—ãŸãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å‘¨å›²ã®ãƒãƒªã‚´ãƒ³æƒ…å ±ã®å¾Œå§‹æœ«ã‚’ã™ã‚‹
     MV1CollResultPolyDimTerminate(hitDim);
 
     return nextPos;
 }
 
-
-/*
 /// <summary>
-/// ƒGƒlƒ~[‚Æ“–‚½‚è”»’è‚ð‚µ‚ÄA•â³‚µ‚½ˆÚ“®æ‚Ìƒ|ƒWƒVƒ‡ƒ“‚ð•Ô‚·
+/// æ¤œå‡ºã•ã‚ŒãŸãƒãƒªã‚´ãƒ³ãŒå£ãƒãƒªã‚´ãƒ³ã‹åºŠãƒãƒªã‚´ãƒ³ã‹ã‚’åˆ¤æ–­ã—ã€ä¿å­˜ã™ã‚‹
 /// </summary>
-/// <param name="enemy">ƒGƒlƒ~[ŽQÆ</param>
-/// <param name="moveVec">ƒGƒlƒ~[‚ÌˆÚ“®—Ê</param>
-/// <returns>ˆÚ“®Œã‚ÌÀ•W</returns>
-VECTOR Stage::CheckEnemyCol(EnemyBase& enemy, const VECTOR& moveVec)
-{
-    VECTOR oldPos = enemy.GetPos();		    // ˆÚ“®‘O‚ÌÀ•W	
-    VECTOR nextPos = VAdd(oldPos, moveVec);	// ˆÚ“®Œã‚ÌÀ•W
-
-    // ƒGƒlƒ~[‚ÌŽüˆÍ‚É‚ ‚éƒXƒe[ƒWƒ|ƒŠƒSƒ“‚ðŽæ“¾‚·‚é
-    auto hitDim = MV1CollCheck_Sphere(m_stageHandle, -1, oldPos, kDefaultSize + VSize(moveVec));
-
-    // ŒŸo‚³‚ê‚½ƒ|ƒŠƒSƒ“‚ª•Çƒ|ƒŠƒSƒ“‚©°ƒ|ƒŠƒSƒ“‚©”»•Ê‚µA•Û‘¶‚·‚é
-    AnalyzeWallAndFloor(hitDim, oldPos);
-
-    // •Çƒ|ƒŠƒSƒ“‚Æ‚Ì“–‚½‚è”»’è‚ðƒ`ƒFƒbƒN‚µAƒGƒlƒ~[‚ÌˆÚ“®ƒxƒNƒgƒ‹‚ð•â³‚·‚é
-    nextPos = CheckHitEnemyWithWall(enemy, nextPos);
-    // °ƒ|ƒŠƒSƒ“‚Æ‚Ì“–‚½‚è”»’è‚ðƒ`ƒFƒbƒN‚µAƒGƒlƒ~[‚ÌˆÚ“®ƒxƒNƒgƒ‹‚ð•â³‚·‚é
-    nextPos = CheckHitEnemyWithFloor(enemy, nextPos);
-
-    // ŒŸo‚µ‚½ƒvƒŒƒCƒ„[‚ÌŽüˆÍ‚Ìƒ|ƒŠƒSƒ“î•ñ‚ÌŒãŽn––‚ð‚·‚é
-    MV1CollResultPolyDimTerminate(hitDim);
-
-    return nextPos;
-}
-*/
-
-
-/// <summary>
-/// ŒŸo‚³‚ê‚½ƒ|ƒŠƒSƒ“‚ª•Çƒ|ƒŠƒSƒ“‚©°ƒ|ƒŠƒSƒ“‚©‚ð”»’f‚µA•Û‘¶‚·‚é
-/// </summary>
-/// <param name="hitDim">ü‚Æƒ‚ƒfƒ‹‚Ì“–‚½‚è”»’è</param>
-/// <param name="checkPosition">ˆÚ“®Œã‚ÌÀ•W</param>
+/// <param name="hitDim">ç·šã¨ãƒ¢ãƒ‡ãƒ«ã®å½“ãŸã‚Šåˆ¤å®š</param>
+/// <param name="checkPosition">ç§»å‹•å¾Œã®åº§æ¨™</param>
 void Stage::AnalyzeWallAndFloor(MV1_COLL_RESULT_POLY_DIM hitDim, const VECTOR& checkPosition)
 {
-    // •Çƒ|ƒŠƒSƒ“‚Æ°ƒ|ƒŠƒSƒ“‚Ì”‚ð‰Šú‰»‚·‚é
+    // å£ãƒãƒªã‚´ãƒ³ã¨åºŠãƒãƒªã‚´ãƒ³ã®æ•°ã‚’åˆæœŸåŒ–ã™ã‚‹
     m_wallNum = 0;
     m_floorNum = 0;
 
-    // ŒŸo‚³‚ê‚½ƒ|ƒŠƒSƒ“‚Ì”‚¾‚¯ŒJ‚è•Ô‚·
+    // æ¤œå‡ºã•ã‚ŒãŸãƒãƒªã‚´ãƒ³ã®æ•°ã ã‘ç¹°ã‚Šè¿”ã™
     for (int i = 0; i < hitDim.HitNum; i++)
     {
-        // XZ•½–Ê‚É‚’¼‚©‚Ç‚¤‚©
-        // MEMO:‚’¼‚©‚Ç‚¤‚©‚Íƒ|ƒŠƒSƒ“‚Ì–@ü‚ÌY¬•ª‚ª0‚ÉŒÀ‚è‚È‚­‹ß‚¢‚©‚Ç‚¤‚©‚Å”»’f‚·‚é
+        // XZå¹³é¢ã«åž‚ç›´ã‹ã©ã†ã‹
+        // MEMO:åž‚ç›´ã‹ã©ã†ã‹ã¯ãƒãƒªã‚´ãƒ³ã®æ³•ç·šã®Yæˆåˆ†ãŒ0ã«é™ã‚Šãªãè¿‘ã„ã‹ã©ã†ã‹ã§åˆ¤æ–­ã™ã‚‹
         bool isVertical = hitDim.Dim[i].Normal.y < 0.000001f && hitDim.Dim[i].Normal.y > -0.000001f;
         
-        // XZ•½–Ê‚É‚’¼‚Èê‡(•Çƒ|ƒŠƒSƒ“‚Æ”»’f‚³‚ê‚½ê‡)
+        // XZå¹³é¢ã«åž‚ç›´ãªå ´åˆ(å£ãƒãƒªã‚´ãƒ³ã¨åˆ¤æ–­ã•ã‚ŒãŸå ´åˆ)
         if (isVertical)
         {
-            // •Çƒ|ƒŠƒSƒ“‚Æ”»’f‚³‚ê‚½ê‡‚Å‚àAƒvƒŒƒCƒ„[‚ÌYÀ•W+1.0f‚æ‚è‚‚¢ƒ|ƒŠƒSƒ“‚Ì‚Ý“–‚½‚è”»’è‚ðs‚¤
+            // å£ãƒãƒªã‚´ãƒ³ã¨åˆ¤æ–­ã•ã‚ŒãŸå ´åˆã§ã‚‚ã€ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®Yåº§æ¨™+1.0fã‚ˆã‚Šé«˜ã„ãƒãƒªã‚´ãƒ³ã®ã¿å½“ãŸã‚Šåˆ¤å®šã‚’è¡Œã†
             if (hitDim.Dim[i].Position[0].y > checkPosition.y + 1.0f ||
                 hitDim.Dim[i].Position[1].y > checkPosition.y + 1.0f ||
                 hitDim.Dim[i].Position[2].y > checkPosition.y + 1.0f)
             {
-                // ƒ|ƒŠƒSƒ“‚Ì”‚ª—ñ‹“‚Å‚«‚éŒÀŠE”‚É’B‚µ‚Ä‚¢‚È‚¢ê‡Aƒ|ƒŠƒSƒ“‚ð”z—ñ‚É’Ç‰Á‚·‚é
+                // ãƒãƒªã‚´ãƒ³ã®æ•°ãŒåˆ—æŒ™ã§ãã‚‹é™ç•Œæ•°ã«é”ã—ã¦ã„ãªã„å ´åˆã€ãƒãƒªã‚´ãƒ³ã‚’é…åˆ—ã«è¿½åŠ ã™ã‚‹
                 if (m_wallNum < MaxHitColl)
                 {
-                    // ƒ|ƒŠƒSƒ“‚Ì\‘¢‘Ì‚ÌƒAƒhƒŒƒX‚ð•Çƒ|ƒŠƒSƒ“ƒ|ƒCƒ“ƒ^”z—ñ‚É•Û‘¶‚·‚é
+                    // ãƒãƒªã‚´ãƒ³ã®æ§‹é€ ä½“ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å£ãƒãƒªã‚´ãƒ³ãƒã‚¤ãƒ³ã‚¿é…åˆ—ã«ä¿å­˜ã™ã‚‹
                     m_wall[m_wallNum] = &hitDim.Dim[i];
                     m_wallNum++;
                 }
             }
         }
-        // XZ•½–Ê‚É‚’¼‚Å‚È‚¢ê‡
+        // XZå¹³é¢ã«åž‚ç›´ã§ãªã„å ´åˆ
         else
         {
-            // ƒ|ƒŠƒSƒ“‚Ì”‚ª—ñ‹“‚Å‚«‚éŒÀŠE”‚É’B‚µ‚Ä‚¢‚È‚¢ê‡Aƒ|ƒŠƒSƒ“‚ð”z—ñ‚É’Ç‰Á
+            // ãƒãƒªã‚´ãƒ³ã®æ•°ãŒåˆ—æŒ™ã§ãã‚‹é™ç•Œæ•°ã«é”ã—ã¦ã„ãªã„å ´åˆã€ãƒãƒªã‚´ãƒ³ã‚’é…åˆ—ã«è¿½åŠ 
             if (m_floorNum < MaxHitColl)
             {
-                // ƒ|ƒŠƒSƒ“‚Ì\‘¢‘Ì‚ÌƒAƒhƒŒƒX‚ð°ƒ|ƒŠƒSƒ“ƒ|ƒCƒ“ƒ^”z—ñ‚É•Û‘¶‚·‚é
+                // ãƒãƒªã‚´ãƒ³ã®æ§‹é€ ä½“ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’åºŠãƒãƒªã‚´ãƒ³ãƒã‚¤ãƒ³ã‚¿é…åˆ—ã«ä¿å­˜ã™ã‚‹
                 m_floor[m_floorNum] = &hitDim.Dim[i];
                 m_floorNum++;
             }
@@ -179,44 +146,42 @@ void Stage::AnalyzeWallAndFloor(MV1_COLL_RESULT_POLY_DIM hitDim, const VECTOR& c
 
 
 /// <summary>
-/// ƒvƒŒƒCƒ„[‚Æ•Çƒ|ƒŠƒSƒ“‚Æ‚Ì“–‚½‚è‚ðƒ`ƒFƒbƒN‚·‚é
+/// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨å£ãƒãƒªã‚´ãƒ³ã¨ã®å½“ãŸã‚Šã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 /// </summary>
-/// <param name="player">ƒvƒŒƒCƒ„[ŽQÆ</param>
-/// <param name="checkPosition">ˆÚ“®Œã‚ÌÀ•W</param>
-/// <returns>•â³‚·‚×‚«ƒxƒNƒgƒ‹</returns>
-VECTOR Stage::CheckHitPlayerWithWall(Player& player, const VECTOR& checkPosition)
+/// <param name="player">ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å‚ç…§</param>
+/// <param name="checkPosition">ç§»å‹•å¾Œã®åº§æ¨™</param>
+/// <returns>è£œæ­£ã™ã¹ããƒ™ã‚¯ãƒˆãƒ«</returns>
+VECTOR Stage::CheckHitPlayerWithWall(ObjectBase& obj, const VECTOR& checkPosition)
 {
-    // •â³Œã‚ÌˆÊ’u
+    // è£œæ­£å¾Œã®ä½ç½®
     VECTOR fixedPos = checkPosition;
 
-    // •Ç‚Ì”‚ª‚È‚©‚Á‚½‚ç‰½‚à‚µ‚È‚¢
     if (m_wallNum == 0) return fixedPos;
 
-    // •Ç‚©‚ç‚Ì‰Ÿ‚µo‚µˆ—‚ðs‚¤
+    // å£ã‹ã‚‰ã®æŠ¼ã—å‡ºã—å‡¦ç†ã‚’è¡Œã†
     for (int i = 0; i < kHitTryNum; i++)
     {
-        // “–‚½‚é‰Â”\«‚Ì‚ ‚é•Çƒ|ƒŠƒSƒ“‚ð‘S‚ÄŒ©‚é
+        // å½“ãŸã‚‹å¯èƒ½æ€§ã®ã‚ã‚‹å£ãƒãƒªã‚´ãƒ³ã‚’å…¨ã¦è¦‹ã‚‹
         bool isHitWall = false;
         for (int i = 0; i < m_wallNum; i++)
         {
-            // i”Ô–Ú‚Ì•Çƒ|ƒŠƒSƒ“‚ÌƒAƒhƒŒƒX‚ð•Çƒ|ƒŠƒSƒ“ƒ|ƒCƒ“ƒ^”z—ñ‚©‚çŽæ“¾
+            // iç•ªç›®ã®å£ãƒãƒªã‚´ãƒ³ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å£ãƒãƒªã‚´ãƒ³ãƒã‚¤ãƒ³ã‚¿é…åˆ—ã‹ã‚‰å–å¾—
             auto poly = m_wall[i];
 
-            // ƒvƒŒƒCƒ„[‚ÌI“_
+            // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®çµ‚ç‚¹
             VECTOR fixedEndPos = VAdd(fixedPos, VGet(0.0f, kHitHeight, 0.0f));
-            // ƒvƒŒƒCƒ„[‚ª•Ç‚É“–‚½‚Á‚Ä‚¢‚é‚©
+            // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå£ã«å½“ãŸã£ã¦ã„ã‚‹ã‹
             bool isHit = HitCheck_Capsule_Triangle(fixedPos, fixedEndPos, kHitWidth, poly->Position[0], poly->Position[1], poly->Position[2]);
 
-            // ƒvƒŒƒCƒ„[‚Æ“–‚½‚Á‚Ä‚¢‚éê‡
+            // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨å½“ãŸã£ã¦ã„ã‚‹å ´åˆ
             if (isHit)
             {
-                // ƒvƒŒƒCƒ„[‚ð•Ç‚Ì–@ü•ûŒü‚ÉˆÚ“®‚³‚¹‚é
+                // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å£ã®æ³•ç·šæ–¹å‘ã«ç§»å‹•ã•ã›ã‚‹
                 fixedPos = VAdd(fixedPos, VScale(poly->Normal, kHitSlideLength));
 
-                // ˆÚ“®‚µ‚½•Çƒ|ƒŠƒSƒ“‚ÆÚG‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©”»’è‚·‚é
+                // ç§»å‹•ã—ãŸå£ãƒãƒªã‚´ãƒ³ã¨æŽ¥è§¦ã—ã¦ã„ã‚‹ã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹
                 for (int j = 0; j < m_wallNum; j++)
                 {
-                    // “–‚½‚Á‚Ä‚¢‚½‚çƒ‹[ƒv‚ð”²‚¯‚é
                     poly = m_wall[j];
                     if (isHit)
                     {
@@ -225,12 +190,12 @@ VECTOR Stage::CheckHitPlayerWithWall(Player& player, const VECTOR& checkPosition
                     }
                 }
 
-                // ‘S‚Ä‚Ìƒ|ƒŠƒSƒ“‚Æ“–‚½‚Á‚Ä‚¢‚È‚©‚Á‚½‚çƒ‹[ƒvI—¹
+                // å…¨ã¦ã®ãƒãƒªã‚´ãƒ³ã¨å½“ãŸã£ã¦ã„ãªã‹ã£ãŸã‚‰ãƒ«ãƒ¼ãƒ—çµ‚äº†
                 if (!isHitWall) break;
             }
         }
 
-        // ‘S‚Ä‚Ì•Çƒ|ƒŠƒSƒ“‚ÆÚG‚µ‚È‚­‚È‚Á‚½‚çƒ‹[ƒv‚©‚ç”²‚¯‚é
+        // å…¨ã¦ã®å£ãƒãƒªã‚´ãƒ³ã¨æŽ¥è§¦ã—ãªããªã£ãŸã‚‰ãƒ«ãƒ¼ãƒ—ã‹ã‚‰æŠœã‘ã‚‹
         if (!isHitWall) break;
     }
 
@@ -239,16 +204,15 @@ VECTOR Stage::CheckHitPlayerWithWall(Player& player, const VECTOR& checkPosition
 
 
  ///<summary>
- /// ƒvƒŒƒCƒ„[‚Æ°ƒ|ƒŠƒSƒ“‚Æ‚Ì“–‚½‚è‚ðƒ`ƒFƒbƒN‚·‚é
+ /// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨åºŠãƒãƒªã‚´ãƒ³ã¨ã®å½“ãŸã‚Šã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
  ///</summary>
- ///<param name="player">ƒvƒŒƒCƒ„[ŽQÆ</param>
- ///<param name="checkPosition">ˆÚ“®Œã‚ÌÀ•W</param>
- ///<returns>•â³‚·‚×‚«ƒxƒNƒgƒ‹</returns>
-VECTOR Stage::CheckHitPlayerWithFloor(Player& player, const VECTOR& checkPosition)
+ ///<param name="player">ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å‚ç…§</param>
+ ///<param name="checkPosition">ç§»å‹•å¾Œã®åº§æ¨™</param>
+ ///<returns>è£œæ­£ã™ã¹ããƒ™ã‚¯ãƒˆãƒ«</returns>
+VECTOR Stage::CheckHitPlayerWithFloor(ObjectBase& obj, const VECTOR& checkPosition)
 {
     VECTOR fixedPos = checkPosition;
 
-    // °‚Ì”‚ª‚È‚©‚Á‚½‚ç‰½‚à‚µ‚È‚¢
     if (m_floorNum == 0) return fixedPos;
 
     bool isHitFloor = false;
@@ -256,147 +220,33 @@ VECTOR Stage::CheckHitPlayerWithFloor(Player& player, const VECTOR& checkPositio
 
     for (int i = 0; i < m_floorNum; i++)
     {
-        auto poly = m_floor[i]; // i”Ô–Ú‚Ì°ƒ|ƒŠƒSƒ“‚ÌƒAƒhƒŒƒX
+        auto poly = m_floor[i]; // iç•ªç›®ã®åºŠãƒãƒªã‚´ãƒ³ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
 
-        HITRESULT_LINE lineResult{};  // ü•ª‚Æƒ|ƒŠƒSƒ“‚Æ‚Ì“–‚½‚è”»’è‚ÌŒ‹‰Ê‚ð‘ã“ü‚·‚é\‘¢‘Ì
-        VECTOR topPos = VAdd(fixedPos, VGet(0.0f, kHitHeight, 0.0f));       // ƒvƒŒƒCƒ„[‚Ì“ª‚Ìæ‚ÌˆÊ’u
-        VECTOR bottomPos = VAdd(fixedPos, VGet(0.0f, kHitBottom, 0.0f));    // ƒvƒŒƒCƒ„[‚Ì‘«Œ³‚æ‚è­‚µ’á‚¢ˆÊ’u
-        VECTOR bottomPos2 = VAdd(fixedPos, VGet(0.0f, kHitBottom2, 0.0f));  // ƒvƒŒƒCƒ„[‚Ì‘«Œ³‚æ‚è‚³‚ç‚É’á‚¢ˆÊ’u
+        HITRESULT_LINE lineResult{};  // ç·šåˆ†ã¨ãƒãƒªã‚´ãƒ³ã¨ã®å½“ãŸã‚Šåˆ¤å®šã®çµæžœã‚’ä»£å…¥ã™ã‚‹æ§‹é€ ä½“
+        VECTOR topPos = VAdd(fixedPos, VGet(0.0f, kHitHeight, 0.0f));       // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å§‹ç‚¹å…ˆã®ä½ç½®
+        VECTOR bottomPos = VAdd(fixedPos, VGet(0.0f, kHitBottom, 0.0f));    // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®çµ‚ç‚¹å°‘ã—ä½Žã„ä½ç½®
+        VECTOR bottomPos2 = VAdd(fixedPos, VGet(0.0f, kHitBottom2, 0.0f));  // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®çµ‚ç‚¹ã•ã‚‰ã«ä½Žã„ä½ç½®
 
-        // “ª‚Ìæ‚©‚ç‚»‚±‚»‚±’á‚¢ˆÊ’u‚ÌŠÔ‚Å“–‚½‚Á‚Ä‚¢‚é‚©‚ð”»’è‚·‚é
+        // å§‹ç‚¹ã‹ã‚‰ãã“ãã“ä½Žã„ä½ç½®ã®é–“ã§å½“ãŸã£ã¦ã„ã‚‹ã‹ã‚’åˆ¤å®šã™ã‚‹
         lineResult = HitCheck_Line_Triangle(topPos, bottomPos2, poly->Position[0], poly->Position[1], poly->Position[2]);
 
-        // Šù‚É“–‚½‚Á‚½ƒ|ƒŠƒSƒ“‚ª‚ ‚èAŒŸo‚µ‚½°ƒ|ƒŠƒSƒ“‚æ‚è’á‚¢ê‡‰½‚à‚µ‚È‚¢
+        // æ—¢ã«å½“ãŸã£ãŸãƒãƒªã‚´ãƒ³ãŒã‚ã‚Šã€æ¤œå‡ºã—ãŸåºŠãƒãƒªã‚´ãƒ³ã‚ˆã‚Šä½Žã„å ´åˆä½•ã‚‚ã—ãªã„
         if (lineResult.HitFlag)
         {
             if (!(isHitFloor && maxY > lineResult.Position.y))
             {
-                // ÚG‚µ‚½YÀ•W‚ð•Û‘¶‚·‚é
+                // æŽ¥è§¦ã—ãŸYåº§æ¨™ã‚’ä¿å­˜ã™ã‚‹
                 isHitFloor = true;
                 maxY = lineResult.Position.y;
             }
         }
     }
 
-    // °ƒ|ƒŠƒSƒ“‚É“–‚½‚Á‚½ê‡
+    // åºŠãƒãƒªã‚´ãƒ³ã«å½“ãŸã£ãŸå ´åˆ
     if (isHitFloor)
     {
-        // ƒvƒŒƒCƒ„[‚ð°‚ÉÚG‚³‚¹‚é
         fixedPos.y = maxY;
     }
 
     return fixedPos;
 }
-
-/*
-/// <summary>
-/// ƒGƒlƒ~[‚Æ•Çƒ|ƒŠƒSƒ“‚Æ‚Ì“–‚½‚è‚ðƒ`ƒFƒbƒN‚·‚é
-/// </summary>
-/// <param name="enemy">ƒGƒlƒ~[ŽQÆ</param>
-/// <param name="checkPosition">ˆÚ“®Œã‚ÌÀ•W</param>
-/// <returns>•â³‚·‚×‚«ƒxƒNƒgƒ‹</returns>
-VECTOR Stage::CheckHitEnemyWithWall(EnemyBase& enemy, const VECTOR& checkPosition)
-{
-    // •â³Œã‚ÌˆÊ’u
-    VECTOR fixedPos = checkPosition;
-
-    // •Ç‚Ì”‚ª‚È‚©‚Á‚½‚ç‰½‚à‚µ‚È‚¢
-    if (m_wallNum == 0) return fixedPos;
-
-    // •Ç‚©‚ç‚Ì‰Ÿ‚µo‚µˆ—‚ðs‚¤
-    for (int i = 0; i < kHitTryNum; i++)
-    {
-        // “–‚½‚é‰Â”\«‚Ì‚ ‚é•Çƒ|ƒŠƒSƒ“‚ð‘S‚ÄŒ©‚é
-        bool isHitWall = false;
-        for (int i = 0; i < m_wallNum; i++)
-        {
-            // i”Ô–Ú‚Ì•Çƒ|ƒŠƒSƒ“‚ÌƒAƒhƒŒƒX‚ð•Çƒ|ƒŠƒSƒ“ƒ|ƒCƒ“ƒ^”z—ñ‚©‚çŽæ“¾
-            auto poly = m_wall[i];
-
-            // ƒGƒlƒ~[‚ÌI“_
-            VECTOR fixedEndPos = VAdd(fixedPos, VGet(0.0f, kHitHeight, 0.0f));
-            // ƒGƒlƒ~[‚ª•Ç‚É“–‚½‚Á‚Ä‚¢‚é‚©
-            bool isHit = HitCheck_Capsule_Triangle(fixedPos, fixedEndPos, kHitWidth, poly->Position[0], poly->Position[1], poly->Position[2]);
-
-            // ƒGƒlƒ~[‚Æ“–‚½‚Á‚Ä‚¢‚éê‡
-            if (isHit)
-            {
-                // ƒGƒlƒ~[‚ð•Ç‚Ì–@ü•ûŒü‚ÉˆÚ“®‚³‚¹‚é
-                fixedPos = VAdd(fixedPos, VScale(poly->Normal, kHitSlideLength));
-
-                // ˆÚ“®‚µ‚½•Çƒ|ƒŠƒSƒ“‚ÆÚG‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©”»’è‚·‚é
-                for (int j = 0; j < m_wallNum; j++)
-                {
-                    // “–‚½‚Á‚Ä‚¢‚½‚çƒ‹[ƒv‚ð”²‚¯‚é
-                    poly = m_wall[j];
-                    if (isHit)
-                    {
-                        isHitWall = true;
-                        break;
-                    }
-                }
-
-                // ‘S‚Ä‚Ìƒ|ƒŠƒSƒ“‚Æ“–‚½‚Á‚Ä‚¢‚È‚©‚Á‚½‚çƒ‹[ƒvI—¹
-                if (!isHitWall) break;
-            }
-        }
-
-        // ‘S‚Ä‚Ì•Çƒ|ƒŠƒSƒ“‚ÆÚG‚µ‚È‚­‚È‚Á‚½‚çƒ‹[ƒv‚©‚ç”²‚¯‚é
-        if (!isHitWall) break;
-    }
-
-    return fixedPos;
-}
-*/
-
-/*
-/// <summary>
-/// ƒGƒlƒ~[‚Æ°ƒ|ƒŠƒSƒ“‚Æ‚Ì“–‚½‚è‚ðƒ`ƒFƒbƒN‚·‚é
-/// </summary>
-/// <param name="enemy">ƒGƒlƒ~[ŽQÆ</param>
-/// <param name="checkPosition">ˆÚ“®Œã‚ÌÀ•W</param>
-/// <returns>•â³‚·‚×‚«ƒxƒNƒgƒ‹</returns>
-VECTOR Stage::CheckHitEnemyWithFloor(EnemyBase& enemy, const VECTOR& checkPosition)
-{
-    VECTOR fixedPos = checkPosition;
-
-    // °‚Ì”‚ª‚È‚©‚Á‚½‚ç‰½‚à‚µ‚È‚¢
-    if (m_floorNum == 0) return fixedPos;
-
-    bool isHitFloor = false;
-    float maxY = 0.0f;
-
-    for (int i = 0; i < m_floorNum; i++)
-    {
-        auto poly = m_floor[i]; // i”Ô–Ú‚Ì°ƒ|ƒŠƒSƒ“‚ÌƒAƒhƒŒƒX
-
-        HITRESULT_LINE lineResult{};  // ü•ª‚Æƒ|ƒŠƒSƒ“‚Æ‚Ì“–‚½‚è”»’è‚ÌŒ‹‰Ê‚ð‘ã“ü‚·‚é\‘¢‘Ì
-        VECTOR topPos = VAdd(fixedPos, VGet(0.0f, kHitHeight, 0.0f));       // ƒGƒlƒ~[‚Ì“ª‚Ìæ‚ÌˆÊ’u
-        VECTOR bottomPos = VAdd(fixedPos, VGet(0.0f, kHitBottom, 0.0f));    // ƒGƒlƒ~[‚Ì‘«Œ³‚æ‚è­‚µ’á‚¢ˆÊ’u
-        VECTOR bottomPos2 = VAdd(fixedPos, VGet(0.0f, kHitBottom2, 0.0f));  // ƒGƒlƒ~[‚Ì‘«Œ³‚æ‚è‚³‚ç‚É’á‚¢ˆÊ’u
-
-        // “ª‚Ìæ‚©‚ç‚»‚±‚»‚±’á‚¢ˆÊ’u‚ÌŠÔ‚Å“–‚½‚Á‚Ä‚¢‚é‚©‚ð”»’è‚·‚é
-        lineResult = HitCheck_Line_Triangle(topPos, bottomPos2, poly->Position[0], poly->Position[1], poly->Position[2]);
-
-        // Šù‚É“–‚½‚Á‚½ƒ|ƒŠƒSƒ“‚ª‚ ‚èAŒŸo‚µ‚½°ƒ|ƒŠƒSƒ“‚æ‚è’á‚¢ê‡‰½‚à‚µ‚È‚¢
-        if (lineResult.HitFlag)
-        {
-            if (!(isHitFloor && maxY > lineResult.Position.y))
-            {
-                // ÚG‚µ‚½YÀ•W‚ð•Û‘¶‚·‚é
-                isHitFloor = true;
-                maxY = lineResult.Position.y;
-            }
-        }
-    }
-
-    // °ƒ|ƒŠƒSƒ“‚É“–‚½‚Á‚½ê‡
-    if (isHitFloor)
-    {
-        // ƒGƒlƒ~[‚ð°‚ÉÚG‚³‚¹‚é
-        fixedPos.y = maxY;
-    }
-
-    return fixedPos;
-}
-*/

@@ -1,10 +1,9 @@
-#pragma once
+ï»¿#pragma once
 
-class Player;
-class EnemyBase;
+class ObjectBase;
 
 /// <summary>
-/// ƒXƒe[ƒW‚ÌXV‚Æ•`‰æ‚ğs‚¤ƒNƒ‰ƒX
+/// ã‚¹ãƒ†ãƒ¼ã‚¸ã®æ›´æ–°ã¨æç”»ã‚’è¡Œã†ã‚¯ãƒ©ã‚¹
 /// </summary>
 class Stage
 {
@@ -12,37 +11,29 @@ public:
 	Stage();
 	virtual ~Stage();
 	void Draw();
-	// ƒvƒŒƒCƒ„[‚Æ“–‚½‚è”»’è‚ğ‚µ‚ÄA•â³‚µ‚½ˆÚ“®æ‚Ìƒ|ƒWƒVƒ‡ƒ“‚ğ•Ô‚·
-	VECTOR CheckPlayerCol(Player& player, const VECTOR& moveVec);
-	// ƒGƒlƒ~[‚Æ“–‚½‚è”»’è‚ğ‚µ‚ÄA•â³‚µ‚½ˆÚ“®æ‚Ìƒ|ƒWƒVƒ‡ƒ“‚ğ•Ô‚·
-	VECTOR CheckEnemyCol(EnemyBase& enemy, const VECTOR& moveVec);
-	// ƒXƒe[ƒW‚Ì”z’uƒf[ƒ^‚ğæ“¾‚·‚é
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨å½“ãŸã‚Šåˆ¤å®šã‚’ã—ã¦ã€è£œæ­£ã—ãŸç§»å‹•å…ˆã®ãƒã‚¸ã‚·ãƒ§ãƒ³ã‚’è¿”ã™
+	VECTOR CheckObjectCol(ObjectBase& obj, const VECTOR& moveVec);
 
-
-	// ƒXƒe[ƒWƒ‚ƒfƒ‹‚ğæ“¾
+	// ã‚¹ãƒ†ãƒ¼ã‚¸ãƒ¢ãƒ‡ãƒ«ã‚’å–å¾—
 	int GetStageHandle() const { return m_stageHandle; }
 
 private:
-	// ŒŸo‚³‚ê‚½ƒ|ƒŠƒSƒ“‚ª•Çƒ|ƒŠƒSƒ“‚©°ƒ|ƒŠƒSƒ“‚©‚ğ”»’f‚·‚é
+	// æ¤œå‡ºã•ã‚ŒãŸãƒãƒªã‚´ãƒ³ãŒå£ãƒãƒªã‚´ãƒ³ã‹åºŠãƒãƒªã‚´ãƒ³ã‹ã‚’åˆ¤æ–­ã™ã‚‹
 	void AnalyzeWallAndFloor(MV1_COLL_RESULT_POLY_DIM hitDim, const VECTOR& checkPosition);
-	// ƒvƒŒƒCƒ„[‚Æ•Çƒ|ƒŠƒSƒ“‚Æ‚Ì“–‚½‚è‚ğƒ`ƒFƒbƒN‚·‚é
-	VECTOR CheckHitPlayerWithWall(Player& player, const VECTOR& checkPosition);
-	// ƒvƒŒƒCƒ„[‚Æ°ƒ|ƒŠƒSƒ“‚Æ‚Ì“–‚½‚è‚ğƒ`ƒFƒbƒN‚·‚é
-	VECTOR CheckHitPlayerWithFloor(Player& player, const VECTOR& checkPosition);
-	// ƒGƒlƒ~[‚Æ•Çƒ|ƒŠƒSƒ“‚Æ‚Ì“–‚½‚è‚ğƒ`ƒFƒbƒN‚·‚é
-	VECTOR CheckHitEnemyWithWall(EnemyBase& enemy, const VECTOR& checkPosition);
-	// ƒGƒlƒ~[‚Æ°ƒ|ƒŠƒSƒ“‚Æ‚Ì“–‚½‚è‚ğƒ`ƒFƒbƒN‚·‚é
-	VECTOR CheckHitEnemyWithFloor(EnemyBase& enemy, const VECTOR& checkPosition);
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨å£ãƒãƒªã‚´ãƒ³ã¨ã®å½“ãŸã‚Šã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
+	VECTOR CheckHitPlayerWithWall(ObjectBase& player, const VECTOR& checkPosition);
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨åºŠãƒãƒªã‚´ãƒ³ã¨ã®å½“ãŸã‚Šã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
+	VECTOR CheckHitPlayerWithFloor(ObjectBase& player, const VECTOR& checkPosition);
 
 private:
-	// ƒXƒe[ƒWî•ñ
-	int m_wallNum;			// •Çƒ|ƒŠƒSƒ“‚Ì”
-	int	m_floorNum;			// °ƒ|ƒŠƒSƒ“‚Ì”
-	int m_stageHandle;		// ƒXƒe[ƒW‚Ì3Dƒ‚ƒfƒ‹
-	int m_skydoomHandle;	// ƒXƒJƒCƒh[ƒ€‚Ì3Dƒ‚ƒfƒ‹
+	// ã‚¹ãƒ†ãƒ¼ã‚¸æƒ…å ±
+	int m_wallNum;			// å£ãƒãƒªã‚´ãƒ³ã®æ•°
+	int	m_floorNum;			// åºŠãƒãƒªã‚´ãƒ³ã®æ•°
+	int m_stageHandle;		// ã‚¹ãƒ†ãƒ¼ã‚¸ã®3Dãƒ¢ãƒ‡ãƒ«
+	int m_skydoomHandle;	// ã‚¹ã‚«ã‚¤ãƒ‰ãƒ¼ãƒ ã®3Dãƒ¢ãƒ‡ãƒ«
 
-	static const int MaxHitColl = 2048;			// ˆ—‚·‚éƒRƒŠƒWƒ‡ƒ“ƒ|ƒŠƒSƒ“‚ÌÅ‘å”
-	MV1_COLL_RESULT_POLY* m_wall[MaxHitColl];	// •Çƒ|ƒŠƒSƒ“‚Ì\‘¢‘Ì‚ÌƒAƒhƒŒƒX‚ğ•Û‘¶‚µ‚Ä‚¨‚­‚½‚ß‚Ìƒ|ƒCƒ“ƒ^”z—ñ
-	MV1_COLL_RESULT_POLY* m_floor[MaxHitColl];	// °ƒ|ƒŠƒSƒ“‚Ì\‘¢‘Ì‚ÌƒAƒhƒŒƒX‚ğ•Û‘¶‚µ‚Ä‚¨‚­‚½‚ß‚Ìƒ|ƒCƒ“ƒ^”z—ñ
+	static const int MaxHitColl = 2048;			// å‡¦ç†ã™ã‚‹ã‚³ãƒªã‚¸ãƒ§ãƒ³ãƒãƒªã‚´ãƒ³ã®æœ€å¤§æ•°
+	MV1_COLL_RESULT_POLY* m_wall[MaxHitColl];	// å£ãƒãƒªã‚´ãƒ³ã®æ§‹é€ ä½“ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ä¿å­˜ã—ã¦ãŠããŸã‚ã®ãƒã‚¤ãƒ³ã‚¿é…åˆ—
+	MV1_COLL_RESULT_POLY* m_floor[MaxHitColl];	// åºŠãƒãƒªã‚´ãƒ³ã®æ§‹é€ ä½“ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ä¿å­˜ã—ã¦ãŠããŸã‚ã®ãƒã‚¤ãƒ³ã‚¿é…åˆ—
 };
 

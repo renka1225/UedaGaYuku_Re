@@ -15,12 +15,11 @@ namespace
 /// </summary>
 CharacterBase::CharacterBase():
 	m_colData(),
+	m_updateCol(),
 	m_animData(),
 	m_status(),
-	m_moveDir(VGet(0.0f, 0.0f, 0.0f)),
 	m_angle(0.0f),
 	m_hp(0.0f),
-	m_modelHandle(-1),
 	m_currentPlayAnim(-1),
 	m_prevPlayAnim(-1),
 	m_animBlendRate(0.0f),
@@ -158,13 +157,13 @@ void CharacterBase::UpdateCol()
 
 	// プレイヤー全体の当たり判定位置を更新
 	m_updateCol.bodyStartPos = VAdd(m_pos, (VTransform(m_colData.bodyStartPos, rotationMatrix)));
-	m_updateCol.bodyEndPos = VAdd(m_colData.bodyStartPos, (VTransform(m_colData.bodyEndPos, rotationMatrix)));
+	m_updateCol.bodyEndPos = VAdd(m_updateCol.bodyStartPos, (VTransform(m_colData.bodyEndPos, rotationMatrix)));
 
 	// 腕の当たり判定位置を更新
 	m_updateCol.armStartPos = VAdd(m_pos, (VTransform(m_colData.armStartPos, rotationMatrix)));
-	m_updateCol.armEndPos = VAdd(m_colData.armStartPos, (VTransform(m_colData.armEndPos, rotationMatrix)));
+	m_updateCol.armEndPos = VAdd(m_updateCol.armStartPos, (VTransform(m_colData.armEndPos, rotationMatrix)));
 
 	// 脚の当たり判定位置を更新
 	m_updateCol.legStartPos = VAdd(m_pos, (VTransform(m_colData.legStartPos, rotationMatrix)));
-	m_updateCol.legEndPos = VAdd(m_colData.legStartPos, (VTransform(m_colData.legEndPos, rotationMatrix)));
+	m_updateCol.legEndPos = VAdd(m_updateCol.legStartPos, (VTransform(m_colData.legEndPos, rotationMatrix)));
 }
