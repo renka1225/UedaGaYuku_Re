@@ -80,6 +80,7 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
+      <DisableSpecificWarnings>4099</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -99,6 +100,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
+      <DisableSpecificWarnings>4099</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -118,6 +120,7 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
+      <DisableSpecificWarnings>4099</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -137,6 +140,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
+      <DisableSpecificWarnings>4099</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -156,6 +160,8 @@
     <ClCompile Include="Chara\Enemy\Enemy01.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyStateBase.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyStateIdle.cpp" />
+    <ClCompile Include="Chara\Enemy\EnemyStateRun.cpp" />
+    <ClCompile Include="Chara\Enemy\EnemyStateWalk.cpp" />
     <ClCompile Include="Object\ObjectBase.cpp" />
     <ClCompile Include="Util\LoadCsv.cpp" />
     <ClCompile Include="Debug\DebugDraw.cpp" />
@@ -184,6 +190,8 @@
     <ClInclude Include="Chara\Enemy\Enemy01.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateBase.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateIdle.h" />
+    <ClInclude Include="Chara\Enemy\EnemyStateRun.h" />
+    <ClInclude Include="Chara\Enemy\EnemyStateWalk.h" />
     <ClInclude Include="Object\ObjectBase.h" />
     <ClInclude Include="Util\LoadCsv.h" />
     <ClInclude Include="Debug\DebugDraw.h" />

@@ -37,6 +37,8 @@ void ObjectBase::Update()
 {
 	// 重力を足す
 	m_pos = VAdd(m_pos, VGet(0.0f, m_gravity, 0.0f));
+
+	MV1SetPosition(m_modelHandle, m_pos);	// 位置を更新
 }
 
 /// <summary>

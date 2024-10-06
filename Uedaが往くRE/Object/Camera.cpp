@@ -87,42 +87,14 @@ void Camera::Update(Input& input, const Player& player, const Stage& stage)
 		m_angleV = std::min(kMinAngleV, m_angleV);
 	}
 
-	// カメラの注視点を設定する
-	m_target = VAdd(player.GetPos(), VGet(0.0f, kHeight, 0.0f));
-
-	//// カメラをプレイヤーに追従させる
-	//VECTOR toCameraPos = VSub(m_pos, m_target);
-	//float height = toCameraPos.y;
-	//toCameraPos.y = 0.0f;
-	//float toCameraPosLen = VSize(toCameraPos);
-	//toCameraPos = VNorm(toCameraPos);
-
-	//// 新しい注視点を決める
-	//VECTOR target = player.GetPos();
-	//target.y += kHeight;
-
-	//// 新しい注視点と現在のカメラの始点からベクトルを求める
-	//VECTOR toNewCameraPos = VSub(m_pos, target);
-	//toNewCameraPos.y = 0.0f;
-	//toNewCameraPos = VNorm(toNewCameraPos);
-
-	//printfDx("X:%.2f, Z:%.2f, Z:%.2f\n", toNewCameraPos.x, toNewCameraPos.y, toNewCameraPos.z);
-
-	//float weight = 0.7f;
-	//toNewCameraPos = VAdd(VScale(toNewCameraPos, weight), VScale(toCameraPos, (1.0f - weight)));
-	//toNewCameraPos = VNorm(toNewCameraPos);
-	//toNewCameraPos = VScale(toNewCameraPos, toCameraPosLen);
-	//toNewCameraPos.y = height;
-	//m_pos = VAdd(target, toNewCameraPos);
-	//m_target = target;
-
-	// カメラ位置補正
-	FixCameraPos();
-
-	SetCameraPositionAndTarget_UpVecY(m_pos, m_target);
-
 	// カメラの当たり判定をチェック
 	CheckCameraCol(stage);
+	// カメラの注視点を設定する
+	m_target = VAdd(player.GetPos(), VGet(0.0f, kHeight, 0.0f));
+	// カメラ位置補正
+	FixCameraPos(player);
+
+	SetCameraPositionAndTarget_UpVecY(m_pos, m_target);
 
 	//カメラの見ている方向にディレクションライトを設定する
 	SetLightDirectionHandle(m_lightHandle, VNorm(VSub(m_target, m_pos)));
@@ -131,7 +103,7 @@ void Camera::Update(Input& input, const Player& player, const Stage& stage)
 /// <summary>
 /// カメラ位置を補正する
 /// </summary>
-void Camera::FixCameraPos()
+void Camera::FixCameraPos(const Player& player)
 {
 	m_rotY = MGetRotY(m_angleH);	// 水平方向の回転
 	m_rotZ = MGetRotZ(m_angleV);	// 垂直方向の回転
@@ -141,8 +113,33 @@ void Camera::FixCameraPos()
 	m_pos = VTransform(VGet(-kDist, 0.0f, 0.0f), m_rotZ);
 	// 水平方向(Y軸回転)に回転する
 	m_pos = VTransform(m_pos, m_rotY);
+
+	//// カメラをプレイヤーの背後に追従させる
+	//VECTOR playerBackDir = VScale(player.GetDir(), -1);  // プレイヤーの背後ベクトルを計算
+	//VECTOR cameraDir = VNorm(VSub(m_pos, m_target));	 // プレイヤーからカメラまでのベクトルを計算
+	//float dot = VDot(playerBackDir, cameraDir); // 内積
+	//float angle = acosf(dot);
+
+	//printfDx("%.2f\n", dot);
+
+	//if (dot < 45.0f)
+	//{
+	//	// カメラをプレイヤーの背後に移動させる
+	//	VECTOR cameraOffset = VScale(player.GetDir(), -kDist);
+	//	m_pos = VAdd(m_target, cameraOffset);
+	//}
+
 	// 注視点の座標を足す
 	m_pos = VAdd(m_pos, m_target);
+}
+
+/// <summary>
+/// カメラの線形補間を行う
+/// </summary>
+/// <returns>補間後の座標</returns>
+VECTOR Camera::LerpCamera()
+{
+	return VAdd(m_pos, VScale(m_pos, 0.3f));
 }
 
 

@@ -5,7 +5,7 @@
 /// <summary>
 /// 敵の基底クラス
 /// </summary>
-class EnemyBase : public CharacterBase
+class EnemyBase : public CharacterBase, public std::enable_shared_from_this<EnemyBase>
 {
 public:
 	EnemyBase();

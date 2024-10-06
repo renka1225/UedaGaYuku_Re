@@ -12,7 +12,7 @@ public:
 	EnemyStateIdle(std::shared_ptr<EnemyBase> pEnemy) : EnemyStateBase(pEnemy) {};
 	void Init();
 	virtual void Update(Stage& stage);
-	virtual EnemyStatekind GetKind() override { return EnemyStatekind::kIdle; };
+	virtual EnemyStateKind GetKind() override { return EnemyStateKind::kIdle; };
 
 #ifdef _DEBUG
 	// 現在の状態名を取得

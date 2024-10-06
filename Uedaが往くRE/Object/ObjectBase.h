@@ -16,8 +16,8 @@ public:
 	virtual void Draw();
 	void Move(const VECTOR& moveVec, Stage& stage);
 
-	VECTOR GetPos() const { return m_pos; }	// 座標を取得
-
+	VECTOR GetPos() const { return m_pos; }		// 座標を取得
+	VECTOR GetDir() const { return m_moveDir; }	// 向くべき方向のベクトルを取得
 
 protected:
 	std::shared_ptr<Stage> m_pStage;	// ステージのポインタ

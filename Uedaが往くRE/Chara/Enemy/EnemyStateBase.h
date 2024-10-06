@@ -13,7 +13,7 @@ class EnemyStateBase : public std::enable_shared_from_this<EnemyStateBase>
 {
 public:
 	// 敵の状態
-	enum class EnemyStatekind
+	enum class EnemyStateKind
 	{
 		kIdle,	// 待機
 		kWalk,	// 歩き
@@ -23,7 +23,7 @@ public:
 	EnemyStateBase(std::shared_ptr<EnemyBase> pEnemy);
 	virtual void Update(Stage& stage) = 0;
 	// 現在の状態を取得
-	virtual EnemyStatekind GetKind() = 0;
+	virtual EnemyStateKind GetKind() = 0;
 
 #ifdef _DEBUG
 	// 現在の状態名を取得

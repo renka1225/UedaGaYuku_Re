@@ -21,7 +21,8 @@ public:
 	float GetAngleH() const{ return m_angleH; }	 // カメラの水平角度を取得
 
 private:
-	void FixCameraPos();					 // カメラ位置補正
+	void FixCameraPos(const Player& player); // カメラ位置補正
+	VECTOR LerpCamera();					 // カメラの線形補間を行う
 	void CheckCameraCol(const Stage& stage); // カメラの当たり判定をチェックする
 
 private:

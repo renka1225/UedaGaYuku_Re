@@ -4,7 +4,8 @@
 
 namespace
 {
-	const std::string kCharaId = "enmey_01";				// キャラクターのID名
+	const std::string kCharaId = "enemy_01";						// キャラクターのID名
+	const char* kModelFileName = ("data/model/chara/enemy_01.mv1");	// モデルのファイル名
 	const VECTOR kInitPos = VGet(7600.0, 40.0f, 5300.0f);	// 初期位置
 }
 
@@ -13,9 +14,8 @@ namespace
 /// </summary>
 Enemy01::Enemy01()
 {
-	m_modelHandle = MV1LoadModel("data/model/chara/enemy_01.mv1");
-
-	MV1SetPosition(m_modelHandle, kInitPos);
+	m_pos = kInitPos;
+	m_modelHandle = MV1LoadModel(kModelFileName);
 
 	// ステータスを読み込む
 	LoadCsv::GetInstance().LoadStatus(m_status, kCharaId);
@@ -27,6 +27,7 @@ Enemy01::Enemy01()
 /// </summary>
 Enemy01::~Enemy01()
 {
+	CharacterBase::~CharacterBase();
 }
 
 /// <summary>
@@ -51,5 +52,4 @@ void Enemy01::Update(Stage& stage)
 void Enemy01::Draw()
 {
 	EnemyBase::Draw();
-	DrawFormatString(0, 100, 0xffffff, "敵座標(X:%.2f, Y:%.2f, Z:%.2f", m_pos.x, m_pos.y, m_pos.z);
 }

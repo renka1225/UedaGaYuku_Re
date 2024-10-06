@@ -36,9 +36,22 @@ void DebugDraw::Update()
 /// <param name="hp">現在のHP</param>
 void DebugDraw::DrawPlayerInfo(const VECTOR pos, float hp, std::string state)
 {
-	DrawFormatString(0, 20, Color::kColorW, "座標(X:%2f, Y:%2f, Z:%2f)", pos.x, pos.y, pos.z);
-	DrawFormatString(0, 40, Color::kColorW, "HP:%2f", hp);
-	DrawFormatString(0, 60, Color::kColorW, "状態:%s", state.c_str());
+	DrawFormatString(0, 20, Color::kColorW, "プレイヤー座標(X:%2f, Y:%2f, Z:%2f)", pos.x, pos.y, pos.z);
+	DrawFormatString(0, 40, Color::kColorW, "プレイヤーHP:%2f", hp);
+	DrawFormatString(0, 60, Color::kColorW, "プレイヤー状態:%s", state.c_str());
+}
+
+/// <summary>
+/// 敵情報を描画
+/// </summary>
+/// <param name="pos"></param>
+/// <param name="hp"></param>
+/// <param name="state"></param>
+void DebugDraw::DrawEnemyInfo(const VECTOR pos, float hp, std::string state)
+{
+	DrawFormatString(0, 80, Color::kColorW, "敵座標(X:%2f, Y:%2f, Z:%2f)", pos.x, pos.y, pos.z);
+	DrawFormatString(0, 100, Color::kColorW, "敵HP:%2f", hp);
+	DrawFormatString(0, 120, Color::kColorW, "敵状態:%s", state.c_str());
 }
 
 /// <summary>

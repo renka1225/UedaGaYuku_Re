@@ -86,7 +86,6 @@ void LoadCsv::LoadColData(CharacterBase::ColData& data, std::string charaName)
 
 		if (charaId == charaName)
 		{
-
 			try
 			{
 				// 外部ファイルの情報を入れる

@@ -2,8 +2,8 @@
 #include "Input.h"
 #include "Camera.h"
 #include "Player.h"
-#include "PlayerStateWalk.h"
 #include "PlayerStateIdle.h"
+#include "PlayerStateWalk.h"
 #include "PlayerStateRun.h"
 
 /// <summary>

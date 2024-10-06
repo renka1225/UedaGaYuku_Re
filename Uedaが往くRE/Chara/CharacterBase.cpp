@@ -47,6 +47,7 @@ CharacterBase::~CharacterBase()
 void CharacterBase::Init()
 {
 	LoadCsv::GetInstance().LoadAnimData(m_animData);
+	m_hp = m_status.maxHp;
 
 	// モデル全体のコリジョン情報のセットアップ
 	MV1SetupCollInfo(m_modelHandle, -1);
@@ -58,8 +59,6 @@ void CharacterBase::Init()
 void CharacterBase::Update()
 {
 	ObjectBase::Update();
-
-	MV1SetPosition(m_modelHandle, m_pos);	// 位置を更新
 }
 
 /// <summary>

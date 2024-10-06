@@ -70,7 +70,6 @@ public:
 	void ChangeAnim(std::string animName);				// アニメーションを変更
 	void UpdateAnim();									// アニメーションを更新
 
-	VECTOR GetPos() const { return m_pos; }				// 現在位置取得
 	Status GetStatus() const { return m_status; }		// ステータス取得
 
 protected:

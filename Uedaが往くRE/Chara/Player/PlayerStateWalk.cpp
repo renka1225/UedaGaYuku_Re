@@ -17,7 +17,9 @@ void PlayerStateWalk::Init()
 /// <summary>
 /// 更新
 /// </summary>
-/// <param name="input">入力処理</param>
+/// <param name="input">入力状態</param>
+/// <param name="camera">カメラ情報参照</param>
+/// <param name="stage">ステージ情報参照</param>
 void PlayerStateWalk::Update(const Input& input, const Camera& camera, Stage& stage)
 {
     PlayerStateBase::Update(input, camera, stage);

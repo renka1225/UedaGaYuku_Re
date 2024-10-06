@@ -26,7 +26,6 @@ Player::Player()
 	// ステータスを読み込む
 	LoadCsv::GetInstance().LoadStatus(m_status, kCharaId);
 	LoadCsv::GetInstance().LoadColData(m_colData, kCharaId);
-	m_hp = m_status.maxHp;
 }
 
 /// <summary>
