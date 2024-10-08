@@ -22,13 +22,36 @@ public:
 		kRun	// 走り
 	};
 
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	/// <param name="player">プレイヤー参照</param>
 	PlayerStateBase(std::shared_ptr<Player> pPlayer);
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	virtual ~PlayerStateBase() {};
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="input">入力状態</param>
+	/// <param name="camera">カメラ参照</param>
+	/// <param name="stage">ステージ参照</param>
 	virtual void Update(const Input& input, const Camera& camera, Stage& stage);
-	// 現在の状態を取得
+	
+	/// <summary>
+	/// 現在のStateを取得
+	/// </summary>
+	/// <returns>Stateの種類</returns>
 	virtual PlayerStateKind GetKind() = 0;
 
 #ifdef _DEBUG
-	// 現在の状態名を取得
+	/// <summary>
+	/// 現在の状態名を取得
+	/// </summary>
+	/// <returns>State名</returns>
 	virtual std::string GetStateName() = 0;
 #endif
 
@@ -38,7 +61,7 @@ public:
 protected:
 	std::shared_ptr<Player> m_pPlayer;	// プレイヤーのポインタ
 
-	DINPUT_JOYSTATE m_analogInput; 	// アナログスティック情報取得
-	int m_analogX;					// アナログスティックの左右の入力状態
-	int m_analogY;					// アナログスティックの上下の入力状態
+	DINPUT_JOYSTATE m_analogInput; 		// アナログスティック情報取得
+	int m_analogX;						// アナログスティックの左右の入力状態
+	int m_analogY;						// アナログスティックの上下の入力状態
 };

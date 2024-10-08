@@ -8,13 +8,33 @@
 class EnemyBase : public CharacterBase, public std::enable_shared_from_this<EnemyBase>
 {
 public:
-	EnemyBase();
-	virtual ~EnemyBase();
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	EnemyBase() {};
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	virtual ~EnemyBase() {};
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	virtual void Init();
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="stage">ステージ参照</param>
 	virtual void Update(Stage& stage);
+
+	/// <summary>
+	/// 描画
+	/// </summary>
 	virtual void Draw();
 
 protected:
-	std::shared_ptr<EnemyStateBase> m_pState;	// stateパターン
+	std::shared_ptr<EnemyStateBase> m_pState; // stateパターン
 };
 

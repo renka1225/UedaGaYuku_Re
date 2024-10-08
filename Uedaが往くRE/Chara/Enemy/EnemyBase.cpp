@@ -2,28 +2,12 @@
 #include "EnemyStateIdle.h"
 #include "EnemyBase.h"
 
+// 定数
 namespace
 {
 	constexpr float kScale = 0.15f;	 // モデルの拡大率
 }
 
-/// <summary>
-/// コンストラクタ
-/// </summary>
-EnemyBase::EnemyBase()
-{
-}
-
-/// <summary>
-/// デストラクタ
-/// </summary>
-EnemyBase::~EnemyBase()
-{
-}
-
-/// <summary>
-/// 初期化
-/// </summary>
 void EnemyBase::Init()
 {
 	CharacterBase::Init();
@@ -36,9 +20,6 @@ void EnemyBase::Init()
 	state->Init();
 }
 
-/// <summary>
-/// 更新
-/// </summary>
 void EnemyBase::Update(Stage& stage)
 {
 	CharacterBase::Update();
@@ -51,14 +32,11 @@ void EnemyBase::Update(Stage& stage)
 		m_pState->m_nextState = m_pState;
 	}
 
-	m_pState->Update(stage);	// stateの更新
-	UpdateAnim();// アニメーションを更新
-	UpdateCol(); // 当たり判定の位置更新
+	m_pState->Update(stage); // stateの更新
+	UpdateAnim();			 // アニメーションを更新
+	UpdateCol();			 // 当たり判定の位置更新
 }
 
-/// <summary>
-/// 描画
-/// </summary>
 void EnemyBase::Draw()
 {
 	CharacterBase::Draw();

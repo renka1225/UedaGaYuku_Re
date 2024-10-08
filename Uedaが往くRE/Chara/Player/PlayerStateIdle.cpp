@@ -5,18 +5,11 @@
 #include "PlayerStateRun.h"
 #include "PlayerStateIdle.h"
 
-/// <summary>
-/// 初期化
-/// </summary>
 void PlayerStateIdle::Init()
 {
 	m_pPlayer->ChangeAnim("StandIdle");
 }
 
-/// <summary>
-/// 更新
-/// </summary>
-/// <param name="input">入力処理</param>
 void PlayerStateIdle::Update(const Input& input, const Camera& camera, Stage& stage)
 {
 	PlayerStateBase::Update(input, camera, stage);

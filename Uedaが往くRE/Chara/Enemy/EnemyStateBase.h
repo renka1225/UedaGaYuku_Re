@@ -20,13 +20,34 @@ public:
 		kRun,	// 走り
 	};
 
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	/// <param name="pEnemy">敵参照</param>
 	EnemyStateBase(std::shared_ptr<EnemyBase> pEnemy);
-	virtual void Update(Stage& stage) = 0;
-	// 現在の状態を取得
-	virtual EnemyStateKind GetKind() = 0;
 
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	virtual ~EnemyStateBase() {};
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="stage">ステージ参照</param>
+	virtual void Update(Stage& stage) = 0;
+	
+	/// <summary>
+	/// 現在の状態を取得
+	/// </summary>
+	/// <returns>Stateの種類</returns>
+	virtual EnemyStateKind GetKind() = 0;
+	
 #ifdef _DEBUG
-	// 現在の状態名を取得
+	/// <summary>
+	/// 現在の状態名を取得
+	/// </summary>
+	/// <returns>State名</returns>
 	virtual std::string GetStateName() = 0;
 #endif
 

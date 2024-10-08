@@ -9,15 +9,48 @@
 class ObjectBase
 {
 public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	ObjectBase();
-	virtual ~ObjectBase();
-	virtual void Init();
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	virtual ~ObjectBase() {};
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	virtual void Init() {};
+
+	/// <summary>
+	/// 更新
+	/// </summary>
 	virtual void Update();
-	virtual void Draw();
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	virtual void Draw() {};
+
+	/// <summary>
+	/// 移動処理
+	/// </summary>
+	/// <param name="moveVec">移動ベクトル</param>
+	/// <param name="stage">ステージ参照</param>
 	void Move(const VECTOR& moveVec, Stage& stage);
 
-	VECTOR GetPos() const { return m_pos; }		// 座標を取得
-	VECTOR GetDir() const { return m_moveDir; }	// 向くべき方向のベクトルを取得
+	/// <summary>
+	/// 座標を取得
+	/// </summary>
+	/// <returns>オブジェクトの座標</returns>
+	VECTOR GetPos() const { return m_pos; }
+	/// <summary>
+	/// 向くべき方向のベクトルを取得
+	/// </summary>
+	/// <returns>方向ベクトル</returns>
+	VECTOR GetDir() const { return m_moveDir; }
 
 protected:
 	std::shared_ptr<Stage> m_pStage;	// ステージのポインタ

@@ -4,9 +4,6 @@
 #include "Stage.h"
 #include "SceneMain.h"
 
-/// <summary>
-/// コンストラクタ
-/// </summary>
 SceneMain::SceneMain()
 {
 	// TODO:敵をランダムで選ぶ
@@ -16,16 +13,6 @@ SceneMain::SceneMain()
 	m_pStage = std::make_shared<Stage>();
 }
 
-/// <summary>
-/// デストラクタ
-/// </summary>
-SceneMain::~SceneMain()
-{
-}
-
-/// <summary>
-/// 初期化
-/// </summary>
 void SceneMain::Init()
 {
 	m_pEnemy->Init();
@@ -33,9 +20,6 @@ void SceneMain::Init()
 	m_pCamera->Init();
 }
 
-/// <summary>
-/// 更新
-/// </summary>
 std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 {
 	m_pEnemy->Update(*m_pStage);
@@ -45,9 +29,6 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	return shared_from_this();
 }
 
-/// <summary>
-/// 描画
-/// </summary>
 void SceneMain::Draw()
 {
 	m_pStage->Draw();

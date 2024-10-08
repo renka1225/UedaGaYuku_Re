@@ -12,16 +12,36 @@ class Stage;
 class Player : public CharacterBase, public std::enable_shared_from_this<Player>
 {
 public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	Player();
+
+	/// <summary>
+	/// デスクトップ
+	/// </summary>
 	virtual ~Player();
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	virtual void Init();
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="input">入力状態</param>
+	/// <param name="camera">カメラ参照</param>
+	/// <param name="stage">ステージ参照</param>
 	virtual void Update(const Input& input, const Camera& camera, Stage& stage);
 	virtual void Draw();
 
-	void UpdateAngle();					// プレイヤーの角度を更新
+	/// <summary>
+	/// プレイヤーの角度を更新
+	/// </summary>
+	void UpdateAngle();
 
 private:
 	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
-	//std::shared_ptr<EnemyBase> m_pEnemy;
 };
 

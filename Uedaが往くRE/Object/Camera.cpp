@@ -20,9 +20,6 @@ namespace
 	constexpr float kHitLength = 0.1f;						// カメラがステージに当たったか判定する距離
 }
 
-/// <summary>
-/// コンストラクタ
-/// </summary>
 Camera::Camera() :
 	m_pos(VGet(0.0f, kHeight, 0.0f)),
 	m_target(VGet(0.0f, 0.0f, 0.0f)),
@@ -36,17 +33,6 @@ Camera::Camera() :
 	m_analogInput.Ry = 0;
 }
 
-/// <summary>
-/// デストラクタ
-/// </summary>
-Camera::~Camera()
-{
-	// 処理なし
-}
-
-/// <summary>
-/// 初期化
-/// </summary>
 void Camera::Init()
 {
 	m_pos = VGet(0.0f, kHeight, 0.0f);
@@ -57,9 +43,6 @@ void Camera::Init()
 	SetCameraNearFar(kNear, kFar);
 }
 
-/// <summary>
-/// 更新
-/// </summary>
 void Camera::Update(Input& input, const Player& player, const Stage& stage)
 {
 	GetJoypadDirectInputState(DX_INPUT_PAD1, &m_analogInput); // 入力状態を取得
@@ -100,9 +83,6 @@ void Camera::Update(Input& input, const Player& player, const Stage& stage)
 	SetLightDirectionHandle(m_lightHandle, VNorm(VSub(m_target, m_pos)));
 }
 
-/// <summary>
-/// カメラ位置を補正する
-/// </summary>
 void Camera::FixCameraPos(const Player& player)
 {
 	m_rotY = MGetRotY(m_angleH);	// 水平方向の回転
@@ -133,19 +113,11 @@ void Camera::FixCameraPos(const Player& player)
 	m_pos = VAdd(m_pos, m_target);
 }
 
-/// <summary>
-/// カメラの線形補間を行う
-/// </summary>
-/// <returns>補間後の座標</returns>
 VECTOR Camera::LerpCamera()
 {
 	return VAdd(m_pos, VScale(m_pos, 0.3f));
 }
 
-
-/// <summary>
-/// 当たり判定をチェックする
-/// </summary>
 void Camera::CheckCameraCol(const Stage& stage)
 {
 	// 注視点からカメラの座標までの間にステージのポリゴンがあるか調べる

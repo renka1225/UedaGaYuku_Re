@@ -7,6 +7,7 @@
 #include "PlayerStateIdle.h"
 #include "Player.h"
 
+// 定数
 namespace
 {
 	const std::string kCharaId = "player";							// キャラクターのID名
@@ -15,9 +16,6 @@ namespace
 	constexpr float kScale = 0.14f;									// モデルの拡大率
 }
 
-/// <summary>
-/// コンストラクタ
-/// </summary>
 Player::Player()
 {
 	m_pos = kInitPos;
@@ -28,17 +26,11 @@ Player::Player()
 	LoadCsv::GetInstance().LoadColData(m_colData, kCharaId);
 }
 
-/// <summary>
-/// デストラクタ
-/// </summary>
 Player::~Player()
 {
 	CharacterBase::~CharacterBase();
 }
 
-/// <summary>
-/// 初期化
-/// </summary>
 void Player::Init()
 {
 	CharacterBase::Init();
@@ -51,9 +43,6 @@ void Player::Init()
 	state->Init();
 }
 
-/// <summary>
-/// 更新
-/// </summary>
 void Player::Update(const Input& input, const Camera& camera, Stage& stage)
 {
 	CharacterBase::Update();
@@ -75,9 +64,6 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage)
 	UpdateCol();	// 当たり判定の位置更新
 }
 
-/// <summary>
-/// 描画
-/// </summary>
 void Player::Draw()
 {
 	CharacterBase::Draw();
@@ -92,9 +78,6 @@ void Player::Draw()
 #endif
 }
 
-/// <summary>
-/// プレイヤーの角度を更新
-/// </summary>
 void Player::UpdateAngle()
 {
 	m_angle = atan2f(m_moveDir.x, m_moveDir.z);

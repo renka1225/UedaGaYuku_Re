@@ -22,10 +22,6 @@ namespace
     constexpr float kHitSlideLength = 0.5f;	 // 一度の壁押し出し処理でスライドさせる距離
 }
 
-
-/// <summary>
-/// コンストラクタ
-/// </summary>
 Stage::Stage():
     m_wallNum(0),
     m_floorNum(0),
@@ -44,20 +40,12 @@ Stage::Stage():
     MV1SetupCollInfo(m_stageHandle, -1);
 }
 
-
-/// <summary>
-/// デストラクタ
-/// </summary>
 Stage::~Stage()
 {
     MV1DeleteModel(m_stageHandle);
     MV1DeleteModel(m_skydoomHandle);
 }
 
-
-/// <summary>
-/// 描画
-/// </summary>
 void Stage::Draw()
 {
     // ステージ描画
@@ -65,12 +53,6 @@ void Stage::Draw()
     MV1DrawModel(m_skydoomHandle);
 }
 
-/// <summary>
-/// オブジェクトとの当たり判定を行う
-/// </summary>
-/// <param name="obj">チェックするオブジェクト</param>
-/// <param name="moveVec">オブジェクトの移動ベクトル</param>
-/// <returns>補正位置</returns>
 VECTOR Stage::CheckObjectCol(ObjectBase& obj, const VECTOR& moveVec)
 {
     VECTOR oldPos = obj.GetPos();		    // 移動前の座標	
@@ -94,11 +76,6 @@ VECTOR Stage::CheckObjectCol(ObjectBase& obj, const VECTOR& moveVec)
     return nextPos;
 }
 
-/// <summary>
-/// 検出されたポリゴンが壁ポリゴンか床ポリゴンかを判断し、保存する
-/// </summary>
-/// <param name="hitDim">線とモデルの当たり判定</param>
-/// <param name="checkPosition">移動後の座標</param>
 void Stage::AnalyzeWallAndFloor(MV1_COLL_RESULT_POLY_DIM hitDim, const VECTOR& checkPosition)
 {
     // 壁ポリゴンと床ポリゴンの数を初期化する
@@ -143,13 +120,6 @@ void Stage::AnalyzeWallAndFloor(MV1_COLL_RESULT_POLY_DIM hitDim, const VECTOR& c
     }
 }
 
-
-/// <summary>
-/// オブジェクトと壁ポリゴンとの当たりをチェックする
-/// </summary>
-/// <param name="player">プレイヤー参照</param>
-/// <param name="checkPosition">移動後の座標</param>
-/// <returns>補正すべきベクトル</returns>
 VECTOR Stage::CheckHitPlayerWithWall(ObjectBase& obj, const VECTOR& checkPosition)
 {
     // 補正後の位置
@@ -201,13 +171,6 @@ VECTOR Stage::CheckHitPlayerWithWall(ObjectBase& obj, const VECTOR& checkPositio
     return fixedPos;
 }
 
-
- ///<summary>
- /// オブジェクトと床ポリゴンとの当たりをチェックする
- ///</summary>
- ///<param name="player">プレイヤー参照</param>
- ///<param name="checkPosition">移動後の座標</param>
- ///<returns>補正すべきベクトル</returns>
 VECTOR Stage::CheckHitPlayerWithFloor(ObjectBase& obj, const VECTOR& checkPosition)
 {
     VECTOR fixedPos = checkPosition;

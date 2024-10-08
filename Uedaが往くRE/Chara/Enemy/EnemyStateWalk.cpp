@@ -3,18 +3,11 @@
 #include "EnemyStateRun.h"
 #include "EnemyStateWalk.h"
 
-/// <summary>
-/// 初期化
-/// </summary>
 void EnemyStateWalk::Init()
 {
 	m_pEnemy->ChangeAnim("Walk");
 }
 
-/// <summary>
-/// 更新
-/// </summary>
-/// <param name="stage">ステージ情報参照</param>
 void EnemyStateWalk::Update(Stage& stage)
 {
 	VECTOR upMoveVec;	 // 上ボタンを入力をしたときの移動方向ベクトル

@@ -6,18 +6,11 @@
 #include "PlayerStateWalk.h"
 #include "PlayerStateRun.h"
 
-/// <summary>
-/// 初期化
-/// </summary>
 void PlayerStateRun::Init()
 {
 	m_pPlayer->ChangeAnim("Run");
 }
 
-/// <summary>
-/// 更新
-/// </summary>
-/// <param name="input">入力処理</param>
 void PlayerStateRun::Update(const Input& input, const Camera& camera, Stage& stage)
 {
     PlayerStateBase::Update(input, camera, stage);

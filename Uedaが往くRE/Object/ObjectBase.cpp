@@ -1,13 +1,11 @@
 ﻿#include "ObjectBase.h"
 
+// 定数
 namespace
 {
 	constexpr float kGravity = -15.0f; // 重力
 }
 
-/// <summary>
-/// コンストラクタ
-/// </summary>
 ObjectBase::ObjectBase():
 	m_pos(VGet(0.0f, 0.0f, 0.0f)),
 	m_moveDir(VGet(0.0f, 0.0f, 0.0f)),
@@ -16,23 +14,6 @@ ObjectBase::ObjectBase():
 {
 }
 
-/// <summary>
-/// デストラクタ
-/// </summary>
-ObjectBase::~ObjectBase()
-{
-}
-
-/// <summary>
-/// 初期化
-/// </summary>
-void ObjectBase::Init()
-{
-}
-
-/// <summary>
-/// 更新
-/// </summary>
 void ObjectBase::Update()
 {
 	// 重力を足す
@@ -41,17 +22,6 @@ void ObjectBase::Update()
 	MV1SetPosition(m_modelHandle, m_pos);	// 位置を更新
 }
 
-/// <summary>
-/// 描画
-/// </summary>
-void ObjectBase::Draw()
-{
-}
-
-/// <summary>
-/// 移動処理
-/// </summary>
-/// <param name="moveVec">移動量</param>
 void ObjectBase::Move(const VECTOR& moveVec, Stage& stage)
 {
 	// 移動中のみ向きを更新する

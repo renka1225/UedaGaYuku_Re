@@ -65,18 +65,22 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	CharacterBase();
+
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
 	~CharacterBase();
+
 	/// <summary>
 	/// 初期化
 	/// </summary>
 	virtual void Init() override;
+
 	/// <summary>
 	/// 更新
 	/// </summary>
 	virtual void Update() override;
+
 	/// <summary>
 	/// 描画
 	/// </summary>
@@ -87,18 +91,23 @@ public:
 	/// </summary>
 	/// <param name="animName">アニメーション名</param>
 	void ChangeAnim(std::string animName);
+
 	/// <summary>
 	/// アニメーション更新
 	/// </summary>
 	void UpdateAnim();
 
-	Status GetStatus() const { return m_status; }	// ステータス取得
+	/// <summary>
+	/// キャラクターのステータス取得
+	/// </summary>
+	Status GetStatus() const { return m_status; }
 
 protected:
 	/// <summary>
 	/// 当たり判定更新
 	/// </summary>
 	void UpdateCol();
+
 	/// <summary>
 	/// キャラクター同士の当たり判定をチェックする
 	/// </summary>
