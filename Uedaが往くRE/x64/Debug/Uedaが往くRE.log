@@ -1,11 +1,4 @@
-﻿  EnemyStateIdle.cpp
-  EnemyStateRun.cpp
-C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\EnemyStateRun.cpp(22,9): warning C4101: 'moveVec': ローカル変数は 1 度も使われていません。
-C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\EnemyStateRun.cpp(20,9): warning C4101: 'upMoveVec': ローカル変数は 1 度も使われていません。
-C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\EnemyStateRun.cpp(21,9): warning C4101: 'leftMoveVec': ローカル変数は 1 度も使われていません。
-  EnemyStateWalk.cpp
-C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\EnemyStateWalk.cpp(22,9): warning C4101: 'moveVec': ローカル変数は 1 度も使われていません。
-C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\EnemyStateWalk.cpp(20,9): warning C4101: 'upMoveVec': ローカル変数は 1 度も使われていません。
-C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\EnemyStateWalk.cpp(21,9): warning C4101: 'leftMoveVec': ローカル変数は 1 度も使われていません。
+﻿  Player.cpp
+  SceneMain.cpp
   コードを生成中...
-  Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Uedaが往くRE.exe
+  Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Uedaが往くRE.exe

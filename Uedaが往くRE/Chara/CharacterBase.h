@@ -61,19 +61,52 @@ public:
 	};
 
 public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	CharacterBase();
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	~CharacterBase();
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	virtual void Init() override;
+	/// <summary>
+	/// 更新
+	/// </summary>
 	virtual void Update() override;
+	/// <summary>
+	/// 描画
+	/// </summary>
 	virtual void Draw() override;
 
-	void ChangeAnim(std::string animName);				// アニメーションを変更
-	void UpdateAnim();									// アニメーションを更新
+	/// <summary>
+	/// アニメーションを変更
+	/// </summary>
+	/// <param name="animName">アニメーション名</param>
+	void ChangeAnim(std::string animName);
+	/// <summary>
+	/// アニメーション更新
+	/// </summary>
+	void UpdateAnim();
 
-	Status GetStatus() const { return m_status; }		// ステータス取得
+	Status GetStatus() const { return m_status; }	// ステータス取得
 
 protected:
-	void UpdateCol();	// 当たり判定位置の更新
+	/// <summary>
+	/// 当たり判定更新
+	/// </summary>
+	void UpdateCol();
+	/// <summary>
+	/// キャラクター同士の当たり判定をチェックする
+	/// </summary>
+	/// <param name="obj">オブジェクト参照</param>
+	/// <param name="eCapPosTop">当たり判定カプセルの始点</param>
+	/// <param name="eCapPosBottom">当たり判定カプセルの終点</param>
+	/// <param name="eCapRadius">当たり判定カプセルの半径</param>
+	void CheckCharaCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius);
 
 protected:
 	std::map<std::string, AnimInfo> m_animData;		// アニメーションのデータ

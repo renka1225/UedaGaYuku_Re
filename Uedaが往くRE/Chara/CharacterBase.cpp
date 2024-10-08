@@ -5,14 +5,12 @@
 // 定数
 namespace
 {
+	constexpr float kAdj = 3.0f;			 // 敵に当たった際の位置調整量
 	// アニメーション情報
 	constexpr float kAnimBlendMax = 1.0f;	 // アニメーションブレンドの最大値
 	constexpr float kAnimBlendSpeed = 0.2f;	 // アニメーションブレンドの変化速度
 }
 
-/// <summary>
-/// コンストラクタ
-/// </summary>
 CharacterBase::CharacterBase():
 	m_colData(),
 	m_updateCol(),
@@ -33,17 +31,11 @@ CharacterBase::CharacterBase():
 {
 }
 
-/// <summary>
-/// デストラクタ
-/// </summary>
 CharacterBase::~CharacterBase()
 {
 	MV1DeleteModel(m_modelHandle);
 }
 
-/// <summary>
-/// 初期化
-/// </summary>
 void CharacterBase::Init()
 {
 	LoadCsv::GetInstance().LoadAnimData(m_animData);
@@ -53,26 +45,16 @@ void CharacterBase::Init()
 	MV1SetupCollInfo(m_modelHandle, -1);
 }
 
-/// <summary>
-/// 更新
-/// </summary>
 void CharacterBase::Update()
 {
 	ObjectBase::Update();
 }
 
-/// <summary>
-/// 描画
-/// </summary>
 void CharacterBase::Draw()
 {
 	MV1DrawModel(m_modelHandle);
 }
 
-/// <summary>
-/// アニメーションを変更する
-/// </summary>
-/// <param name="animName">アニメーション名</param>
 void CharacterBase::ChangeAnim(std::string animName)
 {
 	// 前のアニメーションをデタッチする
@@ -114,9 +96,6 @@ void CharacterBase::ChangeAnim(std::string animName)
 	}
 }
 
-/// <summary>
-/// アニメーションを更新
-/// </summary>
 void CharacterBase::UpdateAnim()
 {
 	// ブレンド率が1以下の場合
@@ -151,9 +130,6 @@ void CharacterBase::UpdateAnim()
 	MV1SetAttachAnimBlendRate(m_modelHandle, m_prevPlayAnim, kAnimBlendMax - m_animBlendRate);
 }
 
-/// <summary>
-/// 当たり判定更新
-/// </summary>
 void CharacterBase::UpdateCol()
 {
 	// プレイヤーの向きをもとに当たり判定の位置を調整する
@@ -170,4 +146,16 @@ void CharacterBase::UpdateCol()
 	// 脚の当たり判定位置を更新
 	m_updateCol.legStartPos = VAdd(m_pos, (VTransform(m_colData.legStartPos, rotationMatrix)));
 	m_updateCol.legEndPos = VAdd(m_updateCol.legStartPos, (VTransform(m_colData.legEndPos, rotationMatrix)));
+}
+
+void CharacterBase::CheckCharaCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius)
+{
+	bool isHit = HitCheck_Capsule_Capsule(m_colData.bodyStartPos, m_colData.bodyEndPos, m_colData.bodyRadius, eCapPosTop, eCapPosBottom, eCapRadius);
+
+	if (isHit)
+	{
+		// キャラクターの位置を補正する
+		VECTOR colVec = VNorm(VSub(m_pos, obj.GetPos()));
+		m_pos = VAdd(m_pos, VScale(colVec, kAdj));
+	}
 }

@@ -66,6 +66,9 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage)
 		m_pState->m_nextState = m_pState;
 	}
 
+	// 当たり判定をチェックする
+	//enemy.CheckCharaCol(*this, m_colData.bodyStartPos, m_colData.bodyEndPos, m_colData.bodyRadius);
+
 	m_pState->Update(input, camera, stage);	// stateの更新
 	UpdateAngle();	// 向きを更新
 	UpdateAnim();	// アニメーションを更新

@@ -22,5 +22,6 @@ public:
 
 private:
 	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
+	//std::shared_ptr<EnemyBase> m_pEnemy;
 };
 
