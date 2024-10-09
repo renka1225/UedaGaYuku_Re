@@ -1,25 +1,46 @@
-#pragma once
+﻿#pragma once
 #include "SceneBase.h"
 
 /// <summary>
-/// �Z���N�g���
+/// セレクト画面
 /// </summary>
 class SceneSelect : public SceneBase
 {
 public:
-	SceneSelect();
-	virtual ~SceneSelect();
-	virtual void Init();
-	virtual std::shared_ptr<SceneBase> Update(Input& input);
-	virtual void Draw();
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	SceneSelect() {}
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	virtual ~SceneSelect() {}
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	virtual void Init() override {}
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="input">入力状態</param>
+	/// <returns>現在のシーンのポインタ</returns>
+	virtual std::shared_ptr<SceneBase> Update(Input& input) override;
+	
+	/// <summary>
+	/// 更新
+	/// </summary>
+	virtual void Draw() override;
 
 private:
-	// �V�[���̎��
+	// シーンの種類
 	enum SelectScene
 	{
-		kMain,		// ���C��
-		kOption,	// �I�v�V����
-		kSelectNum,	// �I��
+		kMain,		// メイン
+		kOption,	// オプション
+		kSelectNum,	// 選択数
 	};
 };
 

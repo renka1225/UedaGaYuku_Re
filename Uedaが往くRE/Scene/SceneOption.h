@@ -1,16 +1,37 @@
-#pragma once
+﻿#pragma once
 #include "SceneBase.h"
 
 /// <summary>
-/// �I�v�V����
+/// オプション
 /// </summary>
 class SceneOption : public SceneBase
 {
 public:
-	SceneOption();
-	virtual ~SceneOption();
-	virtual void Init();
-	virtual std::shared_ptr<SceneBase> Update(Input& input);
-	virtual void Draw();
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	SceneOption() {}
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	virtual ~SceneOption() {}
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	virtual void Init() override {}
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="input"></param>
+	/// <returns></returns>
+	virtual std::shared_ptr<SceneBase> Update(Input& input) override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	virtual void Draw() override;
 };
 

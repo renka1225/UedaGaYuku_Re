@@ -1,27 +1,14 @@
-#include "SceneManager.h"
+ï»¿#include "SceneManager.h"
 #include "SceneBase.h"
 #include "SceneDebug.h"
 #include "SceneTitle.h"
 #include "Input.h"
 
-/// <summary>
-/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-/// </summary>
 SceneManager::SceneManager():
 	m_pScene(nullptr)
 {
 }
 
-/// <summary>
-/// ƒfƒXƒgƒ‰ƒNƒ^
-/// </summary>
-SceneManager::~SceneManager()
-{
-}
-
-/// <summary>
-/// ‰Šú‰»
-/// </summary>
 void SceneManager::Init()
 {
 #ifdef _DEBUG
@@ -33,25 +20,19 @@ void SceneManager::Init()
 #endif
 }
 
-/// <summary>
-/// XV
-/// </summary>
 void SceneManager::Update(Input& input)
 {
 	std::shared_ptr<SceneBase> pNext = m_pScene->Update(input);
 
-	// ‘JˆÚæ‚ÌƒV[ƒ“‚ÌŠJnˆ—‚ğs‚¤
+	// é·ç§»å…ˆã®ã‚·ãƒ¼ãƒ³ã®é–‹å§‹å‡¦ç†ã‚’è¡Œã†
 	if (pNext != m_pScene)
 	{
-		// Update‚ª•Ô‚µ‚½V‚µ‚¢ƒV[ƒ“‚ÌŠJnˆ—‚ğs‚¤
+		// UpdateãŒè¿”ã—ãŸæ–°ã—ã„ã‚·ãƒ¼ãƒ³ã®é–‹å§‹å‡¦ç†ã‚’è¡Œã†
 		m_pScene = pNext;
 		m_pScene->Init();
 	}
 }
 
-/// <summary>
-/// •`‰æ
-/// </summary>
 void SceneManager::Draw()
 {
 	m_pScene->Draw();

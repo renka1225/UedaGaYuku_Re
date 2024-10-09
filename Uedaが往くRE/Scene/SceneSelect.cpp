@@ -7,38 +7,6 @@
 #include "SceneOption.h"
 #include "SceneSelect.h"
 
-namespace
-{
-	// 文字色
-	constexpr int kColorW = 0xffffff; // 白
-	constexpr int kColorR = 0xff0000; // 赤
-}
-
-/// <summary>
-/// コンストラクタ
-/// </summary>
-SceneSelect::SceneSelect()
-{
-	m_select = SceneSelect::kMain;
-}
-
-/// <summary>
-/// デストラクタ
-/// </summary>
-SceneSelect::~SceneSelect()
-{
-}
-
-/// <summary>
-/// 初期化
-/// </summary>
-void SceneSelect::Init()
-{
-}
-
-/// <summary>
-/// 更新
-/// </summary>
 std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 {
 	// 選択状態更新
@@ -64,9 +32,6 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 	return shared_from_this();
 }
 
-/// <summary>
-/// 描画
-/// </summary>
 void SceneSelect::Draw()
 {
 #ifdef _DEBUG

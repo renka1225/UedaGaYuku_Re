@@ -1,24 +1,9 @@
-#include "Input.h"
+ï»¿#include "Input.h"
 #include "SceneSelect.h"
 #include "SceneTitle.h"
 
-SceneTitle::SceneTitle()
-{
-}
-
-SceneTitle::~SceneTitle()
-{
-}
-
 /// <summary>
-/// ‰Šú‰»
-/// </summary>
-void SceneTitle::Init()
-{
-}
-
-/// <summary>
-/// XV
+/// æ›´æ–°
 /// </summary>
 std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
 {
@@ -31,7 +16,7 @@ std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
 }
 
 /// <summary>
-/// •`‰æ
+/// æç”»
 /// </summary>
 void SceneTitle::Draw()
 {

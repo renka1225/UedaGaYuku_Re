@@ -1,37 +1,10 @@
-#include "SceneOption.h"
+ï»¿#include "SceneOption.h"
 
-/// <summary>
-/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-/// </summary>
-SceneOption::SceneOption()
-{
-}
-
-/// <summary>
-/// ƒfƒXƒgƒ‰ƒNƒ^
-/// </summary>
-SceneOption::~SceneOption()
-{
-}
-
-/// <summary>
-/// ‰Šú‰»
-/// </summary>
-void SceneOption::Init()
-{
-}
-
-/// <summary>
-/// XV
-/// </summary>
 std::shared_ptr<SceneBase> SceneOption::Update(Input& input)
 {
 	return shared_from_this();
 }
 
-/// <summary>
-/// •`‰æ
-/// </summary>
 void SceneOption::Draw()
 {
 #ifdef _DEBUG
