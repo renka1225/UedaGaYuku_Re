@@ -5,6 +5,7 @@
 class Input;
 class Camera;
 class Stage;
+class EnemyBase;
 
 /// <summary>
 /// プレイヤー
@@ -33,7 +34,7 @@ public:
 	/// <param name="input">入力状態</param>
 	/// <param name="camera">カメラ参照</param>
 	/// <param name="stage">ステージ参照</param>
-	virtual void Update(const Input& input, const Camera& camera, Stage& stage);
+	virtual void Update(const Input& input, const Camera& camera, Stage& stage, EnemyBase& enemy);
 	virtual void Draw();
 
 	/// <summary>
@@ -43,5 +44,6 @@ public:
 
 private:
 	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
+	int m_money;	// 所持金額
 };
 

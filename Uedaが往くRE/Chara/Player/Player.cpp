@@ -4,6 +4,7 @@
 #include "LoadCsv.h"
 #include "Camera.h"
 #include "Stage.h"
+#include "EnemyBase.h"
 #include "PlayerStateIdle.h"
 #include "Player.h"
 
@@ -16,7 +17,8 @@ namespace
 	constexpr float kScale = 0.14f;									// モデルの拡大率
 }
 
-Player::Player()
+Player::Player():
+	m_money(0)
 {
 	// ステータスを読み込む
 	LoadCsv::GetInstance().LoadStatus(m_status, kCharaId);
@@ -43,7 +45,7 @@ void Player::Init()
 	state->Init();
 }
 
-void Player::Update(const Input& input, const Camera& camera, Stage& stage)
+void Player::Update(const Input& input, const Camera& camera, Stage& stage, EnemyBase& enemy)
 {
 	CharacterBase::Update();
 
@@ -55,8 +57,8 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage)
 		m_pState->m_nextState = m_pState;
 	}
 
-	// 当たり判定をチェックする
-	//enemy.CheckCharaCol(*this, m_colData.bodyStartPos, m_colData.bodyEndPos, m_colData.bodyRadius);
+	// 敵との当たり判定をチェックする
+	enemy.CheckCharaCol(*this, m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius);
 
 	m_pState->Update(input, camera, stage);	// stateの更新
 	UpdateAngle();	// 向きを更新
@@ -71,10 +73,6 @@ void Player::Draw()
 #ifdef _DEBUG
 	DebugDraw debug;
 	debug.DrawPlayerInfo(m_pos, m_hp, m_pState->GetStateName()); // プレイヤーの情報を描画
-	// 当たり判定描画
-	debug.DrawBodyCol(m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius); // 全身
-	//debug.DrawAimCol(m_updateCol.armStartPos, m_updateCol.armEndPos, m_colData.aimRadius);   // 腕
-	//debug.DrawLegCol(m_updateCol.legStartPos, m_updateCol.legEndPos, m_colData.legRadius);   // 脚
 #endif
 }
 

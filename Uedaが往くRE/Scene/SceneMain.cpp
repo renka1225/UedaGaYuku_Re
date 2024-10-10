@@ -28,8 +28,8 @@ void SceneMain::Init()
 
 std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 {
-	m_pEnemy->Update(*m_pStage);
-	m_pPlayer->Update(input, *m_pCamera, *m_pStage);
+	m_pEnemy->Update(*m_pStage, *m_pPlayer);
+	m_pPlayer->Update(input, *m_pCamera, *m_pStage, *m_pEnemy);
 	m_pCamera->Update(input, *m_pPlayer, *m_pStage);
 
 	return shared_from_this();
@@ -48,10 +48,15 @@ void SceneMain::Draw()
 
 void SceneMain::SelectEnemy()
 {
+
+#ifdef false
 	// TODO:敵をランダムで選ぶ
 	int enemyNum = GetRand((kEnemyKindNum - 1)) + 1;
-	char enemyId[3]; // 2桁 + 終端文字
+	char enemyId[3]; // 2桁にそろえる
 	sprintf_s(enemyId, "%02d", enemyNum);
 
 	m_pEnemy = std::make_shared<EnemyBase>("enemy_" + std::string(enemyId));
+#else true
+	m_pEnemy = std::make_shared<EnemyBase>("enemy_01");
+#endif 
 }

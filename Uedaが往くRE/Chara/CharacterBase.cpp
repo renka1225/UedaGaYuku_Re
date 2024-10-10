@@ -5,7 +5,7 @@
 // 定数
 namespace
 {
-	constexpr float kAdj = 3.0f;			 // 敵に当たった際の位置調整量
+	constexpr float kAdj = 2.0f;			 // 敵に当たった際の位置調整量
 	// アニメーション情報
 	constexpr float kAnimBlendMax = 1.0f;	 // アニメーションブレンドの最大値
 	constexpr float kAnimBlendSpeed = 0.2f;	 // アニメーションブレンドの変化速度
@@ -53,6 +53,27 @@ void CharacterBase::Update()
 void CharacterBase::Draw()
 {
 	MV1DrawModel(m_modelHandle);
+
+#ifdef _DEBUG
+	DebugDraw debug;
+	// 当たり判定描画
+	debug.DrawBodyCol(m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius); // 全身
+	//debug.DrawAimCol(m_updateCol.armStartPos, m_updateCol.armEndPos, m_colData.aimRadius);   // 腕
+	//debug.DrawLegCol(m_updateCol.legStartPos, m_updateCol.legEndPos, m_colData.legRadius);   // 脚
+#endif
+}
+
+void CharacterBase::CheckCharaCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius)
+{
+	bool isHit = HitCheck_Capsule_Capsule(m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius, eCapPosTop, eCapPosBottom, eCapRadius);
+
+	// 当たっている場合
+	if (isHit)
+	{
+		// キャラクターの位置を補正する
+		VECTOR colVec = VNorm(VSub(m_pos, obj.GetPos()));
+		m_pos = VAdd(m_pos, VScale(colVec, kAdj));
+	}
 }
 
 void CharacterBase::ChangeAnim(std::string animName)
@@ -146,16 +167,4 @@ void CharacterBase::UpdateCol()
 	// 脚の当たり判定位置を更新
 	m_updateCol.legStartPos = VAdd(m_pos, (VTransform(m_colData.legStartPos, rotationMatrix)));
 	m_updateCol.legEndPos = VAdd(m_updateCol.legStartPos, (VTransform(m_colData.legEndPos, rotationMatrix)));
-}
-
-void CharacterBase::CheckCharaCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius)
-{
-	bool isHit = HitCheck_Capsule_Capsule(m_colData.bodyStartPos, m_colData.bodyEndPos, m_colData.bodyRadius, eCapPosTop, eCapPosBottom, eCapRadius);
-
-	if (isHit)
-	{
-		// キャラクターの位置を補正する
-		VECTOR colVec = VNorm(VSub(m_pos, obj.GetPos()));
-		m_pos = VAdd(m_pos, VScale(colVec, kAdj));
-	}
 }

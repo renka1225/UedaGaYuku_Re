@@ -87,6 +87,15 @@ public:
 	virtual void Draw() override;
 
 	/// <summary>
+	/// キャラクター同士の当たり判定をチェックする
+	/// </summary>
+	/// <param name="obj">オブジェクト参照</param>
+	/// <param name="eCapPosTop">当たり判定カプセルの始点</param>
+	/// <param name="eCapPosBottom">当たり判定カプセルの終点</param>
+	/// <param name="eCapRadius">当たり判定カプセルの半径</param>
+	void CheckCharaCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius);
+
+	/// <summary>
 	/// アニメーションを変更
 	/// </summary>
 	/// <param name="animName">アニメーション名</param>
@@ -107,15 +116,6 @@ protected:
 	/// 当たり判定更新
 	/// </summary>
 	void UpdateCol();
-
-	/// <summary>
-	/// キャラクター同士の当たり判定をチェックする
-	/// </summary>
-	/// <param name="obj">オブジェクト参照</param>
-	/// <param name="eCapPosTop">当たり判定カプセルの始点</param>
-	/// <param name="eCapPosBottom">当たり判定カプセルの終点</param>
-	/// <param name="eCapRadius">当たり判定カプセルの半径</param>
-	void CheckCharaCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius);
 
 protected:
 	std::map<std::string, AnimInfo> m_animData;		// アニメーションのデータ

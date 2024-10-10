@@ -1,5 +1,6 @@
 ﻿#include "DebugDraw.h"
 #include "LoadCsv.h"
+#include "Player.h"
 #include "EnemyStateIdle.h"
 #include "EnemyBase.h"
 
@@ -33,7 +34,7 @@ void EnemyBase::Init()
 	state->Init();
 }
 
-void EnemyBase::Update(Stage& stage)
+void EnemyBase::Update(Stage& stage, Player& player)
 {
 	CharacterBase::Update();
 
@@ -44,6 +45,9 @@ void EnemyBase::Update(Stage& stage)
 		m_pState = m_pState->m_nextState;
 		m_pState->m_nextState = m_pState;
 	}
+
+	// 当たり判定をチェックする
+	player.CheckCharaCol(*this, m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius);
 
 	m_pState->Update(stage); // stateの更新
 	UpdateAnim();			 // アニメーションを更新
@@ -57,9 +61,5 @@ void EnemyBase::Draw()
 #ifdef _DEBUG
 	DebugDraw debug;
 	debug.DrawEnemyInfo(m_pos, m_hp, m_pState->GetStateName()); // 敵の情報を描画
-	// 当たり判定描画
-	debug.DrawBodyCol(m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius); // 全身
-	//debug.DrawAimCol(m_updateCol.armStartPos, m_updateCol.armEndPos, m_colData.aimRadius);   // 腕
-	//debug.DrawLegCol(m_updateCol.legStartPos, m_updateCol.legEndPos, m_colData.legRadius);   // 脚
 #endif
 }

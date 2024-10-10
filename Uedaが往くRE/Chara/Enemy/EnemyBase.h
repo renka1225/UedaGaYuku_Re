@@ -2,6 +2,8 @@
 #include "CharacterBase.h"
 #include "EnemyStateBase.h"
 
+class Player;
+
 /// <summary>
 /// 敵の基底クラス
 /// </summary>
@@ -28,7 +30,7 @@ public:
 	/// 更新
 	/// </summary>
 	/// <param name="stage">ステージ参照</param>
-	virtual void Update(Stage& stage);
+	virtual void Update(Stage& stage, Player& player);
 
 	/// <summary>
 	/// 描画

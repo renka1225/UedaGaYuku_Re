@@ -4,7 +4,6 @@ C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Player\PlayerStateIdle.cpp;C:\GitH
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Player\PlayerStateRun.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\PlayerStateRun.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Player\PlayerStateWalk.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\PlayerStateWalk.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\EnemyBase.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\EnemyBase.obj
-C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\Enemy01.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Enemy01.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\EnemyStateBase.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\EnemyStateBase.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\EnemyStateIdle.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\EnemyStateIdle.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\EnemyStateRun.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\EnemyStateRun.obj
@@ -25,4 +24,3 @@ C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Util\Message.cpp;C:\GitHub\UedaGaYuku_Re
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Scene\SceneBase.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\SceneBase.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Scene\SceneManager.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\SceneManager.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Util\Input.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Input.obj
-C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Util\Vec2.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Vec2.obj
