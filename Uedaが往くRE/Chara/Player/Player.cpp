@@ -18,12 +18,12 @@ namespace
 
 Player::Player()
 {
-	m_pos = kInitPos;
-	m_modelHandle = MV1LoadModel(kModelFileName);
-
 	// ステータスを読み込む
 	LoadCsv::GetInstance().LoadStatus(m_status, kCharaId);
 	LoadCsv::GetInstance().LoadColData(m_colData, kCharaId);
+
+	m_pos = kInitPos;
+	m_modelHandle = MV1LoadModel(kModelFileName);
 }
 
 Player::~Player()

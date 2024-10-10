@@ -1,4 +1,5 @@
 ﻿#include "DebugDraw.h"
+#include "LoadCsv.h"
 #include "EnemyStateIdle.h"
 #include "EnemyBase.h"
 
@@ -6,11 +7,23 @@
 namespace
 {
 	constexpr float kScale = 0.15f;	 // モデルの拡大率
+	const VECTOR kInitPos = VGet(7600.0, 40.0f, 5300.0f);	// 初期位置
+}
+
+EnemyBase::EnemyBase(std::string charaId)
+{
+	// ステータスを読み込む
+	LoadCsv::GetInstance().LoadStatus(m_status, charaId);
+	LoadCsv::GetInstance().LoadColData(m_colData, charaId);
+
+	m_modelHandle = MV1LoadModel(("data/model/chara/" + charaId + ".mv1").c_str());
 }
 
 void EnemyBase::Init()
 {
 	CharacterBase::Init();
+
+	m_pos = kInitPos;
 	MV1SetScale(m_modelHandle, VGet(kScale, kScale, kScale));
 
 	m_pState = std::make_shared<EnemyStateIdle>(shared_from_this());

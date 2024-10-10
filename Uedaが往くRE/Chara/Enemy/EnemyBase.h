@@ -11,12 +11,13 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	EnemyBase() {};
+	/// <param name="charaId">キャラクターID</param>
+	EnemyBase(std::string charaId);
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	virtual ~EnemyBase() {};
+	virtual ~EnemyBase() {}
 
 	/// <summary>
 	/// 初期化

@@ -157,7 +157,6 @@
     <ClCompile Include="Chara\Player\PlayerStateRun.cpp" />
     <ClCompile Include="Chara\Player\PlayerStateWalk.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyBase.cpp" />
-    <ClCompile Include="Chara\Enemy\Enemy01.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyStateBase.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyStateIdle.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyStateRun.cpp" />
@@ -186,7 +185,6 @@
     <ClInclude Include="Chara\Player\PlayerStateRun.h" />
     <ClInclude Include="Chara\Player\PlayerStateWalk.h" />
     <ClInclude Include="Chara\Enemy\EnemyBase.h" />
-    <ClInclude Include="Chara\Enemy\Enemy01.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateBase.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateIdle.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateRun.h" />

@@ -1,16 +1,22 @@
 ﻿#include "Camera.h"
 #include "Player.h"
-#include "Enemy01.h"
+#include "EnemyBase.h"
 #include "Stage.h"
 #include "SceneMain.h"
 
+// 定数
+namespace
+{
+	constexpr int kEnemyKindNum = 5;
+}
+
 SceneMain::SceneMain()
 {
-	// TODO:敵をランダムで選ぶ
-	m_pEnemy = std::make_shared<Enemy01>();
 	m_pPlayer = std::make_shared<Player>();
 	m_pCamera = std::make_shared<Camera>();
 	m_pStage = std::make_shared<Stage>();
+
+	SelectEnemy();
 }
 
 void SceneMain::Init()
@@ -38,4 +44,14 @@ void SceneMain::Draw()
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_PLAYING");
 #endif
+}
+
+void SceneMain::SelectEnemy()
+{
+	// TODO:敵をランダムで選ぶ
+	int enemyNum = GetRand((kEnemyKindNum - 1)) + 1;
+	char enemyId[3]; // 2桁 + 終端文字
+	sprintf_s(enemyId, "%02d", enemyNum);
+
+	m_pEnemy = std::make_shared<EnemyBase>("enemy_" + std::string(enemyId));
 }

@@ -123,9 +123,6 @@
     <ClCompile Include="Chara\Enemy\EnemyBase.cpp">
       <Filter>ソース ファイル\Chara\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Chara\Enemy\Enemy01.cpp">
-      <Filter>ソース ファイル\Chara\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Chara\Enemy\EnemyStateBase.cpp">
       <Filter>ソース ファイル\Chara\Enemy</Filter>
     </ClCompile>
@@ -207,9 +204,6 @@
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="Chara\Enemy\EnemyBase.h">
-      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Chara\Enemy\Enemy01.h">
       <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Chara\Enemy\EnemyStateBase.h">

@@ -41,6 +41,12 @@ public:
 	virtual void Draw();
 
 private:
+	/// <summary>
+	/// 敵をランダムで決定する
+	/// </summary>
+	void SelectEnemy();
+
+private:
 	std::shared_ptr<EnemyBase> m_pEnemy; // 敵のポインタ
 	std::shared_ptr<Player> m_pPlayer;	 // プレイヤーのポインタ
 	std::shared_ptr<Camera> m_pCamera;	 // カメラのポインタ
