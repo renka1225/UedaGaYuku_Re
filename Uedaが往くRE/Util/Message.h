@@ -1,22 +1,25 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <map>
 
 /// <summary>
-/// ƒVƒ“ƒOƒ‹ƒgƒ“‚ğg—p‚µ‚ÄƒƒbƒZ[ƒWƒf[ƒ^‚ğŠÇ—‚·‚é
+/// ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚’ä½¿ç”¨ã—ã¦ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ‡ãƒ¼ã‚¿ã‚’ç®¡ç†ã™ã‚‹
 /// </summary>
 class Message
 {
 public:
-	// ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ì‹Ö~
+	// ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®ç¦æ­¢
 	Message(const Message&) = delete;
-	// ƒ€[ƒuƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ì‹Ö~
+	// ãƒ ãƒ¼ãƒ–ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®ç¦æ­¢
 	Message(Message&&) = delete;
-	// ‘ã“ü‰‰Zq‚Ì‹Ö~
+	// ä»£å…¥æ¼”ç®—å­ã®ç¦æ­¢
 	Message& operator= (const Message&) = delete;
 	Message& operator= (Message&&) = delete;
 
-	// ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚é
+	/// <summary>
+	/// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹
+	/// </summary>
+	/// <returns>ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹</returns>
 	static Message& GetInstance()
 	{
 		if (!m_instance)
@@ -26,11 +29,23 @@ public:
 		return *m_instance;
 	}
 
-	// ƒƒbƒZ[ƒWƒf[ƒ^‚Ì‰‰ñ“Ç‚İ‚İ
+	/// /// <summary>
+	/// csvãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’èª­ã¿è¾¼ã‚€
+	/// </summary>
 	void Load();
 
-	// ƒƒbƒZ[ƒW‚Ìæ“¾
+	/// <summary>
+	/// stringå‹ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å–å¾—
+	/// </summary>
+	/// <param name="id">å–å¾—ã—ãŸã„ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®ID</param>
+	/// <returns>ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸</returns>
 	std::string Get(std::string id);
+
+	/// <summary>
+	/// charå‹ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å–å¾—
+	/// </summary>
+	/// <param name="id">å–å¾—ã—ãŸã„ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®ID</param>
+	/// <returns>ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸</returns>
 	const char* Get_c(std::string id);
 
 private:
@@ -38,6 +53,6 @@ private:
 	virtual ~Message() = default;
 
 private:
-	static Message* m_instance;				   // ƒƒbƒZ[ƒW‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
-	std::map<std::string, std::string> m_data; // ƒƒbƒZ[ƒW‚Ìƒf[ƒ^
+	static Message* m_instance;				   // ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+	std::map<std::string, std::string> m_data; // ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®ãƒ‡ãƒ¼ã‚¿
 };

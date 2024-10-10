@@ -17,7 +17,10 @@ public:
 	LoadCsv& operator= (const LoadCsv&) = delete;
 	LoadCsv& operator= (LoadCsv&&) = delete;
 
-	// インスタンスを取得する
+	/// <summary>
+	/// インスタンスを取得する
+	/// </summary>
+	/// <returns>インスタンス</returns>
 	static LoadCsv& GetInstance()
 	{
 		if (!m_instance)
@@ -27,11 +30,25 @@ public:
 		return *m_instance;
 	}
 
-	// キャラクターのステータス情報を読み込む
+	/// <summary>
+	/// キャラクターのステータス情報を読み込む
+	/// </summary>
+	/// <param name="data">ステータス情報</param>
+	/// <param name="charaName">キャラクター名</param>
 	void LoadStatus(CharacterBase::Status& data, std::string charaName);
-		// 当たり判定のデータを読み込む
+
+	/// <summary>
+	/// 当たり判定のデータを読み込む
+	/// </summary>
+	/// <param name="data">当たり判定情報</param>
+	/// <param name="charType">キャラクター名</param>
 	void LoadColData(CharacterBase::ColData& data, std::string charaName);
-	// アニメーション情報を読み込む
+
+	/// <summary>
+	/// アニメーション情報を読み込む
+	/// </summary>
+	/// <param name="data">アニメーション情報</param>
+	/// <param name="charaName">キャラクター名</param>
 	void LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data);
 
 private:

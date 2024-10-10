@@ -1,4 +1,4 @@
-#include "Message.h"
+ï»¿#include "Message.h"
 #include <fstream>
 #include <sstream>
 #include <vector>
@@ -10,11 +10,11 @@ namespace
 	const char* const kMessageFileName = "data/csv/message.csv";
 
 	/// <summary>
-	/// •¶š—ñ‚ğ•ªŠ„‚·‚é
+	/// æ–‡å­—åˆ—ã‚’åˆ†å‰²ã™ã‚‹
 	/// </summary>
-	/// <param name="input">•¶š—ñ</param>
-	/// <param name="delimiter">‹æØ‚é•¶š(,)</param>
-	/// <returns>•ªŠ„‚µ‚½•¶š—ñ</returns>
+	/// <param name="input">æ–‡å­—åˆ—</param>
+	/// <param name="delimiter">åŒºåˆ‡ã‚‹æ–‡å­—(,)</param>
+	/// <returns>åˆ†å‰²ã—ãŸæ–‡å­—åˆ—</returns>
 	std::vector<std::string> split(std::string& input, char delimiter)
 	{
 		std::istringstream stream(input);
@@ -28,9 +28,6 @@ namespace
 	}
 }
 
-/// <summary>
-/// csvƒtƒ@ƒCƒ‹‚©‚çƒƒbƒZ[ƒW‚ğ“Ç‚İ‚Ş
-/// </summary>
 void Message::Load()
 {
 	std::ifstream ifs(kMessageFileName);
@@ -44,21 +41,11 @@ void Message::Load()
 	}
 }
 
-/// <summary>
-/// stringŒ^‚ÌƒƒbƒZ[ƒW‚Ìæ“¾
-/// </summary>
-/// <param name="id">æ“¾‚µ‚½‚¢ƒƒbƒZ[ƒW‚ÌID</param>
-/// <returns>ƒƒbƒZ[ƒW</returns>
 std::string Message::Get(std::string id)
 {
 	return m_data[id];
 }
 
-/// <summary>
-/// charŒ^‚ÌƒƒbƒZ[ƒW‚Ìæ“¾
-/// </summary>
-/// <param name="id">æ“¾‚µ‚½‚¢ƒƒbƒZ[ƒW‚ÌID</param>
-/// <returns>ƒƒbƒZ[ƒW</returns>
 const char* Message::Get_c(std::string id)
 {
 	return m_data[id].c_str();

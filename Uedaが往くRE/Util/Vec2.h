@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 #include <cmath>
 
-// ƒxƒNƒgƒ‹‚ğ•Ö—˜‚Éˆµ‚¤‚½‚ß‚ÌƒNƒ‰ƒX
+// ãƒ™ã‚¯ãƒˆãƒ«ã‚’ä¾¿åˆ©ã«æ‰±ã†ãŸã‚ã®ã‚¯ãƒ©ã‚¹
 class Vec2
 {
 public:
@@ -21,19 +21,19 @@ public:
 	{
 	}
 
-	// ’P€‰‰Zq+	Vec2 = +Vec2
+	// å˜é …æ¼”ç®—å­+	Vec2 = +Vec2
 	Vec2 operator+() const
 	{
 		return *this;
 	}
 
-	// ’P€‰‰Zq-	Vec2 = -Vec2
+	// å˜é …æ¼”ç®—å­-	Vec2 = -Vec2
 	Vec2 operator-() const
 	{
 		return Vec2{ -x, -y };
 	}
 
-	// ‘«‚µZ@c = a + b, c = (a += b)
+	// è¶³ã—ç®—ã€€c = a + b, c = (a += b)
 	Vec2 operator+(Vec2 vec) const
 	{
 		return Vec2{ x + vec.x, y + vec.y };
@@ -46,7 +46,7 @@ public:
 		return *this;
 	}
 
-	// ˆø‚«Z@
+	// å¼•ãç®—ã€€
 	Vec2 operator-(Vec2 vec) const
 	{
 		return Vec2{ x - vec.x, y - vec.y };
@@ -59,7 +59,7 @@ public:
 		return *this;
 	}
 
-	// Š|‚¯Z
+	// æ›ã‘ç®—
 	Vec2 operator*(float scale) const
 	{
 		return Vec2{ x * scale, y * scale };
@@ -72,7 +72,7 @@ public:
 		return *this;
 	}
 
-	// Š„‚èZ
+	// å‰²ã‚Šç®—
 	Vec2 operator/(float scale) const
 	{
 		return Vec2{ x / scale, y / scale };
@@ -85,19 +85,27 @@ public:
 		return *this;
 	}
 
-	// ƒxƒNƒgƒ‹‚Ì’·‚³‚Ì2æ‚ğ‹‚ß‚é
+	/// <summary>
+	/// ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã®2ä¹—ã‚’æ±‚ã‚ã‚‹
+	/// </summary>
+	/// <returns>ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã®2ä¹—</returns>
 	float sqLength() const
 	{
 		return x * x + y * y;
 	}
 
-	// ƒxƒNƒgƒ‹‚Ì’·‚³‚ğ‹‚ß‚é
+	/// <summary>
+	/// ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã‚’æ±‚ã‚ã‚‹
+	/// </summary>
+	/// <returns>ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•</returns>
 	float length() const
 	{
 		return sqrtf(sqLength());
 	}
 
-	// ©g‚Ì³‹K‰»‚ğs‚¤
+	/// <summary>
+	/// è‡ªèº«ã®æ­£è¦åŒ–ã‚’è¡Œã†
+	/// </summary>
 	void normalize()
 	{
 		float len = length();
@@ -106,10 +114,13 @@ public:
 			x /= len;
 			y /= len;
 		}
-		// ’·‚³0‚Ìê‡‚Í‰½‚à‚µ‚È‚¢
+		// é•·ã•0ã®å ´åˆã¯ä½•ã‚‚ã—ãªã„
 	}
 
-	// ©g‚ğ³‹K‰»‚µ‚½ƒxƒNƒgƒ‹‚ğæ“¾‚·‚é
+	/// <summary>
+	/// è‡ªèº«ã‚’æ­£è¦åŒ–ã—ãŸãƒ™ã‚¯ãƒˆãƒ«ã‚’å–å¾—ã™ã‚‹
+	/// </summary>
+	/// <returns>æ­£è¦åŒ–ã—ãŸãƒ™ã‚¯ãƒˆãƒ«</returns>
 	Vec2 getNormalize() const
 	{
 		float len = length();
@@ -117,7 +128,7 @@ public:
 		{
 			return Vec2{ x / len, y / len };
 		}
-		// ’·‚³‚ª0‚Ìê‡
+		// é•·ã•ãŒ0ã®å ´åˆ
 		return Vec2{ 0.0f, 0.0f };
 	}
 };

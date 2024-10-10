@@ -1,30 +1,27 @@
-#include "Input.h"
+ï»¿#include "Input.h"
 #include "DxLib.h"
 #include <string>
 #include <algorithm>
 
-/// <summary>
-/// “ü—Íî•ñ‚ÌXV
-/// </summary>
 void Input::Update()
 {
-	// ’¼‘O‚Ì“ü—Í‚ğƒRƒs[
+	// ç›´å‰ã®å…¥åŠ›ã‚’ã‚³ãƒ”ãƒ¼
 	m_lastInputData = m_inputData;
 
-	/*ƒn[ƒhƒEƒFƒA“ü—Íƒ`ƒFƒbƒN*/
-	// ƒpƒbƒhî•ñ‚Ìæ“¾
+	/*ãƒãƒ¼ãƒ‰ã‚¦ã‚§ã‚¢å…¥åŠ›ãƒã‚§ãƒƒã‚¯*/
+	// ãƒ‘ãƒƒãƒ‰æƒ…å ±ã®å–å¾—
 	int padstate = GetJoypadInputState(DX_INPUT_PAD1);
-	// Œ»İ‚ÌƒL[ƒ{[ƒh“ü—Í‚ğæ“¾
+	// ç¾åœ¨ã®ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å…¥åŠ›ã‚’å–å¾—
 	char keystate[256];
 	GetHitKeyStateAll(keystate);
 
-	// m_inputData‚Ì“à—e‚ğXV
+	// m_inputDataã®å†…å®¹ã‚’æ›´æ–°
 	for (const auto& cmd : m_commandTable)
 	{
-		auto& input = m_inputData[cmd.first];	// ƒRƒ}ƒ“ƒh‚Ì–¼‘O‚©‚ç“ü—Íƒf[ƒ^‚ğì‚é
+		auto& input = m_inputData[cmd.first];	// ã‚³ãƒãƒ³ãƒ‰ã®åå‰ã‹ã‚‰å…¥åŠ›ãƒ‡ãƒ¼ã‚¿ã‚’ä½œã‚‹
 		for (const auto& hardIO : cmd.second)
 		{
-			// ƒL[ƒ{[ƒh‚Ìƒ`ƒFƒbƒN
+			// ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã®ãƒã‚§ãƒƒã‚¯
 			input = false;
 			if (hardIO.first == InputType::keybd)
 			{
@@ -34,7 +31,7 @@ void Input::Update()
 					break;
 				}
 			}
-			// ƒpƒbƒh‚Ìƒ`ƒFƒbƒN
+			// ãƒ‘ãƒƒãƒ‰ã®ãƒã‚§ãƒƒã‚¯
 			else if (hardIO.first == InputType::pad)
 			{
 				if (padstate & hardIO.second)
@@ -47,17 +44,11 @@ void Input::Update()
 	}
 }
 
-
-/// <summary>
-/// ‰Ÿ‚³‚ê‚½uŠÔ‚ğæ“¾
-/// </summary>
-/// <param name="command">ƒRƒ}ƒ“ƒh•¶š—ñ</param>
-/// <returns>ture:‰Ÿ‚³‚ê‚½uŠÔ</returns>
 bool Input::IsTriggered(const char* command) const
 {
 	auto it = m_inputData.find(command);
 
-	// —v‘f‚ª‚È‚¢ê‡
+	// è¦ç´ ãŒãªã„å ´åˆ
 	if (it == m_inputData.end())
 	{
 		return false;
@@ -66,17 +57,11 @@ bool Input::IsTriggered(const char* command) const
 	return(m_inputData.at(command) && !m_lastInputData.at(command));
 }
 
-
-/// <summary>
-/// ¡‰Ÿ‚µ‚Ä‚¢‚é‚©‚ğæ“¾
-/// </summary>
-/// <param name="command">ƒRƒ}ƒ“ƒh•¶š—ñ</param>
-/// <returns>true:‰Ÿ‚³‚ê‚Ä‚¢‚é</returns>
 bool Input::IsPressing(const char* command) const
 {
 	auto it = m_inputData.find(command);
 
-	// —v‘f‚ª‚È‚¢ê‡
+	// è¦ç´ ãŒãªã„å ´åˆ
 	if (it == m_inputData.end()	)
 	{
 		return false;
@@ -85,17 +70,11 @@ bool Input::IsPressing(const char* command) const
 	return m_inputData.at(command);
 }
 
-
-/// <summary>
-/// —£‚³‚ê‚½uŠÔ‚ğæ“¾
-/// </summary>
-/// <param name="command">ƒRƒ}ƒ“ƒh•¶š—ñ</param>
-/// <returns>true:—£‚³‚ê‚½uŠÔ</returns>
 bool Input::IsReleased(const char* command) const
 {
 	auto it = m_inputData.find(command);
 
-	// —v‘f‚ª‚È‚¢ê‡
+	// è¦ç´ ãŒãªã„å ´åˆ
 	if (it == m_inputData.end())
 	{
 		return false;
@@ -104,10 +83,6 @@ bool Input::IsReleased(const char* command) const
 	return(!m_inputData.at(command) && m_lastInputData.at(command));
 }
 
-
-/// <summary>
-/// ƒRƒ}ƒ“ƒh‚Ìí—Ş
-/// </summary>
 Input::Input()
 {
 	m_commandTable["OK"] = { {InputType::keybd, KEY_INPUT_RETURN},
@@ -158,7 +133,7 @@ Input::Input()
 	m_commandTable["sceneChange"] = { {InputType::keybd, KEY_INPUT_Z},
 									  {InputType::pad, PAD_INPUT_10} };
 
-	/*UŒ‚*/
+	/*æ”»æ’ƒ*/
 	m_commandTable["punch"] = { {InputType::keybd, KEY_INPUT_Z},
 								{InputType::pad, PAD_INPUT_C} };
 	m_commandTable["kick"] = { {InputType::keybd, KEY_INPUT_X},
@@ -172,21 +147,21 @@ Input::Input()
 	m_commandTable["special"] = { { InputType::keybd, KEY_INPUT_W },
 								{InputType::pad, PAD_INPUT_B } },
 
-	/*ƒJƒƒ‰‰ñ“]*/
-	// ¶
+	/*ã‚«ãƒ¡ãƒ©å›è»¢*/
+	// å·¦
 	m_commandTable["rotateL"] = { {InputType::keybd, KEY_INPUT_A},
 								  {InputType::pad, PAD_INPUT_Y} };
-	// ‰E
+	// å³
 	m_commandTable["rotateR"] = { {InputType::keybd, KEY_INPUT_D},
 								  {InputType::pad, PAD_INPUT_Z} };
-	// ã
+	// ä¸Š
 	m_commandTable["rotateU"] = { {InputType::keybd, KEY_INPUT_W},
 							      {InputType::pad, PAD_INPUT_10} };
-	// ‰º
+	// ä¸‹
 	m_commandTable["rotateD"] = { {InputType::keybd, KEY_INPUT_S},
 								  {InputType::pad, PAD_INPUT_10} };
 
-	/*ƒfƒoƒbƒO‹@”\*/
+	/*ãƒ‡ãƒãƒƒã‚°æ©Ÿèƒ½*/
 	m_commandTable["debug_damage"] = { {InputType::keybd, KEY_INPUT_LSHIFT},
 								  {InputType::pad, PAD_INPUT_11} };
 	m_commandTable["debug_pause"] = { {InputType::keybd, KEY_INPUT_P},

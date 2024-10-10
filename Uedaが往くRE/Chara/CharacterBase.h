@@ -69,7 +69,7 @@ public:
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~CharacterBase();
+	virtual ~CharacterBase();
 
 	/// <summary>
 	/// 初期化

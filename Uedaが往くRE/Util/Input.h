@@ -1,45 +1,63 @@
-#pragma once
+ï»¿#pragma once
 #include <array>
 #include <map>
 #include<unordered_map>
 #include<string>
 
 /// <summary>
-/// “ü—ÍŠÇ—ƒNƒ‰ƒX
+/// å…¥åŠ›ç®¡ç†ã‚¯ãƒ©ã‚¹
 /// </summary>
 
 enum class InputType
 {
-	keybd,	// ƒL[ƒ{[ƒh
-	pad,	// ƒpƒbƒh
-	mouse	// ƒ}ƒEƒX
+	keybd,	// ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰
+	pad,	// ãƒ‘ãƒƒãƒ‰
+	mouse	// ãƒã‚¦ã‚¹
 };
 
-// ƒRƒ}ƒ“ƒh‚Ìí—Ş
+// ã‚³ãƒãƒ³ãƒ‰ã®ç¨®é¡
 using InputTable_t = std::unordered_map<std::string, std::map<InputType, int>>;
 
 class Input
 {
 public:
-	// “ü—Íî•ñ‚ÌXV
+	/// <summary>
+	/// å…¥åŠ›æƒ…å ±ã®æ›´æ–°
+	/// </summary>
 	void Update();
 
-	/// ‰Ÿ‚³‚ê‚½uŠÔ‚ğæ“¾
+	/// <summary>
+	/// æŠ¼ã•ã‚ŒãŸç¬é–“ã‚’å–å¾—
+	/// </summary>
+	/// <param name="command">ã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—</param>
+	/// <returns>ture:æŠ¼ã•ã‚ŒãŸç¬é–“</returns>
 	bool IsTriggered(const char* command)const;
-	// ¡‰Ÿ‚µ‚Ä‚¢‚é‚©‚ğæ“¾
+
+	/// <summary>
+	/// ä»ŠæŠ¼ã—ã¦ã„ã‚‹ã‹ã‚’å–å¾—
+	/// </summary>
+	/// <param name="command">ã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—</param>
+	/// <returns>ture:æŠ¼ã•ã‚Œã¦ã„ã‚‹</returns>
 	bool IsPressing(const char* command)const;
-	// —£‚³‚ê‚½uŠÔ‚ğæ“¾
+
+	/// <summary>
+	/// é›¢ã•ã‚ŒãŸç¬é–“ã‚’å–å¾—
+	/// </summary>
+	/// <param name="command">ã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—</param>
+	/// <returns>true:é›¢ã•ã‚ŒãŸç¬é–“</returns>
 	bool IsReleased(const char* command)const;
 
-	// ƒRƒ}ƒ“ƒh‚Ìí—Ş
+	/// <summary>
+	/// ã‚³ãƒãƒ³ãƒ‰ã®ç¨®é¡
+	/// </summary>
 	Input();
 
 private:
-	// ƒRƒ}ƒ“ƒh–¼‚Æ“ü—Í‚ğƒyƒA‚É‚µ‚½ƒe[ƒuƒ‹
+	// ã‚³ãƒãƒ³ãƒ‰åã¨å…¥åŠ›ã‚’ãƒšã‚¢ã«ã—ãŸãƒ†ãƒ¼ãƒ–ãƒ«
 	InputTable_t m_commandTable;
 
-	// ƒRƒ}ƒ“ƒh‚Ì“ü—Í‚ğŠo‚¦‚Ä‚¨‚­
-	std::map<std::string, bool> m_inputData;		// Œ»İ‚Ì“ü—Í
-	std::map<std::string, bool> m_lastInputData;	// ’¼‘O‚Ì“ü—Í
+	// ã‚³ãƒãƒ³ãƒ‰ã®å…¥åŠ›ã‚’è¦šãˆã¦ãŠã
+	std::map<std::string, bool> m_inputData;		// ç¾åœ¨ã®å…¥åŠ›
+	std::map<std::string, bool> m_lastInputData;	// ç›´å‰ã®å…¥åŠ›
 };
 

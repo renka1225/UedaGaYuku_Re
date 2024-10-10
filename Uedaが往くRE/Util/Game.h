@@ -10,6 +10,9 @@ namespace Game
 	constexpr int kColorDepth = 32;
 }
 
+/// <summary>
+/// テキスト色の定数
+/// </summary>
 namespace Color
 {
 	constexpr int kColorW = 0xffffff;	// 白色

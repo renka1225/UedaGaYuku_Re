@@ -178,7 +178,6 @@
     <ClCompile Include="Scene\SceneBase.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="Util\Input.cpp" />
-    <ClCompile Include="Util\Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chara\CharacterBase.h" />

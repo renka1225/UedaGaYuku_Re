@@ -60,9 +60,6 @@
     <ClCompile Include="Scene\SceneManager.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Vec2.cpp">
-      <Filter>ソース ファイル\Util</Filter>
-    </ClCompile>
     <ClCompile Include="Util\Input.cpp">
       <Filter>ソース ファイル\Util</Filter>
     </ClCompile>

@@ -33,11 +33,6 @@ namespace
 	}
 }
 
-/// <summary>
-/// キャラクターのステータス情報を読み込む
-/// </summary>
-/// <param name="data">ステータス情報</param>
-/// <param name="charaName">キャラクターの名前</param>
 void LoadCsv::LoadStatus(CharacterBase::Status& data, std::string charaName)
 {
 	std::ifstream ifs(kCharaStatusFileName);
@@ -66,11 +61,6 @@ void LoadCsv::LoadStatus(CharacterBase::Status& data, std::string charaName)
 	}
 }
 
-/// <summary>
-/// 当たり判定のデータを読み込む
-/// </summary>
-/// <param name="data"></param>
-/// <param name="charType"></param>
 void LoadCsv::LoadColData(CharacterBase::ColData& data, std::string charaName)
 {
 	std::ifstream ifs(kColDataFileName);
@@ -121,12 +111,6 @@ void LoadCsv::LoadColData(CharacterBase::ColData& data, std::string charaName)
 	}
 }
 
-
-/// <summary>
-/// アニメーション情報を読み込む
-/// </summary>
-/// <param name="data">アニメーション情報</param>
-/// <param name="charaName">キャラクターの名前</param>
 void LoadCsv::LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data)
 {
 	std::ifstream ifs(kCharaAnimDataFileName);
