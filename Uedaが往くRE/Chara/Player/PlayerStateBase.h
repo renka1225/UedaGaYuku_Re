@@ -17,9 +17,11 @@ public:
 	// プレイヤーの状態
 	enum class PlayerStateKind
 	{
-		kIdle,	// 待機
-		kWalk,	// 歩き
-		kRun	// 走り
+		kIdle,		// 待機
+		kWalk,		// 歩き
+		kRun,		// 走り
+		kAttack,	// 攻撃
+		kDamage,	// 攻撃を受ける
 	};
 
 	/// <summary>
@@ -40,6 +42,12 @@ public:
 	/// <param name="camera">カメラ参照</param>
 	/// <param name="stage">ステージ参照</param>
 	virtual void Update(const Input& input, const Camera& camera, Stage& stage);
+
+	/// <summary>
+	/// ダメージを受けた時の処理
+	/// </summary>
+	/// <returns>ダメージ量</returns>
+	virtual int OnDamage() = 0;
 	
 	/// <summary>
 	/// 現在のStateを取得

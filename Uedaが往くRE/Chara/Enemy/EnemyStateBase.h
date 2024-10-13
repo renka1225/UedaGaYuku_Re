@@ -15,9 +15,11 @@ public:
 	// 敵の状態
 	enum class EnemyStateKind
 	{
-		kIdle,	// 待機
-		kWalk,	// 歩き
-		kRun,	// 走り
+		kIdle,	 // 待機
+		kWalk,	 // 歩き
+		kRun,	 // 走り
+		kAttack, // 攻撃
+		kDamage, // 攻撃を受ける
 	};
 
 	/// <summary>

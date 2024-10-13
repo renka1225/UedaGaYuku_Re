@@ -35,6 +35,10 @@ public:
 	/// <param name="camera">カメラ参照</param>
 	/// <param name="stage">ステージ参照</param>
 	virtual void Update(const Input& input, const Camera& camera, Stage& stage, EnemyBase& enemy);
+
+	/// <summary>
+	/// 描画
+	/// </summary>
 	virtual void Draw();
 
 	/// <summary>

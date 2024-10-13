@@ -152,7 +152,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Chara\CharacterBase.cpp" />
+    <ClCompile Include="Chara\Player\PlayerStateAttack.cpp" />
     <ClCompile Include="Chara\Player\PlayerStateBase.cpp" />
+    <ClCompile Include="Chara\Player\PlayerStateHitAttack.cpp" />
     <ClCompile Include="Chara\Player\PlayerStateIdle.cpp" />
     <ClCompile Include="Chara\Player\PlayerStateRun.cpp" />
     <ClCompile Include="Chara\Player\PlayerStateWalk.cpp" />
@@ -161,6 +163,8 @@
     <ClCompile Include="Chara\Enemy\EnemyStateIdle.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyStateRun.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyStateWalk.cpp" />
+    <ClCompile Include="Chara\Enemy\EnemyStateAttack.cpp" />
+    <ClCompile Include="EnemyStateHitAttack.cpp" />
     <ClCompile Include="Object\ObjectBase.cpp" />
     <ClCompile Include="Util\LoadCsv.cpp" />
     <ClCompile Include="Debug\DebugDraw.cpp" />
@@ -180,7 +184,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chara\CharacterBase.h" />
+    <ClInclude Include="Chara\Player\PlayerStateAttack.h" />
     <ClInclude Include="Chara\Player\PlayerStateBase.h" />
+    <ClInclude Include="Chara\Player\PlayerStateHitAttack.h" />
     <ClInclude Include="Chara\Player\PlayerStateIdle.h" />
     <ClInclude Include="Chara\Player\PlayerStateRun.h" />
     <ClInclude Include="Chara\Player\PlayerStateWalk.h" />
@@ -189,6 +195,8 @@
     <ClInclude Include="Chara\Enemy\EnemyStateIdle.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateRun.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateWalk.h" />
+    <ClInclude Include="Chara\Enemy\EnemyStateAttack.h" />
+    <ClInclude Include="EnemyStateHitAttack.h" />
     <ClInclude Include="Object\ObjectBase.h" />
     <ClInclude Include="Util\LoadCsv.h" />
     <ClInclude Include="Debug\DebugDraw.h" />
