@@ -44,5 +44,7 @@ public:
 	virtual std::string GetStateName() override { return "攻撃中"; }
 #endif
 
+private:
+	bool m_isAttackEnd; // 攻撃が終わったかどうか
 };
 

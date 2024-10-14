@@ -47,7 +47,7 @@ public:
 	/// ダメージを受けた時の処理
 	/// </summary>
 	/// <returns>ダメージ量</returns>
-	virtual int OnDamage() = 0;
+	//virtual int OnDamage() = 0;
 	
 	/// <summary>
 	/// 現在のStateを取得

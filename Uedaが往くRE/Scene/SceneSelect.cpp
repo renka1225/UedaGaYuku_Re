@@ -13,7 +13,7 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 	UpdateSelect(input, SelectScene::kSelectNum);
 
 	// 遷移
-	if (input.IsTriggered("OK"))
+	if (input.IsTriggered(InputId::kOk))
 	{
 		if (m_select == SelectScene::kMain)
 		{
@@ -24,7 +24,7 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 			return std::make_shared<SceneOption>();
 		}
 	}
-	else if (input.IsTriggered("back"))
+	else if (input.IsTriggered(InputId::kBack))
 	{
 		return std::make_shared<SceneTitle>();
 	}

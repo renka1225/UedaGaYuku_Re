@@ -1,4 +1,5 @@
-﻿#include "Input.h"
+﻿#include "Game.h"
+#include "Input.h"
 #include "SceneSelect.h"
 #include "SceneTitle.h"
 
@@ -7,7 +8,7 @@
 /// </summary>
 std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
 {
-	if (input.IsTriggered("OK"))
+	if (input.IsTriggered(InputId::kOk))
 	{
 		return std::make_shared<SceneSelect>();
 	}

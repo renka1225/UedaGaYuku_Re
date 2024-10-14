@@ -10,9 +10,9 @@ void PlayerStateHitAttack::Update(const Input& input, const Camera& camera, Stag
 {
 }
 
-int PlayerStateHitAttack::OnDamage()
-{
-	int damage = 0;
-
-	return damage;
-}
+//int PlayerStateHitAttack::OnDamage()
+//{
+//	int damage = 0;
+//
+//	return damage;
+//}

@@ -1,4 +1,4 @@
-﻿#include "DxLib.h"
+﻿#include "Game.h"
 #include "Input.h"
 #include "Camera.h"
 #include "Player.h"
@@ -38,7 +38,7 @@ void PlayerStateRun::Update(const Input& input, const Camera& camera, Stage& sta
     m_pPlayer->Move(moveVec, stage);   // 移動情報を反映する
 
     // 移動中にAボタンを離した場合
-    if (input.IsReleased("A") && (m_analogX != 0 || m_analogY != 0))
+    if (input.IsReleased(InputId::kA) && (m_analogX != 0 || m_analogY != 0))
     {
         // StateをWalkに変更する
         m_nextState = std::make_shared<PlayerStateWalk>(m_pPlayer);

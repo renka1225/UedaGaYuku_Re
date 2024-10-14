@@ -34,7 +34,7 @@ public:
 	/// ダメージを受けた時の処理
 	/// </summary>
 	/// <returns>ダメージ量</returns>
-	virtual int OnDamage() override;
+	//virtual int OnDamage() override;
 
 	/// <summary>
 	/// 現在のStateを取得

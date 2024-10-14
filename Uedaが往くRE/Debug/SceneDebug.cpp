@@ -27,7 +27,7 @@ std::shared_ptr<SceneBase> SceneDebug::Update(Input& input)
 	UpdateSelect(input, kSelectNum);
 
 	// 遷移
-	if (input.IsTriggered("OK"))
+	if (input.IsTriggered(InputId::kOk))
 	{
 		if (m_select == SelectScene::kTitle)
 		{

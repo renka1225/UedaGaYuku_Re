@@ -30,12 +30,12 @@ void SceneBase::DrawSceneText(const char* sceneName)
 void SceneBase::UpdateSelect(Input& input, int selectNum)
 {
 	// 選択状態を1つ下げる
-	if (input.IsTriggered("down"))
+	if (input.IsTriggered(InputId::kDown))
 	{
 		m_select = (m_select + 1) % selectNum;
 	}
 	// 選択状態を1つ上げる
-	if (input.IsTriggered("up"))
+	if (input.IsTriggered(InputId::kUp))
 	{
 		m_select = (m_select + (selectNum - 1)) % selectNum;
 	}
