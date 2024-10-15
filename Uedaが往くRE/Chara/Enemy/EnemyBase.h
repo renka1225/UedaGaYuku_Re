@@ -37,6 +37,11 @@ public:
 	/// </summary>
 	virtual void Draw();
 
+	/// <summary>
+	/// 死亡時の処理
+	/// </summary>
+	void Death();
+
 protected:
 	std::shared_ptr<EnemyStateBase> m_pState; // stateパターン
 };

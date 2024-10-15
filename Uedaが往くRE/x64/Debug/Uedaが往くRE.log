@@ -1,8 +1,18 @@
-﻿  SceneDebug.cpp
-  SceneBase.cpp
-  SceneOption.cpp
-  SceneSelect.cpp
-  SceneTitle.cpp
+﻿  EnemyBase.cpp
+  EnemyStateAttack.cpp
+  EnemyStateIdle.cpp
+  EnemyStateRun.cpp
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\EnemyStateRun.cpp(15,9): warning C4101: 'moveVec': ローカル変数は 1 度も使われていません。
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\EnemyStateRun.cpp(13,9): warning C4101: 'upMoveVec': ローカル変数は 1 度も使われていません。
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\EnemyStateRun.cpp(14,9): warning C4101: 'leftMoveVec': ローカル変数は 1 度も使われていません。
+  EnemyStateWalk.cpp
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\EnemyStateWalk.cpp(15,9): warning C4101: 'moveVec': ローカル変数は 1 度も使われていません。
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\EnemyStateWalk.cpp(13,9): warning C4101: 'upMoveVec': ローカル変数は 1 度も使われていません。
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\EnemyStateWalk.cpp(14,9): warning C4101: 'leftMoveVec': ローカル変数は 1 度も使われていません。
+  Player.cpp
+  PlayerStateAttack.cpp
+  PlayerStateIdle.cpp
+  SceneMain.cpp
   コードを生成中...
 EffekseerForDXLib_vs2019_x64_d.lib(EffekseerForDXLib.obj) : warning LNK4099: PDB '' が 'EffekseerForDXLib_vs2019_x64_d.lib(EffekseerForDXLib.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Effekseer_vs2019_x64_d.lib(Effekseer.Vector3D.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(Effekseer.Vector3D.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
@@ -84,4 +94,4 @@ EffekseerRendererDX11_vs2019_x64_d.lib(EffekseerMaterialCompilerDX11.obj) : warn
 Effekseer_vs2019_x64_d.lib(ModelLoader.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(ModelLoader.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Effekseer_vs2019_x64_d.lib(Effekseer.MaterialFile.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(Effekseer.MaterialFile.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Effekseer_vs2019_x64_d.lib(Effekseer.CompiledMaterial.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(Effekseer.CompiledMaterial.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-  Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Uedaが往くRE.exe
+  Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Uedaが往くRE.exe

@@ -10,7 +10,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	PlayerStateAttack(std::shared_ptr<Player> player) : PlayerStateBase(player) {};
+	PlayerStateAttack(std::shared_ptr<Player> player);
 
 	/// <summary>
 	/// デストラクタ

@@ -2,6 +2,12 @@
 #include "PlayerStateIdle.h"
 #include "PlayerStateAttack.h"
 
+PlayerStateAttack::PlayerStateAttack(std::shared_ptr<Player> player):
+    PlayerStateBase(player),
+    m_isAttackEnd(false)
+{
+}
+
 void PlayerStateAttack::Init()
 {
 	m_pPlayer->ChangeAnim("Attack");
