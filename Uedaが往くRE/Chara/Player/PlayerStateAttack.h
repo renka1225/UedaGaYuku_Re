@@ -41,11 +41,12 @@ public:
 	/// 現在の状態名を取得
 	/// </summary>
 	/// <returns>State名</returns>
-	virtual std::string GetStateName() override { return "攻撃中"; }
+	virtual std::string GetStateName() override;
 #endif
 
 private:
-	float m_attackEndTime;	// 攻撃が終わるまでの時間
-	bool m_isAttackEnd;		// 攻撃が終わったかどうか
+	std::string m_attackKind;	// 入力された攻撃の種類
+	float m_attackEndTime;		// 攻撃が終わるまでの時間
+	bool m_isAttackEnd;			// 攻撃が終わったかどうか
 };
 

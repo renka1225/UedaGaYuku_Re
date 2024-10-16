@@ -21,7 +21,7 @@ void EnemyStateBase::Update(Stage& stage)
 	}
 
 	// 攻撃を受けた場合
-	//if (m_pEnemy->OnDamage())
+	//if ()
 	//{
 	//	// StateをStateHitAttackに変更する
 	//	m_nextState = std::make_shared<EnemyStateHitAttack>(m_pEnemy);

@@ -17,7 +17,7 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	GetJoypadAnalogInput(&m_analogX, &m_analogY, DX_INPUT_PAD1); // アナログスティックの入力状態
 
 	// 攻撃のボタンが押された場合
-	if (input.IsTriggered(InputId::kPunch))
+	if (input.IsTriggered(InputId::kPunch) || input.IsTriggered(InputId::kKick))
 	{
 		// StateをAttackに変更する
 		m_nextState = std::make_shared<PlayerStateAttack>(m_pPlayer);

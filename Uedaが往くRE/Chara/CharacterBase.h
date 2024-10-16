@@ -139,7 +139,7 @@ protected:
 	void UpdateCol();
 
 protected:
-	std::map<std::string, AnimInfo> m_animData;		// アニメーションのデータ
+	std::map<std::string, AnimInfo> m_animData;	// アニメーションのデータ
 	ColData m_colData;			// 初期当たり判定
 	UpdateColData m_updateCol;  // 更新した当たり判定
 	Status m_status;			// ステータス

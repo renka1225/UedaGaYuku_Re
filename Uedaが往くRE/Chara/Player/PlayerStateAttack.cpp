@@ -6,7 +6,7 @@
 // 定数
 namespace
 {
-    constexpr float kAttackEndTime = 60;
+    constexpr float kAttackEndTime = 30;
 }
 
 PlayerStateAttack::PlayerStateAttack(std::shared_ptr<Player> player):
@@ -16,9 +16,11 @@ PlayerStateAttack::PlayerStateAttack(std::shared_ptr<Player> player):
 {
 }
 
-void PlayerStateAttack::Init(std::string inputId)
+void PlayerStateAttack::Init(std::string attackName)
 {
-	m_pPlayer->ChangeAnim(inputId);
+    m_attackKind = attackName;
+
+	m_pPlayer->ChangeAnim(m_attackKind);
 }
 
 void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& stage, std::shared_ptr<EnemyBase> pEnemy)
@@ -45,6 +47,30 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
         }
 
         // 敵にダメージを与える
-        if(pEnemy != nullptr) pEnemy->OnDamage(5);
+        if (pEnemy != nullptr)
+        {
+            if (m_attackKind == "Punch")
+            {
+                pEnemy->OnDamage(5);
+            }
+            else if (m_attackKind == "Kick")
+            {
+                pEnemy->OnDamage(10);
+            }
+        }
     }
+}
+
+std::string PlayerStateAttack::GetStateName()
+{
+    if (m_attackKind == "Punch")
+    {
+        return "パンチ中";
+    }
+    else if (m_attackKind == "Kick")
+    {
+        return "キック中";
+    }
+
+    return "攻撃中";
 }
