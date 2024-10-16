@@ -10,6 +10,8 @@ void EnemyStateRun::Init()
 
 void EnemyStateRun::Update(Stage& stage)
 {
+	EnemyStateBase::Update(stage);
+
 	VECTOR upMoveVec;	 // 上ボタンを入力をしたときの移動方向ベクトル
 	VECTOR leftMoveVec;	 // 左ボタンを入力をしたときの移動方向ベクトル
 	VECTOR moveVec;		 // 移動ベクトル

@@ -38,11 +38,18 @@ public:
 	virtual void Draw();
 
 	/// <summary>
-	/// 死亡時の処理
+	/// 死亡フラグをセットする
 	/// </summary>
-	void Death();
+	void SetIsDead(bool isDead) { m_isDead = isDead; }
+
+	/// <summary>
+	/// 死亡フラグを取得する
+	/// </summary>
+	/// <returns>死亡しているかどうか</returns>
+	bool GetIsDead() const { return m_isDead; }
 
 protected:
 	std::shared_ptr<EnemyStateBase> m_pState; // stateパターン
+	bool m_isDead; // 死亡したかどうか
 };
 

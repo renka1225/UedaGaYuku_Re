@@ -144,7 +144,10 @@
     <ClCompile Include="Chara\Enemy\EnemyStateAttack.cpp">
       <Filter>ソース ファイル\Chara\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyStateHitAttack.cpp">
+    <ClCompile Include="Chara\Enemy\EnemyStateHitAttack.cpp">
+      <Filter>ソース ファイル\Chara\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Enemy\EnemyStateDeath.cpp">
       <Filter>ソース ファイル\Chara\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
@@ -239,7 +242,10 @@
     <ClInclude Include="Chara\Enemy\EnemyStateAttack.h">
       <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyStateHitAttack.h">
+    <ClInclude Include="Chara\Enemy\EnemyStateHitAttack.h">
+      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Enemy\EnemyStateDeath.h">
       <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
     </ClInclude>
   </ItemGroup>

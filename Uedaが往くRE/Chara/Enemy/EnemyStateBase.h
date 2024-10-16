@@ -20,6 +20,7 @@ public:
 		kRun,	 // 走り
 		kAttack, // 攻撃
 		kDamage, // 攻撃を受ける
+		kDeath,	 // 死亡
 	};
 
 	/// <summary>
@@ -37,7 +38,7 @@ public:
 	/// 更新
 	/// </summary>
 	/// <param name="stage">ステージ参照</param>
-	virtual void Update(Stage& stage) = 0;
+	virtual void Update(Stage& stage);
 	
 	/// <summary>
 	/// 現在の状態を取得

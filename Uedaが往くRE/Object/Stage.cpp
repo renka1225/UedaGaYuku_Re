@@ -1,5 +1,6 @@
 ﻿#include "Game.h"
 #include "ObjectBase.h"
+#include "Player.h"
 #include "Stage.h"
 #include <cmath>
 
@@ -22,12 +23,14 @@ namespace
     constexpr float kHitSlideLength = 0.5f;	 // 一度の壁押し出し処理でスライドさせる距離
 }
 
-Stage::Stage():
+Stage::Stage(std::shared_ptr<Player> player) :
     m_wallNum(0),
     m_floorNum(0),
     m_floor(),
     m_wall()
 {
+    m_pPlayer = player;
+
 	m_stageHandle = MV1LoadModel("data/Model/city/city.mv1");
     //m_skydoomHandle = MV1LoadModel("data/Model/Stage/skydoom.mv1");
 
@@ -74,6 +77,11 @@ VECTOR Stage::CheckObjectCol(ObjectBase& obj, const VECTOR& moveVec)
     MV1CollResultPolyDimTerminate(hitDim);
 
     return nextPos;
+}
+
+void Stage::SetDropMoney(VECTOR enemyPos, int dropMoney)
+{
+    m_pPlayer->AddMoney(dropMoney); // プレイヤーの所持金を増やす
 }
 
 void Stage::AnalyzeWallAndFloor(MV1_COLL_RESULT_POLY_DIM hitDim, const VECTOR& checkPosition)

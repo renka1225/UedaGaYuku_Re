@@ -87,6 +87,12 @@ public:
 	virtual void Draw() override;
 
 	/// <summary>
+	/// ダメージを受けた際の処理
+	/// </summary>
+	/// <param name="damage">ダメージ量</param>
+	void OnDamage(int damage);
+
+	/// <summary>
 	/// キャラクター同士の当たり判定をチェックする
 	/// </summary>
 	/// <param name="obj">オブジェクト参照</param>
@@ -94,6 +100,15 @@ public:
 	/// <param name="eCapPosBottom">当たり判定カプセルの終点</param>
 	/// <param name="eCapRadius">当たり判定カプセルの半径</param>
 	void CheckCharaCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius);
+
+	/// <summary>
+	/// 攻撃時の当たり判定をチェックする
+	/// </summary>
+	/// <param name="obj">オブジェクト参照</param>
+	/// <param name="eCapPosTop">当たり判定カプセルの始点</param>
+	/// <param name="eCapPosBottom">当たり判定カプセルの終点</param>
+	/// <param name="eCapRadius">当たり判定カプセルの半径</param>
+	void CheckHitAttackCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius);
 
 	/// <summary>
 	/// アニメーションを変更
@@ -110,6 +125,12 @@ public:
 	/// キャラクターのステータス取得
 	/// </summary>
 	Status GetStatus() const { return m_status; }
+
+	/// <summary>
+	/// キャラクターのHPを取得
+	/// </summary>
+	/// <returns></returns>
+	float GetHp() const { return m_hp; }
 
 protected:
 	/// <summary>

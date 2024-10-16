@@ -34,7 +34,7 @@ public:
 	/// <param name="input">入力状態</param>
 	/// <param name="camera">カメラ参照</param>
 	/// <param name="stage">ステージ参照</param>
-	virtual void Update(const Input& input, const Camera& camera, Stage& stage, EnemyBase& enemy);
+	virtual void Update(const Input& input, const Camera& camera, Stage& stage, std::shared_ptr<EnemyBase> pEnemy);
 
 	/// <summary>
 	/// 描画
@@ -46,8 +46,25 @@ public:
 	/// </summary>
 	void UpdateAngle();
 
+	/// <summary>
+	/// 所持金を更新する
+	/// </summary>
+	/// <param name="dropMoney">敵がドロップした金額</param>
+	void UpdateMoney();
+
+	/// <summary>
+	/// 所持金を増やす
+	/// </summary>
+	/// <param name="dropMoney">敵がドロップした金額</param>
+	/// <returns>敵がドロップした金額</returns>
+	void AddMoney(int dropMoney);
+
 private:
 	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
-	int m_money;	// 所持金額
+	
+	int m_money;		// 所持金額
+	int m_beforeMoney;	// 増減前の金額
+	int m_addMoney;		// 追加する金額
+
 };
 

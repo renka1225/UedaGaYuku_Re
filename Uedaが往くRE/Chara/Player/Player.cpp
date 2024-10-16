@@ -17,11 +17,14 @@ namespace
 	const VECTOR kInitPos = VGet(7425.0, 40.0f, 5190.0f);			// 初期位置
 	constexpr float kScale = 0.14f;									// モデルの拡大率
 
-	const Vec2 kMoneyDispPos = { 1800.0f, 50.0f };					// 現在の所持金額の表示位置
+	const Vec2 kMoneyDispPos = { 1800.0f, 50.0f }; // 現在の所持金額の表示位置
+	constexpr int kMoneyIncrement = 5;			   // 一度に増える所持金数
 }
 
 Player::Player():
-	m_money(0)
+	m_money(0),
+	m_beforeMoney(0),
+	m_addMoney(0)
 {
 	// ステータスを読み込む
 	LoadCsv::GetInstance().LoadStatus(m_status, kCharaId);
@@ -48,7 +51,7 @@ void Player::Init()
 	state->Init();
 }
 
-void Player::Update(const Input& input, const Camera& camera, Stage& stage, EnemyBase& enemy)
+void Player::Update(const Input& input, const Camera& camera, Stage& stage, std::shared_ptr<EnemyBase> pEnemy)
 {
 	CharacterBase::Update();
 
@@ -61,12 +64,17 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Enem
 	}
 
 	// 敵との当たり判定をチェックする
-	enemy.CheckCharaCol(*this, m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius);
+	if (pEnemy != nullptr)
+	{
+		pEnemy->CheckCharaCol(*this, m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius);
+	}
 
-	m_pState->Update(input, camera, stage);	// stateの更新
+	m_pState->Update(input, camera, stage, pEnemy);	// stateの更新
 	UpdateAngle();	// 向きを更新
 	UpdateAnim();	// アニメーションを更新
 	UpdateCol();	// 当たり判定の位置更新
+
+	UpdateMoney(); // 所持金を更新
 }
 
 void Player::Draw()
@@ -87,4 +95,16 @@ void Player::UpdateAngle()
 {
 	m_angle = atan2f(m_moveDir.x, m_moveDir.z);
 	MV1SetRotationXYZ(m_modelHandle, VGet(0.0f, m_angle + DX_PI_F, 0.0f));
+}
+
+void Player::UpdateMoney()
+{
+	m_money += kMoneyIncrement;
+	m_money = std::min(m_beforeMoney + m_addMoney, m_money);
+}
+
+void Player::AddMoney(int dropMoney)
+{
+	m_addMoney = dropMoney;
+	m_beforeMoney = m_money;
 }

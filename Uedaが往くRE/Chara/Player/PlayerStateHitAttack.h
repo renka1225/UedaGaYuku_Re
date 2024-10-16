@@ -28,13 +28,7 @@ public:
 	/// <param name="input">入力状態</param>
 	/// <param name="camera">カメラ参照</param>
 	/// <param name="stage">ステージ参照</param>
-	virtual void Update(const Input& input, const Camera& camera, Stage& stage) override;
-
-	/// <summary>
-	/// ダメージを受けた時の処理
-	/// </summary>
-	/// <returns>ダメージ量</returns>
-	//virtual int OnDamage() override;
+	virtual void Update(const Input& input, const Camera& camera, Stage& stage, std::shared_ptr<EnemyBase> pEnemy) override;
 
 	/// <summary>
 	/// 現在のStateを取得

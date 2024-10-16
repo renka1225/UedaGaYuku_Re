@@ -20,7 +20,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Init();
+	void Init(std::string inputId);
 
 	/// <summary>
 	/// 更新
@@ -28,7 +28,7 @@ public:
 	/// <param name="input">入力状態</param>
 	/// <param name="camera">カメラ参照</param>
 	/// <param name="stage">ステージ参照</param>
-	virtual void Update(const Input& input, const Camera& camera, Stage& stage) override;
+	virtual void Update(const Input& input, const Camera& camera, Stage& stage, std::shared_ptr<EnemyBase> pEnemy) override;
 
 	/// <summary>
 	/// 現在のStateを取得
@@ -45,6 +45,7 @@ public:
 #endif
 
 private:
-	bool m_isAttackEnd; // 攻撃が終わったかどうか
+	float m_attackEndTime;	// 攻撃が終わるまでの時間
+	bool m_isAttackEnd;		// 攻撃が終わったかどうか
 };
 

@@ -63,6 +63,12 @@ void CharacterBase::Draw()
 #endif
 }
 
+void CharacterBase::OnDamage(int damage)
+{
+	m_hp -= damage;
+	m_hp = std::max(0.0f, m_hp);
+}
+
 void CharacterBase::CheckCharaCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius)
 {
 	bool isHit = HitCheck_Capsule_Capsule(m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius, eCapPosTop, eCapPosBottom, eCapRadius);
@@ -74,6 +80,14 @@ void CharacterBase::CheckCharaCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCa
 		VECTOR colVec = VNorm(VSub(m_pos, obj.GetPos()));
 		m_pos = VAdd(m_pos, VScale(colVec, kAdj));
 	}
+}
+
+void CharacterBase::CheckHitAttackCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius)
+{
+	// パンチが当たったか
+	bool isHitPunch = HitCheck_Capsule_Capsule(m_updateCol.armStartPos, m_updateCol.armEndPos, m_colData.aimRadius, eCapPosTop, eCapPosBottom, eCapRadius);
+	// キックが当たったか
+	bool isHitKick = HitCheck_Capsule_Capsule(m_updateCol.legStartPos, m_updateCol.legEndPos, m_colData.legRadius, eCapPosTop, eCapPosBottom, eCapRadius);
 }
 
 void CharacterBase::ChangeAnim(std::string animName)

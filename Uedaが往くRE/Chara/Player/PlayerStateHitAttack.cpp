@@ -6,13 +6,6 @@ void PlayerStateHitAttack::Init()
 	m_pPlayer->ChangeAnim("Damage");
 }
 
-void PlayerStateHitAttack::Update(const Input& input, const Camera& camera, Stage& stage)
+void PlayerStateHitAttack::Update(const Input& input, const Camera& camera, Stage& stage, std::shared_ptr<EnemyBase> pEnemy)
 {
 }
-
-//int PlayerStateHitAttack::OnDamage()
-//{
-//	int damage = 0;
-//
-//	return damage;
-//}

@@ -11,7 +11,8 @@ namespace
 	const VECTOR kInitPos = VGet(7600.0, 40.0f, 5300.0f);	// 初期位置
 }
 
-EnemyBase::EnemyBase(std::string charaId)
+EnemyBase::EnemyBase(std::string charaId):
+	m_isDead(false)
 {
 	// ステータスを読み込む
 	LoadCsv::GetInstance().LoadStatus(m_status, charaId);
@@ -52,11 +53,6 @@ void EnemyBase::Update(Stage& stage, Player& player)
 	m_pState->Update(stage); // stateの更新
 	UpdateAnim();			 // アニメーションを更新
 	UpdateCol();			 // 当たり判定の位置更新
-
-	if (m_hp <= 0)
-	{
-		Death();
-	}
 }
 
 void EnemyBase::Draw()
@@ -67,10 +63,4 @@ void EnemyBase::Draw()
 	DebugDraw debug;
 	debug.DrawEnemyInfo(m_pos, m_hp, m_pState->GetStateName()); // 敵の情報を描画
 #endif
-}
-
-void EnemyBase::Death()
-{
-	// TODO:敵が倒れるようにする
-	// 倒れた数秒後に消える
 }

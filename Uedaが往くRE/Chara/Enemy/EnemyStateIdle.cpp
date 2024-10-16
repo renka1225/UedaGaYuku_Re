@@ -1,6 +1,7 @@
 ﻿#include "EnemyBase.h"
 #include "EnemyStateWalk.h"
 #include "EnemyStateRun.h"
+#include "EnemyStateDeath.h"
 #include "EnemyStateIdle.h"
 
 void EnemyStateIdle::Init()
@@ -10,6 +11,8 @@ void EnemyStateIdle::Init()
 
 void EnemyStateIdle::Update(Stage& stage)
 {
+	EnemyStateBase::Update(stage);
+
 	m_pEnemy->Move(VGet(0.0f, 0.0f, 0.0f), stage); // 移動情報を反映する
 
 #ifdef _DEBUG
