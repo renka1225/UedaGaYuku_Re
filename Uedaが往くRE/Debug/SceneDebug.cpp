@@ -1,7 +1,7 @@
 ﻿#include "DxLib.h"
 #include "Game.h"
 #include "Input.h"
-#include "Message.h"
+#include "LoadCsv.h"
 #include "SceneTitle.h"
 #include "SceneSelect.h"
 #include "SceneMain.h"
@@ -65,8 +65,8 @@ void SceneDebug::Draw()
 	if (m_select == SelectScene::kMain) playColor = Color::kColorR;
 	if (m_select == SelectScene::kOption) optionColor = Color::kColorR;
 
-	DrawString(0, 20, Message::GetInstance().Get_c("MSG_DEBUG_TITLE"), titleColor);
-	DrawString(0, 40, Message::GetInstance().Get_c("MSG_DEBUG_SELECT"), selectColor);
-	DrawString(0, 60, Message::GetInstance().Get_c("MSG_DEBUG_PLAYING"), playColor);
-	DrawString(0, 80, Message::GetInstance().Get_c("MSG_DEBUG_OPTION"), optionColor);
+	DrawString(0, 20, LoadCsv::GetInstance().Get_cMessage("MSG_DEBUG_TITLE"), titleColor);
+	DrawString(0, 40, LoadCsv::GetInstance().Get_cMessage("MSG_DEBUG_SELECT"), selectColor);
+	DrawString(0, 60, LoadCsv::GetInstance().Get_cMessage("MSG_DEBUG_PLAYING"), playColor);
+	DrawString(0, 80, LoadCsv::GetInstance().Get_cMessage("MSG_DEBUG_OPTION"), optionColor);
 }

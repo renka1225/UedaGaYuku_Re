@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "CharacterBase.h"
+#include "UiBase.h"
 #include <string>
 #include <map>
 
@@ -51,11 +52,46 @@ public:
 	/// <param name="charaName">キャラクター名</param>
 	void LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data);
 
+	/// <summary>
+	/// UI表示情報を読み込む
+	/// </summary>
+	/// <param name="data">UI情報</param>
+	void LoadUiData(UiBase::UiData& data);
+
+	/// /// <summary>
+	/// csvファイルからメッセージを読み込む
+	/// </summary>
+	void LoadMessage();
+
+	/// <summary>
+	/// UI情報を取得する
+	/// </summary>
+	/// <param name="id">取得したいUI情報のID</param>
+	/// <returns>UI情報</returns>
+	UiBase::UiData GetUiData(std::string id);
+
+	/// <summary>
+	/// string型のメッセージの取得
+	/// </summary>
+	/// <param name="id">取得したいメッセージのID</param>
+	/// <returns>メッセージ</returns>
+	std::string Get_sMessage(std::string id);
+
+	/// <summary>
+	/// char型のメッセージの取得
+	/// </summary>
+	/// <param name="id">取得したいメッセージのID</param>
+	/// <returns>メッセージ</returns>
+	const char* Get_cMessage(std::string id);
+
+
 private:
 	LoadCsv() = default;
 	virtual ~LoadCsv() = default;
 
 private:
 	static LoadCsv* m_instance;	 // インスタンス
+	std::map<std::string, UiBase::UiData> m_uiData;		// UI情報のデータ
+	std::map<std::string, std::string> m_messageData;	// メッセージのデータ
 };
 

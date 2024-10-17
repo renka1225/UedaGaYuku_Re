@@ -1,7 +1,7 @@
 ﻿#include "DxLib.h"
 #include "EffekseerForDXLib.h"
 #include "Input.h"
-#include "Message.h"
+#include "LoadCsv.h"
 #include "Game.h"
 #include "SceneManager.h"
 
@@ -39,7 +39,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Input input;
 
 	// メッセージのロード
-	Message::GetInstance().Load();
+	LoadCsv::GetInstance().LoadMessage();
 
 	// SceneManagerを生成
 	std::shared_ptr<SceneManager> pScene = std::make_shared<SceneManager>();
@@ -73,6 +73,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		{
 			Effkseer_End();
 			DxLib_End();
+			return 0;
 		}
 #endif
 	}

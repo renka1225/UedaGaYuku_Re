@@ -59,6 +59,12 @@ public:
 	/// <returns>敵がドロップした金額</returns>
 	void AddMoney(int dropMoney);
 
+	/// <summary>
+	/// 現在の所持金額を取得する
+	/// </summary>
+	/// <returns></returns>
+	int GetMoney() const { return m_money; }
+
 private:
 	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
 	

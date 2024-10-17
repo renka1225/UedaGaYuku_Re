@@ -3,7 +3,11 @@ FightIdle
 Walk 		〇
 Run		〇
 Punch(コンボ3種類)
+punch1
+punch2
+strongPunch	〇
 Kick
 Avoid
+Guard		〇
 Grab(敵、武器)
 

@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>DxLib;$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)Util;$(ProjectDir)Debug;$(ProjectDir)Chara;$(ProjectDir)Object;$(ProjectDir)Chara\Enemy;$(ProjectDir)Chara\Player</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>DxLib;$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)Util;$(ProjectDir)Debug;$(ProjectDir)Chara;$(ProjectDir)Object;$(ProjectDir)Chara\Enemy;$(ProjectDir)Chara\Player;$(ProjectDir)UI</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
@@ -136,7 +136,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>DxLib;$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)Util;$(ProjectDir)Debug;$(ProjectDir)Chara;$(ProjectDir)Object;$(ProjectDir)Chara\Enemy;$(ProjectDir)Chara\Player</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>DxLib;$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)Util;$(ProjectDir)Debug;$(ProjectDir)Chara;$(ProjectDir)Object;$(ProjectDir)Chara\Enemy;$(ProjectDir)Chara\Player;$(ProjectDir)UI</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
@@ -167,6 +167,7 @@
     <ClCompile Include="Chara\Enemy\EnemyStateDeath.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyStateHitAttack.cpp" />
     <ClCompile Include="Object\ObjectBase.cpp" />
+    <ClCompile Include="UI\UiBase.cpp" />
     <ClCompile Include="Util\LoadCsv.cpp" />
     <ClCompile Include="Debug\DebugDraw.cpp" />
     <ClCompile Include="Debug\SceneDebug.cpp" />
@@ -178,7 +179,6 @@
     <ClCompile Include="Scene\SceneMain.cpp" />
     <ClCompile Include="Object\Stage.cpp" />
     <ClCompile Include="Object\Camera.cpp" />
-    <ClCompile Include="Util\Message.cpp" />
     <ClCompile Include="Scene\SceneBase.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="Util\Input.cpp" />
@@ -200,6 +200,7 @@
     <ClInclude Include="Chara\Enemy\EnemyStateDeath.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateHitAttack.h" />
     <ClInclude Include="Object\ObjectBase.h" />
+    <ClInclude Include="UI\UiBase.h" />
     <ClInclude Include="Util\LoadCsv.h" />
     <ClInclude Include="Debug\DebugDraw.h" />
     <ClInclude Include="Debug\SceneDebug.h" />
@@ -210,7 +211,6 @@
     <ClInclude Include="Scene\SceneMain.h" />
     <ClInclude Include="Object\Stage.h" />
     <ClInclude Include="Object\Camera.h" />
-    <ClInclude Include="Util\Message.h" />
     <ClInclude Include="Scene\SceneBase.h" />
     <ClInclude Include="Scene\SceneManager.h" />
     <ClInclude Include="Util\Game.h" />

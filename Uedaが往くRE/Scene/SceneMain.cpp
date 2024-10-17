@@ -1,4 +1,5 @@
 ﻿#include "Camera.h"
+#include "UiBase.h"
 #include "Player.h"
 #include "EnemyBase.h"
 #include "Stage.h"
@@ -15,6 +16,7 @@ SceneMain::SceneMain()
 	m_pPlayer = std::make_shared<Player>();
 	m_pCamera = std::make_shared<Camera>();
 	m_pStage = std::make_shared<Stage>(m_pPlayer);
+	m_pUI = std::make_shared<UiBase>(m_pPlayer);
 
 	SelectEnemy();
 }
@@ -43,6 +45,12 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 			m_pEnemy->Update(*m_pStage, *m_pPlayer);
 		}
 	}
+	// 敵を生成する
+	else
+	{
+		SelectEnemy();
+		m_pEnemy->Init();
+	}
 
 	return shared_from_this();
 }
@@ -51,6 +59,7 @@ void SceneMain::Draw()
 {
 	m_pStage->Draw();
 	m_pPlayer->Draw();
+	m_pUI->Draw();
 
 	if (m_pEnemy != nullptr) m_pEnemy->Draw();
 
@@ -61,6 +70,7 @@ void SceneMain::Draw()
 
 void SceneMain::SelectEnemy()
 {
+	// TODO:モデル呼び出す時一瞬固まるのでどうにかする
 #ifdef false
 	// 敵をランダムで選ぶ
 	int enemyNum = GetRand((kEnemyKindNum - 1)) + 1;
@@ -68,7 +78,7 @@ void SceneMain::SelectEnemy()
 	sprintf_s(enemyId, "%02d", enemyNum);
 
 	m_pEnemy = std::make_shared<EnemyBase>("enemy_" + std::string(enemyId));
-#else true
+#else false
 	m_pEnemy = std::make_shared<EnemyBase>("enemy_01");
 #endif 
 }

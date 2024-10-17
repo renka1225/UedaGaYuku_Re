@@ -17,8 +17,7 @@ namespace
 	const VECTOR kInitPos = VGet(7425.0, 40.0f, 5190.0f);			// 初期位置
 	constexpr float kScale = 0.14f;									// モデルの拡大率
 
-	const Vec2 kMoneyDispPos = { 1800.0f, 50.0f }; // 現在の所持金額の表示位置
-	constexpr int kMoneyIncrement = 5;			   // 一度に増える所持金数
+	constexpr int kMoneyIncrement = 5; // 一度に増える所持金数
 }
 
 Player::Player():
@@ -80,10 +79,6 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, std:
 void Player::Draw()
 {
 	CharacterBase::Draw();
-
-	// TODO:UI表示用のクラスを作る
-	// 現在の所持金額
-	DrawFormatStringF(kMoneyDispPos.x, kMoneyDispPos.y, 0xffffff, "所持金:%d", m_money);
 
 #ifdef _DEBUG
 	DebugDraw debug;

@@ -7,9 +7,11 @@ LoadCsv* LoadCsv::m_instance = nullptr;
 
 namespace
 {
-	const char* const kCharaStatusFileName = "data/csv/charaStatus.csv";
-	const char* const kCharaAnimDataFileName = "data/csv/animData.csv";
-	const char* const kColDataFileName = "data/csv/collisionData.csv";
+	const char* const kCharaStatusFileName = "data/csv/charaStatus.csv";	// キャラクターステータス
+	const char* const kCharaAnimDataFileName = "data/csv/animData.csv";		// アニメーションデータ
+	const char* const kColDataFileName = "data/csv/collisionData.csv";		// 当たり判定データ
+	const char* const kUiDataFileName = "data/csv/uiData.csv";				// UIデータ
+	const char* const kMessageFileName = "data/csv/message.csv";			// メッセージデータ
 
 	constexpr int kStatusNum = 4;	// ステータスの情報数
 	constexpr int kColNum = 23;		// 当たり判定の情報数
@@ -135,4 +137,57 @@ void LoadCsv::LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data)
 			// 無効な文字列をスキップ
         }
     }
+}
+
+void LoadCsv::LoadUiData(UiBase::UiData& data)
+{
+	std::ifstream ifs(kUiDataFileName);
+	std::string line;
+	std::vector<std::string> strvec;
+
+	while (std::getline(ifs, line))
+	{
+		strvec = split(line, ',');
+
+		try
+		{
+			data.posX = std::stof(strvec[1]);
+			data.posY = std::stof(strvec[2]);
+			data.scale = std::stof(strvec[3]);
+		}
+		catch (const std::invalid_argument&)
+		{
+			// 無効な文字列をスキップ
+		}
+
+		m_uiData[strvec.at(0)] = data;
+	}
+}
+
+void LoadCsv::LoadMessage()
+{
+	std::ifstream ifs(kMessageFileName);
+	std::string line;
+	m_messageData.clear();
+
+	while (std::getline(ifs, line))
+	{
+		std::vector<std::string> strvec = split(line, ',');
+		m_messageData[strvec.at(0)] = strvec.at(1);
+	}
+}
+
+UiBase::UiData LoadCsv::GetUiData(std::string id)
+{
+	return m_uiData[id];
+}
+
+std::string LoadCsv::Get_sMessage(std::string id)
+{
+	return m_messageData[id];
+}
+
+const char* LoadCsv::Get_cMessage(std::string id)
+{
+	return m_messageData[id].c_str();
 }

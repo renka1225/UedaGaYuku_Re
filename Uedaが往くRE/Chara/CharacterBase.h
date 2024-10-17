@@ -21,9 +21,9 @@ public:
 	// キャラクターのステータス
 	struct Status
 	{
-		float maxHp;				// 最大HP
-		float walkSpeed;			// 歩き速度
-		float runSpeed;				// 走り速度
+		float maxHp;	 // 最大HP
+		float walkSpeed; // 歩き速度
+		float runSpeed;	 // 走り速度
 	};
 
 	// 当たり判定情報

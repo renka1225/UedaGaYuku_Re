@@ -55,6 +55,12 @@
     <Filter Include="ヘッダー ファイル\Object">
       <UniqueIdentifier>{6b9e0a3d-98cd-4a24-8bad-6c22d9d26a5e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\UI">
+      <UniqueIdentifier>{9e0cc558-5109-4d77-b04d-632e06cbc54b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\UI">
+      <UniqueIdentifier>{2dbe15b8-6525-444a-a506-ca6ab62f59e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scene\SceneManager.cpp">
@@ -71,9 +77,6 @@
     </ClCompile>
     <ClCompile Include="Debug\SceneDebug.cpp">
       <Filter>ソース ファイル\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="Util\Message.cpp">
-      <Filter>ソース ファイル\Util</Filter>
     </ClCompile>
     <ClCompile Include="Scene\SceneMain.cpp">
       <Filter>ソース ファイル\Scene</Filter>
@@ -150,6 +153,9 @@
     <ClCompile Include="Chara\Enemy\EnemyStateDeath.cpp">
       <Filter>ソース ファイル\Chara\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="UI\UiBase.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\SceneManager.h">
@@ -169,9 +175,6 @@
     </ClInclude>
     <ClInclude Include="Debug\SceneDebug.h">
       <Filter>ヘッダー ファイル\Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="Util\Message.h">
-      <Filter>ヘッダー ファイル\Util</Filter>
     </ClInclude>
     <ClInclude Include="Scene\SceneMain.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
@@ -247,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="Chara\Enemy\EnemyStateDeath.h">
       <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UiBase.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

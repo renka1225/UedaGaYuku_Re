@@ -1,7 +1,7 @@
 ﻿#include "DxLib.h"
 #include "Game.h"
 #include "Input.h"
-#include "Message.h"
+#include "LoadCsv.h"
 #include "Vec2.h"
 #include "SceneBase.h"
 
@@ -23,7 +23,7 @@ SceneBase::~SceneBase()
 #ifdef _DEBUG
 void SceneBase::DrawSceneText(const char* sceneName)
 {
-	DrawStringF(kCurrentScenePos.x, kCurrentScenePos.y, Message::GetInstance().Get_c(sceneName), Color::kColorR);
+	DrawStringF(kCurrentScenePos.x, kCurrentScenePos.y, LoadCsv::GetInstance().Get_cMessage(sceneName), Color::kColorW);
 }
 #endif
 

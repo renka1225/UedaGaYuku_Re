@@ -1,7 +1,7 @@
 ﻿#include "DxLib.h"
 #include "Game.h"
 #include "Input.h"
-#include "Message.h"
+#include "LoadCsv.h"
 #include "SceneTitle.h"
 #include "SceneMain.h"
 #include "SceneOption.h"
@@ -41,8 +41,8 @@ void SceneSelect::Draw()
 	if (m_select == SelectScene::kMain) mainColor = Color::kColorR;
 	if (m_select == SelectScene::kOption) optionColor = Color::kColorR;
 
-	DrawString(0, 60, Message::GetInstance().Get_c("MSG_DEBUG_PLAYING"), mainColor);
-	DrawString(0, 80, Message::GetInstance().Get_c("MSG_DEBUG_OPTION"), optionColor);
+	DrawString(0, 60, LoadCsv::GetInstance().Get_cMessage("MSG_DEBUG_PLAYING"), mainColor);
+	DrawString(0, 80, LoadCsv::GetInstance().Get_cMessage("MSG_DEBUG_OPTION"), optionColor);
 
 	DrawSceneText("MSG_DEBUG_SELECT"); // シーン名表示
 #endif
