@@ -63,3 +63,15 @@ namespace InputId
 	const char* const kDebugDamage = "debug_damage";
 	const char* const kEnd = "end";
 }
+
+/// <summary>
+/// アニメーション名
+/// </summary>
+namespace AnimName
+{
+	const char* const kStandIdle = "stand_Idle";
+	const char* const kWalk = "walk";
+	const char* const kRun = "run";
+	const char* const kPunch = "punch";
+	const char* const kKick = "kick";
+}

@@ -8,7 +8,7 @@
 
 void PlayerStateRun::Init()
 {
-	m_pPlayer->ChangeAnim("Run");
+	m_pPlayer->ChangeAnim(AnimName::kRun);
 }
 
 void PlayerStateRun::Update(const Input& input, const Camera& camera, Stage& stage, std::shared_ptr<EnemyBase> pEnemy)

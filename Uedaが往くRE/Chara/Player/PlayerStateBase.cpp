@@ -26,11 +26,11 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 		// 押されたボタンによって状態を変更する
 		if (input.IsTriggered(InputId::kPunch))
 		{
-			state->Init("Punch");
+			state->Init(AnimName::kPunch);
 		}
 		else if (input.IsTriggered(InputId::kKick))
 		{
-			state->Init("Kick");
+			state->Init(AnimName::kKick);
 		}
 		return;
 	}

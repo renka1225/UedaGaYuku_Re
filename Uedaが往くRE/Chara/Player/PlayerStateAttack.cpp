@@ -1,4 +1,5 @@
-﻿#include "EnemyBase.h"
+﻿#include "Game.h"
+#include "EnemyBase.h"
 #include "Player.h"
 #include "PlayerStateIdle.h"
 #include "PlayerStateAttack.h"
@@ -19,7 +20,6 @@ PlayerStateAttack::PlayerStateAttack(std::shared_ptr<Player> player):
 void PlayerStateAttack::Init(std::string attackName)
 {
     m_attackKind = attackName;
-
 	m_pPlayer->ChangeAnim(m_attackKind);
 }
 
@@ -49,11 +49,11 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
         // 敵にダメージを与える
         if (pEnemy != nullptr)
         {
-            if (m_attackKind == "Punch")
+            if (m_attackKind == AnimName::kPunch)
             {
                 pEnemy->OnDamage(5);
             }
-            else if (m_attackKind == "Kick")
+            else if (m_attackKind == AnimName::kKick)
             {
                 pEnemy->OnDamage(10);
             }
@@ -63,11 +63,11 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
 
 std::string PlayerStateAttack::GetStateName()
 {
-    if (m_attackKind == "Punch")
+    if (m_attackKind == AnimName::kPunch)
     {
         return "パンチ中";
     }
-    else if (m_attackKind == "Kick")
+    else if (m_attackKind == AnimName::kKick)
     {
         return "キック中";
     }

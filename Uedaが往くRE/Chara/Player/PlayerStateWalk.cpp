@@ -8,7 +8,7 @@
 
 void PlayerStateWalk::Init()
 {
-	m_pPlayer->ChangeAnim("Walk");
+	m_pPlayer->ChangeAnim(AnimName::kWalk);
 }
 
 void PlayerStateWalk::Update(const Input& input, const Camera& camera, Stage& stage, std::shared_ptr<EnemyBase> pEnemy)
