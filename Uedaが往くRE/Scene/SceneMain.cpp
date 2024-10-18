@@ -2,6 +2,8 @@
 #include "UiBase.h"
 #include "Player.h"
 #include "EnemyBase.h"
+#include "ObjectBase.h"
+#include "Weapon.h"
 #include "Stage.h"
 #include "SceneMain.h"
 
@@ -14,23 +16,26 @@ namespace
 SceneMain::SceneMain()
 {
 	m_pPlayer = std::make_shared<Player>();
+	m_pWeapon = std::make_shared<Weapon>();
 	m_pCamera = std::make_shared<Camera>();
 	m_pStage = std::make_shared<Stage>(m_pPlayer);
 	m_pUI = std::make_shared<UiBase>(m_pPlayer);
 
-	SelectEnemy();
+	SelectEnemy(); // 敵の種類を決める
 }
 
 void SceneMain::Init()
 {
 	m_pEnemy->Init();
 	m_pPlayer->Init();
+	m_pWeapon->Init();
 	m_pCamera->Init();
 }
 
 std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 {
 	m_pPlayer->Update(input, *m_pCamera, *m_pStage, m_pEnemy);
+	m_pWeapon->Update();
 	m_pCamera->Update(input, *m_pPlayer, *m_pStage);
 
 	if (m_pEnemy != nullptr)
@@ -58,6 +63,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 void SceneMain::Draw()
 {
 	m_pStage->Draw();
+	m_pWeapon->Draw();
 	m_pPlayer->Draw();
 	m_pUI->Draw();
 

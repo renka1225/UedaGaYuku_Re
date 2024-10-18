@@ -1,17 +1,5 @@
-﻿  PlayerStateAttack.cpp
-  PlayerStateBase.cpp
-  PlayerStateIdle.cpp
-  PlayerStateRun.cpp
-  PlayerStateWalk.cpp
-  DebugDraw.cpp
-  SceneDebug.cpp
-  Stage.cpp
-  SceneBase.cpp
-  SceneOption.cpp
-  SceneSelect.cpp
-  SceneTitle.cpp
-  UiBase.cpp
-  Input.cpp
-  main.cpp
-  コードを生成中...
+﻿  Weapon.cpp
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Object\Weapon.cpp(65,86): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Object\Weapon.cpp(71,84): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+Effekseer_vs2019_x64_d.lib(Effekseer.ResourceManager.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(Effekseer.ResourceManager.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
   Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Uedaが往くRE.exe

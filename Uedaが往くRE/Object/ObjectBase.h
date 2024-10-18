@@ -2,6 +2,8 @@
 #include "DxLib.h"
 #include "Stage.h"
 #include <memory>
+#include <unordered_map>
+#include <string>
 
 /// <summary>
 /// オブジェクトの基底クラス
@@ -46,6 +48,7 @@ public:
 	/// </summary>
 	/// <returns>オブジェクトの座標</returns>
 	VECTOR GetPos() const { return m_pos; }
+
 	/// <summary>
 	/// 向くべき方向のベクトルを取得
 	/// </summary>
@@ -53,10 +56,10 @@ public:
 	VECTOR GetDir() const { return m_moveDir; }
 
 protected:
-	std::shared_ptr<Stage> m_pStage;	// ステージのポインタ
-	VECTOR m_pos;						// 現在位置
-	VECTOR m_moveDir;					// 向くべき方向のベクトル
-	float m_gravity;					// 重力
-	int m_modelHandle;					// 3Dモデルのハンドル
+	std::shared_ptr<Stage> m_pStage; // ステージのポインタ
+	VECTOR m_pos;		// 現在位置
+	VECTOR m_moveDir;	// 向くべき方向のベクトル
+	float m_gravity;	// 重力
+	int m_modelHandle;	// 3Dモデルのハンドル
 };
 

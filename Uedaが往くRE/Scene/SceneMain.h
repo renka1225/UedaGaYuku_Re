@@ -4,6 +4,7 @@
 
 class EnemyBase;
 class Player;
+class Weapon;
 class Camera;
 class Stage;
 class UiBase;
@@ -50,6 +51,7 @@ private:
 private:
 	std::shared_ptr<EnemyBase> m_pEnemy; // 敵のポインタ
 	std::shared_ptr<Player> m_pPlayer;	 // プレイヤーのポインタ
+	std::shared_ptr<Weapon> m_pWeapon;	 // 武器のポインタ
 	std::shared_ptr<Camera> m_pCamera;	 // カメラのポインタ
 	std::shared_ptr<Stage> m_pStage;	 // ステージのポインタ
 	std::shared_ptr<UiBase> m_pUI;		 // UI表示のポインタ

@@ -121,6 +121,7 @@
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
       <DisableSpecificWarnings>4099</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -141,6 +142,7 @@
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
       <DisableSpecificWarnings>4099</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -182,6 +184,7 @@
     <ClCompile Include="Scene\SceneBase.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="Util\Input.cpp" />
+    <ClCompile Include="Object\Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chara\CharacterBase.h" />
@@ -216,6 +219,7 @@
     <ClInclude Include="Util\Game.h" />
     <ClInclude Include="Util\Input.h" />
     <ClInclude Include="Util\Vec2.h" />
+    <ClInclude Include="Object\Weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
