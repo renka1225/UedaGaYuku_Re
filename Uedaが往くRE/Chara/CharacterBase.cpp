@@ -167,10 +167,10 @@ void CharacterBase::UpdateAnim()
 
 void CharacterBase::UpdateCol()
 {
-	// プレイヤーの向きをもとに当たり判定の位置を調整する
+	// キャラクターの向きをもとに当たり判定の位置を調整する
 	MATRIX rotationMatrix = MGetRotY(m_angle);
 
-	// プレイヤー全体の当たり判定位置を更新
+	// キャラクター全体の当たり判定位置を更新
 	m_updateCol.bodyStartPos = VAdd(m_pos, (VTransform(m_colData.bodyStartPos, rotationMatrix)));
 	m_updateCol.bodyEndPos = VAdd(m_updateCol.bodyStartPos, (VTransform(m_colData.bodyEndPos, rotationMatrix)));
 

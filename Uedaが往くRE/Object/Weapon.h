@@ -16,8 +16,15 @@ public:
 		float colRadius;	// 武器の当たり判定半径
 	};
 
-public:
+	// 当たり判定更新データ
+	struct UpdateColData
+	{
+		VECTOR colStartPos; // 武器の当たり判定始点
+		VECTOR colEndPos;	// 武器の当たり判定終点
+		float colRadius;	// 武器の当たり判定半径
+	};
 
+public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -43,11 +50,17 @@ public:
 	/// </summary>
 	virtual void Draw();
 
+private:
+
 	/// <summary>
 	/// 配置データを読み込む
 	/// </summary>
 	void LoadLocationData();
 
+	/// <summary>
+	/// 当たり判定更新
+	/// </summary>
+	void UpdateCol(auto& loc);
 
 protected:
 	// 配置情報データ
@@ -63,7 +76,8 @@ protected:
 
 protected:
 	std::unordered_map<std::string, int> m_objHandle; // 読み込むオブジェクトのハンドル
-	WeaponData m_weaponData;
-	int m_locationDataHandle;	// 読み込むデータ
+	WeaponData m_weaponData;	// 武器のデータ
+	UpdateColData m_updateCol;	// 更新後の当たり判定データ
+	int m_locationDataHandle;	// 読み込む配置データ
 	int m_durability; // 武器の耐久力
 };

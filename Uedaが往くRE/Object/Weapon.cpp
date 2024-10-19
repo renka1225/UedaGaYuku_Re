@@ -37,6 +37,11 @@ void Weapon::Init()
 
 void Weapon::Update()
 {
+	// 当たり判定位置更新
+	for (const auto& loc : m_locationData)
+	{
+		UpdateCol(loc);
+	}
 }
 
 void Weapon::Draw()
@@ -49,7 +54,7 @@ void Weapon::Draw()
 #ifdef _DEBUG
 	DebugDraw debug;
 	// 当たり判定描画
-	debug.DrawWeaponCol(m_weaponData.colStartPos, m_weaponData.colEndPos, m_weaponData.colRadius);
+	debug.DrawWeaponCol(m_updateCol.colStartPos, m_updateCol.colEndPos, m_weaponData.colRadius);
 
 	for (const auto& loc : m_locationData)
 	{
@@ -101,4 +106,14 @@ void Weapon::LoadLocationData()
 			m_objHandle[loc.name] = modelHandle;
 		}
 	}
+}
+
+void Weapon::UpdateCol(auto& loc)
+{
+	// 向きをもとに当たり判定の位置を調整する
+	MATRIX rotationMatrix = MGetRotY(loc.rot.y);
+
+	// 当たり判定位置を更新
+	m_updateCol.colStartPos = VAdd(loc.pos, (VTransform(m_weaponData.colStartPos, rotationMatrix)));
+	m_updateCol.colEndPos = VAdd(m_updateCol.colStartPos, (VTransform(m_weaponData.colEndPos, rotationMatrix)));
 }
