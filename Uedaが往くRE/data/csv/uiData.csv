@@ -1,4 +1,4 @@
-,X座標,Y座標,拡大率
+ID,X座標,Y座標,拡大率
 player_hp,0,0,1
 player_heatGauge,0,0,1
 player_money,1800,50,1

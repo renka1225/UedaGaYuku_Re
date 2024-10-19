@@ -1,16 +1,18 @@
-﻿#include "Weapon.h"
+﻿#include "DebugDraw.h"
+#include "LoadCsv.h"
+#include "Weapon.h"
 
 // 定数
 namespace
 {
-	const std::string kWeaponFileName = "data/model/Weapon"; // モデルのファイルパス名
+	const std::string kWeaponFileName = "data/model/weapon/"; // モデルのファイルパス名
 	constexpr float kGravity = -15.0f; // 重力
 }
 
 Weapon::Weapon():
 	m_locationDataHandle(-1)
 {
-	//LoadLocationData();
+	LoadLocationData(); // 配置データの読み込み
 }
 
 Weapon::~Weapon()
@@ -23,6 +25,14 @@ Weapon::~Weapon()
 
 void Weapon::Init()
 {
+	// サイズや位置の調整
+	for (const auto& loc : m_locationData)
+	{
+		LoadCsv::GetInstance().LoadWeaponData(m_weaponData, loc.name);
+		m_durability = m_weaponData.durability;
+		MV1SetScale(m_objHandle[loc.name], loc.scale);
+		MV1SetPosition(m_objHandle[loc.name], loc.pos);
+	}
 }
 
 void Weapon::Update()
@@ -31,22 +41,26 @@ void Weapon::Update()
 
 void Weapon::Draw()
 {
-#ifdef _DEBUG
-	int y = 300;
 	for (const auto& loc : m_locationData)
 	{
-		DrawFormatString(0, y, 0xffffff, "name:%s, tag:%s, pos(%2.2f:%2.2f:%2.2f), rot(%2.2f:%2.2f:%2.2f), scale(%2.2f:%2.2f:%2.2f)",
-			loc.name.c_str(), loc.tag.c_str(), loc.pos.x, loc.pos.y, loc.pos.z, loc.rot.x, loc.rot.y, loc.rot.z, loc.scale.x, loc.scale.y, loc.scale.z);
-		y += 20;
+		MV1DrawModel(m_objHandle[loc.name]); // モデル表示
+	}
 
-		MV1DrawModel(m_objHandle[loc.name]);
+#ifdef _DEBUG
+	DebugDraw debug;
+	// 当たり判定描画
+	debug.DrawWeaponCol(m_weaponData.colStartPos, m_weaponData.colEndPos, m_weaponData.colRadius);
+
+	for (const auto& loc : m_locationData)
+	{
+		debug.DrawWeaponInfo(loc.name.c_str(), loc.tag.c_str(), loc.pos, loc.rot, loc.scale, m_durability);
 	}
 #endif
 }
 
 void Weapon::LoadLocationData()
 {
-	m_locationDataHandle = FileRead_open((kWeaponFileName + "modelData.loc").c_str());
+	m_locationDataHandle = FileRead_open((kWeaponFileName + "locationData.loc").c_str());
 
 	int dataCnt = 0; // データ数
 	FileRead_read(&dataCnt, sizeof(dataCnt), m_locationDataHandle);

@@ -1,4 +1,4 @@
-AnimName,No,loopFrame,loopEndFrame,animSpeed
+アニメーション名,アニメーション番号,ループするフレーム数,ループが終了するフレーム数,アニメーション速度
 standIdle,0,0,180,1
 walk,1,0,31,0.5
 run,2,0,24,0.5

@@ -8,8 +8,9 @@ LoadCsv* LoadCsv::m_instance = nullptr;
 namespace
 {
 	const char* const kCharaStatusFileName = "data/csv/charaStatus.csv";	// キャラクターステータス
+	const char* const kCharaColDataFileName = "data/csv/charaColData.csv";	// キャラクターの当たり判定データ
 	const char* const kCharaAnimDataFileName = "data/csv/animData.csv";		// アニメーションデータ
-	const char* const kColDataFileName = "data/csv/collisionData.csv";		// 当たり判定データ
+	const char* const kWeaponDataFileName = "data/csv/weaponData.csv";		// 武器のデータ
 	const char* const kUiDataFileName = "data/csv/uiData.csv";				// UIデータ
 	const char* const kMessageFileName = "data/csv/message.csv";			// メッセージデータ
 
@@ -65,7 +66,7 @@ void LoadCsv::LoadStatus(CharacterBase::Status& data, std::string charaName)
 
 void LoadCsv::LoadColData(CharacterBase::ColData& data, std::string charaName)
 {
-	std::ifstream ifs(kColDataFileName);
+	std::ifstream ifs(kCharaColDataFileName);
 	std::string line;
 	std::vector<std::string> strvec;
 
@@ -137,6 +138,41 @@ void LoadCsv::LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data)
 			// 無効な文字列をスキップ
         }
     }
+}
+
+void LoadCsv::LoadWeaponData(Weapon::WeaponData& data, std::string weaponName)
+{
+	std::ifstream ifs(kWeaponDataFileName);
+	std::string line;
+	std::vector<std::string> strvec;
+
+	while (std::getline(ifs, line))
+	{
+		strvec = split(line, ',');
+		std::string charaId = strvec[0].c_str();
+
+		if (charaId == weaponName)
+		{
+			try
+			{
+				// 外部ファイルの情報を入れる
+				data.durability = std::stof(strvec[1]);
+				data.colStartPos.x = std::stof(strvec[2]);
+				data.colStartPos.y = std::stof(strvec[3]);
+				data.colStartPos.z = std::stof(strvec[4]);
+				data.colEndPos.x = std::stof(strvec[5]);
+				data.colEndPos.y = std::stof(strvec[6]);
+				data.colEndPos.z = std::stof(strvec[7]);
+				data.colRadius = std::stof(strvec[8]);
+			}
+			catch (const std::invalid_argument&)
+			{
+				// 無効な文字列をスキップ
+			}
+
+			break;
+		}
+	}
 }
 
 void LoadCsv::LoadUiData(UiBase::UiData& data)

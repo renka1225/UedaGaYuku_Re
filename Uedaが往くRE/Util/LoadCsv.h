@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "CharacterBase.h"
+#include "Weapon.h"
 #include "UiBase.h"
 #include <string>
 #include <map>
@@ -51,6 +52,13 @@ public:
 	/// <param name="data">アニメーション情報</param>
 	/// <param name="charaName">キャラクター名</param>
 	void LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data);
+
+	/// <summary>
+	/// 武器情報を読み込む
+	/// </summary>
+	/// <param name="data">武器情報</param>
+	/// <param name="weaponName">武器名</param>
+	void LoadWeaponData(Weapon::WeaponData& data, std::string weaponName);
 
 	/// <summary>
 	/// UI表示情報を読み込む

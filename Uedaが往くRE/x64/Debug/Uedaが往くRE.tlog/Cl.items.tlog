@@ -14,6 +14,7 @@ C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\EnemyStateAttack.cpp;C:\GitH
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\EnemyStateDeath.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\EnemyStateDeath.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\EnemyStateHitAttack.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\EnemyStateHitAttack.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Object\ObjectBase.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\ObjectBase.obj
+C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\UI\UiBase.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\UiBase.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Util\LoadCsv.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\LoadCsv.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Debug\DebugDraw.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\DebugDraw.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Debug\SceneDebug.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\SceneDebug.obj
@@ -25,7 +26,7 @@ C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Scene\SceneTitle.cpp;C:\GitHub\UedaGaYuk
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Scene\SceneMain.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\SceneMain.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Object\Stage.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Stage.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Object\Camera.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Camera.obj
-C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Util\Message.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Message.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Scene\SceneBase.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\SceneBase.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Scene\SceneManager.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\SceneManager.obj
 C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Util\Input.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Input.obj
+C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Object\Weapon.cpp;C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Weapon.obj

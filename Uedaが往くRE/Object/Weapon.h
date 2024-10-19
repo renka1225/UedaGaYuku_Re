@@ -7,6 +7,17 @@
 class Weapon : public ObjectBase
 {
 public:
+	// 武器の情報
+	struct WeaponData
+	{
+		int durability;		// 耐久力
+		VECTOR colStartPos; // 武器の当たり判定始点
+		VECTOR colEndPos;	// 武器の当たり判定終点
+		float colRadius;	// 武器の当たり判定半径
+	};
+
+public:
+
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -47,11 +58,12 @@ protected:
 		VECTOR pos;			// 座標
 		VECTOR rot;			// 回転
 		VECTOR scale;		// スケール
-		int durability;		// 耐久力
 	};
 	std::vector<LocationData> m_locationData;
 
 protected:
 	std::unordered_map<std::string, int> m_objHandle; // 読み込むオブジェクトのハンドル
+	WeaponData m_weaponData;
 	int m_locationDataHandle;	// 読み込むデータ
+	int m_durability; // 武器の耐久力
 };
