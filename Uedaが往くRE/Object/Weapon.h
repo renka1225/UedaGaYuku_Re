@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "ObjectBase.h"
 
+class Player;
+
 /// <summary>
 /// 武器クラス
 /// </summary>
@@ -43,7 +45,8 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	virtual void Update();
+	/// <param name="player">プレイヤー参照</param>
+	virtual void Update(Player& player);
 
 	/// <summary>
 	/// 描画
@@ -51,7 +54,6 @@ public:
 	virtual void Draw();
 
 private:
-
 	/// <summary>
 	/// 配置データを読み込む
 	/// </summary>
@@ -61,6 +63,17 @@ private:
 	/// 当たり判定更新
 	/// </summary>
 	void UpdateCol(auto& loc);
+
+	/// <summary>
+	/// 武器を持った際に位置を更新する
+	/// </summary>
+	/// <param name="modelHandle">キャラクターの3Dモデル</param>
+	/// <param name="frameName">セットするフレーム名</param>
+	/// <param name="setModelHandle">セットする武器のモデル</param>
+	/// <param name="setModelHandle">配置データ</param>
+	void SetModelFramePos(int modelHandle, const char* frameName, int setModelHandle, auto& loc);
+
+	void SetModelReleasePos();
 
 protected:
 	// 配置情報データ

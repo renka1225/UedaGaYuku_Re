@@ -1,7 +1,9 @@
 ﻿#include "Game.h"
 #include "Input.h"
 #include "SceneBase.h"
+#include "Player.h"
 #include "PlayerStateAttack.h"
+#include "PlayerStateGrab.h"
 #include "PlayerStateBase.h"
 
 PlayerStateBase::PlayerStateBase(std::shared_ptr<Player> pPlayer):
@@ -33,5 +35,26 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 			state->Init(AnimName::kKick);
 		}
 		return;
+	}
+
+	// 掴みのボタンが押されたとき
+	if (input.IsTriggered(InputId::kGrab))
+	{
+		// TODO:武器とプレイヤーの当たり判定を取得
+		bool isHitCol = true;
+
+		if (!m_pPlayer->GetIsGrabWeapon() && isHitCol)
+		{
+			m_pPlayer->SetIsGrabWeapon(true);
+
+			// StateをGrabに変更する
+			m_nextState = std::make_shared<PlayerStateGrab>(m_pPlayer);
+			auto state = std::dynamic_pointer_cast<PlayerStateGrab>(m_nextState);
+			state->Init();
+		}
+		else
+		{
+			m_pPlayer->SetIsGrabWeapon(false);
+		}
 	}
 }

@@ -53,6 +53,7 @@ namespace InputId
 	const char* const kAvoid = "avoid";
 	const char* const kFighting = "fighting";
 	const char* const kGuard = "guard";
+	const char* const kGrab = "grab";
 	const char* const kSpecial = "special";
 
 	const char* const kRotateL = "rotateL";

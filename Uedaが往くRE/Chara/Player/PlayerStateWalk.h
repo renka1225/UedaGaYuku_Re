@@ -11,12 +11,12 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="player">プレイヤー参照</param>
-	PlayerStateWalk(std::shared_ptr<Player> player) : PlayerStateBase(player) {};
+	PlayerStateWalk(std::shared_ptr<Player> player) : PlayerStateBase(player) {}
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	virtual ~PlayerStateWalk() {};
+	virtual ~PlayerStateWalk() {}
 
 	/// <summary>
 	/// 初期化

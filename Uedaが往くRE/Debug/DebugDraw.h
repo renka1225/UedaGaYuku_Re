@@ -18,7 +18,7 @@ public:
 	/// <param name="pos">座標</param>
 	/// <param name="hp">現在のHP</param>
 	/// <param name="state">現在の状態/param>
-	void DrawPlayerInfo(const VECTOR pos, float hp, std::string state);
+	void DrawPlayerInfo(const VECTOR pos, float hp, std::string state, bool isGrabWeapon);
 
 	/// <summary>
 	/// 敵情報を描画

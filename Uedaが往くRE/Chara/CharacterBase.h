@@ -122,6 +122,12 @@ public:
 	void UpdateAnim();
 
 	/// <summary>
+	/// 武器掴み状態をセットする
+	/// </summary>
+	/// <param name="isGrab"></param>
+	void SetIsGrabWeapon(bool isGrab) { m_isGrabWeapon = isGrab; }
+
+	/// <summary>
 	/// キャラクターのステータス取得
 	/// </summary>
 	Status GetStatus() const { return m_status; }
@@ -131,6 +137,18 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	float GetHp() const { return m_hp; }
+
+	/// <summary>
+	/// キャラクターの3Dモデルを取得
+	/// </summary>
+	/// <returns></returns>
+	int GetHandle() const { return m_modelHandle; }
+
+	/// <summary>
+	/// 武器掴み中かどうか取得
+	/// </summary>
+	/// <returns>武器掴み状態</returns>
+	bool GetIsGrabWeapon() const { return m_isGrabWeapon; }
 
 protected:
 	/// <summary>
@@ -145,6 +163,7 @@ protected:
 	Status m_status;			// ステータス
 	float m_angle;			    // 向いている方向の角度
 	float m_hp;				    // HP
+	bool m_isGrabWeapon;		// 武器を掴んだかどうか
 
 	int m_currentPlayAnim;		// 現在のアニメーション
 	int m_prevPlayAnim;			// 前に再生していたアニメーション

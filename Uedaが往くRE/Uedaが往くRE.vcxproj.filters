@@ -111,9 +111,6 @@
     <ClCompile Include="Chara\Player\PlayerStateIdle.cpp">
       <Filter>ソース ファイル\Chara\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Chara\CharacterBase.cpp">
-      <Filter>ソース ファイル\Chara</Filter>
-    </ClCompile>
     <ClCompile Include="Chara\Player\PlayerStateRun.cpp">
       <Filter>ソース ファイル\Chara\Player</Filter>
     </ClCompile>
@@ -158,6 +155,12 @@
     </ClCompile>
     <ClCompile Include="Object\Weapon.cpp">
       <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Player\PlayerStateGrab.cpp">
+      <Filter>ソース ファイル\Chara\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\CharacterBase.cpp">
+      <Filter>ソース ファイル\Chara</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +262,9 @@
     </ClInclude>
     <ClInclude Include="Object\Weapon.h">
       <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player\PlayerStateGrab.h">
+      <Filter>ヘッダー ファイル\Chara\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

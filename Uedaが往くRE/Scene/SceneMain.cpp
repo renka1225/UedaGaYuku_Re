@@ -35,7 +35,7 @@ void SceneMain::Init()
 std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 {
 	m_pPlayer->Update(input, *m_pCamera, *m_pStage, m_pEnemy);
-	m_pWeapon->Update();
+	m_pWeapon->Update(*m_pPlayer);
 	m_pCamera->Update(input, *m_pPlayer, *m_pStage);
 
 	if (m_pEnemy != nullptr)

@@ -1,6 +1,7 @@
 ﻿#include "DxLib.h"
 #include "DebugDraw.h"
 #include "Vec2.h"
+#include "Game.h"
 #include "Input.h"
 #include "LoadCsv.h"
 #include "Camera.h"
@@ -82,7 +83,7 @@ void Player::Draw()
 
 #ifdef _DEBUG
 	DebugDraw debug;
-	debug.DrawPlayerInfo(m_pos, m_hp, m_pState->GetStateName()); // プレイヤーの情報を描画
+	debug.DrawPlayerInfo(m_pos, m_hp, m_pState->GetStateName(), m_isGrabWeapon); // プレイヤーの情報を描画
 #endif
 }
 

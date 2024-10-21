@@ -156,7 +156,7 @@ void LoadCsv::LoadWeaponData(Weapon::WeaponData& data, std::string weaponName)
 			try
 			{
 				// 外部ファイルの情報を入れる
-				data.durability = std::stof(strvec[1]);
+				data.durability = std::stoi(strvec[1]);
 				data.colStartPos.x = std::stof(strvec[2]);
 				data.colStartPos.y = std::stof(strvec[3]);
 				data.colStartPos.z = std::stof(strvec[4]);

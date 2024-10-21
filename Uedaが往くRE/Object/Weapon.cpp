@@ -1,5 +1,7 @@
-﻿#include "DebugDraw.h"
+﻿#include "DxLib.h"
+#include "DebugDraw.h"
 #include "LoadCsv.h"
+#include "Player.h"
 #include "Weapon.h"
 
 // 定数
@@ -26,7 +28,7 @@ Weapon::~Weapon()
 void Weapon::Init()
 {
 	// サイズや位置の調整
-	for (const auto& loc : m_locationData)
+	for (auto& loc : m_locationData)
 	{
 		LoadCsv::GetInstance().LoadWeaponData(m_weaponData, loc.name);
 		m_durability = m_weaponData.durability;
@@ -35,18 +37,32 @@ void Weapon::Init()
 	}
 }
 
-void Weapon::Update()
+void Weapon::Update(Player& player)
 {
-	// 当たり判定位置更新
-	for (const auto& loc : m_locationData)
+	// 武器位置更新
+	for (auto& loc : m_locationData)
 	{
-		UpdateCol(loc);
+		// プレイヤーが武器を掴んだ場合、プレイヤーの手の位置に武器を移動させる
+		if (player.GetIsGrabWeapon())
+		{
+			SetModelFramePos(player.GetHandle(), "mixamorig:LeftHandIndex2", m_objHandle[loc.name], loc);
+		}
+		else
+		{
+			// 武器を離した場合、足元に落とす
+			loc.pos = VAdd(loc.pos, VGet(0.0f, m_gravity, 0.0f)); // 重力を足す
+		}
+
+
+		loc.pos = VAdd(loc.pos, VGet(0.0f, m_gravity, 0.0f)); // 重力を足す
+		UpdateCol(loc); // 当たり判定位置更新
+		MV1SetPosition(m_objHandle[loc.name], loc.pos);
 	}
 }
 
 void Weapon::Draw()
 {
-	for (const auto& loc : m_locationData)
+	for (auto& loc : m_locationData)
 	{
 		MV1DrawModel(m_objHandle[loc.name]); // モデル表示
 	}
@@ -116,4 +132,19 @@ void Weapon::UpdateCol(auto& loc)
 	// 当たり判定位置を更新
 	m_updateCol.colStartPos = VAdd(loc.pos, (VTransform(m_weaponData.colStartPos, rotationMatrix)));
 	m_updateCol.colEndPos = VAdd(m_updateCol.colStartPos, (VTransform(m_weaponData.colEndPos, rotationMatrix)));
+}
+
+void Weapon::SetModelFramePos(int modelHandle, const char* frameName, int setModelHandle, auto& loc)
+{
+	MATRIX frameMatrix;
+	int frameIndex;
+
+	// フレーム名からフレーム番号を取得する
+	frameIndex = MV1SearchFrame(modelHandle, frameName);
+	frameMatrix = MV1GetFrameLocalWorldMatrix(modelHandle, frameIndex);
+	MV1SetMatrix(setModelHandle, frameMatrix);
+
+	loc.pos = VTransform(VGet(0.0f, 0.0f, 0.0f), frameMatrix);
+	m_updateCol.colStartPos = VAdd(loc.pos, (VTransform(m_weaponData.colStartPos, frameMatrix)));
+	m_updateCol.colEndPos = VAdd(loc.pos, (VTransform(m_weaponData.colEndPos, frameMatrix)));
 }

@@ -18,6 +18,7 @@ CharacterBase::CharacterBase():
 	m_status(),
 	m_angle(0.0f),
 	m_hp(0.0f),
+	m_isGrabWeapon(false),
 	m_currentPlayAnim(-1),
 	m_prevPlayAnim(-1),
 	m_animBlendRate(0.0f),

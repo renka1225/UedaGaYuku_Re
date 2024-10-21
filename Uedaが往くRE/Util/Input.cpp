@@ -129,41 +129,43 @@ Input::Input()
 	m_commandTable[InputId::kPunch] = { {InputType::keybd, KEY_INPUT_Z},
 								{InputType::pad, PAD_INPUT_C} };
 	m_commandTable[InputId::kKick] = { {InputType::keybd, KEY_INPUT_X},
-							   {InputType::pad, PAD_INPUT_X} };
+							    {InputType::pad, PAD_INPUT_X} };
 	m_commandTable[InputId::kAvoid] = { { InputType::keybd, KEY_INPUT_C },
-									{InputType::pad, PAD_INPUT_A } },
+								{InputType::pad, PAD_INPUT_A } },
 	m_commandTable[InputId::kFighting] = { { InputType::keybd, KEY_INPUT_SPACE },
-									{InputType::pad, PAD_INPUT_Z } },
+								{InputType::pad, PAD_INPUT_Z } },
 	m_commandTable[InputId::kGuard] = { { InputType::keybd, KEY_INPUT_Q },
-									{InputType::pad, PAD_INPUT_Y } },
-	m_commandTable[InputId::kSpecial] = { { InputType::keybd, KEY_INPUT_W },
+								{InputType::pad, PAD_INPUT_Y } },
+	m_commandTable[InputId::kGrab] = { { InputType::keybd, KEY_INPUT_L },
 								{InputType::pad, PAD_INPUT_B } },
+	m_commandTable[InputId::kSpecial] = { { InputType::keybd, KEY_INPUT_W },
+								{InputType::pad, PAD_INPUT_Y } },
 
 	/*カメラ回転*/
 	// 左
 	m_commandTable[InputId::kRotateL] = { {InputType::keybd, KEY_INPUT_A},
-								  {InputType::pad, PAD_INPUT_Y} };
+								{InputType::pad, PAD_INPUT_Y} };
 	// 右
 	m_commandTable[InputId::kRotateR] = { {InputType::keybd, KEY_INPUT_D},
-								  {InputType::pad, PAD_INPUT_Z} };
+								{InputType::pad, PAD_INPUT_Z} };
 	// 上
 	m_commandTable[InputId::kRotateU] = { {InputType::keybd, KEY_INPUT_W},
-							      {InputType::pad, PAD_INPUT_10} };
+							    {InputType::pad, PAD_INPUT_10} };
 	// 下
 	m_commandTable[InputId::kRotateD] = { {InputType::keybd, KEY_INPUT_S},
-								  {InputType::pad, PAD_INPUT_10} };
+								{InputType::pad, PAD_INPUT_10} };
 
 	/*デバッグ機能*/
 	m_commandTable[InputId::kDebugDamage] = { {InputType::keybd, KEY_INPUT_LSHIFT},
-								  {InputType::pad, PAD_INPUT_11} };
+								{InputType::pad, PAD_INPUT_11} };
 	m_commandTable["debug_pause"] = { {InputType::keybd, KEY_INPUT_P},
-									  {InputType::pad, PAD_INPUT_11} };
+								{InputType::pad, PAD_INPUT_11} };
 	m_commandTable["debug_enter"] = { {InputType::keybd, KEY_INPUT_RETURN},
-									  {InputType::pad, PAD_INPUT_11} };
+								{InputType::pad, PAD_INPUT_11} };
 	m_commandTable["debug_clear"] = { {InputType::keybd, KEY_INPUT_B},
-									  {InputType::pad, PAD_INPUT_10} };
+								{InputType::pad, PAD_INPUT_10} };
 	m_commandTable["debug_gameover"] = { {InputType::keybd, KEY_INPUT_N},
-										 {InputType::pad, PAD_INPUT_10} };
+								{InputType::pad, PAD_INPUT_10} };
 	m_commandTable[InputId::kEnd] = { {InputType::keybd, KEY_INPUT_ESCAPE},
-							  {InputType::pad, PAD_INPUT_10} };
+								{InputType::pad, PAD_INPUT_10} };
 }

@@ -23,6 +23,7 @@ public:
 		kRun,		// 走り
 		kAttack,	// 攻撃
 		kDamage,	// 攻撃を受ける
+		kGrab,		// 掴み
 	};
 
 	/// <summary>
