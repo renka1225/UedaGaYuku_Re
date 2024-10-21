@@ -2,6 +2,7 @@
 #include "ObjectBase.h"
 
 class Player;
+class Stage;
 
 /// <summary>
 /// 武器クラス
@@ -46,7 +47,8 @@ public:
 	/// 更新
 	/// </summary>
 	/// <param name="player">プレイヤー参照</param>
-	virtual void Update(Player& player);
+	/// <param name="stage">ステージ参照</param>
+	virtual void Update(Player& player, Stage& stage);
 
 	/// <summary>
 	/// 描画
@@ -73,8 +75,6 @@ private:
 	/// <param name="setModelHandle">配置データ</param>
 	void SetModelFramePos(int modelHandle, const char* frameName, int setModelHandle, auto& loc);
 
-	void SetModelReleasePos();
-
 protected:
 	// 配置情報データ
 	struct LocationData
@@ -84,6 +84,8 @@ protected:
 		VECTOR pos;			// 座標
 		VECTOR rot;			// 回転
 		VECTOR scale;		// スケール
+		VECTOR initPos;		// 初期位置
+		VECTOR initRot;		// 初期回転量
 	};
 	std::vector<LocationData> m_locationData;
 

@@ -61,7 +61,7 @@ private:
 	/// <param name="obj">オブジェクト参照</param>
 	/// <param name="checkPosition">移動後の座標</param>
 	/// <returns>補正すべきベクトル</returns>
-	VECTOR CheckHitPlayerWithWall(ObjectBase& obj, const VECTOR& checkPosition);
+	VECTOR CheckHitObjWithWall(ObjectBase& obj, const VECTOR& checkPosition);
 	
 	/// <summary>
 	/// オブジェクトと床ポリゴンとの当たりをチェックする
@@ -69,7 +69,7 @@ private:
 	/// <param name="obj">オブジェクト参照</param>
 	/// <param name="checkPosition">移動後の座標</param>
 	/// <returns>補正すべきベクトル</returns>
-	VECTOR CheckHitPlayerWithFloor(ObjectBase& obj, const VECTOR& checkPosition);
+	VECTOR CheckHitObjWithFloor(ObjectBase& obj, const VECTOR& checkPosition);
 
 private:
 

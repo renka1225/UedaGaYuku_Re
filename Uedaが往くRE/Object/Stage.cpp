@@ -69,9 +69,9 @@ VECTOR Stage::CheckObjectCol(ObjectBase& obj, const VECTOR& moveVec)
     AnalyzeWallAndFloor(hitDim, oldPos);
 
     // 壁ポリゴンとの当たり判定をチェックする
-    nextPos = CheckHitPlayerWithWall(obj, nextPos);
+    nextPos = CheckHitObjWithWall(obj, nextPos);
     // 床ポリゴンとの当たり判定をチェックする
-    nextPos = CheckHitPlayerWithFloor(obj, nextPos);
+    nextPos = CheckHitObjWithFloor(obj, nextPos);
 
     // 検出したプレイヤーの周囲のポリゴン情報の後始末をする
     MV1CollResultPolyDimTerminate(hitDim);
@@ -128,7 +128,7 @@ void Stage::AnalyzeWallAndFloor(MV1_COLL_RESULT_POLY_DIM hitDim, const VECTOR& c
     }
 }
 
-VECTOR Stage::CheckHitPlayerWithWall(ObjectBase& obj, const VECTOR& checkPosition)
+VECTOR Stage::CheckHitObjWithWall(ObjectBase& obj, const VECTOR& checkPosition)
 {
     // 補正後の位置
     VECTOR fixedPos = checkPosition;
@@ -179,7 +179,7 @@ VECTOR Stage::CheckHitPlayerWithWall(ObjectBase& obj, const VECTOR& checkPositio
     return fixedPos;
 }
 
-VECTOR Stage::CheckHitPlayerWithFloor(ObjectBase& obj, const VECTOR& checkPosition)
+VECTOR Stage::CheckHitObjWithFloor(ObjectBase& obj, const VECTOR& checkPosition)
 {
     VECTOR fixedPos = checkPosition;
 

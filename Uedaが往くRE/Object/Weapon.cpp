@@ -1,17 +1,19 @@
 ﻿#include "DxLib.h"
 #include "DebugDraw.h"
 #include "LoadCsv.h"
+#include "Stage.h"
 #include "Player.h"
 #include "Weapon.h"
 
 // 定数
 namespace
 {
-	const std::string kWeaponFileName = "data/model/weapon/"; // モデルのファイルパス名
-	constexpr float kGravity = -15.0f; // 重力
+	const std::string kWeaponFileName = "data/model/weapon/";		// モデルのファイルパス名
+	const char* kPlayerHandFrameName = "mixamorig:LeftHandIndex2";  // プレイヤーの手の部分のフレーム名
+	constexpr float kAdjPosY = 0.0f;	// モデル位置調整
 }
 
-Weapon::Weapon():
+Weapon::Weapon() :
 	m_locationDataHandle(-1)
 {
 	LoadLocationData(); // 配置データの読み込み
@@ -37,26 +39,36 @@ void Weapon::Init()
 	}
 }
 
-void Weapon::Update(Player& player)
+void Weapon::Update(Player& player, Stage& stage)
 {
+	MATRIX frameMatrix = {}; // 武器の回転行列
+
 	// 武器位置更新
 	for (auto& loc : m_locationData)
 	{
 		// プレイヤーが武器を掴んだ場合、プレイヤーの手の位置に武器を移動させる
 		if (player.GetIsGrabWeapon())
 		{
-			SetModelFramePos(player.GetHandle(), "mixamorig:LeftHandIndex2", m_objHandle[loc.name], loc);
+			SetModelFramePos(player.GetHandle(), kPlayerHandFrameName, m_objHandle[loc.name], loc);
 		}
 		else
 		{
-			// 武器を離した場合、足元に落とす
 			loc.pos = VAdd(loc.pos, VGet(0.0f, m_gravity, 0.0f)); // 重力を足す
+			loc.pos = VAdd(VGet(loc.pos.x, kAdjPosY, loc.pos.z), stage.CheckObjectCol(*this, VGet(0.0f, 0.0f, 0.0f))); // ステージと当たり判定を行う
 		}
 
-
-		loc.pos = VAdd(loc.pos, VGet(0.0f, m_gravity, 0.0f)); // 重力を足す
+		// TODO:バトル終了後、武器位置をリセットする
+		// 今は仮で所持金300になったら
+		if (player.GetMoney() == 300)
+		{
+			// 武器の位置を初期位置にリセット
+			loc.pos = loc.initPos;
+			loc.rot = loc.initRot;
+		}
+		
 		UpdateCol(loc); // 当たり判定位置更新
 		MV1SetPosition(m_objHandle[loc.name], loc.pos);
+		MV1SetRotationXYZ(m_objHandle[loc.name], loc.rot);
 	}
 }
 
@@ -69,12 +81,14 @@ void Weapon::Draw()
 
 #ifdef _DEBUG
 	DebugDraw debug;
-	// 当たり判定描画
-	debug.DrawWeaponCol(m_updateCol.colStartPos, m_updateCol.colEndPos, m_weaponData.colRadius);
-
 	for (const auto& loc : m_locationData)
 	{
+		// 武器情報描画
 		debug.DrawWeaponInfo(loc.name.c_str(), loc.tag.c_str(), loc.pos, loc.rot, loc.scale, m_durability);
+		// 当たり判定描画
+		debug.DrawWeaponCol(m_updateCol.colStartPos, m_updateCol.colEndPos, m_weaponData.colRadius);
+		DrawFormatString(0, 340, 0xffffff, "始点:(X:%f,Y:%f,Z:%f), 終点:(X:%f,Y:%f,Z:%f)",
+			m_updateCol.colStartPos.x, m_updateCol.colStartPos.y, m_updateCol.colStartPos.z, m_updateCol.colEndPos.x, m_updateCol.colEndPos.y, m_updateCol.colEndPos.z);
 	}
 #endif
 }
@@ -105,8 +119,10 @@ void Weapon::LoadLocationData()
 
 		// 座標情報
 		FileRead_read(&loc.pos, sizeof(loc.pos), m_locationDataHandle);
+		loc.initPos = loc.pos;
 		// 回転情報
 		FileRead_read(&loc.rot, sizeof(loc.rot), m_locationDataHandle);
+		loc.initRot = loc.rot;
 		// スケール情報
 		FileRead_read(&loc.scale, sizeof(loc.scale), m_locationDataHandle);
 	}
@@ -127,7 +143,11 @@ void Weapon::LoadLocationData()
 void Weapon::UpdateCol(auto& loc)
 {
 	// 向きをもとに当たり判定の位置を調整する
-	MATRIX rotationMatrix = MGetRotY(loc.rot.y);
+	MATRIX rotationMatrixX = MGetRotX(loc.rot.x);
+	MATRIX rotationMatrixY = MGetRotY(loc.rot.y);
+	MATRIX rotationMatrixZ = MGetRotZ(loc.rot.z);
+
+	MATRIX rotationMatrix = MMult(MMult(rotationMatrixX, rotationMatrixY), rotationMatrixZ);
 
 	// 当たり判定位置を更新
 	m_updateCol.colStartPos = VAdd(loc.pos, (VTransform(m_weaponData.colStartPos, rotationMatrix)));
@@ -136,15 +156,12 @@ void Weapon::UpdateCol(auto& loc)
 
 void Weapon::SetModelFramePos(int modelHandle, const char* frameName, int setModelHandle, auto& loc)
 {
-	MATRIX frameMatrix;
-	int frameIndex;
-
 	// フレーム名からフレーム番号を取得する
-	frameIndex = MV1SearchFrame(modelHandle, frameName);
-	frameMatrix = MV1GetFrameLocalWorldMatrix(modelHandle, frameIndex);
-	MV1SetMatrix(setModelHandle, frameMatrix);
+	int frameIndex = MV1SearchFrame(modelHandle, frameName);
+	MATRIX frameMatrix = MV1GetFrameLocalWorldMatrix(modelHandle, frameIndex);
 
+	// 武器位置を更新
 	loc.pos = VTransform(VGet(0.0f, 0.0f, 0.0f), frameMatrix);
-	m_updateCol.colStartPos = VAdd(loc.pos, (VTransform(m_weaponData.colStartPos, frameMatrix)));
-	m_updateCol.colEndPos = VAdd(loc.pos, (VTransform(m_weaponData.colEndPos, frameMatrix)));
+	loc.rot = VTransform(VGet(0.0f, 0.0f, 0.0f), frameMatrix);
+	MV1SetMatrix(setModelHandle, frameMatrix);
 }
