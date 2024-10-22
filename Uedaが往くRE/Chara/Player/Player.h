@@ -71,6 +71,5 @@ private:
 	int m_money;		// 所持金額
 	int m_beforeMoney;	// 増減前の金額
 	int m_addMoney;		// 追加する金額
-
 };
 

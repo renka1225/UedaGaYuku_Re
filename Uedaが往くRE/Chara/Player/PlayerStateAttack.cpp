@@ -7,12 +7,13 @@
 // 定数
 namespace
 {
-    constexpr float kAttackEndTime = 60;
+    constexpr float kPunchEndTime = 30;
+    constexpr float kKickEndTime = 120;
 }
 
 PlayerStateAttack::PlayerStateAttack(std::shared_ptr<Player> player):
     PlayerStateBase(player),
-    m_attackEndTime(kAttackEndTime),
+    m_attackEndTime(0),
     m_isAttackEnd(false)
 {
 }
@@ -21,6 +22,15 @@ void PlayerStateAttack::Init(std::string attackName)
 {
     m_attackKind = attackName;
 	m_pPlayer->ChangeAnim(m_attackKind);
+
+    if (m_attackKind == AnimName::kPunchStrong)
+    {
+        m_attackEndTime = kPunchEndTime;
+    }
+    else if (m_attackKind == AnimName::kKick)
+    {
+        m_attackEndTime = kKickEndTime;
+    }
 }
 
 void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& stage, std::shared_ptr<EnemyBase> pEnemy)
@@ -32,6 +42,7 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
     if (m_isAttackEnd)
     {
         // StateをIdleに変更する
+        m_pPlayer->SetIsAttack(false);
         m_nextState = std::make_shared<PlayerStateIdle>(m_pPlayer);
         auto state = std::dynamic_pointer_cast<PlayerStateIdle>(m_nextState);
         state->Init();
@@ -49,13 +60,24 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
         // 敵にダメージを与える
         if (pEnemy != nullptr)
         {
+            // TODO:プレイヤーの攻撃と敵の当たり判定を取得
             if (m_attackKind == AnimName::kPunchStrong)
             {
-                pEnemy->OnDamage(5);
+                bool isHitPunchCol = pEnemy->CheckHitPunchCol(*m_pPlayer, m_pPlayer->GetCol().armStartPos, m_pPlayer->GetCol().armEndPos, m_pPlayer->GetCol().armRadius);
+                if (isHitPunchCol)
+                {
+                    printfDx("パンチ当たった\n");
+                    pEnemy->OnDamage(5);
+                }
             }
             else if (m_attackKind == AnimName::kKick)
             {
-                pEnemy->OnDamage(10);
+                bool isHitKickCol = pEnemy->CheckHitKickCol(*m_pPlayer, m_pPlayer->GetCol().legStartPos, m_pPlayer->GetCol().legEndPos, m_pPlayer->GetCol().legRadius);
+                if (isHitKickCol)
+                {
+                    printfDx("キック当たった\n");
+                    pEnemy->OnDamage(10);
+                }
             }
         }
     }

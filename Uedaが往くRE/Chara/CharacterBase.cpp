@@ -18,6 +18,7 @@ CharacterBase::CharacterBase():
 	m_status(),
 	m_angle(0.0f),
 	m_hp(0.0f),
+	m_isAttack(false),
 	m_isGrabWeapon(false),
 	m_currentPlayAnim(-1),
 	m_prevPlayAnim(-1),
@@ -40,7 +41,11 @@ CharacterBase::~CharacterBase()
 void CharacterBase::Init()
 {
 	LoadCsv::GetInstance().LoadAnimData(m_animData);
+
 	m_hp = m_status.maxHp;
+	m_updateCol.armRadius = m_colData.armRadius;
+	m_updateCol.legRadius = m_colData.legRadius;
+	m_updateCol.bodyRadius = m_colData.bodyRadius;
 
 	// モデル全体のコリジョン情報のセットアップ
 	MV1SetupCollInfo(m_modelHandle, -1);
@@ -58,9 +63,13 @@ void CharacterBase::Draw()
 #ifdef _DEBUG
 	DebugDraw debug;
 	// 当たり判定描画
-	debug.DrawBodyCol(m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius); // 全身
-	//debug.DrawAimCol(m_updateCol.armStartPos, m_updateCol.armEndPos, m_colData.aimRadius);   // 腕
-	//debug.DrawLegCol(m_updateCol.legStartPos, m_updateCol.legEndPos, m_colData.legRadius);   // 脚
+	debug.DrawBodyCol(m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius);	// 全身(紫色)
+	if (m_isAttack)
+	{
+		debug.DrawAimCol(m_updateCol.armStartPos, m_updateCol.armEndPos, m_colData.armRadius);	// 腕(水色)
+		debug.DrawLegCol(m_updateCol.legStartPos, m_updateCol.legEndPos, m_colData.legRadius);	// 脚(黄色)
+	}
+
 #endif
 }
 
@@ -83,12 +92,18 @@ void CharacterBase::CheckCharaCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCa
 	}
 }
 
-void CharacterBase::CheckHitAttackCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius)
+bool CharacterBase::CheckHitPunchCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius)
 {
 	// パンチが当たったか
-	bool isHitPunch = HitCheck_Capsule_Capsule(m_updateCol.armStartPos, m_updateCol.armEndPos, m_colData.aimRadius, eCapPosTop, eCapPosBottom, eCapRadius);
+	bool isHitPunch = HitCheck_Capsule_Capsule(m_updateCol.armStartPos, m_updateCol.armEndPos, m_colData.armRadius, eCapPosTop, eCapPosBottom, eCapRadius);
+	return isHitPunch;
+}
+
+bool CharacterBase::CheckHitKickCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius)
+{
 	// キックが当たったか
 	bool isHitKick = HitCheck_Capsule_Capsule(m_updateCol.legStartPos, m_updateCol.legEndPos, m_colData.legRadius, eCapPosTop, eCapPosBottom, eCapRadius);
+	return isHitKick;
 }
 
 void CharacterBase::ChangeAnim(std::string animName)

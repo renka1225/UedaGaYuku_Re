@@ -86,8 +86,6 @@ void Weapon::Draw()
 		debug.DrawWeaponInfo(loc.name.c_str(), loc.tag.c_str(), loc.pos, loc.rot, loc.scale, m_durability);
 		// 当たり判定描画
 		debug.DrawWeaponCol(m_updateCol.colStartPos, m_updateCol.colEndPos, m_weaponData.colRadius);
-		DrawFormatString(0, 340, 0xffffff, "始点:(X:%f,Y:%f,Z:%f), 終点:(X:%f,Y:%f,Z:%f)",
-			m_updateCol.colStartPos.x, m_updateCol.colStartPos.y, m_updateCol.colStartPos.z, m_updateCol.colEndPos.x, m_updateCol.colEndPos.y, m_updateCol.colEndPos.z);
 	}
 #endif
 }
@@ -142,11 +140,11 @@ void Weapon::LoadLocationData()
 void Weapon::UpdateCol(auto& loc)
 {
 	// 向きをもとに当たり判定の位置を調整する
-	MATRIX rotationMatrixX = MGetRotX(loc.rot.x);
-	MATRIX rotationMatrixY = MGetRotY(loc.rot.y);
-	MATRIX rotationMatrixZ = MGetRotZ(loc.rot.z);
+	//MATRIX rotationMatrixX = MGetRotX(loc.rot.x);
+	MATRIX rotationMatrix = MGetRotY(loc.rot.y);
+	//MATRIX rotationMatrixZ = MGetRotZ(loc.rot.z);
 
-	MATRIX rotationMatrix = MMult(MMult(rotationMatrixX, rotationMatrixY), rotationMatrixZ);
+	//MATRIX rotationMatrix = MMult(MMult(rotationMatrixX, rotationMatrixY), rotationMatrixZ);
 
 	// 当たり判定位置を更新
 	m_updateCol.colStartPos = VAdd(loc.pos, (VTransform(m_weaponData.colStartPos, rotationMatrix)));

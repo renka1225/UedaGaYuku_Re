@@ -101,7 +101,7 @@ void LoadCsv::LoadColData(CharacterBase::ColData& data, std::string charaName)
 				data.legEndPos.y = std::stof(strvec[17]);
 				data.legEndPos.z = std::stof(strvec[18]);
 				data.bodyRadius = std::stof(strvec[19]);
-				data.aimRadius = std::stof(strvec[20]);
+				data.armRadius = std::stof(strvec[20]);
 				data.legRadius = std::stof(strvec[21]);
 			}
 			catch (const std::invalid_argument&)

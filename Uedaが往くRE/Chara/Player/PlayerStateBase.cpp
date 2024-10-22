@@ -22,6 +22,7 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	if (input.IsTriggered(InputId::kPunch) || input.IsTriggered(InputId::kKick))
 	{
 		// StateをAttackに変更する
+		m_pPlayer->SetIsAttack(true);
 		m_nextState = std::make_shared<PlayerStateAttack>(m_pPlayer);
 		auto state = std::dynamic_pointer_cast<PlayerStateAttack>(m_nextState);
 

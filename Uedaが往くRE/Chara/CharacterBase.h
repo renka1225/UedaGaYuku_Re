@@ -36,7 +36,7 @@ public:
 		VECTOR legStartPos;	 // 脚の当たり判定始点
 		VECTOR legEndPos;	 // 脚の当たり判定終点
 		float bodyRadius;	 // 全身の当たり判定の半径
-		float aimRadius;	 // 腕の当たり判定の半径
+		float armRadius;	 // 腕の当たり判定の半径
 		float legRadius;	 // 脚の当たり判定の半径
 	};
 
@@ -49,6 +49,9 @@ public:
 		VECTOR armEndPos;		// 腕の当たり判定終点
 		VECTOR legStartPos;		// 脚の当たり判定始点
 		VECTOR legEndPos;		// 脚の当たり判定終点
+		float bodyRadius;		// 全身の当たり判定の半径
+		float armRadius;		// 腕の当たり判定の半径
+		float legRadius;		// 脚の当たり判定の半径
 	};
 
 	// アニメーション情報
@@ -102,13 +105,22 @@ public:
 	void CheckCharaCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius);
 
 	/// <summary>
-	/// 攻撃時の当たり判定をチェックする
+	/// パンチ時の当たり判定をチェックする
 	/// </summary>
 	/// <param name="obj">オブジェクト参照</param>
 	/// <param name="eCapPosTop">当たり判定カプセルの始点</param>
 	/// <param name="eCapPosBottom">当たり判定カプセルの終点</param>
 	/// <param name="eCapRadius">当たり判定カプセルの半径</param>
-	void CheckHitAttackCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius);
+	bool CheckHitPunchCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius);
+
+	/// <summary>
+	/// キック時の当たり判定をチェックする
+	/// </summary>
+	/// <param name="obj">オブジェクト参照</param>
+	/// <param name="eCapPosTop">当たり判定カプセルの始点</param>
+	/// <param name="eCapPosBottom">当たり判定カプセルの終点</param>
+	/// <param name="eCapRadius">当たり判定カプセルの半径</param>
+	bool CheckHitKickCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius);
 
 	/// <summary>
 	/// アニメーションを変更
@@ -120,6 +132,12 @@ public:
 	/// アニメーション更新
 	/// </summary>
 	void UpdateAnim();
+
+	/// <summary>
+	/// 攻撃状態をセットする
+	/// </summary>
+	/// <param name="isGrab"></param>
+	void SetIsAttack(bool isAttack) { m_isAttack = isAttack; }
 
 	/// <summary>
 	/// 武器掴み状態をセットする
@@ -145,6 +163,12 @@ public:
 	int GetHandle() const { return m_modelHandle; }
 
 	/// <summary>
+	/// 当たり判定情報を取得
+	/// </summary>
+	/// <returns>パンチの当たり判定情報</returns>
+	UpdateColData GetCol() const { return m_updateCol; }
+
+	/// <summary>
 	/// 武器掴み中かどうか取得
 	/// </summary>
 	/// <returns>武器掴み状態</returns>
@@ -163,6 +187,7 @@ protected:
 	Status m_status;			// ステータス
 	float m_angle;			    // 向いている方向の角度
 	float m_hp;				    // HP
+	bool m_isAttack;			// 攻撃中かどうか
 	bool m_isGrabWeapon;		// 武器を掴んだかどうか
 
 	int m_currentPlayAnim;		// 現在のアニメーション

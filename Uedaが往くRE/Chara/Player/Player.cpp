@@ -67,6 +67,13 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, std:
 	if (pEnemy != nullptr)
 	{
 		pEnemy->CheckCharaCol(*this, m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius);
+		/*
+		if (m_status)
+		{
+			pEnemy->CheckHitPunchCol(*this, m_updateCol.armStartPos, m_updateCol.armEndPos, m_colData.armRadius);
+			pEnemy->CheckHitKickCol(*this, m_updateCol.legStartPos, m_updateCol.legEndPos, m_colData.legRadius);
+		}
+		*/
 	}
 
 	m_pState->Update(input, camera, stage, pEnemy);	// stateの更新
@@ -74,7 +81,7 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, std:
 	UpdateAnim();	// アニメーションを更新
 	UpdateCol();	// 当たり判定の位置更新
 
-	UpdateMoney(); // 所持金を更新
+	UpdateMoney();	// 所持金を更新
 }
 
 void Player::Draw()
