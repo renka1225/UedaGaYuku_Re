@@ -70,9 +70,12 @@ namespace InputId
 /// </summary>
 namespace AnimName
 {
-	const char* const kStandIdle = "stand_Idle";
-	const char* const kWalk = "walk";
-	const char* const kRun = "run";
-	const char* const kPunch = "punch";
+	const char* const kGuard = "guard";
+	const char* const kIdleStand = "idle_stand";
 	const char* const kKick = "kick";
+	const char* const kKickHeat = "kick_heat";
+	const char* const kPunchStrong = "punch_strong";
+	const char* const kRun = "run";
+	const char* const kWalk = "walk";
+	const char* const kWalkFight = "walk_fight";
 }

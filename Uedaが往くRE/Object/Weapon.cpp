@@ -10,7 +10,6 @@ namespace
 {
 	const std::string kWeaponFileName = "data/model/weapon/";		// モデルのファイルパス名
 	const char* kPlayerHandFrameName = "mixamorig:LeftHandIndex2";  // プレイヤーの手の部分のフレーム名
-	constexpr float kAdjPosY = 0.0f;	// モデル位置調整
 }
 
 Weapon::Weapon() :
@@ -54,7 +53,7 @@ void Weapon::Update(Player& player, Stage& stage)
 		else
 		{
 			loc.pos = VAdd(loc.pos, VGet(0.0f, m_gravity, 0.0f)); // 重力を足す
-			loc.pos = VAdd(VGet(loc.pos.x, kAdjPosY, loc.pos.z), stage.CheckObjectCol(*this, VGet(0.0f, 0.0f, 0.0f))); // ステージと当たり判定を行う
+			loc.pos = VAdd(VGet(loc.pos.x, 0.0f, loc.pos.z), stage.CheckObjectCol(*this, VGet(0.0f, 0.0f, 0.0f))); // ステージと当たり判定を行う
 		}
 
 		// TODO:バトル終了後、武器位置をリセットする
@@ -109,7 +108,7 @@ void Weapon::LoadLocationData()
 		loc.name.resize(nameCnt);
 
 		// MEMO:loc.name.data()の部分はC++20だとエラーにならない
-		FileRead_read(loc.name.data(), sizeof(char) * loc.name.size(), m_locationDataHandle);
+		FileRead_read(loc.name.data(), sizeof(char)* loc.name.size(), m_locationDataHandle);
 
 		// タグをロード
 		byte tagCnt = 0;

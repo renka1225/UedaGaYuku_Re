@@ -7,7 +7,7 @@
 // 定数
 namespace
 {
-    constexpr float kAttackEndTime = 30;
+    constexpr float kAttackEndTime = 60;
 }
 
 PlayerStateAttack::PlayerStateAttack(std::shared_ptr<Player> player):
@@ -49,7 +49,7 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
         // 敵にダメージを与える
         if (pEnemy != nullptr)
         {
-            if (m_attackKind == AnimName::kPunch)
+            if (m_attackKind == AnimName::kPunchStrong)
             {
                 pEnemy->OnDamage(5);
             }
@@ -63,7 +63,7 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
 
 std::string PlayerStateAttack::GetStateName()
 {
-    if (m_attackKind == AnimName::kPunch)
+    if (m_attackKind == AnimName::kPunchStrong)
     {
         return "パンチ中";
     }

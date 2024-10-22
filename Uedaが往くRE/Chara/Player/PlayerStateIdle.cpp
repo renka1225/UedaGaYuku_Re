@@ -10,7 +10,7 @@
 
 void PlayerStateIdle::Init()
 {
-	m_pPlayer->ChangeAnim(AnimName::kStandIdle);
+	m_pPlayer->ChangeAnim(AnimName::kIdleStand);
 }
 
 void PlayerStateIdle::Update(const Input& input, const Camera& camera, Stage& stage, std::shared_ptr<EnemyBase> pEnemy)

@@ -110,7 +110,7 @@ void CharacterBase::ChangeAnim(std::string animName)
 	m_animLoopEndTime = m_animData[animName].endFrame;
 
 	// ループ終了フレームが0でない場合、ループフラグを立てる
-	if (m_animLoopEndTime > 0)
+	if (m_animLoopEndTime > 0.0f)
 	{
 		m_isLoopAnim = true;
 	}
