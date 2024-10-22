@@ -50,7 +50,7 @@ void EnemyBase::Update(Stage& stage, Player& player)
 	// 当たり判定をチェックする
 	player.CheckCharaCol(*this, m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius);
 
-	m_pState->Update(stage); // stateの更新
+	m_pState->Update(stage, player); // stateの更新
 	UpdateAnim();			 // アニメーションを更新
 	UpdateCol();			 // 当たり判定の位置更新
 }

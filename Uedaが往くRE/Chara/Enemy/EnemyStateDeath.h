@@ -27,7 +27,8 @@ public:
 	/// 更新
 	/// </summary>
 	/// <param name="stage">ステージ参照</param>
-	virtual void Update(Stage& stage);
+	/// <param name="pPlayer">プレイヤー参照/param>
+	virtual void Update(Stage& stage, Player& pPlayer);
 
 	/// <summary>
 	/// お金をドロップする

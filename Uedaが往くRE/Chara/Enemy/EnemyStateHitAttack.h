@@ -25,10 +25,9 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	/// <param name="input">入力状態</param>
-	/// <param name="camera">カメラ参照</param>
 	/// <param name="stage">ステージ参照</param>
-	virtual void Update(Stage& stage) override;
+	/// <param name="pPlayer">プレイヤーポインタ/param>
+	virtual void Update(Stage& stage, Player& pPlayer) override;
 
 	/// <summary>
 	/// ダメージを受けた時の処理

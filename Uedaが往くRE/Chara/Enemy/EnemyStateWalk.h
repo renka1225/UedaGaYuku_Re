@@ -27,7 +27,8 @@ public:
 	/// 更新
 	/// </summary>
 	/// <param name="stage">ステージ参照</param>
-	virtual void Update(Stage& stage) override;
+	/// <param name="pPlayer">プレイヤー参照/param>
+	virtual void Update(Stage& stage, Player& pPlayer) override;
 
 	/// <summary>
 	/// 現在のStateを取得

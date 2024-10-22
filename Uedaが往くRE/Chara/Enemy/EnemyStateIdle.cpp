@@ -1,4 +1,5 @@
-﻿#include "EnemyBase.h"
+﻿#include "Game.h"
+#include "EnemyBase.h"
 #include "EnemyStateWalk.h"
 #include "EnemyStateRun.h"
 #include "EnemyStateDeath.h"
@@ -6,12 +7,12 @@
 
 void EnemyStateIdle::Init()
 {
-	m_pEnemy->ChangeAnim("StandIdle");
+	m_pEnemy->ChangeAnim(AnimName::kIdleStand);
 }
 
-void EnemyStateIdle::Update(Stage& stage)
+void EnemyStateIdle::Update(Stage& stage, Player& pPlayer)
 {
-	EnemyStateBase::Update(stage);
+	EnemyStateBase::Update(stage, pPlayer);
 
 	m_pEnemy->Move(VGet(0.0f, 0.0f, 0.0f), stage); // 移動情報を反映する
 

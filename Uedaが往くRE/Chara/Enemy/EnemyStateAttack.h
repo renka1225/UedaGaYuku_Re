@@ -20,13 +20,15 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Init();
+	/// <param name="attackName">入力された攻撃名</param>
+	void Init(std::string attackName);
 
 	/// <summary>
 	/// 更新
 	/// </summary>
 	/// <param name="stage">ステージ参照</param>
-	virtual void Update(Stage& stage) override;
+	/// <param name="pPlayer">プレイヤー参照/param>
+	virtual void Update(Stage& stage, Player& pPlayer) override;
 
 	/// <summary>
 	/// 現在のStateを取得
@@ -41,5 +43,10 @@ public:
 	/// <returns>State名</returns>
 	virtual std::string GetStateName() override { return "攻撃中"; }
 #endif
+
+private:
+	std::string m_attackKind;	// 入力された攻撃の種類
+	float m_attackEndTime;		// 攻撃が終わるまでの時間
+	bool m_isAttackEnd;			// 攻撃が終わったかどうか
 };
 

@@ -69,7 +69,6 @@ void CharacterBase::Draw()
 		debug.DrawAimCol(m_updateCol.armStartPos, m_updateCol.armEndPos, m_colData.armRadius);	// 腕(水色)
 		debug.DrawLegCol(m_updateCol.legStartPos, m_updateCol.legEndPos, m_colData.legRadius);	// 脚(黄色)
 	}
-
 #endif
 }
 

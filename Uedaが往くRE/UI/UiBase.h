@@ -45,7 +45,7 @@ public:
 
 protected:
 	std::shared_ptr<Player> m_pPlayer; // プレイヤーのポインタ
-	UiData m_uiData;	// UIのデータ
-	Vec2 m_pos;			// UI表示位置
+	UiData m_uiData;		// UIのデータ
+	int m_minimapHandle;	// ミニマップの画像
 };
 

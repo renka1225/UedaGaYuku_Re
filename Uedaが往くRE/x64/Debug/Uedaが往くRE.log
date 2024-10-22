@@ -1,2 +1,4 @@
-﻿  PlayerStateAttack.cpp
-  Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Uedaが往くRE.exe
+﻿  Weapon.cpp
+C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Object\Weapon.cpp(110,46): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\Object\Weapon.cpp(116,46): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+  Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Uedaが往くRE.exe

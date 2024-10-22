@@ -20,7 +20,8 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Init(std::string inputId);
+	/// <param name="attackName">入力された攻撃名</param>
+	void Init(std::string attackName);
 
 	/// <summary>
 	/// 更新

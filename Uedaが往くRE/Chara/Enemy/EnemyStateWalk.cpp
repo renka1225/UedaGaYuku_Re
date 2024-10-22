@@ -1,16 +1,17 @@
-﻿#include "EnemyBase.h"
+﻿#include "Game.h"
+#include "EnemyBase.h"
 #include "EnemyStateIdle.h"
 #include "EnemyStateRun.h"
 #include "EnemyStateWalk.h"
 
 void EnemyStateWalk::Init()
 {
-	m_pEnemy->ChangeAnim("Walk");
+	m_pEnemy->ChangeAnim(AnimName::kWalk);
 }
 
-void EnemyStateWalk::Update(Stage& stage)
+void EnemyStateWalk::Update(Stage& stage, Player& pPlayer)
 {
-	EnemyStateBase::Update(stage);
+	EnemyStateBase::Update(stage, pPlayer);
 
 	VECTOR upMoveVec;	 // 上ボタンを入力をしたときの移動方向ベクトル
 	VECTOR leftMoveVec;	 // 左ボタンを入力をしたときの移動方向ベクトル

@@ -5,6 +5,7 @@
 class Input;
 class Camera;
 class Stage;
+class Weapon;
 class EnemyBase;
 
 /// <summary>
@@ -34,7 +35,9 @@ public:
 	/// <param name="input">入力状態</param>
 	/// <param name="camera">カメラ参照</param>
 	/// <param name="stage">ステージ参照</param>
-	virtual void Update(const Input& input, const Camera& camera, Stage& stage, std::shared_ptr<EnemyBase> pEnemy);
+	/// <param name="pWeapon">武器情報参照</param>
+	/// <param name="pEnemy">敵情報のポインタ</param>
+	virtual void Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::shared_ptr<EnemyBase> pEnemy);
 
 	/// <summary>
 	/// 描画

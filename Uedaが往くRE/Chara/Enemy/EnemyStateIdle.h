@@ -29,7 +29,8 @@ public:
 	/// 更新
 	/// </summary>
 	/// <param name="stage">ステージ参照</param>
-	virtual void Update(Stage& stage);
+	/// <param name="pPlayer">プレイヤーポインタ/param>
+	virtual void Update(Stage& stage, Player& pPlayer);
 
 	/// <summary>
 	/// 現在のStateを取得

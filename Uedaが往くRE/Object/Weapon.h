@@ -55,6 +55,15 @@ public:
 	/// </summary>
 	virtual void Draw();
 
+	/// <summary>
+	/// 武器の当たり判定をチェックする
+	/// </summary>
+	/// <param name="obj">オブジェクト参照</param>
+	/// <param name="eCapPosTop">当たり判定カプセルの始点</param>
+	/// <param name="eCapPosBottom">当たり判定カプセルの終点</param>
+	/// <param name="eCapRadius">当たり判定カプセルの半径</param>
+	void CheckWeaopnCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius);
+
 private:
 	/// <summary>
 	/// 配置データを読み込む

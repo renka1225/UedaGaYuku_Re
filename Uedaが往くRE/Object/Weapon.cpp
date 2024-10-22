@@ -33,6 +33,7 @@ void Weapon::Init()
 	{
 		LoadCsv::GetInstance().LoadWeaponData(m_weaponData, loc.name);
 		m_durability = m_weaponData.durability;
+		m_updateCol.colRadius = m_weaponData.colRadius;
 		MV1SetScale(m_objHandle[loc.name], loc.scale);
 		MV1SetPosition(m_objHandle[loc.name], loc.pos);
 	}
@@ -85,7 +86,7 @@ void Weapon::Draw()
 		// 武器情報描画
 		debug.DrawWeaponInfo(loc.name.c_str(), loc.tag.c_str(), loc.pos, loc.rot, loc.scale, m_durability);
 		// 当たり判定描画
-		debug.DrawWeaponCol(m_updateCol.colStartPos, m_updateCol.colEndPos, m_weaponData.colRadius);
+		debug.DrawWeaponCol(m_updateCol.colStartPos, m_updateCol.colEndPos, m_updateCol.colRadius);
 	}
 #endif
 }
@@ -149,6 +150,17 @@ void Weapon::UpdateCol(auto& loc)
 	// 当たり判定位置を更新
 	m_updateCol.colStartPos = VAdd(loc.pos, (VTransform(m_weaponData.colStartPos, rotationMatrix)));
 	m_updateCol.colEndPos = VAdd(m_updateCol.colStartPos, (VTransform(m_weaponData.colEndPos, rotationMatrix)));
+}
+
+void Weapon::CheckWeaopnCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius)
+{
+	bool isHit = HitCheck_Capsule_Capsule(m_updateCol.colStartPos, m_updateCol.colEndPos, m_updateCol.colRadius, eCapPosTop, eCapPosBottom, eCapRadius);
+
+	// 当たっている場合
+	if (isHit)
+	{
+		// TODO:武器を掴めるようにする
+	}
 }
 
 void Weapon::SetModelFramePos(int modelHandle, const char* frameName, int setModelHandle, auto& loc)

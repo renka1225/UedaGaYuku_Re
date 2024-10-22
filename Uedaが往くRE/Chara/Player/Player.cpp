@@ -6,6 +6,7 @@
 #include "LoadCsv.h"
 #include "Camera.h"
 #include "Stage.h"
+#include "Weapon.h"
 #include "EnemyBase.h"
 #include "PlayerStateIdle.h"
 #include "Player.h"
@@ -51,7 +52,7 @@ void Player::Init()
 	state->Init();
 }
 
-void Player::Update(const Input& input, const Camera& camera, Stage& stage, std::shared_ptr<EnemyBase> pEnemy)
+void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::shared_ptr<EnemyBase> pEnemy)
 {
 	CharacterBase::Update();
 
@@ -67,14 +68,9 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, std:
 	if (pEnemy != nullptr)
 	{
 		pEnemy->CheckCharaCol(*this, m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius);
-		/*
-		if (m_status)
-		{
-			pEnemy->CheckHitPunchCol(*this, m_updateCol.armStartPos, m_updateCol.armEndPos, m_colData.armRadius);
-			pEnemy->CheckHitKickCol(*this, m_updateCol.legStartPos, m_updateCol.legEndPos, m_colData.legRadius);
-		}
-		*/
 	}
+	// 武器との当たり判定をチェックする
+	weapon.CheckWeaopnCol(*this, m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius);
 
 	m_pState->Update(input, camera, stage, pEnemy);	// stateの更新
 	UpdateAngle();	// 向きを更新
