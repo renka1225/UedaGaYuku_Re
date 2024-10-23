@@ -14,7 +14,8 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="charaId">キャラクターID</param>
-	EnemyBase(std::string charaId);
+	/// <param name="number">キャラクターの番号</param>
+	EnemyBase(std::string charaId, int number);
 
 	/// <summary>
 	/// デストラクタ
@@ -48,6 +49,12 @@ public:
 	/// <returns>死亡しているかどうか</returns>
 	bool GetIsDead() const { return m_isDead; }
 
+	/// <summary>
+	/// 敵の番号を取得する
+	/// </summary>
+	/// <returns></returns>
+	int GetEnemyNumber() const { return m_enemyNumber; }
+
 private:
 	/// <summary>
 	/// 敵のフレーム位置を取得する
@@ -56,6 +63,7 @@ private:
 
 protected:
 	std::shared_ptr<EnemyStateBase> m_pState; // stateパターン
-	bool m_isDead; // 死亡したかどうか
+	int m_enemyNumber; // 敵の番号
+	bool m_isDead;	   // 死亡したかどうか
 };
 

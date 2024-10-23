@@ -58,12 +58,6 @@ void CharacterBase::Update()
 void CharacterBase::Draw()
 {
 	MV1DrawModel(m_modelHandle);
-
-#ifdef _DEBUG
-	DebugDraw debug;
-	// 当たり判定描画
-	//debug.DrawBodyCol(m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_updateCol.bodyRadius);	// 全身(紫色)
-#endif
 }
 
 void CharacterBase::OnDamage(int damage)
@@ -72,35 +66,74 @@ void CharacterBase::OnDamage(int damage)
 	m_hp = std::max(0.0f, m_hp);
 }
 
-void CharacterBase::CheckCharaCol(ObjectBase& obj, CharacterBase::ColData& colData)
+void CharacterBase::CheckCharaCol(ObjectBase& obj, CharacterBase::ColData& colData, int charaType)
 {
-	//bool isHit = HitCheck_Capsule_Capsule(m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_updateCol.bodyRadius, eCapPosTop, eCapPosBottom, eCapRadius);
+	bool isHit = HitCheck_Capsule_Capsule(m_colData[charaType].bodyUpdateStartPos, m_colData[charaType].bodyUpdateEndPos, m_colData[charaType].bodyRadius, 
+		colData.bodyUpdateStartPos, colData.bodyUpdateEndPos, colData.bodyRadius);
 
-	//// 当たっている場合
-	//if (isHit)
-	//{
-	//	// キャラクターの位置を補正する
-	//	VECTOR colVec = VNorm(VSub(m_pos, obj.GetPos()));
-	//	m_pos = VAdd(m_pos, VScale(colVec, kAdj));
-	//}
+	// 当たっている場合
+	if (isHit)
+	{
+		// キャラクターの位置を補正する
+		VECTOR colVec = VNorm(VSub(m_pos, obj.GetPos()));
+		m_pos = VAdd(m_pos, VScale(colVec, kAdj));
+	}
 }
 
-bool CharacterBase::CheckHitPunchCol(ObjectBase& obj, CharacterBase::ColData& colData)
+bool CharacterBase::CheckHitPunchCol(const CharacterBase::ColData& colData, int charaType)
 {
-	// パンチが当たったか
-	//bool isHitPunch = HitCheck_Capsule_Capsule(m_updateCol.armStartPos, m_updateCol.armEndPos, m_updateCol.armRadius, eCapPosTop, eCapPosBottom, eCapRadius);
-	//return isHitPunch;
+	// 左肩から左肘
+	bool isHit1 = HitCheck_Capsule_Capsule(m_colData[charaType].leftShoulderPos, m_colData[charaType].leftForeArmPos, m_colData[charaType].armRadius, 
+		colData.bodyUpdateStartPos, colData.bodyUpdateEndPos, colData.bodyRadius);
+	// 左肘から左手首
+	bool isHit2 = HitCheck_Capsule_Capsule(m_colData[charaType].leftForeArmPos, m_colData[charaType].leftHandPos, m_colData[charaType].armRadius,
+		colData.bodyUpdateStartPos, colData.bodyUpdateEndPos, colData.bodyRadius);
+	// 右肩から右肘
+	bool isHit3 = HitCheck_Capsule_Capsule(m_colData[charaType].rightShoulderPos, m_colData[charaType].rightForeArmPos, m_colData[charaType].armRadius,
+		colData.bodyUpdateStartPos, colData.bodyUpdateEndPos, colData.bodyRadius);
+	// 右肘から右手首
+	bool isHit4 = HitCheck_Capsule_Capsule(m_colData[charaType].rightShoulderPos, m_colData[charaType].rightForeArmPos, m_colData[charaType].armRadius,
+		colData.bodyUpdateStartPos, colData.bodyUpdateEndPos, colData.bodyRadius);
 
-	return false;
+	if (isHit1 || isHit2 || isHit3 || isHit4)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
-bool CharacterBase::CheckHitKickCol(ObjectBase& obj, CharacterBase::ColData& colData)
+bool CharacterBase::CheckHitKickCol(const CharacterBase::ColData& colData, int charaType)
 {
-	// キックが当たったか
-	//bool isHitKick = HitCheck_Capsule_Capsule(m_updateCol.legStartPos, m_updateCol.legEndPos, m_updateCol.legRadius, eCapPosTop, eCapPosBottom, eCapRadius);
-	//return isHitKick;
+	// 左ももから左膝
+	bool isHit1 = HitCheck_Capsule_Capsule(m_colData[charaType].leftUpLegPos, m_colData[charaType].leftLegPos, m_colData[charaType].legRadius,
+		colData.bodyUpdateStartPos, colData.bodyUpdateEndPos, colData.bodyRadius);
+	// 左膝から左足首
+	bool isHit2 = HitCheck_Capsule_Capsule(m_colData[charaType].leftLegPos, m_colData[charaType].leftFootPos, m_colData[charaType].legRadius,
+		colData.bodyUpdateStartPos, colData.bodyUpdateEndPos, colData.bodyRadius);
+	// 左足首から左つま先
+	bool isHit3 = HitCheck_Capsule_Capsule(m_colData[charaType].leftFootPos, m_colData[charaType].leftEndPos, m_colData[charaType].legRadius,
+		colData.bodyUpdateStartPos, colData.bodyUpdateEndPos, colData.bodyRadius);
+	// 右ももから右膝
+	bool isHit4 = HitCheck_Capsule_Capsule(m_colData[charaType].rightUpLegPos, m_colData[charaType].rightLegPos, m_colData[charaType].legRadius,
+		colData.bodyUpdateStartPos, colData.bodyUpdateEndPos, colData.bodyRadius);
+	// 右膝から右足首
+	bool isHit5 = HitCheck_Capsule_Capsule(m_colData[charaType].rightLegPos, m_colData[charaType].rightFootPos, m_colData[charaType].legRadius,
+		colData.bodyUpdateStartPos, colData.bodyUpdateEndPos, colData.bodyRadius);
+	// 右足首から右つま先
+	bool isHit6 = HitCheck_Capsule_Capsule(m_colData[charaType].rightFootPos, m_colData[charaType].rightEndPos, m_colData[charaType].legRadius,
+		colData.bodyUpdateStartPos, colData.bodyUpdateEndPos, colData.bodyRadius);
 
-	return false;
+	if (isHit1 || isHit2 || isHit3 || isHit4 || isHit5 || isHit6)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void CharacterBase::ChangeAnim(std::string animName)
@@ -144,6 +177,7 @@ void CharacterBase::ChangeAnim(std::string animName)
 	}
 }
 
+
 void CharacterBase::UpdateAnim()
 {
 	// ブレンド率が1以下の場合
@@ -178,20 +212,12 @@ void CharacterBase::UpdateAnim()
 	MV1SetAttachAnimBlendRate(m_modelHandle, m_prevPlayAnim, kAnimBlendMax - m_animBlendRate);
 }
 
-void CharacterBase::UpdateCol()
+void CharacterBase::UpdateCol(int charType)
 {
 	// キャラクターの向きをもとに当たり判定の位置を調整する
 	MATRIX rotationMatrix = MGetRotY(m_angle);
 
 	// キャラクター全体の当たり判定位置を更新
-	//m_colData.bodyStartPos = VAdd(m_pos, (VTransform(m_colData.bodyStartPos, rotationMatrix)));
-	//m_colData.bodyEndPos = VAdd(m_updateCol.bodyStartPos, (VTransform(m_colData.m_colData, rotationMatrix)));
-
-	//// 腕の当たり判定位置を更新
-	//m_updateCol.armStartPos = VAdd(m_pos, (VTransform(m_colData.armStartPos, rotationMatrix)));
-	//m_updateCol.armEndPos = VAdd(m_updateCol.armStartPos, (VTransform(m_colData.armEndPos, rotationMatrix)));
-
-	//// 脚の当たり判定位置を更新
-	//m_updateCol.legStartPos = VAdd(m_pos, (VTransform(m_colData.legStartPos, rotationMatrix)));
-	//m_updateCol.legEndPos = VAdd(m_updateCol.legStartPos, (VTransform(m_colData.legEndPos, rotationMatrix)));
+	m_colData[charType].bodyUpdateStartPos = VAdd(m_pos, (VTransform(m_colData[charType].bodyStartPos, rotationMatrix)));
+	m_colData[charType].bodyUpdateEndPos = VAdd(m_colData[charType].bodyUpdateStartPos, (VTransform(m_colData[charType].bodyEndPos, rotationMatrix)));
 }

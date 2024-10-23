@@ -32,8 +32,11 @@ Player::Player():
 	LoadCsv::GetInstance().LoadStatus(m_status, kCharaId);
 	LoadCsv::GetInstance().LoadColData(m_colData[CharaType::kPlayer], kCharaId);
 
-	m_pos = kInitPos;
 	m_modelHandle = MV1LoadModel(kModelFileName);
+
+	m_pos = kInitPos;
+	m_colData[CharaType::kPlayer].bodyUpdateStartPos = m_colData[CharaType::kPlayer].bodyStartPos;
+	m_colData[CharaType::kPlayer].bodyUpdateEndPos = m_colData[CharaType::kPlayer].bodyEndPos;
 }
 
 Player::~Player()
@@ -68,17 +71,17 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 	// 敵との当たり判定をチェックする
 	if (pEnemy != nullptr)
 	{
-		pEnemy->CheckCharaCol(*this, m_colData[CharaType::kPlayer]);
+		pEnemy->CheckCharaCol(*this, m_colData[CharaType::kPlayer], CharaType::kEnemy_01);
 	}
 	// 武器との当たり判定をチェックする
 	//weapon.CheckWeaopnCol(*this, m_colData.bodyStartPos, m_colData.bodyEndPos, m_colData.bodyRadius);
 
 	m_pState->Update(input, camera, stage, pEnemy);	// stateの更新
-	UpdateAngle();	// 向きを更新
-	UpdateAnim();	// アニメーションを更新
-	UpdateCol();	// 当たり判定の位置更新
-	GetFramePos();	// モデルフレーム位置を取得
-	UpdateMoney();	// 所持金を更新
+	UpdateAngle();					// 向きを更新
+	UpdateAnim();					// アニメーションを更新
+	UpdateCol(CharaType::kPlayer);	// 当たり判定の位置更新
+	GetFramePos();					// モデルフレーム位置を取得
+	UpdateMoney();					// 所持金を更新
 }
 
 void Player::Draw()
@@ -89,7 +92,8 @@ void Player::Draw()
 	DebugDraw debug;
 	debug.DrawPlayerInfo(m_pos, m_hp, m_pState->GetStateName(), m_isGrabWeapon); // プレイヤーの情報を描画
 	// 当たり判定描画
-	debug.DrawAimCol(m_colData[CharaType::kPlayer]);	// 腕(水色)
+	debug.DrawBodyCol(m_colData[CharaType::kPlayer]);	// 全身(紫色)
+	debug.DrawArmCol(m_colData[CharaType::kPlayer]);	// 腕(水色)
 	debug.DrawLegCol(m_colData[CharaType::kPlayer]);	// 脚(黄色)
 #endif
 }
@@ -114,7 +118,6 @@ void Player::AddMoney(int dropMoney)
 
 void Player::GetFramePos()
 {
-	// フレームの座標を取得する
 	m_colData[CharaType::kPlayer].leftShoulderPos = GetModelFramePos(PlayerFrameName::kLeftShoulder.c_str());	// 左肩
 	m_colData[CharaType::kPlayer].leftForeArmPos = GetModelFramePos(PlayerFrameName::kLeftForeArm.c_str());		// 左肘
 	m_colData[CharaType::kPlayer].leftHandPos = GetModelFramePos(PlayerFrameName::kLeftHandPos.c_str());		// 左手首

@@ -43,16 +43,14 @@ public:
 	/// <summary>
 	/// 全身の当たり判定を描画
 	/// </summary>
-	/// <param name="startPos">開始位置</param>
-	/// <param name="endPos">終了位置</param>
-	/// <param name="r">半径</param>
-	void DrawBodyCol(VECTOR startPos, VECTOR endPos, float r);
+	/// <param name="colData">当たり判定情報</param>
+	void DrawBodyCol(CharacterBase::ColData& colData);
 
 	/// <summary>
 	/// 腕の当たり判定を描画
 	/// </summary>
 	/// <param name="colData">当たり判定情報</param>
-	void DrawAimCol(CharacterBase::ColData& colData);
+	void DrawArmCol(CharacterBase::ColData& colData);
 
 	/// <summary>
 	///  脚の当たり判定を描画
@@ -79,7 +77,8 @@ public:
 	/// </summary>
 	/// <param name="startPos">始点位置</param>
 	/// <param name="endPos">終点位置</param>
+	/// <param name="radius">カプセルの半径</param>
 	/// <param name="capsuleColor">カプセルの色</param>
-	void DrawModelFrameCapsule3D(VECTOR startPos, VECTOR endPos, int capsuleColor);
+	void DrawModelFrameCapsule3D(VECTOR startPos, VECTOR endPos, float radius, int capsuleColor);
 };
 

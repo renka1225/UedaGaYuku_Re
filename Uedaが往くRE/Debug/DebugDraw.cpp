@@ -27,12 +27,15 @@ void DebugDraw::DrawWeaponInfo(std::string name, std::string tag, VECTOR pos, VE
 		name.c_str(), tag.c_str(), pos.x, pos.y, pos.z, rot.x, rot.y, rot.z, scale.x, scale.y, scale.z, durability);
 }
 
-void DebugDraw::DrawBodyCol(VECTOR startPos, VECTOR endPos, float r)
+void DebugDraw::DrawBodyCol(CharacterBase::ColData& colData)
 {
-	DrawCapsule3D(startPos, endPos, r, 1, Color::kColorP, Color::kColorBK, false);
+	//DrawFormatString(0, 380, 0xffffff, "当たり判定始点(X:%.2f,Y:%.2f,Z:%.2f)", colData.bodyUpdateStartPos.x, colData.bodyUpdateStartPos.y, colData.bodyUpdateStartPos.z);
+	//DrawFormatString(0, 400, 0xffffff, "当たり判定終点(X:%.2f,Y:%.2f,Z:%.2f)", colData.bodyUpdateEndPos.x, colData.bodyUpdateEndPos.y, colData.bodyUpdateEndPos.z);
+
+	DrawCapsule3D(colData.bodyUpdateStartPos, colData.bodyUpdateEndPos, colData.bodyRadius, 1, Color::kColorP, Color::kColorBK, false);
 }
 
-void DebugDraw::DrawAimCol(CharacterBase::ColData& colData)
+void DebugDraw::DrawArmCol(CharacterBase::ColData& colData)
 {
 	// フレーム部分を点で表示する
 	DrawModelFrameCircle(colData.leftShoulderPos);
@@ -43,10 +46,10 @@ void DebugDraw::DrawAimCol(CharacterBase::ColData& colData)
 	DrawModelFrameCircle(colData.rightHandPos);
 
 	// 当たり判定カプセルを表示
-	DrawModelFrameCapsule3D(colData.leftShoulderPos, colData.leftForeArmPos, Color::kColorLB);
-	DrawModelFrameCapsule3D(colData.leftForeArmPos, colData.leftHandPos, Color::kColorLB);
-	DrawModelFrameCapsule3D(colData.rightShoulderPos, colData.rightForeArmPos, Color::kColorLB);
-	DrawModelFrameCapsule3D(colData.rightForeArmPos, colData.rightHandPos, Color::kColorLB);
+	DrawModelFrameCapsule3D(colData.leftShoulderPos, colData.leftForeArmPos, colData.armRadius, Color::kColorLB);
+	DrawModelFrameCapsule3D(colData.leftForeArmPos, colData.leftHandPos, colData.armRadius, Color::kColorLB);
+	DrawModelFrameCapsule3D(colData.rightShoulderPos, colData.rightForeArmPos, colData.armRadius, Color::kColorLB);
+	DrawModelFrameCapsule3D(colData.rightForeArmPos, colData.rightHandPos, colData.armRadius, Color::kColorLB);
 }
 
 void DebugDraw::DrawLegCol(CharacterBase::ColData& colData)
@@ -63,14 +66,12 @@ void DebugDraw::DrawLegCol(CharacterBase::ColData& colData)
 	DrawModelFrameCircle(colData.rightEndPos);
 
 	// 当たり判定カプセルを表示
-	DrawModelFrameCapsule3D(colData.leftUpLegPos, colData.leftLegPos, Color::kColorY);
-	DrawModelFrameCapsule3D(colData.leftLegPos, colData.leftFootPos, Color::kColorY);
-	DrawModelFrameCapsule3D(colData.leftFootPos, colData.leftEndPos, Color::kColorY);
-	DrawModelFrameCapsule3D(colData.rightUpLegPos, colData.rightLegPos, Color::kColorY);
-	DrawModelFrameCapsule3D(colData.rightLegPos, colData.rightFootPos, Color::kColorY);
-	DrawModelFrameCapsule3D(colData.rightFootPos, colData.rightEndPos, Color::kColorY);
-
-	//DrawCapsule3D(startPos, endPos, r, 1, Color::kColorY, Color::kColorBK, false);
+	DrawModelFrameCapsule3D(colData.leftUpLegPos, colData.leftLegPos, colData.legRadius, Color::kColorY);
+	DrawModelFrameCapsule3D(colData.leftLegPos, colData.leftFootPos, colData.legRadius, Color::kColorY);
+	DrawModelFrameCapsule3D(colData.leftFootPos, colData.leftEndPos, colData.legRadius, Color::kColorY);
+	DrawModelFrameCapsule3D(colData.rightUpLegPos, colData.rightLegPos, colData.legRadius, Color::kColorY);
+	DrawModelFrameCapsule3D(colData.rightLegPos, colData.rightFootPos, colData.legRadius, Color::kColorY);
+	DrawModelFrameCapsule3D(colData.rightFootPos, colData.rightEndPos, colData.legRadius, Color::kColorY);
 }
 
 void DebugDraw::DrawWeaponCol(VECTOR startPos, VECTOR endPos, float r)
@@ -83,8 +84,8 @@ void DebugDraw::DrawModelFrameCircle(VECTOR pos)
 	DrawCircleAA(ConvWorldPosToScreenPos(pos).x, ConvWorldPosToScreenPos(pos).y, 5, 0xff0000, true);
 }
 
-void DebugDraw::DrawModelFrameCapsule3D(VECTOR startPos, VECTOR endPos, int capsuleColor)
+void DebugDraw::DrawModelFrameCapsule3D(VECTOR startPos, VECTOR endPos, float radius, int capsuleColor)
 {
-	DrawCapsule3D(startPos, endPos, 3, 1, capsuleColor, Color::kColorBK, false);
+	DrawCapsule3D(startPos, endPos, radius, 1, capsuleColor, Color::kColorBK, false);
 }
 

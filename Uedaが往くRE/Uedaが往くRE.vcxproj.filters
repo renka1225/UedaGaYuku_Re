@@ -266,7 +266,7 @@
     <ClInclude Include="Chara\Player\PlayerStateGrab.h">
       <Filter>ヘッダー ファイル\Chara\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Util\ModelFrameName.h">
+    <ClInclude Include="Chara\ModelFrameName.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

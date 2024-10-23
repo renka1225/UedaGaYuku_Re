@@ -22,24 +22,24 @@ void EnemyStateBase::Update(Stage& stage, Player& pPlayer)
 		return;
 	}
 
-	// TODO:ランダムで攻撃をする
-	int num = GetRand(100);
-	if (num <= 5)
-	{
-		// StateをWalkに変更する
-		m_nextState = std::make_shared<EnemyStateAttack>(m_pEnemy);
-		auto state = std::dynamic_pointer_cast<EnemyStateAttack>(m_nextState);
-		state->Init(AnimName::kPunchStrong);
-		return;
-	}
-	else if (num <= 10)
-	{
-		// StateをRunに変更する
-		m_nextState = std::make_shared<EnemyStateAttack>(m_pEnemy);
-		auto state = std::dynamic_pointer_cast<EnemyStateAttack>(m_nextState);
-		state->Init(AnimName::kKick);
-		return;
-	}
+	//// TODO:ランダムで攻撃をする
+	//int num = GetRand(100);
+	//if (num <= 5)
+	//{
+	//	// StateをWalkに変更する
+	//	m_nextState = std::make_shared<EnemyStateAttack>(m_pEnemy);
+	//	auto state = std::dynamic_pointer_cast<EnemyStateAttack>(m_nextState);
+	//	state->Init(AnimName::kPunchStrong);
+	//	return;
+	//}
+	//else if (num <= 10)
+	//{
+	//	// StateをRunに変更する
+	//	m_nextState = std::make_shared<EnemyStateAttack>(m_pEnemy);
+	//	auto state = std::dynamic_pointer_cast<EnemyStateAttack>(m_nextState);
+	//	state->Init(AnimName::kKick);
+	//	return;
+	//}
 
 	// 攻撃を受けた場合
 	//if ()

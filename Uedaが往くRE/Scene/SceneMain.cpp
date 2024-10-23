@@ -82,8 +82,8 @@ void SceneMain::SelectEnemy()
 	char enemyId[3]; // 2桁にそろえる
 	sprintf_s(enemyId, "%02d", enemyNum);
 
-	m_pEnemy = std::make_shared<EnemyBase>("enemy_" + std::string(enemyId));
+	m_pEnemy = std::make_shared<EnemyBase>("enemy_" + std::string(enemyId), enemyNum);
 #else false
-	m_pEnemy = std::make_shared<EnemyBase>("enemy_01");
+	m_pEnemy = std::make_shared<EnemyBase>("enemy_01", 1);
 #endif 
 }
