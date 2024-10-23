@@ -53,19 +53,19 @@ void EnemyStateAttack::Update(Stage& stage, Player& pPlayer)
         // 敵の攻撃とプレイヤーの当たり判定を取得
         if (m_attackKind == AnimName::kPunchStrong)
         {
-            bool isHitPunchCol = pPlayer.CheckHitPunchCol(*m_pEnemy, m_pEnemy->GetCol().armStartPos, m_pEnemy->GetCol().armEndPos, m_pEnemy->GetCol().armRadius);
-            if (isHitPunchCol)
-            {
-                pPlayer.OnDamage(5);
-            }
+            //bool isHitPunchCol = pPlayer.CheckHitPunchCol(*m_pEnemy, m_pEnemy->GetCol().armStartPos, m_pEnemy->GetCol().armEndPos, m_pEnemy->GetCol().armRadius);
+            //if (isHitPunchCol)
+            //{
+            //    pPlayer.OnDamage(5);
+            //}
         }
         else if (m_attackKind == AnimName::kKick)
         {
-            bool isHitKickCol = pPlayer.CheckHitKickCol(*m_pEnemy, m_pEnemy->GetCol().legStartPos, m_pEnemy->GetCol().legEndPos, m_pEnemy->GetCol().legRadius);
-            if (isHitKickCol)
-            {
-                pPlayer.OnDamage(10);
-            }
+            //bool isHitKickCol = pPlayer.CheckHitKickCol(*m_pEnemy, m_pEnemy->GetCol().legStartPos, m_pEnemy->GetCol().legEndPos, m_pEnemy->GetCol().legRadius);
+            //if (isHitKickCol)
+            //{
+            //    pPlayer.OnDamage(10);
+            //}
         }
     }
 }

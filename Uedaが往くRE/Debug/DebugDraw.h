@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "CharacterBase.h"
 #include "DxLib.h"
 #include <string>
 
@@ -50,18 +51,14 @@ public:
 	/// <summary>
 	/// 腕の当たり判定を描画
 	/// </summary>
-	/// <param name="startPos">開始位置</param>
-	/// <param name="endPos">終了位置</param>
-	/// <param name="r">半径</param>
-	void DrawAimCol(VECTOR startPos, VECTOR endPos, float r);
+	/// <param name="colData">当たり判定情報</param>
+	void DrawAimCol(CharacterBase::ColData& colData);
 
 	/// <summary>
-	/// 脚の当たり判定を描画
+	///  脚の当たり判定を描画
 	/// </summary>
-	/// <param name="startPos">開始位置</param>
-	/// <param name="endPos">終了位置</param>
-	/// <param name="r">半径</param>
-	void DrawLegCol(VECTOR startPos, VECTOR endPos, float r);
+	/// <param name="colData">当たり判定情報</param>
+	void DrawLegCol(CharacterBase::ColData& colData);
 
 	/// <summary>
 	/// 武器の当たり判定を描画
@@ -70,5 +67,19 @@ public:
 	/// <param name="endPos">終了位置</param>
 	/// <param name="r">半径</param>
 	void DrawWeaponCol(VECTOR startPos, VECTOR endPos, float r);
+
+	/// <summary>
+	/// モデルのフレーム部分を円で描画する
+	/// </summary>
+	/// <param name="pos">表示位置</param>
+	void DrawModelFrameCircle(VECTOR pos);
+
+	/// <summary>
+	/// 当たり判定をカプセルで表示する
+	/// </summary>
+	/// <param name="startPos">始点位置</param>
+	/// <param name="endPos">終点位置</param>
+	/// <param name="capsuleColor">カプセルの色</param>
+	void DrawModelFrameCapsule3D(VECTOR startPos, VECTOR endPos, int capsuleColor);
 };
 

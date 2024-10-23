@@ -48,6 +48,12 @@ public:
 	/// <returns>死亡しているかどうか</returns>
 	bool GetIsDead() const { return m_isDead; }
 
+private:
+	/// <summary>
+	/// 敵のフレーム位置を取得する
+	/// </summary>
+	void GetFramePos();
+
 protected:
 	std::shared_ptr<EnemyStateBase> m_pState; // stateパターン
 	bool m_isDead; // 死亡したかどうか

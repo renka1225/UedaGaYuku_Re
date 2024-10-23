@@ -63,19 +63,19 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
             // プレイヤーの攻撃と敵の当たり判定を取得
             if (m_attackKind == AnimName::kPunchStrong)
             {
-                bool isHitPunchCol = pEnemy->CheckHitPunchCol(*m_pPlayer, m_pPlayer->GetCol().armStartPos, m_pPlayer->GetCol().armEndPos, m_pPlayer->GetCol().armRadius);
-                if (isHitPunchCol)
-                {
-                    pEnemy->OnDamage(5);
-                }
+                //bool isHitPunchCol = pEnemy->CheckHitPunchCol(*m_pPlayer, m_pPlayer->GetCol().armStartPos, m_pPlayer->GetCol().armEndPos, m_pPlayer->GetCol().armRadius);
+                //if (isHitPunchCol)
+                //{
+                //    pEnemy->OnDamage(5);
+                //}
             }
             else if (m_attackKind == AnimName::kKick)
             {
-                bool isHitKickCol = pEnemy->CheckHitKickCol(*m_pPlayer, m_pPlayer->GetCol().legStartPos, m_pPlayer->GetCol().legEndPos, m_pPlayer->GetCol().legRadius);
-                if (isHitKickCol)
-                {
-                    pEnemy->OnDamage(10);
-                }
+                //bool isHitKickCol = pEnemy->CheckHitKickCol(*m_pPlayer, m_pPlayer->GetCol().legStartPos, m_pPlayer->GetCol().legEndPos, m_pPlayer->GetCol().legRadius);
+                //if (isHitKickCol)
+                //{
+                //    pEnemy->OnDamage(10);
+                //}
             }
         }
     }

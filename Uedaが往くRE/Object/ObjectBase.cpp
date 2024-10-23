@@ -36,3 +36,13 @@ void ObjectBase::Move(const VECTOR& moveVec, Stage& stage)
 	m_pos = VAdd(m_pos, moveVec);
 	MV1SetPosition(m_modelHandle, m_pos);
 }
+
+int ObjectBase::GetModelFrameIndex(const char* frameName)
+{
+	return MV1SearchFrame(m_modelHandle, frameName);
+}
+
+VECTOR ObjectBase::GetModelFramePos(const char* frameName)
+{
+	return MV1GetFramePosition(m_modelHandle, MV1SearchFrame(m_modelHandle, frameName));
+}

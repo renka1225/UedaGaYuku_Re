@@ -88,21 +88,9 @@ void LoadCsv::LoadColData(CharacterBase::ColData& data, std::string charaName)
 				data.bodyEndPos.x = std::stof(strvec[4]);
 				data.bodyEndPos.y = std::stof(strvec[5]);
 				data.bodyEndPos.z = std::stof(strvec[6]);
-				data.armStartPos.x = std::stof(strvec[7]);
-				data.armStartPos.y = std::stof(strvec[8]);
-				data.armStartPos.z = std::stof(strvec[9]);
-				data.armEndPos.x = std::stof(strvec[10]);
-				data.armEndPos.y = std::stof(strvec[11]);
-				data.armEndPos.z = std::stof(strvec[12]);
-				data.legStartPos.x = std::stof(strvec[13]);
-				data.legStartPos.y = std::stof(strvec[14]);
-				data.legStartPos.z = std::stof(strvec[15]);
-				data.legEndPos.x = std::stof(strvec[16]);
-				data.legEndPos.y = std::stof(strvec[17]);
-				data.legEndPos.z = std::stof(strvec[18]);
-				data.bodyRadius = std::stof(strvec[19]);
-				data.armRadius = std::stof(strvec[20]);
-				data.legRadius = std::stof(strvec[21]);
+				data.bodyRadius = std::stof(strvec[7]);
+				data.armRadius = std::stof(strvec[8]);
+				data.legRadius = std::stof(strvec[9]);
 			}
 			catch (const std::invalid_argument&)
 			{

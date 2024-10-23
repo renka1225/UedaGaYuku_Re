@@ -27,31 +27,55 @@ public:
 	};
 
 	// 当たり判定情報
-	struct ColData
-	{
-		VECTOR bodyStartPos; // 全身の当たり判定始点
-		VECTOR bodyEndPos;	 // 全身の当たり判定終点
-		VECTOR armStartPos;	 // 腕の当たり判定始点
-		VECTOR armEndPos;	 // 腕の当たり判定終点
-		VECTOR legStartPos;	 // 脚の当たり判定始点
-		VECTOR legEndPos;	 // 脚の当たり判定終点
-		float bodyRadius;	 // 全身の当たり判定の半径
-		float armRadius;	 // 腕の当たり判定の半径
-		float legRadius;	 // 脚の当たり判定の半径
-	};
+	//struct ColData
+	//{
+	//	VECTOR bodyStartPos; // 全身の当たり判定始点
+	//	VECTOR bodyEndPos;	 // 全身の当たり判定終点
+	//	VECTOR armStartPos;	 // 腕の当たり判定始点
+	//	VECTOR armEndPos;	 // 腕の当たり判定終点
+	//	VECTOR legStartPos;	 // 脚の当たり判定始点
+	//	VECTOR legEndPos;	 // 脚の当たり判定終点
+	//	float bodyRadius;	 // 全身の当たり判定の半径
+	//	float armRadius;	 // 腕の当たり判定の半径
+	//	float legRadius;	 // 脚の当たり判定の半径
+	//};
 
 	// 当たり判定更新データ
-	struct UpdateColData
+	//struct UpdateColData
+	//{
+	//	VECTOR bodyStartPos;	// 全身の当たり判定始点
+	//	VECTOR bodyEndPos;		// 全身の当たり判定終点
+	//	VECTOR armStartPos;		// 腕の当たり判定始点
+	//	VECTOR armEndPos;		// 腕の当たり判定終点
+	//	VECTOR legStartPos;		// 脚の当たり判定始点
+	//	VECTOR legEndPos;		// 脚の当たり判定終点
+	//	float bodyRadius;		// 全身の当たり判定の半径
+	//	float armRadius;		// 腕の当たり判定の半径
+	//	float legRadius;		// 脚の当たり判定の半径
+	//};
+
+	// 当たり判定情報
+	struct ColData
 	{
-		VECTOR bodyStartPos;	// 全身の当たり判定始点
-		VECTOR bodyEndPos;		// 全身の当たり判定終点
-		VECTOR armStartPos;		// 腕の当たり判定始点
-		VECTOR armEndPos;		// 腕の当たり判定終点
-		VECTOR legStartPos;		// 脚の当たり判定始点
-		VECTOR legEndPos;		// 脚の当たり判定終点
-		float bodyRadius;		// 全身の当たり判定の半径
-		float armRadius;		// 腕の当たり判定の半径
-		float legRadius;		// 脚の当たり判定の半径
+		VECTOR bodyStartPos;	 // 全身の当たり判定始点
+		VECTOR bodyEndPos;		 // 全身の当たり判定終点
+		VECTOR leftShoulderPos;	 // 左肩
+		VECTOR leftForeArmPos;	 // 左肘
+		VECTOR leftHandPos;		 // 左手首
+		VECTOR rightShoulderPos; // 右肩
+		VECTOR rightForeArmPos;	 // 右肘
+		VECTOR rightHandPos;	 // 右手首
+		VECTOR leftUpLegPos;	 // 左もも
+		VECTOR leftLegPos;		 // 左膝
+		VECTOR leftFootPos;		 // 左足首
+		VECTOR leftEndPos;		 // 左足終点
+		VECTOR rightUpLegPos;	 // 右もも
+		VECTOR rightLegPos;		 // 右膝
+		VECTOR rightFootPos;	 // 右足首
+		VECTOR rightEndPos;		 // 右足終点
+		float bodyRadius;		 // 全身の当たり判定の半径
+		float armRadius;		 // 腕の当たり判定の半径
+		float legRadius;		 // 脚の当たり判定の半径
 	};
 
 	// アニメーション情報
@@ -99,28 +123,22 @@ public:
 	/// キャラクター同士の当たり判定をチェックする
 	/// </summary>
 	/// <param name="obj">オブジェクト参照</param>
-	/// <param name="eCapPosTop">当たり判定カプセルの始点</param>
-	/// <param name="eCapPosBottom">当たり判定カプセルの終点</param>
-	/// <param name="eCapRadius">当たり判定カプセルの半径</param>
-	void CheckCharaCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius);
+	/// <param name="colData">当たり判定情報参照</param>
+	void CheckCharaCol(ObjectBase& obj, CharacterBase::ColData& colData);
 
 	/// <summary>
 	/// パンチ時の当たり判定をチェックする
 	/// </summary>
 	/// <param name="obj">オブジェクト参照</param>
-	/// <param name="eCapPosTop">当たり判定カプセルの始点</param>
-	/// <param name="eCapPosBottom">当たり判定カプセルの終点</param>
-	/// <param name="eCapRadius">当たり判定カプセルの半径</param>
-	bool CheckHitPunchCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius);
+	/// /// <param name="colData">当たり判定情報参照</param>
+	bool CheckHitPunchCol(ObjectBase& obj, CharacterBase::ColData& colData);
 
 	/// <summary>
 	/// キック時の当たり判定をチェックする
 	/// </summary>
 	/// <param name="obj">オブジェクト参照</param>
-	/// <param name="eCapPosTop">当たり判定カプセルの始点</param>
-	/// <param name="eCapPosBottom">当たり判定カプセルの終点</param>
-	/// <param name="eCapRadius">当たり判定カプセルの半径</param>
-	bool CheckHitKickCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius);
+	/// <param name="colData">当たり判定情報参照</param>
+	bool CheckHitKickCol(ObjectBase& obj, CharacterBase::ColData& colData);
 
 	/// <summary>
 	/// アニメーションを変更
@@ -166,7 +184,7 @@ public:
 	/// 当たり判定情報を取得
 	/// </summary>
 	/// <returns>パンチの当たり判定情報</returns>
-	UpdateColData GetCol() const { return m_updateCol; }
+	//UpdateColData GetCol() const { return m_updateCol; }
 
 	/// <summary>
 	/// 武器掴み中かどうか取得
@@ -182,8 +200,9 @@ protected:
 
 protected:
 	std::map<std::string, AnimInfo> m_animData;	// アニメーションのデータ
-	ColData m_colData;			// 初期当たり判定
-	UpdateColData m_updateCol;  // 更新した当たり判定
+	std::vector<ColData> m_colData; // 当たり判定情報
+	//ColData m_colData;			// 初期当たり判定
+	//UpdateColData m_updateCol;  // 更新した当たり判定
 	Status m_status;			// ステータス
 	float m_angle;			    // 向いている方向の角度
 	float m_hp;				    // HP

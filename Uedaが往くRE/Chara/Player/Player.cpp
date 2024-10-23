@@ -1,6 +1,7 @@
 ﻿#include "DxLib.h"
 #include "DebugDraw.h"
 #include "Vec2.h"
+#include "ModelFrameName.h"
 #include "Game.h"
 #include "Input.h"
 #include "LoadCsv.h"
@@ -15,7 +16,7 @@
 namespace
 {
 	const std::string kCharaId = "player";							// キャラクターのID名
-	const char* kModelFileName = ("data/model/chara/player.mv1");	// モデルのファイル名
+	const char* kModelFileName = "data/model/chara/player.mv1";	// モデルのファイル名
 	const VECTOR kInitPos = VGet(7425.0, 40.0f, 5190.0f);			// 初期位置
 	constexpr float kScale = 0.14f;									// モデルの拡大率
 
@@ -29,7 +30,7 @@ Player::Player():
 {
 	// ステータスを読み込む
 	LoadCsv::GetInstance().LoadStatus(m_status, kCharaId);
-	LoadCsv::GetInstance().LoadColData(m_colData, kCharaId);
+	LoadCsv::GetInstance().LoadColData(m_colData[CharaType::kPlayer], kCharaId);
 
 	m_pos = kInitPos;
 	m_modelHandle = MV1LoadModel(kModelFileName);
@@ -67,16 +68,16 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 	// 敵との当たり判定をチェックする
 	if (pEnemy != nullptr)
 	{
-		pEnemy->CheckCharaCol(*this, m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius);
+		pEnemy->CheckCharaCol(*this, m_colData[CharaType::kPlayer]);
 	}
 	// 武器との当たり判定をチェックする
-	weapon.CheckWeaopnCol(*this, m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius);
+	//weapon.CheckWeaopnCol(*this, m_colData.bodyStartPos, m_colData.bodyEndPos, m_colData.bodyRadius);
 
 	m_pState->Update(input, camera, stage, pEnemy);	// stateの更新
 	UpdateAngle();	// 向きを更新
 	UpdateAnim();	// アニメーションを更新
 	UpdateCol();	// 当たり判定の位置更新
-
+	GetFramePos();	// モデルフレーム位置を取得
 	UpdateMoney();	// 所持金を更新
 }
 
@@ -87,6 +88,9 @@ void Player::Draw()
 #ifdef _DEBUG
 	DebugDraw debug;
 	debug.DrawPlayerInfo(m_pos, m_hp, m_pState->GetStateName(), m_isGrabWeapon); // プレイヤーの情報を描画
+	// 当たり判定描画
+	debug.DrawAimCol(m_colData[CharaType::kPlayer]);	// 腕(水色)
+	debug.DrawLegCol(m_colData[CharaType::kPlayer]);	// 脚(黄色)
 #endif
 }
 
@@ -106,4 +110,24 @@ void Player::AddMoney(int dropMoney)
 {
 	m_addMoney = dropMoney;
 	m_beforeMoney = m_money;
+}
+
+void Player::GetFramePos()
+{
+	// フレームの座標を取得する
+	m_colData[CharaType::kPlayer].leftShoulderPos = GetModelFramePos(PlayerFrameName::kLeftShoulder.c_str());	// 左肩
+	m_colData[CharaType::kPlayer].leftForeArmPos = GetModelFramePos(PlayerFrameName::kLeftForeArm.c_str());		// 左肘
+	m_colData[CharaType::kPlayer].leftHandPos = GetModelFramePos(PlayerFrameName::kLeftHandPos.c_str());		// 左手首
+	m_colData[CharaType::kPlayer].rightShoulderPos = GetModelFramePos(PlayerFrameName::kRightShoulder.c_str()); // 右肩
+	m_colData[CharaType::kPlayer].rightForeArmPos = GetModelFramePos(PlayerFrameName::kRightForeArm.c_str());	// 右肘
+	m_colData[CharaType::kPlayer].rightHandPos = GetModelFramePos(PlayerFrameName::kRightHand.c_str());			// 右手首
+
+	m_colData[CharaType::kPlayer].leftUpLegPos = GetModelFramePos(PlayerFrameName::kLeftUpLeg.c_str());			// 左もも
+	m_colData[CharaType::kPlayer].leftLegPos = GetModelFramePos(PlayerFrameName::kLeftLeg.c_str());				// 左膝
+	m_colData[CharaType::kPlayer].leftFootPos = GetModelFramePos(PlayerFrameName::kLeftFoot.c_str());			// 左足首
+	m_colData[CharaType::kPlayer].leftEndPos = GetModelFramePos(PlayerFrameName::kLeftEnd.c_str());				// 左足終点
+	m_colData[CharaType::kPlayer].rightUpLegPos = GetModelFramePos(PlayerFrameName::kRightUpLeg.c_str());		// 右もも
+	m_colData[CharaType::kPlayer].rightLegPos = GetModelFramePos(PlayerFrameName::kRightLeg.c_str());			// 右膝
+	m_colData[CharaType::kPlayer].rightFootPos = GetModelFramePos(PlayerFrameName::kRightFoot.c_str());			// 右足首
+	m_colData[CharaType::kPlayer].rightEndPos = GetModelFramePos(PlayerFrameName::kRightEnd.c_str());			// 右足終点
 }

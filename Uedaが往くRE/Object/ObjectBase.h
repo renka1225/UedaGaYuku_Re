@@ -44,6 +44,20 @@ public:
 	void Move(const VECTOR& moveVec, Stage& stage);
 
 	/// <summary>
+	/// 指定したフレームのフレーム番号を取得する
+	/// </summary>
+	/// <param name="frameName">フレーム名</param>
+	/// <returns>フレーム番号</returns>
+	int GetModelFrameIndex(const char* frameName);
+
+	/// <summary>
+	/// 指定したフレーム番号の座標を取得する
+	/// </summary>
+	/// <param name="frameName">フレーム名</param>
+	/// <returns>座標</returns>
+	VECTOR GetModelFramePos(const char* frameName);
+
+	/// <summary>
 	/// 座標を取得
 	/// </summary>
 	/// <returns>オブジェクトの座標</returns>

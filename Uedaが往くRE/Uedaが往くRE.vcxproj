@@ -203,6 +203,7 @@
     <ClInclude Include="Chara\Enemy\EnemyStateAttack.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateDeath.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateHitAttack.h" />
+    <ClInclude Include="Util\ModelFrameName.h" />
     <ClInclude Include="Object\ObjectBase.h" />
     <ClInclude Include="Chara\Player\PlayerStateGrab.h" />
     <ClInclude Include="UI\UiBase.h" />

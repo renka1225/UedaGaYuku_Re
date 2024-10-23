@@ -5,6 +5,8 @@
 // 定数
 namespace
 {
+	constexpr int kColDataNum = 19; // 当たり判定情報数
+
 	constexpr float kAdj = 2.0f;			 // 敵に当たった際の位置調整量
 	// アニメーション情報
 	constexpr float kAnimBlendMax = 1.0f;	 // アニメーションブレンドの最大値
@@ -13,7 +15,6 @@ namespace
 
 CharacterBase::CharacterBase():
 	m_colData(),
-	m_updateCol(),
 	m_animData(),
 	m_status(),
 	m_angle(0.0f),
@@ -31,6 +32,7 @@ CharacterBase::CharacterBase():
 	m_animLoopEndTime(0.0f),
 	m_isLoopAnim(false)
 {
+	m_colData.resize(kColDataNum);
 }
 
 CharacterBase::~CharacterBase()
@@ -43,9 +45,6 @@ void CharacterBase::Init()
 	LoadCsv::GetInstance().LoadAnimData(m_animData);
 
 	m_hp = m_status.maxHp;
-	m_updateCol.armRadius = m_colData.armRadius;
-	m_updateCol.legRadius = m_colData.legRadius;
-	m_updateCol.bodyRadius = m_colData.bodyRadius;
 
 	// モデル全体のコリジョン情報のセットアップ
 	MV1SetupCollInfo(m_modelHandle, -1);
@@ -63,12 +62,7 @@ void CharacterBase::Draw()
 #ifdef _DEBUG
 	DebugDraw debug;
 	// 当たり判定描画
-	debug.DrawBodyCol(m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius);	// 全身(紫色)
-	if (m_isAttack)
-	{
-		debug.DrawAimCol(m_updateCol.armStartPos, m_updateCol.armEndPos, m_colData.armRadius);	// 腕(水色)
-		debug.DrawLegCol(m_updateCol.legStartPos, m_updateCol.legEndPos, m_colData.legRadius);	// 脚(黄色)
-	}
+	//debug.DrawBodyCol(m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_updateCol.bodyRadius);	// 全身(紫色)
 #endif
 }
 
@@ -78,31 +72,35 @@ void CharacterBase::OnDamage(int damage)
 	m_hp = std::max(0.0f, m_hp);
 }
 
-void CharacterBase::CheckCharaCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius)
+void CharacterBase::CheckCharaCol(ObjectBase& obj, CharacterBase::ColData& colData)
 {
-	bool isHit = HitCheck_Capsule_Capsule(m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_colData.bodyRadius, eCapPosTop, eCapPosBottom, eCapRadius);
+	//bool isHit = HitCheck_Capsule_Capsule(m_updateCol.bodyStartPos, m_updateCol.bodyEndPos, m_updateCol.bodyRadius, eCapPosTop, eCapPosBottom, eCapRadius);
 
-	// 当たっている場合
-	if (isHit)
-	{
-		// キャラクターの位置を補正する
-		VECTOR colVec = VNorm(VSub(m_pos, obj.GetPos()));
-		m_pos = VAdd(m_pos, VScale(colVec, kAdj));
-	}
+	//// 当たっている場合
+	//if (isHit)
+	//{
+	//	// キャラクターの位置を補正する
+	//	VECTOR colVec = VNorm(VSub(m_pos, obj.GetPos()));
+	//	m_pos = VAdd(m_pos, VScale(colVec, kAdj));
+	//}
 }
 
-bool CharacterBase::CheckHitPunchCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius)
+bool CharacterBase::CheckHitPunchCol(ObjectBase& obj, CharacterBase::ColData& colData)
 {
 	// パンチが当たったか
-	bool isHitPunch = HitCheck_Capsule_Capsule(m_updateCol.armStartPos, m_updateCol.armEndPos, m_colData.armRadius, eCapPosTop, eCapPosBottom, eCapRadius);
-	return isHitPunch;
+	//bool isHitPunch = HitCheck_Capsule_Capsule(m_updateCol.armStartPos, m_updateCol.armEndPos, m_updateCol.armRadius, eCapPosTop, eCapPosBottom, eCapRadius);
+	//return isHitPunch;
+
+	return false;
 }
 
-bool CharacterBase::CheckHitKickCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius)
+bool CharacterBase::CheckHitKickCol(ObjectBase& obj, CharacterBase::ColData& colData)
 {
 	// キックが当たったか
-	bool isHitKick = HitCheck_Capsule_Capsule(m_updateCol.legStartPos, m_updateCol.legEndPos, m_colData.legRadius, eCapPosTop, eCapPosBottom, eCapRadius);
-	return isHitKick;
+	//bool isHitKick = HitCheck_Capsule_Capsule(m_updateCol.legStartPos, m_updateCol.legEndPos, m_updateCol.legRadius, eCapPosTop, eCapPosBottom, eCapRadius);
+	//return isHitKick;
+
+	return false;
 }
 
 void CharacterBase::ChangeAnim(std::string animName)
@@ -186,14 +184,14 @@ void CharacterBase::UpdateCol()
 	MATRIX rotationMatrix = MGetRotY(m_angle);
 
 	// キャラクター全体の当たり判定位置を更新
-	m_updateCol.bodyStartPos = VAdd(m_pos, (VTransform(m_colData.bodyStartPos, rotationMatrix)));
-	m_updateCol.bodyEndPos = VAdd(m_updateCol.bodyStartPos, (VTransform(m_colData.bodyEndPos, rotationMatrix)));
+	//m_colData.bodyStartPos = VAdd(m_pos, (VTransform(m_colData.bodyStartPos, rotationMatrix)));
+	//m_colData.bodyEndPos = VAdd(m_updateCol.bodyStartPos, (VTransform(m_colData.m_colData, rotationMatrix)));
 
-	// 腕の当たり判定位置を更新
-	m_updateCol.armStartPos = VAdd(m_pos, (VTransform(m_colData.armStartPos, rotationMatrix)));
-	m_updateCol.armEndPos = VAdd(m_updateCol.armStartPos, (VTransform(m_colData.armEndPos, rotationMatrix)));
+	//// 腕の当たり判定位置を更新
+	//m_updateCol.armStartPos = VAdd(m_pos, (VTransform(m_colData.armStartPos, rotationMatrix)));
+	//m_updateCol.armEndPos = VAdd(m_updateCol.armStartPos, (VTransform(m_colData.armEndPos, rotationMatrix)));
 
-	// 脚の当たり判定位置を更新
-	m_updateCol.legStartPos = VAdd(m_pos, (VTransform(m_colData.legStartPos, rotationMatrix)));
-	m_updateCol.legEndPos = VAdd(m_updateCol.legStartPos, (VTransform(m_colData.legEndPos, rotationMatrix)));
+	//// 脚の当たり判定位置を更新
+	//m_updateCol.legStartPos = VAdd(m_pos, (VTransform(m_colData.legStartPos, rotationMatrix)));
+	//m_updateCol.legEndPos = VAdd(m_updateCol.legStartPos, (VTransform(m_colData.legEndPos, rotationMatrix)));
 }

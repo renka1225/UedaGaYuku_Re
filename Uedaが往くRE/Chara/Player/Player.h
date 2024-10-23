@@ -2,6 +2,7 @@
 #include "CharacterBase.h"
 #include "PlayerStateBase.h"
 
+class DebugDraw;
 class Input;
 class Camera;
 class Stage;
@@ -67,6 +68,12 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	int GetMoney() const { return m_money; }
+
+private:
+	/// <summary>
+	/// プレイヤーのフレーム位置を取得する
+	/// </summary>
+	void GetFramePos();
 
 private:
 	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
