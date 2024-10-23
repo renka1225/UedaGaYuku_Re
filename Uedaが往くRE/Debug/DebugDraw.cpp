@@ -76,7 +76,7 @@ void DebugDraw::DrawLegCol(CharacterBase::ColData& colData)
 
 void DebugDraw::DrawWeaponCol(VECTOR startPos, VECTOR endPos, float r)
 {
-	DrawCapsule3D(startPos, endPos, r, 1, Color::kColorY, Color::kColorG, false);
+	DrawCapsule3D(startPos, endPos, r, 1, Color::kColorR, Color::kColorBK, false);
 }
 
 void DebugDraw::DrawModelFrameCircle(VECTOR pos)

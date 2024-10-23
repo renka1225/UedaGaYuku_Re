@@ -141,25 +141,26 @@ void Weapon::LoadLocationData()
 void Weapon::UpdateCol(auto& loc)
 {
 	// 向きをもとに当たり判定の位置を調整する
-	//MATRIX rotationMatrixX = MGetRotX(loc.rot.x);
 	MATRIX rotationMatrix = MGetRotY(loc.rot.y);
-	//MATRIX rotationMatrixZ = MGetRotZ(loc.rot.z);
-
-	//MATRIX rotationMatrix = MMult(MMult(rotationMatrixX, rotationMatrixY), rotationMatrixZ);
 
 	// 当たり判定位置を更新
 	m_updateCol.colStartPos = VAdd(loc.pos, (VTransform(m_weaponData.colStartPos, rotationMatrix)));
 	m_updateCol.colEndPos = VAdd(m_updateCol.colStartPos, (VTransform(m_weaponData.colEndPos, rotationMatrix)));
 }
 
-void Weapon::CheckWeaopnCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius)
+void Weapon::CheckWeaopnCol(const CharacterBase::ColData& colData, Player& player)
 {
-	bool isHit = HitCheck_Capsule_Capsule(m_updateCol.colStartPos, m_updateCol.colEndPos, m_updateCol.colRadius, eCapPosTop, eCapPosBottom, eCapRadius);
+	bool isHit = HitCheck_Capsule_Capsule(m_updateCol.colStartPos, m_updateCol.colEndPos, m_updateCol.colRadius, colData.bodyUpdateStartPos, colData.bodyUpdateEndPos, colData.bodyRadius);
 
 	// 当たっている場合
 	if (isHit)
 	{
-		// TODO:武器を掴めるようにする
+		// 武器を掴めるようにする
+		player.SetIsPossibleGrabWeapon(true);
+	}
+	else
+	{
+		player.SetIsPossibleGrabWeapon(false);
 	}
 }
 

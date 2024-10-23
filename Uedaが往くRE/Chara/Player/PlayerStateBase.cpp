@@ -41,21 +41,25 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	// 掴みのボタンが押されたとき
 	if (input.IsTriggered(InputId::kGrab))
 	{
-		// TODO:武器とプレイヤーの当たり判定を取得
-		bool isHitCol = true;
-
-		if (!m_pPlayer->GetIsGrabWeapon() && isHitCol)
+		if (m_pPlayer->GetIsPossibleGrabWeapon())
 		{
-			m_pPlayer->SetIsGrabWeapon(true);
+			// 武器を掴んでいない場合
+			if (!m_pPlayer->GetIsGrabWeapon())
+			{
+				m_pPlayer->SetIsGrabWeapon(true); // 武器を掴む
 
-			// StateをGrabに変更する
-			m_nextState = std::make_shared<PlayerStateGrab>(m_pPlayer);
-			auto state = std::dynamic_pointer_cast<PlayerStateGrab>(m_nextState);
-			state->Init();
+				// StateをGrabに変更する
+				m_nextState = std::make_shared<PlayerStateGrab>(m_pPlayer);
+				auto state = std::dynamic_pointer_cast<PlayerStateGrab>(m_nextState);
+				state->Init();
+			}
+			// すでに武器を掴んでいる場合
+			else
+			{
+				m_pPlayer->SetIsGrabWeapon(false); // 武器を離す
+			}
 		}
-		else
-		{
-			m_pPlayer->SetIsGrabWeapon(false);
-		}
+	
+		
 	}
 }

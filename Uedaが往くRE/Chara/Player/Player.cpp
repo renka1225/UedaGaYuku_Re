@@ -74,7 +74,7 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 		pEnemy->CheckCharaCol(*this, m_colData[CharaType::kPlayer], CharaType::kEnemy_01);
 	}
 	// 武器との当たり判定をチェックする
-	//weapon.CheckWeaopnCol(*this, m_colData.bodyStartPos, m_colData.bodyEndPos, m_colData.bodyRadius);
+	weapon.CheckWeaopnCol(m_colData[CharaType::kPlayer], *this);
 
 	m_pState->Update(input, camera, stage, pEnemy);	// stateの更新
 	UpdateAngle();					// 向きを更新
@@ -90,7 +90,7 @@ void Player::Draw()
 
 #ifdef _DEBUG
 	DebugDraw debug;
-	debug.DrawPlayerInfo(m_pos, m_hp, m_pState->GetStateName(), m_isGrabWeapon); // プレイヤーの情報を描画
+	debug.DrawPlayerInfo(m_pos, m_hp, m_pState->GetStateName(), m_isNowGrabWeapon); // プレイヤーの情報を描画
 	// 当たり判定描画
 	debug.DrawBodyCol(m_colData[CharaType::kPlayer]);	// 全身(紫色)
 	debug.DrawArmCol(m_colData[CharaType::kPlayer]);	// 腕(水色)

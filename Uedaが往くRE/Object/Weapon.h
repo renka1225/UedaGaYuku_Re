@@ -58,11 +58,9 @@ public:
 	/// <summary>
 	/// 武器の当たり判定をチェックする
 	/// </summary>
-	/// <param name="obj">オブジェクト参照</param>
-	/// <param name="eCapPosTop">当たり判定カプセルの始点</param>
-	/// <param name="eCapPosBottom">当たり判定カプセルの終点</param>
-	/// <param name="eCapRadius">当たり判定カプセルの半径</param>
-	void CheckWeaopnCol(ObjectBase& obj, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius);
+	/// <param name="colData">キャラクターの当たり判定情報</param>
+	/// <param name="player">プレイヤー情報参照</param>
+	void CheckWeaopnCol(const CharacterBase::ColData& colData, Player& player);
 
 private:
 	/// <summary>
@@ -103,5 +101,5 @@ protected:
 	WeaponData m_weaponData;	// 武器のデータ
 	UpdateColData m_updateCol;	// 更新後の当たり判定データ
 	int m_locationDataHandle;	// 読み込む配置データ
-	int m_durability; // 武器の耐久力
+	int m_durability;			// 武器の耐久力
 };
