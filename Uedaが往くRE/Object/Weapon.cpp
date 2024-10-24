@@ -13,7 +13,9 @@ namespace
 }
 
 Weapon::Weapon() :
-	m_locationDataHandle(-1)
+	m_durability(0),
+	m_locationDataHandle(-1),
+	m_isHitAttack(false)
 {
 	LoadLocationData(); // 配置データの読み込み
 }
@@ -46,25 +48,35 @@ void Weapon::Update(Player& player, Stage& stage)
 	// 武器位置更新
 	for (auto& loc : m_locationData)
 	{
+		// 耐久力が0になった場合
+		if (m_durability >= 0)
+		{
+			m_durability = std::max(m_durability, 0);
+		}
+
 		// プレイヤーが武器を掴んだ場合、プレイヤーの手の位置に武器を移動させる
 		if (player.GetIsGrabWeapon())
 		{
-			SetModelFramePos(player.GetHandle(), kPlayerHandFrameName, m_objHandle[loc.name], loc);
+			SetModelFramePos(player.GetHandle(), kPlayerHandFrameName, m_objHandle[loc.name], loc, frameMatrix);
 		}
 		else
 		{
 			loc.pos = VAdd(loc.pos, VGet(0.0f, m_gravity, 0.0f)); // 重力を足す
 			loc.pos = VAdd(VGet(loc.pos.x, 0.0f, loc.pos.z), stage.CheckObjectCol(*this, VGet(0.0f, 0.0f, 0.0f))); // ステージと当たり判定を行う
+
+			loc.rot = VGet(0.0f, 0.0f, 0.0f); // 回転を初期化
+			frameMatrix = MGetIdent();		  // 単位行列を設定
+			MV1SetMatrix(m_objHandle[loc.name], frameMatrix);
 		}
 
 		// TODO:バトル終了後、武器位置をリセットする
 		// 今は仮で所持金300になったら
-		if (player.GetMoney() == 300)
-		{
-			// 武器の位置を初期位置にリセット
-			loc.pos = loc.initPos;
-			loc.rot = loc.initRot;
-		}
+		//if (player.GetMoney() == 300)
+		//{
+		//	// 武器の位置を初期位置にリセット
+		//	loc.pos = loc.initPos;
+		//	loc.rot = loc.initRot;
+		//}
 		
 		UpdateCol(loc); // 当たり判定位置更新
 		MV1SetPosition(m_objHandle[loc.name], loc.pos);
@@ -89,6 +101,14 @@ void Weapon::Draw()
 		debug.DrawWeaponCol(m_updateCol.colStartPos, m_updateCol.colEndPos, m_updateCol.colRadius);
 	}
 #endif
+}
+
+void Weapon::DecrementDurability()
+{
+	if (m_isHitAttack) return;
+
+	m_durability--;  // 耐久力を1減らす
+	m_isHitAttack = true;
 }
 
 void Weapon::LoadLocationData()
@@ -148,27 +168,16 @@ void Weapon::UpdateCol(auto& loc)
 	m_updateCol.colEndPos = VAdd(m_updateCol.colStartPos, (VTransform(m_weaponData.colEndPos, rotationMatrix)));
 }
 
-void Weapon::CheckWeaopnCol(const CharacterBase::ColData& colData, Player& player)
+bool Weapon::CheckWeaopnCol(const CharacterBase::ColData& colData, Player& player)
 {
-	bool isHit = HitCheck_Capsule_Capsule(m_updateCol.colStartPos, m_updateCol.colEndPos, m_updateCol.colRadius, colData.bodyUpdateStartPos, colData.bodyUpdateEndPos, colData.bodyRadius);
-
-	// 当たっている場合
-	if (isHit)
-	{
-		// 武器を掴めるようにする
-		player.SetIsPossibleGrabWeapon(true);
-	}
-	else
-	{
-		player.SetIsPossibleGrabWeapon(false);
-	}
+	return HitCheck_Capsule_Capsule(m_updateCol.colStartPos, m_updateCol.colEndPos, m_updateCol.colRadius, colData.bodyUpdateStartPos, colData.bodyUpdateEndPos, colData.bodyRadius);
 }
 
-void Weapon::SetModelFramePos(int modelHandle, const char* frameName, int setModelHandle, auto& loc)
+void Weapon::SetModelFramePos(int modelHandle, const char* frameName, int setModelHandle, auto& loc, MATRIX frameMatrix)
 {
 	// フレーム名からフレーム番号を取得する
 	int frameIndex = MV1SearchFrame(modelHandle, frameName);
-	MATRIX frameMatrix = MV1GetFrameLocalWorldMatrix(modelHandle, frameIndex);
+	frameMatrix = MV1GetFrameLocalWorldMatrix(modelHandle, frameIndex);
 
 	// 武器位置を更新
 	loc.pos = VTransform(VGet(0.0f, 0.0f, 0.0f), frameMatrix);

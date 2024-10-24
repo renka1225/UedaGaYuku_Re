@@ -1,16 +1,10 @@
 ﻿#include "Game.h"
+#include "Weapon.h"
 #include "CharacterBase.h"
 #include "EnemyBase.h"
 #include "Player.h"
 #include "PlayerStateIdle.h"
 #include "PlayerStateAttack.h"
-
-// 定数
-namespace
-{
-    constexpr float kPunchEndTime = 30;
-    constexpr float kKickEndTime = 120;
-}
 
 PlayerStateAttack::PlayerStateAttack(std::shared_ptr<Player> player):
     PlayerStateBase(player),
@@ -26,22 +20,28 @@ void PlayerStateAttack::Init(std::string attackName)
 
     if (m_attackKind == AnimName::kPunchStrong)
     {
-        m_attackEndTime = kPunchEndTime;
+        int frameIndex = m_pPlayer->GetModelFrameIndex(AnimName::kPunchStrong);
+        m_attackEndTime = 30;
+        //m_attackEndTime = MV1GetAttachAnimTotalTime(m_pPlayer->GetHandle(), frameIndex);
     }
     else if (m_attackKind == AnimName::kKick)
     {
-        m_attackEndTime = kKickEndTime;
+        int frameIndex = m_pPlayer->GetModelFrameIndex(AnimName::kKick);
+        m_attackEndTime = 50;
+        //m_attackEndTime = MV1GetAttachAnimTotalTime(m_pPlayer->GetHandle(), frameIndex);
     }
 }
 
-void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& stage, std::shared_ptr<EnemyBase> pEnemy)
+void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::shared_ptr<EnemyBase> pEnemy)
 {
-    PlayerStateBase::Update(input, camera, stage, pEnemy);
+    PlayerStateBase::Update(input, camera, stage, weapon, pEnemy);
     m_pPlayer->Move(VGet(0.0f, 0.0f, 0.0f), stage);   // 移動情報を反映する
 
 	// 攻撃終了した場合
     if (m_isAttackEnd)
     {
+        weapon.SetIsHitAttack(false);
+
         // StateをIdleに変更する
         m_pPlayer->SetIsAttack(false);
         m_nextState = std::make_shared<PlayerStateIdle>(m_pPlayer);
@@ -52,36 +52,49 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
     else
     {
         m_attackEndTime--;
+        if (m_attackEndTime < 0) m_isAttackEnd = true;
+        
+        if (pEnemy == nullptr) return;
 
-        if (m_attackEndTime < 0)
+        // 武器掴み中の場合
+        if (m_pPlayer->GetIsGrabWeapon())
         {
-            m_isAttackEnd = true;
-        }
-
-        // 敵にダメージを与える
-        if (pEnemy != nullptr)
-        {
-            // プレイヤーの攻撃と敵の当たり判定を取得
-            if (m_attackKind == AnimName::kPunchStrong)
+            // 武器と敵の当たり判定を取得
+            bool isHitWeaponCol = weapon.CheckWeaopnCol(pEnemy->GetCol(pEnemy->GetEnemyNumber()), *m_pPlayer);
+            if (isHitWeaponCol)
             {
-                bool isHitPunchCol = pEnemy->CheckHitPunchCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer),  pEnemy->GetEnemyNumber());
-                if (isHitPunchCol)
-                {
-                    pEnemy->OnDamage(5);
-                }
+                pEnemy->OnDamage(20);
+                weapon.DecrementDurability();
+                printfDx("武器が当たった！\n");
             }
-            else if (m_attackKind == AnimName::kKick)
+        }
+        // パンチ攻撃
+        else if (m_attackKind == AnimName::kPunchStrong)
+        {
+            // パンチ攻撃と敵の当たり判定を取得
+            bool isHitPunchCol = pEnemy->CheckHitPunchCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), pEnemy->GetEnemyNumber());
+            if (isHitPunchCol)
             {
-                bool isHitKickCol = pEnemy->CheckHitKickCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), pEnemy->GetEnemyNumber());
-                if (isHitKickCol)
-                {
-                    pEnemy->OnDamage(10);
-                }
+                pEnemy->OnDamage(5);
+                printfDx("パンチが当たった！\n");
+            }
+        }
+        // キック攻撃
+        else if (m_attackKind == AnimName::kKick)
+        {
+            // キック攻撃と敵の当たり判定を取得
+            bool isHitKickCol = pEnemy->CheckHitKickCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), pEnemy->GetEnemyNumber());
+            if (isHitKickCol)
+            {
+
+                pEnemy->OnDamage(10);
+                printfDx("キックが当たった！\n");
             }
         }
     }
 }
 
+#ifdef _DEBUG
 std::string PlayerStateAttack::GetStateName()
 {
     if (m_attackKind == AnimName::kPunchStrong)
@@ -95,3 +108,4 @@ std::string PlayerStateAttack::GetStateName()
 
     return "攻撃中";
 }
+#endif

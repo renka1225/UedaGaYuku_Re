@@ -1,6 +1,7 @@
 ﻿#include "Game.h"
 #include "Input.h"
 #include "SceneBase.h"
+#include "Weapon.h"
 #include "Player.h"
 #include "PlayerStateAttack.h"
 #include "PlayerStateGrab.h"
@@ -14,7 +15,7 @@ PlayerStateBase::PlayerStateBase(std::shared_ptr<Player> pPlayer):
 	m_pPlayer = pPlayer;
 }
 
-void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& stage, std::shared_ptr<EnemyBase> pEnemy)
+void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::shared_ptr<EnemyBase> pEnemy)
 {
 	GetJoypadAnalogInput(&m_analogX, &m_analogY, DX_INPUT_PAD1); // アナログスティックの入力状態
 

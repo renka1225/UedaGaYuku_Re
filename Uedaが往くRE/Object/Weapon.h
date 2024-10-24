@@ -1,8 +1,10 @@
 ﻿#pragma once
 #include "ObjectBase.h"
+#include "CharacterBase.h"
 
 class Player;
 class Stage;
+class CharacterBase;
 
 /// <summary>
 /// 武器クラス
@@ -56,11 +58,23 @@ public:
 	virtual void Draw();
 
 	/// <summary>
+	/// 武器の耐久力を減らす
+	/// </summary>
+	void DecrementDurability();
+
+	/// <summary>
 	/// 武器の当たり判定をチェックする
 	/// </summary>
 	/// <param name="colData">キャラクターの当たり判定情報</param>
 	/// <param name="player">プレイヤー情報参照</param>
-	void CheckWeaopnCol(const CharacterBase::ColData& colData, Player& player);
+	/// <returns>当たっているかどうか</returns>
+	bool CheckWeaopnCol(const CharacterBase::ColData& colData, Player& player);
+
+	/// <summary>
+	/// 攻撃中の武器当たり状態をセットする
+	/// </summary>
+	/// <param name="isHit"></param>
+	void SetIsHitAttack(bool isHit) { m_isHitAttack = isHit; }
 
 private:
 	/// <summary>
@@ -80,7 +94,8 @@ private:
 	/// <param name="frameName">セットするフレーム名</param>
 	/// <param name="setModelHandle">セットする武器のモデル</param>
 	/// <param name="setModelHandle">配置データ</param>
-	void SetModelFramePos(int modelHandle, const char* frameName, int setModelHandle, auto& loc);
+	/// <param name="frameMatrix">モデルの行列</param>
+	void SetModelFramePos(int modelHandle, const char* frameName, int setModelHandle, auto& loc, MATRIX frameMatrix);
 
 protected:
 	// 配置情報データ
@@ -102,4 +117,5 @@ protected:
 	UpdateColData m_updateCol;	// 更新後の当たり判定データ
 	int m_locationDataHandle;	// 読み込む配置データ
 	int m_durability;			// 武器の耐久力
+	bool m_isHitAttack;			// 攻撃中に当たっているかどうか
 };

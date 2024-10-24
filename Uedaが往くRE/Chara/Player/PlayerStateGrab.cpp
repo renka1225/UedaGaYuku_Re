@@ -21,9 +21,9 @@ void PlayerStateGrab::Init()
 	m_pPlayer->ChangeAnim("Grab");
 }
 
-void PlayerStateGrab::Update(const Input& input, const Camera& camera, Stage& stage, std::shared_ptr<EnemyBase> pEnemy)
+void PlayerStateGrab::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::shared_ptr<EnemyBase> pEnemy)
 {
-    PlayerStateBase::Update(input, camera, stage, pEnemy);
+    PlayerStateBase::Update(input, camera, stage, weapon, pEnemy);
     m_pPlayer->Move(VGet(0.0f, 0.0f, 0.0f), stage);   // 移動情報を反映する
 
     // アニメーション終了した場合

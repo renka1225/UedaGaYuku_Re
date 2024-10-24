@@ -11,9 +11,9 @@ void PlayerStateWalk::Init()
 	m_pPlayer->ChangeAnim(AnimName::kWalk);
 }
 
-void PlayerStateWalk::Update(const Input& input, const Camera& camera, Stage& stage, std::shared_ptr<EnemyBase> pEnemy)
+void PlayerStateWalk::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::shared_ptr<EnemyBase> pEnemy)
 {
-    PlayerStateBase::Update(input, camera, stage, pEnemy);
+    PlayerStateBase::Update(input, camera, stage, weapon, pEnemy);
 
     VECTOR upMoveVec;		                            // 上ボタンを入力をしたときの移動方向ベクトル
     VECTOR leftMoveVec;	                                // 左ボタンを入力をしたときの移動方向ベクトル

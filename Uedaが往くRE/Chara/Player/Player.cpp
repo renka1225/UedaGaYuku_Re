@@ -74,9 +74,17 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 		pEnemy->CheckCharaCol(*this, m_colData[CharaType::kPlayer], CharaType::kEnemy_01);
 	}
 	// 武器との当たり判定をチェックする
-	weapon.CheckWeaopnCol(m_colData[CharaType::kPlayer], *this);
+	bool isHitWeapon = weapon.CheckWeaopnCol(m_colData[CharaType::kPlayer], *this);
+	if (isHitWeapon)
+	{
+		m_isPossibleGrabWeapon = true;
+	}
+	else
+	{
+		m_isPossibleGrabWeapon = false;
+	}
 
-	m_pState->Update(input, camera, stage, pEnemy);	// stateの更新
+	m_pState->Update(input, camera, stage, weapon, pEnemy);	// stateの更新
 	UpdateAngle();					// 向きを更新
 	UpdateAnim();					// アニメーションを更新
 	UpdateCol(CharaType::kPlayer);	// 当たり判定の位置更新
@@ -93,8 +101,8 @@ void Player::Draw()
 	debug.DrawPlayerInfo(m_pos, m_hp, m_pState->GetStateName(), m_isNowGrabWeapon); // プレイヤーの情報を描画
 	// 当たり判定描画
 	debug.DrawBodyCol(m_colData[CharaType::kPlayer]);	// 全身(紫色)
-	debug.DrawArmCol(m_colData[CharaType::kPlayer]);	// 腕(水色)
-	debug.DrawLegCol(m_colData[CharaType::kPlayer]);	// 脚(黄色)
+	//debug.DrawArmCol(m_colData[CharaType::kPlayer]);	// 腕(水色)
+	//debug.DrawLegCol(m_colData[CharaType::kPlayer]);	// 脚(黄色)
 #endif
 }
 
