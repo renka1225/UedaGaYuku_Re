@@ -28,7 +28,7 @@ void PlayerStateAttack::Init(std::string attackName)
     }
 }
 
-void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::shared_ptr<EnemyBase> pEnemy)
+void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 {
     PlayerStateBase::Update(input, camera, stage, weapon, pEnemy);
     m_pPlayer->Move(VGet(0.0f, 0.0f, 0.0f), stage);   // 移動情報を反映する
@@ -50,38 +50,41 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
         m_attackEndTime--;
         if (m_attackEndTime < 0) m_isAttackEnd = true;
         
-        if (pEnemy == nullptr) return;
+        if (pEnemy.empty()) return;
 
-        // 武器掴み中の場合
-        if (m_pPlayer->GetIsGrabWeapon())
+        for (auto& enemy : pEnemy)
         {
-            // 武器と敵の当たり判定を取得
-            bool isHitWeaponCol = weapon.CheckWeaopnCol(pEnemy->GetCol(pEnemy->GetEnemyNumber()), *m_pPlayer);
-            if (isHitWeaponCol)
+            // 武器掴み中の場合
+            if (m_pPlayer->GetIsGrabWeapon())
             {
-                pEnemy->OnDamage(20);
-                weapon.DecrementDurability();
+                // 武器と敵の当たり判定を取得
+                bool isHitWeaponCol = weapon.CheckWeaopnCol(enemy->GetCol(enemy->GetEnemyNumber()), *m_pPlayer);
+                if (isHitWeaponCol)
+                {
+                    enemy->OnDamage(20);
+                    weapon.DecrementDurability();
+                }
             }
-        }
-        // パンチ攻撃
-        else if (m_attackKind == AnimName::kPunchStrong)
-        {
-            // パンチ攻撃と敵の当たり判定を取得
-            bool isHitPunchCol = pEnemy->CheckHitPunchCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), pEnemy->GetEnemyNumber());
-            if (isHitPunchCol)
+            // パンチ攻撃
+            else if (m_attackKind == AnimName::kPunchStrong)
             {
-                pEnemy->OnDamage(5);
+                // パンチ攻撃と敵の当たり判定を取得
+                bool isHitPunchCol = enemy->CheckHitPunchCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyNumber());
+                if (isHitPunchCol)
+                {
+                    enemy->OnDamage(5);
+                }
             }
-        }
-        // キック攻撃
-        else if (m_attackKind == AnimName::kKick)
-        {
-            // キック攻撃と敵の当たり判定を取得
-            bool isHitKickCol = pEnemy->CheckHitKickCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), pEnemy->GetEnemyNumber());
-            if (isHitKickCol)
+            // キック攻撃
+            else if (m_attackKind == AnimName::kKick)
             {
+                // キック攻撃と敵の当たり判定を取得
+                bool isHitKickCol = enemy->CheckHitKickCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyNumber());
+                if (isHitKickCol)
+                {
 
-                pEnemy->OnDamage(10);
+                    enemy->OnDamage(10);
+                }
             }
         }
     }

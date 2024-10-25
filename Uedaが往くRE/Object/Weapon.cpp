@@ -49,9 +49,16 @@ void Weapon::Update(Player& player, Stage& stage)
 	for (auto& loc : m_locationData)
 	{
 		// 耐久力が0になった場合
-		if (m_durability >= 0)
+		if (m_durability <= 0)
 		{
+			// TODO:モデルを非表示にする、当たり判定を消す
+			MV1SetFrameVisible(m_objHandle[loc.name], 0, false);
+			player.SetIsGrabWeapon(false); // プレイヤーの武器掴み状態を解除する
 			m_durability = std::max(m_durability, 0);
+		}
+		else
+		{
+			MV1SetFrameVisible(m_objHandle[loc.name], 0, true);
 		}
 
 		// プレイヤーが武器を掴んだ場合、プレイヤーの手の位置に武器を移動させる
@@ -71,12 +78,13 @@ void Weapon::Update(Player& player, Stage& stage)
 
 		// TODO:バトル終了後、武器位置をリセットする
 		// 今は仮で所持金300になったら
-		//if (player.GetMoney() == 300)
-		//{
-		//	// 武器の位置を初期位置にリセット
-		//	loc.pos = loc.initPos;
-		//	loc.rot = loc.initRot;
-		//}
+		if (player.GetMoney() == 300)
+		{
+			// 武器の位置を初期位置にリセット
+			loc.pos = loc.initPos;
+			loc.rot = loc.initRot;
+			m_durability = m_weaponData.durability;
+		}
 		
 		UpdateCol(loc); // 当たり判定位置更新
 		MV1SetPosition(m_objHandle[loc.name], loc.pos);

@@ -21,13 +21,14 @@ void PlayerStateGrab::Init()
 	m_pPlayer->ChangeAnim("Grab");
 }
 
-void PlayerStateGrab::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::shared_ptr<EnemyBase> pEnemy)
+void PlayerStateGrab::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 {
     PlayerStateBase::Update(input, camera, stage, weapon, pEnemy);
     m_pPlayer->Move(VGet(0.0f, 0.0f, 0.0f), stage);   // 移動情報を反映する
 
-    // アニメーション終了した場合
-    if (m_isAnimEnd)
+    // 状態をを変更する
+    bool isChange = m_isAnimEnd && !m_pPlayer->GetIsGrabWeapon();
+    if (isChange)
     {
         // StateをIdleに変更する
         m_nextState = std::make_shared<PlayerStateIdle>(m_pPlayer);

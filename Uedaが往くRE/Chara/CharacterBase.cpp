@@ -178,7 +178,6 @@ void CharacterBase::ChangeAnim(std::string animName)
 	}
 }
 
-
 void CharacterBase::UpdateAnim()
 {
 	// ブレンド率が1以下の場合

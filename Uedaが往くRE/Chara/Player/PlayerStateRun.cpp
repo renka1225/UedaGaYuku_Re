@@ -11,7 +11,7 @@ void PlayerStateRun::Init()
 	m_pPlayer->ChangeAnim(AnimName::kRun);
 }
 
-void PlayerStateRun::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::shared_ptr<EnemyBase> pEnemy)
+void PlayerStateRun::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 {
     PlayerStateBase::Update(input, camera, stage, weapon, pEnemy);
 

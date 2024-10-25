@@ -13,7 +13,7 @@ void PlayerStateIdle::Init()
 	m_pPlayer->ChangeAnim(AnimName::kIdleStand);
 }
 
-void PlayerStateIdle::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::shared_ptr<EnemyBase> pEnemy)
+void PlayerStateIdle::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 {
 	PlayerStateBase::Update(input, camera, stage, weapon, pEnemy);
 	m_pPlayer->Move(VGet(0.0f, 0.0f, 0.0f), stage);   // 移動情報を反映する

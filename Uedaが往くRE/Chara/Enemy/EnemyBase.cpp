@@ -14,7 +14,7 @@ namespace
 	const VECTOR kInitPos = VGet(7600.0, 40.0f, 5300.0f);	// 初期位置
 }
 
-EnemyBase::EnemyBase(std::string charaId, int number, int modelHandle):
+EnemyBase::EnemyBase(Player& player, std::string charaId, int number, int modelHandle):
 	m_enemyNumber(number),
 	m_isDead(false)
 {
@@ -23,9 +23,18 @@ EnemyBase::EnemyBase(std::string charaId, int number, int modelHandle):
 	LoadCsv::GetInstance().LoadColData(m_colData[m_enemyNumber], charaId);
 
 	m_modelHandle = modelHandle;
-	m_pos = kInitPos;
 	m_colData[m_enemyNumber].bodyUpdateStartPos = m_colData[m_enemyNumber].bodyStartPos;
 	m_colData[m_enemyNumber].bodyUpdateEndPos = m_colData[m_enemyNumber].bodyEndPos;
+
+	// プレイヤーの範囲内に配置する
+	const float spawnRange = 50.0f;
+	float randPosX = player.GetPos().x + GetRand(static_cast<int>(spawnRange * 2)) - spawnRange;
+	float randPosZ = player.GetPos().z + GetRand(static_cast<int>(spawnRange * 2)) - spawnRange;
+
+	// 敵の初期位置を設定
+	m_pos = VGet(randPosX, player.GetPos().y, randPosZ);
+
+	//m_pos = player.GetPos();
 }
 
 void EnemyBase::Init()

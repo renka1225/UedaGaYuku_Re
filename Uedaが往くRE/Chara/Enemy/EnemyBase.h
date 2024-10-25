@@ -16,7 +16,7 @@ public:
 	/// <param name="charaId">キャラクターID</param>
 	/// <param name="number">キャラクターの番号</param>
 	/// <param name="modelHandle">モデルハンドル</param>
-	EnemyBase(std::string charaId, int number, int modelHandle);
+	EnemyBase(Player& player, std::string charaId, int number, int modelHandle);
 
 	/// <summary>
 	/// デストラクタ

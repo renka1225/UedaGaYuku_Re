@@ -55,7 +55,7 @@ void Player::Init()
 	state->Init();
 }
 
-void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::shared_ptr<EnemyBase> pEnemy)
+void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 {
 	CharacterBase::Update();
 
@@ -68,9 +68,12 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 	}
 
 	// 敵との当たり判定をチェックする
-	if (pEnemy != nullptr)
+	if (pEnemy.empty())
 	{
-		pEnemy->CheckCharaCol(*this, m_colData[CharaType::kPlayer], CharaType::kEnemy_01);
+		for (auto& enemy : pEnemy)
+		{
+			enemy->CheckCharaCol(*this, m_colData[CharaType::kPlayer], CharaType::kEnemy_01);
+		}
 	}
 	// 武器との当たり判定をチェックする
 	bool isHitWeapon = weapon.CheckWeaopnCol(m_colData[CharaType::kPlayer], *this);

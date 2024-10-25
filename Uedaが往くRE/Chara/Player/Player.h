@@ -39,7 +39,7 @@ public:
 	/// <param name="stage">ステージ参照</param>
 	/// <param name="pWeapon">武器情報参照</param>
 	/// <param name="pEnemy">敵情報のポインタ</param>
-	virtual void Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::shared_ptr<EnemyBase> pEnemy);
+	virtual void Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::vector<std::shared_ptr<EnemyBase>> pEnemy);
 
 	/// <summary>
 	/// 描画
