@@ -222,3 +222,9 @@ void CharacterBase::UpdateCol(int charType)
 	m_colData[charType].bodyUpdateStartPos = VAdd(m_pos, (VTransform(m_colData[charType].bodyStartPos, rotationMatrix)));
 	m_colData[charType].bodyUpdateEndPos = VAdd(m_colData[charType].bodyUpdateStartPos, (VTransform(m_colData[charType].bodyEndPos, rotationMatrix)));
 }
+
+float CharacterBase::GetAnimTotalTime(std::string animName)
+{
+	int animIndex = MV1GetAnimIndex(m_modelHandle, ("Armature|" + animName).c_str());
+	return  MV1GetAnimTotalTime(m_modelHandle, animIndex);
+}

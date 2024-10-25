@@ -20,15 +20,11 @@ void PlayerStateAttack::Init(std::string attackName)
 
     if (m_attackKind == AnimName::kPunchStrong)
     {
-        int frameIndex = m_pPlayer->GetModelFrameIndex(AnimName::kPunchStrong);
-        m_attackEndTime = 30;
-        //m_attackEndTime = MV1GetAttachAnimTotalTime(m_pPlayer->GetHandle(), frameIndex);
+        m_attackEndTime = m_pPlayer->GetAnimTotalTime(AnimName::kPunchStrong);
     }
     else if (m_attackKind == AnimName::kKick)
     {
-        int frameIndex = m_pPlayer->GetModelFrameIndex(AnimName::kKick);
-        m_attackEndTime = 50;
-        //m_attackEndTime = MV1GetAttachAnimTotalTime(m_pPlayer->GetHandle(), frameIndex);
+        m_attackEndTime = m_pPlayer->GetAnimTotalTime(AnimName::kKick);
     }
 }
 
@@ -65,7 +61,6 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
             {
                 pEnemy->OnDamage(20);
                 weapon.DecrementDurability();
-                printfDx("武器が当たった！\n");
             }
         }
         // パンチ攻撃
@@ -76,7 +71,6 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
             if (isHitPunchCol)
             {
                 pEnemy->OnDamage(5);
-                printfDx("パンチが当たった！\n");
             }
         }
         // キック攻撃
@@ -88,7 +82,6 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
             {
 
                 pEnemy->OnDamage(10);
-                printfDx("キックが当たった！\n");
             }
         }
     }

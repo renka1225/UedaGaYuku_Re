@@ -18,7 +18,8 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	Player();
+	/// <param name="handle">モデルハンドル</param>
+	Player(int modelHandle);
 
 	/// <summary>
 	/// デスクトップ

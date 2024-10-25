@@ -144,6 +144,11 @@ public:
 	void SetIsGrabWeapon(bool isGrab) { m_isNowGrabWeapon = isGrab; }
 
 	/// <summary>
+	/// アニメーションの総再生時間を取得する
+	/// </summary>
+	float GetAnimTotalTime(std::string animName);
+
+	/// <summary>
 	/// キャラクターのステータス取得
 	/// </summary>
 	Status GetStatus() const { return m_status; }
@@ -167,6 +172,12 @@ public:
 	/// </summary>
 	/// <param name="charType">キャラクターの種類</param>
 	ColData GetCol(int charType) const { return m_colData[charType]; }
+
+	/// <summary>
+	/// 攻撃中かどうか取得する
+	/// </summary>
+	/// <returns>攻撃中かどうか</returns>
+	bool GetIsAttack() const { return m_isAttack; }
 
 	/// <summary>
 	/// 武器を掴める状態かどうか取得

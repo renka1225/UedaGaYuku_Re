@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "SceneBase.h"
 #include <memory>
+#include <vector>
 
 class EnemyBase;
 class Player;
@@ -42,6 +43,11 @@ public:
 	/// </summary>
 	virtual void Draw();
 
+	/// <summary>
+	/// モデルハンドルを読み込む
+	/// </summary>
+	void LoadModelHandle();
+
 private:
 	/// <summary>
 	/// 敵をランダムで決定する
@@ -55,5 +61,6 @@ private:
 	std::shared_ptr<Camera> m_pCamera;	 // カメラのポインタ
 	std::shared_ptr<Stage> m_pStage;	 // ステージのポインタ
 	std::shared_ptr<UiBase> m_pUI;		 // UI表示のポインタ
+	std::vector<int> m_modelHandle;		 // モデルのハンドル
 };
 

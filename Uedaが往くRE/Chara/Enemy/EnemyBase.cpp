@@ -14,7 +14,7 @@ namespace
 	const VECTOR kInitPos = VGet(7600.0, 40.0f, 5300.0f);	// 初期位置
 }
 
-EnemyBase::EnemyBase(std::string charaId, int number):
+EnemyBase::EnemyBase(std::string charaId, int number, int modelHandle):
 	m_enemyNumber(number),
 	m_isDead(false)
 {
@@ -22,8 +22,7 @@ EnemyBase::EnemyBase(std::string charaId, int number):
 	LoadCsv::GetInstance().LoadStatus(m_status, charaId);
 	LoadCsv::GetInstance().LoadColData(m_colData[m_enemyNumber], charaId);
 
-	m_modelHandle = MV1LoadModel(("data/model/chara/" + charaId + ".mv1").c_str());
-
+	m_modelHandle = modelHandle;
 	m_pos = kInitPos;
 	m_colData[m_enemyNumber].bodyUpdateStartPos = m_colData[m_enemyNumber].bodyStartPos;
 	m_colData[m_enemyNumber].bodyUpdateEndPos = m_colData[m_enemyNumber].bodyEndPos;

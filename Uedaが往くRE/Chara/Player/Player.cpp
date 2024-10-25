@@ -16,14 +16,13 @@
 namespace
 {
 	const std::string kCharaId = "player";							// キャラクターのID名
-	const char* kModelFileName = "data/model/chara/player.mv1";	// モデルのファイル名
 	const VECTOR kInitPos = VGet(7425.0, 40.0f, 5190.0f);			// 初期位置
 	constexpr float kScale = 0.14f;									// モデルの拡大率
 
 	constexpr int kMoneyIncrement = 5; // 一度に増える所持金数
 }
 
-Player::Player():
+Player::Player(int modelHandle):
 	m_money(0),
 	m_beforeMoney(0),
 	m_addMoney(0)
@@ -32,7 +31,7 @@ Player::Player():
 	LoadCsv::GetInstance().LoadStatus(m_status, kCharaId);
 	LoadCsv::GetInstance().LoadColData(m_colData[CharaType::kPlayer], kCharaId);
 
-	m_modelHandle = MV1LoadModel(kModelFileName);
+	m_modelHandle = modelHandle;
 
 	m_pos = kInitPos;
 	m_colData[CharaType::kPlayer].bodyUpdateStartPos = m_colData[CharaType::kPlayer].bodyStartPos;

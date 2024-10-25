@@ -22,6 +22,9 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	// 攻撃のボタンが押された場合
 	if (input.IsTriggered(InputId::kPunch) || input.IsTriggered(InputId::kKick))
 	{
+		// 攻撃中は再度攻撃できないようにする
+		if (m_pPlayer->GetIsAttack()) return;
+
 		// StateをAttackに変更する
 		m_pPlayer->SetIsAttack(true);
 		m_nextState = std::make_shared<PlayerStateAttack>(m_pPlayer);

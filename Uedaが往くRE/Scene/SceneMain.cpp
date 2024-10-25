@@ -1,5 +1,6 @@
 ﻿#include "Camera.h"
 #include "UiBase.h"
+#include "CharacterBase.h"
 #include "Player.h"
 #include "EnemyBase.h"
 #include "ObjectBase.h"
@@ -10,12 +11,20 @@
 // 定数
 namespace
 {
-	constexpr int kEnemyKindNum = 5;
+	const char* kPlayerHandlePath = "data/model/chara/player.mv1";	// プレイヤーのモデルハンドルパス
+	const char* kEnemyHandlePath = "data/model/chara/enemy_";		// 敵のモデルハンドルパス
+	constexpr int kModelNum = 2;	 // 読み込むモデルの数
+	constexpr int kEnemyKindNum = 1; // 敵の種類
 }
 
 SceneMain::SceneMain()
 {
-	m_pPlayer = std::make_shared<Player>();
+	// TODO:非同期処理
+
+	m_modelHandle.resize(kModelNum);
+	LoadModelHandle(); // モデルを読み込む
+
+	m_pPlayer = std::make_shared<Player>(m_modelHandle[CharacterBase::CharaType::kPlayer]);
 	m_pWeapon = std::make_shared<Weapon>();
 	m_pCamera = std::make_shared<Camera>();
 	m_pStage = std::make_shared<Stage>(m_pPlayer);
@@ -73,17 +82,28 @@ void SceneMain::Draw()
 #endif
 }
 
+void SceneMain::LoadModelHandle()
+{
+	// プレイヤー
+	m_modelHandle[CharacterBase::CharaType::kPlayer] = MV1LoadModel(kPlayerHandlePath);
+
+	// 敵
+	for (int i = 0; i < kEnemyKindNum; i++)
+	{
+		// 2桁にそろえる
+		char enemyId[3];
+		sprintf_s(enemyId, "%02d", 1);
+		m_modelHandle[(i + 1)] = MV1LoadModel((kEnemyHandlePath + std::string(enemyId) + ".mv1").c_str());
+	}
+}
+
 void SceneMain::SelectEnemy()
 {
-	// TODO:モデル呼び出す時一瞬固まるのでどうにかする
-#ifdef false
 	// 敵をランダムで選ぶ
 	int enemyNum = GetRand((kEnemyKindNum - 1)) + 1;
-	char enemyId[3]; // 2桁にそろえる
+	// 2桁にそろえる
+	char enemyId[3];
 	sprintf_s(enemyId, "%02d", enemyNum);
 
-	m_pEnemy = std::make_shared<EnemyBase>("enemy_" + std::string(enemyId), enemyNum);
-#else false
-	m_pEnemy = std::make_shared<EnemyBase>("enemy_01", 1);
-#endif 
+	m_pEnemy = std::make_shared<EnemyBase>("enemy_" + std::string(enemyId), enemyNum, m_modelHandle[enemyNum]);
 }

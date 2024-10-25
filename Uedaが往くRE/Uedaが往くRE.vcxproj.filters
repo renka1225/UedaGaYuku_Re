@@ -162,6 +162,9 @@
     <ClCompile Include="Chara\CharacterBase.cpp">
       <Filter>ソース ファイル\Chara</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\SceneLoad.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\SceneManager.h">
@@ -266,8 +269,11 @@
     <ClInclude Include="Chara\Player\PlayerStateGrab.h">
       <Filter>ヘッダー ファイル\Chara\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\SceneLoad.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="Chara\ModelFrameName.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Chara</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

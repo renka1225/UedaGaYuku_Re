@@ -170,6 +170,7 @@
     <ClCompile Include="Chara\Enemy\EnemyStateHitAttack.cpp" />
     <ClCompile Include="Object\ObjectBase.cpp" />
     <ClCompile Include="Chara\Player\PlayerStateGrab.cpp" />
+    <ClCompile Include="Scene\SceneLoad.cpp" />
     <ClCompile Include="UI\UiBase.cpp" />
     <ClCompile Include="Util\LoadCsv.cpp" />
     <ClCompile Include="Debug\DebugDraw.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="Chara\ModelFrameName.h" />
     <ClInclude Include="Object\ObjectBase.h" />
     <ClInclude Include="Chara\Player\PlayerStateGrab.h" />
+    <ClInclude Include="Scene\SceneLoad.h" />
     <ClInclude Include="UI\UiBase.h" />
     <ClInclude Include="Util\LoadCsv.h" />
     <ClInclude Include="Debug\DebugDraw.h" />
