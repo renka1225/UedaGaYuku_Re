@@ -75,8 +75,10 @@ namespace AnimName
 	const char* const kKick = "kick";
 	const char* const kKickRound = "kick_round";
 	const char* const kKickHeat = "kick_heat";
+	const char* const kPunch = "punch";
 	const char* const kPunchStrong = "punch_strong";
 	const char* const kRun = "run";
 	const char* const kWalk = "walk";
 	const char* const kWalkFight = "walk_fight";
+	const char* const kDown = "down";
 }

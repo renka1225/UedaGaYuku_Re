@@ -53,7 +53,7 @@ public:
 	/// <summary>
 	/// 敵の番号を取得する
 	/// </summary>
-	/// <returns></returns>
+	/// <returns>敵の番号</returns>
 	int GetEnemyNumber() const { return m_enemyNumber; }
 
 private:

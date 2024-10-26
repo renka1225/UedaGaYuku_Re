@@ -55,7 +55,6 @@ public:
 	// アニメーション情報
 	struct AnimInfo
 	{
-		int number;			// アニメーション番号
 		float loopFrame;	// 開始フレーム
 		float endFrame;		// 終了フレーム
 		float playSpeed;	// アニメーションの速度
@@ -147,6 +146,11 @@ public:
 	/// アニメーションの総再生時間を取得する
 	/// </summary>
 	float GetAnimTotalTime(std::string animName);
+
+	/// <summary>
+	/// アニメーション番号を取得する
+	/// </summary>
+	int GetAnimIndex(std::string animName);
 
 	/// <summary>
 	/// キャラクターのステータス取得

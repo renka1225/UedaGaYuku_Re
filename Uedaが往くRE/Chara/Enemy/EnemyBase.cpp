@@ -10,8 +10,8 @@
 // 定数
 namespace
 {
-	constexpr float kScale = 0.15f;	 // モデルの拡大率
-	const VECTOR kInitPos = VGet(7600.0, 40.0f, 5300.0f);	// 初期位置
+	constexpr float kScale = 0.15f;		 // モデルの拡大率
+	constexpr float kSpawnRange = 50.0f; // スポーンする範囲
 }
 
 EnemyBase::EnemyBase(Player& player, std::string charaId, int number, int modelHandle):
@@ -26,15 +26,11 @@ EnemyBase::EnemyBase(Player& player, std::string charaId, int number, int modelH
 	m_colData[m_enemyNumber].bodyUpdateStartPos = m_colData[m_enemyNumber].bodyStartPos;
 	m_colData[m_enemyNumber].bodyUpdateEndPos = m_colData[m_enemyNumber].bodyEndPos;
 
-	// プレイヤーの範囲内に配置する
-	const float spawnRange = 50.0f;
-	float randPosX = player.GetPos().x + GetRand(static_cast<int>(spawnRange * 2)) - spawnRange;
-	float randPosZ = player.GetPos().z + GetRand(static_cast<int>(spawnRange * 2)) - spawnRange;
-
 	// 敵の初期位置を設定
+	// プレイヤーの範囲内に配置する
+	float randPosX = player.GetPos().x + GetRand(kSpawnRange * 2) - kSpawnRange;
+	float randPosZ = player.GetPos().z + GetRand(kSpawnRange * 2) - kSpawnRange;
 	m_pos = VGet(randPosX, player.GetPos().y, randPosZ);
-
-	//m_pos = player.GetPos();
 }
 
 void EnemyBase::Init()
@@ -52,6 +48,8 @@ void EnemyBase::Init()
 
 void EnemyBase::Update(Stage& stage, Player& player)
 {
+	if (nullptr) return;
+
 	CharacterBase::Update();
 
 	// 前のフレームと違うstateの場合

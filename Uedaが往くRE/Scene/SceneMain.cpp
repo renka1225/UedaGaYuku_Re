@@ -13,7 +13,7 @@ namespace
 {
 	const char* kPlayerHandlePath = "data/model/chara/player.mv1";	// プレイヤーのモデルハンドルパス
 	const char* kEnemyHandlePath = "data/model/chara/enemy_";		// 敵のモデルハンドルパス
-	constexpr int kModelNum = 2;	 // 読み込むモデルの数
+	constexpr int kModelNum = 3;	 // 読み込むモデルの数
 	constexpr int kEnemyMaxNum = 1;	 // 1度に出現する最大の敵数
 	constexpr int kEnemyKindNum = 1; // 敵の種類
 }

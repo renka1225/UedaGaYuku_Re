@@ -153,7 +153,7 @@ void CharacterBase::ChangeAnim(std::string animName)
 	// アニメーションを設定
 	m_animPlaySpeed = m_animData[animName].playSpeed;
 	m_animLoopStartTime = m_animData[animName].loopFrame;
-	m_animLoopEndTime = m_animData[animName].endFrame;
+	m_animLoopEndTime = GetAnimTotalTime(animName);
 
 	// ループ終了フレームが0でない場合、ループフラグを立てる
 	if (m_animLoopEndTime > 0.0f)
@@ -162,10 +162,10 @@ void CharacterBase::ChangeAnim(std::string animName)
 	}
 
 	// 新たにアニメーションをアタッチする
-	m_currentPlayAnim = MV1AttachAnim(m_modelHandle, m_animData[animName].number);
+	m_currentPlayAnim = MV1AttachAnim(m_modelHandle, GetAnimIndex(animName));
 	m_currentAnimTime = 0.0f;
 	//アニメーションの総再生時間を設定
-	m_totalAnimTime = MV1GetAnimTotalTime(m_modelHandle, m_animData[animName].number);
+	m_totalAnimTime = GetAnimTotalTime(animName);
 
 	// ブレンド率はprevが有効でない場合、1.0にする
 	if (m_prevPlayAnim == -1)
@@ -224,6 +224,11 @@ void CharacterBase::UpdateCol(int charType)
 
 float CharacterBase::GetAnimTotalTime(std::string animName)
 {
-	int animIndex = MV1GetAnimIndex(m_modelHandle, ("Armature|" + animName).c_str());
+	int animIndex = GetAnimIndex(animName);
 	return  MV1GetAnimTotalTime(m_modelHandle, animIndex);
+}
+
+int CharacterBase::GetAnimIndex(std::string animName)
+{
+	return MV1GetAnimIndex(m_modelHandle, ("Armature|" + animName).c_str());
 }

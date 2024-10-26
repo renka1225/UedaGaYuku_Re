@@ -12,6 +12,8 @@ EnemyStateBase::EnemyStateBase(std::shared_ptr<EnemyBase> pEnemy)
 
 void EnemyStateBase::Update(Stage& stage, Player& pPlayer)
 {
+	if (m_pEnemy == nullptr) return;
+
 	// HPが0以下になったら
 	if (m_pEnemy->GetHp() <= 0)
 	{

@@ -63,7 +63,5 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 				m_pPlayer->SetIsGrabWeapon(false); // 武器を離す
 			}
 		}
-	
-		
 	}
 }

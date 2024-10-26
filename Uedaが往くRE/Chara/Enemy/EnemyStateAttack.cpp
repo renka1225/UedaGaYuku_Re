@@ -17,7 +17,7 @@ void EnemyStateAttack::Init(std::string attackName)
     m_attackKind = attackName;
     m_pEnemy->ChangeAnim(m_attackKind);
 
-    if (m_attackKind == AnimName::kPunchStrong)
+    if (m_attackKind == AnimName::kPunch)
     {
         m_attackEndTime = kPunchEndTime;
     }
@@ -52,7 +52,7 @@ void EnemyStateAttack::Update(Stage& stage, Player& pPlayer)
         }
 
         // 敵の攻撃とプレイヤーの当たり判定を取得
-        if (m_attackKind == AnimName::kPunchStrong)
+        if (m_attackKind == AnimName::kPunch)
         {
             bool isHitPunchCol = pPlayer.CheckHitPunchCol(m_pEnemy->GetCol(m_pEnemy->GetEnemyNumber()), 0);
             if (isHitPunchCol)

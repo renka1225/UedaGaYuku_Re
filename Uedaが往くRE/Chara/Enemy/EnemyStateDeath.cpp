@@ -1,20 +1,17 @@
-﻿#include "EnemyBase.h"
+﻿#include "Game.h"
+#include "EnemyBase.h"
 #include "EnemyStateDeath.h"
 
-// 定数
-namespace
+EnemyStateDeath::EnemyStateDeath(std::shared_ptr<EnemyBase> pEnemy) :
+	EnemyStateBase(pEnemy),
+	m_deathTime(0)
 {
-	constexpr float kDeathTime = 180.0f; // 敵が消滅するまでの時間
-}
-
-EnemyStateDeath::EnemyStateDeath(std::shared_ptr<EnemyBase> pEnemy) : EnemyStateBase(pEnemy),
-	m_deathTime(kDeathTime)
-{
+	m_deathTime = m_pEnemy->GetAnimTotalTime(AnimName::kDown);
 }
 
 void EnemyStateDeath::Init()
 {
-	m_pEnemy->ChangeAnim("Death");
+	m_pEnemy->ChangeAnim(AnimName::kDown);
 }
 
 void EnemyStateDeath::Update(Stage& stage, Player& pPlayer)

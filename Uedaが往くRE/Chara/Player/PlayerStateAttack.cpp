@@ -50,8 +50,6 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
         m_attackEndTime--;
         if (m_attackEndTime < 0) m_isAttackEnd = true;
         
-        if (pEnemy.empty()) return;
-
         for (auto& enemy : pEnemy)
         {
             // 武器掴み中の場合
@@ -61,13 +59,15 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
                 bool isHitWeaponCol = weapon.CheckWeaopnCol(enemy->GetCol(enemy->GetEnemyNumber()), *m_pPlayer);
                 if (isHitWeaponCol)
                 {
-                    enemy->OnDamage(20);
+                    enemy->OnDamage(15);
                     weapon.DecrementDurability();
                 }
             }
             // パンチ攻撃
             else if (m_attackKind == AnimName::kPunchStrong)
             {
+                if (enemy == nullptr) return;
+
                 // パンチ攻撃と敵の当たり判定を取得
                 bool isHitPunchCol = enemy->CheckHitPunchCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyNumber());
                 if (isHitPunchCol)
@@ -78,11 +78,12 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
             // キック攻撃
             else if (m_attackKind == AnimName::kKick)
             {
+                if (enemy == nullptr) return;
+                
                 // キック攻撃と敵の当たり判定を取得
                 bool isHitKickCol = enemy->CheckHitKickCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyNumber());
                 if (isHitKickCol)
                 {
-
                     enemy->OnDamage(10);
                 }
             }
