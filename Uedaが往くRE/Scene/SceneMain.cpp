@@ -14,8 +14,8 @@ namespace
 	const char* kPlayerHandlePath = "data/model/chara/player.mv1";	// プレイヤーのモデルハンドルパス
 	const char* kEnemyHandlePath = "data/model/chara/enemy_";		// 敵のモデルハンドルパス
 	constexpr int kModelNum = 3;	 // 読み込むモデルの数
-	constexpr int kEnemyMaxNum = 1;	 // 1度に出現する最大の敵数
-	constexpr int kEnemyKindNum = 1; // 敵の種類
+	constexpr int kEnemyMaxNum = 2;	 // 1度に出現する最大の敵数
+	constexpr int kEnemyKindNum = 2; // 敵の種類
 }
 
 SceneMain::SceneMain()
@@ -23,7 +23,7 @@ SceneMain::SceneMain()
 	// TODO:非同期処理
 
 	m_modelHandle.resize(kModelNum);
-	m_pEnemy.resize(kEnemyMaxNum);
+	m_pEnemy.resize(kEnemyKindNum);
 	LoadModelHandle(); // モデルを読み込む
 
 	m_pPlayer = std::make_shared<Player>(m_modelHandle[CharacterBase::CharaType::kPlayer]);
@@ -39,6 +39,7 @@ void SceneMain::Init()
 {
 	for (auto& enemy : m_pEnemy)
 	{
+		if (enemy == nullptr) continue;
 		enemy->Init();
 	}
 	m_pPlayer->Init();
@@ -50,23 +51,22 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 {
 	for (auto& enemy : m_pEnemy)
 	{
-		if (enemy != nullptr)
-		{
-			// 敵死亡フラグがtrueの時、敵を消滅させる
-			if (enemy->GetIsDead())
-			{
-				enemy = nullptr;
-			}
-			else
-			{
-				enemy->Update(*m_pStage, *m_pPlayer);
-			}
-		}
-		// 敵を生成する
-		else
+		// 敵が1対もいない場合、敵を生成する
+		if (m_pEnemy.empty())
 		{
 			SelectEnemy();
 			enemy->Init();
+		}
+
+		if (enemy == nullptr) continue;
+		// 敵死亡フラグがtrueの時、敵を消滅させる
+		if (enemy->GetIsDead())
+		{
+			enemy = nullptr;
+		}
+		else
+		{
+			enemy->Update(*m_pStage, *m_pPlayer);
 		}
 	}
 
@@ -84,10 +84,8 @@ void SceneMain::Draw()
 	m_pWeapon->Draw();
 	for (auto& enemy : m_pEnemy)
 	{
-		if (enemy != nullptr)
-		{
-			enemy->Draw();
-		}
+		if (enemy == nullptr) continue;
+		enemy->Draw();
 	}
 	m_pPlayer->Draw();
 	m_pUI->Draw();
@@ -114,14 +112,19 @@ void SceneMain::LoadModelHandle()
 
 void SceneMain::SelectEnemy()
 {
-	// 敵をランダムで選ぶ
-	int enemyNum = GetRand((kEnemyKindNum - 1)) + 1;
-	// 2桁にそろえる
-	char enemyId[3];
-	sprintf_s(enemyId, "%02d", enemyNum);
+	// 出現する敵の数をランダムで決定する
+	int enemySpawnNum = GetRand(kEnemyMaxNum - 1) + 1;
+	m_pEnemy.resize(enemySpawnNum);
+	printfDx("%d", enemySpawnNum);
 
-	for (auto& enemy : m_pEnemy)
+	for (int i = 0; i < m_pEnemy.size(); i++)
 	{
-		enemy = std::make_shared<EnemyBase>(*m_pPlayer, "enemy_" + std::string(enemyId), enemyNum, m_modelHandle[enemyNum]);
+		// 敵をランダムで選ぶ
+		int enemyIndex = GetRand(kEnemyKindNum);
+		// 2桁にそろえる
+		char enemyId[3];
+		sprintf_s(enemyId, "%02d", enemyIndex);
+
+		m_pEnemy[i] = std::make_shared<EnemyBase>(*m_pPlayer, "enemy_" + std::string(enemyId), enemyIndex, m_modelHandle[enemyIndex]);
 	}
 }
