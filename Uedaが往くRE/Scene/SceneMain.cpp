@@ -7,6 +7,7 @@
 #include "Weapon.h"
 #include "Stage.h"
 #include "SceneMain.h"
+#include <unordered_set>
 
 // 定数
 namespace
@@ -114,13 +115,22 @@ void SceneMain::SelectEnemy()
 {
 	// 出現する敵の数をランダムで決定する
 	int enemySpawnNum = GetRand(kEnemyMaxNum - 1) + 1;
+	m_pEnemy.clear();
 	m_pEnemy.resize(enemySpawnNum);
-	printfDx("%d", enemySpawnNum);
+	//printfDx("生成する敵数:%d", enemySpawnNum);
 
+	std::unordered_set<int> enemyKind; // 生成された敵の種類を保持する
 	for (int i = 0; i < m_pEnemy.size(); i++)
 	{
-		// 敵をランダムで選ぶ
-		int enemyIndex = GetRand(kEnemyKindNum);
+		int enemyIndex;
+		// 敵の種類が重複しないようにする
+		do
+		{
+			enemyIndex = GetRand(kEnemyKindNum - 1) + 1; // 敵をランダムで選ぶ
+		} while (enemyKind.count(enemyIndex) > 0); // MEMO:countは要素が見つかったら1を、見つからない場合は0を返す。
+
+		enemyKind.insert(enemyIndex);
+		
 		// 2桁にそろえる
 		char enemyId[3];
 		sprintf_s(enemyId, "%02d", enemyIndex);

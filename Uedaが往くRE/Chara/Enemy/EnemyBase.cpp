@@ -14,17 +14,17 @@ namespace
 	constexpr float kSpawnRange = 50.0f; // スポーンする範囲
 }
 
-EnemyBase::EnemyBase(Player& player, std::string charaId, int number, int modelHandle):
-	m_enemyNumber(number),
+EnemyBase::EnemyBase(Player& player, std::string charaId, int index, int modelHandle):
+	m_enemyIndex(index),
 	m_isDead(false)
 {
 	// ステータスを読み込む
 	LoadCsv::GetInstance().LoadStatus(m_status, charaId);
-	LoadCsv::GetInstance().LoadColData(m_colData[m_enemyNumber], charaId);
+	LoadCsv::GetInstance().LoadColData(m_colData[m_enemyIndex], charaId);
 
 	m_modelHandle = modelHandle;
-	m_colData[m_enemyNumber].bodyUpdateStartPos = m_colData[m_enemyNumber].bodyStartPos;
-	m_colData[m_enemyNumber].bodyUpdateEndPos = m_colData[m_enemyNumber].bodyEndPos;
+	m_colData[m_enemyIndex].bodyUpdateStartPos = m_colData[m_enemyIndex].bodyStartPos;
+	m_colData[m_enemyIndex].bodyUpdateEndPos = m_colData[m_enemyIndex].bodyEndPos;
 
 	// 敵の初期位置を設定
 	// プレイヤーの範囲内に配置する
@@ -61,11 +61,11 @@ void EnemyBase::Update(Stage& stage, Player& player)
 	}
 
 	// 当たり判定をチェックする
-	player.CheckCharaCol(*this, m_colData[m_enemyNumber], CharaType::kPlayer);
+	player.CheckCharaCol(*this, m_colData[m_enemyIndex], CharaType::kPlayer);
 
 	m_pState->Update(stage, player); // stateの更新
 	UpdateAnim();					 // アニメーションを更新
-	UpdateCol(m_enemyNumber);		 // 当たり判定位置更新
+	UpdateCol(m_enemyIndex);		 // 当たり判定位置更新
 	GetFramePos();					 // モデルフレーム位置を取得
 }
 
@@ -75,29 +75,40 @@ void EnemyBase::Draw()
 
 #ifdef _DEBUG
 	DebugDraw debug;
-	debug.DrawEnemyInfo(m_pos, m_hp, m_pState->GetStateName()); // 敵の情報を描画
+	debug.DrawEnemyInfo(m_pos, m_hp, m_enemyIndex, m_pState->GetStateName()); // 敵の情報を描画
 	// 当たり判定描画
-	debug.DrawBodyCol(m_colData[m_enemyNumber]);// 全身(紫色)
-	//debug.DrawArmCol(m_colData[m_enemyNumber]);	// 腕(水色)
-	//debug.DrawLegCol(m_colData[m_enemyNumber]);	// 脚(黄色)
+	debug.DrawBodyCol(m_colData[m_enemyIndex]);// 全身(紫色)
+	//debug.DrawArmCol(m_colData[m_enemyIndex]);	// 腕(水色)
+	//debug.DrawLegCol(m_colData[m_enemyIndex]);	// 脚(黄色)
 #endif
 }
 
 void EnemyBase::GetFramePos()
 {
-	m_colData[m_enemyNumber].leftShoulderPos = GetModelFramePos(EnemyFrameName::kLeftShoulder.c_str());		// 左肩
-	m_colData[m_enemyNumber].leftForeArmPos = GetModelFramePos(EnemyFrameName::kLeftForeArm.c_str());		// 左肘
-	m_colData[m_enemyNumber].leftHandPos = GetModelFramePos(EnemyFrameName::kLeftHandPos.c_str());			// 左手首
-	m_colData[m_enemyNumber].rightShoulderPos = GetModelFramePos(EnemyFrameName::kRightShoulder.c_str());	// 右肩
-	m_colData[m_enemyNumber].rightForeArmPos = GetModelFramePos(EnemyFrameName::kRightForeArm.c_str());		// 右肘
-	m_colData[m_enemyNumber].rightHandPos = GetModelFramePos(EnemyFrameName::kRightHand.c_str());			// 右手首
 
-	m_colData[m_enemyNumber].leftUpLegPos = GetModelFramePos(EnemyFrameName::kLeftUpLeg.c_str());			// 左もも
-	m_colData[m_enemyNumber].leftLegPos = GetModelFramePos(EnemyFrameName::kLeftLeg.c_str());				// 左膝
-	m_colData[m_enemyNumber].leftFootPos = GetModelFramePos(EnemyFrameName::kLeftFoot.c_str());				// 左足首
-	m_colData[m_enemyNumber].leftEndPos = GetModelFramePos(EnemyFrameName::kLeftEnd.c_str());				// 左足終点
-	m_colData[m_enemyNumber].rightUpLegPos = GetModelFramePos(EnemyFrameName::kRightUpLeg.c_str());			// 右もも
-	m_colData[m_enemyNumber].rightLegPos = GetModelFramePos(EnemyFrameName::kRightLeg.c_str());				// 右膝
-	m_colData[m_enemyNumber].rightFootPos = GetModelFramePos(EnemyFrameName::kRightFoot.c_str());			// 右足首
-	m_colData[m_enemyNumber].rightEndPos = GetModelFramePos(EnemyFrameName::kRightEnd.c_str());				// 右足終点
+	std::string enemyRig;
+	if (m_enemyIndex == CharaType::kEnemy_01)
+	{
+		enemyRig = "mixamorig12:";
+	}
+	else
+	{
+		enemyRig = "mixamorig:";
+	}
+
+	m_colData[m_enemyIndex].leftShoulderPos = GetModelFramePos((enemyRig + EnemyFrameName::kLeftShoulder).c_str());		// 左肩
+	m_colData[m_enemyIndex].leftForeArmPos = GetModelFramePos((enemyRig + EnemyFrameName::kLeftForeArm).c_str());		// 左肘
+	m_colData[m_enemyIndex].leftHandPos = GetModelFramePos((enemyRig + EnemyFrameName::kLeftHandPos).c_str());			// 左手首
+	m_colData[m_enemyIndex].rightShoulderPos = GetModelFramePos((enemyRig + EnemyFrameName::kRightShoulder).c_str());	// 右肩
+	m_colData[m_enemyIndex].rightForeArmPos = GetModelFramePos((enemyRig + EnemyFrameName::kRightForeArm).c_str());		// 右肘
+	m_colData[m_enemyIndex].rightHandPos = GetModelFramePos((enemyRig + EnemyFrameName::kRightHand).c_str());			// 右手首
+
+	m_colData[m_enemyIndex].leftUpLegPos = GetModelFramePos((enemyRig + EnemyFrameName::kLeftUpLeg).c_str());			// 左もも
+	m_colData[m_enemyIndex].leftLegPos = GetModelFramePos((enemyRig + EnemyFrameName::kLeftLeg).c_str());				// 左膝
+	m_colData[m_enemyIndex].leftFootPos = GetModelFramePos((enemyRig + EnemyFrameName::kLeftFoot).c_str());				// 左足首
+	m_colData[m_enemyIndex].leftEndPos = GetModelFramePos((enemyRig + EnemyFrameName::kLeftEnd).c_str());				// 左足終点
+	m_colData[m_enemyIndex].rightUpLegPos = GetModelFramePos((enemyRig + EnemyFrameName::kRightUpLeg).c_str());			// 右もも
+	m_colData[m_enemyIndex].rightLegPos = GetModelFramePos((enemyRig + EnemyFrameName::kRightLeg).c_str());				// 右膝
+	m_colData[m_enemyIndex].rightFootPos = GetModelFramePos((enemyRig + EnemyFrameName::kRightFoot).c_str());			// 右足首
+	m_colData[m_enemyIndex].rightEndPos = GetModelFramePos((enemyRig + EnemyFrameName::kRightEnd).c_str());				// 右足終点
 }

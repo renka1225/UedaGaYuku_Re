@@ -54,7 +54,7 @@ public:
 	/// 敵の番号を取得する
 	/// </summary>
 	/// <returns>敵の番号</returns>
-	int GetEnemyNumber() const { return m_enemyNumber; }
+	int GetEnemyIndex() const { return m_enemyIndex; }
 
 private:
 	/// <summary>
@@ -64,7 +64,7 @@ private:
 
 protected:
 	std::shared_ptr<EnemyStateBase> m_pState; // stateパターン
-	int m_enemyNumber; // 敵の番号
+	int m_enemyIndex; // 敵の番号
 	bool m_isDead;	   // 死亡したかどうか
 };
 

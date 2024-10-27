@@ -26,8 +26,9 @@ public:
 	/// </summary>
 	/// <param name="pos">座標</param>
 	/// <param name="hp">現在のHP</param>
+	/// <param name="index">敵の番号</param>
 	/// <param name="state">現在の状態</param>
-	void DrawEnemyInfo(const VECTOR pos, float hp, std::string state);
+	void DrawEnemyInfo(const VECTOR pos, float hp, int index, std::string state);
 
 	/// <summary>
 	/// 武器情報を描画

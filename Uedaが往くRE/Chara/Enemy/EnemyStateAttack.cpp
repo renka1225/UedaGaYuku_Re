@@ -12,19 +12,19 @@ namespace
     constexpr float kKickEndTime = 120;
 }
 
+EnemyStateAttack::EnemyStateAttack(std::shared_ptr<EnemyBase> enemy):
+    EnemyStateBase(enemy),
+    m_attackEndTime(0.0f),
+    m_isAttackEnd(false)
+{
+}
+
 void EnemyStateAttack::Init(std::string attackName)
 {
     m_attackKind = attackName;
+    m_pEnemy->SetIsAttack(true);
     m_pEnemy->ChangeAnim(m_attackKind);
-
-    if (m_attackKind == AnimName::kPunch)
-    {
-        m_attackEndTime = kPunchEndTime;
-    }
-    else if (m_attackKind == AnimName::kKick)
-    {
-        m_attackEndTime = kKickEndTime;
-    }
+    m_attackEndTime = m_pEnemy->GetAnimTotalTime(m_attackKind);
 }
 
 void EnemyStateAttack::Update(Stage& stage, Player& pPlayer)
@@ -46,7 +46,7 @@ void EnemyStateAttack::Update(Stage& stage, Player& pPlayer)
     {
         m_attackEndTime--;
 
-        if (m_attackEndTime < 0)
+        if (m_attackEndTime < 0.0f)
         {
             m_isAttackEnd = true;
         }
@@ -54,7 +54,7 @@ void EnemyStateAttack::Update(Stage& stage, Player& pPlayer)
         // 敵の攻撃とプレイヤーの当たり判定を取得
         if (m_attackKind == AnimName::kPunch)
         {
-            bool isHitPunchCol = pPlayer.CheckHitPunchCol(m_pEnemy->GetCol(m_pEnemy->GetEnemyNumber()), 0);
+            bool isHitPunchCol = pPlayer.CheckHitPunchCol(m_pEnemy->GetCol(m_pEnemy->GetEnemyIndex()), 0);
             if (isHitPunchCol)
             {
                 pPlayer.OnDamage(5);
@@ -62,7 +62,7 @@ void EnemyStateAttack::Update(Stage& stage, Player& pPlayer)
         }
         else if (m_attackKind == AnimName::kKick)
         {
-            bool isHitKickCol = pPlayer.CheckHitKickCol(m_pEnemy->GetCol(m_pEnemy->GetEnemyNumber()), 0);
+            bool isHitKickCol = pPlayer.CheckHitKickCol(m_pEnemy->GetCol(m_pEnemy->GetEnemyIndex()), 0);
             if (isHitKickCol)
             {
                 pPlayer.OnDamage(10);

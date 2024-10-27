@@ -1,6 +1,11 @@
 ﻿#include "Game.h"
 #include "DebugDraw.h"
 
+namespace
+{
+	constexpr int kTextInterval = 60;	// 文字列の表示間隔
+}
+
 void DebugDraw::DrawPlayerInfo(const VECTOR pos, float hp, std::string state, bool isGrabWeapon)
 {
 	DrawFormatString(0, 20, Color::kColorW, "プレイヤー座標(X:%.2f, Y:%.2f, Z:%.2f)", pos.x, pos.y, pos.z);
@@ -13,11 +18,11 @@ void DebugDraw::DrawPlayerInfo(const VECTOR pos, float hp, std::string state, bo
 	}
 }
 
-void DebugDraw::DrawEnemyInfo(const VECTOR pos, float hp, std::string state)
+void DebugDraw::DrawEnemyInfo(const VECTOR pos, float hp, int index, std::string state)
 {
-	DrawFormatString(0, 100, Color::kColorW, "敵座標(X:%.2f, Y:%/2f, Z:%.2f)", pos.x, pos.y, pos.z);
-	DrawFormatString(0, 120, Color::kColorW, "敵HP:%.2f", hp);
-	DrawFormatString(0, 140, Color::kColorW, "敵状態:%s", state.c_str());
+	DrawFormatString(0, 100 + index * kTextInterval, Color::kColorW, "敵座標(X:%.2f, Y:%/2f, Z:%.2f)", pos.x, pos.y, pos.z);
+	DrawFormatString(0, 120 + index * kTextInterval, Color::kColorW, "敵HP:%.2f", hp);
+	DrawFormatString(0, 140 + index * kTextInterval, Color::kColorW, "敵状態:%s", state.c_str());
 }
 
 void DebugDraw::DrawWeaponInfo(std::string name, std::string tag, VECTOR pos, VECTOR rot, VECTOR scale, int durability)

@@ -8,7 +8,7 @@
 
 PlayerStateAttack::PlayerStateAttack(std::shared_ptr<Player> player):
     PlayerStateBase(player),
-    m_attackEndTime(0),
+    m_attackEndTime(0.0f),
     m_isAttackEnd(false)
 {
 }
@@ -48,15 +48,17 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
     else
     {
         m_attackEndTime--;
-        if (m_attackEndTime < 0) m_isAttackEnd = true;
+        if (m_attackEndTime < 0.0f) m_isAttackEnd = true;
         
         for (auto& enemy : pEnemy)
         {
+            if (enemy == nullptr) continue;
+
             // 武器掴み中の場合
             if (m_pPlayer->GetIsGrabWeapon())
             {
                 // 武器と敵の当たり判定を取得
-                bool isHitWeaponCol = weapon.CheckWeaopnCol(enemy->GetCol(enemy->GetEnemyNumber()), *m_pPlayer);
+                bool isHitWeaponCol = weapon.CheckWeaopnCol(enemy->GetCol(enemy->GetEnemyIndex()), *m_pPlayer);
                 if (isHitWeaponCol)
                 {
                     enemy->OnDamage(15);
@@ -66,10 +68,10 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
             // パンチ攻撃
             else if (m_attackKind == AnimName::kPunchStrong)
             {
-                if (enemy == nullptr) return;
+                if (enemy == nullptr) continue;
 
                 // パンチ攻撃と敵の当たり判定を取得
-                bool isHitPunchCol = enemy->CheckHitPunchCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyNumber());
+                bool isHitPunchCol = enemy->CheckHitPunchCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
                 if (isHitPunchCol)
                 {
                     enemy->OnDamage(5);
@@ -78,10 +80,10 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
             // キック攻撃
             else if (m_attackKind == AnimName::kKick)
             {
-                if (enemy == nullptr) return;
+                if (enemy == nullptr) continue;
                 
                 // キック攻撃と敵の当たり判定を取得
-                bool isHitKickCol = enemy->CheckHitKickCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyNumber());
+                bool isHitKickCol = enemy->CheckHitKickCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
                 if (isHitKickCol)
                 {
                     enemy->OnDamage(10);

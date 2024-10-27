@@ -13,7 +13,7 @@
 /// </summary>
 SceneDebug::SceneDebug()
 {
-	m_select = SelectScene::kTitle;
+	m_select = SelectScene::kMain;
 }
 
 /// <summary>

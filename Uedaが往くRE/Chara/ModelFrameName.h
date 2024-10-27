@@ -28,23 +28,21 @@ namespace PlayerFrameName
 // 敵のフレーム名
 namespace EnemyFrameName
 {
-	const std::string kEnemyRig = "mixamorig12:";
+	const std::string kLeftShoulder = "LeftShoulder";	// 左肩
+	const std::string kLeftForeArm = "LeftForeArm";		// 左肘
+	const std::string kLeftHandPos = "LeftHand";		// 左手首
 
-	const std::string kLeftShoulder = kEnemyRig + "LeftShoulder";	// 左肩
-	const std::string kLeftForeArm = kEnemyRig + "LeftForeArm";		// 左肘
-	const std::string kLeftHandPos = kEnemyRig + "LeftHand";		// 左手首
+	const std::string kRightShoulder = "RightShoulder";	// 右肩
+	const std::string kRightForeArm = "RightForeArm";	// 右肘
+	const std::string kRightHand = "RightHand";			// 右手首
 
-	const std::string kRightShoulder = kEnemyRig + "RightShoulder";	// 右肩
-	const std::string kRightForeArm = kEnemyRig + "RightForeArm";	// 右肘
-	const std::string kRightHand = kEnemyRig + "RightHand";			// 右手首
+	const std::string kLeftUpLeg = "LeftUpLeg";			// 左もも
+	const std::string kLeftLeg = "LeftLeg";				// 左膝
+	const std::string kLeftFoot = "LeftFoot";			// 左足首
+	const std::string kLeftEnd = "LeftToe_End_end";		// 左足終点
 
-	const std::string kLeftUpLeg = kEnemyRig + "LeftUpLeg";			// 左もも
-	const std::string kLeftLeg = kEnemyRig + "LeftLeg";				// 左膝
-	const std::string kLeftFoot = kEnemyRig + "LeftFoot";			// 左足首
-	const std::string kLeftEnd = kEnemyRig + "LeftToe_End_end";		// 左足終点
-
-	const std::string kRightUpLeg = kEnemyRig + "RightUpLeg";		// 右もも
-	const std::string kRightLeg = kEnemyRig + "RightLeg";			// 右膝
-	const std::string kRightFoot = kEnemyRig + "RightFoot";			// 右足首
-	const std::string kRightEnd = kEnemyRig + "RightToe_End_end";	// 右足終点
+	const std::string kRightUpLeg = "RightUpLeg";		// 右もも
+	const std::string kRightLeg = "RightLeg";			// 右膝
+	const std::string kRightFoot = "RightFoot";			// 右足首
+	const std::string kRightEnd = "RightToe_End_end";	// 右足終点
 }

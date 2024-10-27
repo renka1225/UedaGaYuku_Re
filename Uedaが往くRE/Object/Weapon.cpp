@@ -78,13 +78,13 @@ void Weapon::Update(Player& player, Stage& stage)
 
 		// TODO:バトル終了後、武器位置をリセットする
 		// 今は仮で所持金300になったら
-		if (player.GetMoney() == 300)
-		{
-			// 武器の位置を初期位置にリセット
-			loc.pos = loc.initPos;
-			loc.rot = loc.initRot;
-			m_durability = m_weaponData.durability;
-		}
+		//if (player.GetMoney() == 300)
+		//{
+		//	// 武器の位置を初期位置にリセット
+		//	loc.pos = loc.initPos;
+		//	loc.rot = loc.initRot;
+		//	m_durability = m_weaponData.durability;
+		//}
 		
 		UpdateCol(loc); // 当たり判定位置更新
 		MV1SetPosition(m_objHandle[loc.name], loc.pos);
@@ -103,6 +103,8 @@ void Weapon::Draw()
 	DebugDraw debug;
 	for (const auto& loc : m_locationData)
 	{
+		if (m_durability <= 0) continue;
+
 		// 武器情報描画
 		debug.DrawWeaponInfo(loc.name.c_str(), loc.tag.c_str(), loc.pos, loc.rot, loc.scale, m_durability);
 		// 当たり判定描画

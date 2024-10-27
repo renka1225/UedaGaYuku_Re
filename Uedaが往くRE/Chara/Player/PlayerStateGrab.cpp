@@ -27,7 +27,7 @@ void PlayerStateGrab::Update(const Input& input, const Camera& camera, Stage& st
     m_pPlayer->Move(VGet(0.0f, 0.0f, 0.0f), stage);   // 移動情報を反映する
 
     // 状態をを変更する
-    bool isChange = m_isAnimEnd && !m_pPlayer->GetIsGrabWeapon();
+    bool isChange = m_isAnimEnd;
     if (isChange)
     {
         // StateをIdleに変更する
