@@ -165,6 +165,9 @@
     <ClCompile Include="Scene\SceneLoad.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Chara\Player\PlayerStateAvoid.cpp">
+      <Filter>ソース ファイル\Chara\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\SceneManager.h">
@@ -274,6 +277,9 @@
     </ClInclude>
     <ClInclude Include="Chara\ModelFrameName.h">
       <Filter>ヘッダー ファイル\Chara</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player\PlayerStateAvoid.h">
+      <Filter>ヘッダー ファイル\Chara\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -57,7 +57,7 @@ void EnemyStateAttack::Update(Stage& stage, Player& pPlayer)
             bool isHitPunchCol = pPlayer.CheckHitPunchCol(m_pEnemy->GetCol(m_pEnemy->GetEnemyIndex()), 0);
             if (isHitPunchCol)
             {
-                pPlayer.OnDamage(5);
+                pPlayer.OnDamage(1);
             }
         }
         else if (m_attackKind == AnimName::kKick)
@@ -65,7 +65,7 @@ void EnemyStateAttack::Update(Stage& stage, Player& pPlayer)
             bool isHitKickCol = pPlayer.CheckHitKickCol(m_pEnemy->GetCol(m_pEnemy->GetEnemyIndex()), 0);
             if (isHitKickCol)
             {
-                pPlayer.OnDamage(10);
+                pPlayer.OnDamage(3);
             }
         }
     }

@@ -15,27 +15,22 @@ void PlayerStateWalk::Update(const Input& input, const Camera& camera, Stage& st
 {
     PlayerStateBase::Update(input, camera, stage, weapon, pEnemy);
 
-    VECTOR upMoveVec;		                            // 上ボタンを入力をしたときの移動方向ベクトル
-    VECTOR leftMoveVec;	                                // 左ボタンを入力をしたときの移動方向ベクトル
-    VECTOR moveVec = VGet(static_cast<float>(-m_analogX), 0.0f, static_cast<float>(m_analogY)); // 移動ベクトル
+    m_moveVec = VGet(static_cast<float>(-m_analogX), 0.0f, static_cast<float>(m_analogY)); // 移動ベクトル
 
     // プレイヤーの移動方向ベクトルを求める
-    upMoveVec = VSub(camera.GetAngle(), camera.GetPos());
-    upMoveVec.y = 0.0f;
-    leftMoveVec = VCross(upMoveVec, VGet(0.0f, 1.0f, 0.0f));
+    m_upMoveVec = VSub(camera.GetAngle(), camera.GetPos());
+    m_leftMoveVec = VCross(m_upMoveVec, VGet(0.0f, 1.0f, 0.0f));
 
     // ベクトルの正規化
-    upMoveVec = VNorm(upMoveVec);
-    leftMoveVec = VNorm(leftMoveVec);
+    m_upMoveVec = VNorm(m_upMoveVec);
+    m_leftMoveVec = VNorm(m_leftMoveVec);
 
-    float rate = VSize(moveVec) / 1000.0f; // ベクトルの長さを0.0～1.0の割合に変換する
-    moveVec = VScale(VNorm(moveVec), m_pPlayer->GetStatus().walkSpeed * rate);
+    float rate = VSize(m_moveVec) / 1000.0f; // ベクトルの長さを0.0～1.0の割合に変換する
+    m_moveVec = VScale(VNorm(m_moveVec), m_pPlayer->GetStatus().walkSpeed * rate);
 
     // 移動方向を決定する
     MATRIX mtx = MGetRotY(camera.GetAngleH() - DX_PI_F / 2);
-    moveVec = VTransform(moveVec, mtx);
-
-    m_pPlayer->Move(moveVec, stage);   // 移動情報を反映する
+    m_moveVec = VTransform(m_moveVec, mtx);
 
     // 移動中にAボタンを長押ししている場合
     if (input.IsPressing(InputId::kA) && (m_analogX != 0 || m_analogY != 0))

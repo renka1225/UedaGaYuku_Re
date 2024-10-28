@@ -20,7 +20,7 @@ void DebugDraw::DrawPlayerInfo(const VECTOR pos, float hp, std::string state, bo
 
 void DebugDraw::DrawEnemyInfo(const VECTOR pos, float hp, int index, std::string state)
 {
-	DrawFormatString(0, 100 + index * kTextInterval, Color::kColorW, "敵座標(X:%.2f, Y:%/2f, Z:%.2f)", pos.x, pos.y, pos.z);
+	DrawFormatString(0, 100 + index * kTextInterval, Color::kColorW, "敵座標(X:%.2f, Y:%.2f, Z:%.2f)", pos.x, pos.y, pos.z);
 	DrawFormatString(0, 120 + index * kTextInterval, Color::kColorW, "敵HP:%.2f", hp);
 	DrawFormatString(0, 140 + index * kTextInterval, Color::kColorW, "敵状態:%s", state.c_str());
 }

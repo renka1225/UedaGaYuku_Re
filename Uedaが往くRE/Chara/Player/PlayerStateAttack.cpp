@@ -8,7 +8,6 @@
 
 PlayerStateAttack::PlayerStateAttack(std::shared_ptr<Player> player):
     PlayerStateBase(player),
-    m_attackEndTime(0.0f),
     m_isAttackEnd(false)
 {
 }
@@ -20,11 +19,11 @@ void PlayerStateAttack::Init(std::string attackName)
 
     if (m_attackKind == AnimName::kPunchStrong)
     {
-        m_attackEndTime = m_pPlayer->GetAnimTotalTime(AnimName::kPunchStrong);
+        m_animEndTime = m_pPlayer->GetAnimTotalTime(AnimName::kPunchStrong);
     }
     else if (m_attackKind == AnimName::kKick)
     {
-        m_attackEndTime = m_pPlayer->GetAnimTotalTime(AnimName::kKick);
+        m_animEndTime = m_pPlayer->GetAnimTotalTime(AnimName::kKick);
     }
 }
 
@@ -47,8 +46,8 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
     }
     else
     {
-        m_attackEndTime--;
-        if (m_attackEndTime < 0.0f) m_isAttackEnd = true;
+        m_animEndTime--;
+        if (m_animEndTime < 0.0f) m_isAttackEnd = true;
         
         for (auto& enemy : pEnemy)
         {

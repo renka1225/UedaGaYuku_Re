@@ -4,10 +4,15 @@
 #include "Weapon.h"
 #include "Player.h"
 #include "PlayerStateAttack.h"
+#include "PlayerStateAvoid.h"
 #include "PlayerStateGrab.h"
 #include "PlayerStateBase.h"
 
 PlayerStateBase::PlayerStateBase(std::shared_ptr<Player> pPlayer):
+	m_upMoveVec(VGet(0.0f, 0.0f, 0.0f)),
+	m_leftMoveVec(VGet(0.0f, 0.0f, 0.0f)),
+	m_moveVec(VGet(0.0f, 0.0f, 0.0f)),
+	m_animEndTime(0.0f),
 	m_analogInput({}),
 	m_analogX(0),
 	m_analogY(0)
@@ -18,6 +23,7 @@ PlayerStateBase::PlayerStateBase(std::shared_ptr<Player> pPlayer):
 void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 {
 	GetJoypadAnalogInput(&m_analogX, &m_analogY, DX_INPUT_PAD1); // アナログスティックの入力状態
+	m_pPlayer->Move(m_moveVec, stage);   // 移動情報を反映する
 
 	// 攻撃のボタンが押された場合
 	if (input.IsTriggered(InputId::kPunch) || input.IsTriggered(InputId::kKick))
@@ -56,6 +62,7 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 				m_nextState = std::make_shared<PlayerStateGrab>(m_pPlayer);
 				auto state = std::dynamic_pointer_cast<PlayerStateGrab>(m_nextState);
 				state->Init();
+				return;
 			}
 			// すでに武器を掴んでいる場合
 			else
@@ -63,5 +70,15 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 				m_pPlayer->SetIsGrabWeapon(false); // 武器を離す
 			}
 		}
+	}
+
+	// 回避のボタンが押されたとき
+	if (input.IsTriggered(InputId::kAvoid))
+	{
+		// StateをAvoidに変更する
+		m_nextState = std::make_shared<PlayerStateAvoid>(m_pPlayer);
+		auto state = std::dynamic_pointer_cast<PlayerStateAvoid>(m_nextState);
+		state->Init();
+		return;
 	}
 }

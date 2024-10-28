@@ -24,6 +24,7 @@ public:
 		float maxHp;	 // 最大HP
 		float walkSpeed; // 歩き速度
 		float runSpeed;	 // 走り速度
+		float avoidDist; // 回避距離
 	};
 
 	// 当たり判定情報

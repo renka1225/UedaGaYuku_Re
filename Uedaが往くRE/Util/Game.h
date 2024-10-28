@@ -62,6 +62,7 @@ namespace InputId
 	const char* const kRotateD = "rotateD";
 
 	const char* const kDebugDamage = "debug_damage";
+	const char* const kDebugSpawn = "debug_spawn";
 	const char* const kEnd = "end";
 }
 
@@ -70,7 +71,6 @@ namespace InputId
 /// </summary>
 namespace AnimName
 {
-	const char* const kGuard = "guard";
 	const char* const kIdleStand = "idle_stand";
 	const char* const kKick = "kick";
 	const char* const kKickRound = "kick_round";
@@ -80,5 +80,7 @@ namespace AnimName
 	const char* const kRun = "run";
 	const char* const kWalk = "walk";
 	const char* const kWalkFight = "walk_fight";
+	const char* const kAvoid = "avoid";
+	const char* const kGuard = "guard";
 	const char* const kDown = "down";
 }

@@ -24,6 +24,7 @@ public:
 		kRun,		// 走り
 		kAttack,	// 攻撃
 		kDamage,	// 攻撃を受ける
+		kAvoid,		// 回避
 		kGrab,		// 掴み
 	};
 
@@ -65,6 +66,10 @@ public:
 
 protected:
 	std::shared_ptr<Player> m_pPlayer;	// プレイヤーのポインタ
+	VECTOR m_upMoveVec;		// 上ボタンを入力をしたときの移動方向ベクトル
+	VECTOR m_leftMoveVec;	// 左ボタンを入力をしたときの移動方向ベクトル
+	VECTOR m_moveVec;		// 移動ベクトル
+	float m_animEndTime;	// アニメーションが終わるまでの時間
 
 	DINPUT_JOYSTATE m_analogInput; 		// アナログスティック情報取得
 	int m_analogX;						// アナログスティックの左右の入力状態

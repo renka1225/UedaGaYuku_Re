@@ -1,5 +1,7 @@
-﻿#include "Camera.h"
+﻿#include "Game.h"
+#include "Input.h"
 #include "UiBase.h"
+#include "Camera.h"
 #include "CharacterBase.h"
 #include "Player.h"
 #include "EnemyBase.h"
@@ -55,8 +57,11 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		// 敵が1対もいない場合、敵を生成する
 		if (m_pEnemy.empty())
 		{
-			SelectEnemy();
-			enemy->Init();
+			if (input.IsTriggered(InputId::kDebugSpawn))
+			{
+				SelectEnemy();
+				enemy->Init();
+			}
 		}
 
 		if (enemy == nullptr) continue;

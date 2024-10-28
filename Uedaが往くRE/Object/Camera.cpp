@@ -9,12 +9,12 @@ namespace
 {
 	constexpr float kNear = 1.0f;							// カメラの手前クリップ距離
 	constexpr float kFar = 10000.0f;						// カメラの奥クリップ距離
-	constexpr float kDist = 60.0f;							// カメラからプレイヤーまでの距離
-	constexpr float kHeight = 30.0f;						// カメラの注視点
+	constexpr float kDist = 55.0f;							// カメラからプレイヤーまでの距離
+	constexpr float kHeight = 25.0f;						// カメラの注視点
 	constexpr float kAngle = 0.03f;							// カメラを動かす角度
 	constexpr float kInitAngleH = -0.6f;					// カメラの初期平行角度
 	constexpr float kInitAngleV = -0.3f;					// カメラの初期垂直角度
-	constexpr float kMinAngleV = DX_PI_F * 0.5f - 1.0f;		// 最小の垂直角度
+	constexpr float kMinAngleV = DX_PI_F * 0.5f - 1.3f;		// 最小の垂直角度
 	constexpr float kMaxAngleV = -DX_PI_F * 0.5f + 0.6f;	// 最大の垂直角度
 	constexpr float kColSize = 3.0f;						// カメラの当たり判定サイズ
 	constexpr float kHitLength = 0.1f;						// カメラがステージに当たったか判定する距離

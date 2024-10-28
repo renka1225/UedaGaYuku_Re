@@ -158,6 +158,8 @@ Input::Input()
 	/*デバッグ機能*/
 	m_commandTable[InputId::kDebugDamage] = { {InputType::keybd, KEY_INPUT_LSHIFT},
 								{InputType::pad, PAD_INPUT_11} };
+	m_commandTable[InputId::kDebugSpawn] = { {InputType::keybd, KEY_INPUT_LSHIFT},
+								{InputType::pad, PAD_INPUT_Z} };
 	m_commandTable["debug_pause"] = { {InputType::keybd, KEY_INPUT_P},
 								{InputType::pad, PAD_INPUT_11} };
 	m_commandTable["debug_enter"] = { {InputType::keybd, KEY_INPUT_RETURN},

@@ -47,7 +47,6 @@ public:
 
 private:
 	std::string m_attackKind;	// 入力された攻撃の種類
-	float m_attackEndTime;		// 攻撃が終わるまでの時間
 	bool m_isAttackEnd;			// 攻撃が終わったかどうか
 };
 
