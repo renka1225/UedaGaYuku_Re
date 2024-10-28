@@ -22,12 +22,15 @@ void ObjectBase::Update()
 	MV1SetPosition(m_modelHandle, m_pos);	// 位置を更新
 }
 
-void ObjectBase::Move(const VECTOR& moveVec, Stage& stage)
+void ObjectBase::Move(const VECTOR& moveVec, Stage& stage, bool isChangeDir)
 {
 	// 移動中のみ向きを更新する
 	if (VSize(moveVec) > 0.0f)
 	{
-		m_moveDir = VNorm(moveVec);
+		if (isChangeDir)
+		{
+			m_moveDir = VNorm(moveVec);
+		}
 	}
 
 	// ステージと当たり判定を行って座標を保存する

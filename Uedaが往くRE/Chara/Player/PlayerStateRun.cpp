@@ -51,4 +51,6 @@ void PlayerStateRun::Update(const Input& input, const Camera& camera, Stage& sta
         state->Init();
         return;
     }
+
+    m_pPlayer->Move(m_moveVec, stage);   // 移動情報を反映する
 }

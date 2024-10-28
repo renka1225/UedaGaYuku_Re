@@ -20,6 +20,7 @@ CharacterBase::CharacterBase():
 	m_angle(0.0f),
 	m_hp(0.0f),
 	m_isAttack(false),
+	m_isInvincible(false),
 	m_isPossibleGrabWeapon(false),
 	m_isNowGrabWeapon(false),
 	m_currentPlayAnim(-1),
@@ -225,7 +226,9 @@ void CharacterBase::UpdateCol(int charType)
 float CharacterBase::GetAnimTotalTime(std::string animName)
 {
 	int animIndex = GetAnimIndex(animName);
-	return  MV1GetAnimTotalTime(m_modelHandle, animIndex);
+	float totalTime = MV1GetAnimTotalTime(m_modelHandle, animIndex);
+	//return totalTime / m_animData[animName].playSpeed;
+	return MV1GetAnimTotalTime(m_modelHandle, animIndex);;
 }
 
 int CharacterBase::GetAnimIndex(std::string animName)

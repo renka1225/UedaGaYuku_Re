@@ -36,6 +36,10 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
     if (m_isAttackEnd)
     {
         weapon.SetIsHitAttack(false);
+        for (auto& enemy : pEnemy)
+        {
+            enemy->SetIsInvincible(false);
+        }
 
         // StateをIdleに変更する
         m_pPlayer->SetIsAttack(false);
@@ -51,7 +55,9 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
         
         for (auto& enemy : pEnemy)
         {
-            if (enemy == nullptr) continue;
+            // 特定の状態の場合はスキップする
+            bool isSkip = enemy == nullptr || enemy->GetIsInvincible();
+            if (isSkip) continue;
 
             // 武器掴み中の場合
             if (m_pPlayer->GetIsGrabWeapon())
@@ -60,7 +66,8 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
                 bool isHitWeaponCol = weapon.CheckWeaopnCol(enemy->GetCol(enemy->GetEnemyIndex()), *m_pPlayer);
                 if (isHitWeaponCol)
                 {
-                    enemy->OnDamage(15);
+                    enemy->OnDamage(300);
+                    enemy->SetIsInvincible(true);
                     weapon.DecrementDurability();
                 }
             }
@@ -73,7 +80,8 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
                 bool isHitPunchCol = enemy->CheckHitPunchCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
                 if (isHitPunchCol)
                 {
-                    enemy->OnDamage(5);
+                    enemy->OnDamage(50);
+                    enemy->SetIsInvincible(true);
                 }
             }
             // キック攻撃
@@ -85,7 +93,8 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
                 bool isHitKickCol = enemy->CheckHitKickCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
                 if (isHitKickCol)
                 {
-                    enemy->OnDamage(10);
+                    enemy->OnDamage(200);
+                    enemy->SetIsInvincible(true);
                 }
             }
         }

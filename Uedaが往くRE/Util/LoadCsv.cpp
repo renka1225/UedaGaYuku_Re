@@ -14,9 +14,6 @@ namespace
 	const char* const kUiDataFileName = "data/csv/uiData.csv";				// UIデータ
 	const char* const kMessageFileName = "data/csv/message.csv";			// メッセージデータ
 
-	constexpr int kStatusNum = 4;	// ステータスの情報数
-	constexpr int kColNum = 23;		// 当たり判定の情報数
-
 	/// <summary>
 	/// 文字列を分割する
 	/// </summary>
@@ -55,6 +52,7 @@ void LoadCsv::LoadStatus(CharacterBase::Status& data, std::string charaName)
 				data.maxHp = std::stof(strvec[1]);
 				data.walkSpeed = std::stof(strvec[2]);
 				data.runSpeed = std::stof(strvec[3]);
+				data.avoidDist = std::stof(strvec[4]);
 			}
 			catch (const std::invalid_argument&)
 			{
@@ -117,8 +115,7 @@ void LoadCsv::LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data)
         try
 		{
 			data[animName].loopFrame = std::stof(strvec[1]);
-			data[animName].endFrame = std::stof(strvec[2]);
-			data[animName].playSpeed = std::stof(strvec[3]);
+			data[animName].playSpeed = std::stof(strvec[2]);
         }
         catch (const std::invalid_argument&)
 		{

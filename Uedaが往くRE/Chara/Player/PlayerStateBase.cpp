@@ -23,7 +23,7 @@ PlayerStateBase::PlayerStateBase(std::shared_ptr<Player> pPlayer):
 void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 {
 	GetJoypadAnalogInput(&m_analogX, &m_analogY, DX_INPUT_PAD1); // アナログスティックの入力状態
-	m_pPlayer->Move(m_moveVec, stage);   // 移動情報を反映する
+	m_pPlayer->Move(m_moveVec, stage, false);   // 移動情報を反映する
 
 	// 攻撃のボタンが押された場合
 	if (input.IsTriggered(InputId::kPunch) || input.IsTriggered(InputId::kKick))

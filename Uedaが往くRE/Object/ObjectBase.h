@@ -41,7 +41,8 @@ public:
 	/// </summary>
 	/// <param name="moveVec">移動ベクトル</param>
 	/// <param name="stage">ステージ参照</param>
-	void Move(const VECTOR& moveVec, Stage& stage);
+	/// <param name="isChangeDir">モデルの角度を更新するか</param>
+	void Move(const VECTOR& moveVec, Stage& stage, bool isChangeDir = true);
 
 	/// <summary>
 	/// 指定したフレームのフレーム番号を取得する

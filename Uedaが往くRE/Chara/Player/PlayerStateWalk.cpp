@@ -42,7 +42,7 @@ void PlayerStateWalk::Update(const Input& input, const Camera& camera, Stage& st
         return;
     }
     // スティックを倒していない場合
-	else if (m_analogX == 0 && m_analogY == 0)
+	if (m_analogX == 0 && m_analogY == 0)
 	{
 		// StateをIdleに変更する
 		m_nextState = std::make_shared<PlayerStateIdle>(m_pPlayer);
@@ -50,4 +50,6 @@ void PlayerStateWalk::Update(const Input& input, const Camera& camera, Stage& st
 		state->Init();
 		return;
 	}
+
+    m_pPlayer->Move(m_moveVec, stage);   // 移動情報を反映する
 }

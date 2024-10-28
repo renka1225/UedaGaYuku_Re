@@ -57,7 +57,6 @@ public:
 	struct AnimInfo
 	{
 		float loopFrame;	// 開始フレーム
-		float endFrame;		// 終了フレーム
 		float playSpeed;	// アニメーションの速度
 	};
 
@@ -133,6 +132,12 @@ public:
 	void SetIsAttack(bool isAttack) { m_isAttack = isAttack; }
 
 	/// <summary>
+	/// 無敵状態をセットする
+	/// </summary>
+	/// <param name="isAttack">無敵中かどうか</param>
+	void SetIsInvincible(bool isInvincible) { m_isInvincible = isInvincible; }
+
+	/// <summary>
 	/// 武器の掴み可能、不可能をセットする
 	/// </summary>
 	void SetIsPossibleGrabWeapon(bool isGrab) { m_isPossibleGrabWeapon = isGrab; }
@@ -157,6 +162,11 @@ public:
 	/// キャラクターのステータス取得
 	/// </summary>
 	Status GetStatus() const { return m_status; }
+
+	/// <summary>
+	/// アニメーションの速度を取得
+	/// </summary>
+	float GetAnimSpeed() const { return m_animPlaySpeed; }
 
 	/// <summary>
 	/// キャラクターのHPを取得
@@ -185,6 +195,12 @@ public:
 	bool GetIsAttack() const { return m_isAttack; }
 
 	/// <summary>
+	/// 無敵中かどうか取得する
+	/// </summary>
+	/// <returns>無敵中かどうか</returns>
+	bool GetIsInvincible() const { return m_isInvincible; }
+
+	/// <summary>
 	/// 武器を掴める状態かどうか取得
 	/// </summary>
 	/// <returns>武器を掴めるかどうか</returns>
@@ -206,22 +222,23 @@ protected:
 protected:
 	std::map<std::string, AnimInfo> m_animData;	// アニメーションのデータ
 	std::vector<ColData> m_colData; // 当たり判定情報
-	Status m_status;			 // ステータス
-	float m_angle;			     // 向いている方向の角度
-	float m_hp;				     // HP
-	bool m_isAttack;			 // 攻撃中かどうか
-	bool m_isPossibleGrabWeapon; // 武器が掴める状態かどうか
-	bool m_isNowGrabWeapon;		 // 今武器を掴んでいるか
+	Status m_status;				// ステータス
+	float m_angle;					// 向いている方向の角度
+	float m_hp;						// HP
+	bool m_isAttack;				// 攻撃中かどうか
+	bool m_isInvincible;			// 無敵中かどうか
+	bool m_isPossibleGrabWeapon;	// 武器が掴める状態かどうか
+	bool m_isNowGrabWeapon;			// 今武器を掴んでいるか
 
-	int m_currentPlayAnim;		 // 現在のアニメーション
-	int m_prevPlayAnim;			 // 前に再生していたアニメーション
-	float m_animBlendRate;		 // 現在と過去のアニメーションのブレンド率
-	float m_currentAnimTime;	 // 現在のアニメーション再生時間
-	float m_prevAnimTime;		 // 前のアニメーション再生時間
-	float m_totalAnimTime;		 // アニメーションの総再生時間
-	float m_animPlaySpeed; 		 // アニメーションの再生速度
-	float m_animLoopStartTime;	 // アニメーションがループが始まる時間
-	float m_animLoopEndTime;	 // アニメーションがループが終わる時間
-	bool m_isLoopAnim;			 // アニメーションをループさせるか
+	int m_currentPlayAnim;			// 現在のアニメーション
+	int m_prevPlayAnim;				// 前に再生していたアニメーション
+	float m_animBlendRate;			// 現在と過去のアニメーションのブレンド率
+	float m_currentAnimTime;		// 現在のアニメーション再生時間
+	float m_prevAnimTime;			// 前のアニメーション再生時間
+	float m_totalAnimTime;			// アニメーションの総再生時間
+	float m_animPlaySpeed; 			// アニメーションの再生速度
+	float m_animLoopStartTime;		// アニメーションがループが始まる時間
+	float m_animLoopEndTime;		// アニメーションがループが終わる時間
+	bool m_isLoopAnim;				// アニメーションをループさせるか
 };
 
