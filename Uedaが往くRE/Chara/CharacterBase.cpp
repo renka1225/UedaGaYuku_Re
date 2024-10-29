@@ -11,6 +11,8 @@ namespace
 	// アニメーション情報
 	constexpr float kAnimBlendMax = 1.0f;	 // アニメーションブレンドの最大値
 	constexpr float kAnimBlendSpeed = 0.2f;	 // アニメーションブレンドの変化速度
+	constexpr int kPosLogNum = 6;			 // 覚えておく過去の位置情報の数
+	constexpr float kAlphaAdj = 0.8f;		 // 残像の透明度を調整
 }
 
 CharacterBase::CharacterBase():
@@ -35,6 +37,7 @@ CharacterBase::CharacterBase():
 	m_isLoopAnim(false)
 {
 	m_colData.resize(kColDataNum);
+	m_posLog.resize(kPosLogNum);
 }
 
 CharacterBase::~CharacterBase()
@@ -223,11 +226,34 @@ void CharacterBase::UpdateCol(int charType)
 	m_colData[charType].bodyUpdateEndPos = VAdd(m_colData[charType].bodyUpdateStartPos, (VTransform(m_colData[charType].bodyEndPos, rotationMatrix)));
 }
 
+void CharacterBase::UpdatePosLog()
+{
+	// 位置ログをずらす
+	for (int i = static_cast<int>(m_posLog.size()) - 1; i >= 1; i--)
+	{
+		m_posLog[i] = m_posLog[i - 1];
+	}
+	// 1フレーム前の位置情報を入れる
+	m_posLog[0] = m_pos;
+}
+
+void CharacterBase::DrawAfterImage()
+{
+	for (int i = static_cast<int>(m_posLog.size()) - 1; i >= 0; i--)
+	{
+		// ログが古くなるほど透明になるようにする
+		float alpha = (1.0f - (static_cast<float>(i) / m_posLog.size())) * kAlphaAdj;
+		MV1SetOpacityRate(m_modelHandle, alpha);
+		MV1SetPosition(m_modelHandle, m_posLog[i]);
+		MV1DrawModel(m_modelHandle);
+	}
+	MV1SetOpacityRate(m_modelHandle, 1.0f); // 透明度を戻す
+}
+
 float CharacterBase::GetAnimTotalTime(std::string animName)
 {
 	int animIndex = GetAnimIndex(animName);
 	float totalTime = MV1GetAnimTotalTime(m_modelHandle, animIndex);
-	//return totalTime / m_animData[animName].playSpeed;
 	return MV1GetAnimTotalTime(m_modelHandle, animIndex);;
 }
 

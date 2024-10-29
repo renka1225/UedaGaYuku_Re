@@ -44,8 +44,5 @@ public:
 	/// <returns>State名</returns>
 	virtual std::string GetStateName() override { return "回避中"; };
 #endif
-
-private:
-	std::string m_attackKind;	// 入力された攻撃の種類
 };
 

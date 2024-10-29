@@ -1,14 +1,15 @@
 ﻿#include "DxLib.h"
 #include "DebugDraw.h"
 #include "Vec2.h"
-#include "ModelFrameName.h"
 #include "Game.h"
+#include "ModelFrameName.h"
 #include "Input.h"
 #include "LoadCsv.h"
 #include "Camera.h"
 #include "Stage.h"
 #include "Weapon.h"
 #include "EnemyBase.h"
+#include "PlayerStateBase.h"
 #include "PlayerStateIdle.h"
 #include "Player.h"
 
@@ -90,6 +91,7 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 	UpdateAngle();					// 向きを更新
 	UpdateAnim();					// アニメーションを更新
 	UpdateCol(CharaType::kPlayer);	// 当たり判定の位置更新
+	UpdatePosLog();					// 位置ログを更新
 	GetFramePos();					// モデルフレーム位置を取得
 	UpdateMoney();					// 所持金を更新
 }
@@ -97,6 +99,12 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 void Player::Draw()
 {
 	CharacterBase::Draw();
+
+	// 回避中は残像を表示する
+	if (m_pState->GetKind() == PlayerStateBase::PlayerStateKind::kAvoid)
+	{
+		DrawAfterImage();
+	}
 
 #ifdef _DEBUG
 	DebugDraw debug;

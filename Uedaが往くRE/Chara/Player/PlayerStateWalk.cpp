@@ -33,14 +33,14 @@ void PlayerStateWalk::Update(const Input& input, const Camera& camera, Stage& st
     m_moveVec = VTransform(m_moveVec, mtx);
 
     // 移動中にAボタンを長押ししている場合
-    if (input.IsPressing(InputId::kA) && (m_analogX != 0 || m_analogY != 0))
-    {
-        // StateをRunに変更する
-        m_nextState = std::make_shared<PlayerStateRun>(m_pPlayer);
-        auto state = std::dynamic_pointer_cast<PlayerStateRun>(m_nextState);
-        state->Init();
-        return;
-    }
+    //if (input.IsPressing(InputId::kA) && (m_analogX != 0 || m_analogY != 0))
+    //{
+    //    // StateをRunに変更する
+    //    m_nextState = std::make_shared<PlayerStateRun>(m_pPlayer);
+    //    auto state = std::dynamic_pointer_cast<PlayerStateRun>(m_nextState);
+    //    state->Init();
+    //    return;
+    //}
     // スティックを倒していない場合
 	if (m_analogX == 0 && m_analogY == 0)
 	{

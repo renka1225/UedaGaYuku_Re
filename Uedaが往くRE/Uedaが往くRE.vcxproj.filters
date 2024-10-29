@@ -168,6 +168,15 @@
     <ClCompile Include="Chara\Player\PlayerStateAvoid.cpp">
       <Filter>ソース ファイル\Chara\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Chara\Player\PlayerStateGuard.cpp">
+      <Filter>ソース ファイル\Chara\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Enemy\EnemyStateGuard.cpp">
+      <Filter>ソース ファイル\Chara\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Enemy\EnemyStateAvoid.cpp">
+      <Filter>ソース ファイル\Chara\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\SceneManager.h">
@@ -280,6 +289,15 @@
     </ClInclude>
     <ClInclude Include="Chara\Player\PlayerStateAvoid.h">
       <Filter>ヘッダー ファイル\Chara\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player\PlayerStateGuard.h">
+      <Filter>ヘッダー ファイル\Chara\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Enemy\EnemyStateAvoid.h">
+      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Enemy\EnemyStateGuard.h">
+      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

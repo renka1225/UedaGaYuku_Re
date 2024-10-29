@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "PlayerStateAttack.h"
 #include "PlayerStateAvoid.h"
+#include "PlayerStateGuard.h"
 #include "PlayerStateGrab.h"
 #include "PlayerStateBase.h"
 
@@ -48,6 +49,26 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 		return;
 	}
 
+	// ガードのボタンが押されたとき
+	if (input.IsPressing(InputId::kGuard))
+	{
+		// StateをGrabに変更する
+		m_nextState = std::make_shared<PlayerStateGuard>(m_pPlayer);
+		auto state = std::dynamic_pointer_cast<PlayerStateGuard>(m_nextState);
+		state->Init();
+		return;
+	}
+
+	// 回避のボタンが押されたとき
+	if (input.IsTriggered(InputId::kAvoid))
+	{
+		// StateをAvoidに変更する
+		m_nextState = std::make_shared<PlayerStateAvoid>(m_pPlayer);
+		auto state = std::dynamic_pointer_cast<PlayerStateAvoid>(m_nextState);
+		state->Init();
+		return;
+	}
+
 	// 掴みのボタンが押されたとき
 	if (input.IsTriggered(InputId::kGrab))
 	{
@@ -70,15 +91,5 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 				m_pPlayer->SetIsGrabWeapon(false); // 武器を離す
 			}
 		}
-	}
-
-	// 回避のボタンが押されたとき
-	if (input.IsTriggered(InputId::kAvoid))
-	{
-		// StateをAvoidに変更する
-		m_nextState = std::make_shared<PlayerStateAvoid>(m_pPlayer);
-		auto state = std::dynamic_pointer_cast<PlayerStateAvoid>(m_nextState);
-		state->Init();
-		return;
 	}
 }

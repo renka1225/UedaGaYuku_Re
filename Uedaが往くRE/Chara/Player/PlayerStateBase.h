@@ -25,6 +25,7 @@ public:
 		kAttack,	// 攻撃
 		kDamage,	// 攻撃を受ける
 		kAvoid,		// 回避
+		kGuard,		// ガード
 		kGrab,		// 掴み
 	};
 

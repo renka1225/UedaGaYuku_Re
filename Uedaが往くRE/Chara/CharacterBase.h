@@ -219,9 +219,20 @@ protected:
 	/// <param name="charType">キャラクターの種類</param>
 	void UpdateCol(int charType);
 
+	/// <summary>
+	/// 位置ログを更新する
+	/// </summary>
+	void UpdatePosLog();
+
+	/// <summary>
+	/// 回避の場合残像を表示する
+	/// </summary>
+	void DrawAfterImage();
+
 protected:
 	std::map<std::string, AnimInfo> m_animData;	// アニメーションのデータ
 	std::vector<ColData> m_colData; // 当たり判定情報
+	std::vector<VECTOR> m_posLog;	// 過去の位置を保存する
 	Status m_status;				// ステータス
 	float m_angle;					// 向いている方向の角度
 	float m_hp;						// HP
