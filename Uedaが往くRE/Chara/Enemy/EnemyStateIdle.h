@@ -1,8 +1,6 @@
 ﻿#pragma once
 #include "EnemyStateBase.h"
 
-class Stage;
-
 /// <summary>
 /// 敵の待機状態
 /// </summary>
@@ -43,7 +41,7 @@ public:
 	/// 現在の状態名を取得
 	/// </summary>
 	/// <returns>State名</returns>
-	virtual std::string GetStateName() override { return "待機"; }
+	virtual std::string GetStateName() override { return "待機中"; }
 #endif
 };
 

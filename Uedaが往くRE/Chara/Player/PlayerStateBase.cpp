@@ -26,6 +26,10 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	GetJoypadAnalogInput(&m_analogX, &m_analogY, DX_INPUT_PAD1); // アナログスティックの入力状態
 	m_pPlayer->Move(m_moveVec, stage, false);   // 移動情報を反映する
 
+	// 特定の状態中は更新しない
+	bool isNotChange = GetKind() == PlayerStateKind::kAvoid;
+	if (isNotChange) return;
+
 	// 攻撃のボタンが押された場合
 	if (input.IsTriggered(InputId::kPunch) || input.IsTriggered(InputId::kKick))
 	{

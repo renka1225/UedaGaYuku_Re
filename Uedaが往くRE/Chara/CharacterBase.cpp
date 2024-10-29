@@ -12,7 +12,7 @@ namespace
 	constexpr float kAnimBlendMax = 1.0f;	 // アニメーションブレンドの最大値
 	constexpr float kAnimBlendSpeed = 0.2f;	 // アニメーションブレンドの変化速度
 	constexpr int kPosLogNum = 6;			 // 覚えておく過去の位置情報の数
-	constexpr float kAlphaAdj = 0.8f;		 // 残像の透明度を調整
+	constexpr float kAlphaAdj = 0.3f;		 // 残像の透明度を調整
 }
 
 CharacterBase::CharacterBase():

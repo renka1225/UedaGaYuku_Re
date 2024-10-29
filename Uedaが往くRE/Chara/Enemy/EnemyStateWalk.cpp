@@ -12,11 +12,7 @@ void EnemyStateWalk::Init()
 void EnemyStateWalk::Update(Stage& stage, Player& pPlayer)
 {
 	EnemyStateBase::Update(stage, pPlayer);
-
-	VECTOR upMoveVec;	 // 上ボタンを入力をしたときの移動方向ベクトル
-	VECTOR leftMoveVec;	 // 左ボタンを入力をしたときの移動方向ベクトル
-	VECTOR moveVec;		 // 移動ベクトル
-	m_pEnemy->Move(VGet(0.0f, 0.0f, 0.0f), stage);   // 移動情報を反映する
+	m_pEnemy->Move(m_moveVec, stage); // 移動情報を反映する
 
 #ifdef _DEBUG
 	// 仮実装

@@ -46,11 +46,10 @@ void EnemyStateAttack::Update(Stage& stage, Player& pPlayer)
     else
     {
         m_attackEndTime--;
+        if (m_attackEndTime < 0.0f) m_isAttackEnd = true;
 
-        if (m_attackEndTime < 0.0f)
-        {
-            m_isAttackEnd = true;
-        }
+        // 特定の状態の場合はスキップする
+        if (pPlayer.GetIsInvincible()) return;
 
         // 敵の攻撃とプレイヤーの当たり判定を取得
         if (m_attackKind == AnimName::kPunch)

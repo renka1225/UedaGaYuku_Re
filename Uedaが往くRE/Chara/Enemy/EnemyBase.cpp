@@ -66,12 +66,19 @@ void EnemyBase::Update(Stage& stage, Player& player)
 	m_pState->Update(stage, player); // stateの更新
 	UpdateAnim();					 // アニメーションを更新
 	UpdateCol(m_enemyIndex);		 // 当たり判定位置更新
+	UpdatePosLog();					 // 位置ログを更新
 	GetFramePos();					 // モデルフレーム位置を取得
 }
 
 void EnemyBase::Draw()
 {
 	CharacterBase::Draw();
+
+	// 回避中は残像を表示する
+	if (m_pState->GetKind() == EnemyStateBase::EnemyStateKind::kAvoid)
+	{
+		DrawAfterImage();
+	}
 
 #ifdef _DEBUG
 	DebugDraw debug;

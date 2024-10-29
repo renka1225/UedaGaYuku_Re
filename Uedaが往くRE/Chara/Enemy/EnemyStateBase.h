@@ -19,6 +19,8 @@ public:
 		kWalk,	 // 歩き
 		kRun,	 // 走り
 		kAttack, // 攻撃
+		kAvoid,	 // 回避
+		kGuard,	 // ガード
 		kDamage, // 攻撃を受ける
 		kDeath,	 // 死亡
 	};
@@ -60,5 +62,9 @@ public:
 
 protected:
 	std::shared_ptr<EnemyBase> m_pEnemy; // 敵のポインタ
+	VECTOR m_upMoveVec;		// 上ボタンを入力をしたときの移動方向ベクトル
+	VECTOR m_leftMoveVec;	// 左ボタンを入力をしたときの移動方向ベクトル
+	VECTOR m_moveVec;		// 移動ベクトル
+	float m_animEndTime;	// アニメーションが終わるまでの時間
 };
 

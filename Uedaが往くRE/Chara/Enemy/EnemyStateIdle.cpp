@@ -13,8 +13,7 @@ void EnemyStateIdle::Init()
 void EnemyStateIdle::Update(Stage& stage, Player& pPlayer)
 {
 	EnemyStateBase::Update(stage, pPlayer);
-
-	m_pEnemy->Move(VGet(0.0f, 0.0f, 0.0f), stage); // 移動情報を反映する
+	m_pEnemy->Move(m_moveVec, stage); // 移動情報を反映する
 
 #ifdef _DEBUG
 	// 仮実装
