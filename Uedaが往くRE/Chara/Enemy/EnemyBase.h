@@ -40,6 +40,11 @@ public:
 	virtual void Draw();
 
 	/// <summary>
+	/// 敵の角度を更新
+	/// </summary>
+	void UpdateAngle();
+
+	/// <summary>
 	/// 死亡フラグをセットする
 	/// </summary>
 	void SetIsDead(bool isDead) { m_isDead = isDead; }

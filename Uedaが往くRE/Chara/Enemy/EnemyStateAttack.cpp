@@ -72,3 +72,16 @@ void EnemyStateAttack::Update(Stage& stage, Player& pPlayer)
         }
     }
 }
+
+std::string EnemyStateAttack::GetStateName()
+{
+    if (m_attackKind == AnimName::kPunch)
+    {
+        return "パンチ中";
+    }
+    else
+    {
+        return "キック中";
+    }
+    
+}

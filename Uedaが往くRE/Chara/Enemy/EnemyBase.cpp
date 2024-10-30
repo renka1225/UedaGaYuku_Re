@@ -11,7 +11,7 @@
 namespace
 {
 	constexpr float kScale = 0.15f;		 // モデルの拡大率
-	constexpr float kSpawnRange = 50.0f; // スポーンする範囲
+	constexpr float kSpawnRange = 100.0f; // スポーンする範囲
 }
 
 EnemyBase::EnemyBase(Player& player, std::string charaId, int index, int modelHandle):
@@ -28,8 +28,8 @@ EnemyBase::EnemyBase(Player& player, std::string charaId, int index, int modelHa
 
 	// 敵の初期位置を設定
 	// プレイヤーの範囲内に配置する
-	float randPosX = player.GetPos().x + GetRand(kSpawnRange * 2) - kSpawnRange;
-	float randPosZ = player.GetPos().z + GetRand(kSpawnRange * 2) - kSpawnRange;
+	float randPosX = player.GetPos().x + GetRand(static_cast<float>(kSpawnRange * 2)) - kSpawnRange;
+	float randPosZ = player.GetPos().z + GetRand(static_cast<float>(kSpawnRange * 2)) - kSpawnRange;
 	m_pos = VGet(randPosX, player.GetPos().y, randPosZ);
 }
 
@@ -64,6 +64,7 @@ void EnemyBase::Update(Stage& stage, Player& player)
 	player.CheckCharaCol(*this, m_colData[m_enemyIndex], CharaType::kPlayer);
 
 	m_pState->Update(stage, player); // stateの更新
+	UpdateAngle();					 // 向きを更新
 	UpdateAnim();					 // アニメーションを更新
 	UpdateCol(m_enemyIndex);		 // 当たり判定位置更新
 	UpdatePosLog();					 // 位置ログを更新
@@ -88,6 +89,12 @@ void EnemyBase::Draw()
 	//debug.DrawArmCol(m_colData[m_enemyIndex]);	// 腕(水色)
 	//debug.DrawLegCol(m_colData[m_enemyIndex]);	// 脚(黄色)
 #endif
+}
+
+void EnemyBase::UpdateAngle()
+{
+	m_angle = atan2f(m_moveDir.x, m_moveDir.z);
+	MV1SetRotationXYZ(m_modelHandle, VGet(0.0f, m_angle + DX_PI_F, 0.0f));
 }
 
 void EnemyBase::GetFramePos()
