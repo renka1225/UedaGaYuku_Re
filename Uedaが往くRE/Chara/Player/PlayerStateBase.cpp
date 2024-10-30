@@ -57,7 +57,8 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	// ガードのボタンが押されたとき
 	if (input.IsPressing(InputId::kGuard))
 	{
-		// StateをGrabに変更する
+		// StateをGuardに変更する
+		m_pPlayer->GetIsGuard(true);
 		std::shared_ptr<PlayerStateGuard> state = std::make_shared<PlayerStateGuard>(m_pPlayer);
 		m_nextState = state;
 		state->Init();
@@ -77,7 +78,15 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	// 掴みのボタンが押されたとき
 	if (input.IsTriggered(InputId::kGrab))
 	{
-		if (m_pPlayer->GetIsPossibleGrabWeapon())
+		if (m_pPlayer->GetIsPossibleGrabEnemy())
+		{
+			// StateをGrabに変更する
+			std::shared_ptr<PlayerStateGrab> state = std::make_shared<PlayerStateGrab>(m_pPlayer);
+			m_nextState = state;
+			state->Init("enemy");
+			return;
+		}
+		else if (m_pPlayer->GetIsPossibleGrabWeapon())
 		{
 			// 武器を掴んでいない場合
 			if (!m_pPlayer->GetIsGrabWeapon())
@@ -87,7 +96,7 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 				// StateをGrabに変更する
 				std::shared_ptr<PlayerStateGrab> state = std::make_shared<PlayerStateGrab>(m_pPlayer);
 				m_nextState = state;
-				state->Init();
+				state->Init("OneHandWeapon");
 				return;
 			}
 			// すでに武器を掴んでいる場合

@@ -1,34 +1,36 @@
-﻿#include "Player.h"
+﻿#include "Game.h"
+#include "Player.h"
 #include "PLayerStateIdle.h"
 #include "PlayerStateGrab.h"
 
-// 定数
-namespace
-{
-    constexpr float kAttackEndTime = 10;
-}
-
-
 PlayerStateGrab::PlayerStateGrab(std::shared_ptr<Player> player):
-    PlayerStateBase(player),
-    m_animTime(kAttackEndTime),
-    m_isAnimEnd(false)
+    PlayerStateBase(player)
 {
 }
 
-void PlayerStateGrab::Init()
+void PlayerStateGrab::Init(std::string grabKind)
 {
-	m_pPlayer->ChangeAnim("Grab");
+    m_grabKind = grabKind;
+
+    if (m_grabKind == "enemy")
+    {
+        m_pPlayer->ChangeAnim(AnimName::kGrabEnemy);
+        m_animEndTime = 10.0f;
+    }
+    else
+    {
+        m_pPlayer->ChangeAnim(AnimName::kGrabOneHandWeapon);
+        m_animEndTime = 10.0f;
+    }
 }
 
 void PlayerStateGrab::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 {
     PlayerStateBase::Update(input, camera, stage, weapon, pEnemy);
-    //m_pPlayer->Move(VGet(0.0f, 0.0f, 0.0f), stage);   // 移動情報を反映する
+    m_pPlayer->Move(m_moveVec, stage);   // 移動情報を反映する
 
-    // 状態をを変更する
-    bool isChange = m_isAnimEnd;
-    if (isChange)
+    m_animEndTime--;
+    if (m_animEndTime < 0.0f)
     {
         // StateをIdleに変更する
         std::shared_ptr<PlayerStateIdle> state = std::make_shared<PlayerStateIdle>(m_pPlayer);
@@ -36,12 +38,22 @@ void PlayerStateGrab::Update(const Input& input, const Camera& camera, Stage& st
         state->Init();
         return;
     }
+}
+
+#ifdef _DEBUG
+std::string PlayerStateGrab::GetStateName()
+{
+    if (m_grabKind == "enemy")
+    {
+        return "敵掴み";
+    }
+    else if (m_grabKind == "oneHandWeapon")
+    {
+        return "片手武器掴み";
+    }
     else
     {
-        m_animTime--;
-        if (m_animTime < 0)
-        {
-            m_isAnimEnd = true;
-        }
+        return "掴み";
     }
 }
+#endif

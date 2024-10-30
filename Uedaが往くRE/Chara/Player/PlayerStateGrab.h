@@ -21,7 +21,8 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Init();
+	/// <param name="grabKind">掴んだ物の種類</param>
+	void Init(std::string grabKind);
 
 	/// <summary>
 	/// 更新
@@ -42,11 +43,10 @@ public:
 	/// 現在の状態名を取得
 	/// </summary>
 	/// <returns>State名</returns>
-	virtual std::string GetStateName() override { return "掴み"; }
+	virtual std::string GetStateName() override;
 #endif
 
 private:
-	float m_animTime;	// アニメーションが終わるまでの時間
-	bool m_isAnimEnd;	// アニメーションが終わったかどうか
+	std::string m_grabKind;	// 掴んだ物の種類
 };
 

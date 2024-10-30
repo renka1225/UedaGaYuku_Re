@@ -54,6 +54,11 @@ public:
 
 private:
 	/// <summary>
+	/// カメラの角度を更新
+	/// </summary>
+	void UpdateAngle();
+
+	/// <summary>
 	/// カメラ位置補正
 	/// </summary>
 	/// <param name="player">プレイヤー参照</param>
@@ -72,6 +77,7 @@ private:
 	void CheckCameraCol(const Stage& stage);
 
 private:
+	VECTOR m_prevPlayerPos;			// 移動前のプレイヤー座標
 	VECTOR m_pos;					// カメラ座標
 	VECTOR m_target;				// 注視点座標
 	float m_angleH;					// 水平角度

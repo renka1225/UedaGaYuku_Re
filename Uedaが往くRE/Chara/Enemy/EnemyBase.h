@@ -37,7 +37,7 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	virtual void Draw();
+	virtual void Draw(Player& player);
 
 	/// <summary>
 	/// 敵の名前をセットする

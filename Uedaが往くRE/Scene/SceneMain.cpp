@@ -100,7 +100,7 @@ void SceneMain::Draw()
 	for (auto& enemy : m_pEnemy)
 	{
 		if (enemy == nullptr) continue;
-		enemy->Draw();
+		enemy->Draw(*m_pPlayer);
 	}
 	m_pPlayer->Draw();
 	m_pUI->Draw();

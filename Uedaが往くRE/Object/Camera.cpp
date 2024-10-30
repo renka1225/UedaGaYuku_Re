@@ -21,6 +21,7 @@ namespace
 }
 
 Camera::Camera() :
+	m_prevPlayerPos(VGet(0.0f, 0.0f, 0.0f)),
 	m_pos(VGet(0.0f, kHeight, 0.0f)),
 	m_target(VGet(0.0f, 0.0f, 0.0f)),
 	m_angleH(kInitAngleH),
@@ -46,7 +47,28 @@ void Camera::Init()
 void Camera::Update(Input& input, const Player& player, const Stage& stage)
 {
 	GetJoypadDirectInputState(DX_INPUT_PAD1, &m_analogInput); // 入力状態を取得
+	
+	// プレイヤーがカメラを手動で動かした場合
+	if (m_analogInput.Rx != 0.0f || m_analogInput.Ry != 0.0f)
+	{
+		UpdateAngle(); // カメラ角度を更新する
+	}
 
+	// カメラの当たり判定をチェック
+	CheckCameraCol(stage);
+	// カメラの注視点を設定する
+	m_target = VAdd(player.GetPos(), VGet(0.0f, kHeight, 0.0f));
+	// カメラ位置補正
+	FixCameraPos(player);
+
+	SetCameraPositionAndTarget_UpVecY(m_pos, m_target);
+
+	//カメラの見ている方向にディレクションライトを設定する
+	SetLightDirectionHandle(m_lightHandle, VNorm(VSub(m_target, m_pos)));
+}
+
+void Camera::UpdateAngle()
+{
 	// 左入力
 	if (m_analogInput.Rx < 0.0f)
 	{
@@ -69,18 +91,6 @@ void Camera::Update(Input& input, const Player& player, const Stage& stage)
 		m_angleV += kAngle;
 		m_angleV = std::min(kMinAngleV, m_angleV);
 	}
-
-	// カメラの当たり判定をチェック
-	CheckCameraCol(stage);
-	// カメラの注視点を設定する
-	m_target = VAdd(player.GetPos(), VGet(0.0f, kHeight, 0.0f));
-	// カメラ位置補正
-	FixCameraPos(player);
-
-	SetCameraPositionAndTarget_UpVecY(m_pos, m_target);
-
-	//カメラの見ている方向にディレクションライトを設定する
-	SetLightDirectionHandle(m_lightHandle, VNorm(VSub(m_target, m_pos)));
 }
 
 void Camera::FixCameraPos(const Player& player)

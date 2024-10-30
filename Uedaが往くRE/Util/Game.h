@@ -85,4 +85,7 @@ namespace AnimName
 	const char* const kGuard = "guard";
 	const char* const kDamage = "damage";
 	const char* const kDown = "down";
+	const char* const kGrabEnemy = "grab_enemy";
+	const char* const kGrabOneHandWeapon = "grab_oneHandWeapon";
+	const char* const kGrabTwoHandWeapon= "grab_twoHandWeapon";
 }

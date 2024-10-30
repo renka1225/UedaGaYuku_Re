@@ -19,6 +19,7 @@ namespace
 	const std::string kCharaId = "player";					// キャラクターのID名
 	const VECTOR kInitPos = VGet(7425.0, 40.0f, 5190.0f);	// 初期位置
 	constexpr float kScale = 0.14f;							// モデルの拡大率
+	constexpr float kDistEnemyGrab = 50.0f;					// 敵を掴める距離
 
 	constexpr int kMoneyIncrement = 5; // 一度に増える所持金数
 }
@@ -69,14 +70,29 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 	}
 
 	// 敵との当たり判定をチェックする
-	if (pEnemy.empty())
+	if (!pEnemy.empty())
 	{
+		m_pToEVec.resize(pEnemy.size());
+
 		for (int i = 0; i < pEnemy.size(); i++)
 		{
 			m_pToEVec[i] = VSub(pEnemy[i]->GetPos(), m_pos);
 			pEnemy[i]->CheckCharaCol(*this, m_colData[CharaType::kPlayer], pEnemy[i]->GetEnemyIndex());
+
+			// TODO:範囲内にいる場合、掴みをできるようにする
+			float dot = VDot(VNorm(m_pToEVec[i]), VNorm(m_moveDir)); // プレイヤーの方向と位置ベクトルの内積を計算
+			bool isGrab = VSize(m_pToEVec[i]) < kDistEnemyGrab && dot > 0.0f;
+			if (isGrab)
+			{
+				m_isPossibleGrabEnemy = true;
+			}
+			else
+			{
+				m_isPossibleGrabEnemy = false;
+			}
 		}
 	}
+
 	// 武器との当たり判定をチェックする
 	bool isHitWeapon = weapon.CheckWeaopnCol(m_colData[CharaType::kPlayer], *this);
 	if (isHitWeapon)

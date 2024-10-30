@@ -6,8 +6,7 @@
 namespace
 {
 	constexpr int kColDataNum = 19; // 当たり判定情報数
-
-	constexpr float kAdj = 2.0f;			 // 敵に当たった際の位置調整量
+	constexpr float kAdj = 2.0f;	// 敵に当たった際の位置調整量
 	// アニメーション情報
 	constexpr float kAnimBlendMax = 1.0f;	 // アニメーションブレンドの最大値
 	constexpr float kAnimBlendSpeed = 0.2f;	 // アニメーションブレンドの変化速度
@@ -23,7 +22,9 @@ CharacterBase::CharacterBase():
 	m_hp(0.0f),
 	m_isAttack(false),
 	m_isInvincible(false),
+	m_isGuard(false),
 	m_isOnDamage(false),
+	m_isPossibleGrabEnemy(false),
 	m_isPossibleGrabWeapon(false),
 	m_isNowGrabWeapon(false),
 	m_currentPlayAnim(-1),
@@ -196,6 +197,12 @@ void CharacterBase::UpdateAnim()
 
 	// アニメーションの再生時間を進める
 	m_currentAnimTime += m_animPlaySpeed;
+
+	//// ガードアニメーションの場合、特定の時間で止める
+	//if (m_isGuard)
+	//{
+	//	m_currentAnimTime = std::min(m_currentAnimTime, 19.0f);
+	//}
 
 	// アニメーションが繰り返し行われる場合
 	if (m_isLoopAnim)

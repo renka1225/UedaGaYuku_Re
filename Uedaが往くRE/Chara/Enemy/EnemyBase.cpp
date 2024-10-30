@@ -11,7 +11,7 @@ namespace
 {
 	constexpr float kScale = 0.15f;			  // モデルの拡大率
 	constexpr float kSpawnRange = 100.0f;	  // スポーンする範囲
-	constexpr float kDispNameRange = 500.0f;  // 敵名を表示する範囲
+	constexpr float kDispNameRange = 300.0f;  // 敵名を表示する範囲
 	constexpr float kAdjDispNamePosY = 30.0f; // 敵名の表示位置調整
 }
 
@@ -76,7 +76,7 @@ void EnemyBase::Update(Stage& stage, Player& player)
 	GetFramePos();					 // モデルフレーム位置を取得
 }
 
-void EnemyBase::Draw()
+void EnemyBase::Draw(Player& player)
 {
 	CharacterBase::Draw();
 
@@ -89,7 +89,10 @@ void EnemyBase::Draw()
 	// プレイヤーに近づいたら敵名を表示する
 	VECTOR modelTopPos = VAdd(m_pos, VGet(0.0f, kAdjDispNamePosY, 0.0f));
 	VECTOR screenPos = ConvWorldPosToScreenPos(modelTopPos);
-	if (VSize(m_eToPVec) < kDispNameRange)
+	bool isViewClip = CheckCameraViewClip(modelTopPos); // カメラの視界内に入っているか(true:視界に入っていない)
+
+	bool isDispName = VSize(m_eToPVec) < kDispNameRange && !isViewClip;
+	if (isDispName)
 	{
 		DrawFormatStringF(screenPos.x, screenPos.y, Color::kColorW, "%s", m_enemyName.c_str());
 	}

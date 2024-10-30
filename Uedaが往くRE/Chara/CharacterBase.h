@@ -145,6 +145,11 @@ public:
 	void SetIsInvincible(bool isInvincible) { m_isInvincible = isInvincible; }
 
 	/// <summary>
+	/// ガード状態をセットする
+	/// </summary>
+	void GetIsGuard(bool isGuard) { m_isGuard = isGuard; }
+
+	/// <summary>
 	/// ダメージを受けている状態かどうかセットする
 	/// </summary>
 	void SetIsOnDamage(bool isOnDamage) { m_isOnDamage = isOnDamage; }
@@ -213,18 +218,28 @@ public:
 	bool GetIsInvincible() const { return m_isInvincible; }
 
 	/// <summary>
+	/// ガード中かどうか取得する
+	/// </summary>
+	bool GetIsGuard() const { return m_isGuard; }
+
+	/// <summary>
 	/// ダメージを受けている状態かどうか取得する
 	/// </summary>
 	bool GetIsOnDamage() const { return m_isOnDamage; }
 
 	/// <summary>
-	/// 武器を掴める状態かどうか取得
+	/// 敵を掴めるかどうか取得する
+	/// </summary>
+	bool GetIsPossibleGrabEnemy() const { return m_isPossibleGrabEnemy; }
+
+	/// <summary>
+	/// 武器を掴める状態かどうか取得する
 	/// </summary>
 	/// <returns>武器を掴めるかどうか</returns>
 	bool GetIsPossibleGrabWeapon() const { return m_isPossibleGrabWeapon; }
 
 	/// <summary>
-	/// 武器掴み中かどうか取得
+	/// 武器掴み中かどうか取得する
 	/// </summary>
 	/// <returns>武器掴み状態</returns>
 	bool GetIsGrabWeapon() const { return m_isNowGrabWeapon; }
@@ -260,7 +275,9 @@ protected:
 	float m_hp;						// HP
 	bool m_isAttack;				// 攻撃中かどうか
 	bool m_isInvincible;			// 無敵中かどうか
+	bool m_isGuard;					// ガード中かどうか
 	bool m_isOnDamage;				// ダメージを受けた状態かどうか
+	bool m_isPossibleGrabEnemy;		// 敵を掴める状態かどうか
 	bool m_isPossibleGrabWeapon;	// 武器が掴める状態かどうか
 	bool m_isNowGrabWeapon;			// 今武器を掴んでいるか
 
