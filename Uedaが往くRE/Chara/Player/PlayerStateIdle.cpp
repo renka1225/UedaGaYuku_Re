@@ -21,16 +21,16 @@ void PlayerStateIdle::Update(const Input& input, const Camera& camera, Stage& st
 	if (input.IsPressing(InputId::kA) && (m_analogX != 0 || m_analogY != 0))
 	{
 		// StateをRunに変更する
-		m_nextState = std::make_shared<PlayerStateRun>(m_pPlayer);
-		auto state = std::dynamic_pointer_cast<PlayerStateRun>(m_nextState);
+		std::shared_ptr<PlayerStateRun> state = std::make_shared<PlayerStateRun>(m_pPlayer);
+		m_nextState = state;
 		state->Init();
 		return;
 	}
 	else if (m_analogX != 0 || m_analogY != 0)
 	{
 		// StateをWalkに変更する
-		m_nextState = std::make_shared<PlayerStateWalk>(m_pPlayer);
-		auto state = std::dynamic_pointer_cast<PlayerStateWalk>(m_nextState);
+		std::shared_ptr<PlayerStateWalk> state = std::make_shared<PlayerStateWalk>(m_pPlayer);
+		m_nextState = state;
 		state->Init();
 		return;
 	}

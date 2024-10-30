@@ -40,14 +40,21 @@ public:
 	virtual void Draw();
 
 	/// <summary>
-	/// 敵の角度を更新
+	/// 敵の名前をセットする
 	/// </summary>
-	void UpdateAngle();
+	/// <param name="name">敵名</param>
+	void SetEnemyName(std::string name) { m_enemyName = name; }
 
 	/// <summary>
 	/// 死亡フラグをセットする
 	/// </summary>
 	void SetIsDead(bool isDead) { m_isDead = isDead; }
+
+	/// <summary>
+	/// 敵からプレイヤーへの位置ベクトルを取得する
+	/// </summary>
+	/// <returns></returns>
+	VECTOR GetEToPVec() const { return m_eToPVec; }
 
 	/// <summary>
 	/// 死亡フラグを取得する
@@ -69,7 +76,9 @@ private:
 
 protected:
 	std::shared_ptr<EnemyStateBase> m_pState; // stateパターン
-	int m_enemyIndex; // 敵の番号
-	bool m_isDead;	   // 死亡したかどうか
+	std::string m_enemyName; // 敵名
+	int m_enemyIndex;		 // 敵の番号
+	VECTOR m_eToPVec;		 // 敵からプレイヤーまでの位置ベクトル
+	bool m_isDead;			 // 死亡したかどうか
 };
 

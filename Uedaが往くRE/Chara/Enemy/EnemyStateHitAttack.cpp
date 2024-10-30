@@ -1,16 +1,28 @@
-﻿#include "EnemyBase.h"
+﻿#include "Game.h"
+#include "EnemyBase.h"
+#include "EnemyStateIdle.h"
 #include "EnemyStateHitAttack.h"
 
 void EnemyStateHitAttack::Init()
 {
-	m_pEnemy->ChangeAnim("Damage");
+	m_pEnemy->ChangeAnim(AnimName::kDamage);
+	m_animEndTime = m_pEnemy->GetAnimTotalTime(AnimName::kDamage);
 }
 
 void EnemyStateHitAttack::Update(Stage& stage, Player& pPlayer)
 {
 	EnemyStateBase::Update(stage, pPlayer);
-	m_pEnemy->Move(VGet(0.0f, 0.0f, 0.0f), stage);   // 移動情報を反映する
+	m_pEnemy->Move(m_moveVec, stage, false);   // 移動情報を反映する
 
-	// TODO:アニメーションが終わったら待機状態に戻る
+	m_animEndTime--;
+	if (m_animEndTime < 0.0f)
+	{
+		// StateをIdleに変更する
+		m_pEnemy->SetIsOnDamage(false);
+		std::shared_ptr<EnemyStateIdle> state = std::make_shared<EnemyStateIdle>(m_pEnemy);
+		m_nextState = state;
+		state->Init();
+		return;
+	}
 	
 }

@@ -23,6 +23,7 @@ CharacterBase::CharacterBase():
 	m_hp(0.0f),
 	m_isAttack(false),
 	m_isInvincible(false),
+	m_isOnDamage(false),
 	m_isPossibleGrabWeapon(false),
 	m_isNowGrabWeapon(false),
 	m_currentPlayAnim(-1),
@@ -58,6 +59,7 @@ void CharacterBase::Init()
 void CharacterBase::Update()
 {
 	ObjectBase::Update();
+	//m_isOnDamage = false;
 }
 
 void CharacterBase::Draw()
@@ -65,13 +67,14 @@ void CharacterBase::Draw()
 	MV1DrawModel(m_modelHandle);
 }
 
-void CharacterBase::OnDamage(int damage)
+void CharacterBase::OnDamage(float damage)
 {
+	m_isOnDamage = true;
 	m_hp -= damage;
 	m_hp = std::max(0.0f, m_hp);
 }
 
-void CharacterBase::CheckCharaCol(ObjectBase& obj, CharacterBase::ColData& colData, int charaType)
+void CharacterBase::CheckCharaCol(ObjectBase& obj, const CharacterBase::ColData& colData, int charaType)
 {
 	bool isHit = HitCheck_Capsule_Capsule(m_colData[charaType].bodyUpdateStartPos, m_colData[charaType].bodyUpdateEndPos, m_colData[charaType].bodyRadius, 
 		colData.bodyUpdateStartPos, colData.bodyUpdateEndPos, colData.bodyRadius);
@@ -224,6 +227,12 @@ void CharacterBase::UpdateCol(int charType)
 	// キャラクター全体の当たり判定位置を更新
 	m_colData[charType].bodyUpdateStartPos = VAdd(m_pos, (VTransform(m_colData[charType].bodyStartPos, rotationMatrix)));
 	m_colData[charType].bodyUpdateEndPos = VAdd(m_colData[charType].bodyUpdateStartPos, (VTransform(m_colData[charType].bodyEndPos, rotationMatrix)));
+}
+
+void CharacterBase::UpdateAngle()
+{
+	m_angle = atan2f(m_moveDir.x, m_moveDir.z);
+	MV1SetRotationXYZ(m_modelHandle, VGet(0.0f, m_angle + DX_PI_F, 0.0f));
 }
 
 void CharacterBase::UpdatePosLog()

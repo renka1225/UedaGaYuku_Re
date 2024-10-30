@@ -15,16 +15,23 @@ public:
 	enum CharaType
 	{
 		kPlayer,	// プレイヤー
-		kEnemy_01,	// 敵
+		kEnemy_01,	// 敵1
+		kEnemy_02,	// 敵2
 	};
 
 	// キャラクターのステータス
 	struct Status
 	{
-		float maxHp;	 // 最大HP
-		float walkSpeed; // 歩き速度
-		float runSpeed;	 // 走り速度
-		float avoidDist; // 回避距離
+		float maxHp;				 // 最大HP
+		float walkSpeed;			 // 歩き速度
+		float runSpeed;				 // 走り速度
+		float avoidDist;			 // 回避距離
+		float atkPowerPunch1;		 // 攻撃力_パンチ1コンボ目
+		float atkPowerPunch2;		 // 攻撃力_パンチ2コンボ目
+		float atkPowerPunch3;		 // 攻撃力_パンチ3コンボ目
+		float atkPowerKick;			 // 攻撃力_キック
+		float atkPowerOneHandWeapon; // 攻撃力_片手武器
+		float atkPowerTwoHandWeapon; // 攻撃力_両手武器
 	};
 
 	// 当たり判定情報
@@ -90,7 +97,7 @@ public:
 	/// ダメージを受けた際の処理
 	/// </summary>
 	/// <param name="damage">ダメージ量</param>
-	void OnDamage(int damage);
+	void OnDamage(float damage);
 
 	/// <summary>
 	/// キャラクター同士の当たり判定をチェックする
@@ -98,7 +105,7 @@ public:
 	/// <param name="obj">オブジェクト参照</param>
 	/// <param name="colData">当たり判定情報参照</param>
 	/// <param name="charaType">相手側の種類</param>
-	void CheckCharaCol(ObjectBase& obj, CharacterBase::ColData& colData, int charaType);
+	void CheckCharaCol(ObjectBase& obj, const CharacterBase::ColData& colData, int charaType);
 
 	/// <summary>
 	/// パンチ時の当たり判定をチェックする
@@ -134,8 +141,13 @@ public:
 	/// <summary>
 	/// 無敵状態をセットする
 	/// </summary>
-	/// <param name="isAttack">無敵中かどうか</param>
+	/// <param name="isInvincible">無敵中かどうか</param>
 	void SetIsInvincible(bool isInvincible) { m_isInvincible = isInvincible; }
+
+	/// <summary>
+	/// ダメージを受けている状態かどうかセットする
+	/// </summary>
+	void SetIsOnDamage(bool isOnDamage) { m_isOnDamage = isOnDamage; }
 
 	/// <summary>
 	/// 武器の掴み可能、不可能をセットする
@@ -201,6 +213,11 @@ public:
 	bool GetIsInvincible() const { return m_isInvincible; }
 
 	/// <summary>
+	/// ダメージを受けている状態かどうか取得する
+	/// </summary>
+	bool GetIsOnDamage() const { return m_isOnDamage; }
+
+	/// <summary>
 	/// 武器を掴める状態かどうか取得
 	/// </summary>
 	/// <returns>武器を掴めるかどうか</returns>
@@ -213,6 +230,11 @@ public:
 	bool GetIsGrabWeapon() const { return m_isNowGrabWeapon; }
 
 protected:
+	/// <summary>
+	/// キャラクターの角度を更新
+	/// </summary>
+	void UpdateAngle();
+
 	/// <summary>
 	/// 当たり判定更新
 	/// </summary>
@@ -238,6 +260,7 @@ protected:
 	float m_hp;						// HP
 	bool m_isAttack;				// 攻撃中かどうか
 	bool m_isInvincible;			// 無敵中かどうか
+	bool m_isOnDamage;				// ダメージを受けた状態かどうか
 	bool m_isPossibleGrabWeapon;	// 武器が掴める状態かどうか
 	bool m_isNowGrabWeapon;			// 今武器を掴んでいるか
 

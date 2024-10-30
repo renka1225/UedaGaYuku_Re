@@ -38,13 +38,14 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
         weapon.SetIsHitAttack(false);
         for (auto& enemy : pEnemy)
         {
+            if (enemy == nullptr) continue;
             enemy->SetIsInvincible(false);
         }
 
         // StateをIdleに変更する
         m_pPlayer->SetIsAttack(false);
-        m_nextState = std::make_shared<PlayerStateIdle>(m_pPlayer);
-        auto state = std::dynamic_pointer_cast<PlayerStateIdle>(m_nextState);
+        std::shared_ptr<PlayerStateIdle> state = std::make_shared<PlayerStateIdle>(m_pPlayer);
+        m_nextState = state;
         state->Init();
         return;
     }
@@ -66,7 +67,8 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
                 bool isHitWeaponCol = weapon.CheckWeaopnCol(enemy->GetCol(enemy->GetEnemyIndex()), *m_pPlayer);
                 if (isHitWeaponCol)
                 {
-                    enemy->OnDamage(300);
+                    // TODO:片手武器、両手武器によって攻撃力変える
+                    enemy->OnDamage(m_pPlayer->GetStatus().atkPowerOneHandWeapon);
                     enemy->SetIsInvincible(true);
                     weapon.DecrementDurability();
                 }
@@ -80,7 +82,7 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
                 bool isHitPunchCol = enemy->CheckHitPunchCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
                 if (isHitPunchCol)
                 {
-                    enemy->OnDamage(50);
+                    enemy->OnDamage(m_pPlayer->GetStatus().atkPowerPunch1);
                     enemy->SetIsInvincible(true);
                 }
             }
@@ -93,7 +95,7 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
                 bool isHitKickCol = enemy->CheckHitKickCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
                 if (isHitKickCol)
                 {
-                    enemy->OnDamage(200);
+                    enemy->OnDamage(m_pPlayer->GetStatus().atkPowerKick);
                     enemy->SetIsInvincible(true);
                 }
             }

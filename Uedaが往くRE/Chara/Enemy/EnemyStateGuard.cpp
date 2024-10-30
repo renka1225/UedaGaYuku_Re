@@ -19,8 +19,8 @@ void EnemyStateGuard::Update(Stage& stage, Player& pPlayer)
 	if (num > 30)
 	{
 		// StateをWalkに変更する
-		m_nextState = std::make_shared<EnemyStateIdle>(m_pEnemy);
-		auto state = std::dynamic_pointer_cast<EnemyStateIdle>(m_nextState);
+		std::shared_ptr<EnemyStateIdle> state = std::make_shared<EnemyStateIdle>(m_pEnemy);
+		m_nextState = state;
 		state->Init();
 		return;
 	}

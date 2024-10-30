@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "CharacterBase.h"
+#include "EnemyBase.h"
 #include "Weapon.h"
 #include "UiBase.h"
 #include <string>
@@ -92,6 +93,17 @@ public:
 	/// <returns>メッセージ</returns>
 	const char* Get_cMessage(std::string id);
 
+	/// <summary>
+	/// 敵の名前情報を読み込む
+	/// </summary>
+	void LoadEnemyName();
+
+	/// <summary>
+	/// 敵名を取得する
+	/// </summary>
+	/// <param name="enemyIndex">取得する敵の番号</param>
+	/// <returns>敵の名前</returns>
+	std::string GetEnemyName(int enemyIndex);
 
 private:
 	LoadCsv() = default;
@@ -99,6 +111,7 @@ private:
 
 private:
 	static LoadCsv* m_instance;	 // インスタンス
+	std::vector<std::string> m_enemyNameData;			// 敵名のデータ
 	std::map<std::string, UiBase::UiData> m_uiData;		// UI情報のデータ
 	std::map<std::string, std::string> m_messageData;	// メッセージのデータ
 };

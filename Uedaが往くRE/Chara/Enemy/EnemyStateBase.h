@@ -65,7 +65,6 @@ protected:
 	VECTOR m_upMoveVec;		// 上ボタンを入力をしたときの移動方向ベクトル
 	VECTOR m_leftMoveVec;	// 左ボタンを入力をしたときの移動方向ベクトル
 	VECTOR m_moveVec;		// 移動ベクトル
-	VECTOR m_etoPVec;		// 敵からプレイヤーまでの位置ベクトル
 	float m_animEndTime;	// アニメーションが終わるまでの時間
 };
 

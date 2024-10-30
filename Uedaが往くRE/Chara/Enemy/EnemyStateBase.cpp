@@ -19,7 +19,6 @@ EnemyStateBase::EnemyStateBase(std::shared_ptr<EnemyBase> pEnemy):
 	m_upMoveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_leftMoveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_moveVec(VGet(0.0f, 0.0f, 0.0f)),
-	m_etoPVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_animEndTime(0.0f)
 {
 	m_pEnemy = pEnemy;
@@ -36,77 +35,81 @@ void EnemyStateBase::Update(Stage& stage, Player& pPlayer)
 	if (m_pEnemy->GetHp() <= 0.0f)
 	{
 		// StateをDeathに変更する
-		m_nextState = std::make_shared<EnemyStateDeath>(m_pEnemy);
-		auto state = std::dynamic_pointer_cast<EnemyStateDeath>(m_nextState);
+		std::shared_ptr<EnemyStateDeath> state = std::make_shared<EnemyStateDeath>(m_pEnemy);
+		m_nextState = state;
 		state->Init();
 		return;
 	}
 
-	// 特定の状態中は更新しない
-	bool isNotChange = m_pEnemy->GetIsAttack() || (GetKind() == EnemyStateKind::kAvoid) || (GetKind() == EnemyStateKind::kGuard);
-	if (isNotChange) return;
-
-	m_etoPVec = VSub(pPlayer.GetPos(), m_pEnemy->GetPos());
-	float dist = VSize(m_etoPVec);	// 敵からプレイヤーまでの距離
+	float dist = VSize(m_pEnemy->GetEToPVec());	// 敵からプレイヤーまでの距離
 
 	// プレイヤーを追いかける範囲内に入っている場合
 	bool isChaseRange = dist > kMinChaseRange && dist < kMaxChaseRange;
 	if (isChaseRange)
 	{
-		// すでに走り状態の場合は更新しない
+		// 特定の状態中は更新しない
+		bool isNotChange = m_pEnemy->GetIsAttack() || (GetKind() == EnemyStateKind::kAvoid) || (GetKind() == EnemyStateKind::kGuard) || (GetKind() == EnemyStateKind::kDamage);
+		if (isNotChange) return;
+
+		// すでに走り状態の場合は初期化しない
 		if (GetKind() == EnemyStateKind::kRun) return;
 
 		// StateをRunに変更する
-		m_nextState = std::make_shared<EnemyStateRun>(m_pEnemy);
-		auto state = std::dynamic_pointer_cast<EnemyStateRun>(m_nextState);
+		std::shared_ptr<EnemyStateRun> state = std::make_shared<EnemyStateRun>(m_pEnemy);
+		m_nextState = state;
 		state->Init();
 		return;
 	}
 	else
 	{
+		// 特定の状態中は更新しない
+		bool isNotChange = m_pEnemy->GetIsAttack() || (GetKind() == EnemyStateKind::kAvoid) || (GetKind() == EnemyStateKind::kGuard) || (GetKind() == EnemyStateKind::kDamage);
+		if (isNotChange) return;
+
 		// TODO:ランダムで攻撃をする
 		int num = GetRand(100);
-		if (num <= 20)
+		if (num <= 10)
 		{
 			// StateをPunchに変更する
-			m_nextState = std::make_shared<EnemyStateAttack>(m_pEnemy);
-			auto state = std::dynamic_pointer_cast<EnemyStateAttack>(m_nextState);
+			std::shared_ptr<EnemyStateAttack> state = std::make_shared<EnemyStateAttack>(m_pEnemy);
+			m_nextState = state;
 			state->Init(AnimName::kPunch);
 			return;
 		}
-		else if (num <= 40)
+		else if (num <= 20)
 		{
 			// StateをKickに変更する
-			m_nextState = std::make_shared<EnemyStateAttack>(m_pEnemy);
-			auto state = std::dynamic_pointer_cast<EnemyStateAttack>(m_nextState);
+			std::shared_ptr<EnemyStateAttack> state = std::make_shared<EnemyStateAttack>(m_pEnemy);
+			m_nextState = state;
 			state->Init(AnimName::kKick);
 			return;
 		}
-		if (num <= 60)
+		if (num <= 30)
 		{
 			// StateをAvoidに変更する
-			m_nextState = std::make_shared<EnemyStateAvoid>(m_pEnemy);
-			auto state = std::dynamic_pointer_cast<EnemyStateAvoid>(m_nextState);
+			std::shared_ptr<EnemyStateAvoid> state = std::make_shared<EnemyStateAvoid>(m_pEnemy);
+			m_nextState = state;
 			state->Init();
 			return;
 		}
-		if (num <= 80)
+		if (num <= 40)
 		{
 			// StateをGuardに変更する
-			m_nextState = std::make_shared<EnemyStateGuard>(m_pEnemy);
-			auto state = std::dynamic_pointer_cast<EnemyStateGuard>(m_nextState);
+			std::shared_ptr<EnemyStateGuard> state = std::make_shared<EnemyStateGuard>(m_pEnemy);
+			m_nextState = state;
 			state->Init();
 			return;
 		}
-
-		//// 攻撃を受けた場合
-		//if ()
-		//{
-		//	// StateをStateHitAttackに変更する
-		//	m_nextState = std::make_shared<EnemyStateHitAttack>(m_pEnemy);
-		//	auto state = std::dynamic_pointer_cast<EnemyStateHitAttack>(m_nextState);
-		//	state->Init();
-		//	return;
-		//}
 	}
+
+	// 攻撃を受けた場合
+	if (m_pEnemy->GetIsOnDamage())
+	{
+		// StateをStateHitAttackに変更する
+		std::shared_ptr<EnemyStateHitAttack> state = std::make_shared<EnemyStateHitAttack>(m_pEnemy);
+		m_nextState = state;
+		state->Init();
+		return;
+	}
+
 }

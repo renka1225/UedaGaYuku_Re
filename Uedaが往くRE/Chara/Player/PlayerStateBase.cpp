@@ -4,6 +4,7 @@
 #include "Weapon.h"
 #include "Player.h"
 #include "PlayerStateAttack.h"
+#include "PlayerStateHitAttack.h"
 #include "PlayerStateAvoid.h"
 #include "PlayerStateGuard.h"
 #include "PlayerStateGrab.h"
@@ -27,7 +28,7 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	m_pPlayer->Move(m_moveVec, stage, false);   // 移動情報を反映する
 
 	// 特定の状態中は更新しない
-	bool isNotChange = GetKind() == PlayerStateKind::kAvoid;
+	bool isNotChange = (GetKind() == PlayerStateKind::kAvoid) || (GetKind() == PlayerStateKind::kDamage);
 	if (isNotChange) return;
 
 	// 攻撃のボタンが押された場合
@@ -38,8 +39,8 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 
 		// StateをAttackに変更する
 		m_pPlayer->SetIsAttack(true);
-		m_nextState = std::make_shared<PlayerStateAttack>(m_pPlayer);
-		auto state = std::dynamic_pointer_cast<PlayerStateAttack>(m_nextState);
+		std::shared_ptr<PlayerStateAttack> state = std::make_shared<PlayerStateAttack>(m_pPlayer);
+		m_nextState = state;
 
 		// 押されたボタンによって状態を変更する
 		if (input.IsTriggered(InputId::kPunch))
@@ -57,8 +58,8 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	if (input.IsPressing(InputId::kGuard))
 	{
 		// StateをGrabに変更する
-		m_nextState = std::make_shared<PlayerStateGuard>(m_pPlayer);
-		auto state = std::dynamic_pointer_cast<PlayerStateGuard>(m_nextState);
+		std::shared_ptr<PlayerStateGuard> state = std::make_shared<PlayerStateGuard>(m_pPlayer);
+		m_nextState = state;
 		state->Init();
 		return;
 	}
@@ -67,8 +68,8 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	if (input.IsTriggered(InputId::kAvoid))
 	{
 		// StateをAvoidに変更する
-		m_nextState = std::make_shared<PlayerStateAvoid>(m_pPlayer);
-		auto state = std::dynamic_pointer_cast<PlayerStateAvoid>(m_nextState);
+		std::shared_ptr<PlayerStateAvoid> state = std::make_shared<PlayerStateAvoid>(m_pPlayer);
+		m_nextState = state;
 		state->Init();
 		return;
 	}
@@ -84,8 +85,8 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 				m_pPlayer->SetIsGrabWeapon(true); // 武器を掴む
 
 				// StateをGrabに変更する
-				m_nextState = std::make_shared<PlayerStateGrab>(m_pPlayer);
-				auto state = std::dynamic_pointer_cast<PlayerStateGrab>(m_nextState);
+				std::shared_ptr<PlayerStateGrab> state = std::make_shared<PlayerStateGrab>(m_pPlayer);
+				m_nextState = state;
 				state->Init();
 				return;
 			}
@@ -96,4 +97,14 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 			}
 		}
 	}
+
+	//// ダメージを受けたとき
+	//if (m_pPlayer->GetIsOnDamage())
+	//{
+	//	// StateをHitAttackに変更する
+	//	std::shared_ptr<PlayerStateHitAttack> state = std::make_shared<PlayerStateHitAttack>(m_pPlayer);
+	//	m_nextState = state;
+	//	state->Init();
+	//	return;
+	//}
 }

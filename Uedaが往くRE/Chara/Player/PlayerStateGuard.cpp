@@ -18,8 +18,8 @@ void PlayerStateGuard::Update(const Input& input, const Camera& camera, Stage& s
 	if (input.IsReleased(InputId::kGuard))
 	{
 		// StateをIdleに変更する
-		m_nextState = std::make_shared<PlayerStateIdle>(m_pPlayer);
-		auto state = std::dynamic_pointer_cast<PlayerStateIdle>(m_nextState);
+		std::shared_ptr<PlayerStateIdle> state = std::make_shared<PlayerStateIdle>(m_pPlayer);
+		m_nextState = state;
 		state->Init();
 		return;
 	}

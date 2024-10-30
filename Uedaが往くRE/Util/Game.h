@@ -72,6 +72,7 @@ namespace InputId
 namespace AnimName
 {
 	const char* const kIdleStand = "idle_stand";
+	const char* const kIdleFight = "idle_fight";
 	const char* const kKick = "kick";
 	const char* const kKickRound = "kick_round";
 	const char* const kKickHeat = "kick_heat";
@@ -82,5 +83,6 @@ namespace AnimName
 	const char* const kWalkFight = "walk_fight";
 	const char* const kAvoid = "avoid";
 	const char* const kGuard = "guard";
+	const char* const kDamage = "damage";
 	const char* const kDown = "down";
 }

@@ -2,6 +2,7 @@
 #include "Input.h"
 #include "UiBase.h"
 #include "Camera.h"
+#include "LoadCsv.h"
 #include "CharacterBase.h"
 #include "Player.h"
 #include "EnemyBase.h"
@@ -16,9 +17,10 @@ namespace
 {
 	const char* kPlayerHandlePath = "data/model/chara/player.mv1";	// プレイヤーのモデルハンドルパス
 	const char* kEnemyHandlePath = "data/model/chara/enemy_";		// 敵のモデルハンドルパス
-	constexpr int kModelNum = 3;	 // 読み込むモデルの数
-	constexpr int kEnemyMaxNum = 2;	 // 1度に出現する最大の敵数
-	constexpr int kEnemyKindNum = 2; // 敵の種類
+	constexpr int kModelNum = 3;		// 読み込むモデルの数
+	constexpr int kEnemyMaxNum = 2;		// 1度に出現する最大の敵数
+	constexpr int kEnemyKindNum = 2;	// 敵の種類
+	constexpr int kEnemyNamekind = 10;	// 敵名の種類
 }
 
 SceneMain::SceneMain()
@@ -52,7 +54,8 @@ void SceneMain::Init()
 
 std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 {
-	for (auto& enemy : m_pEnemy)
+	// 敵同士の当たり判定をチェックする
+	for (int i = 0; i < m_pEnemy.size(); i++)
 	{
 		// 敵が1対もいない場合、敵を生成する
 		if (m_pEnemy.empty())
@@ -60,19 +63,26 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 			if (input.IsTriggered(InputId::kDebugSpawn))
 			{
 				SelectEnemy();
-				enemy->Init();
+				m_pEnemy[i]->Init();
 			}
 		}
 
-		if (enemy == nullptr) continue;
+		if (m_pEnemy[i] == nullptr) continue;
+
 		// 敵死亡フラグがtrueの時、敵を消滅させる
-		if (enemy->GetIsDead())
+		if (m_pEnemy[i]->GetIsDead())
 		{
-			enemy = nullptr;
+			m_pEnemy[i] = nullptr;
 		}
 		else
 		{
-			enemy->Update(*m_pStage, *m_pPlayer);
+			m_pEnemy[i]->Update(*m_pStage, *m_pPlayer);
+		}
+
+		for (int j = 0; j < m_pEnemy.size(); j++)
+		{
+			if((i == j) || (m_pEnemy[i] == nullptr) || (m_pEnemy[j] == nullptr)) continue;
+			m_pEnemy[i]->CheckCharaCol(*m_pEnemy[j], m_pEnemy[j]->GetCol(j), j);
 		}
 	}
 
@@ -117,28 +127,41 @@ void SceneMain::LoadModelHandle()
 
 void SceneMain::SelectEnemy()
 {
+	LoadCsv::GetInstance().LoadEnemyName(); // 敵名を読み込む
+
 	// 出現する敵の数をランダムで決定する
-	int enemySpawnNum = GetRand(kEnemyMaxNum - 1) + 1;
+	//int enemySpawnNum = GetRand(kEnemyMaxNum - 1) + 1;
+	int enemySpawnNum = 2;
 	m_pEnemy.clear();
 	m_pEnemy.resize(enemySpawnNum);
-	//printfDx("生成する敵数:%d", enemySpawnNum);
 
-	std::unordered_set<int> enemyKind; // 生成された敵の種類を保持する
+	std::unordered_set<int> enemyKind(enemySpawnNum);  // 生成された敵の種類を保持する
+	std::unordered_set<int> enemyName(enemySpawnNum);  // 決まった敵名を保持する
 	for (int i = 0; i < m_pEnemy.size(); i++)
 	{
-		int enemyIndex;
 		// 敵の種類が重複しないようにする
+		int enemyIndex;
 		do
 		{
 			enemyIndex = GetRand(kEnemyKindNum - 1) + 1; // 敵をランダムで選ぶ
-		} while (enemyKind.count(enemyIndex) > 0); // MEMO:countは要素が見つかったら1を、見つからない場合は0を返す。
-
+		} while (enemyKind.count(enemyIndex) > 0);		 // MEMO:countは要素が見つかったら1を、見つからない場合は0を返す。
 		enemyKind.insert(enemyIndex);
+
+		// 敵名が重複しないようにする
+		int enemyNameIndex;
+		do
+		{
+			enemyNameIndex = GetRand(kEnemyNamekind - 1) + 1; // 敵の名前をランダムで選ぶ
+		} while (enemyName.count(enemyNameIndex) > 0);
+		enemyName.insert(enemyNameIndex);
+		std::string enemyName = LoadCsv::GetInstance().GetEnemyName(enemyNameIndex);
 		
 		// 2桁にそろえる
 		char enemyId[3];
 		sprintf_s(enemyId, "%02d", enemyIndex);
 
 		m_pEnemy[i] = std::make_shared<EnemyBase>(*m_pPlayer, "enemy_" + std::string(enemyId), enemyIndex, m_modelHandle[enemyIndex]);
+		//m_pEnemy[i]->SetEnemyName("Enemy");
+		m_pEnemy[i]->SetEnemyName(enemyName);
 	}
 }

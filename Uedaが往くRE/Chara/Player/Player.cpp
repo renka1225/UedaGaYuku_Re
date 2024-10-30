@@ -16,9 +16,9 @@
 // 定数
 namespace
 {
-	const std::string kCharaId = "player";							// キャラクターのID名
-	const VECTOR kInitPos = VGet(7425.0, 40.0f, 5190.0f);			// 初期位置
-	constexpr float kScale = 0.14f;									// モデルの拡大率
+	const std::string kCharaId = "player";					// キャラクターのID名
+	const VECTOR kInitPos = VGet(7425.0, 40.0f, 5190.0f);	// 初期位置
+	constexpr float kScale = 0.14f;							// モデルの拡大率
 
 	constexpr int kMoneyIncrement = 5; // 一度に増える所持金数
 }
@@ -71,9 +71,10 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 	// 敵との当たり判定をチェックする
 	if (pEnemy.empty())
 	{
-		for (auto& enemy : pEnemy)
+		for (int i = 0; i < pEnemy.size(); i++)
 		{
-			enemy->CheckCharaCol(*this, m_colData[CharaType::kPlayer], CharaType::kEnemy_01);
+			m_pToEVec[i] = VSub(pEnemy[i]->GetPos(), m_pos);
+			pEnemy[i]->CheckCharaCol(*this, m_colData[CharaType::kPlayer], pEnemy[i]->GetEnemyIndex());
 		}
 	}
 	// 武器との当たり判定をチェックする
@@ -114,12 +115,6 @@ void Player::Draw()
 	//debug.DrawArmCol(m_colData[CharaType::kPlayer]);	// 腕(水色)
 	//debug.DrawLegCol(m_colData[CharaType::kPlayer]);	// 脚(黄色)
 #endif
-}
-
-void Player::UpdateAngle()
-{
-	m_angle = atan2f(m_moveDir.x, m_moveDir.z);
-	MV1SetRotationXYZ(m_modelHandle, VGet(0.0f, m_angle + DX_PI_F, 0.0f));
 }
 
 void Player::UpdateMoney()

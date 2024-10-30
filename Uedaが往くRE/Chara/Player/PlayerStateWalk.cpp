@@ -45,8 +45,8 @@ void PlayerStateWalk::Update(const Input& input, const Camera& camera, Stage& st
 	if (m_analogX == 0 && m_analogY == 0)
 	{
 		// StateをIdleに変更する
-		m_nextState = std::make_shared<PlayerStateIdle>(m_pPlayer);
-		auto state = std::dynamic_pointer_cast<PlayerStateIdle>(m_nextState);
+        std::shared_ptr<PlayerStateIdle> state = std::make_shared<PlayerStateIdle>(m_pPlayer);
+        m_nextState = state;
 		state->Init();
 		return;
 	}

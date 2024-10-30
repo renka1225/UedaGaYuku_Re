@@ -1,21 +1,24 @@
-﻿#include "DebugDraw.h"
+﻿#include "Game.h"
+#include "DebugDraw.h"
 #include "LoadCsv.h"
 #include "ModelFrameName.h"
 #include "Player.h"
 #include "EnemyStateIdle.h"
 #include "EnemyBase.h"
 
-// TODO:敵のタイプをIDから取得できるようにする
-
 // 定数
 namespace
 {
-	constexpr float kScale = 0.15f;		 // モデルの拡大率
-	constexpr float kSpawnRange = 100.0f; // スポーンする範囲
+	constexpr float kScale = 0.15f;			  // モデルの拡大率
+	constexpr float kSpawnRange = 100.0f;	  // スポーンする範囲
+	constexpr float kDispNameRange = 500.0f;  // 敵名を表示する範囲
+	constexpr float kAdjDispNamePosY = 30.0f; // 敵名の表示位置調整
 }
 
 EnemyBase::EnemyBase(Player& player, std::string charaId, int index, int modelHandle):
+	m_enemyName(""),
 	m_enemyIndex(index),
+	m_eToPVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_isDead(false)
 {
 	// ステータスを読み込む
@@ -28,8 +31,8 @@ EnemyBase::EnemyBase(Player& player, std::string charaId, int index, int modelHa
 
 	// 敵の初期位置を設定
 	// プレイヤーの範囲内に配置する
-	float randPosX = player.GetPos().x + GetRand(static_cast<float>(kSpawnRange * 2)) - kSpawnRange;
-	float randPosZ = player.GetPos().z + GetRand(static_cast<float>(kSpawnRange * 2)) - kSpawnRange;
+	float randPosX = player.GetPos().x + GetRand(static_cast<int>(kSpawnRange) * 2) - kSpawnRange;
+	float randPosZ = player.GetPos().z + GetRand(static_cast<int>(kSpawnRange) * 2) - kSpawnRange;
 	m_pos = VGet(randPosX, player.GetPos().y, randPosZ);
 }
 
@@ -60,6 +63,8 @@ void EnemyBase::Update(Stage& stage, Player& player)
 		m_pState->m_nextState = m_pState;
 	}
 
+	m_eToPVec = VSub(player.GetPos(), m_pos);
+
 	// 当たり判定をチェックする
 	player.CheckCharaCol(*this, m_colData[m_enemyIndex], CharaType::kPlayer);
 
@@ -81,6 +86,14 @@ void EnemyBase::Draw()
 		DrawAfterImage();
 	}
 
+	// プレイヤーに近づいたら敵名を表示する
+	VECTOR modelTopPos = VAdd(m_pos, VGet(0.0f, kAdjDispNamePosY, 0.0f));
+	VECTOR screenPos = ConvWorldPosToScreenPos(modelTopPos);
+	if (VSize(m_eToPVec) < kDispNameRange)
+	{
+		DrawFormatStringF(screenPos.x, screenPos.y, Color::kColorW, "%s", m_enemyName.c_str());
+	}
+
 #ifdef _DEBUG
 	DebugDraw debug;
 	debug.DrawEnemyInfo(m_pos, m_hp, m_enemyIndex, m_pState->GetStateName()); // 敵の情報を描画
@@ -91,15 +104,8 @@ void EnemyBase::Draw()
 #endif
 }
 
-void EnemyBase::UpdateAngle()
-{
-	m_angle = atan2f(m_moveDir.x, m_moveDir.z);
-	MV1SetRotationXYZ(m_modelHandle, VGet(0.0f, m_angle + DX_PI_F, 0.0f));
-}
-
 void EnemyBase::GetFramePos()
 {
-
 	std::string enemyRig;
 	if (m_enemyIndex == CharaType::kEnemy_01)
 	{

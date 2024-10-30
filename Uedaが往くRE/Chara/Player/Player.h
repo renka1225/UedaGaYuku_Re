@@ -47,11 +47,6 @@ public:
 	virtual void Draw();
 
 	/// <summary>
-	/// プレイヤーの角度を更新
-	/// </summary>
-	void UpdateAngle();
-
-	/// <summary>
 	/// 所持金を更新する
 	/// </summary>
 	/// <param name="dropMoney">敵がドロップした金額</param>
@@ -78,7 +73,7 @@ private:
 
 private:
 	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
-	
+	std::vector<VECTOR> m_pToEVec;	// プレイヤーから敵への位置ベクトル
 	int m_money;		// 所持金額
 	int m_beforeMoney;	// 増減前の金額
 	int m_addMoney;		// 追加する金額

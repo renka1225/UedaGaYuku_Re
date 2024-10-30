@@ -38,8 +38,8 @@ void EnemyStateAttack::Update(Stage& stage, Player& pPlayer)
         // StateをIdleに変更する
         pPlayer.SetIsInvincible(false);
         m_pEnemy->SetIsAttack(false);
-        m_nextState = std::make_shared<EnemyStateIdle>(m_pEnemy);
-        auto state = std::dynamic_pointer_cast<EnemyStateIdle>(m_nextState);
+        std::shared_ptr<EnemyStateIdle> state = std::make_shared<EnemyStateIdle>(m_pEnemy);
+        m_nextState = state;
         state->Init();
         return;
     }
@@ -57,7 +57,7 @@ void EnemyStateAttack::Update(Stage& stage, Player& pPlayer)
             bool isHitPunchCol = pPlayer.CheckHitPunchCol(m_pEnemy->GetCol(m_pEnemy->GetEnemyIndex()), 0);
             if (isHitPunchCol)
             {
-                pPlayer.OnDamage(100);
+                pPlayer.OnDamage(m_pEnemy->GetStatus().atkPowerPunch1);
                 pPlayer.SetIsInvincible(true);
             }
         }
@@ -66,7 +66,7 @@ void EnemyStateAttack::Update(Stage& stage, Player& pPlayer)
             bool isHitKickCol = pPlayer.CheckHitKickCol(m_pEnemy->GetCol(m_pEnemy->GetEnemyIndex()), 0);
             if (isHitKickCol)
             {
-                pPlayer.OnDamage(300);
+                pPlayer.OnDamage(m_pEnemy->GetStatus().atkPowerKick);
                 pPlayer.SetIsInvincible(true);
             }
         }

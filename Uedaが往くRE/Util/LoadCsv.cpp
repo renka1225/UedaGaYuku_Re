@@ -7,12 +7,15 @@ LoadCsv* LoadCsv::m_instance = nullptr;
 
 namespace
 {
-	const char* const kCharaStatusFileName = "data/csv/charaStatus.csv";	// キャラクターステータス
-	const char* const kCharaColDataFileName = "data/csv/charaColData.csv";	// キャラクターの当たり判定データ
-	const char* const kCharaAnimDataFileName = "data/csv/animData.csv";		// アニメーションデータ
-	const char* const kWeaponDataFileName = "data/csv/weaponData.csv";		// 武器のデータ
-	const char* const kUiDataFileName = "data/csv/uiData.csv";				// UIデータ
-	const char* const kMessageFileName = "data/csv/message.csv";			// メッセージデータ
+	const char* const kCharaStatusFilePath = "data/csv/charaStatus.csv";	// キャラクターステータス
+	const char* const kCharaColDataFilePath = "data/csv/charaColData.csv";	// キャラクターの当たり判定データ
+	const char* const kCharaAnimDataFilePath = "data/csv/animData.csv";		// アニメーションデータ
+	const char* const kWeaponDataFilePath = "data/csv/weaponData.csv";		// 武器のデータ
+	const char* const kUiDataFilePath = "data/csv/uiData.csv";				// UIデータ
+	const char* const kEnemyNameDataFilePath = "data/csv/enemyName.csv";	// 敵の名前データ
+	const char* const kMessageFilePath = "data/csv/message.csv";			// メッセージデータ
+
+	constexpr int kEnemyNamekind = 10;	// 敵名の種類
 
 	/// <summary>
 	/// 文字列を分割する
@@ -35,7 +38,7 @@ namespace
 
 void LoadCsv::LoadStatus(CharacterBase::Status& data, std::string charaName)
 {
-	std::ifstream ifs(kCharaStatusFileName);
+	std::ifstream ifs(kCharaStatusFilePath);
 	std::string line;
 	std::vector<std::string> strvec;
 
@@ -53,6 +56,12 @@ void LoadCsv::LoadStatus(CharacterBase::Status& data, std::string charaName)
 				data.walkSpeed = std::stof(strvec[2]);
 				data.runSpeed = std::stof(strvec[3]);
 				data.avoidDist = std::stof(strvec[4]);
+				data.atkPowerPunch1 = std::stof(strvec[5]);
+				data.atkPowerPunch2 = std::stof(strvec[6]);
+				data.atkPowerPunch3 = std::stof(strvec[7]);
+				data.atkPowerKick = std::stof(strvec[8]);
+				data.atkPowerOneHandWeapon = std::stof(strvec[9]);
+				data.atkPowerTwoHandWeapon = std::stof(strvec[10]);
 			}
 			catch (const std::invalid_argument&)
 			{
@@ -64,7 +73,7 @@ void LoadCsv::LoadStatus(CharacterBase::Status& data, std::string charaName)
 
 void LoadCsv::LoadColData(CharacterBase::ColData& data, std::string charaName)
 {
-	std::ifstream ifs(kCharaColDataFileName);
+	std::ifstream ifs(kCharaColDataFilePath);
 	std::string line;
 	std::vector<std::string> strvec;
 
@@ -102,7 +111,7 @@ void LoadCsv::LoadColData(CharacterBase::ColData& data, std::string charaName)
 
 void LoadCsv::LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data)
 {
-	std::ifstream ifs(kCharaAnimDataFileName);
+	std::ifstream ifs(kCharaAnimDataFilePath);
 	std::string line;
 	std::vector<std::string> strvec;
 
@@ -126,7 +135,7 @@ void LoadCsv::LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data)
 
 void LoadCsv::LoadWeaponData(Weapon::WeaponData& data, std::string weaponName)
 {
-	std::ifstream ifs(kWeaponDataFileName);
+	std::ifstream ifs(kWeaponDataFilePath);
 	std::string line;
 	std::vector<std::string> strvec;
 
@@ -161,7 +170,7 @@ void LoadCsv::LoadWeaponData(Weapon::WeaponData& data, std::string weaponName)
 
 void LoadCsv::LoadUiData(UiBase::UiData& data)
 {
-	std::ifstream ifs(kUiDataFileName);
+	std::ifstream ifs(kUiDataFilePath);
 	std::string line;
 	std::vector<std::string> strvec;
 
@@ -186,7 +195,7 @@ void LoadCsv::LoadUiData(UiBase::UiData& data)
 
 void LoadCsv::LoadMessage()
 {
-	std::ifstream ifs(kMessageFileName);
+	std::ifstream ifs(kMessageFilePath);
 	std::string line;
 	m_messageData.clear();
 
@@ -210,4 +219,28 @@ std::string LoadCsv::Get_sMessage(std::string id)
 const char* LoadCsv::Get_cMessage(std::string id)
 {
 	return m_messageData[id].c_str();
+}
+
+void LoadCsv::LoadEnemyName()
+{
+	std::ifstream ifs(kEnemyNameDataFilePath);
+	std::string line;
+	std::vector<std::string> strvec;
+
+	for (int i = 0; i < kEnemyNamekind; i++)
+	{
+		while (std::getline(ifs, line))
+		{
+			std::vector<std::string> strvec = split(line, ',');
+			if (!strvec.empty())
+			{
+				m_enemyNameData.push_back(strvec[i]);
+			}
+		}
+	}
+}
+
+std::string LoadCsv::GetEnemyName(int enemyIndex)
+{
+	return m_enemyNameData[enemyIndex];
 }
