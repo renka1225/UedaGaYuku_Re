@@ -5,18 +5,24 @@
 #include "SceneSelect.h"
 #include "SceneTitle.h"
 
+namespace
+{
+	const char* kBgm = "title.mp3";	// BGM名
+}
+
 /// <summary>
 /// 更新
 /// </summary>
 std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
 {
-	/*if (!CheckSoundMem(Sound::GetInstance().GetBgmVol(Sound::BgmKind::kTitleBGM)))
+	if (!Sound::GetInstance().GetIsPlayBgm(kBgm))
 	{
-		Sound::GetInstance().PlayBGM(Sound::BgmKind::kTitleBGM);
-	}*/
+		Sound::GetInstance().PlayBgm(kBgm);
+	}
 
 	if (input.IsTriggered(InputId::kOk))
 	{
+		Sound::GetInstance().StopBgm(kBgm);
 		return std::make_shared<SceneSelect>();
 	}
 

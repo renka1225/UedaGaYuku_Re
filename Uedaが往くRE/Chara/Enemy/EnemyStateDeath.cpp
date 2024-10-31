@@ -30,6 +30,8 @@ void EnemyStateDeath::Update(Stage& stage, Player& pPlayer)
 
 void EnemyStateDeath::DropMoney(Stage& stage)
 {
+	if (m_pEnemy == nullptr) return;
+
 	// TODO:確率でお金をドロップする
 	int randNum = GetRand(10);
 

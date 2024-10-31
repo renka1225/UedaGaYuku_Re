@@ -2,6 +2,7 @@
 #include "Sound.h"
 #include <fstream>
 #include <sstream>
+#include <cassert>
 
 Sound* Sound::m_instance = nullptr;
 
@@ -32,9 +33,6 @@ namespace
 
 void Sound::Load()
 {
-	//m_bgmData.resize(BgmKind::kBgmNum);
-	//m_seData.resize(SeKind::kSeNum);
-
 	std::ifstream ifs(kSoundFilePath);
 	std::string line;
 
@@ -47,6 +45,7 @@ void Sound::Load()
 		if (strvec[1] == "BGM")
 		{
 			data.handle = LoadSoundMem((kBgmFilePath + strvec[0]).c_str());
+			assert(data.handle != -1);
 			data.vol = stoi(strvec[2]);
 			m_bgmData[strvec[0]] = data;
 		}
@@ -54,6 +53,7 @@ void Sound::Load()
 		else if (strvec[1] == "SE")
 		{
 			data.handle = LoadSoundMem((kSeFilePath + strvec[0]).c_str());
+			assert(data.handle != -1);
 			data.vol = stoi(strvec[2]);
 			m_seData[strvec[0]] = data;
 		}
@@ -72,28 +72,59 @@ void Sound::UnLoad()
 	}
 }
 
-void Sound::PlaySE(SeKind sekind)
+void Sound::PlaySe(std::string seName)
 {
-	//PlaySoundMem(m_seData.[sekind].handle, DX_PLAYTYPE_BACK);
+	PlaySoundMem(m_seData[seName].handle, DX_PLAYTYPE_BACK);
+	SetBgmVol(seName);
 }
 
-void Sound::PlayBGM(BgmKind bgmKind)
+void Sound::PlayBgm(std::string bgmName)
 {
-	//PlaySoundMem(m_bgmData[bgmKind].handle, DX_PLAYTYPE_BACK);
+	PlaySoundMem(m_bgmData[bgmName].handle, DX_PLAYTYPE_LOOP);
+	SetBgmVol(bgmName);
+}
+
+void Sound::StopBgm(std::string bgmName)
+{
+	StopSoundMem(m_bgmData[bgmName].handle);
 }
 
 void Sound::SetBgmVol(std::string bgmName)
 {
-	for (int i = 0; i < m_bgmData.size(); i++)
-	{
-		m_bgmData[bgmName].vol = std::max(0, m_bgmData[bgmName].vol);
-	}
+	m_bgmData[bgmName].vol = std::max(0, m_bgmData[bgmName].vol);
+	ChangeVolumeSoundMem(m_bgmData[bgmName].vol, m_bgmData[bgmName].handle);
 }
 
 void Sound::SetSeVol(std::string seName)
 {
-	for (int i = 0; i < m_seData.size(); i++)
+	m_seData[seName].vol = std::max(0, m_seData[seName].vol);
+	ChangeVolumeSoundMem(m_seData[seName].vol, m_seData[seName].handle);
+}
+
+int Sound::GetBgmVol(std::string bgmName)
+{
+	auto found = m_bgmData.find(bgmName);
+	if (found != m_bgmData.end())
 	{
-		m_seData[seName].vol = std::max(0, m_seData[seName].vol);
+		return found->second.vol;
 	}
+}
+
+int Sound::GetSeVol(std::string seName)
+{
+	auto found = m_seData.find(seName);
+	if (found != m_seData.end())
+	{
+		return found->second.vol;
+	}
+}
+
+bool Sound::GetIsPlaySe(std::string seName)
+{
+	return CheckSoundMem(m_seData[seName].handle);
+}
+
+bool Sound::GetIsPlayBgm(std::string bgmName)
+{
+	return CheckSoundMem(m_bgmData[bgmName].handle);
 }

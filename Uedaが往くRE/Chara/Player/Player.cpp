@@ -76,6 +76,8 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 
 		for (int i = 0; i < pEnemy.size(); i++)
 		{
+			if (pEnemy[i] == nullptr) continue;
+
 			m_pToEVec[i] = VSub(pEnemy[i]->GetPos(), m_pos);
 			pEnemy[i]->CheckCharaCol(*this, m_colData[CharaType::kPlayer], pEnemy[i]->GetEnemyIndex());
 

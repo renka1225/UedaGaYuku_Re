@@ -66,18 +66,17 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		return std::make_shared<SceneMenu>(shared_from_this());
 	}
 
-	// 敵同士の当たり判定をチェックする
 	for (int i = 0; i < m_pEnemy.size(); i++)
 	{
-		// 敵が1対もいない場合、敵を生成する
-		if (m_pEnemy.empty())
-		{
-			if (input.IsTriggered(InputId::kDebugSpawn))
-			{
-				SelectEnemy();
-				m_pEnemy[i]->Init();
-			}
-		}
+		//// 敵が1対もいない場合、敵を生成する
+		//if (m_pEnemy.empty())
+		//{
+		//	if (input.IsTriggered(InputId::kDebugSpawn))
+		//	{
+		//		SelectEnemy();
+		//		m_pEnemy[i]->Init();
+		//	}
+		//}
 
 		if (m_pEnemy[i] == nullptr) continue;
 
@@ -91,6 +90,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 			m_pEnemy[i]->Update(*m_pStage, *m_pPlayer);
 		}
 
+		// 敵同士の当たり判定をチェックする
 		for (int j = 0; j < m_pEnemy.size(); j++)
 		{
 			if((i == j) || (m_pEnemy[i] == nullptr) || (m_pEnemy[j] == nullptr)) continue;

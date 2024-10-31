@@ -9,25 +9,6 @@
 class Sound
 {
 public:
-	// BGMの種類
-	enum BgmKind
-	{
-		kTitleBGM,	// タイトル
-		kSelectBGM,	// 選択画面
-		kMainBGM,	// メイン
-		kBattleBGM,	// バトル時
-		kBgmNum,	// BGMの数
-	};
-
-	// SEの種類
-	enum SeKind
-	{
-		kCursorMoveSE,	// カーソル移動
-		kSelectSE,		// 決定
-		kSeNum			// SEの数
-	};
-
-public:
 	// コピーコンストラクタの禁止
 	Sound(const Sound&) = delete;
 	// ムーブコンストラクタの禁止
@@ -62,14 +43,20 @@ public:
 	/// <summary>
 	/// 読み込んだSEを流す
 	/// </summary>
-	/// <param name="seKind">SE名</param>
-	void PlaySE(SeKind seKind);
+	/// <param name="seName">SE名</param>
+	void PlaySe(std::string seName);
 
 	/// <summary>
 	/// 読み込んだBGMを流す
 	/// </summary>
-	/// <param name="bgmKind">BGM名</param>
-	void PlayBGM(BgmKind bgmKind);
+	/// <param name="bgmName">BGM名</param>
+	void PlayBgm(std::string bgmName);
+
+	/// <summary>
+	/// 再生中のBGMを止める
+	/// </summary>
+	/// <param name="bgmName">BGM名</param>
+	void StopBgm(std::string bgmName);
 
 	/// <summary>
 	/// BGMの音量を調整する
@@ -87,13 +74,27 @@ public:
 	/// BGMの音量を取得する
 	/// </summary>
 	/// <returns>BGMの音量</returns>
-	//int GetBgmVol(std::string BgmName) const { return m_bgmData[BgmName].vol; }
+	int GetBgmVol(std::string bgmName);
 
 	/// <summary>
 	/// SEの音量を取得する
 	/// </summary>
 	/// <returns>SEの音量</returns>
-	//int GetSeVol(std::string seName) const { return m_seData[seName].vol; }
+	int GetSeVol(std::string seName);
+
+	/// <summary>
+	/// 現在SEが流れているか取得する
+	/// </summary>
+	/// <param name="seName">チェックするSE名</param>
+	/// <returns>流れているかどうか</returns>
+	bool GetIsPlaySe(std::string seName);
+
+	/// <summary>
+	/// 現在BGMが流れているか取得する
+	/// </summary>
+	/// <param name="bgmName">チェックするBGM名</param>
+	/// <returns>流れているかどうか</returns>
+	bool GetIsPlayBgm(std::string bgmName);
 
 private:
 	Sound() = default;

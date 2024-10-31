@@ -43,7 +43,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	LoadCsv::GetInstance().LoadMessage();
 
 	// サウンドのロード
-	//Sound::GetInstance().Load();
+	Sound::GetInstance().Load();
 
 	// SceneManagerを生成
 	std::shared_ptr<SceneManager> pScene = std::make_shared<SceneManager>();
@@ -75,7 +75,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// デバッグ時はESCキーで終了できるようにする
 		if (input.IsTriggered("end"))
 		{
-			//Sound::GetInstance().UnLoad();
+			Sound::GetInstance().UnLoad();
 			Effkseer_End();
 			DxLib_End();
 			return 0;
@@ -83,7 +83,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 	}
 
-	//Sound::GetInstance().UnLoad();
+	Sound::GetInstance().UnLoad();
 	Effkseer_End();	 // Effekseerの終了処理
 	DxLib_End();	 // Dxライブラリ使用の終了処理
 
