@@ -1,8 +1,9 @@
 ﻿#include "DxLib.h"
 #include "EffekseerForDXLib.h"
-#include "Input.h"
-#include "LoadCsv.h"
 #include "Game.h"
+#include "LoadCsv.h"
+#include "Input.h"
+#include "Sound.h"
 #include "SceneManager.h"
 
 
@@ -41,6 +42,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// メッセージのロード
 	LoadCsv::GetInstance().LoadMessage();
 
+	// サウンドのロード
+	//Sound::GetInstance().Load();
+
 	// SceneManagerを生成
 	std::shared_ptr<SceneManager> pScene = std::make_shared<SceneManager>();
 	pScene->Init();
@@ -71,6 +75,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// デバッグ時はESCキーで終了できるようにする
 		if (input.IsTriggered("end"))
 		{
+			//Sound::GetInstance().UnLoad();
 			Effkseer_End();
 			DxLib_End();
 			return 0;
@@ -78,6 +83,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 	}
 
+	//Sound::GetInstance().UnLoad();
 	Effkseer_End();	 // Effekseerの終了処理
 	DxLib_End();	 // Dxライブラリ使用の終了処理
 

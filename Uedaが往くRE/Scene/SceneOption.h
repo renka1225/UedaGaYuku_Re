@@ -10,7 +10,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	SceneOption() {}
+	SceneOption(std::shared_ptr<SceneBase> pScene);
 
 	/// <summary>
 	/// デストラクタ
@@ -33,5 +33,16 @@ public:
 	/// 描画
 	/// </summary>
 	virtual void Draw() override;
+
+private:
+	enum Select
+	{
+		kSound,		// サウンド
+		kWindow,	// 画面サイズ
+		kCredit,	// クレジット
+		kSelectNum	// 選択数
+	};
+
+	std::shared_ptr<SceneBase> m_pPrevScene;	// 前に実行していたシーン
 };
 

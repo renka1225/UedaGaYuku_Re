@@ -44,7 +44,7 @@ namespace InputId
 
 	const char* const kOk = "OK";
 	const char* const kBack = "BACK";
-	const char* const kPause = "PAUSE";
+	const char* const kMenu = "MENU";
 	const char* const kSelect = "SELECT";
 	const char* const kCancel = "CANCEL";
 

@@ -62,5 +62,6 @@ private:
 	std::shared_ptr<Stage> m_pStage;	 // ステージのポインタ
 	std::shared_ptr<UiBase> m_pUI;		 // UI表示のポインタ
 	std::vector<int> m_modelHandle;		 // モデルのハンドル
+	bool m_isPause; // ポーズ状態かどうか(true:ポーズ状態)
 };
 

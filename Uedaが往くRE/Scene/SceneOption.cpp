@@ -3,11 +3,18 @@
 #include "SceneDebug.h"
 #include "SceneOption.h"
 
+SceneOption::SceneOption(std::shared_ptr<SceneBase> pScene):
+	m_pPrevScene(pScene)
+{
+}
+
 std::shared_ptr<SceneBase> SceneOption::Update(Input& input)
 {
+	UpdateSelect(input, Select::kSelectNum);
+
 	if (input.IsTriggered(InputId::kBack))
 	{
-		return std::make_shared<SceneDebug>();
+		return m_pPrevScene;
 	}
 
 	return shared_from_this();

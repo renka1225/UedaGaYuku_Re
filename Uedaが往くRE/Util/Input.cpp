@@ -122,7 +122,7 @@ Input::Input()
 	m_commandTable[InputId::kRight] = { {InputType::keybd, KEY_INPUT_RIGHT},
 							    {InputType::pad, PAD_INPUT_RIGHT} };
 
-	m_commandTable[InputId::kPause] = { {InputType::keybd, KEY_INPUT_TAB},
+	m_commandTable[InputId::kMenu] = { {InputType::keybd, KEY_INPUT_TAB},
 								{InputType::pad, PAD_INPUT_R} };
 
 	/*攻撃*/

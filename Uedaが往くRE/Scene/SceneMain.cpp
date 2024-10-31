@@ -9,6 +9,7 @@
 #include "ObjectBase.h"
 #include "Weapon.h"
 #include "Stage.h"
+#include "SceneMenu.h"
 #include "SceneMain.h"
 #include <unordered_set>
 
@@ -23,7 +24,8 @@ namespace
 	constexpr int kEnemyNamekind = 10;	// 敵名の種類
 }
 
-SceneMain::SceneMain()
+SceneMain::SceneMain():
+	m_isPause(false)
 {
 	// TODO:非同期処理
 
@@ -42,18 +44,28 @@ SceneMain::SceneMain()
 
 void SceneMain::Init()
 {
-	for (auto& enemy : m_pEnemy)
+	if (!m_isPause)
 	{
-		if (enemy == nullptr) continue;
-		enemy->Init();
+		for (auto& enemy : m_pEnemy)
+		{
+			if (enemy == nullptr) continue;
+			enemy->Init();
+		}
+		m_pPlayer->Init();
+		m_pWeapon->Init();
+		m_pCamera->Init();
 	}
-	m_pPlayer->Init();
-	m_pWeapon->Init();
-	m_pCamera->Init();
+	m_isPause = false;
 }
 
 std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 {
+	if (input.IsTriggered(InputId::kMenu))
+	{
+		m_isPause = true;
+		return std::make_shared<SceneMenu>(shared_from_this());
+	}
+
 	// 敵同士の当たり判定をチェックする
 	for (int i = 0; i < m_pEnemy.size(); i++)
 	{

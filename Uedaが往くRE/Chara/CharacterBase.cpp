@@ -60,7 +60,6 @@ void CharacterBase::Init()
 void CharacterBase::Update()
 {
 	ObjectBase::Update();
-	//m_isOnDamage = false;
 }
 
 void CharacterBase::Draw()

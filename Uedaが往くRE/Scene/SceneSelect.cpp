@@ -21,7 +21,7 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 		}
 		else if (m_select == SelectScene::kOption)
 		{
-			return std::make_shared<SceneOption>();
+			return std::make_shared<SceneOption>(shared_from_this());
 		}
 	}
 	else if (input.IsTriggered(InputId::kBack))

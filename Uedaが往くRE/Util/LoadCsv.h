@@ -108,9 +108,9 @@ public:
 private:
 	LoadCsv() = default;
 	virtual ~LoadCsv() = default;
+	static LoadCsv* m_instance;	 // インスタンス
 
 private:
-	static LoadCsv* m_instance;	 // インスタンス
 	std::vector<std::string> m_enemyNameData;			// 敵名のデータ
 	std::map<std::string, UiBase::UiData> m_uiData;		// UI情報のデータ
 	std::map<std::string, std::string> m_messageData;	// メッセージのデータ
