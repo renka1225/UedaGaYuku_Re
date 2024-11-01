@@ -11,7 +11,7 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="pScene">前に実行していたシーン</param>
-	SceneMenu(std::shared_ptr<SceneBase> pScene);
+	SceneMenu(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer);
 
 	/// <summary>
 	/// デストラクタ
@@ -48,7 +48,5 @@ private:
 		kBackTitle,		// タイトルに戻る
 		kSelectNum		// 選択数
 	};
-
-	int m_bgHandle; // 仮ハンドル
 };
 

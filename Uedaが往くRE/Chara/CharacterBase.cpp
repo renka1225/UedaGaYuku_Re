@@ -1,5 +1,6 @@
 ﻿#include "DebugDraw.h"
 #include "LoadCsv.h"
+#include "UiBar.h"
 #include "CharacterBase.h"
 
 // 定数
@@ -38,6 +39,7 @@ CharacterBase::CharacterBase():
 	m_animLoopEndTime(0.0f),
 	m_isLoopAnim(false)
 {
+	m_pUiBar = std::make_shared<UiBar>();
 	m_colData.resize(kColDataNum);
 	m_posLog.resize(kPosLogNum);
 }

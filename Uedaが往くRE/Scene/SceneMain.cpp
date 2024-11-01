@@ -63,7 +63,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	if (input.IsTriggered(InputId::kMenu))
 	{
 		m_isPause = true;
-		return std::make_shared<SceneMenu>(shared_from_this());
+		return std::make_shared<SceneMenu>(shared_from_this(), m_pPlayer);
 	}
 
 	for (int i = 0; i < m_pEnemy.size(); i++)

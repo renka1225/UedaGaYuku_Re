@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Vec2.h"
 #include <memory>
+#include <string>
 
 class Player;
 
@@ -13,9 +14,11 @@ public:
 	// UI表示情報
 	struct UiData
 	{
-		float posX;		// X座標
-		float posY;		// Y座標
-		float scale;	// 拡大率
+		float LTposX;		// 左上X座標
+		float LTposY;		// 左上Y座標
+		float RBposX;		// 右下X座標
+		float RBposY;		// 右下Y座標
+		float scale;		// 拡大率
 	};
 
 	/// <summary>
@@ -44,8 +47,14 @@ public:
 	virtual void Draw();
 
 protected:
-	std::shared_ptr<Player> m_pPlayer; // プレイヤーのポインタ
-	UiData m_uiData;		// UIのデータ
-	int m_minimapHandle;	// ミニマップの画像
+	/// <summary>
+	/// プレイヤーのバーを描画
+	/// </summary>
+	void DrawPlayerBar();
+
+protected:
+	std::shared_ptr<Player> m_pPlayer;	// プレイヤーのポインタ
+	UiData m_uiData;					// UIのデータ
+	int m_minimapHandle;				// ミニマップの画像
 };
 

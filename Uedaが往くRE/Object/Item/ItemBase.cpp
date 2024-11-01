@@ -1,8 +1,7 @@
 ﻿#include "DxLib.h"
 #include "ItemBase.h"
 
-ItemBase::ItemBase():
-	m_possessNum(0)
+ItemBase::ItemBase()
 {
 }
 

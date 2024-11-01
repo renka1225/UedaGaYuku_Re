@@ -180,9 +180,11 @@ void LoadCsv::LoadUiData(UiBase::UiData& data)
 
 		try
 		{
-			data.posX = std::stof(strvec[1]);
-			data.posY = std::stof(strvec[2]);
-			data.scale = std::stof(strvec[3]);
+			data.LTposX = std::stof(strvec[1]);
+			data.LTposY = std::stof(strvec[2]);
+			data.RBposX = std::stof(strvec[3]);
+			data.RBposY = std::stof(strvec[4]);
+			data.scale = std::stof(strvec[5]);
 		}
 		catch (const std::invalid_argument&)
 		{

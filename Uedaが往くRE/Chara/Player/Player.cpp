@@ -5,6 +5,7 @@
 #include "ModelFrameName.h"
 #include "Input.h"
 #include "LoadCsv.h"
+#include "UiBar.h"
 #include "Camera.h"
 #include "Stage.h"
 #include "Weapon.h"
@@ -124,6 +125,9 @@ void Player::Draw()
 	{
 		DrawAfterImage();
 	}
+
+	m_pUiBar->DrawPlayerHpBar();
+	m_pUiBar->DrawPlayerGaugeBar();
 
 #ifdef _DEBUG
 	DebugDraw debug;

@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include <string>
+#include <map>
 
 /// <summary>
 /// アイテムの基底クラス
@@ -32,6 +34,6 @@ public:
 	virtual void Draw();
 
 private:
-	int m_possessNum; // 所持しているアイテム数
+	std::map<std::string, int> m_possessNum; // 所持しているアイテム数
 };
 

@@ -5,6 +5,8 @@
 #include <vector>
 #include <map>
 
+class UiBar;
+
 /// <summary>
 /// キャラクターの基底クラス
 /// </summary>
@@ -267,6 +269,7 @@ protected:
 	void DrawAfterImage();
 
 protected:
+	std::shared_ptr<UiBar> m_pUiBar; // バーUIのポインタ
 	std::map<std::string, AnimInfo> m_animData;	// アニメーションのデータ
 	std::vector<ColData> m_colData; // 当たり判定情報
 	std::vector<VECTOR> m_posLog;	// 過去の位置を保存する
