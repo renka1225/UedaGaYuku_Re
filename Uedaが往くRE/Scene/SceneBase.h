@@ -2,7 +2,6 @@
 #include <memory>
 
 class Input;
-class UiBase;
 
 /// <summary>
 /// シーン基底クラス
@@ -54,7 +53,6 @@ protected:
 	void UpdateSelect(Input& input, int selectNum);
 
 protected:
-	std::shared_ptr<UiBase> m_pUi; // UIのポインタ
 	int m_select;	// 現在の選択状態
 };
 

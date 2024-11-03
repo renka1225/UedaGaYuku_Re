@@ -177,7 +177,7 @@
     <ClCompile Include="Chara\Player\PlayerStateGuard.cpp" />
     <ClCompile Include="Scene\SceneMenu.cpp" />
     <ClCompile Include="Scene\SceneLoad.cpp" />
-    <ClCompile Include="UiBar.cpp" />
+    <ClCompile Include="UI\UiBar.cpp" />
     <ClCompile Include="UI\UiMenu.cpp" />
     <ClCompile Include="Util\Sound.cpp" />
     <ClCompile Include="UI\UiBase.cpp" />
@@ -223,7 +223,7 @@
     <ClInclude Include="Chara\Player\PlayerStateGuard.h" />
     <ClInclude Include="Scene\SceneMenu.h" />
     <ClInclude Include="Scene\SceneLoad.h" />
-    <ClInclude Include="UiBar.h" />
+    <ClInclude Include="UI\UiBar.h" />
     <ClInclude Include="UI\UiMenu.h" />
     <ClInclude Include="Util\Sound.h" />
     <ClInclude Include="UI\UiBase.h" />

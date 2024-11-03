@@ -195,7 +195,7 @@
     <ClCompile Include="UI\UiMenu.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
-    <ClCompile Include="UiBar.cpp">
+    <ClCompile Include="UI\UiBar.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -332,7 +332,7 @@
     <ClInclude Include="UI\UiMenu.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
-    <ClInclude Include="UiBar.h">
+    <ClInclude Include="UI\UiBar.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
   </ItemGroup>

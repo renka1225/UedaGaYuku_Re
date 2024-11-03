@@ -47,12 +47,6 @@ public:
 	virtual void Draw();
 
 protected:
-	/// <summary>
-	/// プレイヤーのバーを描画
-	/// </summary>
-	void DrawPlayerBar();
-
-protected:
 	std::shared_ptr<Player> m_pPlayer;	// プレイヤーのポインタ
 	UiData m_uiData;					// UIのデータ
 	int m_minimapHandle;				// ミニマップの画像

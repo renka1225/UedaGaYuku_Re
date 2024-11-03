@@ -126,9 +126,6 @@ void Player::Draw()
 		DrawAfterImage();
 	}
 
-	m_pUiBar->DrawPlayerHpBar();
-	m_pUiBar->DrawPlayerGaugeBar();
-
 #ifdef _DEBUG
 	DebugDraw debug;
 	debug.DrawPlayerInfo(m_pos, m_hp, m_pState->GetStateName(), m_isNowGrabWeapon); // プレイヤーの情報を描画

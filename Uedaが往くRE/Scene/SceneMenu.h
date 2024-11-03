@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "SceneBase.h"
 
+class UiMenu;
+
 /// <summary>
 /// メニュー画面
 /// </summary>
@@ -37,6 +39,7 @@ public:
 
 private:
 	std::shared_ptr<SceneBase> m_pPrevScene;	// 前に実行していたシーン
+	std::shared_ptr<UiMenu> m_pUiMenu; // メニューUIのポインタ
 
 	// 選択項目
 	enum Select

@@ -35,8 +35,3 @@ void UiBase::Draw()
 	// ミニマップ表示
 	//DrawRectRotaGraph(30.0f, 800.0f, 0.0f, 0.0f, 1015, 1005, 0.3f, 0.0f, m_minimapHandle, true);
 }
-
-void UiBase::DrawPlayerBar()
-{
-
-}

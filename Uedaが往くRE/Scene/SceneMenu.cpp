@@ -11,7 +11,7 @@
 SceneMenu::SceneMenu(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer) :
 	m_pPrevScene(pScene)
 {
-	m_pUi = std::make_shared<UiMenu>(pPlayer);
+	m_pUiMenu = std::make_shared<UiMenu>(pPlayer);
 	m_select = Select::kEnhance;
 }
 
@@ -65,7 +65,7 @@ std::shared_ptr<SceneBase> SceneMenu::Update(Input& input)
 
 void SceneMenu::Draw()
 {
-	m_pUi->Draw(); // UIを表示する
+	m_pUiMenu->Draw(); // UIを表示する
 
 #ifdef _DEBUG	// デバッグ表示
 	DrawSceneText("MSG_DEBUG_MENU");

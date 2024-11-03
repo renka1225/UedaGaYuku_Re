@@ -1,6 +1,6 @@
 ﻿#include "Game.h"
 #include "Input.h"
-#include "UiBase.h"
+#include "UiBar.h"
 #include "Camera.h"
 #include "LoadCsv.h"
 #include "CharacterBase.h"
@@ -22,9 +22,12 @@ namespace
 	constexpr int kEnemyMaxNum = 2;		// 1度に出現する最大の敵数
 	constexpr int kEnemyKindNum = 2;	// 敵の種類
 	constexpr int kEnemyNamekind = 10;	// 敵名の種類
+	constexpr int kEnemySpawnMinTIme = 60;		// 敵がスポーンするまでの最小時間
+	constexpr int kEnemySpawnMaxTIme = 3000;	// 敵がスポーンするまでの最大時間
 }
 
 SceneMain::SceneMain():
+	m_enemySpawnTime(0),
 	m_isPause(false)
 {
 	// TODO:非同期処理
@@ -37,50 +40,50 @@ SceneMain::SceneMain():
 	m_pWeapon = std::make_shared<Weapon>();
 	m_pCamera = std::make_shared<Camera>();
 	m_pStage = std::make_shared<Stage>(m_pPlayer);
-	m_pUI = std::make_shared<UiBase>(m_pPlayer);
+	m_pUiBar = std::make_shared<UiBar>(m_pPlayer);
 
 	SelectEnemy(); // 敵の種類を決める
 }
 
 void SceneMain::Init()
 {
-	if (!m_isPause)
-	{
-		for (auto& enemy : m_pEnemy)
-		{
-			if (enemy == nullptr) continue;
-			enemy->Init();
-		}
-		m_pPlayer->Init();
-		m_pWeapon->Init();
-		m_pCamera->Init();
-	}
+	if (m_isPause) return;
+
+	m_pPlayer->Init();
+	m_pWeapon->Init();
+	m_pCamera->Init();
+	m_pUiBar->Init();
 	m_isPause = false;
 }
 
 std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 {
+	// メニューを開いたとき
 	if (input.IsTriggered(InputId::kMenu))
 	{
 		m_isPause = true;
 		return std::make_shared<SceneMenu>(shared_from_this(), m_pPlayer);
 	}
 
+	// 敵が1対もいない場合、敵を生成する
+	if (m_pEnemy.empty())
+	{
+		m_enemySpawnTime++;
+		// スポーンするまでの時間をランダムで決める
+		const int spawnTime = GetRand(kEnemySpawnMaxTIme) + kEnemySpawnMinTIme;
+
+		if (m_enemySpawnTime >= spawnTime)
+		{
+			m_enemySpawnTime = 0;
+			SelectEnemy();
+		}
+	}
+
 	for (int i = 0; i < m_pEnemy.size(); i++)
 	{
-		//// 敵が1対もいない場合、敵を生成する
-		//if (m_pEnemy.empty())
-		//{
-		//	if (input.IsTriggered(InputId::kDebugSpawn))
-		//	{
-		//		SelectEnemy();
-		//		m_pEnemy[i]->Init();
-		//	}
-		//}
-
 		if (m_pEnemy[i] == nullptr) continue;
 
-		// 敵死亡フラグがtrueの時、敵を消滅させる
+		// 敵死亡フラグがtrueの場合、敵を消滅させる
 		if (m_pEnemy[i]->GetIsDead())
 		{
 			m_pEnemy[i] = nullptr;
@@ -98,9 +101,13 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		}
 	}
 
+	// erase-removeイディオムで特定の要素(nullptr)だけを削除する
+	m_pEnemy.erase(std::remove(m_pEnemy.begin(), m_pEnemy.end(), nullptr), m_pEnemy.end());
+
 	m_pPlayer->Update(input, *m_pCamera, *m_pStage, *m_pWeapon, m_pEnemy);
 	m_pWeapon->Update(*m_pPlayer, *m_pStage);
 	m_pCamera->Update(input, *m_pPlayer, *m_pStage);
+	m_pUiBar->Update();
 
 	return shared_from_this();
 }
@@ -113,9 +120,11 @@ void SceneMain::Draw()
 	{
 		if (enemy == nullptr) continue;
 		enemy->Draw(*m_pPlayer);
+		m_pUiBar->DrawEnemyHpBar(enemy);
 	}
 	m_pPlayer->Draw();
-	m_pUI->Draw();
+	m_pUiBar->DrawPlayerHpBar();
+	m_pUiBar->DrawPlayerGaugeBar();
 
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_PLAYING");
@@ -142,8 +151,7 @@ void SceneMain::SelectEnemy()
 	LoadCsv::GetInstance().LoadEnemyName(); // 敵名を読み込む
 
 	// 出現する敵の数をランダムで決定する
-	//int enemySpawnNum = GetRand(kEnemyMaxNum - 1) + 1;
-	int enemySpawnNum = 2;
+	int enemySpawnNum = GetRand(kEnemyMaxNum - 1) + 1;
 	m_pEnemy.clear();
 	m_pEnemy.resize(enemySpawnNum);
 
@@ -156,7 +164,7 @@ void SceneMain::SelectEnemy()
 		do
 		{
 			enemyIndex = GetRand(kEnemyKindNum - 1) + 1; // 敵をランダムで選ぶ
-		} while (enemyKind.count(enemyIndex) > 0);		 // MEMO:countは要素が見つかったら1を、見つからない場合は0を返す。
+		} while (enemyKind.count(enemyIndex) > 0);		 // MEMO:countは要素が見つかったら1を、見つからない場合は0を返す
 		enemyKind.insert(enemyIndex);
 
 		// 敵名が重複しないようにする
@@ -173,7 +181,7 @@ void SceneMain::SelectEnemy()
 		sprintf_s(enemyId, "%02d", enemyIndex);
 
 		m_pEnemy[i] = std::make_shared<EnemyBase>(*m_pPlayer, "enemy_" + std::string(enemyId), enemyIndex, m_modelHandle[enemyIndex]);
-		//m_pEnemy[i]->SetEnemyName("Enemy");
 		m_pEnemy[i]->SetEnemyName(enemyName);
+		m_pEnemy[i]->Init();
 	}
 }
