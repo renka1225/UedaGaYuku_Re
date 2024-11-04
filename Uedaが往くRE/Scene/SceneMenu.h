@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "SceneBase.h"
 
-class UiMenu;
+class Player;
 
 /// <summary>
 /// メニュー画面
@@ -38,9 +38,12 @@ public:
 	virtual void Draw();
 
 private:
-	std::shared_ptr<SceneBase> m_pPrevScene;	// 前に実行していたシーン
-	std::shared_ptr<UiMenu> m_pUiMenu; // メニューUIのポインタ
+	/// <summary>
+	/// 所持金額を表示
+	/// </summary>
+	void DrawMoney();
 
+private:
 	// 選択項目
 	enum Select
 	{
@@ -51,5 +54,12 @@ private:
 		kBackTitle,		// タイトルに戻る
 		kSelectNum		// 選択数
 	};
+
+	std::shared_ptr<SceneBase> m_pPrevScene; // 前に実行していたシーン
+	std::shared_ptr<Player> m_pPlayer;		 // プレイヤーのポインタ
+
+	// 仮ハンドル
+	int m_moneyBg;
+	int m_bgHandle;
 };
 

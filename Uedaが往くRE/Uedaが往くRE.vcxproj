@@ -178,7 +178,6 @@
     <ClCompile Include="Scene\SceneMenu.cpp" />
     <ClCompile Include="Scene\SceneLoad.cpp" />
     <ClCompile Include="UI\UiBar.cpp" />
-    <ClCompile Include="UI\UiMenu.cpp" />
     <ClCompile Include="Util\Sound.cpp" />
     <ClCompile Include="UI\UiBase.cpp" />
     <ClCompile Include="Util\LoadCsv.cpp" />
@@ -224,7 +223,6 @@
     <ClInclude Include="Scene\SceneMenu.h" />
     <ClInclude Include="Scene\SceneLoad.h" />
     <ClInclude Include="UI\UiBar.h" />
-    <ClInclude Include="UI\UiMenu.h" />
     <ClInclude Include="Util\Sound.h" />
     <ClInclude Include="UI\UiBase.h" />
     <ClInclude Include="Util\LoadCsv.h" />

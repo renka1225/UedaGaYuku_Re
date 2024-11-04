@@ -65,7 +65,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		return std::make_shared<SceneMenu>(shared_from_this(), m_pPlayer);
 	}
 
-	// 敵が1対もいない場合、敵を生成する
+	// 敵が1体もいない場合、敵を生成する
 	if (m_pEnemy.empty())
 	{
 		m_enemySpawnTime++;
@@ -83,8 +83,9 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	{
 		if (m_pEnemy[i] == nullptr) continue;
 
-		// 敵死亡フラグがtrueの場合、敵を消滅させる
-		if (m_pEnemy[i]->GetIsDead())
+		// 特定の状態の場合、敵を消滅させる
+		bool isExtinction = m_pEnemy[i]->GetIsDead() || (m_pEnemy[i]->GetPos().y <= 0.0f);
+		if (isExtinction)
 		{
 			m_pEnemy[i] = nullptr;
 		}
@@ -120,11 +121,10 @@ void SceneMain::Draw()
 	{
 		if (enemy == nullptr) continue;
 		enemy->Draw(*m_pPlayer);
-		m_pUiBar->DrawEnemyHpBar(enemy);
 	}
-	m_pPlayer->Draw();
 	m_pUiBar->DrawPlayerHpBar();
 	m_pUiBar->DrawPlayerGaugeBar();
+	m_pPlayer->Draw();
 
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_PLAYING");
@@ -180,8 +180,8 @@ void SceneMain::SelectEnemy()
 		char enemyId[3];
 		sprintf_s(enemyId, "%02d", enemyIndex);
 
-		m_pEnemy[i] = std::make_shared<EnemyBase>(*m_pPlayer, "enemy_" + std::string(enemyId), enemyIndex, m_modelHandle[enemyIndex]);
-		m_pEnemy[i]->SetEnemyName(enemyName);
+		m_pEnemy[i] = std::make_shared<EnemyBase>(m_pUiBar, *m_pPlayer);
+		m_pEnemy[i]->SetEnemyInfo(enemyName, "enemy_" + std::string(enemyId), enemyIndex, m_modelHandle[enemyIndex]);
 		m_pEnemy[i]->Init();
 	}
 }

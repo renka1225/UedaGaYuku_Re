@@ -46,7 +46,7 @@ public:
 	/// 敵のHPバーを表示
 	/// </summary>
 	/// <param name="pEnemy">敵ポインタ</param>
-	void DrawEnemyHpBar(std::shared_ptr<EnemyBase> pEnemy);
+	void DrawEnemyHpBar(EnemyBase& pEnemy);
 
 private:
 	int m_barHandle; // バーの画像

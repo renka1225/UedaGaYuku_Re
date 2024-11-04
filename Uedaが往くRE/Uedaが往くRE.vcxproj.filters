@@ -192,9 +192,6 @@
     <ClCompile Include="Scene\SceneMenu.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="UI\UiMenu.cpp">
-      <Filter>ソース ファイル\UI</Filter>
-    </ClCompile>
     <ClCompile Include="UI\UiBar.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
@@ -328,9 +325,6 @@
     </ClInclude>
     <ClInclude Include="Object\Item\ItemBase.h">
       <Filter>ヘッダー ファイル\Object\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\UiMenu.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
     <ClInclude Include="UI\UiBar.h">
       <Filter>ヘッダー ファイル\UI</Filter>

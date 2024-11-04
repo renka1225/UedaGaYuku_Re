@@ -2,6 +2,7 @@
 #include "DebugDraw.h"
 #include "LoadCsv.h"
 #include "ModelFrameName.h"
+#include "UiBar.h"
 #include "Player.h"
 #include "EnemyStateIdle.h"
 #include "EnemyBase.h"
@@ -12,22 +13,16 @@ namespace
 	constexpr float kScale = 0.15f;			  // モデルの拡大率
 	constexpr float kSpawnRange = 100.0f;	  // スポーンする範囲
 	constexpr float kDispNameRange = 300.0f;  // 敵名を表示する範囲
-	constexpr float kAdjDispNamePosY = 30.0f; // 敵名の表示位置調整
+	constexpr float kAdjDispNamePosY = 32.0f; // 敵名の表示位置調整
 }
 
-EnemyBase::EnemyBase(Player& player, std::string charaId, int index, int modelHandle):
+EnemyBase::EnemyBase(std::shared_ptr<UiBar> pUi, Player& player):
 	m_enemyName(""),
-	m_enemyIndex(index),
+	m_enemyIndex(0),
 	m_eToPVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_isDead(false)
 {
-	// ステータスを読み込む
-	LoadCsv::GetInstance().LoadStatus(m_status, charaId);
-	LoadCsv::GetInstance().LoadColData(m_colData[m_enemyIndex], charaId);
-
-	m_modelHandle = modelHandle;
-	m_colData[m_enemyIndex].bodyUpdateStartPos = m_colData[m_enemyIndex].bodyStartPos;
-	m_colData[m_enemyIndex].bodyUpdateEndPos = m_colData[m_enemyIndex].bodyEndPos;
+	m_pUiBar = pUi;
 
 	// 敵の初期位置を設定
 	// プレイヤーの範囲内に配置する
@@ -94,7 +89,9 @@ void EnemyBase::Draw(Player& player)
 	bool isDispName = VSize(m_eToPVec) < kDispNameRange && !isViewClip;
 	if (isDispName)
 	{
+		m_pUiBar->DrawEnemyHpBar(*this);
 		DrawFormatStringF(screenPos.x, screenPos.y, Color::kColorW, "%s", m_enemyName.c_str());
+		//DrawBoxAA(screenPos.x, screenPos.y, screenPos.x + 100, screenPos.y + 50, 0x0000ff, true);
 	}
 
 #ifdef _DEBUG
@@ -105,6 +102,20 @@ void EnemyBase::Draw(Player& player)
 	//debug.DrawArmCol(m_colData[m_enemyIndex]);	// 腕(水色)
 	//debug.DrawLegCol(m_colData[m_enemyIndex]);	// 脚(黄色)
 #endif
+}
+
+void EnemyBase::SetEnemyInfo(std::string name, std::string charaId, int index, int modelHandle)
+{
+	m_enemyName = name;
+	m_enemyIndex = index;
+	m_modelHandle = modelHandle;
+
+	// ステータスを読み込む
+	LoadCsv::GetInstance().LoadStatus(m_status, charaId);
+	LoadCsv::GetInstance().LoadColData(m_colData[m_enemyIndex], charaId);
+
+	m_colData[m_enemyIndex].bodyUpdateStartPos = m_colData[m_enemyIndex].bodyStartPos;
+	m_colData[m_enemyIndex].bodyUpdateEndPos = m_colData[m_enemyIndex].bodyEndPos;
 }
 
 void EnemyBase::GetFramePos()

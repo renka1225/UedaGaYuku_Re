@@ -12,6 +12,10 @@ namespace
 	const std::string kBarEnemyHpBack = "bar_enemyHpBack";
 	const std::string kBarEnemyHp = "bar_enemyHp";
 
+	constexpr float kAdjDispBarPosY = 30.0f;			// 敵HPバーの表示位置調整
+	const Vec2 kBackBarEnemyHpSize = { 100.0f, 10.0f };	// 敵HPバーのバック部分のサイズ
+	const Vec2 kBarEnemyHpSize = { 50.0f, 10.0f };		// 敵HPバーのサイズ
+
 	constexpr int kPlayerHpColor = 0xee8601;	// プレイヤーのHPの色
 	constexpr int kPlayerGaugeColor = 0x1495e8; // プレイヤーのゲージの色
 	constexpr int kEnemyHpColor = 0xc60000;		// 敵のゲージの色
@@ -62,19 +66,15 @@ void UiBar::DrawPlayerGaugeBar()
 	DrawBoxAA(dispGaugeLTPos.x, dispGaugeLTPos.y, dispGaugeRBPos.x, dispGaugeRBPos.y, kPlayerGaugeColor, true);
 }
 
-void UiBar::DrawEnemyHpBar(std::shared_ptr<EnemyBase> pEnemy)
+void UiBar::DrawEnemyHpBar(EnemyBase& pEnemy)
 {
-	// バック部分
-	Vec2 dispHpBackLTPos = { LoadCsv::GetInstance().GetUiData(kBarEnemyHpBack).LTposX, LoadCsv::GetInstance().GetUiData(kBarEnemyHpBack).LTposY };
-	dispHpBackLTPos = { dispHpBackLTPos.x + pEnemy->GetPos().x, dispHpBackLTPos.y + pEnemy->GetPos().y };
-	Vec2 dispHpBackRBPos = { LoadCsv::GetInstance().GetUiData(kBarEnemyHpBack).RBposX, LoadCsv::GetInstance().GetUiData(kBarEnemyHpBack).RBposY };
-	dispHpBackRBPos = { dispHpBackRBPos.x + pEnemy->GetPos().x, dispHpBackRBPos.y + pEnemy->GetPos().y };
-	DrawExtendGraphF(dispHpBackLTPos.x, dispHpBackLTPos.y, dispHpBackRBPos.x, dispHpBackRBPos.y, m_barHandle, true);
+	// スクリーン座標に変換する
+	VECTOR barDispPos = VAdd(pEnemy.GetPos(), VGet(0.0f, kAdjDispBarPosY, 0.0f));
+	VECTOR screenPos = ConvWorldPosToScreenPos(barDispPos);
 
+	// バック部分
+	DrawExtendGraphF(screenPos.x - kBackBarEnemyHpSize.x, screenPos.y - kBackBarEnemyHpSize.y, 
+		screenPos.x + kBackBarEnemyHpSize.x, screenPos.y + kBackBarEnemyHpSize.y, m_barHandle, true);
 	// 敵のHP
-	Vec2 dispHpLTPos = { LoadCsv::GetInstance().GetUiData(kBarEnemyHp).LTposX, LoadCsv::GetInstance().GetUiData(kBarEnemyHp).LTposY };
-	dispHpLTPos = { dispHpLTPos.x + pEnemy->GetPos().x, dispHpLTPos.y + pEnemy->GetPos().y };
-	Vec2 dispHpRBPos = { LoadCsv::GetInstance().GetUiData(kBarEnemyHp).RBposX, LoadCsv::GetInstance().GetUiData(kBarEnemyHp).RBposY };
-	dispHpRBPos = { dispHpRBPos.x + pEnemy->GetPos().x, dispHpRBPos.y + pEnemy->GetPos().y };
-	DrawBoxAA(dispHpLTPos.x, dispHpLTPos.y, dispHpRBPos.x, dispHpRBPos.y, kPlayerGaugeColor, true);
+	DrawBoxAA(screenPos.x, screenPos.y, screenPos.x + kBarEnemyHpSize.x, screenPos.y + kBarEnemyHpSize.y, kEnemyHpColor, true);
 }

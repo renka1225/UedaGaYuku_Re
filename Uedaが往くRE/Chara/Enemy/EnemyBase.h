@@ -2,6 +2,7 @@
 #include "CharacterBase.h"
 #include "EnemyStateBase.h"
 
+class UiBar;
 class Player;
 
 /// <summary>
@@ -13,10 +14,9 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	/// <param name="charaId">キャラクターID</param>
-	/// <param name="number">キャラクターの番号</param>
-	/// <param name="modelHandle">モデルハンドル</param>
-	EnemyBase(Player& player, std::string charaId, int number, int modelHandle);
+	/// <param name="pUi">UIのポインタ</param>
+	/// <param name="player">プレイヤー参照</param>
+	EnemyBase(std::shared_ptr<UiBar> pUi, Player& player);
 
 	/// <summary>
 	/// デストラクタ
@@ -40,10 +40,13 @@ public:
 	virtual void Draw(Player& player);
 
 	/// <summary>
-	/// 敵の名前をセットする
+	/// 敵の情報をセットする
 	/// </summary>
 	/// <param name="name">敵名</param>
-	void SetEnemyName(std::string name) { m_enemyName = name; }
+	/// <param name="charaId">キャラクターID</param>
+	/// <param name="index">キャラクターの番号</param>
+	/// <param name="modelHandle">モデルハンドル</param>
+	void SetEnemyInfo(std::string name, std::string charaId, int index, int modelHandle);
 
 	/// <summary>
 	/// 死亡フラグをセットする
@@ -76,6 +79,7 @@ private:
 
 protected:
 	std::shared_ptr<EnemyStateBase> m_pState; // stateパターン
+	std::shared_ptr<UiBar> m_pUiBar;		  // バーのUIを表示する
 	std::string m_enemyName; // 敵名
 	int m_enemyIndex;		 // 敵の番号
 	VECTOR m_eToPVec;		 // 敵からプレイヤーまでの位置ベクトル

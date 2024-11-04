@@ -1,8 +1,6 @@
 ID,左上X座標,左上Y座標,右下X座標,右下Y座標,拡大率
-bar_playerHpBack,60,30,600,70,1
-bar_playerHp,100,40,560,55,1
-bar_playerGaugeBack,60,80,420,120,1
-bar_playerGauge,80,90,400,105,1
-money_text,1700,80,0,0,1
-money_bg,1320,15,1920,112,1
+bar_playerHpBack,60,30,600,80,1
+bar_playerHp,80,40,560,55,1
+bar_playerGaugeBack,60,60,420,100,1
+bar_playerGauge,80,60,400,75,1
 menu_bg,0,0,0,0,1
