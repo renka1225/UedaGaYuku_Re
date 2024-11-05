@@ -175,6 +175,9 @@
     <ClCompile Include="Chara\Player\PlayerStateGrab.cpp" />
     <ClCompile Include="Chara\Player\PlayerStateAvoid.cpp" />
     <ClCompile Include="Chara\Player\PlayerStateGuard.cpp" />
+    <ClCompile Include="Scene\SceneSave.cpp" />
+    <ClCompile Include="Scene\SceneEnhance.cpp" />
+    <ClCompile Include="Scene\SceneUseItem.cpp" />
     <ClCompile Include="Scene\SceneMenu.cpp" />
     <ClCompile Include="Scene\SceneLoad.cpp" />
     <ClCompile Include="UI\UiBar.cpp" />
@@ -220,6 +223,9 @@
     <ClInclude Include="Chara\Player\PlayerStateGrab.h" />
     <ClInclude Include="Chara\Player\PlayerStateAvoid.h" />
     <ClInclude Include="Chara\Player\PlayerStateGuard.h" />
+    <ClInclude Include="Scene\SceneSave.h" />
+    <ClInclude Include="Scene\SceneEnhance.h" />
+    <ClInclude Include="Scene\SceneUseItem.h" />
     <ClInclude Include="Scene\SceneMenu.h" />
     <ClInclude Include="Scene\SceneLoad.h" />
     <ClInclude Include="UI\UiBar.h" />

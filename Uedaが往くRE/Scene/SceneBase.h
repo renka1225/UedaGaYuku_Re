@@ -2,6 +2,7 @@
 #include <memory>
 
 class Input;
+class Player;
 
 /// <summary>
 /// シーン基底クラス
@@ -52,7 +53,16 @@ protected:
 	/// <param name="selectNum">選択肢の数</param>
 	void UpdateSelect(Input& input, int selectNum);
 
+	/// <summary>
+	/// 所持金額を表示
+	/// </summary>
+	/// <param name="pPlayer">プレイヤーのポインタ</param>
+	void DrawMoney(std::shared_ptr<Player> pPlayer);
+
 protected:
+	std::shared_ptr<SceneBase> m_pPrevScene; // 前に実行していたシーン
+	std::shared_ptr<Player> m_pPlayer;		 // プレイヤーのポインタ
+
 	int m_select;	// 現在の選択状態
 };
 

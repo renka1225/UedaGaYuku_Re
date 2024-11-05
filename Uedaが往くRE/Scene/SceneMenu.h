@@ -13,6 +13,7 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="pScene">前に実行していたシーン</param>
+	/// <param name="pPlayer">プレイヤーのポインタ</param>
 	SceneMenu(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer);
 
 	/// <summary>
@@ -38,12 +39,6 @@ public:
 	virtual void Draw();
 
 private:
-	/// <summary>
-	/// 所持金額を表示
-	/// </summary>
-	void DrawMoney();
-
-private:
 	// 選択項目
 	enum Select
 	{
@@ -55,11 +50,7 @@ private:
 		kSelectNum		// 選択数
 	};
 
-	std::shared_ptr<SceneBase> m_pPrevScene; // 前に実行していたシーン
-	std::shared_ptr<Player> m_pPlayer;		 // プレイヤーのポインタ
-
 	// 仮ハンドル
-	int m_moneyBg;
 	int m_bgHandle;
 };
 

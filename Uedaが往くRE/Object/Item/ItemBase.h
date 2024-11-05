@@ -8,6 +8,18 @@
 class ItemBase
 {
 public:
+	struct ItemData
+	{
+		std::string itemName;	 // アイテム名
+		std::string itemExplain; // アイテムの説明
+		float recoveryHP;		 // HP回復量
+		float recoveryGauge;	 // ゲージ回復量
+		float atkUp;			 // 攻撃力アップ量
+		float difUp;			 // 防御力アップ量
+		int time;				 // 効果時間
+	};
+
+public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -34,6 +46,6 @@ public:
 	virtual void Draw();
 
 private:
-	std::map<std::string, int> m_possessNum; // 所持しているアイテム数
+	std::map<std::string, ItemData> m_itemData; // アイテムの情報
 };
 

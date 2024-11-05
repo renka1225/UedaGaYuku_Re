@@ -4,30 +4,25 @@
 #include "Input.h"
 #include "Player.h"
 #include "SceneDebug.h"
+#include "SceneUseItem.h"
+#include "SceneEnhance.h"
 #include "SceneOption.h"
+#include "SceneSave.h"
 #include "SceneTitle.h"
 #include "SceneMenu.h"
 
-namespace
+SceneMenu::SceneMenu(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer)
 {
-	const Vec2 kDispMoneyBgPos = { 1320.0f, 15.0f };	// 金額の背景表示位置
-	const Vec2 kDispMoneyTextPos = { 1700.0f, 80.0f };  // 所持金額表示位置
-}
-
-SceneMenu::SceneMenu(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer) :
-	m_pPrevScene(pScene)
-{
+	m_pPrevScene = pScene;
 	m_pPlayer = pPlayer;
 	m_select = Select::kItem;
 
-	m_bgHandle = LoadGraph("data/ui/menu_bg.png");
-	m_moneyBg = LoadGraph("data/ui/money_bg.png");
+	m_bgHandle = LoadGraph("data/ui/bg_menu.png");
 }
 
 SceneMenu::~SceneMenu()
 {
 	DeleteGraph(m_bgHandle);
-	DeleteGraph(m_moneyBg);
 }
 
 void SceneMenu::Init()
@@ -47,11 +42,11 @@ std::shared_ptr<SceneBase> SceneMenu::Update(Input& input)
 	{
 		if (m_select == Select::kItem)
 		{
-			//return std::make_shared<SceneUseItem>(shared_from_this());	// アイテム画面に遷移
+			return std::make_shared<SceneUseItem>(shared_from_this(), m_pPlayer);	// アイテム画面に遷移
 		}
 		else if (m_select == Select::kEnhance)
 		{
-			//return std::make_shared<SceneEnhace>(shared_from_this());	// 強化画面に遷移
+			return std::make_shared<SceneEnhance>(shared_from_this(), m_pPlayer);	// 強化画面に遷移
 		}
 		else if (m_select == Select::kOption)
 		{
@@ -59,7 +54,7 @@ std::shared_ptr<SceneBase> SceneMenu::Update(Input& input)
 		}
 		else if (m_select == Select::kSave)
 		{
-			//return std::make_shared<SceneSave>(); // セーブ画面に遷移
+			return std::make_shared<SceneSave>(shared_from_this(), m_pPlayer); // セーブ画面に遷移
 		}
 		else if (m_select == Select::kBackTitle)
 		{
@@ -76,18 +71,11 @@ std::shared_ptr<SceneBase> SceneMenu::Update(Input& input)
 
 void SceneMenu::Draw()
 {
-	DrawGraph(0, 0, m_bgHandle, true); // 背景表示
-	DrawMoney(); // 所持金額表示
+	m_pPrevScene->Draw();				// ゲーム中の画面を表示する
+	DrawGraph(0, 0, m_bgHandle, true);  // 背景表示
+	DrawMoney(m_pPlayer);				// 所持金額表示
 
 #ifdef _DEBUG	// デバッグ表示
 	DrawSceneText("MSG_DEBUG_MENU");
 #endif
-}
-
-void SceneMenu::DrawMoney()
-{
-	DrawGraphF(kDispMoneyBgPos.x, kDispMoneyBgPos.y, m_moneyBg, true);
-
-	// 現在の所持金額
-	DrawFormatStringF(kDispMoneyTextPos.x, kDispMoneyTextPos.y, Color::kColorW, "%d", m_pPlayer->GetMoney());
 }

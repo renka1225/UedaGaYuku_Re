@@ -1,0 +1,44 @@
+﻿#pragma once
+#include "SceneBase.h"
+
+class ItemBase;
+class Player;
+
+/// <summary>
+/// アイテム使用画面
+/// </summary>
+class SceneUseItem : public SceneBase
+{
+public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	SceneUseItem(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer);
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	virtual ~SceneUseItem();
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	virtual void Init();
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="input">入力状態</param>
+	/// <returns>現在のシーン</returns>
+	virtual std::shared_ptr<SceneBase> Update(Input& input);
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	virtual void Draw();
+
+private:
+	std::shared_ptr<ItemBase> m_pItem;
+	int m_handle;
+};
+

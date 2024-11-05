@@ -2,6 +2,7 @@
 #include "CharacterBase.h"
 #include "EnemyBase.h"
 #include "Weapon.h"
+#include "ItemBase.h"
 #include "UiBase.h"
 #include <string>
 #include <map>
@@ -60,6 +61,11 @@ public:
 	/// <param name="data">武器情報</param>
 	/// <param name="weaponName">武器名</param>
 	void LoadWeaponData(Weapon::WeaponData& data, std::string weaponName);
+
+	/// <summary>
+	/// アイテム情報を読み込む
+	/// </summary>
+	void LoadItemData(std::map<std::string, ItemBase::ItemData>& data);
 
 	/// <summary>
 	/// UI表示情報を読み込む

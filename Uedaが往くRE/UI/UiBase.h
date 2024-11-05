@@ -46,6 +46,15 @@ public:
 	/// </summary>
 	virtual void Draw();
 
+	/// <summary>
+	///  カーソル表示
+	/// </summary>
+	/// <param name="pos">表示位置</param>
+	/// <param name="select">選択状態</param>
+	/// <param name="interval">表示間隔</param>
+	/// <param name="sceneName">現在のシーン</param>
+	void DrawCursor(Vec2 pos, int select, float interval, std::string sceneName);
+
 protected:
 	std::shared_ptr<Player> m_pPlayer;	// プレイヤーのポインタ
 	UiData m_uiData;					// UIのデータ

@@ -35,3 +35,14 @@ void UiBase::Draw()
 	// ミニマップ表示
 	//DrawRectRotaGraph(30.0f, 800.0f, 0.0f, 0.0f, 1015, 1005, 0.3f, 0.0f, m_minimapHandle, true);
 }
+
+void UiBase::DrawCursor(Vec2 pos, int select, float interval, std::string sceneName)
+{
+	Vec2 dispPos; // カーソル表示位置
+	
+	//SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_cursorAlpha);
+	//DrawExtendGraphF(pos.x, pos.y + interval * select,
+	//	pos.x + m_cursorWidth, pos.y + interval * select + kCursorHeight,
+	//	m_handle[HandleKind::kCursor], true);
+	//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+}

@@ -11,6 +11,7 @@ namespace
 	const char* const kCharaColDataFilePath = "data/csv/charaColData.csv";	// キャラクターの当たり判定データ
 	const char* const kCharaAnimDataFilePath = "data/csv/animData.csv";		// アニメーションデータ
 	const char* const kWeaponDataFilePath = "data/csv/weaponData.csv";		// 武器のデータ
+	const char* const kItemDataFilePath = "data/csv/itemData.csv";			// アイテムのデータ
 	const char* const kUiDataFilePath = "data/csv/uiData.csv";				// UIデータ
 	const char* const kEnemyNameDataFilePath = "data/csv/enemyName.csv";	// 敵の名前データ
 	const char* const kMessageFilePath = "data/csv/message.csv";			// メッセージデータ
@@ -164,6 +165,35 @@ void LoadCsv::LoadWeaponData(Weapon::WeaponData& data, std::string weaponName)
 			}
 
 			break;
+		}
+	}
+}
+
+void LoadCsv::LoadItemData(std::map<std::string, ItemBase::ItemData>& data)
+{
+	std::ifstream ifs(kItemDataFilePath);
+	std::string line;
+	std::vector<std::string> strvec;
+
+	while (std::getline(ifs, line))
+	{
+		strvec = split(line, ',');
+
+		// アイテム情報を設定
+		std::string itemName = strvec[0];
+		try
+		{
+			data[itemName].itemName = strvec[1];
+			data[itemName].itemExplain = strvec[2];
+			data[itemName].recoveryHP = std::stof(strvec[3]);
+			data[itemName].recoveryGauge = std::stof(strvec[4]);
+			data[itemName].atkUp = std::stof(strvec[5]);
+			data[itemName].difUp = std::stof(strvec[6]);
+			data[itemName].time = std::stoi(strvec[7]);
+		}
+		catch (const std::invalid_argument&)
+		{
+			// 無効な文字列をスキップ
 		}
 	}
 }

@@ -5,9 +5,49 @@
 #include<string>
 
 /// <summary>
+/// 入力コマンド名
+/// </summary>
+namespace InputId
+{
+	const char* const kA = "A";
+	const char* const kB = "B";
+	const char* const kX = "X";
+	const char* const kY = "Y";
+	const char* const kLb = "LB";
+	const char* const kRb = "RB";
+
+	const char* const kUp = "UP";
+	const char* const kDown = "DOWN";
+	const char* const kLeft = "LEFT";
+	const char* const kRight = "RIGHT";
+
+	const char* const kOk = "OK";
+	const char* const kBack = "BACK";
+	const char* const kMenu = "MENU";
+	const char* const kSelect = "SELECT";
+	const char* const kCancel = "CANCEL";
+
+	const char* const kPunch = "punch";
+	const char* const kKick = "kick";
+	const char* const kAvoid = "avoid";
+	const char* const kFighting = "fighting";
+	const char* const kGuard = "guard";
+	const char* const kGrab = "grab";
+	const char* const kSpecial = "special";
+
+	const char* const kRotateL = "rotateL";
+	const char* const kRotateR = "rotateR";
+	const char* const kRotateU = "rotateU";
+	const char* const kRotateD = "rotateD";
+
+	const char* const kDebugDamage = "debug_damage";
+	const char* const kDebugSpawn = "debug_spawn";
+	const char* const kEnd = "end";
+}
+
+/// <summary>
 /// 入力管理クラス
 /// </summary>
-
 enum class InputType
 {
 	keybd,	// キーボード
