@@ -74,6 +74,8 @@ void EnemyBase::Update(Stage& stage, Player& player)
 	UpdateCol(m_enemyIndex);		 // 当たり判定位置更新
 	UpdatePosLog();					 // 位置ログを更新
 	GetFramePos();					 // モデルフレーム位置を取得
+
+	m_pUiBar->Update(); // HPバーの更新
 }
 
 void EnemyBase::Draw(Player& player)

@@ -1,2 +1,3 @@
 ﻿  UiBar.cpp
-  Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Uedaが往くRE.exe
+Effekseer_vs2019_x64_d.lib(ForceFields.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(ForceFields.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+  Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\x64\Debug\Uedaが往くRE.exe

@@ -20,6 +20,9 @@ C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Object\ObjectBase.cpp;C:\GitHub\UedaGaYu
 C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Chara\Player\PlayerStateGrab.cpp;C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\x64\Debug\PlayerStateGrab.obj
 C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Chara\Player\PlayerStateAvoid.cpp;C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\x64\Debug\PlayerStateAvoid.obj
 C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Chara\Player\PlayerStateGuard.cpp;C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\x64\Debug\PlayerStateGuard.obj
+C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Scene\SceneSave.cpp;C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\x64\Debug\SceneSave.obj
+C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Scene\SceneEnhance.cpp;C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\x64\Debug\SceneEnhance.obj
+C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Scene\SceneUseItem.cpp;C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\x64\Debug\SceneUseItem.obj
 C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Scene\SceneMenu.cpp;C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\x64\Debug\SceneMenu.obj
 C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Scene\SceneLoad.cpp;C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\x64\Debug\SceneLoad.obj
 C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\UI\UiBar.cpp;C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\x64\Debug\UiBar.obj

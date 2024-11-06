@@ -70,7 +70,7 @@ void UiBar::DrawPlayerHpBar(float currentHp, float maxHp)
 	float decreaseHpLength = dispHpBarWidth * decreaseHpRatio;
 
 	// ダメージ分ゲージの色を変える
-	if (m_hpDecreaseTime > 0)
+	if (m_hpDecreaseTime >= 0)
 	{
 		DrawBoxAA(dispHpLTPos.x, dispHpLTPos.y, dispHpLTPos.x + decreaseHpLength, dispHpRBPos.y, kPlayerHpDamageColor, true);
 	}
@@ -122,7 +122,7 @@ void UiBar::DrawEnemyHpBar(EnemyBase& pEnemy)
 	float decreaseHpLength = dispHpBarWidth * decreaseHpRatio;
 
 	// ダメージ分ゲージの色を変える
-	if (m_hpDecreaseTime > 0)
+	if (m_hpDecreaseTime >= 0)
 	{
 		DrawBoxAA(dispHpLTPos.x, dispHpLTPos.y, dispHpLTPos.x + decreaseHpLength, dispHpRBPos.y, kEnemyHpDamageColor, true);
 	}
@@ -133,7 +133,7 @@ void UiBar::DrawEnemyHpBar(EnemyBase& pEnemy)
 
 void UiBar::SetDamageTimer()
 {
-	if (m_hpDecreaseTime < 0)
+	if (m_hpDecreaseTime <= 0)
 	{
 		m_hpDecreaseTime = kIntervalTime;
 	}

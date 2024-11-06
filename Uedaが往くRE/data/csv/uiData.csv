@@ -3,6 +3,7 @@ bar_playerHpBack,50,30,630,75,580,45,1
 bar_playerHp,98,42,582,63,484,21,1
 bar_playerGaugeBack,80,75,295,115,215,40,1
 bar_playerGauge,98,87,272,102,174,15,1
+bar_enemyHp,-66,5,66,10,132,10,1
 menu_bg,0,0,0,0,1920,1080,1
 cursor_select,40,100,426,305,145,100,1
 cursor_menu,75,260,800,360,700,100,1
