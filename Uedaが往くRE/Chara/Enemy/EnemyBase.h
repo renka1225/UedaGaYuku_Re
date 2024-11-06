@@ -21,7 +21,7 @@ public:
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	virtual ~EnemyBase() {}
+	virtual ~EnemyBase();
 
 	/// <summary>
 	/// 初期化

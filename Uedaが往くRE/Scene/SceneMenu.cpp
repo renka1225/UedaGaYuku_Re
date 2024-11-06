@@ -2,6 +2,7 @@
 #include "Vec2.h"
 #include "Game.h"
 #include "Input.h"
+#include "UiBase.h"
 #include "Player.h"
 #include "SceneDebug.h"
 #include "SceneUseItem.h"
@@ -11,18 +12,37 @@
 #include "SceneTitle.h"
 #include "SceneMenu.h"
 
+namespace
+{
+	const std::string kCursorId = "cursor_menu"; // カーソルのID
+	constexpr float kCursorInterval = 136.0f;	 // カーソルの表示間隔
+
+	// 画像の種類
+	enum Handle
+	{
+		kMenuBg,	// 背景
+		kMenuText,	// テキスト
+		kNum		// ハンドルの数
+	};
+}
+
 SceneMenu::SceneMenu(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer)
 {
 	m_pPrevScene = pScene;
 	m_pPlayer = pPlayer;
 	m_select = Select::kItem;
 
-	m_bgHandle = LoadGraph("data/ui/bg_menu.png");
+	m_handle.resize(kNum);
+	m_handle[kMenuBg] = LoadGraph("data/ui/menu/bg.png");
+	m_handle[kMenuText] = LoadGraph("data/ui/menu/text.png");
 }
 
 SceneMenu::~SceneMenu()
 {
-	DeleteGraph(m_bgHandle);
+	for (auto& handle : m_handle)
+	{
+		DeleteGraph(handle);
+	}
 }
 
 void SceneMenu::Init()
@@ -33,6 +53,7 @@ std::shared_ptr<SceneBase> SceneMenu::Update(Input& input)
 {
 	// 選択状態を更新
 	UpdateSelect(input, Select::kSelectNum);
+	m_pUi->UpdateCursor(kCursorId);
 
 	if (input.IsTriggered(InputId::kBack))
 	{
@@ -71,9 +92,14 @@ std::shared_ptr<SceneBase> SceneMenu::Update(Input& input)
 
 void SceneMenu::Draw()
 {
-	m_pPrevScene->Draw();				// ゲーム中の画面を表示する
-	DrawGraph(0, 0, m_bgHandle, true);  // 背景表示
-	DrawMoney(m_pPlayer);				// 所持金額表示
+	m_pPrevScene->Draw(); // ゲーム中の画面を表示する
+	
+	// 背景表示
+	DrawGraph(0, 0, m_handle[kMenuBg], true);
+	m_pUi->DrawCursor(kCursorId, m_select, kCursorInterval); // カーソルの表示
+	DrawGraph(0, 0, m_handle[kMenuText], true);
+
+	DrawMoney(m_pPlayer);	// 所持金額表示
 
 #ifdef _DEBUG	// デバッグ表示
 	DrawSceneText("MSG_DEBUG_MENU");

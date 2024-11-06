@@ -1,8 +1,9 @@
 ﻿#include "DxLib.h"
+#include "Vec2.h"
 #include "Game.h"
 #include "Input.h"
 #include "LoadCsv.h"
-#include "Vec2.h"
+#include "UiBase.h"
 #include "Player.h"
 #include "SceneBase.h"
 
@@ -17,6 +18,7 @@ namespace
 SceneBase::SceneBase():
 	m_select(0)
 {
+	m_pUi = std::make_shared<UiBase>();
 }
 
 SceneBase::~SceneBase()
@@ -36,11 +38,13 @@ void SceneBase::UpdateSelect(Input& input, int selectNum)
 	if (input.IsTriggered(InputId::kDown))
 	{
 		m_select = (m_select + 1) % selectNum;
+		m_pUi->Init();
 	}
 	// 選択状態を1つ上げる
 	if (input.IsTriggered(InputId::kUp))
 	{
 		m_select = (m_select + (selectNum - 1)) % selectNum;
+		m_pUi->Init();
 	}
 }
 

@@ -15,7 +15,6 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	UiBar();
-	UiBar(std::shared_ptr<Player> pPlayer):UiBase(pPlayer) {}
 
 	/// <summary>
 	/// デストラクタ
@@ -35,12 +34,16 @@ public:
 	/// <summary>
 	/// プレイヤーのHPバーを表示
 	/// </summary>
-	void DrawPlayerHpBar();
+	/// <param name="currentHp">現在のHP</param>
+	/// <param name="maxHp">最大HP</param>
+	void DrawPlayerHpBar(float currentHp, float maxHp);
 
 	/// <summary>
 	/// プレイヤーのゲージバーを表示
 	/// </summary>
-	void DrawPlayerGaugeBar();
+	/// <param name="currentGauge">現在のゲージ量</param>
+	/// <param name="maxGauge">最大ゲージ量</param>
+	void DrawPlayerGaugeBar(float currentGauge, float maxGauge);
 
 	/// <summary>
 	/// 敵のHPバーを表示
@@ -48,7 +51,20 @@ public:
 	/// <param name="pEnemy">敵ポインタ</param>
 	void DrawEnemyHpBar(EnemyBase& pEnemy);
 
+	/// <summary>
+	/// ダメージを受けた際にタイマーをセットする
+	/// </summary>
+	void SetDamageTimer();
+
+	/// <summary>
+	/// ダメージ量を設定
+	/// </summary>
+	/// <param name="damage">ダメージ量</param>
+	void SetDamage(float damage);
+	
 private:
-	int m_barHandle; // バーの画像
+	float m_damage;			// ダメージ量
+	int m_hpDecreaseTime;	// HPバーが減少するまでの時間
+	int m_barHandle;		// バーの画像
 };
 

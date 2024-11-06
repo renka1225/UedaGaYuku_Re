@@ -25,6 +25,7 @@ public:
 	struct Status
 	{
 		float maxHp;				 // 最大HP
+		float maxGauge;				 // 最大ゲージ量
 		float walkSpeed;			 // 歩き速度
 		float runSpeed;				 // 走り速度
 		float avoidDist;			 // 回避距離
@@ -194,6 +195,12 @@ public:
 	float GetHp() const { return m_hp; }
 
 	/// <summary>
+	/// キャラクターのHPを取得
+	/// </summary>
+	/// <returns>HP</returns>
+	float GetGauge() const { return m_gauge; }
+
+	/// <summary>
 	/// キャラクターの3Dモデルを取得
 	/// </summary>
 	/// <returns>3Dモデルハンドル</returns>
@@ -276,6 +283,7 @@ protected:
 	Status m_status;				// ステータス
 	float m_angle;					// 向いている方向の角度
 	float m_hp;						// HP
+	float m_gauge;					// ゲージ量
 	bool m_isAttack;				// 攻撃中かどうか
 	bool m_isInvincible;			// 無敵中かどうか
 	bool m_isGuard;					// ガード中かどうか

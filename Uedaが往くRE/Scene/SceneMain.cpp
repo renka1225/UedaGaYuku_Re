@@ -12,6 +12,8 @@
 #include "SceneMenu.h"
 #include "SceneMain.h"
 #include <unordered_set>
+#include <random>
+#include <windows.h>
 
 // 定数
 namespace
@@ -40,7 +42,7 @@ SceneMain::SceneMain():
 	m_pWeapon = std::make_shared<Weapon>();
 	m_pCamera = std::make_shared<Camera>();
 	m_pStage = std::make_shared<Stage>(m_pPlayer);
-	m_pUiBar = std::make_shared<UiBar>(m_pPlayer);
+	m_pUiBar = std::make_shared<UiBar>();
 
 	SelectEnemy(); // 敵の種類を決める
 }
@@ -117,14 +119,16 @@ void SceneMain::Draw()
 {
 	m_pStage->Draw();
 	m_pWeapon->Draw();
+
+	m_pUiBar->DrawPlayerHpBar(m_pPlayer->GetHp(), m_pPlayer->GetStatus().maxHp);
+	m_pUiBar->DrawPlayerGaugeBar(m_pPlayer->GetGauge(), m_pPlayer->GetStatus().maxGauge);
+
+	m_pPlayer->Draw();
 	for (auto& enemy : m_pEnemy)
 	{
 		if (enemy == nullptr) continue;
 		enemy->Draw(*m_pPlayer);
 	}
-	m_pUiBar->DrawPlayerHpBar();
-	m_pUiBar->DrawPlayerGaugeBar();
-	m_pPlayer->Draw();
 
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_PLAYING");
@@ -163,15 +167,22 @@ void SceneMain::SelectEnemy()
 		int enemyIndex;
 		do
 		{
-			enemyIndex = GetRand(kEnemyKindNum - 1) + 1; // 敵をランダムで選ぶ
-		} while (enemyKind.count(enemyIndex) > 0);		 // MEMO:countは要素が見つかったら1を、見つからない場合は0を返す
+			std::random_device rd;
+			std::mt19937 mt(rd());
+			std::uniform_int_distribution urdIndex(1, kEnemyKindNum);
+			enemyIndex = urdIndex(mt);
+		} while (enemyKind.count(enemyIndex) > 0);	 // MEMO:countは要素が見つかったら1を、見つからない場合は0を返す
 		enemyKind.insert(enemyIndex);
 
 		// 敵名が重複しないようにする
 		int enemyNameIndex;
 		do
 		{
-			enemyNameIndex = GetRand(kEnemyNamekind - 1) + 1; // 敵の名前をランダムで選ぶ
+			// 敵の名前をランダムで選ぶ
+			std::random_device rd;
+			std::mt19937 mt(rd());
+			std::uniform_int_distribution urdIndex(1, kEnemyNamekind);
+			enemyNameIndex = urdIndex(mt);
 		} while (enemyName.count(enemyNameIndex) > 0);
 		enemyName.insert(enemyNameIndex);
 		std::string enemyName = LoadCsv::GetInstance().GetEnemyName(enemyNameIndex);

@@ -21,6 +21,7 @@ CharacterBase::CharacterBase():
 	m_status(),
 	m_angle(0.0f),
 	m_hp(0.0f),
+	m_gauge(0.0f),
 	m_isAttack(false),
 	m_isInvincible(false),
 	m_isGuard(false),
@@ -72,6 +73,7 @@ void CharacterBase::Draw()
 void CharacterBase::OnDamage(float damage)
 {
 	m_isOnDamage = true;
+	m_pUiBar->SetDamage(damage);
 	m_hp -= damage;
 	m_hp = std::max(0.0f, m_hp);
 }

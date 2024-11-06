@@ -16,7 +16,7 @@ namespace
 	const char* const kEnemyNameDataFilePath = "data/csv/enemyName.csv";	// 敵の名前データ
 	const char* const kMessageFilePath = "data/csv/message.csv";			// メッセージデータ
 
-	constexpr int kEnemyNamekind = 10;	// 敵名の種類
+	constexpr int kEnemyNamekind = 31;	// 敵名の種類
 
 	/// <summary>
 	/// 文字列を分割する
@@ -54,15 +54,16 @@ void LoadCsv::LoadStatus(CharacterBase::Status& data, std::string charaName)
 			{
 				// ステータス情報を代入する
 				data.maxHp = std::stof(strvec[1]);
-				data.walkSpeed = std::stof(strvec[2]);
-				data.runSpeed = std::stof(strvec[3]);
-				data.avoidDist = std::stof(strvec[4]);
-				data.atkPowerPunch1 = std::stof(strvec[5]);
-				data.atkPowerPunch2 = std::stof(strvec[6]);
-				data.atkPowerPunch3 = std::stof(strvec[7]);
-				data.atkPowerKick = std::stof(strvec[8]);
-				data.atkPowerOneHandWeapon = std::stof(strvec[9]);
-				data.atkPowerTwoHandWeapon = std::stof(strvec[10]);
+				data.maxGauge = std::stof(strvec[2]);
+				data.walkSpeed = std::stof(strvec[3]);
+				data.runSpeed = std::stof(strvec[4]);
+				data.avoidDist = std::stof(strvec[5]);
+				data.atkPowerPunch1 = std::stof(strvec[6]);
+				data.atkPowerPunch2 = std::stof(strvec[7]);
+				data.atkPowerPunch3 = std::stof(strvec[8]);
+				data.atkPowerKick = std::stof(strvec[9]);
+				data.atkPowerOneHandWeapon = std::stof(strvec[10]);
+				data.atkPowerTwoHandWeapon = std::stof(strvec[11]);
 			}
 			catch (const std::invalid_argument&)
 			{
@@ -198,7 +199,7 @@ void LoadCsv::LoadItemData(std::map<std::string, ItemBase::ItemData>& data)
 	}
 }
 
-void LoadCsv::LoadUiData(UiBase::UiData& data)
+void LoadCsv::LoadUiData(std::map<std::string, UiBase::UiData>& data)
 {
 	std::ifstream ifs(kUiDataFilePath);
 	std::string line;
@@ -208,20 +209,23 @@ void LoadCsv::LoadUiData(UiBase::UiData& data)
 	{
 		strvec = split(line, ',');
 
+		std::string uiId = strvec[0];
 		try
 		{
-			data.LTposX = std::stof(strvec[1]);
-			data.LTposY = std::stof(strvec[2]);
-			data.RBposX = std::stof(strvec[3]);
-			data.RBposY = std::stof(strvec[4]);
-			data.scale = std::stof(strvec[5]);
+			data[uiId].LTposX = std::stof(strvec[1]);
+			data[uiId].LTposY = std::stof(strvec[2]);
+			data[uiId].RBposX = std::stof(strvec[3]);
+			data[uiId].RBposY = std::stof(strvec[4]);
+			data[uiId].width = std::stof(strvec[5]);
+			data[uiId].height = std::stof(strvec[6]);
+			data[uiId].scale = std::stof(strvec[7]);
 		}
 		catch (const std::invalid_argument&)
 		{
 			// 無効な文字列をスキップ
 		}
 
-		m_uiData[strvec.at(0)] = data;
+		m_uiData[strvec.at(0)] = data[uiId];
 	}
 }
 

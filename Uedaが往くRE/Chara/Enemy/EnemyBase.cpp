@@ -31,6 +31,11 @@ EnemyBase::EnemyBase(std::shared_ptr<UiBar> pUi, Player& player):
 	m_pos = VGet(randPosX, player.GetPos().y, randPosZ);
 }
 
+EnemyBase::~EnemyBase()
+{
+	MV1DeleteModel(m_modelHandle);
+}
+
 void EnemyBase::Init()
 {
 	CharacterBase::Init();
@@ -91,7 +96,6 @@ void EnemyBase::Draw(Player& player)
 	{
 		m_pUiBar->DrawEnemyHpBar(*this);
 		DrawFormatStringF(screenPos.x, screenPos.y, Color::kColorW, "%s", m_enemyName.c_str());
-		//DrawBoxAA(screenPos.x, screenPos.y, screenPos.x + 100, screenPos.y + 50, 0x0000ff, true);
 	}
 
 #ifdef _DEBUG

@@ -71,7 +71,7 @@ public:
 	/// UI表示情報を読み込む
 	/// </summary>
 	/// <param name="data">UI情報</param>
-	void LoadUiData(UiBase::UiData& data);
+	void LoadUiData(std::map<std::string, UiBase::UiData>& data);
 
 	/// /// <summary>
 	/// csvファイルからメッセージを読み込む

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "SceneBase.h"
+#include <vector>
 
 class Player;
 
@@ -51,6 +52,6 @@ private:
 	};
 
 	// 仮ハンドル
-	int m_bgHandle;
+	std::vector<int> m_handle;
 };
 
