@@ -1,6 +1,8 @@
 ﻿#include "Game.h"
+#include "Item.h"
 #include "EnemyBase.h"
 #include "EnemyStateDeath.h"
+#include <random>
 
 EnemyStateDeath::EnemyStateDeath(std::shared_ptr<EnemyBase> pEnemy) :
 	EnemyStateBase(pEnemy),
@@ -32,8 +34,8 @@ void EnemyStateDeath::DropMoney(Stage& stage)
 {
 	if (m_pEnemy == nullptr) return;
 
-	// TODO:確率でお金をドロップする
-	int randNum = GetRand(10);
+	// 確率でお金かアイテムをドロップする
+	int randNum = GetRand(100);
 
 	if (randNum <= 7)
 	{
@@ -44,9 +46,20 @@ void EnemyStateDeath::DropMoney(Stage& stage)
 	{
 		stage.SetDropMoney(m_pEnemy->GetPos(), 300);
 	}
-	else
+	else if(randNum <= 15)
 	{
 		stage.SetDropMoney(m_pEnemy->GetPos(), 500);
 
+	}
+	else
+	{
+		// ドロップするアイテムをランダムで決める
+		int itemKind;
+		std::random_device rd;
+		std::mt19937 mt(rd());
+		std::uniform_int_distribution urdIndex(1, static_cast<int>(Item::ItemType::kItemKind));
+		itemKind = urdIndex(mt);
+
+		stage.SetDropItem(m_pEnemy->GetPos(), itemKind);
 	}
 }

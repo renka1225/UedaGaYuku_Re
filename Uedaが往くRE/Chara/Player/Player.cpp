@@ -38,7 +38,7 @@ Player::Player(int modelHandle):
 	LoadCsv::GetInstance().LoadColData(m_colData[CharaType::kPlayer], kCharaId);
 
 	m_modelHandle = modelHandle;
-	m_possessItem.resize(kMaxPossession);
+	m_possessItem.resize(kMaxPossession, -1);
 	m_pos = kInitPos;
 	m_colData[CharaType::kPlayer].bodyUpdateStartPos = m_colData[CharaType::kPlayer].bodyStartPos;
 	m_colData[CharaType::kPlayer].bodyUpdateEndPos = m_colData[CharaType::kPlayer].bodyEndPos;
@@ -157,16 +157,50 @@ void Player::AddMoney(int dropMoney)
 	m_beforeMoney = m_money;
 }
 
-void Player::UseItem(std::string itemId)
+void Player::AddItem(int itemType)
 {
-	// 回復
-	Recovery(itemId);
+	// アイテムの所持数が最大の場合は、アイテムを取得できないようにする
+	auto result = std::find(m_possessItem.begin(), m_possessItem.end(), -1);
+	if (result == m_possessItem.end())
+	{
+		return;
+	}
 
-	// 攻撃力UP
-	AtkUp(itemId);
-	
-	// 防御力UP
-	DefUp(itemId);
+	for (int i = 0; i < m_possessItem.size(); i++)
+	{
+		// すでにアイテムがある場合は飛ばす
+		if (m_possessItem[i] != -1) continue;
+		
+		// 取得したアイテムを保存する
+		m_possessItem[i] = itemType;
+		return;
+	}
+}
+
+void Player::DeleteItem(int selectNum)
+{
+	m_possessItem[selectNum] = -1;
+}
+
+void Player::RecoveryHp(float recoveryRate)
+{
+	m_hp += m_status.maxHp * recoveryRate;
+	m_hp = std::min(m_hp, m_status.maxHp);
+}
+
+void Player::RecoveryGauge(float recoveryRate)
+{
+	m_gauge += m_status.maxGauge * recoveryRate;
+	m_gauge = std::min(m_gauge, m_status.maxGauge);
+}
+
+void Player::RecoveryHpGauge(float hpRecoveryRate, float gaugeRecoveryRate)
+{
+	m_hp += m_status.maxHp * hpRecoveryRate;
+	m_hp = std::min(m_hp, m_status.maxHp);
+
+	m_gauge += m_status.maxGauge * gaugeRecoveryRate;
+	m_gauge = std::min(m_gauge, m_status.maxGauge);
 }
 
 void Player::GetFramePos()
@@ -188,77 +222,16 @@ void Player::GetFramePos()
 	m_colData[CharaType::kPlayer].rightEndPos = GetModelFramePos(PlayerFrameName::kRightEnd.c_str());			// 右足終点
 }
 
-void Player::Recovery(std::string itemId)
+void Player::AtkUp(float atkUpRate, int effectTime)
 {
-	// HPを1/3回復
-	if (itemId == "hp_small")
-	{
-		m_hp += m_status.maxHp * 0.3f;
-	}
-	// HPを1/2回復
-	if (itemId == "hp_middle")
-	{
-		m_hp += m_status.maxHp * 0.5f;
-	}
-	// HP全回復
-	if (itemId == "hp_large")
-	{
-		m_hp += m_status.maxHp;
-	}
-	// ゲージを1/2回復
-	if (itemId == "gauge_small")
-	{
-		m_gauge += m_status.maxGauge * 0.5f;
-	}
-	// ゲージ全回復
-	if (itemId == "gauge_large")
-	{
-		m_gauge += m_status.maxGauge;
-	}
-	// HPを1/3、ゲージを1/3回復
-	if (itemId == "hp_gauge_small")
-	{
-		m_hp += m_status.maxHp * 0.3f;
-		m_gauge += m_status.maxGauge * 0.3f;
-
-	}
-	// HPを1/2、ゲージを1/2回復
-	if (itemId == "hp_gauge_large")
-	{
-		m_hp += m_status.maxHp * 0.5f;
-		m_gauge += m_status.maxGauge * 0.5f;
-	}
-
-	m_hp = std::min(m_hp, m_status.maxHp);
-	m_gauge = std::min(m_gauge, m_status.maxGauge);
+	m_itemEffectTime = effectTime;
+	m_status.atkPowerPunch1 *= atkUpRate;
 }
 
-void Player::AtkUp(std::string itemId)
+void Player::DefUp(float defUpRate, int effectTime)
 {
-	// 15秒間攻撃力が1.5倍になる
-	if (itemId == "atk_small")
-	{
-		m_itemEffectTime = 900;
-	}
-	// 10秒間攻撃力が2倍になる
-	if (itemId == "atk_large")
-	{
-		m_itemEffectTime = 600;
-	}
-}
-
-void Player::DefUp(std::string itemId)
-{
-	// 15秒間防御力が1.5倍になる
-	if (itemId == "def_small")
-	{
-		m_itemEffectTime = 900;
-	}
-	// 10秒間防御力が2倍になる
-	if (itemId == "def_large")
-	{
-		m_itemEffectTime = 600;
-	}
+	m_itemEffectTime = effectTime;
+	//m_status.def *= defUpRate;
 }
 
 void Player::DeleteItemEffect()

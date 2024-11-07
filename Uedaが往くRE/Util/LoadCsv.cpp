@@ -7,6 +7,8 @@ LoadCsv* LoadCsv::m_instance = nullptr;
 
 namespace
 {
+	constexpr int kEnemyNamekind = 31;	// 敵名の種類
+
 	const char* const kCharaStatusFilePath = "data/csv/charaStatus.csv";	// キャラクターステータス
 	const char* const kCharaColDataFilePath = "data/csv/charaColData.csv";	// キャラクターの当たり判定データ
 	const char* const kCharaAnimDataFilePath = "data/csv/animData.csv";		// アニメーションデータ
@@ -16,7 +18,21 @@ namespace
 	const char* const kEnemyNameDataFilePath = "data/csv/enemyName.csv";	// 敵の名前データ
 	const char* const kMessageFilePath = "data/csv/message.csv";			// メッセージデータ
 
-	constexpr int kEnemyNamekind = 31;	// 敵名の種類
+	// 文字列のIDからItemTypeに変更する
+	const std::unordered_map<std::string, Item::ItemType> kStringToItemType =
+	{
+		{"hp_small", Item::ItemType::kHpSmall},
+		{"hp_middle", Item::ItemType::kHpMiddle},
+		{"hp_large", Item::ItemType::kHpLarge},
+		{"gauge_small", Item::ItemType::kGaugeSmall},
+		{"gauge_large", Item::ItemType::kGaugeLarge},
+		{"hp_gauge_small", Item::ItemType::kHpGaugeSmall},
+		{"ha_gauge_large", Item::ItemType::kHpGaugeLarge},
+		{"atk_small", Item::ItemType::kAtkSmall},
+		{"atk_large",Item::ItemType::kAtkLarge},
+		{"def_small", Item::ItemType::kDefSmall},
+		{"def_large", Item::ItemType::kDefLarge}
+	};
 
 	/// <summary>
 	/// 文字列を分割する
@@ -170,7 +186,7 @@ void LoadCsv::LoadWeaponData(Weapon::WeaponData& data, std::string weaponName)
 	}
 }
 
-void LoadCsv::LoadItemData(std::map<std::string, ItemBase::ItemData>& data)
+void LoadCsv::LoadItemData(std::map<Item::ItemType, Item::ItemData>& data)
 {
 	std::ifstream ifs(kItemDataFilePath);
 	std::string line;
@@ -182,15 +198,22 @@ void LoadCsv::LoadItemData(std::map<std::string, ItemBase::ItemData>& data)
 
 		// アイテム情報を設定
 		std::string itemName = strvec[0];
+
+		// アイテムのIDをItemType型に変換
+		auto it = kStringToItemType.find(itemName);
+		if (it == kStringToItemType.end()) continue;
+		
+		Item::ItemType itemType = it->second;
+
 		try
 		{
-			data[itemName].itemName = strvec[1];
-			data[itemName].itemExplain = strvec[2];
-			data[itemName].recoveryHP = std::stof(strvec[3]);
-			data[itemName].recoveryGauge = std::stof(strvec[4]);
-			data[itemName].atkUp = std::stof(strvec[5]);
-			data[itemName].difUp = std::stof(strvec[6]);
-			data[itemName].time = std::stoi(strvec[7]);
+			data[itemType].itemName = strvec[1];
+			data[itemType].itemExplain = strvec[2];
+			data[itemType].recoveryHP = std::stof(strvec[3]);
+			data[itemType].recoveryGauge = std::stof(strvec[4]);
+			data[itemType].atkUp = std::stof(strvec[5]);
+			data[itemType].difUp = std::stof(strvec[6]);
+			data[itemType].time = std::stoi(strvec[7]);
 		}
 		catch (const std::invalid_argument&)
 		{

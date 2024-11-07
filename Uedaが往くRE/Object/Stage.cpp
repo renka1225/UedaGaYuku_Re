@@ -84,6 +84,12 @@ void Stage::SetDropMoney(VECTOR enemyPos, int dropMoney)
     m_pPlayer->AddMoney(dropMoney); // プレイヤーの所持金を増やす
 }
 
+void Stage::SetDropItem(VECTOR enemyPos, int dropItem)
+{
+    printfDx("%d\n", dropItem);
+    m_pPlayer->AddItem(dropItem); // プレイヤーのアイテムを追加する
+}
+
 void Stage::AnalyzeWallAndFloor(MV1_COLL_RESULT_POLY_DIM hitDim, const VECTOR& checkPosition)
 {
     // 壁ポリゴンと床ポリゴンの数を初期化する

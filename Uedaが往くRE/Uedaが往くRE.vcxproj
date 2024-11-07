@@ -170,7 +170,7 @@
     <ClCompile Include="Chara\Enemy\EnemyStateHitAttack.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyStateAvoid.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyStateGuard.cpp" />
-    <ClCompile Include="Object\Item\ItemBase.cpp" />
+    <ClCompile Include="Object\Item.cpp" />
     <ClCompile Include="Object\ObjectBase.cpp" />
     <ClCompile Include="Chara\Player\PlayerStateGrab.cpp" />
     <ClCompile Include="Chara\Player\PlayerStateAvoid.cpp" />
@@ -218,7 +218,7 @@
     <ClInclude Include="Chara\ModelFrameName.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateAvoid.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateGuard.h" />
-    <ClInclude Include="Object\Item\ItemBase.h" />
+    <ClInclude Include="Object\Item.h" />
     <ClInclude Include="Object\ObjectBase.h" />
     <ClInclude Include="Chara\Player\PlayerStateGrab.h" />
     <ClInclude Include="Chara\Player\PlayerStateAvoid.h" />

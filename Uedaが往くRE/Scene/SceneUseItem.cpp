@@ -1,7 +1,7 @@
 ﻿#include "DxLib.h"
 #include "Vec2.h"
 #include "Input.h"
-#include "ItemBase.h"
+#include "Item.h"
 #include "Player.h"
 #include "SceneUseItem.h"
 
@@ -32,9 +32,10 @@ SceneUseItem::SceneUseItem(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Pl
 {
 	m_pPlayer = pPlayer;
 	m_pPrevScene = pScene;
-	m_pItem = std::make_shared<ItemBase>();
+	m_pItem = std::make_shared<Item>();
 
 	m_select = kSelectMin;
+	m_possessItem.resize(kSelectMax);
 
 	m_handle.resize(Handle::kNum);
 	m_handle[Handle::kBg] = LoadGraph(kBgHandlePath);
@@ -55,6 +56,9 @@ void SceneUseItem::Init()
 
 std::shared_ptr<SceneBase> SceneUseItem::Update(Input& input)
 {
+	// プレイヤーの所持しているアイテム情報を取得する
+	m_possessItem = m_pPlayer->GetPossessItem();
+
 	MoveCursor(input); 	// カーソル移動の処理
 
 	// 決定ボタンを押したらアイテムを使用する
@@ -78,29 +82,40 @@ void SceneUseItem::Draw()
 
 	DrawMoney(m_pPlayer); // 所持金額表示
 
+	// アイテムの情報を表示する
+	for (int i = 0; i < m_possessItem.size(); i++)
+	{
+		// アイテムの情報がない部分は無視する
+		if (m_possessItem[i] == -1) continue;
+		
+		// アイテムの画像を表示する
+		//DrawGraph(100 + 200 * i, 300, m_handle[i], true);
+
+		// 選択中のアイテム名を表示する
+		if (m_select == i)
+		{
+			std::string itemName = m_pItem->GetItemData(m_possessItem[i]).itemName;
+			std::string itemExplain = m_pItem->GetItemData(m_possessItem[i]).itemExplain;
+
+			DrawFormatStringF(100 + 200 * i, 300, 0xffffff, "アイテム名:%s", itemName.c_str());
+			DrawFormatStringF(100 + 200 * i, 320, 0xffffff, "アイテム説明:%s", itemExplain.c_str());
+		}
+	}
+
 #ifdef _DEBUG	// デバッグ表示
 	DrawSceneText("MSG_DEBUG_USEITEM");
-	m_pItem->Draw();
 #endif
-}
-
-void SceneUseItem::SetItem()
-{
-
 }
 
 void SceneUseItem::UseItem()
 {
-	printfDx("アイテム使用した\n");
+	printfDx("%dのアイテム使用した\n", m_possessItem[m_select]);
 
-	// TODO:現在の選択状態のアイテムを使用する
-	//for (int i = 0; i < m_itemData.size(); i++)
-	//{
-		//if (m_pItemData[i] == nullptr) return;
-		
-		// プレイヤーにアイテム情報を渡す
-		//m_pPlayer->UseItem(m_pItemData);
-	//}
+	// 現在選択中のアイテムを使用する
+	m_pItem->ApplyEffect(*m_pPlayer, m_possessItem[m_select]);
+
+	// 使用したアイテムを削除する
+	m_pPlayer->DeleteItem(m_select);
 }
 
 void SceneUseItem::MoveCursor(Input& input)
@@ -163,5 +178,5 @@ void SceneUseItem::DrawCursor()
 		dispY = kCursorPos.y + kCursorMove.y;
 	}
 
-	DrawGraph(kCursorPos.x + ((m_select % kSelectCol) * kCursorMove.x), dispY, m_handle[Handle::kCursor], true);
+	DrawGraphF(kCursorPos.x + ((m_select % kSelectCol) * kCursorMove.x), dispY, m_handle[Handle::kCursor], true);
 }

@@ -60,10 +60,49 @@ public:
 	void AddMoney(int dropMoney);
 
 	/// <summary>
-	/// アイテムを使用した場合
+	/// 取得アイテムを追加する
 	/// </summary>
-	/// <param name="itemId">選択したアイテムID</param>
-	void UseItem(std::string itemId);
+	/// <param name="itemType">取得したアイテムの種類</param>
+	void AddItem(int itemType);
+
+	/// <summary>
+	/// 使用したアイテムを削除する
+	/// </summary>
+	/// <param name="selectNum">選択したアイテム番号/param>
+	void DeleteItem(int selectNum);
+
+	/// <summary>
+	/// HP回復処理
+	/// </summary>
+	/// <param name="recovery">回復割合</param>
+	void RecoveryHp(float recoveryRate);
+
+	/// <summary>
+	/// ゲージ回復処理
+	/// </summary>
+	/// <param name="recovery">回復割合</param>
+	void RecoveryGauge(float recoveryRate);
+
+	/// <summary>
+	/// HP回復+ゲージ回復処理
+	/// </summary>
+	/// <param name="hpRecoveryRate">HP回復割合</param>
+	/// <param name="gaugeRecoveryRate">ゲージ回復割合</param>
+	void RecoveryHpGauge(float hpRecoveryRate, float gaugeRecoveryRate);
+
+	/// <summary>
+	/// 攻撃力アップ処理
+	/// </summary>
+	/// <param name="atkUpRate">攻撃力アップの割合</param>
+	/// <param name="effectTime">効果時間</param>
+	void AtkUp(float atkUpRate, int effectTime);
+
+	/// <summary>
+	/// 防御力アップ処理
+	/// </summary>
+	/// <param name="defUpRate">防御力アップの割合</param>
+	/// <param name="effectTime">効果時間</param>
+	void DefUp(float defUpRate, int effectTime);
 
 	/// <summary>
 	/// 現在の所持金額を取得する
@@ -71,29 +110,17 @@ public:
 	/// <returns></returns>
 	int GetMoney() const { return m_money; }
 
+	/// <summary>
+	/// 現在所持しているアイテムを取得する
+	/// </summary>
+	/// <returns></returns>
+	std::vector<int> GetPossessItem() const { return m_possessItem; }
+
 private:
 	/// <summary>
 	/// プレイヤーのフレーム位置を取得する
 	/// </summary>
 	void GetFramePos();
-
-	/// <summary>
-	/// 回復処理
-	/// </summary>
-	/// <param name="itemId">使用したアイテムのID</param>
-	void Recovery(std::string itemId);
-
-	/// <summary>
-	/// 攻撃力アップ処理
-	/// </summary>
-	/// <param name="itemId">使用したアイテムのID</param>
-	void AtkUp(std::string itemId);
-
-	/// <summary>
-	/// 防御力アップ処理
-	/// </summary>
-	/// <param name="itemId">使用したアイテムのID</param>
-	void DefUp(std::string itemId);
 
 	/// <summary>
 	/// アイテムの効果を削除する

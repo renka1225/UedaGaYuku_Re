@@ -61,12 +61,6 @@
     <Filter Include="ソース ファイル\UI">
       <UniqueIdentifier>{2dbe15b8-6525-444a-a506-ca6ab62f59e3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Object\Item">
-      <UniqueIdentifier>{87f99767-3f44-44b3-aca3-438c8c8a91bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Object\Item">
-      <UniqueIdentifier>{e056ebfb-ff7b-4c2d-9af0-4bc24f87a68e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scene\SceneManager.cpp">
@@ -186,9 +180,6 @@
     <ClCompile Include="Util\Sound.cpp">
       <Filter>ソース ファイル\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Item\ItemBase.cpp">
-      <Filter>ソース ファイル\Object\Item</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\SceneMenu.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
@@ -203,6 +194,9 @@
     </ClCompile>
     <ClCompile Include="Scene\SceneSave.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Item.cpp">
+      <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -332,9 +326,6 @@
     <ClInclude Include="Scene\SceneMenu.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Item\ItemBase.h">
-      <Filter>ヘッダー ファイル\Object\Item</Filter>
-    </ClInclude>
     <ClInclude Include="UI\UiBar.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
@@ -346,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="Scene\SceneSave.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Item.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

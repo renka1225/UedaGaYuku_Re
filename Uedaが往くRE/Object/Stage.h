@@ -42,6 +42,13 @@ public:
 	void SetDropMoney(VECTOR enemyPos, int dropMoney);
 
 	/// <summary>
+	/// 敵がドロップしたアイテムをセットする
+	/// </summary>
+	/// <param name="enemyPos">アイテムをドロップする敵の座標</param>
+	/// <param name="dropItem">ドロップしたアイテム</param>
+	void SetDropItem(VECTOR enemyPos, int dropItem);
+
+	/// <summary>
 	/// ステージモデルを取得
 	/// </summary>
 	/// <returns>3Dモデルのハンドル</returns>

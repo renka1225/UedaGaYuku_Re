@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "SceneBase.h"
 
-class ItemBase;
+class Item;
 class Player;
 
 /// <summary>
@@ -37,11 +37,6 @@ public:
 	/// </summary>
 	virtual void Draw();
 
-	/// <summary>
-	/// 取得したアイテムをセットする
-	/// </summary>
-	void SetItem();
-
 private:
 	/// <summary>
 	/// アイテムを使用した場合
@@ -59,6 +54,7 @@ private:
 	void DrawCursor();
 
 private:
-	std::shared_ptr<ItemBase> m_pItem;	// アイテムのポインタ
+	std::shared_ptr<Item> m_pItem;	// アイテムのポインタ
+	std::vector<int> m_possessItem;	// プレイヤーが所持しているアイテム
 };
 

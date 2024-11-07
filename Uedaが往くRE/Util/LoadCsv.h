@@ -2,7 +2,7 @@
 #include "CharacterBase.h"
 #include "EnemyBase.h"
 #include "Weapon.h"
-#include "ItemBase.h"
+#include "Item.h"
 #include "UiBase.h"
 #include <string>
 #include <map>
@@ -65,7 +65,7 @@ public:
 	/// <summary>
 	/// アイテム情報を読み込む
 	/// </summary>
-	void LoadItemData(std::map<std::string, ItemBase::ItemData>& data);
+	void LoadItemData(std::map<Item::ItemType, Item::ItemData>& data);
 
 	/// <summary>
 	/// UI表示情報を読み込む
