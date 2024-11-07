@@ -37,8 +37,28 @@ public:
 	/// </summary>
 	virtual void Draw();
 
+	/// <summary>
+	/// 取得したアイテムをセットする
+	/// </summary>
+	void SetItem();
+
 private:
-	std::shared_ptr<ItemBase> m_pItem;
-	int m_handle;
+	/// <summary>
+	/// アイテムを使用した場合
+	/// </summary>
+	void UseItem();
+
+	/// <summary>
+	/// カーソル移動の処理
+	/// </summary>
+	void MoveCursor(Input& input);
+
+	/// <summary>
+	/// カーソルを表示
+	/// </summary>
+	void DrawCursor();
+
+private:
+	std::shared_ptr<ItemBase> m_pItem;	// アイテムのポインタ
 };
 

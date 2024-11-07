@@ -19,23 +19,26 @@ namespace
 {
 	const std::string kCharaId = "player";					// キャラクターのID名
 	const VECTOR kInitPos = VGet(7425.0, 40.0f, 5190.0f);	// 初期位置
-	constexpr float kScale = 0.14f;							// モデルの拡大率
-	constexpr float kDistEnemyGrab = 50.0f;					// 敵を掴める距離
 
+	constexpr float kScale = 0.14f;			// モデルの拡大率
+	constexpr float kDistEnemyGrab = 50.0f;	// 敵を掴める距離
+
+	constexpr int kMaxPossession = 12;	// アイテムの最大所持数
 	constexpr int kMoneyIncrement = 5; // 一度に増える所持金数
 }
 
 Player::Player(int modelHandle):
 	m_money(0),
 	m_beforeMoney(0),
-	m_addMoney(0)
+	m_addMoney(0),
+	m_itemEffectTime(0)
 {
 	// ステータスを読み込む
 	LoadCsv::GetInstance().LoadStatus(m_status, kCharaId);
 	LoadCsv::GetInstance().LoadColData(m_colData[CharaType::kPlayer], kCharaId);
 
 	m_modelHandle = modelHandle;
-
+	m_possessItem.resize(kMaxPossession);
 	m_pos = kInitPos;
 	m_colData[CharaType::kPlayer].bodyUpdateStartPos = m_colData[CharaType::kPlayer].bodyStartPos;
 	m_colData[CharaType::kPlayer].bodyUpdateEndPos = m_colData[CharaType::kPlayer].bodyEndPos;
@@ -107,6 +110,12 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 		m_isPossibleGrabWeapon = false;
 	}
 
+	m_itemEffectTime--; // アイテムの効果時間
+	if(m_itemEffectTime <= 0)
+	{
+		DeleteItemEffect(); // アイテムの効果を消す
+	}
+
 	m_pState->Update(input, camera, stage, weapon, pEnemy);	// stateの更新
 	UpdateAngle();					// 向きを更新
 	UpdateAnim();					// アニメーションを更新
@@ -148,6 +157,18 @@ void Player::AddMoney(int dropMoney)
 	m_beforeMoney = m_money;
 }
 
+void Player::UseItem(std::string itemId)
+{
+	// 回復
+	Recovery(itemId);
+
+	// 攻撃力UP
+	AtkUp(itemId);
+	
+	// 防御力UP
+	DefUp(itemId);
+}
+
 void Player::GetFramePos()
 {
 	m_colData[CharaType::kPlayer].leftShoulderPos = GetModelFramePos(PlayerFrameName::kLeftShoulder.c_str());	// 左肩
@@ -165,4 +186,82 @@ void Player::GetFramePos()
 	m_colData[CharaType::kPlayer].rightLegPos = GetModelFramePos(PlayerFrameName::kRightLeg.c_str());			// 右膝
 	m_colData[CharaType::kPlayer].rightFootPos = GetModelFramePos(PlayerFrameName::kRightFoot.c_str());			// 右足首
 	m_colData[CharaType::kPlayer].rightEndPos = GetModelFramePos(PlayerFrameName::kRightEnd.c_str());			// 右足終点
+}
+
+void Player::Recovery(std::string itemId)
+{
+	// HPを1/3回復
+	if (itemId == "hp_small")
+	{
+		m_hp += m_status.maxHp * 0.3f;
+	}
+	// HPを1/2回復
+	if (itemId == "hp_middle")
+	{
+		m_hp += m_status.maxHp * 0.5f;
+	}
+	// HP全回復
+	if (itemId == "hp_large")
+	{
+		m_hp += m_status.maxHp;
+	}
+	// ゲージを1/2回復
+	if (itemId == "gauge_small")
+	{
+		m_gauge += m_status.maxGauge * 0.5f;
+	}
+	// ゲージ全回復
+	if (itemId == "gauge_large")
+	{
+		m_gauge += m_status.maxGauge;
+	}
+	// HPを1/3、ゲージを1/3回復
+	if (itemId == "hp_gauge_small")
+	{
+		m_hp += m_status.maxHp * 0.3f;
+		m_gauge += m_status.maxGauge * 0.3f;
+
+	}
+	// HPを1/2、ゲージを1/2回復
+	if (itemId == "hp_gauge_large")
+	{
+		m_hp += m_status.maxHp * 0.5f;
+		m_gauge += m_status.maxGauge * 0.5f;
+	}
+
+	m_hp = std::min(m_hp, m_status.maxHp);
+	m_gauge = std::min(m_gauge, m_status.maxGauge);
+}
+
+void Player::AtkUp(std::string itemId)
+{
+	// 15秒間攻撃力が1.5倍になる
+	if (itemId == "atk_small")
+	{
+		m_itemEffectTime = 900;
+	}
+	// 10秒間攻撃力が2倍になる
+	if (itemId == "atk_large")
+	{
+		m_itemEffectTime = 600;
+	}
+}
+
+void Player::DefUp(std::string itemId)
+{
+	// 15秒間防御力が1.5倍になる
+	if (itemId == "def_small")
+	{
+		m_itemEffectTime = 900;
+	}
+	// 10秒間防御力が2倍になる
+	if (itemId == "def_large")
+	{
+		m_itemEffectTime = 600;
+	}
+}
+
+void Player::DeleteItemEffect()
+{
+	// TODO:アイテム使用前のステータスに戻す
 }

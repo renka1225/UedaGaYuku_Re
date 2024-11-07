@@ -1,20 +1,52 @@
 ﻿#include "DxLib.h"
+#include "Vec2.h"
 #include "Input.h"
 #include "ItemBase.h"
 #include "Player.h"
 #include "SceneUseItem.h"
 
+namespace
+{
+	const char* kBgHandlePath = "data/ui/useItem/bg.png";
+	const char* kCursorHandlePath = "data/ui/useItem/cursor.png";
+
+	constexpr int kSelectMin = 0;	 // 選択アイテムの最小番号
+	constexpr int kSelectMax = 12;	 // 選択アイテムの最大番号
+	constexpr int kSelectRow = 2;	 // 選択アイテムの行数
+	constexpr int kSelectCol = 6;	 // 選択アイテムの列数
+	
+	const Vec2 kCursorPos = { 420.0f, 280.0f };  // 初期カーソル表示位置
+	const Vec2 kCursorMove = { 178.0f, 220.0f }; // カーソルの移動量
+
+	enum Handle
+	{
+		kBg,	 // 背景
+		kText,	 // テキスト
+		kItem,	 // アイテム
+		kCursor, // カーソル
+		kNum
+	};
+}
+
 SceneUseItem::SceneUseItem(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer)
 {
 	m_pPlayer = pPlayer;
 	m_pPrevScene = pScene;
-	m_handle = LoadGraph("data/ui/bg_useItem.png");
 	m_pItem = std::make_shared<ItemBase>();
+
+	m_select = kSelectMin;
+
+	m_handle.resize(Handle::kNum);
+	m_handle[Handle::kBg] = LoadGraph(kBgHandlePath);
+	m_handle[Handle::kCursor] = LoadGraph(kCursorHandlePath);
 }
 
 SceneUseItem::~SceneUseItem()
 {
-	DeleteGraph(m_handle);
+	for (auto& handle : m_handle)
+	{
+		DeleteGraph(handle);
+	}
 }
 
 void SceneUseItem::Init()
@@ -23,6 +55,14 @@ void SceneUseItem::Init()
 
 std::shared_ptr<SceneBase> SceneUseItem::Update(Input& input)
 {
+	MoveCursor(input); 	// カーソル移動の処理
+
+	// 決定ボタンを押したらアイテムを使用する
+	if (input.IsTriggered(InputId::kA))
+	{
+		UseItem();
+	}
+
 	if (input.IsTriggered(InputId::kBack))
 	{
 		return m_pPrevScene; // メニュー画面に戻る
@@ -33,11 +73,95 @@ std::shared_ptr<SceneBase> SceneUseItem::Update(Input& input)
 
 void SceneUseItem::Draw()
 {
-	DrawGraph(0, 0, m_handle, true);
+	DrawGraph(0, 0, m_handle[Handle::kBg], true);
+	DrawCursor(); // カーソル表示
+
 	DrawMoney(m_pPlayer); // 所持金額表示
 
 #ifdef _DEBUG	// デバッグ表示
 	DrawSceneText("MSG_DEBUG_USEITEM");
 	m_pItem->Draw();
 #endif
+}
+
+void SceneUseItem::SetItem()
+{
+
+}
+
+void SceneUseItem::UseItem()
+{
+	printfDx("アイテム使用した\n");
+
+	// TODO:現在の選択状態のアイテムを使用する
+	//for (int i = 0; i < m_itemData.size(); i++)
+	//{
+		//if (m_pItemData[i] == nullptr) return;
+		
+		// プレイヤーにアイテム情報を渡す
+		//m_pPlayer->UseItem(m_pItemData);
+	//}
+}
+
+void SceneUseItem::MoveCursor(Input& input)
+{
+	// 右に入力
+	if (input.IsTriggered(InputId::kRight))
+	{
+		// カーソルが一番右に来たら一番左に移動させる
+		if (m_select % kSelectCol >= (kSelectCol - 1))
+		{
+			m_select -= kSelectCol;
+		}
+
+		m_select++;
+	}
+	// 左に入力
+	else if (input.IsTriggered(InputId::kLeft))
+	{
+		// カーソルが1番左に来たら一番右に移動させる
+		if (m_select % kSelectCol == 0)
+		{
+			m_select += (kSelectCol - 1);
+		}
+		else
+		{
+			m_select--;
+		}
+	}
+	// 上に入力
+	else if (input.IsTriggered(InputId::kUp))
+	{
+		m_select -= kSelectCol;
+		// カーソルが1番上に来たら一番下に移動させる
+		if (m_select < 0)
+		{
+			m_select += kSelectCol * 2;
+		}
+	}
+	// 下に入力
+	else if (input.IsTriggered(InputId::kDown))
+	{
+		m_select += kSelectCol;
+		// カーソルが1番下に来たら一番上に移動させる
+		if (m_select >= kSelectMax)
+		{
+			m_select -= kSelectCol * 2;
+		}
+	}
+}
+
+void SceneUseItem::DrawCursor()
+{
+	float dispY;
+	if (m_select < kSelectCol)
+	{
+		dispY = kCursorPos.y;
+	}
+	else
+	{
+		dispY = kCursorPos.y + kCursorMove.y;
+	}
+
+	DrawGraph(kCursorPos.x + ((m_select % kSelectCol) * kCursorMove.x), dispY, m_handle[Handle::kCursor], true);
 }

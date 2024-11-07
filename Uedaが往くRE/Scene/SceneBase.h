@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <memory>
+#include <vector>
 
 class Input;
 class UiBase;
@@ -64,7 +65,7 @@ protected:
 	std::shared_ptr<SceneBase> m_pPrevScene; // 前に実行していたシーン
 	std::shared_ptr<UiBase> m_pUi;			 // UIのポインタ
 	std::shared_ptr<Player> m_pPlayer;		 // プレイヤーのポインタ
-
+	std::vector<int> m_handle;	// ハンドル
 	int m_select;	// 現在の選択状態
 };
 

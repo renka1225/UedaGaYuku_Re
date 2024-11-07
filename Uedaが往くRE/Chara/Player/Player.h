@@ -60,6 +60,12 @@ public:
 	void AddMoney(int dropMoney);
 
 	/// <summary>
+	/// アイテムを使用した場合
+	/// </summary>
+	/// <param name="itemId">選択したアイテムID</param>
+	void UseItem(std::string itemId);
+
+	/// <summary>
 	/// 現在の所持金額を取得する
 	/// </summary>
 	/// <returns></returns>
@@ -71,11 +77,36 @@ private:
 	/// </summary>
 	void GetFramePos();
 
+	/// <summary>
+	/// 回復処理
+	/// </summary>
+	/// <param name="itemId">使用したアイテムのID</param>
+	void Recovery(std::string itemId);
+
+	/// <summary>
+	/// 攻撃力アップ処理
+	/// </summary>
+	/// <param name="itemId">使用したアイテムのID</param>
+	void AtkUp(std::string itemId);
+
+	/// <summary>
+	/// 防御力アップ処理
+	/// </summary>
+	/// <param name="itemId">使用したアイテムのID</param>
+	void DefUp(std::string itemId);
+
+	/// <summary>
+	/// アイテムの効果を削除する
+	/// </summary>
+	void DeleteItemEffect();
+
 private:
 	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
+	std::vector<int> m_possessItem;	// プレイヤーが所持しているアイテム情報を保存しておく
 	std::vector<VECTOR> m_pToEVec;	// プレイヤーから敵への位置ベクトル
-	int m_money;		// 所持金額
-	int m_beforeMoney;	// 増減前の金額
-	int m_addMoney;		// 追加する金額
+	int m_money;			// 所持金額
+	int m_beforeMoney;		// 増減前の金額
+	int m_addMoney;			// 追加する金額
+	int m_itemEffectTime;	// アイテムの効果時間
 };
 
