@@ -22,9 +22,6 @@ void Item::Update()
 
 void Item::Draw()
 {
-#ifdef _DEBUG
-	DrawFormatString(300, 400, 0xffffff, "アイテム名:%s", m_itemData[ItemType::kHpSmall].itemName.c_str());
-#endif
 }
 
 void Item::ApplyEffect(Player& player, int m_select)

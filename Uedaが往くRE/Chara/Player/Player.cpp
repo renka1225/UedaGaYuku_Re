@@ -203,6 +203,23 @@ void Player::RecoveryHpGauge(float hpRecoveryRate, float gaugeRecoveryRate)
 	m_gauge = std::min(m_gauge, m_status.maxGauge);
 }
 
+void Player::AtkUp(float atkUpRate, int effectTime)
+{
+	m_itemEffectTime = effectTime;
+	m_status.atkPowerPunch1 *= atkUpRate;
+	m_status.atkPowerPunch2 *= atkUpRate;
+	m_status.atkPowerPunch3 *= atkUpRate;
+	m_status.atkPowerKick *= atkUpRate;
+	m_status.atkPowerOneHandWeapon *= atkUpRate;
+	m_status.atkPowerTwoHandWeapon *= atkUpRate;
+}
+
+void Player::DefUp(float defUpRate, int effectTime)
+{
+	m_itemEffectTime = effectTime;
+	//m_status.def *= defUpRate;
+}
+
 void Player::GetFramePos()
 {
 	m_colData[CharaType::kPlayer].leftShoulderPos = GetModelFramePos(PlayerFrameName::kLeftShoulder.c_str());	// 左肩
@@ -222,17 +239,6 @@ void Player::GetFramePos()
 	m_colData[CharaType::kPlayer].rightEndPos = GetModelFramePos(PlayerFrameName::kRightEnd.c_str());			// 右足終点
 }
 
-void Player::AtkUp(float atkUpRate, int effectTime)
-{
-	m_itemEffectTime = effectTime;
-	m_status.atkPowerPunch1 *= atkUpRate;
-}
-
-void Player::DefUp(float defUpRate, int effectTime)
-{
-	m_itemEffectTime = effectTime;
-	//m_status.def *= defUpRate;
-}
 
 void Player::DeleteItemEffect()
 {

@@ -97,8 +97,8 @@ void SceneUseItem::Draw()
 			std::string itemName = m_pItem->GetItemData(m_possessItem[i]).itemName;
 			std::string itemExplain = m_pItem->GetItemData(m_possessItem[i]).itemExplain;
 
-			DrawFormatStringF(100 + 200 * i, 300, 0xffffff, "アイテム名:%s", itemName.c_str());
-			DrawFormatStringF(100 + 200 * i, 320, 0xffffff, "アイテム説明:%s", itemExplain.c_str());
+			DrawFormatStringF(300.0f, 800.0f, 0xffffff, "アイテム名:%s", itemName.c_str());
+			DrawFormatStringF(700.0f, 950.0f, 0xffffff, "アイテム説明:%s", itemExplain.c_str());
 		}
 	}
 

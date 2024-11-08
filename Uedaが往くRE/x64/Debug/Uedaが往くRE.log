@@ -1,4 +1,2 @@
 ﻿  SceneUseItem.cpp
-C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Scene\SceneUseItem.cpp(100,26): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Scene\SceneUseItem.cpp(101,26): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-  Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\x64\Debug\Uedaが往くRE.exe
+  Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Uedaが往くRE.exe

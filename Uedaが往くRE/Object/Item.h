@@ -41,6 +41,7 @@ public:
 		float atkUp;			 // 攻撃力アップ量
 		float difUp;			 // 防御力アップ量
 		int time;				 // 効果時間
+		int itemHandle;			 // アイテムの画像
 	};
 
 public:
