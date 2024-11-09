@@ -107,8 +107,6 @@ private:
 		int handle;
 		int vol;
 	};
-	//std::vector<SoundData> m_bgmData; // BGMのデータ
-	//std::vector<SoundData> m_seData;  // SEのデータ
 
 	std::map<std::string, SoundData> m_bgmData; // サウンドのデータ
 	std::map<std::string, SoundData> m_seData; // サウンドのデータ

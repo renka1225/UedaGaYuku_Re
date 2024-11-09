@@ -1,4 +1,5 @@
 ﻿#include "Game.h"
+#include "EffectManager.h"
 #include "Player.h"
 #include "EnemyBase.h"
 #include "EnemyStateRun.h"
@@ -109,7 +110,10 @@ void EnemyStateBase::Update(Stage& stage, Player& pPlayer)
 		std::shared_ptr<EnemyStateHitAttack> state = std::make_shared<EnemyStateHitAttack>(m_pEnemy);
 		m_nextState = state;
 		state->Init();
+		
+		// ダメージエフェクトを表示
+		EffectManager::GetInstance().Add("attack", m_pEnemy->GetPos());
+
 		return;
 	}
-
 }

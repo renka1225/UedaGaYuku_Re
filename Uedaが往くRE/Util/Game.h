@@ -24,6 +24,7 @@ namespace Color
 	constexpr int kColorLB = 0x00ffff;	// 水色
 	constexpr int kColorP = 0xff00ff;	// 紫色
 }
+
 /// <summary>
 /// アニメーション名
 /// </summary>

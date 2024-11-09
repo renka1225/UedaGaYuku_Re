@@ -4,6 +4,7 @@
 #include "LoadCsv.h"
 #include "Input.h"
 #include "Sound.h"
+#include "EffectManager.h"
 #include "SceneManager.h"
 
 /// <summary>
@@ -70,6 +71,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	LoadCsv::GetInstance().LoadMessage();
 	// サウンドのロード
 	Sound::GetInstance().Load();
+	// エフェクトのロード
+	EffectManager::GetInstance().Load();
 
 	// SceneManagerを生成
 	std::shared_ptr<SceneManager> pScene = std::make_shared<SceneManager>();
@@ -87,6 +90,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// 描画
 		pScene->Draw();
+
+		EffectManager::GetInstance().Update();
+		EffectManager::GetInstance().Draw();
 
 		//裏画面を表画面を入れ替える
 		ScreenFlip();

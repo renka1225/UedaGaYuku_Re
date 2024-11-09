@@ -8,9 +8,9 @@ Sound* Sound::m_instance = nullptr;
 
 namespace
 {
-	const char* kSoundFilePath = "data/csv/soundData.csv";
-	const std::string kBgmFilePath = "data/sound/BGM/";
-	const std::string kSeFilePath = "data/sound/SE/";
+	const char* kCsvFilePath = "data/csv/soundData.csv";	// 読み込むcsvファイルのパス
+	const std::string kBgmFilePath = "data/sound/BGM/";		// BGMのパス
+	const std::string kSeFilePath = "data/sound/SE/";		// SEのパス
 
 	/// <summary>
 	/// 文字列を分割する
@@ -33,7 +33,7 @@ namespace
 
 void Sound::Load()
 {
-	std::ifstream ifs(kSoundFilePath);
+	std::ifstream ifs(kCsvFilePath);
 	std::string line;
 
 	while (std::getline(ifs, line))
