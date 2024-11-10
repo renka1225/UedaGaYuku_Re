@@ -1,8 +1,15 @@
-﻿  EffectManager.cpp
-C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Util\EffectManager.cpp(57,39): warning C4101: 'e': ローカル変数は 1 度も使われていません。
+﻿  EnemyStateBase.cpp
+  PlayerStateBase.cpp
+  SceneMain.cpp
+  EffectManager.cpp
+C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Util\EffectManager.cpp(60,39): warning C4101: 'e': ローカル変数は 1 度も使われていません。
+  main.cpp
+  コードを生成中...
+Effekseer_vs2019_x64_d.lib(Effekseer.Effect.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(Effekseer.Effect.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Effekseer_vs2019_x64_d.lib(Effekseer.Manager.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(Effekseer.Manager.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Effekseer_vs2019_x64_d.lib(Effekseer.ResourceManager.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(Effekseer.ResourceManager.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Effekseer_vs2019_x64_d.lib(Effekseer.Setting.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(Effekseer.Setting.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Effekseer_vs2019_x64_d.lib(Effekseer.Server.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(Effekseer.Server.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Effekseer_vs2019_x64_d.lib(Effekseer.CompiledMaterial.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(Effekseer.CompiledMaterial.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Effekseer_vs2019_x64_d.lib(ProceduralModelGenerator.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(ProceduralModelGenerator.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Effekseer_vs2019_x64_d.lib(Model.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(Model.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。

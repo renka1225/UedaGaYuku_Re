@@ -1,5 +1,6 @@
 ﻿#include "Game.h"
 #include "Input.h"
+#include "EffectManager.h"
 #include "SceneBase.h"
 #include "Weapon.h"
 #include "Player.h"
@@ -58,7 +59,7 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	if (input.IsPressing(InputId::kGuard))
 	{
 		// StateをGuardに変更する
-		m_pPlayer->GetIsGuard(true);
+		m_pPlayer->SetIsGuard(true);
 		std::shared_ptr<PlayerStateGuard> state = std::make_shared<PlayerStateGuard>(m_pPlayer);
 		m_nextState = state;
 		state->Init();
@@ -107,13 +108,20 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 		}
 	}
 
-	//// ダメージを受けたとき
-	//if (m_pPlayer->GetIsOnDamage())
-	//{
-	//	// StateをHitAttackに変更する
-	//	std::shared_ptr<PlayerStateHitAttack> state = std::make_shared<PlayerStateHitAttack>(m_pPlayer);
-	//	m_nextState = state;
-	//	state->Init();
-	//	return;
-	//}
+	// ダメージを受けたとき
+	if (m_pPlayer->GetIsOnDamage())
+	{
+		// StateをHitAttackに変更する
+		//std::shared_ptr<PlayerStateHitAttack> state = std::make_shared<PlayerStateHitAttack>(m_pPlayer);
+		//m_nextState = state;
+		//state->Init();
+
+		// ガード中の場合
+		if (m_pPlayer->GetIsGuard())
+		{
+			// ガードエフェクトを表示
+			//EffectManager::GetInstance().Add("guard", m_pPlayer->GetPos());
+		}
+		return;
+	}
 }

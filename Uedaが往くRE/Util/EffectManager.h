@@ -16,11 +16,15 @@ public:
 	// エフェクトの情報
 	struct EffectData
 	{
-		int handle;			// エフェクトのハンドル
-		VECTOR pos;			// 表示位置
-		float scale;		// 拡大率
-		int playTime;		// トータルの再生時間
-		int elapsedTime;	// 現在の再生時間
+		int effektHandle;		// エフェクトのハンドル
+		int playingHandle;		// 再生中のハンドル
+		VECTOR pos;				// 表示位置
+		VECTOR adjPos;			// 表示位置の調整量
+		VECTOR rotate;			// 回転率
+		float scale;			// 拡大率
+		int playTime;			// トータルの再生時間
+		int elapsedTime;		// 現在の再生時間
+		bool isPlaying = false;	// エフェクトを再生中か
 	};
 
 	// コピーコンストラクタの禁止
@@ -65,18 +69,6 @@ public:
 	void Update();
 
 	/// <summary>
-	/// エフェクトの表示位置を更新する
-	/// </summary>
-	/// <param name="effectName">エフェクト名</param>
-	void UpdatePos(std::string effectName);
-
-	/// <summary>
-	/// 拡大率を更新する
-	/// </summary>
-	/// <param name="effectName">エフェクト名</param>
-	void UpdateScale(std::string effectName);
-
-	/// <summary>
 	/// 描画
 	/// </summary>
 	void Draw();
@@ -85,8 +77,8 @@ public:
 	/// エフェクトを追加する
 	/// </summary>
 	/// <param name="name">追加するエフェクト名</param>
-	/// <param name="enemyPos">敵座標</param>
-	void Add(const std::string name, const VECTOR enemyPos);
+	/// <param name="enemyPos">キャラクターの位置</param>
+	void Add(const std::string name, VECTOR pos);
 
 private:
 	EffectManager() = default;

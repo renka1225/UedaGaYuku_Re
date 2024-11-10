@@ -150,7 +150,7 @@ public:
 	/// <summary>
 	/// ガード状態をセットする
 	/// </summary>
-	void GetIsGuard(bool isGuard) { m_isGuard = isGuard; }
+	void SetIsGuard(bool isGuard) { m_isGuard = isGuard; }
 
 	/// <summary>
 	/// ダメージを受けている状態かどうかセットする

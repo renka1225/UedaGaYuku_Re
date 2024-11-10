@@ -91,9 +91,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// 描画
 		pScene->Draw();
 
-		EffectManager::GetInstance().Update();
-		EffectManager::GetInstance().Draw();
-
 		//裏画面を表画面を入れ替える
 		ScreenFlip();
 

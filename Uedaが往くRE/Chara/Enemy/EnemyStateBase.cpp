@@ -32,6 +32,19 @@ void EnemyStateBase::Update(Stage& stage, Player& pPlayer)
 	// ダウン状態中は状態を更新しない
 	if (GetKind() == EnemyStateKind::kDeath) return;
 
+	// 攻撃を受けた場合
+	if (m_pEnemy->GetIsOnDamage() && !(GetKind() == EnemyStateKind::kDamage))
+	{	
+		// StateをStateHitAttackに変更する
+		std::shared_ptr<EnemyStateHitAttack> state = std::make_shared<EnemyStateHitAttack>(m_pEnemy);
+		m_nextState = state;
+		state->Init();
+
+		// ダメージエフェクトを表示
+		EffectManager::GetInstance().Add("attack", m_pEnemy->GetPos());
+		return;
+	}
+
 	// HPが0以下になったら
 	if (m_pEnemy->GetHp() <= 0.0f)
 	{
@@ -101,19 +114,5 @@ void EnemyStateBase::Update(Stage& stage, Player& pPlayer)
 			state->Init();
 			return;
 		}
-	}
-
-	// 攻撃を受けた場合
-	if (m_pEnemy->GetIsOnDamage())
-	{
-		// StateをStateHitAttackに変更する
-		std::shared_ptr<EnemyStateHitAttack> state = std::make_shared<EnemyStateHitAttack>(m_pEnemy);
-		m_nextState = state;
-		state->Init();
-		
-		// ダメージエフェクトを表示
-		EffectManager::GetInstance().Add("attack", m_pEnemy->GetPos());
-
-		return;
 	}
 }

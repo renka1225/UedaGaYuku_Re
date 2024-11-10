@@ -46,13 +46,16 @@ void EffectManager::Load()
 
 		try
 		{
-			data.handle = LoadEffekseerEffect((kEffectFilePath + strvec[0]).c_str());
+			data.effektHandle = LoadEffekseerEffect((kEffectFilePath + strvec[0] + ".efk").c_str());
 			//assert(data.handle != -1);
-			data.pos.x = stof(strvec[1]);
-			data.pos.y = stof(strvec[2]);
-			data.pos.z = stof(strvec[3]);
-			data.scale = stof(strvec[4]);
-			data.playTime = stoi(strvec[5]);
+			data.adjPos.x = stof(strvec[1]);
+			data.adjPos.y = stof(strvec[2]);
+			data.adjPos.z = stof(strvec[3]);
+			data.rotate.x = stof(strvec[4]);
+			data.rotate.y = stof(strvec[5]);
+			data.rotate.z = stof(strvec[6]);
+			data.scale = stof(strvec[7]);
+			data.playTime = stoi(strvec[8]);
 		}
 		catch (const std::invalid_argument& e)
 		{
@@ -79,25 +82,22 @@ void EffectManager::Update()
 
 	for (auto& [name, data] : m_effectData)
 	{
+		if (!data.isPlaying) continue;
 		data.elapsedTime++;
 
 		// 再生時間を超えた場合
 		if (data.elapsedTime >= data.playTime)
 		{
-			StopEffekseer3DEffect(data.handle); // 再生中のエフェクトを停止する
+			StopEffekseer3DEffect(data.playingHandle); // 再生中のエフェクトを停止する
+			data.isPlaying = false;
+		}
+		else
+		{
+			SetPosPlayingEffekseer3DEffect(data.playingHandle, data.pos.x, data.pos.y, data.pos.z);
+			SetScalePlayingEffekseer3DEffect(data.playingHandle, data.scale, data.scale, data.scale);
+			SetRotationPlayingEffekseer3DEffect(data.playingHandle, data.rotate.x, data.rotate.y, data.rotate.z);
 		}
 	}
-}
-
-void EffectManager::UpdatePos(std::string effectName)
-{
-	SetPosPlayingEffekseer3DEffect(m_effectData[effectName].handle, m_effectData[effectName].pos.x, m_effectData[effectName].pos.y, m_effectData[effectName].pos.z);
-}
-
-
-void EffectManager::UpdateScale(std::string effectName)
-{
-	SetScalePlayingEffekseer3DEffect(m_effectData[effectName].handle, m_effectData[effectName].scale, m_effectData[effectName].scale, m_effectData[effectName].scale);
 }
 
 void EffectManager::Draw()
@@ -105,16 +105,15 @@ void EffectManager::Draw()
 	DrawEffekseer3D();
 }
 
-void EffectManager::Add(const std::string name, const VECTOR enemyPos)
+void EffectManager::Add(const std::string name, VECTOR pos)
 {
 	auto it = m_effectData.find(name);
 	if (it != m_effectData.end())
 	{
 		EffectData& data = it->second;
-		data.pos = enemyPos;
+		data.pos = VAdd(data.adjPos, pos); // エフェクトの位置を調整
 		data.elapsedTime = 0;
-
-		UpdateScale(name);
-		UpdatePos(name);
+		data.isPlaying = true;
+		data.playingHandle = PlayEffekseer3DEffect(data.effektHandle);
 	}
 }

@@ -1,8 +1,9 @@
 ﻿#include "Game.h"
 #include "Input.h"
+#include "LoadCsv.h"
+#include "EffectManager.h"
 #include "UiBar.h"
 #include "Camera.h"
-#include "LoadCsv.h"
 #include "CharacterBase.h"
 #include "Player.h"
 #include "EnemyBase.h"
@@ -112,6 +113,8 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	m_pCamera->Update(input, *m_pPlayer, *m_pStage);
 	m_pUiBar->Update();
 
+	EffectManager::GetInstance().Update();
+
 	return shared_from_this();
 }
 
@@ -129,6 +132,8 @@ void SceneMain::Draw()
 		if (enemy == nullptr) continue;
 		enemy->Draw(*m_pPlayer);
 	}
+
+	EffectManager::GetInstance().Draw();
 
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_PLAYING");
