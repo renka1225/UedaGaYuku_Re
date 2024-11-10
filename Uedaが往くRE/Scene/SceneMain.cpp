@@ -40,7 +40,7 @@ SceneMain::SceneMain():
 	LoadModelHandle(); // モデルを読み込む
 
 	m_pPlayer = std::make_shared<Player>(m_modelHandle[CharacterBase::CharaType::kPlayer]);
-	m_pWeapon = std::make_shared<Weapon>();
+	m_pWeapon = std::make_shared<Weapon>(m_pPlayer);
 	m_pCamera = std::make_shared<Camera>();
 	m_pStage = std::make_shared<Stage>(m_pPlayer);
 	m_pUiBar = std::make_shared<UiBar>();
@@ -109,7 +109,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	m_pEnemy.erase(std::remove(m_pEnemy.begin(), m_pEnemy.end(), nullptr), m_pEnemy.end());
 
 	m_pPlayer->Update(input, *m_pCamera, *m_pStage, *m_pWeapon, m_pEnemy);
-	m_pWeapon->Update(*m_pPlayer, *m_pStage);
+	m_pWeapon->Update(*m_pStage);
 	m_pCamera->Update(input, *m_pPlayer, *m_pStage);
 	m_pUiBar->Update();
 
@@ -123,9 +123,6 @@ void SceneMain::Draw()
 	m_pStage->Draw();
 	m_pWeapon->Draw();
 
-	m_pUiBar->DrawPlayerHpBar(m_pPlayer->GetHp(), m_pPlayer->GetStatus().maxHp);
-	m_pUiBar->DrawPlayerGaugeBar(m_pPlayer->GetGauge(), m_pPlayer->GetStatus().maxGauge);
-
 	m_pPlayer->Draw();
 	for (auto& enemy : m_pEnemy)
 	{
@@ -134,6 +131,9 @@ void SceneMain::Draw()
 	}
 
 	EffectManager::GetInstance().Draw();
+
+	m_pUiBar->DrawPlayerHpBar(m_pPlayer->GetHp(), m_pPlayer->GetStatus().maxHp);
+	m_pUiBar->DrawPlayerGaugeBar(m_pPlayer->GetGauge(), m_pPlayer->GetStatus().maxGauge);
 
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_PLAYING");

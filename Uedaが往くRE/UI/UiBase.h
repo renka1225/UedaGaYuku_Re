@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Vec2.h"
+#include <vector>
 #include <memory>
 #include <string>
 
@@ -70,7 +71,8 @@ protected:
 	int m_cursorDisplayTime;			// カーソルを表示する時間
 	int m_cursorAlpha;					// カーソルのα値
 
-	int m_minimapHandle;				// ミニマップの画像
-	int m_cursorHandle;					// カーソルの画像
+	int m_minimapHandle;		// ミニマップの画像
+	int m_cursorHandle;			// カーソルの画像
+	std::vector<int> m_handle;	// ハンドル
 };
 

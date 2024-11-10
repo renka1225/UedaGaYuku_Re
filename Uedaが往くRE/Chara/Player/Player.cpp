@@ -101,8 +101,11 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 
 	// 武器との当たり判定をチェックする
 	bool isHitWeapon = weapon.CheckWeaopnCol(m_colData[CharaType::kPlayer], *this);
+
+	// 範囲内に武器がある場合
 	if (isHitWeapon)
 	{
+		// 武器を拾えるようにする
 		m_isPossibleGrabWeapon = true;
 	}
 	else

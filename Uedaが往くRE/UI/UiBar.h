@@ -30,6 +30,11 @@ public:
 	/// 更新
 	/// </summary>
 	virtual void Update();
+
+	/// <summary>
+	/// 画像の読み込みを行う
+	/// </summary>
+	void LoadHandle();
 	
 	/// <summary>
 	/// プレイヤーのHPバーを表示
@@ -65,6 +70,5 @@ public:
 private:
 	float m_damage;			// ダメージ量
 	int m_hpDecreaseTime;	// HPバーが減少するまでの時間
-	int m_barHandle;		// バーの画像
 };
 

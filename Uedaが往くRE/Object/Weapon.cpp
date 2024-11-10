@@ -8,20 +8,25 @@
 // 定数
 namespace
 {
+	const char* kTextHandleFileName = "data/ui/text/hirou.png";  // 画像ハンドルのパス名
 	const std::string kWeaponFileName = "data/model/weapon/";		// モデルのファイルパス名
 	const char* kPlayerHandFrameName = "mixamorig:LeftHandIndex2";  // プレイヤーの手の部分のフレーム名
+	const float kDispTextAdjY = 400.0f; // 拾うのテキスト調整位置
 }
 
-Weapon::Weapon() :
+Weapon::Weapon(std::shared_ptr<Player> pPlayer) :
 	m_durability(0),
 	m_locationDataHandle(-1),
 	m_isHitAttack(false)
 {
+	m_pPlayer = pPlayer;
+	m_handle = LoadGraph(kTextHandleFileName);
 	LoadLocationData(); // 配置データの読み込み
 }
 
 Weapon::~Weapon()
 {
+	DeleteGraph(m_handle);
 	for (auto& pair : m_objHandle)
 	{
 		MV1DeleteModel(pair.second);
@@ -41,7 +46,7 @@ void Weapon::Init()
 	}
 }
 
-void Weapon::Update(Player& player, Stage& stage)
+void Weapon::Update(Stage& stage)
 {
 	MATRIX frameMatrix = {}; // 武器の回転行列
 
@@ -53,7 +58,7 @@ void Weapon::Update(Player& player, Stage& stage)
 		{
 			// TODO:モデルを非表示にする、当たり判定を消す
 			MV1SetFrameVisible(m_objHandle[loc.name], 0, false);
-			player.SetIsGrabWeapon(false); // プレイヤーの武器掴み状態を解除する
+			m_pPlayer->SetIsGrabWeapon(false); // プレイヤーの武器掴み状態を解除する
 			m_durability = std::max(m_durability, 0);
 		}
 		else
@@ -62,9 +67,9 @@ void Weapon::Update(Player& player, Stage& stage)
 		}
 
 		// プレイヤーが武器を掴んだ場合、プレイヤーの手の位置に武器を移動させる
-		if (player.GetIsGrabWeapon())
+		if (m_pPlayer->GetIsGrabWeapon())
 		{
-			SetModelFramePos(player.GetHandle(), kPlayerHandFrameName, m_objHandle[loc.name], loc, frameMatrix);
+			SetModelFramePos(m_pPlayer->GetHandle(), kPlayerHandFrameName, m_objHandle[loc.name], loc, frameMatrix);
 		}
 		else
 		{
@@ -77,7 +82,6 @@ void Weapon::Update(Player& player, Stage& stage)
 		}
 
 		// TODO:バトル終了後、武器位置をリセットする
-		// 今は仮で所持金300になったら
 		//if (player.GetMoney() == 300)
 		//{
 		//	// 武器の位置を初期位置にリセット
@@ -97,6 +101,15 @@ void Weapon::Draw()
 	for (auto& loc : m_locationData)
 	{
 		MV1DrawModel(m_objHandle[loc.name]); // モデル表示
+	}
+
+	// プレイヤーが武器に近づいたら拾うUIを表示する
+	if (m_pPlayer->GetIsPossibleGrabWeapon() && !m_pPlayer->GetIsGrabWeapon())
+	{
+		// UIの位置を計算する
+		VECTOR screenPos = ConvWorldPosToScreenPos(m_pPlayer->GetPos());
+		screenPos.y -= kDispTextAdjY;
+		DrawGraph(screenPos.x, screenPos.y, m_handle, true);
 	}
 
 #ifdef _DEBUG
