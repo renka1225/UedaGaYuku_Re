@@ -4,6 +4,7 @@
 #include "LoadCsv.h"
 #include "Input.h"
 #include "Sound.h"
+#include "Font.h"
 #include "EffectManager.h"
 #include "SceneManager.h"
 
@@ -32,15 +33,30 @@ int InitDxLib(const char* titleName, int width, int height)
 }
 
 /// <summary>
+/// 読み込み処理
+/// </summary>
+void Load()
+{
+	// メッセージのロード
+	LoadCsv::GetInstance().LoadMessage();
+	// サウンドのロード
+	Sound::GetInstance().Load();
+	// フォントのロード
+	Font::Load();
+	// エフェクトのロード
+	EffectManager::GetInstance().Load();
+}
+
+/// <summary>
 /// ゲーム終了
 /// </summary>
 /// <returns>正常に終了したか</returns>
-int EndGame()
+void EndGame()
 {
-	Sound::GetInstance().UnLoad();
-	Effkseer_End();
-	DxLib_End();
-	return 0;
+	Sound::GetInstance().UnLoad(); // サウンドの解放
+	Font::UnLoad();				   // フォントの解放
+	Effkseer_End();				   // Effekseerの終了処理
+	DxLib_End();				   // Dxライブラリ使用の終了処理
 }
 
 /// <summary>
@@ -65,14 +81,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// ダブルバッファモード
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	// 入力状態を取得
-	Input input;
-	// メッセージのロード
-	LoadCsv::GetInstance().LoadMessage();
-	// サウンドのロード
-	Sound::GetInstance().Load();
-	// エフェクトのロード
-	EffectManager::GetInstance().Load();
+	Load();		 // 読み込み処理
+	Input input; // 入力情報
 
 	// SceneManagerを生成
 	std::shared_ptr<SceneManager> pScene = std::make_shared<SceneManager>();

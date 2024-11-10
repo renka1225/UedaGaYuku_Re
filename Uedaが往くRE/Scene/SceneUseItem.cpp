@@ -1,6 +1,8 @@
 ﻿#include "DxLib.h"
 #include "Vec2.h"
+#include "Game.h"
 #include "Input.h"
+#include "Font.h"
 #include "Item.h"
 #include "Player.h"
 #include "SceneUseItem.h"
@@ -15,8 +17,10 @@ namespace
 	constexpr int kSelectRow = 2;	 // 選択アイテムの行数
 	constexpr int kSelectCol = 6;	 // 選択アイテムの列数
 	
-	const Vec2 kCursorPos = { 420.0f, 280.0f };  // 初期カーソル表示位置
-	const Vec2 kCursorMove = { 178.0f, 220.0f }; // カーソルの移動量
+	const Vec2 kCursorPos = { 420.0f, 280.0f };			// 初期カーソル表示位置
+	const Vec2 kCursorMove = { 178.0f, 220.0f };		// カーソルの移動量
+	const Vec2 kDispItemNamePos = { 250.0f, 790.0f };	// アイテム名表示位置
+	const Vec2 kDispItemExplainPos = { 300.0f, 900.0f };// アイテム説明表示位置
 
 	enum Handle
 	{
@@ -97,8 +101,11 @@ void SceneUseItem::Draw()
 			std::string itemName = m_pItem->GetItemData(m_possessItem[i]).itemName;
 			std::string itemExplain = m_pItem->GetItemData(m_possessItem[i]).itemExplain;
 
-			DrawFormatStringF(300.0f, 800.0f, 0xffffff, "アイテム名:%s", itemName.c_str());
-			DrawFormatStringF(700.0f, 950.0f, 0xffffff, "アイテム説明:%s", itemExplain.c_str());
+			DrawFormatStringFToHandle(kDispItemNamePos.x, kDispItemNamePos.y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kMenu_itemName)],
+				"%s", itemName.c_str());
+
+			DrawFormatStringFToHandle(kDispItemExplainPos.x, kDispItemExplainPos.y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kMenu_itemExplain)],
+				"%s", itemExplain.c_str());
 		}
 	}
 

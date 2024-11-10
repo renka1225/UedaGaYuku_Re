@@ -182,6 +182,7 @@
     <ClCompile Include="Scene\SceneLoad.cpp" />
     <ClCompile Include="UI\UiBar.cpp" />
     <ClCompile Include="Util\EffectManager.cpp" />
+    <ClCompile Include="Util\Font.cpp" />
     <ClCompile Include="Util\Sound.cpp" />
     <ClCompile Include="UI\UiBase.cpp" />
     <ClCompile Include="Util\LoadCsv.cpp" />
@@ -231,6 +232,7 @@
     <ClInclude Include="Scene\SceneLoad.h" />
     <ClInclude Include="UI\UiBar.h" />
     <ClInclude Include="Util\EffectManager.h" />
+    <ClInclude Include="Util\Font.h" />
     <ClInclude Include="Util\Sound.h" />
     <ClInclude Include="UI\UiBase.h" />
     <ClInclude Include="Util\LoadCsv.h" />
