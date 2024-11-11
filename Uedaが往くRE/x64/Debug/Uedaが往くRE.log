@@ -1,2 +1,34 @@
-﻿  UiBar.cpp
+﻿  EnemyBase.cpp
+  EnemyStateAttack.cpp
+  EnemyStateBase.cpp
+  Player.cpp
+  PlayerStateAttack.cpp
+  PlayerStateAvoid.cpp
+  PlayerStateBase.cpp
+  PlayerStateGrab.cpp
+  PlayerStateGuard.cpp
+  PlayerStateHitAttack.cpp
+  PlayerStateIdle.cpp
+  PlayerStateRun.cpp
+  PlayerStateWalk.cpp
+  Camera.cpp
+  Item.cpp
+  Stage.cpp
+  Weapon.cpp
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Object\Weapon.cpp(112,35): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Object\Weapon.cpp(112,22): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Object\Weapon.cpp(153,85): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Object\Weapon.cpp(159,84): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+  SceneBase.cpp
+  SceneEnhance.cpp
+  SceneMain.cpp
+  コードを生成中...
+  コンパイル中...
+  SceneMenu.cpp
+  SceneSave.cpp
+  SceneUseItem.cpp
+  UiBase.cpp
+  EffectManager.cpp
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Util\EffectManager.cpp(60,39): warning C4101: 'e': ローカル変数は 1 度も使われていません。
+  コードを生成中...
   Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Uedaが往くRE.exe

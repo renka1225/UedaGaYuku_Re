@@ -134,7 +134,7 @@ void UiBar::DrawPlayerGaugeBar(float currentGauge, float maxGauge)
 	// 現在のゲージ量に応じてバーの長さを変える
 	float gaugeRatio = currentGauge / maxGauge;
 	float gaugeLength = gaugeData.RBposX * gaugeRatio;
-	//DrawExtendGraphF(gaugeData.LTposX, gaugeData.LTposY, gaugeLength, gaugeData.RBposY, m_handle[Handle::kPlayerGauge], true);
+	DrawExtendGraphF(gaugeData.LTposX, gaugeData.LTposY, gaugeData.LTposX + gaugeLength, gaugeData.RBposY, m_handle[Handle::kPlayerGauge], true);
 
 	// ゲージの円部分
 	auto gaugeCircleData = LoadCsv::GetInstance().GetUiData(kBarPlayerGaugeCircle);
