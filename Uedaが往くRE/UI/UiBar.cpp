@@ -47,7 +47,7 @@ namespace
 
 UiBar::UiBar():
 	m_damage(0),
-	m_hpDecreaseTime(0)
+	m_hpDecreaseTime(kIntervalTime)
 {
 	LoadHandle();
 }
@@ -68,6 +68,12 @@ void UiBar::Update()
 {
 	m_hpDecreaseTime--;
 	m_hpDecreaseTime = std::max(0, m_hpDecreaseTime);
+
+	if (m_hpDecreaseTime <= 0)
+	{
+		m_damage--;
+		m_damage = std::max(0.0f, m_damage);
+	}
 }
 
 void UiBar::LoadHandle()
@@ -97,33 +103,21 @@ void UiBar::DrawPlayerHpBar(float currentHp, float maxHp)
 	// ダメージバー
 	std::string damageId = kBarPlayerHp + "3"; // 最大HPによってIDを変える
 	auto damageData = LoadCsv::GetInstance().GetUiData(damageId);
-	DrawExtendGraphF(damageData.LTposX, damageData.LTposY, damageData.RBposX, damageData.RBposY, m_handle[Handle::kPlayerHpDamage], true);
+
+	// ダメージバーの長さを変える
+	float damageHpRatio = (currentHp + m_damage) / maxHp;
+	float damageHpLength = damageData.width * damageHpRatio;
+
+	DrawExtendGraphF(damageData.LTposX, damageData.LTposY, damageHpLength, damageData.RBposY, m_handle[Handle::kPlayerHpDamage], true);
 
 	// HPバー
 	std::string hpId = kBarPlayerHp + "3"; // 最大HPによってIDを変える
 	auto hpData = LoadCsv::GetInstance().GetUiData(hpId);
-	DrawExtendGraphF(hpData.LTposX, hpData.LTposY, hpData.RBposX, hpData.RBposY, m_handle[Handle::kPlayerHp], true);
-
-
-	//Vec2 dispHpLTPos = { LoadCsv::GetInstance().GetUiData(kBarPlayerHp).LTposX, LoadCsv::GetInstance().GetUiData(kBarPlayerHp).LTposY };
-	//Vec2 dispHpRBPos = { LoadCsv::GetInstance().GetUiData(kBarPlayerHp).RBposX, LoadCsv::GetInstance().GetUiData(kBarPlayerHp).RBposY };
-	//float dispHpBarWidth = LoadCsv::GetInstance().GetUiData(kBarPlayerHp).width; // HPバーの長さ
 
 	// 現在のHP量に応じてバーの長さを変える
-	//float hpRatio = currentHp / maxHp;
-	//float hpLength = dispHpBarWidth * hpRatio;
-
-	// ダメージ部分
-	//float decreaseHpRatio = (currentHp + m_damage) / maxHp;
-	//float decreaseHpLength = dispHpBarWidth * decreaseHpRatio;
-
-	// ダメージ分ゲージの色を変える
-	//if (m_hpDecreaseTime >= 0)
-	//{
-		//DrawBoxAA(dispHpLTPos.x, dispHpLTPos.y, dispHpLTPos.x + decreaseHpLength, dispHpRBPos.y, kPlayerHpDamageColor, true);
-	//}
-	// HPバー表示
-	//DrawBoxAA(dispHpLTPos.x, dispHpLTPos.y, dispHpLTPos.x + hpLength, dispHpRBPos.y, kPlayerHpColor, true);
+	float hpRatio = currentHp / maxHp;
+	float hpLength = hpData.RBposX * hpRatio;
+	DrawExtendGraphF(hpData.LTposX, hpData.LTposY, hpLength, hpData.RBposY, m_handle[Handle::kPlayerHp], true);
 }
 
 void UiBar::DrawPlayerGaugeBar(float currentGauge, float maxGauge)
@@ -136,23 +130,23 @@ void UiBar::DrawPlayerGaugeBar(float currentGauge, float maxGauge)
 	// ゲージバー
 	std::string gaugeId = kBarPlayerGauge + "3"; // 最大ゲージ量によってIDを変える
 	auto gaugeData = LoadCsv::GetInstance().GetUiData(gaugeId);
-	DrawExtendGraphF(gaugeData.LTposX, gaugeData.LTposY, gaugeData.RBposX, gaugeData.RBposY, m_handle[Handle::kPlayerGauge], true);
 
+	// 現在のゲージ量に応じてバーの長さを変える
+	float gaugeRatio = currentGauge / maxGauge;
+	float gaugeLength = gaugeData.RBposX * gaugeRatio;
+	//DrawExtendGraphF(gaugeData.LTposX, gaugeData.LTposY, gaugeLength, gaugeData.RBposY, m_handle[Handle::kPlayerGauge], true);
+
+	// ゲージの円部分
 	auto gaugeCircleData = LoadCsv::GetInstance().GetUiData(kBarPlayerGaugeCircle);
 	DrawExtendGraphF(gaugeCircleData.LTposX, gaugeCircleData.LTposY, gaugeCircleData.RBposX, gaugeCircleData.RBposY, m_handle[Handle::kPlayerGaugeCircle], true);
 
+	// ゲージが最大まで溜まっている場合
 	if (currentGauge >= maxGauge)
 	{
+		// 円の色を変える
 		auto gaugeMaxData = LoadCsv::GetInstance().GetUiData(kBarPlayerGaugeMax);
 		DrawExtendGraphF(gaugeMaxData.LTposX, gaugeMaxData.LTposY, gaugeMaxData.RBposX, gaugeMaxData.RBposY, m_handle[Handle::kPlayerGaugeMax], true);
 	}
-
-//	// 現在のゲージ量に応じてバーの長さを変える
-//	float gaugeRatio = currentGauge / maxGauge;
-//	float gaugeLength = dispGaugeBarWidth * gaugeRatio;
-//
-//	// プレイヤーのゲージを表示
-//	DrawBoxAA(dispGaugeLTPos.x, dispGaugeLTPos.y, dispGaugeLTPos.x + gaugeLength, dispGaugeRBPos.y, kPlayerGaugeColor, true);
 }
 
 void UiBar::DrawEnemyHpBar(EnemyBase& pEnemy)
@@ -162,46 +156,29 @@ void UiBar::DrawEnemyHpBar(EnemyBase& pEnemy)
 	VECTOR screenPos = ConvWorldPosToScreenPos(barDispPos);
 
 	// バック部分
-	std::string bgId = kBarEnemyHpBack;
-	auto bgData = LoadCsv::GetInstance().GetUiData(bgId);
+	auto bgData = LoadCsv::GetInstance().GetUiData(kBarEnemyHpBack);
 	DrawExtendGraphF(screenPos.x - bgData.width, screenPos.y - bgData.height,
 		screenPos.x + bgData.width, screenPos.y + bgData.height, m_handle[Handle::kEnemyHpBg], true);
 
 	// ダメージバー
-	std::string damageId = kBarEnemyHp;
-	auto damageData = LoadCsv::GetInstance().GetUiData(damageId);
+	auto damageData = LoadCsv::GetInstance().GetUiData(kBarEnemyHp);
 
-	DrawExtendGraphF(screenPos.x - damageData.width, screenPos.x - damageData.height,
-		screenPos.x + damageData.width, screenPos.x + damageData.height, m_handle[Handle::kEnemyHpDamage], true);
+	// ダメージバーの長さを変える
+	float damageHpRatio = (pEnemy.GetHp() + m_damage) / pEnemy.GetStatus().maxHp;
+	float damageHpLength = damageData.width * 2 * damageHpRatio;
+
+	DrawExtendGraphF(screenPos.x - damageData.width, screenPos.y - damageData.height,
+		(screenPos.x - damageData.width) + damageHpLength, screenPos.y + damageData.height, m_handle[Handle::kEnemyHpDamage], true);
 
 	// HPバー
-	std::string hpId = kBarEnemyHp;
-	auto hpData = LoadCsv::GetInstance().GetUiData(hpId);
-	DrawExtendGraphF(screenPos.x - hpData.width, screenPos.x - hpData.height,
-		screenPos.x + hpData.width, screenPos.x + hpData.height, m_handle[Handle::kEnemyHp], true);
+	auto hpData = LoadCsv::GetInstance().GetUiData(kBarEnemyHp);
 
+	// HPバーの長さを変える
+	float hpRatio = pEnemy.GetHp() / pEnemy.GetStatus().maxHp;
+	float hpLength = hpData.width * 2 * hpRatio;
 
-	//// ゲージの最大の長さ
-	//Vec2 dispHpLTPos = { screenPos.x - kBarEnemyHpSize.x, screenPos.y - kBarEnemyHpSize.y };
-	//Vec2 dispHpRBPos = { screenPos.x + kBarEnemyHpSize.x, screenPos.y + kBarEnemyHpSize.y };
-	//float dispHpBarWidth = LoadCsv::GetInstance().GetUiData(kBarEnemyHp).width; // ゲージバーの長さ
-
-	//// 現在のゲージ量に応じてバーの長さを変える
-	//float hpRatio = pEnemy.GetHp() / pEnemy.GetStatus().maxHp;
-	//float hpLength = dispHpBarWidth * hpRatio;
-
-	//// ダメージ部分
-	//float decreaseHpRatio = (pEnemy.GetHp() + m_damage) / pEnemy.GetStatus().maxHp;
-	//float decreaseHpLength = dispHpBarWidth * decreaseHpRatio;
-
-	//// ダメージ分ゲージの色を変える
-	//if (m_hpDecreaseTime >= 0)
-	//{
-	//	DrawBoxAA(dispHpLTPos.x, dispHpLTPos.y, dispHpLTPos.x + decreaseHpLength, dispHpRBPos.y, kEnemyHpDamageColor, true);
-	//}
-
-	//// 敵のHPを表示
-	//DrawBoxAA(dispHpLTPos.x, dispHpLTPos.y, dispHpLTPos.x + hpLength, dispHpRBPos.y, kEnemyHpColor, true);
+	DrawExtendGraphF(screenPos.x - hpData.width, screenPos.y - hpData.height,
+		(screenPos.x - hpData.width) + hpLength, screenPos.y + hpData.height, m_handle[Handle::kEnemyHp], true);
 }
 
 void UiBar::SetDamageTimer()

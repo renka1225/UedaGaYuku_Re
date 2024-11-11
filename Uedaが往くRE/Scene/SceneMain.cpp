@@ -123,12 +123,13 @@ void SceneMain::Draw()
 	m_pStage->Draw();
 	m_pWeapon->Draw();
 
-	m_pPlayer->Draw();
 	for (auto& enemy : m_pEnemy)
 	{
 		if (enemy == nullptr) continue;
 		enemy->Draw(*m_pPlayer);
 	}
+
+	m_pPlayer->Draw();
 
 	EffectManager::GetInstance().Draw();
 
