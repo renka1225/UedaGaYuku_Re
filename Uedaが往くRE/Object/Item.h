@@ -24,8 +24,6 @@ public:
 		kHpGaugeLarge,
 		kAtkSmall,
 		kAtkLarge,
-		kDefSmall,
-		kDefLarge,
 		kItemKind
 	};
 
@@ -39,7 +37,6 @@ public:
 		float recoveryHP;		 // HP回復量
 		float recoveryGauge;	 // ゲージ回復量
 		float atkUp;			 // 攻撃力アップ量
-		float difUp;			 // 防御力アップ量
 		int time;				 // 効果時間
 		int itemHandle;			 // アイテムの画像
 	};

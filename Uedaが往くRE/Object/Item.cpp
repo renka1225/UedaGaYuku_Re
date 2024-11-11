@@ -57,11 +57,5 @@ void Item::ApplyEffect(Player& player, int m_select)
 	case ItemType::kAtkLarge:
 		player.AtkUp(m_itemData[ItemType::kAtkLarge].atkUp, m_itemData[ItemType::kAtkLarge].time);
 		break;
-	case ItemType::kDefSmall:
-		player.DefUp(m_itemData[ItemType::kDefSmall].difUp, m_itemData[ItemType::kDefSmall].time);
-		break;
-	case ItemType::kDefLarge:
-		player.DefUp(m_itemData[ItemType::kDefLarge].difUp, m_itemData[ItemType::kDefLarge].time);
-		break;
 	}
 }

@@ -101,7 +101,6 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 
 	// 武器との当たり判定をチェックする
 	bool isHitWeapon = weapon.CheckWeaopnCol(m_colData[CharaType::kPlayer], *this);
-
 	// 範囲内に武器がある場合
 	if (isHitWeapon)
 	{
@@ -113,12 +112,6 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 		m_isPossibleGrabWeapon = false;
 	}
 
-	m_itemEffectTime--; // アイテムの効果時間
-	if(m_itemEffectTime <= 0)
-	{
-		DeleteItemEffect(); // アイテムの効果を消す
-	}
-
 	m_pState->Update(input, camera, stage, weapon, pEnemy);	// stateの更新
 	UpdateAngle();					// 向きを更新
 	UpdateAnim();					// アニメーションを更新
@@ -126,6 +119,16 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 	UpdatePosLog();					// 位置ログを更新
 	GetFramePos();					// モデルフレーム位置を取得
 	UpdateMoney();					// 所持金を更新
+
+	if (m_itemEffectTime > 0)
+	{
+		m_itemEffectTime--; // アイテムの効果時間
+	}
+	else
+	{
+		DeleteItemEffect(); // アイテムの効果を消す
+		m_itemEffectTime = std::max(0, m_itemEffectTime);
+	}
 }
 
 void Player::Draw()
@@ -209,6 +212,11 @@ void Player::RecoveryHpGauge(float hpRecoveryRate, float gaugeRecoveryRate)
 void Player::AtkUp(float atkUpRate, int effectTime)
 {
 	m_itemEffectTime = effectTime;
+
+	// ステータスを一時保存する
+	m_saveStatus = m_status;
+
+	// 攻撃力アップ
 	m_status.atkPowerPunch1 *= atkUpRate;
 	m_status.atkPowerPunch2 *= atkUpRate;
 	m_status.atkPowerPunch3 *= atkUpRate;
@@ -217,10 +225,29 @@ void Player::AtkUp(float atkUpRate, int effectTime)
 	m_status.atkPowerTwoHandWeapon *= atkUpRate;
 }
 
-void Player::DefUp(float defUpRate, int effectTime)
+void Player::EnhanceHpUp(std::string skillName)
 {
-	m_itemEffectTime = effectTime;
-	//m_status.def *= defUpRate;
+	m_status.maxHp *= m_enhanceData[skillName].upAmount;
+}
+
+void Player::EnhanceGauge(std::string skillName)
+{
+	m_status.maxGauge *= m_enhanceData[skillName].upAmount;
+}
+
+void Player::EnhanceAtkUp(std::string skillName)
+{
+	m_status.atkPowerPunch1 *= m_enhanceData[skillName].upAmount;
+	m_status.atkPowerPunch2 *= m_enhanceData[skillName].upAmount;
+	m_status.atkPowerPunch3 *= m_enhanceData[skillName].upAmount;
+	m_status.atkPowerKick *= m_enhanceData[skillName].upAmount;
+	m_status.atkPowerOneHandWeapon *= m_enhanceData[skillName].upAmount;
+	m_status.atkPowerTwoHandWeapon *= m_enhanceData[skillName].upAmount;
+}
+
+void Player::DeleteItemEffect()
+{
+	//m_status = m_saveStatus;
 }
 
 void Player::GetFramePos()
@@ -240,10 +267,4 @@ void Player::GetFramePos()
 	m_colData[CharaType::kPlayer].rightLegPos = GetModelFramePos(PlayerFrameName::kRightLeg.c_str());			// 右膝
 	m_colData[CharaType::kPlayer].rightFootPos = GetModelFramePos(PlayerFrameName::kRightFoot.c_str());			// 右足首
 	m_colData[CharaType::kPlayer].rightEndPos = GetModelFramePos(PlayerFrameName::kRightEnd.c_str());			// 右足終点
-}
-
-
-void Player::DeleteItemEffect()
-{
-	// TODO:アイテム使用前のステータスに戻す
 }

@@ -29,9 +29,7 @@ namespace
 		{"hp_gauge_small", Item::ItemType::kHpGaugeSmall},
 		{"ha_gauge_large", Item::ItemType::kHpGaugeLarge},
 		{"atk_small", Item::ItemType::kAtkSmall},
-		{"atk_large",Item::ItemType::kAtkLarge},
-		{"def_small", Item::ItemType::kDefSmall},
-		{"def_large", Item::ItemType::kDefLarge}
+		{"atk_large",Item::ItemType::kAtkLarge}
 	};
 
 	/// <summary>
@@ -212,8 +210,7 @@ void LoadCsv::LoadItemData(std::map<Item::ItemType, Item::ItemData>& data)
 			data[itemType].recoveryHP = std::stof(strvec[3]);
 			data[itemType].recoveryGauge = std::stof(strvec[4]);
 			data[itemType].atkUp = std::stof(strvec[5]);
-			data[itemType].difUp = std::stof(strvec[6]);
-			data[itemType].time = std::stoi(strvec[7]);
+			data[itemType].time = std::stoi(strvec[6]);
 		}
 		catch (const std::invalid_argument&)
 		{

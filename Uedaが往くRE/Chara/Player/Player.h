@@ -16,6 +16,22 @@ class Player : public CharacterBase, public std::enable_shared_from_this<Player>
 {
 public:
 	/// <summary>
+	/// プレイヤーの強化データ
+	/// </summary>
+	struct EnhanceData
+	{
+		std::string id;				// ID
+		std::string skillName;		// スキル名
+		std::string skillExplain;	// スキル説明
+		float upAmount;				// 上昇する倍率
+		int requiredMoney;			// 必要金額
+		int nowStepHpUp;			// HPアップ強化段階
+		int nowStepGaugeUp;			// ゲージ量アップ強化段階
+		int nowStepAtkUp;			// 攻撃力アップ強化段階
+		int nowStepDefUp;			// 防御力アップ強化段階
+	};
+
+	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="handle">モデルハンドル</param>
@@ -98,11 +114,22 @@ public:
 	void AtkUp(float atkUpRate, int effectTime);
 
 	/// <summary>
-	/// 防御力アップ処理
+	/// プレイヤーのHPを強化する
 	/// </summary>
-	/// <param name="defUpRate">防御力アップの割合</param>
-	/// <param name="effectTime">効果時間</param>
-	void DefUp(float defUpRate, int effectTime);
+	/// <param name="skillName">スキル名</param>
+	void EnhanceHpUp(std::string skillName);
+
+	/// <summary>
+	/// プレイヤーのゲージ量を強化する
+	/// </summary>
+	/// <param name="skillName">スキル名</param>
+	void EnhanceGauge(std::string skillName);
+
+	/// <summary>
+	/// プレイヤーの攻撃力を強化する
+	/// </summary>
+	/// <param name="skillName">スキル名</param>
+	void EnhanceAtkUp(std::string skillName);
 
 	/// <summary>
 	/// 現在の所持金額を取得する
@@ -118,19 +145,22 @@ public:
 
 private:
 	/// <summary>
-	/// プレイヤーのフレーム位置を取得する
-	/// </summary>
-	void GetFramePos();
-
-	/// <summary>
 	/// アイテムの効果を削除する
 	/// </summary>
 	void DeleteItemEffect();
 
+	/// <summary>
+	/// プレイヤーのフレーム位置を取得する
+	/// </summary>
+	void GetFramePos();
+
 private:
-	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
+	std::shared_ptr<PlayerStateBase> m_pState;			// stateパターン
+	std::map<std::string, EnhanceData> m_enhanceData;	// 強化データ
 	std::vector<int> m_possessItem;	// プレイヤーが所持しているアイテム情報を保存しておく
 	std::vector<VECTOR> m_pToEVec;	// プレイヤーから敵への位置ベクトル
+	Status m_saveStatus;	// ステータスを一時保存する
+
 	int m_money;			// 所持金額
 	int m_beforeMoney;		// 増減前の金額
 	int m_addMoney;			// 追加する金額

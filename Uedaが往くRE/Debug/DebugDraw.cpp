@@ -28,7 +28,7 @@ void DebugDraw::DrawEnemyInfo(const VECTOR pos, float hp, int index, std::string
 void DebugDraw::DrawWeaponInfo(std::string name, std::string tag, VECTOR pos, VECTOR rot, VECTOR scale, int durability)
 {
 	
-	DrawFormatString(0, 400, 0xffffff, "name:%s, tag:%s, pos(%.2f:%.2f:%.2f), rot(%.2f:%.2f:%.2f), scale(%.2f:%.2f:%.2f), 耐久力:%d\n",
+	DrawFormatString(0, 440, 0xffffff, "name:%s, tag:%s, pos(%.2f:%.2f:%.2f), rot(%.2f:%.2f:%.2f), scale(%.2f:%.2f:%.2f), 耐久力:%d\n",
 		name.c_str(), tag.c_str(), pos.x, pos.y, pos.z, rot.x, rot.y, rot.z, scale.x, scale.y, scale.z, durability);
 }
 
