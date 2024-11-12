@@ -28,6 +28,7 @@ namespace
 }
 
 Player::Player(int modelHandle):
+	m_saveStatus(m_status),
 	m_money(0),
 	m_beforeMoney(0),
 	m_addMoney(0),
@@ -123,11 +124,11 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 	if (m_itemEffectTime > 0)
 	{
 		m_itemEffectTime--; // アイテムの効果時間
+		m_itemEffectTime = std::max(0, m_itemEffectTime);
 	}
 	else
 	{
 		DeleteItemEffect(); // アイテムの効果を消す
-		m_itemEffectTime = std::max(0, m_itemEffectTime);
 	}
 }
 
@@ -143,7 +144,7 @@ void Player::Draw()
 
 #ifdef _DEBUG
 	DebugDraw debug;
-	debug.DrawPlayerInfo(m_pos, m_hp, m_pState->GetStateName(), m_isNowGrabWeapon); // プレイヤーの情報を描画
+	debug.DrawPlayerInfo(m_pos, m_hp, m_status, m_pState->GetStateName(), m_isNowGrabWeapon); // プレイヤーの情報を描画
 	// 当たり判定描画
 	debug.DrawBodyCol(m_colData[CharaType::kPlayer]);	// 全身(紫色)
 	//debug.DrawArmCol(m_colData[CharaType::kPlayer]);	// 腕(水色)
@@ -225,24 +226,32 @@ void Player::AtkUp(float atkUpRate, int effectTime)
 	m_status.atkPowerTwoHandWeapon *= atkUpRate;
 }
 
-void Player::EnhanceHpUp(std::string skillName)
+void Player::EnhanceHpUp(float upAmount)
 {
-	m_status.maxHp *= m_enhanceData[skillName].upAmount;
+	m_status.maxHp *= upAmount;
+	m_hp *= upAmount;
+	m_enhanceStep.nowHpUpStep++;
+	printfDx("現在の強化段階:%d\n", m_enhanceStep.nowHpUpStep);
 }
 
-void Player::EnhanceGauge(std::string skillName)
+void Player::EnhanceGauge(float upAmount)
 {
-	m_status.maxGauge *= m_enhanceData[skillName].upAmount;
+	m_status.maxGauge *= upAmount;
+	m_gauge *= upAmount;
+	m_enhanceStep.nowGaugeUpStep++;
+	printfDx("現在の強化段階:%d\n", m_enhanceStep.nowGaugeUpStep);
 }
 
-void Player::EnhanceAtkUp(std::string skillName)
+void Player::EnhanceAtkUp(float upAmount)
 {
-	m_status.atkPowerPunch1 *= m_enhanceData[skillName].upAmount;
-	m_status.atkPowerPunch2 *= m_enhanceData[skillName].upAmount;
-	m_status.atkPowerPunch3 *= m_enhanceData[skillName].upAmount;
-	m_status.atkPowerKick *= m_enhanceData[skillName].upAmount;
-	m_status.atkPowerOneHandWeapon *= m_enhanceData[skillName].upAmount;
-	m_status.atkPowerTwoHandWeapon *= m_enhanceData[skillName].upAmount;
+	m_status.atkPowerPunch1 *= upAmount;
+	m_status.atkPowerPunch2 *= upAmount;
+	m_status.atkPowerPunch3 *=upAmount;
+	m_status.atkPowerKick *= upAmount;
+	m_status.atkPowerOneHandWeapon *= upAmount;
+	m_status.atkPowerTwoHandWeapon *= upAmount;
+	m_enhanceStep.nowAtkUpStep++;
+	printfDx("現在の強化段階:%d\n", m_enhanceStep.nowAtkUpStep);
 }
 
 void Player::DeleteItemEffect()

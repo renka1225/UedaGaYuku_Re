@@ -3,7 +3,8 @@
 #include "Player.h"
 #include "Item.h"
 
-Item::Item()
+Item::Item():
+	m_itemType()
 {
 	LoadCsv::GetInstance().LoadItemData(m_itemData);
 }

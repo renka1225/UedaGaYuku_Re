@@ -4,6 +4,7 @@
 #include <vector>
 
 class EnemyBase;
+class Player;
 
 /// <summary>
 /// バーの表示を管理するクラス
@@ -39,16 +40,16 @@ public:
 	/// <summary>
 	/// プレイヤーのHPバーを表示
 	/// </summary>
-	/// <param name="currentHp">現在のHP</param>
+	/// <param name="player">プレイヤー参照</param>
 	/// <param name="maxHp">最大HP</param>
-	void DrawPlayerHpBar(float currentHp, float maxHp);
+	void DrawPlayerHpBar(Player& player, float maxHp);
 
 	/// <summary>
 	/// プレイヤーのゲージバーを表示
 	/// </summary>
-	/// <param name="currentGauge">現在のゲージ量</param>
+	/// <param name="player">プレイヤー参照</param>
 	/// <param name="maxGauge">最大ゲージ量</param>
-	void DrawPlayerGaugeBar(float currentGauge, float maxGauge);
+	void DrawPlayerGaugeBar(Player& player, float maxGauge);
 
 	/// <summary>
 	/// 敵のHPバーを表示

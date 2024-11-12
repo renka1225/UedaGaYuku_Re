@@ -9,14 +9,19 @@ namespace
 {
 	constexpr int kEnemyNamekind = 31;	// 敵名の種類
 
-	const char* const kCharaStatusFilePath = "data/csv/charaStatus.csv";	// キャラクターステータス
-	const char* const kCharaColDataFilePath = "data/csv/charaColData.csv";	// キャラクターの当たり判定データ
-	const char* const kCharaAnimDataFilePath = "data/csv/animData.csv";		// アニメーションデータ
-	const char* const kWeaponDataFilePath = "data/csv/weaponData.csv";		// 武器のデータ
-	const char* const kItemDataFilePath = "data/csv/itemData.csv";			// アイテムのデータ
-	const char* const kUiDataFilePath = "data/csv/uiData.csv";				// UIデータ
-	const char* const kEnemyNameDataFilePath = "data/csv/enemyName.csv";	// 敵の名前データ
-	const char* const kMessageFilePath = "data/csv/message.csv";			// メッセージデータ
+	// ファイルのパス名
+	const std::map<std::string, std::string> kPath
+	{
+		{"enhance", "data/csv/enhanceData.csv"},	// プレイヤー強化データ
+		{"status", "data/csv/charaStatus.csv"},		// キャラクターステータス
+		{"col", "data/csv/charaColData.csv"},		// キャラクターの当たり判定データ
+		{"anim", "data/csv/animData.csv"},			// アニメーションデータ
+		{"weapon", "data/csv/weaponData.csv"},		// 武器データ
+		{"item", "data/csv/itemData.csv"},			// アイテムデータ
+		{"ui", "data/csv/uiData.csv"},				// UIデータ
+		{"enemyName", "data/csv/enemyName.csv"},	// 敵名データ
+		{"message", "data/csv/message.csv"}			// メッセージデータ
+	};
 
 	// 文字列のIDからItemTypeに変更する
 	const std::unordered_map<std::string, Item::ItemType> kStringToItemType =
@@ -51,9 +56,37 @@ namespace
 	}
 }
 
+void LoadCsv::LoadEnhanceData(std::map<std::string, SceneEnhance::EnhanceData>& data)
+{
+	std::ifstream ifs(kPath.at("enhance"));
+	std::string line;
+	std::vector<std::string> strvec;
+
+	while (std::getline(ifs, line))
+	{
+		strvec = split(line, ',');
+
+		// IDを設定
+		std::string id = strvec[0];
+
+		try
+		{
+			data[id].id = id;
+			data[id].skillName = strvec[1];
+			data[id].skillExplain = strvec[2];
+			data[id].upAmount = std::stof(strvec[3]);
+			data[id].requiredMoney = std::stoi(strvec[4]);
+		}
+		catch (const std::invalid_argument&)
+		{
+			// 無効な文字列をスキップ
+		}
+	}
+}
+
 void LoadCsv::LoadStatus(CharacterBase::Status& data, std::string charaName)
 {
-	std::ifstream ifs(kCharaStatusFilePath);
+	std::ifstream ifs(kPath.at("status"));
 	std::string line;
 	std::vector<std::string> strvec;
 
@@ -89,7 +122,7 @@ void LoadCsv::LoadStatus(CharacterBase::Status& data, std::string charaName)
 
 void LoadCsv::LoadColData(CharacterBase::ColData& data, std::string charaName)
 {
-	std::ifstream ifs(kCharaColDataFilePath);
+	std::ifstream ifs(kPath.at("col"));
 	std::string line;
 	std::vector<std::string> strvec;
 
@@ -127,7 +160,7 @@ void LoadCsv::LoadColData(CharacterBase::ColData& data, std::string charaName)
 
 void LoadCsv::LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data)
 {
-	std::ifstream ifs(kCharaAnimDataFilePath);
+	std::ifstream ifs(kPath.at("anim"));
 	std::string line;
 	std::vector<std::string> strvec;
 
@@ -151,7 +184,7 @@ void LoadCsv::LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data)
 
 void LoadCsv::LoadWeaponData(Weapon::WeaponData& data, std::string weaponName)
 {
-	std::ifstream ifs(kWeaponDataFilePath);
+	std::ifstream ifs(kPath.at("weapon"));
 	std::string line;
 	std::vector<std::string> strvec;
 
@@ -186,7 +219,7 @@ void LoadCsv::LoadWeaponData(Weapon::WeaponData& data, std::string weaponName)
 
 void LoadCsv::LoadItemData(std::map<Item::ItemType, Item::ItemData>& data)
 {
-	std::ifstream ifs(kItemDataFilePath);
+	std::ifstream ifs(kPath.at("item"));
 	std::string line;
 	std::vector<std::string> strvec;
 
@@ -221,7 +254,7 @@ void LoadCsv::LoadItemData(std::map<Item::ItemType, Item::ItemData>& data)
 
 void LoadCsv::LoadUiData(std::map<std::string, UiBase::UiData>& data)
 {
-	std::ifstream ifs(kUiDataFilePath);
+	std::ifstream ifs(kPath.at("ui"));
 	std::string line;
 	std::vector<std::string> strvec;
 
@@ -251,7 +284,7 @@ void LoadCsv::LoadUiData(std::map<std::string, UiBase::UiData>& data)
 
 void LoadCsv::LoadMessage()
 {
-	std::ifstream ifs(kMessageFilePath);
+	std::ifstream ifs(kPath.at("message"));
 	std::string line;
 	m_messageData.clear();
 
@@ -259,6 +292,25 @@ void LoadCsv::LoadMessage()
 	{
 		std::vector<std::string> strvec = split(line, ',');
 		m_messageData[strvec.at(0)] = strvec.at(1);
+	}
+}
+
+void LoadCsv::LoadEnemyName()
+{
+	std::ifstream ifs(kPath.at("enemyName"));
+	std::string line;
+	std::vector<std::string> strvec;
+
+	for (int i = 0; i < kEnemyNamekind; i++)
+	{
+		while (std::getline(ifs, line))
+		{
+			std::vector<std::string> strvec = split(line, ',');
+			if (!strvec.empty())
+			{
+				m_enemyNameData.push_back(strvec[i]);
+			}
+		}
 	}
 }
 
@@ -275,25 +327,6 @@ std::string LoadCsv::Get_sMessage(std::string id)
 const char* LoadCsv::Get_cMessage(std::string id)
 {
 	return m_messageData[id].c_str();
-}
-
-void LoadCsv::LoadEnemyName()
-{
-	std::ifstream ifs(kEnemyNameDataFilePath);
-	std::string line;
-	std::vector<std::string> strvec;
-
-	for (int i = 0; i < kEnemyNamekind; i++)
-	{
-		while (std::getline(ifs, line))
-		{
-			std::vector<std::string> strvec = split(line, ',');
-			if (!strvec.empty())
-			{
-				m_enemyNameData.push_back(strvec[i]);
-			}
-		}
-	}
 }
 
 std::string LoadCsv::GetEnemyName(int enemyIndex)

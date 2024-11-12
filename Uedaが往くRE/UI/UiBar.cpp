@@ -1,5 +1,6 @@
 ﻿#include "DxLib.h"
 #include "LoadCsv.h"
+#include "Player.h"
 #include "EnemyBase.h"
 #include "UiBar.h"
 
@@ -91,48 +92,52 @@ void UiBar::LoadHandle()
 	m_handle[Handle::kEnemyHpDamage] = LoadGraph((kBarHandlePath + "enemy_hp_damage.png").c_str());
 }
 
-void UiBar::DrawPlayerHpBar(float currentHp, float maxHp)
+void UiBar::DrawPlayerHpBar(Player& player, float maxHp)
 {
-	// TODO:現在数字を直接書いてる所は現在の強化量
+	// 現在の強化段階を取得
+	std::string enhanceStep = std::to_string(player.GetEnhanceStep().nowHpUpStep + 1);
 
-	// バック部分
-	std::string bgId = kBarPlayerHpBack + "3"; // 最大HPによってIDを変える
+	/*バック部分*/
+	std::string bgId = kBarPlayerHpBack + enhanceStep; // 最大HPによってIDを変える
 	auto bgData = LoadCsv::GetInstance().GetUiData(bgId);
 	DrawExtendGraphF(bgData.LTposX, bgData.LTposY, bgData.RBposX, bgData.RBposY, m_handle[Handle::kPlayerHpBg], true);
 
-	// ダメージバー
-	std::string damageId = kBarPlayerHp + "3"; // 最大HPによってIDを変える
+	/*ダメージバー*/
+	std::string damageId = kBarPlayerHp + enhanceStep; // 最大HPによってIDを変える
 	auto damageData = LoadCsv::GetInstance().GetUiData(damageId);
 
 	// ダメージバーの長さを変える
-	float damageHpRatio = (currentHp + m_damage) / maxHp;
+	float damageHpRatio = (player.GetHp() + m_damage) / maxHp;
 	float damageHpLength = damageData.width * damageHpRatio;
 
 	DrawExtendGraphF(damageData.LTposX, damageData.LTposY, damageHpLength, damageData.RBposY, m_handle[Handle::kPlayerHpDamage], true);
 
-	// HPバー
-	std::string hpId = kBarPlayerHp + "3"; // 最大HPによってIDを変える
+	/*HPバー*/
+	std::string hpId = kBarPlayerHp + enhanceStep; // 最大HPによってIDを変える
 	auto hpData = LoadCsv::GetInstance().GetUiData(hpId);
 
 	// 現在のHP量に応じてバーの長さを変える
-	float hpRatio = currentHp / maxHp;
+	float hpRatio = player.GetHp() / maxHp;
 	float hpLength = hpData.RBposX * hpRatio;
 	DrawExtendGraphF(hpData.LTposX, hpData.LTposY, hpLength, hpData.RBposY, m_handle[Handle::kPlayerHp], true);
 }
 
-void UiBar::DrawPlayerGaugeBar(float currentGauge, float maxGauge)
+void UiBar::DrawPlayerGaugeBar(Player& player, float maxGauge)
 {
+	// 現在の強化段階を取得
+	std::string enhanceStep = std::to_string(player.GetEnhanceStep().nowGaugeUpStep + 1);
+
 	// バック部分
-	std::string bgId = kBarPlayerGaugeBack + "3"; // 最大ゲージ量によってIDを変える
+	std::string bgId = kBarPlayerGaugeBack + enhanceStep; // 最大ゲージ量によってIDを変える
 	auto bgData = LoadCsv::GetInstance().GetUiData(bgId);
 	DrawExtendGraphF(bgData.LTposX, bgData.LTposY, bgData.RBposX, bgData.RBposY, m_handle[Handle::kPlayerGaugeBg], true);
 
 	// ゲージバー
-	std::string gaugeId = kBarPlayerGauge + "3"; // 最大ゲージ量によってIDを変える
+	std::string gaugeId = kBarPlayerGauge + enhanceStep; // 最大ゲージ量によってIDを変える
 	auto gaugeData = LoadCsv::GetInstance().GetUiData(gaugeId);
 
 	// 現在のゲージ量に応じてバーの長さを変える
-	float gaugeRatio = currentGauge / maxGauge;
+	float gaugeRatio = player.GetGauge() / maxGauge;
 	float gaugeLength = gaugeData.RBposX * gaugeRatio;
 	DrawExtendGraphF(gaugeData.LTposX, gaugeData.LTposY, gaugeData.LTposX + gaugeLength, gaugeData.RBposY, m_handle[Handle::kPlayerGauge], true);
 
@@ -141,7 +146,7 @@ void UiBar::DrawPlayerGaugeBar(float currentGauge, float maxGauge)
 	DrawExtendGraphF(gaugeCircleData.LTposX, gaugeCircleData.LTposY, gaugeCircleData.RBposX, gaugeCircleData.RBposY, m_handle[Handle::kPlayerGaugeCircle], true);
 
 	// ゲージが最大まで溜まっている場合
-	if (currentGauge >= maxGauge)
+	if (player.GetGauge() >= maxGauge)
 	{
 		// 円の色を変える
 		auto gaugeMaxData = LoadCsv::GetInstance().GetUiData(kBarPlayerGaugeMax);

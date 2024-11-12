@@ -133,8 +133,8 @@ void SceneMain::Draw()
 
 	EffectManager::GetInstance().Draw();
 
-	m_pUiBar->DrawPlayerHpBar(m_pPlayer->GetHp(), m_pPlayer->GetStatus().maxHp);
-	m_pUiBar->DrawPlayerGaugeBar(m_pPlayer->GetGauge(), m_pPlayer->GetStatus().maxGauge);
+	m_pUiBar->DrawPlayerHpBar(*m_pPlayer, m_pPlayer->GetStatus().maxHp);
+	m_pUiBar->DrawPlayerGaugeBar(*m_pPlayer, m_pPlayer->GetStatus().maxGauge);
 
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_PLAYING");

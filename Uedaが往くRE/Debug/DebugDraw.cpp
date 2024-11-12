@@ -6,15 +6,17 @@ namespace
 	constexpr int kTextInterval = 60;	// 文字列の表示間隔
 }
 
-void DebugDraw::DrawPlayerInfo(const VECTOR pos, float hp, std::string state, bool isGrabWeapon)
+void DebugDraw::DrawPlayerInfo(const VECTOR pos, float hp, CharacterBase::Status status, std::string state, bool isGrabWeapon)
 {
 	DrawFormatString(0, 180, Color::kColorW, "プレイヤー座標(X:%.2f, Y:%.2f, Z:%.2f)", pos.x, pos.y, pos.z);
 	DrawFormatString(0, 200, Color::kColorW, "プレイヤーHP:%.2f", hp);
-	DrawFormatString(0, 220, Color::kColorW, "プレイヤー状態:%s", state.c_str());
+	DrawFormatString(0, 220, Color::kColorW, "プレイヤー最大HP:%.2f", status.maxHp);
+	DrawFormatString(0, 240, Color::kColorW, "プレイヤー最大ゲージ量:%.2f", status.maxGauge);
+	DrawFormatString(0, 260, Color::kColorW, "プレイヤー状態:%s", state.c_str());
 
 	if (isGrabWeapon)
 	{
-		DrawString(0, 200, "武器掴み中", Color::kColorW);
+		DrawString(0, 280, "武器掴み中", Color::kColorW);
 	}
 }
 
@@ -28,8 +30,8 @@ void DebugDraw::DrawEnemyInfo(const VECTOR pos, float hp, int index, std::string
 void DebugDraw::DrawWeaponInfo(std::string name, std::string tag, VECTOR pos, VECTOR rot, VECTOR scale, int durability)
 {
 	
-	DrawFormatString(0, 440, 0xffffff, "name:%s, tag:%s, pos(%.2f:%.2f:%.2f), rot(%.2f:%.2f:%.2f), scale(%.2f:%.2f:%.2f), 耐久力:%d\n",
-		name.c_str(), tag.c_str(), pos.x, pos.y, pos.z, rot.x, rot.y, rot.z, scale.x, scale.y, scale.z, durability);
+	//DrawFormatString(0, 440, 0xffffff, "name:%s, tag:%s, pos(%.2f:%.2f:%.2f), rot(%.2f:%.2f:%.2f), scale(%.2f:%.2f:%.2f), 耐久力:%d\n",
+		//name.c_str(), tag.c_str(), pos.x, pos.y, pos.z, rot.x, rot.y, rot.z, scale.x, scale.y, scale.z, durability);
 }
 
 void DebugDraw::DrawBodyCol(CharacterBase::ColData& colData)

@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "CharacterBase.h"
 #include "EnemyBase.h"
+#include "SceneEnhance.h"
 #include "Weapon.h"
 #include "Item.h"
 #include "UiBase.h"
@@ -33,6 +34,12 @@ public:
 		}
 		return *m_instance;
 	}
+
+	/// <summary>
+	/// プレイヤーの強化データを読み込む
+	/// </summary>
+	/// <param name="data"></param>
+	void LoadEnhanceData(std::map<std::string, SceneEnhance::EnhanceData>& data);
 
 	/// <summary>
 	/// キャラクターのステータス情報を読み込む
@@ -79,6 +86,11 @@ public:
 	void LoadMessage();
 
 	/// <summary>
+	/// 敵の名前情報を読み込む
+	/// </summary>
+	void LoadEnemyName();
+
+	/// <summary>
 	/// UI情報を取得する
 	/// </summary>
 	/// <param name="id">取得したいUI情報のID</param>
@@ -98,11 +110,6 @@ public:
 	/// <param name="id">取得したいメッセージのID</param>
 	/// <returns>メッセージ</returns>
 	const char* Get_cMessage(std::string id);
-
-	/// <summary>
-	/// 敵の名前情報を読み込む
-	/// </summary>
-	void LoadEnemyName();
 
 	/// <summary>
 	/// 敵名を取得する

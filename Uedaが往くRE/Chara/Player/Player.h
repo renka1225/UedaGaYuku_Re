@@ -15,20 +15,12 @@ class EnemyBase;
 class Player : public CharacterBase, public std::enable_shared_from_this<Player>
 {
 public:
-	/// <summary>
-	/// プレイヤーの強化データ
-	/// </summary>
-	struct EnhanceData
+	// 現在の強化段階
+	struct EnhanceStep
 	{
-		std::string id;				// ID
-		std::string skillName;		// スキル名
-		std::string skillExplain;	// スキル説明
-		float upAmount;				// 上昇する倍率
-		int requiredMoney;			// 必要金額
-		int nowStepHpUp;			// HPアップ強化段階
-		int nowStepGaugeUp;			// ゲージ量アップ強化段階
-		int nowStepAtkUp;			// 攻撃力アップ強化段階
-		int nowStepDefUp;			// 防御力アップ強化段階
+		int nowHpUpStep = 0;	// 最大HP強化段階
+		int nowGaugeUpStep = 0;	// ゲージ量強化段階
+		int nowAtkUpStep = 0;	// 攻撃力強化段階
 	};
 
 	/// <summary>
@@ -116,20 +108,20 @@ public:
 	/// <summary>
 	/// プレイヤーのHPを強化する
 	/// </summary>
-	/// <param name="skillName">スキル名</param>
-	void EnhanceHpUp(std::string skillName);
+	/// <param name="upAmount">上昇倍率</param>
+	void EnhanceHpUp(float upAmount);
 
 	/// <summary>
 	/// プレイヤーのゲージ量を強化する
 	/// </summary>
-	/// <param name="skillName">スキル名</param>
-	void EnhanceGauge(std::string skillName);
+	/// <param name="skillID">スキルID</param>
+	void EnhanceGauge(float upAmount);
 
 	/// <summary>
 	/// プレイヤーの攻撃力を強化する
 	/// </summary>
-	/// <param name="skillName">スキル名</param>
-	void EnhanceAtkUp(std::string skillName);
+	/// <param name="skillID">スキルID</param>
+	void EnhanceAtkUp(float upAmount);
 
 	/// <summary>
 	/// 現在の所持金額を取得する
@@ -143,6 +135,12 @@ public:
 	/// <returns></returns>
 	std::vector<int> GetPossessItem() const { return m_possessItem; }
 
+	/// <summary>
+	/// プレイヤーの強化状態を取得する
+	/// </summary>
+	/// <returns>強化段階の情報</returns>
+	EnhanceStep GetEnhanceStep() const { return m_enhanceStep; }
+
 private:
 	/// <summary>
 	/// アイテムの効果を削除する
@@ -155,11 +153,11 @@ private:
 	void GetFramePos();
 
 private:
-	std::shared_ptr<PlayerStateBase> m_pState;			// stateパターン
-	std::map<std::string, EnhanceData> m_enhanceData;	// 強化データ
+	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
 	std::vector<int> m_possessItem;	// プレイヤーが所持しているアイテム情報を保存しておく
 	std::vector<VECTOR> m_pToEVec;	// プレイヤーから敵への位置ベクトル
-	Status m_saveStatus;	// ステータスを一時保存する
+	Status m_saveStatus;			// ステータスを一時保存する
+	EnhanceStep m_enhanceStep;		// 現在の強化段階
 
 	int m_money;			// 所持金額
 	int m_beforeMoney;		// 増減前の金額

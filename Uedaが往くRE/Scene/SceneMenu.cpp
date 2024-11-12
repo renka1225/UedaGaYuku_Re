@@ -14,9 +14,6 @@
 
 namespace
 {
-	const std::string kCursorId = "cursor_menu"; // カーソルのID
-	constexpr float kCursorInterval = 136.0f;	 // カーソルの表示間隔
-
 	// 画像の種類
 	enum Handle
 	{
@@ -24,6 +21,9 @@ namespace
 		kMenuText,	// テキスト
 		kNum		// ハンドルの数
 	};
+
+	const std::string kCursorId = "cursor_menu"; // カーソルのID
+	constexpr float kCursorInterval = 136.0f;	 // カーソルの表示間隔
 }
 
 SceneMenu::SceneMenu(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer)
