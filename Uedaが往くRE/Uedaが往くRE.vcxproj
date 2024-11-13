@@ -175,6 +175,7 @@
     <ClCompile Include="Chara\Player\PlayerStateGrab.cpp" />
     <ClCompile Include="Chara\Player\PlayerStateAvoid.cpp" />
     <ClCompile Include="Chara\Player\PlayerStateGuard.cpp" />
+    <ClCompile Include="Util\SaveData.cpp" />
     <ClCompile Include="Scene\SceneSave.cpp" />
     <ClCompile Include="Scene\SceneEnhance.cpp" />
     <ClCompile Include="Scene\SceneUseItem.cpp" />
@@ -225,6 +226,7 @@
     <ClInclude Include="Chara\Player\PlayerStateGrab.h" />
     <ClInclude Include="Chara\Player\PlayerStateAvoid.h" />
     <ClInclude Include="Chara\Player\PlayerStateGuard.h" />
+    <ClInclude Include="Util\SaveData.h" />
     <ClInclude Include="Scene\SceneSave.h" />
     <ClInclude Include="Scene\SceneEnhance.h" />
     <ClInclude Include="Scene\SceneUseItem.h" />

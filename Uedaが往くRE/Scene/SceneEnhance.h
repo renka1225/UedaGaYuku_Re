@@ -31,7 +31,7 @@ public:
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	virtual ~SceneEnhance() {}
+	virtual ~SceneEnhance();
 
 	/// <summary>
 	/// 初期化
@@ -57,16 +57,62 @@ private:
 	void SetEnhance();
 
 	/// <summary>
-	/// 現在選択中のスキル名を表示する
+	/// 円の表示状態を更新する
 	/// </summary>
-	void DrawSelectSkillName();
+	void UpdateSkillCircle();
+
+	/// <summary>
+	/// 強化状態を円で表示する
+	/// </summary>
+	void DrawSkillCircle();
+
+	/// <summary>
+	/// スキル情報を表示する
+	/// </summary>
+	void DrawSkillInfo();
+
+	/// <summary>
+	/// 現在選択中のスキル情報を表示する
+	/// </summary>
+	void DrawSelectSkill();
 
 	/// <summary>
 	/// 現在選択中のスキルの強化段階を取得する
 	/// </summary>
 	int GetSelectSkillStep();
 
+	/// <summary>
+	/// スキルIDを取得する
+	/// </summary>
+	/// <param name="select">選択番号</param>
+	/// <param name="nowStep">現在の強化段階</param>
+	/// <returns>スキルID</returns>
+	std::string GetSkillId(int select, int nowStep);
+
+	/// <summary>
+	/// スキル名を取得する
+	/// </summary>
+	/// <param name="skillId">スキルID</param>
+	/// <returns>スキル名</returns>
+	std::string GetSkillName(std::string skillId);
+
+	/// <summary>
+	/// スキル詳細を取得する
+	/// </summary>
+	/// <param name="skillId">スキルID</param>
+	/// <returns>スキル詳細</returns>
+	std::string GetSkillExplain(std::string skillId);
+
+	/// <summary>
+	/// スキルアップに必要な金額を取得する
+	/// </summary>
+	/// <param name="skillId">スキルID</param>
+	/// <returns>必要金額</returns>
+	int GetSkillRequiredMoney(std::string skillId);
+
 private:
 	std::map<std::string, EnhanceData> m_enhanceData;	// 強化データ
+	int m_circleBlinkTime;	// 円の点滅時間
+	int m_circleAlpha;		// 円のアルファ値
 };
 

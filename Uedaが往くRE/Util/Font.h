@@ -17,6 +17,7 @@ namespace Font
 		kSize42_4,
 		kSize42_4_EDGE,
 		kSize40_4,
+		kSize36_4,
 		kSize36_4_EDGE,
 		kSize34_4_EDGE,
 		kSize30_4_EDGE,
@@ -32,6 +33,11 @@ namespace Font
 		// メニュー画面
 		kMenu_itemName = kSize40_4,		// アイテム名
 		kMenu_itemExplain = kSize42_4,	// アイテムの説明
+
+		// 強化画面
+		kEnhance_skillMoney = kSize36_4,	// 必要金額
+		kEnhance_skillName = kSize40_4,		// スキル名
+		kEnhance_skillExplain = kSize42_4,	// スキルの詳細
 	};
 
 	// フォントのロード、アンロード

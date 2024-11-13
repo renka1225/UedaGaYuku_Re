@@ -109,19 +109,22 @@ public:
 	/// プレイヤーのHPを強化する
 	/// </summary>
 	/// <param name="upAmount">上昇倍率</param>
-	void EnhanceHpUp(float upAmount);
+	/// <param name="money">使用金額</param>
+	void EnhanceHpUp(float upAmount, int money);
 
 	/// <summary>
 	/// プレイヤーのゲージ量を強化する
 	/// </summary>
 	/// <param name="skillID">スキルID</param>
-	void EnhanceGauge(float upAmount);
+	/// <param name="money">使用金額</param>
+	void EnhanceGauge(float upAmount, int money);
 
 	/// <summary>
 	/// プレイヤーの攻撃力を強化する
 	/// </summary>
 	/// <param name="skillID">スキルID</param>
-	void EnhanceAtkUp(float upAmount);
+	/// <param name="money">使用金額</param>
+	void EnhanceAtkUp(float upAmount, int money);
 
 	/// <summary>
 	/// 現在の所持金額を取得する

@@ -1,24 +1,24 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "Font.h"
 
 namespace
 {
-	// ƒtƒHƒ“ƒg–¼
+	// ãƒ•ã‚©ãƒ³ãƒˆå
 	const char* kFontName = "Yuji Syuku";
 
-	// “Ç‚İ‚ŞƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹–¼
+	// èª­ã¿è¾¼ã‚€ãƒ•ã‚©ãƒ³ãƒˆãƒ•ã‚¡ã‚¤ãƒ«å
 	const LPCSTR kFontDataPath[] =
 	{
 		"data/font/YujiSyuku-Regular.ttf",
 	};
 
-	// ƒtƒHƒ“ƒg‚Ìƒf[ƒ^
+	// ãƒ•ã‚©ãƒ³ãƒˆã®ãƒ‡ãƒ¼ã‚¿
 	struct FontData
 	{
-		const char* name;	// ƒtƒHƒ“ƒg–¼
-		int size;			// ƒtƒHƒ“ƒgƒTƒCƒY
-		int thick;			// ƒtƒHƒ“ƒg‚Ì‘¾‚³(-1:ƒfƒtƒHƒ‹ƒg)
-		int type;			// ƒtƒHƒ“ƒg‚Ìƒ^ƒCƒv(-1:ƒfƒtƒHƒ‹ƒg)
+		const char* name;	// ãƒ•ã‚©ãƒ³ãƒˆå
+		int size;			// ãƒ•ã‚©ãƒ³ãƒˆã‚µã‚¤ã‚º
+		int thick;			// ãƒ•ã‚©ãƒ³ãƒˆã®å¤ªã•(-1:ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ)
+		int type;			// ãƒ•ã‚©ãƒ³ãƒˆã®ã‚¿ã‚¤ãƒ—(-1:ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ)
 	};
 }
 
@@ -46,6 +46,8 @@ namespace Font
 		{kFontName, 42, 4, DX_FONTTYPE_ANTIALIASING_EDGE_8X8},
 		// Size40_4
 		{kFontName, 40, 4, DX_FONTTYPE_ANTIALIASING_EDGE_8X8},
+		// Size36_4
+		{kFontName, 36, 4, DX_FONTTYPE_ANTIALIASING_8X8},
 		// Size36_4_EDGE
 		{kFontName, 36, 4, DX_FONTTYPE_ANTIALIASING_EDGE_8X8},
 		//// Size34_4_EDGE
@@ -61,12 +63,12 @@ namespace Font
 		// Size16_4
 		{kFontName, 16, 4, DX_FONTTYPE_ANTIALIASING_8X8},
 		// Normal
-		{"‚l‚r@ƒSƒVƒbƒN", 16, -1, -1},
+		{"ï¼­ï¼³ã€€ã‚´ã‚·ãƒƒã‚¯", 16, -1, -1},
 	};
 
 
 	/// <summary>
-	/// ƒtƒHƒ“ƒg‚Ìƒ[ƒh
+	/// ãƒ•ã‚©ãƒ³ãƒˆã®ãƒ­ãƒ¼ãƒ‰
 	/// </summary>
 	void Font::Load()
 	{
@@ -78,12 +80,12 @@ namespace Font
 			}
 			else
 			{
-				// ƒtƒHƒ“ƒg“ÇƒGƒ‰[ˆ—
-				MessageBox(NULL, "ƒtƒHƒ“ƒg“Ç¸”s", "", MB_OK);
+				// ãƒ•ã‚©ãƒ³ãƒˆèª­è¾¼ã‚¨ãƒ©ãƒ¼å‡¦ç†
+				MessageBox(NULL, "ãƒ•ã‚©ãƒ³ãƒˆèª­è¾¼å¤±æ•—", "", MB_OK);
 			}
 		}
 
-		// ƒtƒHƒ“ƒgƒf[ƒ^¶¬
+		// ãƒ•ã‚©ãƒ³ãƒˆãƒ‡ãƒ¼ã‚¿ç”Ÿæˆ
 		for (int i = 0; i < Font::m_fontHandle.size(); i++)
 		{
 			Font::m_fontHandle[i] = CreateFontToHandle(data[i].name, data[i].size, data[i].thick, data[i].type);
@@ -92,7 +94,7 @@ namespace Font
 
 
 	/// <summary>
-	/// ƒtƒHƒ“ƒg‚ÌƒAƒ“ƒ[ƒh
+	/// ãƒ•ã‚©ãƒ³ãƒˆã®ã‚¢ãƒ³ãƒ­ãƒ¼ãƒ‰
 	/// </summary>
 	void Font::UnLoad()
 	{
@@ -103,11 +105,11 @@ namespace Font
 			}
 			else
 			{
-				MessageBox(NULL, "ƒtƒHƒ“ƒgíœ¸”s", "", MB_OK);
+				MessageBox(NULL, "ãƒ•ã‚©ãƒ³ãƒˆå‰Šé™¤å¤±æ•—", "", MB_OK);
 			}
 		}
 
-		// ƒtƒHƒ“ƒgƒf[ƒ^íœ
+		// ãƒ•ã‚©ãƒ³ãƒˆãƒ‡ãƒ¼ã‚¿å‰Šé™¤
 		for (const auto& handle : m_fontHandle)
 		{
 			DeleteFontToHandle(handle);

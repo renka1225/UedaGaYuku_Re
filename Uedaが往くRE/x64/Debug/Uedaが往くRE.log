@@ -1,2 +1,5 @@
-﻿  UiBar.cpp
+﻿  SceneEnhance.cpp
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Scene\SceneEnhance.cpp(181,76): warning C4244: '引数': 'const float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Scene\SceneEnhance.cpp(181,42): warning C4244: '引数': 'const float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Scene\SceneEnhance.cpp(277): warning C4715: 'SceneEnhance::GetSelectSkillStep': 値を返さないコントロール パスがあります。
   Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\Uedaが往くRE.exe

@@ -23,8 +23,8 @@ namespace
 	constexpr float kScale = 0.14f;			// モデルの拡大率
 	constexpr float kDistEnemyGrab = 50.0f;	// 敵を掴める距離
 
-	constexpr int kMaxPossession = 12;	// アイテムの最大所持数
-	constexpr int kMoneyIncrement = 5; // 一度に増える所持金数
+	constexpr int kMaxPossession = 12;		// アイテムの最大所持数
+	constexpr int kMoneyIncrement = 5;		// 一度に増える所持金数
 }
 
 Player::Player(int modelHandle):
@@ -226,23 +226,23 @@ void Player::AtkUp(float atkUpRate, int effectTime)
 	m_status.atkPowerTwoHandWeapon *= atkUpRate;
 }
 
-void Player::EnhanceHpUp(float upAmount)
+void Player::EnhanceHpUp(float upAmount, int money)
 {
 	m_status.maxHp *= upAmount;
 	m_hp *= upAmount;
+	m_money -= money;
 	m_enhanceStep.nowHpUpStep++;
-	printfDx("現在の強化段階:%d\n", m_enhanceStep.nowHpUpStep);
 }
 
-void Player::EnhanceGauge(float upAmount)
+void Player::EnhanceGauge(float upAmount, int money)
 {
 	m_status.maxGauge *= upAmount;
 	m_gauge *= upAmount;
+	m_money -= money;
 	m_enhanceStep.nowGaugeUpStep++;
-	printfDx("現在の強化段階:%d\n", m_enhanceStep.nowGaugeUpStep);
 }
 
-void Player::EnhanceAtkUp(float upAmount)
+void Player::EnhanceAtkUp(float upAmount, int money)
 {
 	m_status.atkPowerPunch1 *= upAmount;
 	m_status.atkPowerPunch2 *= upAmount;
@@ -250,8 +250,8 @@ void Player::EnhanceAtkUp(float upAmount)
 	m_status.atkPowerKick *= upAmount;
 	m_status.atkPowerOneHandWeapon *= upAmount;
 	m_status.atkPowerTwoHandWeapon *= upAmount;
+	m_money -= money;
 	m_enhanceStep.nowAtkUpStep++;
-	printfDx("現在の強化段階:%d\n", m_enhanceStep.nowAtkUpStep);
 }
 
 void Player::DeleteItemEffect()

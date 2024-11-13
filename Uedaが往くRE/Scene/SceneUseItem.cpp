@@ -116,13 +116,16 @@ void SceneUseItem::Draw()
 
 void SceneUseItem::UseItem()
 {
-	printfDx("%dのアイテム使用した\n", m_possessItem[m_select]);
-
 	// 現在選択中のアイテムを使用する
 	m_pItem->ApplyEffect(*m_pPlayer, m_possessItem[m_select]);
 
 	// 使用したアイテムを削除する
 	m_pPlayer->DeleteItem(m_select);
+
+#ifdef _DEBUG
+	printfDx("%dのアイテム使用した\n", m_possessItem[m_select]);
+#endif
+
 }
 
 void SceneUseItem::MoveCursor(Input& input)

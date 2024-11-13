@@ -95,7 +95,7 @@ void UiBar::LoadHandle()
 void UiBar::DrawPlayerHpBar(Player& player, float maxHp)
 {
 	// 現在の強化段階を取得
-	std::string enhanceStep = std::to_string(player.GetEnhanceStep().nowHpUpStep + 1);
+	std::string enhanceStep = std::to_string(player.GetEnhanceStep().nowHpUpStep);
 
 	/*バック部分*/
 	std::string bgId = kBarPlayerHpBack + enhanceStep; // 最大HPによってIDを変える
@@ -125,7 +125,7 @@ void UiBar::DrawPlayerHpBar(Player& player, float maxHp)
 void UiBar::DrawPlayerGaugeBar(Player& player, float maxGauge)
 {
 	// 現在の強化段階を取得
-	std::string enhanceStep = std::to_string(player.GetEnhanceStep().nowGaugeUpStep + 1);
+	std::string enhanceStep = std::to_string(player.GetEnhanceStep().nowGaugeUpStep);
 
 	// バック部分
 	std::string bgId = kBarPlayerGaugeBack + enhanceStep; // 最大ゲージ量によってIDを変える
