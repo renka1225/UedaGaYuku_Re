@@ -38,21 +38,32 @@ public:
 	/// </summary>
 	void Write();
 
+	/// <summary>
+	/// セーブデータを削除する
+	/// </summary>
+	void DeleteData();
+
+	/// <summary>
+	/// セーブデータの新規保存
+	/// </summary>
+	void CreateNewData();
+
 private:
 	SaveData() = default;
 	virtual ~SaveData() = default;
 	static SaveData* m_instance;	 // インスタンス
 
 	// セーブデータの情報
-	struct SaveInfo
+	struct SaveDataCore
 	{
 		VECTOR playerPos;	// プレイヤーの現在位置
-		// 現在のHP量
-		// 現在のゲージ量
-		// 現在の所持金
+		float hp;			// 現在のHP量
+		float gauge;		// 現在のゲージ量
+		int money;			// 現在の所持金
 		// 現在の強化段階
 		// 所持アイテム
 		int playTime;	// 現在のプレイ時間
 	};
+	SaveDataCore m_saveData;
 };
 
