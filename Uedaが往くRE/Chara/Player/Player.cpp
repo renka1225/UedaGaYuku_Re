@@ -2,9 +2,9 @@
 #include "DebugDraw.h"
 #include "Vec2.h"
 #include "Game.h"
-#include "ModelFrameName.h"
 #include "Input.h"
 #include "LoadCsv.h"
+#include "SaveData.h"
 #include "UiBar.h"
 #include "Camera.h"
 #include "Stage.h"
@@ -12,13 +12,13 @@
 #include "EnemyBase.h"
 #include "PlayerStateBase.h"
 #include "PlayerStateIdle.h"
+#include "ModelFrameName.h"
 #include "Player.h"
 
 // 定数
 namespace
 {
 	const std::string kCharaId = "player";					// キャラクターのID名
-	const VECTOR kInitPos = VGet(7425.0, 40.0f, 5190.0f);	// 初期位置
 
 	constexpr float kScale = 0.14f;			// モデルの拡大率
 	constexpr float kDistEnemyGrab = 50.0f;	// 敵を掴める距離
@@ -38,11 +38,17 @@ Player::Player(int modelHandle):
 	LoadCsv::GetInstance().LoadStatus(m_status, kCharaId);
 	LoadCsv::GetInstance().LoadColData(m_colData[CharaType::kPlayer], kCharaId);
 
-	m_modelHandle = modelHandle;
-	m_possessItem.resize(kMaxPossession, -1);
-	m_pos = kInitPos;
 	m_colData[CharaType::kPlayer].bodyUpdateStartPos = m_colData[CharaType::kPlayer].bodyStartPos;
 	m_colData[CharaType::kPlayer].bodyUpdateEndPos = m_colData[CharaType::kPlayer].bodyEndPos;
+
+	m_modelHandle = modelHandle;
+	m_possessItem.resize(kMaxPossession, -1);
+
+	// セーブデータの情報を適用する
+	auto saveData = SaveData::GetInstance().GetSaveData();
+	m_pos = saveData.playerPos;
+	m_hp = saveData.hp;
+	m_gauge = saveData.gauge;
 }
 
 Player::~Player()

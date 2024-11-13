@@ -2,6 +2,7 @@
 #include "EffekseerForDXLib.h"
 #include "Game.h"
 #include "LoadCsv.h"
+#include "SaveData.h"
 #include "Input.h"
 #include "Sound.h"
 #include "Font.h"
@@ -37,14 +38,16 @@ int InitDxLib(const char* titleName, int width, int height)
 /// </summary>
 void Load()
 {
-	// メッセージのロード
+	// メッセージロード
 	LoadCsv::GetInstance().LoadMessage();
-	// サウンドのロード
+	// サウンドロード
 	Sound::GetInstance().Load();
-	// フォントのロード
+	// フォントロード
 	Font::Load();
-	// エフェクトのロード
+	// エフェクトロード
 	EffectManager::GetInstance().Load();
+	// セーブデータロード
+	SaveData::GetInstance().Load();
 }
 
 /// <summary>

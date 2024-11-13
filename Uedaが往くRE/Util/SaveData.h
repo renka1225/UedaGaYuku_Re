@@ -6,6 +6,19 @@
 /// </summary>
 class SaveData
 {
+private:
+	// セーブデータの情報
+	struct SaveDataCore
+	{
+		VECTOR playerPos;	// プレイヤーの現在位置
+		float hp;			// 現在のHP量
+		float gauge;		// 現在のゲージ量
+		int money;			// 現在の所持金
+		// 現在の強化段階
+		// 所持アイテム
+		int playTime;	// 現在のプレイ時間
+	};
+
 public:
 	// コピーコンストラクタの禁止
 	SaveData(const SaveData&) = delete;
@@ -48,22 +61,16 @@ public:
 	/// </summary>
 	void CreateNewData();
 
+	/// <summary>
+	/// セーブデータの情報を取得
+	/// </summary>
+	/// <returns>セーブデータ</returns>
+	SaveDataCore GetSaveData() const { return m_saveData; }
+
 private:
 	SaveData() = default;
 	virtual ~SaveData() = default;
-	static SaveData* m_instance;	 // インスタンス
-
-	// セーブデータの情報
-	struct SaveDataCore
-	{
-		VECTOR playerPos;	// プレイヤーの現在位置
-		float hp;			// 現在のHP量
-		float gauge;		// 現在のゲージ量
-		int money;			// 現在の所持金
-		// 現在の強化段階
-		// 所持アイテム
-		int playTime;	// 現在のプレイ時間
-	};
-	SaveDataCore m_saveData;
+	static SaveData* m_instance; // インスタンス
+	SaveDataCore m_saveData;	 // セーブデータ
 };
 
