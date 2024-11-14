@@ -37,18 +37,18 @@ void EnemyStateDeath::DropMoney(Stage& stage)
 	// 確率でお金かアイテムをドロップする
 	int randNum = GetRand(20);
 
-	if (randNum <= 7)
+	if (randNum <= 5)
 	{
 		// 敵がいた場所にお金をドロップする
-		stage.SetDropMoney(m_pEnemy->GetPos(), 100);
-	}
-	else if (randNum <= 9)
-	{
-		stage.SetDropMoney(m_pEnemy->GetPos(), 300);
-	}
-	else if(randNum <= 15)
-	{
 		stage.SetDropMoney(m_pEnemy->GetPos(), 500);
+	}
+	else if (randNum <= 10)
+	{
+		stage.SetDropMoney(m_pEnemy->GetPos(), 1000);
+	}
+	else if(randNum <= 13)
+	{
+		stage.SetDropMoney(m_pEnemy->GetPos(), 1500);
 
 	}
 	else

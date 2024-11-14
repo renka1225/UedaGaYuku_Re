@@ -12,7 +12,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	SceneSave(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer);
+	SceneSave(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer, std::shared_ptr<Camera> pCamera);
 
 	/// <summary>
 	/// デストラクタ

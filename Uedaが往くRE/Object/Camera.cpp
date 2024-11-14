@@ -1,4 +1,5 @@
 ﻿#include "Input.h"
+#include "SaveData.h"
 #include "Stage.h"
 #include "Player.h"
 #include "Camera.h"
@@ -32,6 +33,13 @@ Camera::Camera() :
 {
 	m_analogInput.Rx = 0;
 	m_analogInput.Ry = 0;
+
+	// セーブデータの情報を適用する
+	auto saveData = SaveData::GetInstance().GetSaveData();
+	m_pos = saveData.cameraPos;
+	m_target = saveData.target;
+	m_angleH = saveData.angleH;
+	m_angleV = saveData.angleV;
 }
 
 void Camera::Init()

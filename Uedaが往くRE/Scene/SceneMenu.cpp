@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Input.h"
 #include "UiBase.h"
+#include "Camera.h"
 #include "Player.h"
 #include "SceneDebug.h"
 #include "SceneUseItem.h"
@@ -33,10 +34,11 @@ namespace
 	constexpr float kCursorInterval = 136.0f;	 // カーソルの表示間隔
 }
 
-SceneMenu::SceneMenu(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer)
+SceneMenu::SceneMenu(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer, std::shared_ptr<Camera> pCamera)
 {
 	m_pPrevScene = pScene;
 	m_pPlayer = pPlayer;
+	m_pCamera = pCamera;
 	m_select = Select::kItem;
 
 	m_handle.resize(kNum);
@@ -82,7 +84,7 @@ std::shared_ptr<SceneBase> SceneMenu::Update(Input& input)
 		}
 		else if (m_select == Select::kSave)
 		{
-			return std::make_shared<SceneSave>(shared_from_this(), m_pPlayer); // セーブ画面に遷移
+			return std::make_shared<SceneSave>(shared_from_this(), m_pPlayer, m_pCamera); // セーブ画面に遷移
 		}
 		else if (m_select == Select::kBackTitle)
 		{

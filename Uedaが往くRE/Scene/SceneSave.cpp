@@ -1,11 +1,13 @@
 ﻿#include "Input.h"
 #include "SaveData.h"
+#include "Camera.h"
 #include "Player.h"
 #include "SceneSave.h"
 
-SceneSave::SceneSave(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer)
+SceneSave::SceneSave(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer, std::shared_ptr<Camera> pCamera)
 {
 	m_pPlayer = pPlayer;
+	m_pCamera = pCamera;
 	m_pPrevScene = pScene;
 }
 
@@ -22,8 +24,7 @@ std::shared_ptr<SceneBase> SceneSave::Update(Input& input)
 	// セーブデータを書き込む
 	if (input.IsTriggered(InputId::kA))
 	{
-		SaveData::GetInstance().SetPlayerData(*m_pPlayer);
-		//SaveData::GetInstance().SetCameraData(*m_pCamera);
+		SaveData::GetInstance().WriteData(*m_pPlayer, *m_pCamera);
 	}
 
 	if (input.IsTriggered(InputId::kBack))

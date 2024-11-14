@@ -27,6 +27,8 @@ void Item::Draw()
 
 void Item::ApplyEffect(Player& player, int m_select)
 {
+	if (m_select == -1) return; // 選択したアイテムを持っていない場合は飛ばす
+
 	ItemType itemKind = static_cast<ItemType>(m_select);
 
 	switch (itemKind)

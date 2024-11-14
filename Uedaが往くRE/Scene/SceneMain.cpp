@@ -66,7 +66,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	if (input.IsTriggered(InputId::kMenu))
 	{
 		m_isPause = true;
-		return std::make_shared<SceneMenu>(shared_from_this(), m_pPlayer);
+		return std::make_shared<SceneMenu>(shared_from_this(), m_pPlayer, m_pCamera);
 	}
 
 	// 敵が1体もいない場合、敵を生成する

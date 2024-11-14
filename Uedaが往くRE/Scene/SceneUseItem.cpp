@@ -65,20 +65,15 @@ std::shared_ptr<SceneBase> SceneUseItem::Update(Input& input)
 
 	MoveCursor(input); 	// カーソル移動の処理
 
-	// 決定ボタンを押したらアイテムを使用する
-	if (input.IsTriggered(InputId::kA))
-	{
-		// アイテムを所持していない場合はスキップ
-		for (int i = 0; i < m_possessItem.size(); i++)
-		{
-			if (m_possessItem[i] == -1) break;
-		}
-		UseItem();
-	}
-
 	if (input.IsTriggered(InputId::kBack))
 	{
 		return m_pPrevScene; // メニュー画面に戻る
+	}
+
+	// 決定ボタンを押したらアイテムを使用する
+	if (input.IsTriggered(InputId::kA))
+	{
+		UseItem(); // アイテムを使用する
 	}
 
 	return shared_from_this();	// 自身のshared_ptrを返す
@@ -130,7 +125,6 @@ void SceneUseItem::UseItem()
 #ifdef _DEBUG
 	printfDx("%dのアイテム使用した\n", m_possessItem[m_select]);
 #endif
-
 }
 
 void SceneUseItem::MoveCursor(Input& input)

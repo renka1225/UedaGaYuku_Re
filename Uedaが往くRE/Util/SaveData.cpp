@@ -90,37 +90,26 @@ void SaveData::CreateNewData()
 	Write(); // 初期データを保存する
 }
 
-void SaveData::SetPlayerData(const Player& pPlayer)
+void SaveData::WriteData(const Player& pPlayer, const Camera& pCamera)
 {
+	// プレイヤー情報
 	m_saveData.playerPos = pPlayer.GetPos();
 	m_saveData.hp = pPlayer.GetHp();
 	m_saveData.gauge = pPlayer.GetGauge();
 	m_saveData.money = pPlayer.GetMoney();
 	m_saveData.enhanceStep = pPlayer.GetEnhanceStep();
 
-	//m_saveData.possessItem.resize(kMaxPossession, -1);
-	//for (int i = 0; i < m_saveData.possessItem.size(); i++)
-	//{
-	//	m_saveData.possessItem[i] = pPlayer.GetPossessItem()[i];
-	//}
 	auto item = pPlayer.GetPossessItem();
-
-	for (int i = 0; i < m_saveData.possessItem.size(); i++)
+	for (size_t i = 0; i < m_saveData.possessItem.size(); i++)
 	{
-		m_saveData.possessItem[i] = item[i];
-		printfDx("%d", m_saveData.possessItem[i]);
+		m_saveData.possessItem[i] = pPlayer.GetPossessItem()[i];
 	}
 
-	//std::vector<int> item = pPlayer.GetPossessItem();
-	//m_saveData.possessItem.assign(item.begin(), item.end());
-
-	Write(); // データを上書きする
-}
-
-void SaveData::SetCameraData(const Camera& pCamera)
-{
+	// カメラ情報
 	m_saveData.cameraPos = pCamera.GetPos();
 	m_saveData.target = pCamera.GetAngle();
 	m_saveData.angleH = pCamera.GetAngleH();
 	m_saveData.angleV = pCamera.GetAngleV();
+
+	Write(); // データを上書きする
 }

@@ -3,6 +3,7 @@
 #include <vector>
 
 class Player;
+class Camera;
 
 /// <summary>
 /// メニュー画面
@@ -15,7 +16,8 @@ public:
 	/// </summary>
 	/// <param name="pScene">前に実行していたシーン</param>
 	/// <param name="pPlayer">プレイヤーのポインタ</param>
-	SceneMenu(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer);
+	/// <param name="pPlayer">カメラのポインタ</param>
+	SceneMenu(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer, std::shared_ptr<Camera> pCamera);
 
 	/// <summary>
 	/// デストラクタ

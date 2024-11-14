@@ -73,16 +73,17 @@ public:
 	void CreateNewData();
 
 	/// <summary>
-	/// プレイヤーの情報をセットする
+	/// セーブデータを書き込む
 	/// </summary>
 	/// <param name="pPlayer">プレイヤー参照</param>
-	void SetPlayerData(const Player& pPlayer);
+	/// <param name="pCamera">カメラ参照</param>
+	void WriteData(const Player& pPlayer, const Camera& pCamera);
 
 	/// <summary>
 	/// カメラの情報をセットする
 	/// </summary>
 	/// <param name="pCamera">カメラ参照</param>
-	void SetCameraData(const Camera& pCamera);
+	//void SetCameraData(const Camera& pCamera);
 
 	/// <summary>
 	/// セーブデータの情報を取得

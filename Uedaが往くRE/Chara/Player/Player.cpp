@@ -50,7 +50,12 @@ Player::Player(int modelHandle):
 	m_hp = saveData.hp;
 	m_gauge = saveData.gauge;
 	m_money = saveData.money;
-	m_possessItem = saveData.possessItem;
+	//m_possessItem = saveData.possessItem;
+
+	for (size_t i = 0; i < saveData.possessItem.size(); i++)
+	{
+		m_possessItem[i] = saveData.possessItem[i];
+	}
 }
 
 Player::~Player()
