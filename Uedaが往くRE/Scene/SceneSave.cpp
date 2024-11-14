@@ -1,4 +1,5 @@
 ﻿#include "Input.h"
+#include "SaveData.h"
 #include "Player.h"
 #include "SceneSave.h"
 
@@ -18,6 +19,13 @@ void SceneSave::Init()
 
 std::shared_ptr<SceneBase> SceneSave::Update(Input& input)
 {
+	// セーブデータを書き込む
+	if (input.IsTriggered(InputId::kA))
+	{
+		SaveData::GetInstance().SetPlayerData(*m_pPlayer);
+		//SaveData::GetInstance().SetCameraData(*m_pCamera);
+	}
+
 	if (input.IsTriggered(InputId::kBack))
 	{
 		return m_pPrevScene; // メニュー画面に戻る

@@ -63,6 +63,7 @@ private:
 	std::shared_ptr<UiBar> m_pUiBar;	 // キャラクターバーUIのポインタ
 	std::vector<int> m_modelHandle;		 // モデルのハンドル
 	int m_enemySpawnTime;	// 敵がスポーンするまでの時間
+	bool m_isBattle;		// バトル状態かどうか(true:バトル中)
 	bool m_isPause;			// ポーズ状態かどうか(true:ポーズ状態)
 };
 

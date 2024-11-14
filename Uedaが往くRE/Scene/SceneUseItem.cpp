@@ -68,6 +68,11 @@ std::shared_ptr<SceneBase> SceneUseItem::Update(Input& input)
 	// 決定ボタンを押したらアイテムを使用する
 	if (input.IsTriggered(InputId::kA))
 	{
+		// アイテムを所持していない場合はスキップ
+		for (int i = 0; i < m_possessItem.size(); i++)
+		{
+			if (m_possessItem[i] == -1) break;
+		}
 		UseItem();
 	}
 

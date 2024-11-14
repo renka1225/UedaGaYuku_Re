@@ -10,7 +10,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	SceneSelect() {}
+	SceneSelect();
 
 	/// <summary>
 	/// デストラクタ
@@ -33,14 +33,5 @@ public:
 	/// 更新
 	/// </summary>
 	virtual void Draw() override;
-
-private:
-	// シーンの種類
-	enum SelectScene
-	{
-		kMain,		// メイン
-		kOption,	// オプション
-		kSelectNum,	// 選択数
-	};
 };
 

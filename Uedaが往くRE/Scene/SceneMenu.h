@@ -51,7 +51,7 @@ private:
 		kSelectNum		// 選択数
 	};
 
-	// 仮ハンドル
+	// ハンドル
 	std::vector<int> m_handle;
 };
 

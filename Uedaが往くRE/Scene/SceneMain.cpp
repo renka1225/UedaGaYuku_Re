@@ -31,6 +31,7 @@ namespace
 
 SceneMain::SceneMain():
 	m_enemySpawnTime(0),
+	m_isBattle(false),
 	m_isPause(false)
 {
 	// TODO:非同期処理
@@ -121,6 +122,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 void SceneMain::Draw()
 {
 	m_pStage->Draw();
+	m_pPlayer->Draw();
 	m_pWeapon->Draw();
 
 	for (auto& enemy : m_pEnemy)
@@ -128,8 +130,6 @@ void SceneMain::Draw()
 		if (enemy == nullptr) continue;
 		enemy->Draw(*m_pPlayer);
 	}
-
-	m_pPlayer->Draw();
 
 	EffectManager::GetInstance().Draw();
 

@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Input.h"
 #include "LoadCsv.h"
+#include "SaveData.h"
 #include "SceneTitle.h"
 #include "SceneSelect.h"
 #include "SceneMain.h"
@@ -14,6 +15,7 @@
 SceneDebug::SceneDebug()
 {
 	m_select = SelectScene::kMain;
+	SaveData::GetInstance().Load(); // セーブデータを読み込む
 }
 
 /// <summary>

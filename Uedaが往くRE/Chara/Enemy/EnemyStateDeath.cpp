@@ -35,7 +35,7 @@ void EnemyStateDeath::DropMoney(Stage& stage)
 	if (m_pEnemy == nullptr) return;
 
 	// 確率でお金かアイテムをドロップする
-	int randNum = GetRand(100);
+	int randNum = GetRand(20);
 
 	if (randNum <= 7)
 	{

@@ -52,6 +52,12 @@ public:
 	/// <returns>カメラの水平角度</returns>
 	float GetAngleH() const{ return m_angleH; }
 
+	/// <summary>
+	/// カメラの垂直角度を取得
+	/// </summary>
+	/// <returns>カメラの垂直角度</returns>
+	float GetAngleV() const { return m_angleV; }
+
 private:
 	/// <summary>
 	/// カメラの角度を更新

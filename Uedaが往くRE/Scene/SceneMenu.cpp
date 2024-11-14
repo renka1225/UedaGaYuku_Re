@@ -22,6 +22,13 @@ namespace
 		kNum		// ハンドルの数
 	};
 
+	// 画像のパス
+	const char* kHandlePath[Handle::kNum]
+	{
+		"data/ui/menu/bg.png",
+		"data/ui/menu/text.png"
+	};
+
 	const std::string kCursorId = "cursor_menu"; // カーソルのID
 	constexpr float kCursorInterval = 136.0f;	 // カーソルの表示間隔
 }
@@ -33,8 +40,8 @@ SceneMenu::SceneMenu(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> 
 	m_select = Select::kItem;
 
 	m_handle.resize(kNum);
-	m_handle[kMenuBg] = LoadGraph("data/ui/menu/bg.png");
-	m_handle[kMenuText] = LoadGraph("data/ui/menu/text.png");
+	m_handle[Handle::kMenuBg] = LoadGraph(kHandlePath[Handle::kMenuBg]);
+	m_handle[Handle::kMenuText] = LoadGraph(kHandlePath[Handle::kMenuText]);
 }
 
 SceneMenu::~SceneMenu()
@@ -63,15 +70,15 @@ std::shared_ptr<SceneBase> SceneMenu::Update(Input& input)
 	{
 		if (m_select == Select::kItem)
 		{
-			return std::make_shared<SceneUseItem>(shared_from_this(), m_pPlayer);	// アイテム画面に遷移
+			return std::make_shared<SceneUseItem>(shared_from_this(), m_pPlayer); // アイテム画面に遷移
 		}
 		else if (m_select == Select::kEnhance)
 		{
-			return std::make_shared<SceneEnhance>(shared_from_this(), m_pPlayer);	// 強化画面に遷移
+			return std::make_shared<SceneEnhance>(shared_from_this(), m_pPlayer); // 強化画面に遷移
 		}
 		else if (m_select == Select::kOption)
 		{
-			return std::make_shared<SceneOption>(shared_from_this());	// オプション画面に遷移
+			return std::make_shared<SceneOption>(shared_from_this()); // オプション画面に遷移
 		}
 		else if (m_select == Select::kSave)
 		{

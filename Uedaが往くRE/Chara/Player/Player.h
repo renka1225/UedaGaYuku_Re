@@ -157,8 +157,8 @@ private:
 
 private:
 	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
-	std::vector<int> m_possessItem;	// プレイヤーが所持しているアイテム情報を保存しておく
 	std::vector<VECTOR> m_pToEVec;	// プレイヤーから敵への位置ベクトル
+	std::vector<int> m_possessItem;	// プレイヤーが所持しているアイテム情報を保存しておく
 	Status m_saveStatus;			// ステータスを一時保存する
 	EnhanceStep m_enhanceStep;		// 現在の強化段階
 

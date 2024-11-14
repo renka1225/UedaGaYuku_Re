@@ -49,6 +49,8 @@ Player::Player(int modelHandle):
 	m_pos = saveData.playerPos;
 	m_hp = saveData.hp;
 	m_gauge = saveData.gauge;
+	m_money = saveData.money;
+	m_possessItem = saveData.possessItem;
 }
 
 Player::~Player()

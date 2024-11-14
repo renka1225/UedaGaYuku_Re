@@ -1,4 +1,5 @@
-﻿#include "Game.h"
+﻿#include "Vec2.h"
+#include "Game.h"
 #include "DebugDraw.h"
 #include "LoadCsv.h"
 #include "ModelFrameName.h"
@@ -10,10 +11,10 @@
 // 定数
 namespace
 {
-	constexpr float kScale = 0.15f;			  // モデルの拡大率
-	constexpr float kSpawnRange = 100.0f;	  // スポーンする範囲
-	constexpr float kDispNameRange = 300.0f;  // 敵名を表示する範囲
-	constexpr float kAdjDispNamePosY = 32.0f; // 敵名の表示位置調整
+	constexpr float kScale = 0.15f;					// モデルの拡大率
+	constexpr float kSpawnRange = 100.0f;			// スポーンする範囲
+	constexpr float kDispNameRange = 300.0f;		// 敵名を表示する範囲
+	const Vec2 kAdjDispNamePos = { 32.0f, 30.0f };	// 敵名の表示位置調整
 }
 
 EnemyBase::EnemyBase(std::shared_ptr<UiBar> pUi, Player& player):
@@ -89,7 +90,7 @@ void EnemyBase::Draw(Player& player)
 	}
 
 	// プレイヤーに近づいたら敵名を表示する
-	VECTOR modelTopPos = VAdd(m_pos, VGet(0.0f, kAdjDispNamePosY, 0.0f));
+	VECTOR modelTopPos = VAdd(m_pos, VGet(0.0f, kAdjDispNamePos.y, 0.0f));
 	VECTOR screenPos = ConvWorldPosToScreenPos(modelTopPos);
 	bool isViewClip = CheckCameraViewClip(modelTopPos); // カメラの視界内に入っているか(true:視界に入っていない)
 
@@ -97,7 +98,7 @@ void EnemyBase::Draw(Player& player)
 	if (isDispName)
 	{
 		m_pUiBar->DrawEnemyHpBar(*this);
-		DrawFormatStringF(screenPos.x, screenPos.y, Color::kColorW, "%s", m_enemyName.c_str());
+		DrawFormatStringF(screenPos.x - kAdjDispNamePos.x, screenPos.y - kAdjDispNamePos.y, Color::kColorW, "%s", m_enemyName.c_str());
 	}
 
 #ifdef _DEBUG

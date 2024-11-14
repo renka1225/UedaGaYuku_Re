@@ -2,7 +2,6 @@
 #include "EffekseerForDXLib.h"
 #include "Game.h"
 #include "LoadCsv.h"
-#include "SaveData.h"
 #include "Input.h"
 #include "Sound.h"
 #include "Font.h"
@@ -46,8 +45,6 @@ void Load()
 	Font::Load();
 	// エフェクトロード
 	EffectManager::GetInstance().Load();
-	// セーブデータロード
-	SaveData::GetInstance().Load();
 }
 
 /// <summary>
