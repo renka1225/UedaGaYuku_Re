@@ -41,6 +41,8 @@ std::shared_ptr<SceneBase> SceneDebug::Update(Input& input)
 		}
 		else if (m_select == SelectScene::kMain)
 		{
+			// 選択されたセーブデータを読み込む
+			SaveData::GetInstance().Load();
 			return std::make_shared<SceneMain>();
 		}
 		else if (m_select == SelectScene::kOption)

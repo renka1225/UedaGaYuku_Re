@@ -18,7 +18,7 @@
 // 定数
 namespace
 {
-	const std::string kCharaId = "player";					// キャラクターのID名
+	const std::string kCharaId = "player";	// キャラクターのID名
 
 	constexpr float kScale = 0.14f;			// モデルの拡大率
 	constexpr float kDistEnemyGrab = 50.0f;	// 敵を掴める距離
@@ -50,12 +50,7 @@ Player::Player(int modelHandle):
 	m_hp = saveData.hp;
 	m_gauge = saveData.gauge;
 	m_money = saveData.money;
-	//m_possessItem = saveData.possessItem;
-
-	for (size_t i = 0; i < saveData.possessItem.size(); i++)
-	{
-		m_possessItem[i] = saveData.possessItem[i];
-	}
+	m_possessItem = saveData.possessItem;
 }
 
 Player::~Player()

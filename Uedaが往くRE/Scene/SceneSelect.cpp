@@ -38,13 +38,14 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 		{
 			// 選択されたセーブデータを読み込む
 			SaveData::GetInstance().Load();
+
 			return std::make_shared<SceneMain>();
 		}
 		if (m_select == kFirst)
 		{
 			// 新しくセーブデータを作成する
 			SaveData::GetInstance().CreateNewData();
-			// すでにセーブデータがある場合は上書きする
+
 			return std::make_shared<SceneMain>();
 		}
 		else if (m_select == SelectScene::kOption)

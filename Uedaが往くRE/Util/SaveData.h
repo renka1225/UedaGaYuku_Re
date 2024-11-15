@@ -80,12 +80,6 @@ public:
 	void WriteData(const Player& pPlayer, const Camera& pCamera);
 
 	/// <summary>
-	/// カメラの情報をセットする
-	/// </summary>
-	/// <param name="pCamera">カメラ参照</param>
-	//void SetCameraData(const Camera& pCamera);
-
-	/// <summary>
 	/// セーブデータの情報を取得
 	/// </summary>
 	/// <returns>セーブデータ</returns>
@@ -95,6 +89,6 @@ private:
 	SaveData() = default;
 	virtual ~SaveData() = default;
 	static SaveData* m_instance; // インスタンス
-	SaveDataCore m_saveData;	 // セーブデータ
+	SaveDataCore m_saveData{};	 // セーブデータ
 };
 
