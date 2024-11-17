@@ -24,10 +24,10 @@ namespace
 	constexpr float kDistEnemyGrab = 50.0f;	// 敵を掴める距離
 
 	constexpr int kMaxPossession = 12;		// アイテムの最大所持数
-	constexpr int kMoneyIncrement = 5;		// 一度に増える所持金数
+	constexpr int kMoneyIncrement = 100;	// 一度に増える所持金数
 }
 
-Player::Player(int modelHandle):
+Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
 	m_saveStatus(m_status),
 	m_money(0),
 	m_beforeMoney(0),
@@ -41,6 +41,7 @@ Player::Player(int modelHandle):
 	m_colData[CharaType::kPlayer].bodyUpdateStartPos = m_colData[CharaType::kPlayer].bodyStartPos;
 	m_colData[CharaType::kPlayer].bodyUpdateEndPos = m_colData[CharaType::kPlayer].bodyEndPos;
 
+	m_pUiBar = pUi;
 	m_modelHandle = modelHandle;
 	m_possessItem.resize(kMaxPossession, -1);
 
@@ -49,7 +50,8 @@ Player::Player(int modelHandle):
 	m_pos = saveData.playerPos;
 	m_hp = saveData.hp;
 	m_gauge = saveData.gauge;
-	m_money = saveData.money;
+	m_beforeMoney = saveData.money;
+	m_enhanceStep = saveData.enhanceStep;
 	m_possessItem = saveData.possessItem;
 }
 
@@ -127,6 +129,7 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 	UpdateCol(CharaType::kPlayer);	// 当たり判定の位置更新
 	UpdatePosLog();					// 位置ログを更新
 	GetFramePos();					// モデルフレーム位置を取得
+
 	UpdateMoney();					// 所持金を更新
 
 	if (m_itemEffectTime > 0)
@@ -158,6 +161,12 @@ void Player::Draw()
 	//debug.DrawArmCol(m_colData[CharaType::kPlayer]);	// 腕(水色)
 	//debug.DrawLegCol(m_colData[CharaType::kPlayer]);	// 脚(黄色)
 #endif
+}
+
+void Player::OnDamage(float damage)
+{
+	CharacterBase::OnDamage(damage);
+	m_pUiBar->SetPlayerDamage(damage);
 }
 
 void Player::UpdateMoney()

@@ -40,7 +40,6 @@ CharacterBase::CharacterBase():
 	m_animLoopEndTime(0.0f),
 	m_isLoopAnim(false)
 {
-	m_pUiBar = std::make_shared<UiBar>();
 	m_colData.resize(kColDataNum);
 	m_posLog.resize(kPosLogNum);
 }
@@ -73,7 +72,6 @@ void CharacterBase::Draw()
 void CharacterBase::OnDamage(float damage)
 {
 	m_isOnDamage = true;
-	m_pUiBar->SetDamage(damage);
 	m_hp -= damage;
 	m_hp = std::max(0.0f, m_hp);
 }

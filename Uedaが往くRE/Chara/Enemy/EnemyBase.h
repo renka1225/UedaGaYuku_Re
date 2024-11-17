@@ -40,6 +40,12 @@ public:
 	virtual void Draw(Player& player);
 
 	/// <summary>
+	/// 敵がダメージを受けた際の処理
+	/// </summary>
+	/// <param name="damage">ダメージ量</param>
+	virtual void OnDamage(float damage);
+
+	/// <summary>
 	/// 敵の情報をセットする
 	/// </summary>
 	/// <param name="name">敵名</param>

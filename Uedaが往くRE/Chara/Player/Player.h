@@ -4,6 +4,7 @@
 
 class DebugDraw;
 class Input;
+class UiBar;
 class Camera;
 class Stage;
 class Weapon;
@@ -26,8 +27,9 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
+	/// <param name="pUi">UIバーのポインタ</param>
 	/// <param name="handle">モデルハンドル</param>
-	Player(int modelHandle);
+	Player(std::shared_ptr<UiBar> pUi, int modelHandle);
 
 	/// <summary>
 	/// デスクトップ
@@ -53,6 +55,12 @@ public:
 	/// 描画
 	/// </summary>
 	virtual void Draw();
+
+	/// <summary>
+	/// プレイヤーがダメージを受けた際の処理
+	/// </summary>
+	/// <param name="damage">ダメージ量</param>
+	virtual void OnDamage(float damage);
 
 	/// <summary>
 	/// 所持金を更新する

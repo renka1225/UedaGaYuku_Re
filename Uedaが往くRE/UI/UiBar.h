@@ -58,18 +58,21 @@ public:
 	void DrawEnemyHpBar(EnemyBase& pEnemy);
 
 	/// <summary>
-	/// ダメージを受けた際にタイマーをセットする
-	/// </summary>
-	void SetDamageTimer();
-
-	/// <summary>
-	/// ダメージ量を設定
+	/// プレイヤーが受けたダメージ量を設定
 	/// </summary>
 	/// <param name="damage">ダメージ量</param>
-	void SetDamage(float damage);
+	void SetPlayerDamage(float damage);
+
+	/// <summary>
+	/// 敵が受けたダメージ量を設定
+	/// </summary>
+	/// <param name="damage">ダメージ量</param>
+	void SetEnemyDamage(float damage);
 	
 private:
-	float m_damage;			// ダメージ量
-	int m_hpDecreaseTime;	// HPバーが減少するまでの時間
+	float m_playerDamage;		// プレイヤーが受けたダメージ量
+	float m_enemyDamage;		// 敵が受けたダメージ量
+	int m_playerHpDecreaseTime;	// プレイヤーのHPバーが減少するまでの時間
+	int m_enemyHpDecreaseTime;	// 敵のHPバーが減少するまでの時間
 };
 

@@ -16,7 +16,7 @@ bar_playerGauge_1,154,109,503,135,339,26,1
 bar_playerGauge_2,154,109,663,135,509,26,1
 bar_playerGauge_3,154,109,832,135,678,26,1
 bar_playerGaugeCircle,30,30,174,174,144,144,1
-bar_playerGaugeMax,34,34,160,160,126,126,1
+bar_playerGaugeMax,32,34,158,160,126,126,1
 bar_enemyHpBack,0,0,0,0,43,8,1
 bar_enemyHp,0,0,0,0,42,6,1
 menu_bg,0,0,0,0,1920,1080,1

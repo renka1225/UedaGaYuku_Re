@@ -56,12 +56,14 @@ namespace
 	const Vec2 kBackBarEnemyHpSize = { 80.0f, 10.0f };	// 敵HPバーのバック部分のサイズ
 	const Vec2 kBarEnemyHpSize = { 66.0f, 5.0f };		// 敵HPバーのサイズ
 
-	constexpr int kIntervalTime = 120;				// HPバーが減少するまでの時間
+	constexpr int kIntervalTime = 180;	// HPバーが減少するまでの時間
 }
 
 UiBar::UiBar():
-	m_damage(0),
-	m_hpDecreaseTime(kIntervalTime)
+	m_playerDamage(0),
+	m_enemyDamage(0),
+	m_playerHpDecreaseTime(0),
+	m_enemyHpDecreaseTime(0)
 {
 	LoadHandle();
 }
@@ -80,12 +82,25 @@ void UiBar::Init()
 
 void UiBar::Update()
 {
-	m_hpDecreaseTime--;
-
-	if (m_hpDecreaseTime <= 0)
+	if (m_playerHpDecreaseTime > 0)
 	{
-		m_damage--;
-		m_damage = std::max(0.0f, m_damage);
+		m_playerHpDecreaseTime--;
+	}
+	// 一定時間経ったら、ダメージ分のHPバーを徐々に減らす
+	else if (m_playerDamage > 0 && m_playerHpDecreaseTime <= 0)
+	{
+		m_playerDamage--;
+		m_playerDamage = std::max(0.0f, m_playerDamage);
+	}
+
+	if (m_enemyHpDecreaseTime > 0)
+	{
+		m_enemyHpDecreaseTime--;
+	}
+	else if (m_enemyDamage > 0 && m_enemyHpDecreaseTime <= 0)
+	{
+		m_enemyDamage--;
+		m_enemyDamage = std::max(0.0f, m_enemyDamage);
 	}
 }
 
@@ -114,8 +129,8 @@ void UiBar::DrawPlayerHpBar(Player& player, float maxHp)
 	auto damageData = LoadCsv::GetInstance().GetUiData(damageId);
 
 	// ダメージバーの長さを変える
-	float damageHpRatio = (player.GetHp() + m_damage) / maxHp;
-	float damageHpLength = damageData.width * damageHpRatio;
+	float damageHpRatio = (player.GetHp() + m_playerDamage) / maxHp;
+	float damageHpLength = damageData.RBposX * damageHpRatio;
 	DrawExtendGraphF(damageData.LTposX, damageData.LTposY, damageHpLength, damageData.RBposY, m_handle[Handle::kPlayerHpDamage], true);
 
 	/*HPバー*/
@@ -175,7 +190,7 @@ void UiBar::DrawEnemyHpBar(EnemyBase& pEnemy)
 	auto damageData = LoadCsv::GetInstance().GetUiData(kBarID.at("enemyHp"));
 
 	// ダメージバーの長さを変える
-	float damageHpRatio = (pEnemy.GetHp() + m_damage) / pEnemy.GetStatus().maxHp;
+	float damageHpRatio = (pEnemy.GetHp() + m_enemyDamage) / pEnemy.GetStatus().maxHp;
 	float damageHpLength = damageData.width * 2 * damageHpRatio;
 
 	DrawExtendGraphF(screenPos.x - damageData.width, screenPos.y - damageData.height,
@@ -192,16 +207,14 @@ void UiBar::DrawEnemyHpBar(EnemyBase& pEnemy)
 		(screenPos.x - hpData.width) + hpLength, screenPos.y + hpData.height, m_handle[Handle::kEnemyHp], true);
 }
 
-void UiBar::SetDamageTimer()
+void UiBar::SetPlayerDamage(float damage)
 {
-	if (m_hpDecreaseTime <= 0)
-	{
-		m_hpDecreaseTime = kIntervalTime;
-	}
+	m_playerDamage = damage;
+	m_playerHpDecreaseTime = kIntervalTime;
 }
 
-void UiBar::SetDamage(float damage)
+void UiBar::SetEnemyDamage(float damage)
 {
-	m_damage = damage;
-	SetDamageTimer();
+	m_enemyDamage = damage;
+	m_enemyHpDecreaseTime = kIntervalTime;
 }

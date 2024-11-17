@@ -100,7 +100,7 @@ public:
 	/// ダメージを受けた際の処理
 	/// </summary>
 	/// <param name="damage">ダメージ量</param>
-	void OnDamage(float damage);
+	virtual void OnDamage(float damage);
 
 	/// <summary>
 	/// キャラクター同士の当たり判定をチェックする

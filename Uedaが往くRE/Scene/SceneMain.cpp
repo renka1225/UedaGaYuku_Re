@@ -40,11 +40,11 @@ SceneMain::SceneMain():
 	m_pEnemy.resize(kEnemyKindNum);
 	LoadModelHandle(); // モデルを読み込む
 
-	m_pPlayer = std::make_shared<Player>(m_modelHandle[CharacterBase::CharaType::kPlayer]);
+	m_pUiBar = std::make_shared<UiBar>();
+	m_pPlayer = std::make_shared<Player>(m_pUiBar, m_modelHandle[CharacterBase::CharaType::kPlayer]);
 	m_pWeapon = std::make_shared<Weapon>(m_pPlayer);
 	m_pCamera = std::make_shared<Camera>();
 	m_pStage = std::make_shared<Stage>(m_pPlayer);
-	m_pUiBar = std::make_shared<UiBar>();
 
 	SelectEnemy(); // 敵の種類を決める
 }

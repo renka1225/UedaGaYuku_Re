@@ -6,8 +6,9 @@ SaveData* SaveData::m_instance = nullptr;
 
 namespace
 {
-	constexpr int kCurrentSaveVersion = 0;				   // セーブデータのバージョン
-	const char* const kSaveDataPath = "data/savedata.dat"; // セーブデータの保存を行うパス名
+	const char* const kSaveDataPath = "data/saveData/savedata.dat"; // セーブデータの保存を行うパス名
+
+	constexpr int kCurrentSaveVersion = 0; // セーブデータのバージョン
 
 	const VECTOR kInitPos = VGet(7425.0f, 40.0f, 5190.0f);	// プレイヤーの初期位置
 	constexpr float kInitHp = 10000.0f;						// プレイヤーの初期HP
@@ -35,6 +36,7 @@ void SaveData::Load()
 		file.read((char*)&m_saveData.hp, sizeof(m_saveData.hp));
 		file.read((char*)&m_saveData.gauge, sizeof(m_saveData.gauge));
 		file.read((char*)&m_saveData.money, sizeof(m_saveData.money));
+		file.read((char*)&m_saveData.enhanceStep, sizeof(m_saveData.enhanceStep));
 
 		// 所持アイテムの読み込み
 		for (int i = 0; i < m_saveData.possessItem.size(); i++)
@@ -57,7 +59,6 @@ void SaveData::Load()
 
 		file.close();
 	}
-	// ファイル読み込み失敗
 	else
 	{
 		// 新しいセーブデータを作る
@@ -82,6 +83,7 @@ void SaveData::Write()
 		file.write((char*)&m_saveData.hp, sizeof(m_saveData.hp));
 		file.write((char*)&m_saveData.gauge, sizeof(m_saveData.gauge));
 		file.write((char*)&m_saveData.money, sizeof(m_saveData.money));
+		file.write((char*)&m_saveData.enhanceStep, sizeof(m_saveData.enhanceStep));
 
 		// 所持アイテムを書き込む
 		for (int i = 0; i < m_saveData.possessItem.size(); i++)
@@ -101,7 +103,6 @@ void SaveData::Write()
 #endif
 		file.close();
 	}
-	// ファイル読み込み失敗
 	else
 	{
 #ifdef _DEBUG

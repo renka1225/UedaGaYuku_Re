@@ -15,7 +15,6 @@
 SceneDebug::SceneDebug()
 {
 	m_select = SelectScene::kMain;
-	SaveData::GetInstance().Load(); // セーブデータを読み込む
 }
 
 /// <summary>

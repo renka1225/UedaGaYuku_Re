@@ -111,6 +111,12 @@ void EnemyBase::Draw(Player& player)
 #endif
 }
 
+void EnemyBase::OnDamage(float damage)
+{
+	CharacterBase::OnDamage(damage);
+	m_pUiBar->SetEnemyDamage(damage);
+}
+
 void EnemyBase::SetEnemyInfo(std::string name, std::string charaId, int index, int modelHandle)
 {
 	m_enemyName = name;
