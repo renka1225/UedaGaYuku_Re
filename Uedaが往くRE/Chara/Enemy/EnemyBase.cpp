@@ -12,8 +12,8 @@
 namespace
 {
 	constexpr float kScale = 0.15f;					// モデルの拡大率
-	constexpr float kSpawnRange = 100.0f;			// スポーンする範囲
-	constexpr float kDispNameRange = 300.0f;		// 敵名を表示する範囲
+	constexpr float kSpawnRange = 500.0f;			// スポーンする範囲
+	constexpr float kDispNameRange = 1000.0f;		// 敵名を表示する範囲
 	const Vec2 kAdjDispNamePos = { 32.0f, 30.0f };	// 敵名の表示位置調整
 }
 
@@ -43,6 +43,7 @@ void EnemyBase::Init()
 
 	MV1SetScale(m_modelHandle, VGet(kScale, kScale, kScale));
 
+	m_pState = nullptr;
 	m_pState = std::make_shared<EnemyStateIdle>(shared_from_this());
 	m_pState->m_nextState = m_pState;
 

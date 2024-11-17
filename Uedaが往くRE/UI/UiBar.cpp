@@ -56,7 +56,8 @@ namespace
 	const Vec2 kBackBarEnemyHpSize = { 80.0f, 10.0f };	// 敵HPバーのバック部分のサイズ
 	const Vec2 kBarEnemyHpSize = { 66.0f, 5.0f };		// 敵HPバーのサイズ
 
-	constexpr int kIntervalTime = 180;	// HPバーが減少するまでの時間
+	constexpr int kIntervalTime = 180;			// HPバーが減少するまでの時間
+	constexpr float kHpDecreaseSpeed = 3.0f;	// HPが減少する速度
 }
 
 UiBar::UiBar():
@@ -89,7 +90,7 @@ void UiBar::Update()
 	// 一定時間経ったら、ダメージ分のHPバーを徐々に減らす
 	else if (m_playerDamage > 0 && m_playerHpDecreaseTime <= 0)
 	{
-		m_playerDamage--;
+		m_playerDamage -= kHpDecreaseSpeed;;
 		m_playerDamage = std::max(0.0f, m_playerDamage);
 	}
 
@@ -99,7 +100,7 @@ void UiBar::Update()
 	}
 	else if (m_enemyDamage > 0 && m_enemyHpDecreaseTime <= 0)
 	{
-		m_enemyDamage--;
+		m_enemyDamage -= kHpDecreaseSpeed;
 		m_enemyDamage = std::max(0.0f, m_enemyDamage);
 	}
 }
@@ -127,6 +128,12 @@ void UiBar::DrawPlayerHpBar(Player& player, float maxHp)
 	/*ダメージバー*/
 	std::string damageId = kBarID.at("playerHp") + enhanceStep; // 最大HPによってIDを変える
 	auto damageData = LoadCsv::GetInstance().GetUiData(damageId);
+
+	// プレイヤーのHPが0以下になる場合、ダメージ部分を表示しない
+	if (player.GetHp() - m_playerDamage <= 0.0f)
+	{
+		m_playerDamage = 0.0f;
+	}
 
 	// ダメージバーの長さを変える
 	float damageHpRatio = (player.GetHp() + m_playerDamage) / maxHp;
@@ -189,6 +196,12 @@ void UiBar::DrawEnemyHpBar(EnemyBase& pEnemy)
 	// ダメージバー
 	auto damageData = LoadCsv::GetInstance().GetUiData(kBarID.at("enemyHp"));
 
+	// 敵のHPが0以下になる場合、ダメージ部分を表示しない
+	if (pEnemy.GetHp() - m_enemyDamage <= 0.0f)
+	{
+		m_enemyDamage = 0.0f;
+	}
+
 	// ダメージバーの長さを変える
 	float damageHpRatio = (pEnemy.GetHp() + m_enemyDamage) / pEnemy.GetStatus().maxHp;
 	float damageHpLength = damageData.width * 2 * damageHpRatio;
@@ -209,12 +222,12 @@ void UiBar::DrawEnemyHpBar(EnemyBase& pEnemy)
 
 void UiBar::SetPlayerDamage(float damage)
 {
-	m_playerDamage = damage;
+	m_playerDamage += damage;
 	m_playerHpDecreaseTime = kIntervalTime;
 }
 
 void UiBar::SetEnemyDamage(float damage)
 {
-	m_enemyDamage = damage;
+	m_enemyDamage += damage;
 	m_enemyHpDecreaseTime = kIntervalTime;
 }

@@ -24,13 +24,14 @@ void EnemyStateDeath::Update(Stage& stage, Player& pPlayer)
 	m_deathTime--;
 	if (m_deathTime <= 0.0f)
 	{
-		m_pEnemy->SetIsDead(true);
+		DropItem(stage); // アイテムをドロップする
 
-		DropMoney(stage);
+		m_pEnemy->SetIsDead(true);
+		MV1DetachAnim(m_pEnemy->GetHandle(),m_pEnemy->GetAnimIndex(AnimName::kDown));
 	}
 }
 
-void EnemyStateDeath::DropMoney(Stage& stage)
+void EnemyStateDeath::DropItem(Stage& stage)
 {
 	if (m_pEnemy == nullptr) return;
 

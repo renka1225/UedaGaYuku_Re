@@ -50,6 +50,21 @@ public:
 
 private:
 	/// <summary>
+	/// バトル開始演出の更新を行う
+	/// </summary>
+	void UpdateBattleStartStaging();
+
+	/// <summary>
+	/// 敵を生成する
+	/// </summary>
+	void CreateEnemy();
+
+	/// <summary>
+	/// 敵を更新する
+	/// </summary>
+	void UpdateEnemy();
+
+	/// <summary>
 	/// 敵をランダムで決定する
 	/// </summary>
 	void SelectEnemy();
@@ -62,8 +77,11 @@ private:
 	std::shared_ptr<Stage> m_pStage;	 // ステージのポインタ
 	std::shared_ptr<UiBar> m_pUiBar;	 // キャラクターバーUIのポインタ
 	std::vector<int> m_modelHandle;		 // モデルのハンドル
-	int m_enemySpawnTime;	// 敵がスポーンするまでの時間
-	bool m_isBattle;		// バトル状態かどうか(true:バトル中)
+
+	int m_enemySpawnTime;			// 敵がスポーンするまでの時間
+	int m_battleStartStagingTime;	// バトル開始演出の時間
+
+	bool m_isBattleStart;	// バトル開始演出が再生中かどうか
 	bool m_isPause;			// ポーズ状態かどうか(true:ポーズ状態)
 };
 

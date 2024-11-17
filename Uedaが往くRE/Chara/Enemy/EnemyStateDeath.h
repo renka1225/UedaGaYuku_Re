@@ -31,9 +31,9 @@ public:
 	virtual void Update(Stage& stage, Player& pPlayer);
 
 	/// <summary>
-	/// お金をドロップする
+	/// アイテムをドロップする
 	/// </summary>
-	void DropMoney(Stage& stage);
+	void DropItem(Stage& stage);
 
 	/// <summary>
 	/// 現在のStateを取得

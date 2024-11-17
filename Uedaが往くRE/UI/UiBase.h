@@ -63,6 +63,11 @@ public:
 	/// <param name="interval">表示間隔</param>
 	void DrawCursor(std::string cursorId, int select, float interval);
 
+	/// <summary>
+	/// バトル開始時の演出を表示
+	/// </summary>
+	void DrawBattleStart();
+
 protected:
 	std::shared_ptr<Player> m_pPlayer;		// プレイヤーのポインタ
 	std::map<std::string, UiData> m_uiData;	// UIのデータ
@@ -70,8 +75,6 @@ protected:
 	float m_cursorWidth;		// カーソルの横幅
 	int m_cursorDisplayTime;	// カーソルを表示する時間
 	int m_cursorAlpha;			// カーソルのα値
-	int m_minimapHandle;		// ミニマップの画像
-	int m_cursorHandle;			// カーソルの画像
 	std::vector<int> m_handle;	// ハンドル
 };
 

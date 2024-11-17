@@ -135,6 +135,12 @@ public:
 	void EnhanceAtkUp(float upAmount, int money);
 
 	/// <summary>
+	/// バトル状態をセットする
+	/// </summary>
+	/// <param name="isBattle">バトル中かどうか</param>
+	void SetIsBattle(bool isBattle) { m_isBattle = isBattle; }
+
+	/// <summary>
 	/// 現在の所持金額を取得する
 	/// </summary>
 	/// <returns></returns>
@@ -152,7 +158,36 @@ public:
 	/// <returns>強化段階の情報</returns>
 	EnhanceStep GetEnhanceStep() const { return m_enhanceStep; }
 
+	/// <summary>
+	/// バトル中かどうか取得する
+	/// </summary>
+	/// <returns>バトル中かどうか</returns>
+	bool GetIsBattle() const { return m_isBattle; }
+
 private:
+	/// <summary>
+	/// 敵の情報を更新する
+	/// </summary>
+	/// <param name="pEnemy">敵ポインタ</param>
+	void UpdateEnemyInfo(std::vector<std::shared_ptr<EnemyBase>> pEnemy);
+
+	/// <summary>
+	/// 武器との当たり判定情報を更新する
+	/// </summary>
+	/// <param name="weapon">武器情報参照</param>
+	void UpdateWeaponColInfo(Weapon& weapon);
+
+	/// <summary>
+	/// バトル状態を更新する
+	/// </summary>
+	/// <param name="enemyIndex">敵の番号</param>
+	void UpdateBattle(int enemyIndex);
+
+	/// <summary>
+	/// アイテム情報を更新する
+	/// </summary>
+	void UpdateItemInfo();
+
 	/// <summary>
 	/// アイテムの効果を削除する
 	/// </summary>
@@ -174,5 +209,8 @@ private:
 	int m_beforeMoney;		// 増減前の金額
 	int m_addMoney;			// 追加する金額
 	int m_itemEffectTime;	// アイテムの効果時間
+
+	int m_battleStartCount;	// バトルが開始するまでの時間
+	bool m_isBattle;		// バトル状態かどうか(true:バトル中)
 };
 

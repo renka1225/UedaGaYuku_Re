@@ -27,11 +27,14 @@ namespace
 	constexpr int kEnemyNamekind = 10;	// 敵名の種類
 	constexpr int kEnemySpawnMinTIme = 60;		// 敵がスポーンするまでの最小時間
 	constexpr int kEnemySpawnMaxTIme = 3000;	// 敵がスポーンするまでの最大時間
+
+	constexpr int kBattleStartStagingTime = 60;	// バトル開始時の演出時間
 }
 
 SceneMain::SceneMain():
 	m_enemySpawnTime(0),
-	m_isBattle(false),
+	m_battleStartStagingTime(0),
+	m_isBattleStart(false),
 	m_isPause(false)
 {
 	// TODO:非同期処理
@@ -69,46 +72,20 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		return std::make_shared<SceneMenu>(shared_from_this(), m_pPlayer, m_pCamera);
 	}
 
-	// 敵が1体もいない場合、敵を生成する
+	// バトル開始演出の時間を更新する
+	UpdateBattleStartStaging();
+
+	// 敵が1体もいなくなった場合
 	if (m_pEnemy.empty())
 	{
-		m_enemySpawnTime++;
-		// スポーンするまでの時間をランダムで決める
-		const int spawnTime = GetRand(kEnemySpawnMaxTIme) + kEnemySpawnMinTIme;
+		// プレイヤーを通常状態にする
+		m_pPlayer->SetIsBattle(false);
 
-		if (m_enemySpawnTime >= spawnTime)
-		{
-			m_enemySpawnTime = 0;
-			SelectEnemy();
-		}
+		// 敵を生成する
+		CreateEnemy();
 	}
 
-	for (int i = 0; i < m_pEnemy.size(); i++)
-	{
-		if (m_pEnemy[i] == nullptr) continue;
-
-		// 特定の状態の場合、敵を消滅させる
-		bool isExtinction = m_pEnemy[i]->GetIsDead() || (m_pEnemy[i]->GetPos().y <= 0.0f);
-		if (isExtinction)
-		{
-			m_pEnemy[i] = nullptr;
-		}
-		else
-		{
-			m_pEnemy[i]->Update(*m_pStage, *m_pPlayer);
-		}
-
-		// 敵同士の当たり判定をチェックする
-		for (int j = 0; j < m_pEnemy.size(); j++)
-		{
-			if((i == j) || (m_pEnemy[i] == nullptr) || (m_pEnemy[j] == nullptr)) continue;
-			m_pEnemy[i]->CheckCharaCol(*m_pEnemy[j], m_pEnemy[j]->GetCol(j), j);
-		}
-	}
-
-	// erase-removeイディオムで特定の要素(nullptr)だけを削除する
-	m_pEnemy.erase(std::remove(m_pEnemy.begin(), m_pEnemy.end(), nullptr), m_pEnemy.end());
-
+	UpdateEnemy();
 	m_pPlayer->Update(input, *m_pCamera, *m_pStage, *m_pWeapon, m_pEnemy);
 	m_pWeapon->Update(*m_pStage);
 	m_pCamera->Update(input, *m_pPlayer, *m_pStage);
@@ -122,8 +99,8 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 void SceneMain::Draw()
 {
 	m_pStage->Draw();
-	m_pPlayer->Draw();
 	m_pWeapon->Draw();
+	m_pPlayer->Draw();
 
 	for (auto& enemy : m_pEnemy)
 	{
@@ -135,6 +112,12 @@ void SceneMain::Draw()
 
 	m_pUiBar->DrawPlayerHpBar(*m_pPlayer, m_pPlayer->GetStatus().maxHp);
 	m_pUiBar->DrawPlayerGaugeBar(*m_pPlayer, m_pPlayer->GetStatus().maxGauge);
+
+	// バトル開始の演出を表示
+	if (m_battleStartStagingTime > 0)
+	{
+		m_pUi->DrawBattleStart();
+	}
 
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_PLAYING");
@@ -154,6 +137,72 @@ void SceneMain::LoadModelHandle()
 		sprintf_s(enemyId, "%02d", (i + 1));
 		m_modelHandle[(i + 1)] = MV1LoadModel((kEnemyHandlePath + std::string(enemyId) + ".mv1").c_str());
 	}
+}
+
+void SceneMain::UpdateBattleStartStaging()
+{
+	// プレイヤーがバトル状態の場合
+	if (m_pPlayer->GetIsBattle())
+	{
+		if (!m_isBattleStart)
+		{
+			m_battleStartStagingTime = kBattleStartStagingTime;
+			m_isBattleStart = true;
+		}
+
+		if(m_battleStartStagingTime > 0)
+		{
+			m_battleStartStagingTime--;
+		}
+	}
+	// バトルが終了している場合
+	else
+	{
+		m_battleStartStagingTime = 0;
+		m_isBattleStart = false;
+	}
+}
+
+void SceneMain::CreateEnemy()
+{
+	// スポーンするまでの時間をランダムで決める
+	const int spawnTime = GetRand(kEnemySpawnMaxTIme) + kEnemySpawnMinTIme;
+	m_enemySpawnTime++;
+
+	if (m_enemySpawnTime >= spawnTime)
+	{
+		m_enemySpawnTime = 0;
+		SelectEnemy();
+	}
+}
+
+void SceneMain::UpdateEnemy()
+{
+	for (int i = 0; i < m_pEnemy.size(); i++)
+	{
+		if (m_pEnemy[i] == nullptr) continue;
+
+		// 特定の状態の場合、敵を消滅させる
+		bool isExtinction = m_pEnemy[i]->GetIsDead() || (m_pEnemy[i]->GetPos().y <= 0.0f);
+		if (isExtinction)
+		{
+			m_pEnemy[i] = nullptr;
+		}
+		else
+		{
+			m_pEnemy[i]->Update(*m_pStage, *m_pPlayer);
+		}
+
+		// 敵同士の当たり判定をチェックする
+		for (int j = 0; j < m_pEnemy.size(); j++)
+		{
+			if ((i == j) || (m_pEnemy[i] == nullptr) || (m_pEnemy[j] == nullptr)) continue;
+			m_pEnemy[i]->CheckCharaCol(*m_pEnemy[j], m_pEnemy[j]->GetCol(j), j);
+		}
+	}
+
+	// erase-removeイディオムで特定の要素(nullptr)だけを削除する
+	m_pEnemy.erase(std::remove(m_pEnemy.begin(), m_pEnemy.end(), nullptr), m_pEnemy.end());
 }
 
 void SceneMain::SelectEnemy()
@@ -196,6 +245,9 @@ void SceneMain::SelectEnemy()
 		// 2桁にそろえる
 		char enemyId[3];
 		sprintf_s(enemyId, "%02d", enemyIndex);
+
+		// MEMO:すでに読み込んだモデルをコピーしないとアニメーションがおかしくなる
+		m_modelHandle[enemyIndex] = MV1DuplicateModel(m_modelHandle[(enemyIndex)]);
 
 		m_pEnemy[i] = std::make_shared<EnemyBase>(m_pUiBar, *m_pPlayer);
 		m_pEnemy[i]->SetEnemyInfo(enemyName, "enemy_" + std::string(enemyId), enemyIndex, m_modelHandle[enemyIndex]);

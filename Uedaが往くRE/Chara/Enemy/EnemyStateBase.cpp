@@ -13,7 +13,7 @@
 namespace
 {
 	constexpr float kMinChaseRange = 150.0f;	// プレイヤーを追いかける最小範囲
-	constexpr float kMaxChaseRange = 1300.0f;	// プレイヤーを追いかける最大範囲
+	constexpr float kMaxChaseRange = 600.0f;	// プレイヤーを追いかける最大範囲
 }
 
 EnemyStateBase::EnemyStateBase(std::shared_ptr<EnemyBase> pEnemy):
@@ -73,6 +73,14 @@ void EnemyStateBase::Update(Stage& stage, Player& pPlayer)
 		m_nextState = state;
 		state->Init();
 		return;
+	}
+	// プレイヤーから離れた場合
+	else if (dist >= kMaxChaseRange)
+	{
+		// バトルを終了状態にする
+		pPlayer.SetIsBattle(false);
+
+		// 待機か歩きのみを行う
 	}
 	else
 	{

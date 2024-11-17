@@ -7,8 +7,25 @@
 // 定数
 namespace
 {
-	const char* kMiniMapPath = "data/ui/minimap.png"; // ミニマップ画像位置のパス
-	const char* kCursorPath = "data/ui/cursor.png";   // カーソル画像のパス
+	// 画像の種類
+	enum Handle
+	{
+		kMiniMap,		// ミニマップ
+		kCursor,		// カーソル
+		kEnemy_yanki,	// ヤンキー
+		kEnemy_tinpira,	// チンピラ
+		kEnemy_narikin,	// 成金
+		kHandleNum		// 画像の種類
+	};
+
+	const char* kHandle[Handle::kHandleNum]
+	{
+		"data/ui/minimap.png",
+		"data/ui/cursor.png",
+		"data/ui/battleStart/yanki.png",
+		"data/ui/battleStart/tinpira.png",
+		"data/ui/battleStart/narikin.png",
+	};
 
 	constexpr float kCursorSpeed = 60.0f;		// カーソルの横幅の伸びる量
 	constexpr int kTextDisplayTime = 2;			// カーソルの表示間隔
@@ -23,14 +40,20 @@ UiBase::UiBase():
 	m_cursorAlpha(kMaxCursorAlpha)
 {
 	LoadCsv::GetInstance().LoadUiData(m_uiData);
-	m_minimapHandle = LoadGraph(kMiniMapPath);
-	m_cursorHandle = LoadGraph(kCursorPath);
+
+	m_handle.resize(Handle::kHandleNum);
+	for (int i = 0; i < m_handle.size(); i++)
+	{
+		m_handle[i] = LoadGraph(kHandle[i]);
+	}
 }
 
 UiBase::~UiBase()
 {
-	DeleteGraph(m_minimapHandle);
-	DeleteGraph(m_cursorHandle);
+	for (auto& handle : m_handle)
+	{
+		DeleteGraph(handle);
+	}
 }
 
 void UiBase::Init()
@@ -45,7 +68,7 @@ void UiBase::Update()
 void UiBase::Draw()
 {
 	// ミニマップ表示
-	//DrawRectRotaGraph(30.0f, 800.0f, 0.0f, 0.0f, 1015, 1005, 0.3f, 0.0f, m_minimapHandle, true);
+	//DrawRectRotaGraph(30.0f, 800.0f, 0.0f, 0.0f, 1015, 1005, 0.3f, 0.0f, m_handle[Handle::kMiniMap], true);
 }
 
 void UiBase::UpdateCursor(std::string cursorId)
@@ -71,6 +94,13 @@ void UiBase::DrawCursor(std::string cursorId, int select, float interval)
 	Vec2 dispRBPos = { m_uiData[cursorId].LTposX + m_cursorWidth, m_uiData[cursorId].LTposY + interval * select + m_uiData[cursorId].height };
 	
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_cursorAlpha);
-	DrawExtendGraphF(dispLTPos.x, dispLTPos.y, dispRBPos.x, dispRBPos.y, m_cursorHandle, true);
+	DrawExtendGraphF(dispLTPos.x, dispLTPos.y, dispRBPos.x, dispRBPos.y, m_handle[Handle::kCursor], true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+}
+
+void UiBase::DrawBattleStart()
+{
+	// TODO:敵の種類によって画像を変える
+	auto dispPos = LoadCsv::GetInstance().GetUiData("battle_start");
+	DrawGraphF(dispPos.LTposX, dispPos.LTposY, m_handle[Handle::kEnemy_tinpira], true);
 }

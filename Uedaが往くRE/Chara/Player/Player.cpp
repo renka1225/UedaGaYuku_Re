@@ -25,6 +25,9 @@ namespace
 
 	constexpr int kMaxPossession = 12;		// アイテムの最大所持数
 	constexpr int kMoneyIncrement = 100;	// 一度に増える所持金数
+
+	constexpr float kBattleStartRange = 200.0f;	// バトルが始まる範囲
+	constexpr int kBattleStartTime = 120;		// バトルが開始するまでの時間
 }
 
 Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
@@ -32,7 +35,9 @@ Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
 	m_money(0),
 	m_beforeMoney(0),
 	m_addMoney(0),
-	m_itemEffectTime(0)
+	m_itemEffectTime(0),
+	m_battleStartCount(kBattleStartTime),
+	m_isBattle(false)
 {
 	// ステータスを読み込む
 	LoadCsv::GetInstance().LoadStatus(m_status, kCharaId);
@@ -84,63 +89,21 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 		m_pState->m_nextState = m_pState;
 	}
 
-	// 敵との当たり判定をチェックする
+	// 敵がいる場合のみ処理を行う
 	if (!pEnemy.empty())
 	{
-		m_pToEVec.resize(pEnemy.size());
-
-		for (int i = 0; i < pEnemy.size(); i++)
-		{
-			if (pEnemy[i] == nullptr) continue;
-
-			m_pToEVec[i] = VSub(pEnemy[i]->GetPos(), m_pos);
-			pEnemy[i]->CheckCharaCol(*this, m_colData[CharaType::kPlayer], pEnemy[i]->GetEnemyIndex());
-
-			// TODO:範囲内にいる場合、掴みをできるようにする
-			float dot = VDot(VNorm(m_pToEVec[i]), VNorm(m_moveDir)); // プレイヤーの方向と位置ベクトルの内積を計算
-			bool isGrab = VSize(m_pToEVec[i]) < kDistEnemyGrab && dot > 0.0f;
-			if (isGrab)
-			{
-				m_isPossibleGrabEnemy = true;
-			}
-			else
-			{
-				m_isPossibleGrabEnemy = false;
-			}
-		}
-	}
-
-	// 武器との当たり判定をチェックする
-	bool isHitWeapon = weapon.CheckWeaopnCol(m_colData[CharaType::kPlayer], *this);
-	// 範囲内に武器がある場合
-	if (isHitWeapon)
-	{
-		// 武器を拾えるようにする
-		m_isPossibleGrabWeapon = true;
-	}
-	else
-	{
-		m_isPossibleGrabWeapon = false;
+		UpdateEnemyInfo(pEnemy);
 	}
 
 	m_pState->Update(input, camera, stage, weapon, pEnemy);	// stateの更新
 	UpdateAngle();					// 向きを更新
 	UpdateAnim();					// アニメーションを更新
 	UpdateCol(CharaType::kPlayer);	// 当たり判定の位置更新
+	UpdateWeaponColInfo(weapon);	// 武器との当たり判定情報を更新する
 	UpdatePosLog();					// 位置ログを更新
 	GetFramePos();					// モデルフレーム位置を取得
-
+	UpdateItemInfo();				// アイテム情報を更新
 	UpdateMoney();					// 所持金を更新
-
-	if (m_itemEffectTime > 0)
-	{
-		m_itemEffectTime--; // アイテムの効果時間
-		m_itemEffectTime = std::max(0, m_itemEffectTime);
-	}
-	else
-	{
-		DeleteItemEffect(); // アイテムの効果を消す
-	}
 }
 
 void Player::Draw()
@@ -160,6 +123,11 @@ void Player::Draw()
 	debug.DrawBodyCol(m_colData[CharaType::kPlayer]);	// 全身(紫色)
 	//debug.DrawArmCol(m_colData[CharaType::kPlayer]);	// 腕(水色)
 	//debug.DrawLegCol(m_colData[CharaType::kPlayer]);	// 脚(黄色)
+
+	if (m_isBattle)
+	{
+		DrawString(0, 20, "バトル中", 0xff0000);
+	}
 #endif
 }
 
@@ -269,6 +237,87 @@ void Player::EnhanceAtkUp(float upAmount, int money)
 	m_status.atkPowerTwoHandWeapon *= upAmount;
 	m_money -= money;
 	m_enhanceStep.nowAtkUpStep++;
+}
+
+void Player::UpdateEnemyInfo(std::vector<std::shared_ptr<EnemyBase>> pEnemy)
+{
+	m_pToEVec.resize(pEnemy.size());
+
+	for (int i = 0; i < pEnemy.size(); i++)
+	{
+		if (pEnemy[i] == nullptr) continue;
+
+		// プレイヤーから敵の位置ベクトルを計算する
+		m_pToEVec[i] = VSub(pEnemy[i]->GetPos(), m_pos);
+
+		// 敵との当たり判定をチェックする
+		pEnemy[i]->CheckCharaCol(*this, m_colData[CharaType::kPlayer], pEnemy[i]->GetEnemyIndex());
+
+		// TODO:範囲内にいる場合、掴みをできるようにする
+		float dot = VDot(VNorm(m_pToEVec[i]), VNorm(m_moveDir)); // プレイヤーの方向と位置ベクトルの内積を計算
+		bool isGrab = VSize(m_pToEVec[i]) < kDistEnemyGrab && dot > 0.0f;
+		if (isGrab)
+		{
+			m_isPossibleGrabEnemy = true;
+		}
+		else
+		{
+			m_isPossibleGrabEnemy = false;
+		}
+
+		UpdateBattle(i); // バトル状態を更新する
+	}
+}
+
+void Player::UpdateWeaponColInfo(Weapon& weapon)
+{
+	bool isHitWeapon = weapon.CheckWeaopnCol(m_colData[CharaType::kPlayer], *this);
+	// 範囲内に武器がある場合
+	if (isHitWeapon)
+	{
+		// 武器を拾えるようにする
+		m_isPossibleGrabWeapon = true;
+	}
+	else
+	{
+		m_isPossibleGrabWeapon = false;
+	}
+}
+
+void Player::UpdateBattle(int enemyIndex)
+{
+	// 敵に一定距離近づいた場合
+	if (!m_isBattle)
+	{
+		if (VSize(m_pToEVec[enemyIndex]) <= kBattleStartRange)
+		{
+			m_battleStartCount--;
+
+			// 数秒間敵の範囲内にいた場合、バトル開始状態にする
+			if (m_battleStartCount <= 0)
+			{
+				m_isBattle = true;
+				printfDx("バトル開始\n");
+			}
+		}
+		else
+		{
+			m_battleStartCount = kBattleStartTime;
+		}
+	}
+}
+
+void Player::UpdateItemInfo()
+{
+	if (m_itemEffectTime > 0)
+	{
+		m_itemEffectTime--; // アイテムの効果時間を減らす
+		m_itemEffectTime = std::max(0, m_itemEffectTime);
+	}
+	else
+	{
+		DeleteItemEffect(); // アイテムの効果を消す
+	}
 }
 
 void Player::DeleteItemEffect()
