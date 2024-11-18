@@ -7,6 +7,10 @@
 // 定数
 namespace
 {
+    // ハンドルのパス
+    const char* kCityHandle = "data/Model/city/city.mv1";
+    const char* kSkydoomHandle = "data/Model/Stage/skydoom.mv1";
+
     // ステージサイズ
     const VECTOR kStageScale = VGet(10.0f, 10.0f, 10.0f);
     const VECTOR kSkydoomScale = VGet(15.0f, 15.0f, 15.0f);
@@ -31,13 +35,13 @@ Stage::Stage(std::shared_ptr<Player> player) :
 {
     m_pPlayer = player;
 
-	m_stageHandle = MV1LoadModel("data/Model/city/city.mv1");
-    //m_skydoomHandle = MV1LoadModel("data/Model/Stage/skydoom.mv1");
+	m_stageHandle = MV1LoadModel(kCityHandle);
+    m_skydoomHandle = MV1LoadModel(kSkydoomHandle);
 
     MV1SetScale(m_stageHandle, kStageScale);
     MV1SetPosition(m_stageHandle, kStagePos);
-   // MV1SetScale(m_skydoomHandle, kSkydoomScale);
-    //MV1SetPosition(m_skydoomHandle, kSkydoomPos);
+    MV1SetScale(m_skydoomHandle, kSkydoomScale);
+    MV1SetPosition(m_skydoomHandle, kSkydoomPos);
 
     // モデル全体のコリジョン情報のセットアップ
     MV1SetupCollInfo(m_stageHandle, -1);

@@ -75,6 +75,8 @@ protected:
 	float m_cursorWidth;		// カーソルの横幅
 	int m_cursorDisplayTime;	// カーソルを表示する時間
 	int m_cursorAlpha;			// カーソルのα値
+
+	float m_dispEnemyKindScale;	// バトル開始時の敵種類の表示サイズ
 	std::vector<int> m_handle;	// ハンドル
 };
 

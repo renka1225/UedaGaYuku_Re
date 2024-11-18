@@ -24,7 +24,7 @@ namespace
 	constexpr int kModelNum = 3;		// 読み込むモデルの数
 	constexpr int kEnemyMaxNum = 2;		// 1度に出現する最大の敵数
 	constexpr int kEnemyKindNum = 2;	// 敵の種類
-	constexpr int kEnemyNamekind = 10;	// 敵名の種類
+	constexpr int kEnemyNamekind = 31;	// 敵名の種類
 	constexpr int kEnemySpawnMinTIme = 60;		// 敵がスポーンするまでの最小時間
 	constexpr int kEnemySpawnMaxTIme = 3000;	// 敵がスポーンするまでの最大時間
 
@@ -34,6 +34,7 @@ namespace
 SceneMain::SceneMain():
 	m_enemySpawnTime(0),
 	m_battleStartStagingTime(0),
+	m_dispScaleEnemyKind(0.0f),
 	m_isBattleStart(false),
 	m_isPause(false)
 {

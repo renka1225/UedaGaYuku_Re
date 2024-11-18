@@ -84,4 +84,3 @@ private:
 	bool m_isBattleStart;	// バトル開始演出が再生中かどうか
 	bool m_isPause;			// ポーズ状態かどうか(true:ポーズ状態)
 };
-

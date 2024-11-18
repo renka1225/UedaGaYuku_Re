@@ -30,9 +30,9 @@ public:
 	/// 更新
 	/// </summary>
 	/// <param name="input">入力状態</param>
-	/// <param name="player">プレイヤー参照</param>
-	/// <param name="stage">ステージ参照</param>
-	void Update(Input& input, const Player& player, const Stage& stage);
+	/// <param name="pPlayer">プレイヤー参照</param>
+	/// <param name="pStage">ステージ参照</param>
+	void Update(Input& input, const Player& pPlayer, const Stage& pStage);
 
 	/// <summary>
 	/// カメラの角度を取得
@@ -67,8 +67,8 @@ private:
 	/// <summary>
 	/// カメラ位置補正
 	/// </summary>
-	/// <param name="player">プレイヤー参照</param>
-	void FixCameraPos(const Player& player);
+	/// <param name="pPlayer">プレイヤー参照</param>
+	void FixCameraPos(const Player& pPlayer);
 
 	/// <summary>
 	/// カメラの線形補間を行う
@@ -79,13 +79,14 @@ private:
 	/// <summary>
 	/// カメラの当たり判定をチェックする
 	/// </summary>
-	/// <param name="stage">ステージ参照</param>
-	void CheckCameraCol(const Stage& stage);
+	/// <param name="pStage">ステージ参照</param>
+	void CheckCameraCol(const Stage& pStage);
 
 private:
 	VECTOR m_prevPlayerPos;			// 移動前のプレイヤー座標
 	VECTOR m_pos;					// カメラ座標
 	VECTOR m_target;				// 注視点座標
+	float m_dist;					// カメラ距離
 	float m_angleH;					// 水平角度
 	float m_angleV;					// 垂直角度
 	MATRIX m_rotY;					// Y軸回転行列

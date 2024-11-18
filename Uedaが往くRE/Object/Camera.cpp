@@ -11,6 +11,8 @@ namespace
 	constexpr float kNear = 1.0f;							// カメラの手前クリップ距離
 	constexpr float kFar = 10000.0f;						// カメラの奥クリップ距離
 	constexpr float kDist = 30.0f;							// カメラからプレイヤーまでの距離
+	constexpr float kBattleDist = 40.0f;					// バトル中のカメラからプレイヤーまでの距離
+	constexpr float kDistMoveSpeed = 0.5f;					// カメラ距離の移動速度
 	constexpr float kHeight = 23.0f;						// カメラの注視点
 	constexpr float kAngle = 0.03f;							// カメラを動かす角度
 	constexpr float kInitAngleH = -0.6f;					// カメラの初期平行角度
@@ -25,6 +27,7 @@ Camera::Camera() :
 	m_prevPlayerPos(VGet(0.0f, 0.0f, 0.0f)),
 	m_pos(VGet(0.0f, kHeight, 0.0f)),
 	m_target(VGet(0.0f, 0.0f, 0.0f)),
+	m_dist(kDist),
 	m_angleH(kInitAngleH),
 	m_angleV(kInitAngleV),
 	m_rotY(),
@@ -44,15 +47,11 @@ Camera::Camera() :
 
 void Camera::Init()
 {
-	m_pos = VGet(0.0f, kHeight, 0.0f);
-	m_target = VGet(0.0f, 0.0f, 0.0f);
-	m_angleH = kInitAngleH;
-	m_angleV = kInitAngleV;
 	SetCameraPositionAndTarget_UpVecY(m_pos, m_target);
 	SetCameraNearFar(kNear, kFar);
 }
 
-void Camera::Update(Input& input, const Player& player, const Stage& stage)
+void Camera::Update(Input& input, const Player& pPlayer, const Stage& pStage)
 {
 	GetJoypadDirectInputState(DX_INPUT_PAD1, &m_analogInput); // 入力状態を取得
 	
@@ -63,11 +62,11 @@ void Camera::Update(Input& input, const Player& player, const Stage& stage)
 	}
 
 	// カメラの当たり判定をチェック
-	CheckCameraCol(stage);
+	CheckCameraCol(pStage);
 	// カメラの注視点を設定する
-	m_target = VAdd(player.GetPos(), VGet(0.0f, kHeight, 0.0f));
+	m_target = VAdd(pPlayer.GetPos(), VGet(0.0f, kHeight, 0.0f));
 	// カメラ位置補正
-	FixCameraPos(player);
+	FixCameraPos(pPlayer);
 
 	SetCameraPositionAndTarget_UpVecY(m_pos, m_target);
 
@@ -101,14 +100,27 @@ void Camera::UpdateAngle()
 	}
 }
 
-void Camera::FixCameraPos(const Player& player)
+void Camera::FixCameraPos(const Player& pPlayer)
 {
 	m_rotY = MGetRotY(m_angleH);	// 水平方向の回転
 	m_rotZ = MGetRotZ(m_angleV);	// 垂直方向の回転
 
-	// カメラの座標を求める
+	// プレイヤーがバトル中の場合
+	if (pPlayer.GetIsBattle())
+	{
+		// カメラを離す
+		m_dist += kDistMoveSpeed;
+		m_dist = std::min(m_dist, kBattleDist);
+	}
+	else
+	{
+		// カメラを近づける
+		m_dist -= kDistMoveSpeed;
+		m_dist = std::max(kDist, m_dist);
+	}
+
 	// X軸にカメラからプレイヤーまでの距離分伸びたベクトルを垂直方向に回転する(Z軸回転)
-	m_pos = VTransform(VGet(-kDist, 0.0f, 0.0f), m_rotZ);
+	m_pos = VTransform(VGet(-m_dist, 0.0f, 0.0f), m_rotZ);
 	// 水平方向(Y軸回転)に回転する
 	m_pos = VTransform(m_pos, m_rotY);
 
@@ -136,7 +148,7 @@ VECTOR Camera::LerpCamera()
 	return VAdd(m_pos, VScale(m_pos, 0.3f));
 }
 
-void Camera::CheckCameraCol(const Stage& stage)
+void Camera::CheckCameraCol(const Stage& pStage)
 {
 	// 注視点からカメラの座標までの間にステージのポリゴンがあるか調べる
 	float notHitLength = 0.0f;	// ポリゴンに当たらない距離
@@ -153,7 +165,7 @@ void Camera::CheckCameraCol(const Stage& stage)
 		nextPos = VAdd(nextPos, m_target);
 
 		// 新しい座標で壁に当たるかテストする
-		auto hitResult = MV1CollCheck_Capsule(stage.GetStageHandle(), -1, m_target, nextPos, kColSize);
+		auto hitResult = MV1CollCheck_Capsule(pStage.GetStageHandle(), -1, m_target, nextPos, kColSize);
 		int hitNum = hitResult.HitNum;
 		MV1CollResultPolyDimTerminate(hitResult);
 

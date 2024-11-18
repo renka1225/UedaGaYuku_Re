@@ -32,12 +32,17 @@ namespace
 	constexpr int kTextDisplayAnimTime = 240;	// カーソルアニメーションの時間
 	constexpr int kMaxCursorAlpha = 255;		// カーソルの最大アルファ値
 	constexpr int kMinCursorAlpha = 40;			// カーソルの最小アルファ値
+
+	constexpr float kDispBattleStartMinScale = 0.5f;	// バトル開始時の敵種類の最小サイズ
+	constexpr float kDispBattleStartMaxScale = 10.0f;	// バトル開始時の敵種類の最大サイズ
+	constexpr float kDispBattleStartChangeScale = 0.6f;	// 敵名サイズ変化量
 }
 
 UiBase::UiBase():
 	m_cursorWidth(0.0f),
 	m_cursorDisplayTime(0),
-	m_cursorAlpha(kMaxCursorAlpha)
+	m_cursorAlpha(kMaxCursorAlpha),
+	m_dispEnemyKindScale(kDispBattleStartMaxScale)
 {
 	LoadCsv::GetInstance().LoadUiData(m_uiData);
 
@@ -102,5 +107,13 @@ void UiBase::DrawBattleStart()
 {
 	// TODO:敵の種類によって画像を変える
 	auto dispPos = LoadCsv::GetInstance().GetUiData("battle_start");
-	DrawGraphF(dispPos.LTposX, dispPos.LTposY, m_handle[Handle::kEnemy_tinpira], true);
+	//DrawGraphF(dispPos.LTposX, dispPos.LTposY, m_handle[Handle::kEnemy_tinpira], true);
+
+	// 敵名のサイズをだんだん小さくする
+	m_dispEnemyKindScale -= kDispBattleStartChangeScale;
+	m_dispEnemyKindScale = std::max(kDispBattleStartChangeScale, m_dispEnemyKindScale);
+
+	int sizeW, sizeH;
+	GetGraphSize(m_handle[Handle::kEnemy_tinpira], &sizeW, &sizeH);
+	DrawRectRotaGraphF(dispPos.LTposX, dispPos.LTposY, 0, 0, sizeW, sizeH, m_dispEnemyKindScale, 0.0f, m_handle[Handle::kEnemy_tinpira], true);
 }
