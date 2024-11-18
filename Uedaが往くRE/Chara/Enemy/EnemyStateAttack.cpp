@@ -27,10 +27,10 @@ void EnemyStateAttack::Init(std::string attackName)
     m_attackEndTime = m_pEnemy->GetAnimTotalTime(m_attackKind);
 }
 
-void EnemyStateAttack::Update(Stage& stage, Player& pPlayer)
+void EnemyStateAttack::Update(Stage& pStage, Player& pPlayer)
 {
-    EnemyStateBase::Update(stage, pPlayer);
-    m_pEnemy->Move(VGet(0.0f, 0.0f, 0.0f), stage);   // 移動情報を反映する
+    EnemyStateBase::Update(pStage, pPlayer);
+    m_pEnemy->Move(VGet(0.0f, 0.0f, 0.0f), pStage);   // 移動情報を反映する
 
     // 攻撃終了した場合
     if (m_isAttackEnd)

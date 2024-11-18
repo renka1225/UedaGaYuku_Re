@@ -57,7 +57,7 @@ void EffectManager::Load()
 			data.scale = stof(strvec[7]);
 			data.playTime = stoi(strvec[8]);
 		}
-		catch (const std::invalid_argument& e)
+		catch (const std::invalid_argument&)
 		{
 		}
 

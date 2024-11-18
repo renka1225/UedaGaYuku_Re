@@ -8,10 +8,10 @@ void EnemyStateGuard::Init()
 	m_pEnemy->ChangeAnim(AnimName::kGuard);
 }
 
-void EnemyStateGuard::Update(Stage& stage, Player& pPlayer)
+void EnemyStateGuard::Update(Stage& pStage, Player& pPlayer)
 {
-	EnemyStateBase::Update(stage, pPlayer);
-	m_pEnemy->Move(m_moveVec, stage); // 移動情報を反映する
+	EnemyStateBase::Update(pStage, pPlayer);
+	m_pEnemy->Move(m_moveVec, pStage); // 移動情報を反映する
 
 #ifdef _DEBUG
 	// 仮実装

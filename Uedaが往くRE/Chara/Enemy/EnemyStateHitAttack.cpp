@@ -9,10 +9,10 @@ void EnemyStateHitAttack::Init()
 	m_animEndTime = m_pEnemy->GetAnimTotalTime(AnimName::kDamage);
 }
 
-void EnemyStateHitAttack::Update(Stage& stage, Player& pPlayer)
+void EnemyStateHitAttack::Update(Stage& pStage, Player& pPlayer)
 {
-	EnemyStateBase::Update(stage, pPlayer);
-	m_pEnemy->Move(m_moveVec, stage, false);   // 移動情報を反映する
+	EnemyStateBase::Update(pStage, pPlayer);
+	m_pEnemy->Move(m_moveVec, pStage, false);   // 移動情報を反映する
 
 	m_animEndTime--;
 	if (m_animEndTime < 0.0f)

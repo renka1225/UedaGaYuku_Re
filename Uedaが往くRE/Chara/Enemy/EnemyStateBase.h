@@ -39,9 +39,9 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	/// <param name="stage">ステージ参照</param>
+	/// <param name="pStage">ステージ参照</param>
 	/// <param name="pPlayer">プレイヤー参照/param>
-	virtual void Update(Stage& stage, Player& pPlayer);
+	virtual void Update(Stage& pStage, Player& pPlayer);
 	
 	/// <summary>
 	/// 現在の状態を取得
@@ -56,6 +56,12 @@ public:
 	/// <returns>State名</returns>
 	virtual std::string GetStateName() = 0;
 #endif
+
+private:
+	/// <summary>
+	/// 確率で攻撃する
+	/// </summary>
+	void AttackRand();
 
 public:
 	std::shared_ptr<EnemyStateBase> m_nextState; // 次のStateを保存する

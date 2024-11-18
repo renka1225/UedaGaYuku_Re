@@ -29,6 +29,7 @@ CharacterBase::CharacterBase():
 	m_isPossibleGrabEnemy(false),
 	m_isPossibleGrabWeapon(false),
 	m_isNowGrabWeapon(false),
+	m_isPossibleMove(true),
 	m_currentPlayAnim(-1),
 	m_prevPlayAnim(-1),
 	m_animBlendRate(0.0f),

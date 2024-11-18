@@ -178,7 +178,7 @@ void SceneEnhance::UpdateSkillCircle()
 void SceneEnhance::DrawSkillCircle()
 {
 	// 強化数を円で表示する
-	DrawGraph(kCirclePos[Select::kSelectNum].x, kCirclePos[Select::kSelectNum].y, m_handle[Handle::kCircle], true);
+	DrawGraphF(kCirclePos[Select::kSelectNum].x, kCirclePos[Select::kSelectNum].y, m_handle[Handle::kCircle], true);
 
 	// 強化済みの部分を円で表示する
 	for (int i = 0; i < m_pPlayer->GetEnhanceStep().nowHpUpStep; i++)

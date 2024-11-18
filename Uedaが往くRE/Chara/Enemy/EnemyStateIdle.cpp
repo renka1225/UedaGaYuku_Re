@@ -10,10 +10,10 @@ void EnemyStateIdle::Init()
 	m_pEnemy->ChangeAnim(AnimName::kIdleStand);
 }
 
-void EnemyStateIdle::Update(Stage& stage, Player& pPlayer)
+void EnemyStateIdle::Update(Stage& pStage, Player& pPlayer)
 {
-	EnemyStateBase::Update(stage, pPlayer);
-	m_pEnemy->Move(m_moveVec, stage); // 移動情報を反映する
+	EnemyStateBase::Update(pStage, pPlayer);
+	m_pEnemy->Move(m_moveVec, pStage); // 移動情報を反映する
 
 #ifdef _DEBUG
 	// 仮実装
@@ -26,13 +26,5 @@ void EnemyStateIdle::Update(Stage& stage, Player& pPlayer)
 		state->Init();
 		return;
 	}
-	//else if (num == 10)
-	//{
-	//	// StateをRunに変更する
-	//	std::shared_ptr<EnemyStateRun> state = std::make_shared<EnemyStateRun>(m_pEnemy);
-	//	m_nextState = state;
-	//	state->Init();
-	//	return;
-	//}
 #endif
 }

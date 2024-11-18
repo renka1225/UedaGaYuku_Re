@@ -81,6 +81,6 @@ private:
 	int m_enemySpawnTime;			// 敵がスポーンするまでの時間
 	int m_battleStartStagingTime;	// バトル開始演出の時間
 
-	bool m_isBattleStart;	// バトル開始演出が再生中かどうか
-	bool m_isPause;			// ポーズ状態かどうか(true:ポーズ状態)
+	bool m_isDispBattleStart;	// バトル開始演出が再生中かどうか
+	bool m_isPause;				// ポーズ状態かどうか(true:ポーズ状態)
 };

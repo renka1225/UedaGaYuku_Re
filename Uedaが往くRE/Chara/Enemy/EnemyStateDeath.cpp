@@ -16,22 +16,22 @@ void EnemyStateDeath::Init()
 	m_deathTime = m_pEnemy->GetAnimTotalTime(AnimName::kDown);
 }
 
-void EnemyStateDeath::Update(Stage& stage, Player& pPlayer)
+void EnemyStateDeath::Update(Stage& pStage, Player& pPlayer)
 {
-	EnemyStateBase::Update(stage, pPlayer);
-	m_pEnemy->Move(VGet(0.0f, 0.0f, 0.0f), stage);   // 移動情報を反映する
+	EnemyStateBase::Update(pStage, pPlayer);
+	m_pEnemy->Move(VGet(0.0f, 0.0f, 0.0f), pStage);   // 移動情報を反映する
 
 	m_deathTime--;
 	if (m_deathTime <= 0.0f)
 	{
-		DropItem(stage); // アイテムをドロップする
+		DropItem(pStage); // アイテムをドロップする
 
 		m_pEnemy->SetIsDead(true);
 		MV1DetachAnim(m_pEnemy->GetHandle(),m_pEnemy->GetAnimIndex(AnimName::kDown));
 	}
 }
 
-void EnemyStateDeath::DropItem(Stage& stage)
+void EnemyStateDeath::DropItem(Stage& pStage)
 {
 	if (m_pEnemy == nullptr) return;
 
@@ -41,16 +41,15 @@ void EnemyStateDeath::DropItem(Stage& stage)
 	if (randNum <= 5)
 	{
 		// 敵がいた場所にお金をドロップする
-		stage.SetDropMoney(m_pEnemy->GetPos(), 500);
+		pStage.SetDropMoney(m_pEnemy->GetPos(), 500);
 	}
 	else if (randNum <= 10)
 	{
-		stage.SetDropMoney(m_pEnemy->GetPos(), 1000);
+		pStage.SetDropMoney(m_pEnemy->GetPos(), 1000);
 	}
 	else if(randNum <= 13)
 	{
-		stage.SetDropMoney(m_pEnemy->GetPos(), 1500);
-
+		pStage.SetDropMoney(m_pEnemy->GetPos(), 1500);
 	}
 	else
 	{
@@ -61,6 +60,6 @@ void EnemyStateDeath::DropItem(Stage& stage)
 		std::uniform_int_distribution urdIndex(1, static_cast<int>(Item::ItemType::kItemKind));
 		itemKind = urdIndex(mt);
 
-		stage.SetDropItem(m_pEnemy->GetPos(), itemKind);
+		pStage.SetDropItem(m_pEnemy->GetPos(), itemKind);
 	}
 }

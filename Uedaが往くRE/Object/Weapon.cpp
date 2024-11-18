@@ -109,7 +109,7 @@ void Weapon::Draw()
 		// UIの位置を計算する
 		VECTOR screenPos = ConvWorldPosToScreenPos(m_pPlayer->GetPos());
 		screenPos.y -= kDispTextAdjY;
-		DrawGraph(screenPos.x, screenPos.y, m_handle, true);
+		DrawGraphF(screenPos.x, screenPos.y, m_handle, true);
 	}
 
 #ifdef _DEBUG

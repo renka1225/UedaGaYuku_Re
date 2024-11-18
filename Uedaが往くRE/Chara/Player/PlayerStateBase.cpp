@@ -4,6 +4,7 @@
 #include "SceneBase.h"
 #include "Weapon.h"
 #include "Player.h"
+#include "PlayerStateIdle.h"
 #include "PlayerStateAttack.h"
 #include "PlayerStateHitAttack.h"
 #include "PlayerStateAvoid.h"
@@ -31,6 +32,19 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	// 特定の状態中は更新しない
 	bool isNotChange = (GetKind() == PlayerStateKind::kAvoid) || (GetKind() == PlayerStateKind::kDamage);
 	if (isNotChange) return;
+
+	// 移動できない状態の場合
+	if (!m_pPlayer->GetIsPossibleMove())
+	{
+		// すでに待機状態の場合は飛ばす
+		if (GetKind() == PlayerStateKind::kIdle) return;
+
+		// StateをIdleに変更する
+		std::shared_ptr<PlayerStateIdle> state = std::make_shared<PlayerStateIdle>(m_pPlayer);
+		m_nextState = state;
+		state->Init();
+		return;
+	}
 
 	// 攻撃のボタンが押された場合
 	if (input.IsTriggered(InputId::kPunch) || input.IsTriggered(InputId::kKick))

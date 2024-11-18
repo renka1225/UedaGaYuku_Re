@@ -25,15 +25,9 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	/// <param name="stage">ステージ参照</param>
+	/// <param name="pStage">ステージ参照</param>
 	/// <param name="pPlayer">プレイヤーポインタ/param>
-	virtual void Update(Stage& stage, Player& pPlayer) override;
-
-	/// <summary>
-	/// ダメージを受けた時の処理
-	/// </summary>
-	/// <returns>ダメージ量</returns>
-	//virtual int OnDamage() override;
+	virtual void Update(Stage& pStage, Player& pPlayer) override;
 
 	/// <summary>
 	/// 現在のStateを取得

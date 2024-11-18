@@ -169,6 +169,11 @@ public:
 	void SetIsGrabWeapon(bool isGrab) { m_isNowGrabWeapon = isGrab; }
 
 	/// <summary>
+	/// 移動可能かどうかセットする
+	/// </summary>
+	void SetIsPossibleMove(bool isMove) { m_isPossibleMove = isMove; }
+
+	/// <summary>
 	/// アニメーションの総再生時間を取得する
 	/// </summary>
 	float GetAnimTotalTime(std::string animName);
@@ -253,6 +258,11 @@ public:
 	/// <returns>武器掴み状態</returns>
 	bool GetIsGrabWeapon() const { return m_isNowGrabWeapon; }
 
+	/// <summary>
+	/// 移動可能かどうか取得する
+	/// </summary>
+	bool GetIsPossibleMove() const { return m_isPossibleMove; }
+
 protected:
 	/// <summary>
 	/// キャラクターの角度を更新
@@ -291,6 +301,7 @@ protected:
 	bool m_isPossibleGrabEnemy;		// 敵を掴める状態かどうか
 	bool m_isPossibleGrabWeapon;	// 武器が掴める状態かどうか
 	bool m_isNowGrabWeapon;			// 今武器を掴んでいるか
+	bool m_isPossibleMove;			// 移動可能かどうか
 
 	int m_currentPlayAnim;			// 現在のアニメーション
 	int m_prevPlayAnim;				// 前に再生していたアニメーション

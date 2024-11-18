@@ -34,8 +34,7 @@ namespace
 SceneMain::SceneMain():
 	m_enemySpawnTime(0),
 	m_battleStartStagingTime(0),
-	m_dispScaleEnemyKind(0.0f),
-	m_isBattleStart(false),
+	m_isDispBattleStart(false),
 	m_isPause(false)
 {
 	// TODO:非同期処理
@@ -145,22 +144,38 @@ void SceneMain::UpdateBattleStartStaging()
 	// プレイヤーがバトル状態の場合
 	if (m_pPlayer->GetIsBattle())
 	{
-		if (!m_isBattleStart)
+		if (!m_isDispBattleStart)
 		{
 			m_battleStartStagingTime = kBattleStartStagingTime;
-			m_isBattleStart = true;
+			m_isDispBattleStart = true;
 		}
 
 		if(m_battleStartStagingTime > 0)
 		{
 			m_battleStartStagingTime--;
+
+			// バトル演出中移動できないようにする
+			for (int i = 0; i < m_pEnemy.size(); i++)
+			{
+				m_pEnemy[i]->SetIsPossibleMove(false);
+			}
+			m_pPlayer->SetIsPossibleMove(false);
+		}
+		else
+		{
+			// 移動できるようにする
+			for (int i = 0; i < m_pEnemy.size(); i++)
+			{
+				m_pEnemy[i]->SetIsPossibleMove(true);
+			}
+			m_pPlayer->SetIsPossibleMove(true);
 		}
 	}
 	// バトルが終了している場合
 	else
 	{
 		m_battleStartStagingTime = 0;
-		m_isBattleStart = false;
+		m_isDispBattleStart = false;
 	}
 }
 
