@@ -6,6 +6,7 @@
 #include <map>
 
 class UiBar;
+class Item;
 
 /// <summary>
 /// キャラクターの基底クラス
@@ -287,6 +288,7 @@ protected:
 
 protected:
 	std::shared_ptr<UiBar> m_pUiBar; // バーUIのポインタ
+	std::shared_ptr<Item> m_pItem;	 // アイテムのポインタ
 	std::map<std::string, AnimInfo> m_animData;	// アニメーションのデータ
 	std::vector<ColData> m_colData; // 当たり判定情報
 	std::vector<VECTOR> m_posLog;	// 過去の位置を保存する

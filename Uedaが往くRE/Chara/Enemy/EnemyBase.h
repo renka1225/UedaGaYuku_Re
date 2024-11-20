@@ -3,6 +3,7 @@
 #include "EnemyStateBase.h"
 
 class UiBar;
+class Item;
 class Player;
 
 /// <summary>
@@ -15,8 +16,9 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="pUi">UIのポインタ</param>
+	/// <param name="pItem">アイテムのポインタ</param>
 	/// <param name="player">プレイヤー参照</param>
-	EnemyBase(std::shared_ptr<UiBar> pUi, Player& player);
+	EnemyBase(std::shared_ptr<UiBar> pUi, std::shared_ptr<Item> pItem, Player& player);
 
 	/// <summary>
 	/// デストラクタ
@@ -76,6 +78,12 @@ public:
 	/// </summary>
 	/// <returns>敵の番号</returns>
 	int GetEnemyIndex() const { return m_enemyIndex; }
+	
+	/// <summary>
+	/// アイテムポインタを取得する
+	/// </summary>
+	/// <returns>アイテムのポインタ</returns>
+	std::shared_ptr<Item> GetItemPointer() const { return m_pItem; }
 
 private:
 	/// <summary>

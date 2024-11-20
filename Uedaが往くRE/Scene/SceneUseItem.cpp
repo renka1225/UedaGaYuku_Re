@@ -36,7 +36,6 @@ SceneUseItem::SceneUseItem(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Pl
 {
 	m_pPlayer = pPlayer;
 	m_pPrevScene = pScene;
-	m_pItem = std::make_shared<Item>();
 
 	m_select = kSelectMin;
 	m_possessItem.resize(kSelectMax);

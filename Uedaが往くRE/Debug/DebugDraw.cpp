@@ -86,6 +86,11 @@ void DebugDraw::DrawWeaponCol(VECTOR startPos, VECTOR endPos, float r)
 	DrawCapsule3D(startPos, endPos, r, 1, Color::kColorR, Color::kColorBK, false);
 }
 
+void DebugDraw::DrawItemCol(VECTOR centerPos, float r)
+{
+	DrawSphere3D(centerPos, r, 1, Color::kColorG, Color::kColorBK, false);
+}
+
 void DebugDraw::DrawModelFrameCircle(VECTOR pos)
 {
 	DrawCircleAA(ConvWorldPosToScreenPos(pos).x, ConvWorldPosToScreenPos(pos).y, 5, 0xff0000, true);

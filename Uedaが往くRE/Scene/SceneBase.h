@@ -3,6 +3,7 @@
 #include <vector>
 
 class Input;
+class Item;
 class UiBase;
 class Player;
 class Camera;
@@ -64,6 +65,7 @@ protected:
 
 protected:
 	std::shared_ptr<SceneBase> m_pPrevScene; // 前に実行していたシーン
+	std::shared_ptr<Item> m_pItem;			 // アイテムのポインタ
 	std::shared_ptr<UiBase> m_pUi;			 // UIのポインタ
 	std::shared_ptr<Player> m_pPlayer;		 // プレイヤーのポインタ
 	std::shared_ptr<Camera> m_pCamera;		 // カメラのポインタ

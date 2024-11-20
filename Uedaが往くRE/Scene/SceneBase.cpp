@@ -4,6 +4,7 @@
 #include "Input.h"
 #include "LoadCsv.h"
 #include "UiBase.h"
+#include "Item.h"
 #include "Player.h"
 #include "SceneBase.h"
 
@@ -18,6 +19,7 @@ namespace
 SceneBase::SceneBase():
 	m_select(0)
 {
+	m_pItem = std::make_shared<Item>();
 	m_pUi = std::make_shared<UiBase>();
 }
 

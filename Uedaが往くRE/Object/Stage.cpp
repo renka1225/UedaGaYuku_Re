@@ -91,7 +91,7 @@ void Stage::SetDropMoney(VECTOR enemyPos, int dropMoney)
 void Stage::SetDropItem(VECTOR enemyPos, int dropItem)
 {
     printfDx("%d\n", dropItem);
-    m_pPlayer->AddItem(dropItem); // プレイヤーのアイテムを追加する
+    //m_pItem->Draw(dropItem);
 }
 
 void Stage::AnalyzeWallAndFloor(MV1_COLL_RESULT_POLY_DIM hitDim, const VECTOR& checkPosition)

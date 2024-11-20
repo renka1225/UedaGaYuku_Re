@@ -4,6 +4,7 @@
 #include "LoadCsv.h"
 #include "ModelFrameName.h"
 #include "UiBar.h"
+#include "Item.h"
 #include "Player.h"
 #include "EnemyStateIdle.h"
 #include "EnemyBase.h"
@@ -17,13 +18,14 @@ namespace
 	const Vec2 kAdjDispNamePos = { 32.0f, 30.0f };	// 敵名の表示位置調整
 }
 
-EnemyBase::EnemyBase(std::shared_ptr<UiBar> pUi, Player& player):
+EnemyBase::EnemyBase(std::shared_ptr<UiBar> pUi, std::shared_ptr<Item> pItem, Player& player):
 	m_enemyName(""),
 	m_enemyIndex(0),
 	m_eToPVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_isDead(false)
 {
 	m_pUiBar = pUi;
+	m_pItem = pItem;
 
 	// 敵の初期位置を設定
 	// プレイヤーの範囲内に配置する

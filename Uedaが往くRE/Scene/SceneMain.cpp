@@ -9,6 +9,7 @@
 #include "EnemyBase.h"
 #include "ObjectBase.h"
 #include "Weapon.h"
+#include "Item.h"
 #include "Stage.h"
 #include "SceneMenu.h"
 #include "SceneMain.h"
@@ -87,6 +88,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 
 	UpdateEnemy();
 	m_pPlayer->Update(input, *m_pCamera, *m_pStage, *m_pWeapon, m_pEnemy);
+	m_pItem->Update(*m_pPlayer);
 	m_pWeapon->Update(*m_pStage);
 	m_pCamera->Update(input, *m_pPlayer, *m_pStage);
 	m_pUiBar->Update();
@@ -99,8 +101,9 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 void SceneMain::Draw()
 {
 	m_pStage->Draw();
-	m_pWeapon->Draw();
+	m_pItem->Draw();
 	m_pPlayer->Draw();
+	m_pWeapon->Draw();
 
 	for (auto& enemy : m_pEnemy)
 	{
@@ -265,7 +268,7 @@ void SceneMain::SelectEnemy()
 		// MEMO:すでに読み込んだモデルをコピーしないとアニメーションがおかしくなる
 		m_modelHandle[enemyIndex] = MV1DuplicateModel(m_modelHandle[(enemyIndex)]);
 
-		m_pEnemy[i] = std::make_shared<EnemyBase>(m_pUiBar, *m_pPlayer);
+		m_pEnemy[i] = std::make_shared<EnemyBase>(m_pUiBar, m_pItem, *m_pPlayer);
 		m_pEnemy[i]->SetEnemyInfo(enemyName, "enemy_" + std::string(enemyId), enemyIndex, m_modelHandle[enemyIndex]);
 		m_pEnemy[i]->Init();
 	}

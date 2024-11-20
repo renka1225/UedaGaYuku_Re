@@ -70,6 +70,13 @@ public:
 	void DrawWeaponCol(VECTOR startPos, VECTOR endPos, float r);
 
 	/// <summary>
+	/// アイテムの当たり判定を描画
+	/// </summary>
+	/// <param name="centerPos">中心点</param>
+	/// <param name="r">半径</param>
+	void DrawItemCol(VECTOR centerPos, float r);
+
+	/// <summary>
 	/// モデルのフレーム部分を円で描画する
 	/// </summary>
 	/// <param name="pos">表示位置</param>

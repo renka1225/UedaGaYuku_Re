@@ -1,5 +1,7 @@
 ﻿#pragma once
+#include "ObjectBase.h"
 #include <string>
+#include <vector>
 #include <map>
 
 class Player;
@@ -7,7 +9,7 @@ class Player;
 /// <summary>
 /// アイテムを管理するクラス
 /// </summary>
-class Item
+class Item : public ObjectBase
 {
 public:
 	/// <summary>
@@ -15,16 +17,16 @@ public:
 	/// </summary>
 	enum ItemType
 	{
-		kHpSmall,
-		kHpMiddle,
-		kHpLarge,
-		kGaugeSmall,
-		kGaugeLarge,
-		kHpGaugeSmall,
-		kHpGaugeLarge,
-		kAtkSmall,
-		kAtkLarge,
-		kItemKind
+		kHpSmall,		// HP回復(小)
+		kHpMiddle,		// HP回復(中)
+		kHpLarge,		// HP回復(大)
+		kGaugeSmall,	// ゲージ回復(小)
+		kGaugeLarge,	// ゲージ回復(大)
+		kHpGaugeSmall,	// HP+ゲージ回復(小)
+		kHpGaugeLarge,	// HP+ゲージ回復(大)
+		kAtkSmall,		// 攻撃力アップ(小)
+		kAtkLarge,		// 攻撃力アップ(大)
+		kItemKind		// HP回復(小)
 	};
 
 	/// <summary>
@@ -60,7 +62,7 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	virtual void Update(Player& pPlayer);
 
 	/// <summary>
 	/// 描画
@@ -68,11 +70,24 @@ public:
 	void Draw();
 
 	/// <summary>
+	/// 敵がドロップしたアイテムをセットする
+	/// </summary>
+	/// <param name="enemyPos">アイテムをドロップした敵の位置</param>
+	/// <param name="itemType">ドロップしたアイテムの種類</param>
+	void SetDropItem(VECTOR enemyPos, int itemType);
+
+	/// <summary>
+	/// プレイヤーとの当たり判定をチェックする
+	/// </summary>
+	/// <param name="pPlayer">プレイヤー参照</param>
+	void CheckPlayerCol(Player& pPlayer);
+
+	/// <summary>
 	/// アイテムの効果を適用する
 	/// </summary>
-	/// <param name="player">プレイヤーのポインタ</param>
-	/// <param name="m_select">選択したアイテム番号</param>
-	void ApplyEffect(Player& player, int m_select);
+	/// <param name="pPlayer">プレイヤーのポインタ</param>
+	/// <param name="select">選択したアイテム番号</param>
+	void ApplyEffect(Player& pPlayer, int select);
 
 	/// <summary>
 	/// アイテムの情報を取得する
@@ -83,7 +98,16 @@ public:
 	ItemData GetItemData(int itemType) const { return m_itemData.at(static_cast<ItemType>(itemType)); }
 
 private:
-	ItemType m_itemType; // アイテムの種類
+	std::vector<int> m_modelHandle;			 // モデルのハンドル
 	std::map<ItemType, ItemData> m_itemData; // アイテムの情報
+	ItemType m_itemType; // アイテムの種類
+	
+	// ドロップしたアイテムの情報
+	struct DropItem
+	{
+		int itemType;	// アイテムの種類
+		VECTOR pos;		// アイテム位置
+	};
+	std::vector<DropItem> m_dropItem;	// ドロップしたアイテムの情報を保存する
 };
 

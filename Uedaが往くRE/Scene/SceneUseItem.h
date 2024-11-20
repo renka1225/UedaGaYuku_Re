@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include "SceneBase.h"
 
-class Item;
 class Player;
 
 /// <summary>
@@ -54,7 +53,6 @@ private:
 	void DrawCursor();
 
 private:
-	std::shared_ptr<Item> m_pItem;	// アイテムのポインタ
 	std::vector<int> m_possessItem;	// プレイヤーが所持しているアイテム
 };
 

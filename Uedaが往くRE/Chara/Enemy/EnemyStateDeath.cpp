@@ -38,16 +38,16 @@ void EnemyStateDeath::DropItem(Stage& pStage)
 	// 確率でお金かアイテムをドロップする
 	int randNum = GetRand(20);
 
-	if (randNum <= 5)
+	if (randNum <= 0)
 	{
 		// 敵がいた場所にお金をドロップする
 		pStage.SetDropMoney(m_pEnemy->GetPos(), 500);
 	}
-	else if (randNum <= 10)
+	else if (randNum <= 0)
 	{
 		pStage.SetDropMoney(m_pEnemy->GetPos(), 1000);
 	}
-	else if(randNum <= 13)
+	else if(randNum <= 0)
 	{
 		pStage.SetDropMoney(m_pEnemy->GetPos(), 1500);
 	}
@@ -60,6 +60,8 @@ void EnemyStateDeath::DropItem(Stage& pStage)
 		std::uniform_int_distribution urdIndex(1, static_cast<int>(Item::ItemType::kItemKind));
 		itemKind = urdIndex(mt);
 
-		pStage.SetDropItem(m_pEnemy->GetPos(), itemKind);
+		//pStage.SetDropItem(m_pEnemy->GetPos(), itemKind);
+		// ドロップしたアイテムの情報を渡す
+		m_pEnemy->GetItemPointer()->SetDropItem(m_pEnemy->GetPos(), itemKind);
 	}
 }
