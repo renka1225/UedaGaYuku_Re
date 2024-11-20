@@ -33,19 +33,14 @@ namespace
 		{ Item::ItemType::kAtkLarge,  kItemHandleFile + "item4.mv1"},
 	};
 
-	const float kItemColRadius = 10.0f;	// アイテムの当たり判定の半径
+	const float kItemColRadius = 5.0f;	// アイテムの当たり判定の半径
+	const float kItemScale = 0.5;		// アイテムの拡大率
 }
 
 Item::Item():
 	m_itemType()
 {
 	LoadCsv::GetInstance().LoadItemData(m_itemData);
-
-	m_modelHandle.resize(Item::ItemType::kItemKind);
-	for (int i = 0; i < Item::ItemType::kItemKind; i++)
-	{
-		m_modelHandle[i] = MV1LoadModel(kItemHandlePath.at(i).c_str());
-	}
 }
 
 Item::~Item()
@@ -58,18 +53,24 @@ Item::~Item()
 
 void Item::Init()
 {
+	m_modelHandle.resize(Item::ItemType::kItemKind);
+	for (int i = 0; i < m_modelHandle.size(); i++)
+	{
+		m_modelHandle[i] = MV1LoadModel(kItemHandlePath.at(i).c_str());
+		MV1SetScale(m_modelHandle[i], VGet(kItemScale, kItemScale, kItemScale));
+	}
 }
 
 void Item::Update(Player& pPlayer)
 {
 	ObjectBase::Update();
-	//Move(VGet(0.0f, 0.0f, 0.0f), pStage);   // 移動情報を反映する
 
 	for (auto& item : m_dropItem)
 	{
 		MV1SetPosition(m_modelHandle[item.itemType], item.pos);
 	}
 
+	// プレイヤーとの当たり判定をチェックする
 	CheckPlayerCol(pPlayer);
 }
 
@@ -90,10 +91,9 @@ void Item::Draw()
 	}
 }
 
-void Item::SetDropItem(VECTOR enemyPos, int itemType)
+void Item::SetDropItem(int itemType, VECTOR enemyPos)
 {
-	printfDx("%dのアイテムをセット\n", itemType);
-	m_dropItem.push_back({ itemType, enemyPos});
+	m_dropItem.push_back({itemType, enemyPos});
 }
 
 void Item::CheckPlayerCol(Player& pPlayer)
@@ -109,6 +109,9 @@ void Item::CheckPlayerCol(Player& pPlayer)
 		// 当たった場合
 		if (isHit)
 		{
+			// すでに所持アイテム数が上限に達している場合は飛ばす
+			if (!pPlayer.GetIsAddItem()) return;
+
 			// プレイヤーのアイテムを追加する
 			pPlayer.AddItem(it->itemType);
 			// 取得したアイテムを削除する

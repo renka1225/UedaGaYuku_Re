@@ -8,10 +8,10 @@
 // 定数
 namespace
 {
-	const char* kTextHandleFileName = "data/ui/text/hirou.png";  // 画像ハンドルのパス名
+	const char* kTextHandleFileName = "data/ui/text/hirou.png";		// 画像ハンドルのパス名
 	const std::string kWeaponFileName = "data/model/weapon/";		// モデルのファイルパス名
 	const char* kPlayerHandFrameName = "mixamorig:LeftHandIndex2";  // プレイヤーの手の部分のフレーム名
-	const float kDispTextAdjY = 400.0f; // 拾うのテキスト調整位置
+	const float kDispTextAdjY = 30.0f; // 拾うのテキスト調整位置
 }
 
 Weapon::Weapon(std::shared_ptr<Player> pPlayer) :
@@ -53,42 +53,45 @@ void Weapon::Update(Stage& stage)
 	// 武器位置更新
 	for (auto& loc : m_locationData)
 	{
-		// 耐久力が0になった場合
-		if (m_durability <= 0)
+		// バトル中でない場合
+		if (!m_pPlayer->GetIsBattle())
 		{
-			// TODO:モデルを非表示にする、当たり判定を消す
-			MV1SetFrameVisible(m_objHandle[loc.name], 0, false);
-			m_pPlayer->SetIsGrabWeapon(false); // プレイヤーの武器掴み状態を解除する
-			m_durability = std::max(m_durability, 0);
+			// 武器の位置を初期位置にリセット
+			loc.pos = loc.initPos;
+			loc.rot = loc.initRot;
+			m_durability = m_weaponData.durability;
 		}
+		// バトル中の場合
 		else
 		{
-			MV1SetFrameVisible(m_objHandle[loc.name], 0, true);
-		}
+			// 耐久力が0になった場合
+			if (m_durability <= 0)
+			{
+				// TODO:モデルを非表示にする、当たり判定を消す
+				MV1SetFrameVisible(m_objHandle[loc.name], 0, false);
+				m_pPlayer->SetIsGrabWeapon(false); // プレイヤーの武器掴み状態を解除する
+				m_durability = std::max(m_durability, 0);
+			}
+			else
+			{
+				MV1SetFrameVisible(m_objHandle[loc.name], 0, true);
+			}
 
-		// プレイヤーが武器を掴んだ場合、プレイヤーの手の位置に武器を移動させる
-		if (m_pPlayer->GetIsGrabWeapon())
-		{
-			SetModelFramePos(m_pPlayer->GetHandle(), kPlayerHandFrameName, m_objHandle[loc.name], loc, frameMatrix);
-		}
-		else
-		{
-			loc.pos = VAdd(loc.pos, VGet(0.0f, m_gravity, 0.0f)); // 重力を足す
-			loc.pos = VAdd(VGet(loc.pos.x, 0.0f, loc.pos.z), stage.CheckObjectCol(*this, VGet(0.0f, 0.0f, 0.0f))); // ステージと当たり判定を行う
+			// プレイヤーが武器を掴んだ場合、プレイヤーの手の位置に武器を移動させる
+			if (m_pPlayer->GetIsGrabWeapon())
+			{
+				SetModelFramePos(m_pPlayer->GetHandle(), kPlayerHandFrameName, m_objHandle[loc.name], loc, frameMatrix);
+			}
+			else
+			{
+				loc.pos = VAdd(loc.pos, VGet(0.0f, m_gravity, 0.0f)); // 重力を足す
+				loc.pos = VAdd(VGet(loc.pos.x, 0.0f, loc.pos.z), stage.CheckObjectCol(*this, VGet(0.0f, 0.0f, 0.0f))); // ステージと当たり判定を行う
 
-			loc.rot = VGet(0.0f, 0.0f, 0.0f); // 回転を初期化
-			frameMatrix = MGetIdent();		  // 単位行列を設定
-			MV1SetMatrix(m_objHandle[loc.name], frameMatrix);
+				loc.rot = VGet(0.0f, 0.0f, 0.0f); // 回転を初期化
+				frameMatrix = MGetIdent();		  // 単位行列を設定
+				MV1SetMatrix(m_objHandle[loc.name], frameMatrix);
+			}
 		}
-
-		// TODO:バトル終了後、武器位置をリセットする
-		//if (player.GetMoney() == 300)
-		//{
-		//	// 武器の位置を初期位置にリセット
-		//	loc.pos = loc.initPos;
-		//	loc.rot = loc.initRot;
-		//	m_durability = m_weaponData.durability;
-		//}
 		
 		UpdateCol(loc); // 当たり判定位置更新
 		MV1SetPosition(m_objHandle[loc.name], loc.pos);
@@ -103,13 +106,20 @@ void Weapon::Draw()
 		MV1DrawModel(m_objHandle[loc.name]); // モデル表示
 	}
 
-	// プレイヤーが武器に近づいたら拾うUIを表示する
-	if (m_pPlayer->GetIsPossibleGrabWeapon() && !m_pPlayer->GetIsGrabWeapon())
+	// バトル中でない場合は表示しない
+	if(!m_pPlayer->GetIsBattle()) return;
+
+	for (auto& loc : m_locationData)
 	{
-		// UIの位置を計算する
-		VECTOR screenPos = ConvWorldPosToScreenPos(m_pPlayer->GetPos());
-		screenPos.y -= kDispTextAdjY;
-		DrawGraphF(screenPos.x, screenPos.y, m_handle, true);
+		// プレイヤーが武器に近づいたら拾うUIを表示する
+		if (m_pPlayer->GetIsPossibleGrabWeapon() && !m_pPlayer->GetIsGrabWeapon())
+		{
+			// UIの位置を計算する
+			VECTOR modelTopPos = VAdd(loc.pos, VGet(0.0f, kDispTextAdjY, 0.0f));
+			VECTOR screenPos = ConvWorldPosToScreenPos(modelTopPos);
+
+			DrawGraphF(screenPos.x, screenPos.y, m_handle, true);
+		}
 	}
 
 #ifdef _DEBUG

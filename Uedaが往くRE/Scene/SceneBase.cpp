@@ -1,8 +1,11 @@
 ﻿#include "DxLib.h"
+#include "EffekseerForDXLib.h"
 #include "Vec2.h"
 #include "Game.h"
 #include "Input.h"
 #include "LoadCsv.h"
+#include "Sound.h"
+#include "Font.h"
 #include "UiBase.h"
 #include "Item.h"
 #include "Player.h"
@@ -25,6 +28,14 @@ SceneBase::SceneBase():
 
 SceneBase::~SceneBase()
 {
+}
+
+void SceneBase::EndGame()
+{
+	Sound::GetInstance().UnLoad(); // サウンドの解放
+	Font::UnLoad();				   // フォントの解放
+	Effkseer_End();				   // Effekseerの終了処理
+	DxLib_End();				   // Dxライブラリ使用の終了処理
 }
 
 #ifdef _DEBUG

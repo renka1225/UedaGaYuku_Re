@@ -72,9 +72,9 @@ public:
 	/// <summary>
 	/// 敵がドロップしたアイテムをセットする
 	/// </summary>
-	/// <param name="enemyPos">アイテムをドロップした敵の位置</param>
 	/// <param name="itemType">ドロップしたアイテムの種類</param>
-	void SetDropItem(VECTOR enemyPos, int itemType);
+	/// <param name="enemyPos">アイテムをドロップした敵の位置</param>
+	void SetDropItem(int itemType, VECTOR enemyPos);
 
 	/// <summary>
 	/// プレイヤーとの当たり判定をチェックする

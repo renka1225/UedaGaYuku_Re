@@ -57,11 +57,10 @@ void EnemyStateDeath::DropItem(Stage& pStage)
 		int itemKind;
 		std::random_device rd;
 		std::mt19937 mt(rd());
-		std::uniform_int_distribution urdIndex(1, static_cast<int>(Item::ItemType::kItemKind));
+		std::uniform_int_distribution urdIndex(0, static_cast<int>(Item::ItemType::kItemKind - 1));
 		itemKind = urdIndex(mt);
 
-		//pStage.SetDropItem(m_pEnemy->GetPos(), itemKind);
 		// ドロップしたアイテムの情報を渡す
-		m_pEnemy->GetItemPointer()->SetDropItem(m_pEnemy->GetPos(), itemKind);
+		m_pEnemy->GetItemPointer()->SetDropItem(itemKind, m_pEnemy->GetPos());
 	}
 }

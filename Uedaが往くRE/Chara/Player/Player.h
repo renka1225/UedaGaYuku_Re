@@ -147,6 +147,12 @@ public:
 	int GetMoney() const { return m_money; }
 
 	/// <summary>
+	/// アイテムを追加で入手できるかどうか取得する
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsAddItem() const { return m_isAddItem; }
+
+	/// <summary>
 	/// 現在所持しているアイテムを取得する
 	/// </summary>
 	/// <returns></returns>
@@ -209,6 +215,7 @@ private:
 	int m_beforeMoney;		// 増減前の金額
 	int m_addMoney;			// 追加する金額
 	int m_itemEffectTime;	// アイテムの効果時間
+	bool m_isAddItem;		// アイテムを追加で取得できるか(true:取得可能)
 
 	int m_battleStartCount;	// バトルが開始するまでの時間
 	bool m_isBattle;		// バトル状態かどうか(true:バトル中)

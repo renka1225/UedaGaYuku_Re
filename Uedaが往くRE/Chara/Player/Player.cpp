@@ -37,6 +37,7 @@ Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
 	m_addMoney(0),
 	m_itemEffectTime(0),
 	m_battleStartCount(kBattleStartTime),
+	m_isAddItem(true),
 	m_isBattle(false)
 {
 	// ステータスを読み込む
@@ -155,6 +156,7 @@ void Player::AddItem(int itemType)
 	auto result = std::find(m_possessItem.begin(), m_possessItem.end(), -1);
 	if (result == m_possessItem.end())
 	{
+		m_isAddItem = false;
 		return;
 	}
 

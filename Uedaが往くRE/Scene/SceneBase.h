@@ -41,6 +41,12 @@ public:
 	/// </summary>
 	virtual void Draw() = 0;
 
+protected:
+	/// <summary>
+	/// ゲーム終了処理
+	/// </summary>
+	void EndGame();
+
 #ifdef _DEBUG
 	/// <summary>
 	/// 現在のシーンをデバッグ表示する

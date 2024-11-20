@@ -46,6 +46,9 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 		return;
 	}
 
+	// バトル中でない場合は以下の処理はできないようにする
+	if (!m_pPlayer->GetIsBattle()) return;
+
 	// 攻撃のボタンが押された場合
 	if (input.IsTriggered(InputId::kPunch) || input.IsTriggered(InputId::kKick))
 	{

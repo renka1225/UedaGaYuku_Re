@@ -29,7 +29,7 @@ namespace
 	constexpr int kEnemySpawnMinTIme = 60;		// 敵がスポーンするまでの最小時間
 	constexpr int kEnemySpawnMaxTIme = 3000;	// 敵がスポーンするまでの最大時間
 
-	constexpr int kBattleStartStagingTime = 60;	// バトル開始時の演出時間
+	constexpr int kBattleStartStagingTime = 30;	// バトル開始時の演出時間
 }
 
 SceneMain::SceneMain():
@@ -61,6 +61,7 @@ void SceneMain::Init()
 	m_pWeapon->Init();
 	m_pCamera->Init();
 	m_pUiBar->Init();
+	m_pItem->Init();
 	m_isPause = false;
 }
 
@@ -103,7 +104,6 @@ void SceneMain::Draw()
 	m_pStage->Draw();
 	m_pItem->Draw();
 	m_pPlayer->Draw();
-	m_pWeapon->Draw();
 
 	for (auto& enemy : m_pEnemy)
 	{
@@ -111,6 +111,7 @@ void SceneMain::Draw()
 		enemy->Draw(*m_pPlayer);
 	}
 
+	m_pWeapon->Draw();
 	EffectManager::GetInstance().Draw();
 
 	m_pUiBar->DrawPlayerHpBar(*m_pPlayer, m_pPlayer->GetStatus().maxHp);

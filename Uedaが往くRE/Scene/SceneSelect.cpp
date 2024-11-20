@@ -58,7 +58,8 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 		}
 		else if (m_select == SelectScene::kGameEnd)
 		{
-			DxLib_End();
+			// ゲームを終了する
+			EndGame();
 		}
 	}
 	else if (input.IsTriggered(InputId::kBack))
