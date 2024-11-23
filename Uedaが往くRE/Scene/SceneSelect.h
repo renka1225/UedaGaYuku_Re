@@ -15,7 +15,7 @@ public:
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	virtual ~SceneSelect() {}
+	virtual ~SceneSelect();
 
 	/// <summary>
 	/// 初期化
@@ -33,5 +33,19 @@ public:
 	/// 更新
 	/// </summary>
 	virtual void Draw() override;
+
+private:
+	/// <summary>
+	/// 権利表記の表示
+	/// </summary>
+	void DrawCopyright();
+
+	/// <summary>
+	/// 選択中テキストの説明
+	/// </summary>
+	void DrawExplain();
+
+private:
+	bool m_isDispCopyright; // 権利表記の表示中かどうか(true:表示中)
 };
 

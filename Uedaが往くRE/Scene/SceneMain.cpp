@@ -26,10 +26,10 @@ namespace
 	constexpr int kEnemyMaxNum = 2;		// 1度に出現する最大の敵数
 	constexpr int kEnemyKindNum = 2;	// 敵の種類
 	constexpr int kEnemyNamekind = 31;	// 敵名の種類
-	constexpr int kEnemySpawnMinTIme = 60;		// 敵がスポーンするまでの最小時間
+	constexpr int kEnemySpawnMinTIme = 180;		// 敵がスポーンするまでの最小時間
 	constexpr int kEnemySpawnMaxTIme = 3000;	// 敵がスポーンするまでの最大時間
 
-	constexpr int kBattleStartStagingTime = 30;	// バトル開始時の演出時間
+	constexpr int kBattleStartStagingTime = 20;	// バトル開始時の演出時間
 }
 
 SceneMain::SceneMain():

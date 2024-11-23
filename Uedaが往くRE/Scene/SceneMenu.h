@@ -40,20 +40,5 @@ public:
 	/// 描画
 	/// </summary>
 	virtual void Draw();
-
-private:
-	// 選択項目
-	enum Select
-	{
-		kItem,			// アイテム使用
-		kEnhance,		// 強化
-		kOption,		// オプション
-		kSave,			// セーブする
-		kBackTitle,		// タイトルに戻る
-		kSelectNum		// 選択数
-	};
-
-	// ハンドル
-	std::vector<int> m_handle;
 };
 

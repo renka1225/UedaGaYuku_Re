@@ -29,6 +29,9 @@ namespace Font
 		kNum,		// フォントの種類数
 
 		/*使うフォントを指定する*/
+
+		// 選択画面
+		kSelect_explain = kSize42_4,	// 選択テキストの説明
 		
 		// メニュー画面
 		kMenu_itemName = kSize40_4,		// アイテム名

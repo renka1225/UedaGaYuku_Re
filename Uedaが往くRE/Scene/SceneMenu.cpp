@@ -15,6 +15,17 @@
 
 namespace
 {
+	// 選択項目
+	enum Select
+	{
+		kItem,			// アイテム使用
+		kEnhance,		// 強化
+		kOption,		// オプション
+		kSave,			// セーブする
+		kBackTitle,		// タイトルに戻る
+		kSelectNum		// 選択数
+	};
+
 	// 画像の種類
 	enum Handle
 	{
@@ -41,9 +52,11 @@ SceneMenu::SceneMenu(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> 
 	m_pCamera = pCamera;
 	m_select = Select::kItem;
 
-	m_handle.resize(kNum);
-	m_handle[Handle::kMenuBg] = LoadGraph(kHandlePath[Handle::kMenuBg]);
-	m_handle[Handle::kMenuText] = LoadGraph(kHandlePath[Handle::kMenuText]);
+	m_handle.resize(Handle::kNum);
+	for (int i = 0; i < m_handle.size(); i++)
+	{
+		m_handle[i] = LoadGraph(kHandlePath[i]);
+	}
 }
 
 SceneMenu::~SceneMenu()
@@ -103,10 +116,9 @@ void SceneMenu::Draw()
 {
 	m_pPrevScene->Draw(); // ゲーム中の画面を表示する
 	
-	// 背景表示
-	DrawGraph(0, 0, m_handle[kMenuBg], true);
-	m_pUi->DrawCursor(kCursorId, m_select, kCursorInterval); // カーソルの表示
-	DrawGraph(0, 0, m_handle[kMenuText], true);
+	DrawGraph(0, 0, m_handle[Handle::kMenuBg], true);			// 背景表示
+	m_pUi->DrawCursor(kCursorId, m_select, kCursorInterval);	// カーソルの表示
+	DrawGraph(0, 0, m_handle[Handle::kMenuText], true);			// テキスト表示
 
 	DrawMoney(m_pPlayer);	// 所持金額表示
 
