@@ -3,6 +3,7 @@
 #include "LoadCsv.h"
 #include "Player.h"
 #include "UiBase.h"
+#include <algorithm>
 
 // 定数
 namespace
@@ -37,6 +38,12 @@ namespace
 	constexpr float kDispBattleStartMaxScale = 10.0f;	 // バトル開始時の敵種類の最大サイズ
 	constexpr float kDispBattleStartChangeScale = 0.6f;	 // 表示する敵種類のサイズ変化量
 	const Vec2 kDispBattleStartPos = { 900.0f, 500.0f }; // 敵種類表示位置
+
+	const Vec2 kMapPos = { 180.0f, 900.0f }; // マップ表示位置
+	constexpr float kWorldWidth = 10000.0f;	 // ワールド座標の最大幅
+	constexpr float kWorldDepth = 10000.0f;	 // ワールド座標の最大奥行き
+	constexpr int kMapSize = 1000;			 // ミニマップのサイズ
+	constexpr int kViewMapSize = 250;		 // ミニマップ表示範囲
 }
 
 UiBase::UiBase():
@@ -69,12 +76,6 @@ void UiBase::Init()
 
 void UiBase::Update()
 {
-}
-
-void UiBase::Draw()
-{
-	// ミニマップ表示
-	//DrawRectRotaGraph(30.0f, 800.0f, 0.0f, 0.0f, 1015, 1005, 0.3f, 0.0f, m_handle[Handle::kMiniMap], true);
 }
 
 void UiBase::UpdateCursor(std::string cursorId)
@@ -113,4 +114,32 @@ void UiBase::DrawBattleStart()
 	int sizeW, sizeH;
 	GetGraphSize(m_handle[Handle::kEnemy_tinpira], &sizeW, &sizeH);
 	DrawRectRotaGraphF(kDispBattleStartPos.x, kDispBattleStartPos.y, 0, 0, sizeW, sizeH, m_dispEnemyKindScale, 0.0f, m_handle[Handle::kEnemy_tinpira], true);
+}
+
+void UiBase::DrawMiniMap(Player& pPlayer)
+{
+	VECTOR playerPos = pPlayer.GetPos();
+
+	// ワールド座標を正規化（0～1の範囲に変換）
+	float normX = playerPos.x / kWorldWidth;
+	float normY = playerPos.z / kWorldDepth;
+
+	// ミニマップ用の座標に変換
+	int mapX = static_cast<int>(normX * kMapSize);
+	int mapY = static_cast<int>(normY * kMapSize);
+
+	// プレイヤーの位置に応じてマップの切り出し位置を変更する
+	int srcX = mapX - kViewMapSize / 2;
+	int srcY = mapY - kViewMapSize / 2;
+
+	// マップをはみ出さないようにする
+	srcX = std::clamp(srcX, 0, kMapSize - kViewMapSize);
+	srcY = std::clamp(srcY, 0, kMapSize - kViewMapSize);
+
+	// ミニマップ表示
+	DrawRectRotaGraphF(kMapPos.x, kMapPos.y, srcX, srcY, kViewMapSize, kViewMapSize, 1.0f, 0.0f, m_handle[Handle::kMiniMap], true);
+
+	// プレイヤーのアイコンを表示
+	// TODO:三角形にしてプレイヤーの移動方向を反映させる
+	DrawCircleAA(kMapPos.x, kMapPos.y, 5, 32, 0xff0000, true);
 }

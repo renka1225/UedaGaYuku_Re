@@ -27,13 +27,13 @@ namespace
 	constexpr int kMoneyIncrement = 100;	// 一度に増える所持金数
 
 	constexpr float kBattleStartRange = 200.0f;	// バトルが始まる範囲
-	constexpr int kBattleStartTime = 120;		// バトルが開始するまでの時間
+	constexpr int kBattleStartTime = 60;		// バトルが開始するまでの時間
 }
 
 Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
 	m_saveStatus(m_status),
 	m_money(0),
-	m_beforeMoney(0),
+	m_beforeMoney(100000),
 	m_addMoney(0),
 	m_itemEffectTime(0),
 	m_battleStartCount(kBattleStartTime),
@@ -127,7 +127,7 @@ void Player::Draw()
 
 	if (m_isBattle)
 	{
-		DrawString(0, 20, "バトル中", 0xff0000);
+		DrawString(1700, 20, "バトル中", 0xff0000);
 	}
 #endif
 }

@@ -47,7 +47,7 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	virtual void Draw();
+	virtual void Draw() {}
 
 	/// <summary>
 	/// カーソルの表示を更新
@@ -68,8 +68,12 @@ public:
 	/// </summary>
 	void DrawBattleStart();
 
+	/// <summary>
+	/// ミニマップ表示
+	/// </summary>
+	void DrawMiniMap(Player& pPlayer);
+
 protected:
-	std::shared_ptr<Player> m_pPlayer;		// プレイヤーのポインタ
 	std::map<std::string, UiData> m_uiData;	// UIのデータ
 
 	float m_cursorWidth;		// カーソルの横幅
