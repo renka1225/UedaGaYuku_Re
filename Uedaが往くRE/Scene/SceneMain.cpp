@@ -121,10 +121,7 @@ void SceneMain::Draw()
 	}
 
 	// バトル中UI表示
-	if (m_pPlayer->GetIsBattle())
-	{
-		m_pUi->DrawBattleUi();
-	}
+	m_pUi->DrawBattleUi(*m_pPlayer);
 
 	// プレイヤーのバーUI表示
 	m_pUiBar->DrawPlayerHpBar(*m_pPlayer, m_pPlayer->GetStatus().maxHp);

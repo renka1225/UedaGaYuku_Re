@@ -71,11 +71,13 @@ public:
 	/// <summary>
 	/// バトル中のUIを表示
 	/// </summary>
-	void DrawBattleUi();
+	/// <param name="pPlayer">プレイヤー参照</param>
+	void DrawBattleUi(Player& pPlayer);
 
 	/// <summary>
 	/// ミニマップ表示
 	/// </summary>
+	/// <param name="pPlayer">プレイヤー参照</param>
 	void DrawMiniMap(Player& pPlayer);
 
 protected:
@@ -86,6 +88,8 @@ protected:
 	int m_cursorAlpha;			// カーソルのα値
 
 	float m_dispEnemyKindScale;	// バトル開始時の敵種類の表示サイズ
+	float m_dispNowBattlePosX;	// バトル中のUI表示位置X
+
 	std::vector<int> m_handle;	// ハンドル
 };
 

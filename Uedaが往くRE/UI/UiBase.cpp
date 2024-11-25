@@ -42,18 +42,21 @@ namespace
 	const Vec2 kDispBattleStartPos = { 900.0f, 500.0f }; // 敵種類表示位置
 
 	const Vec2 kMapPos = { 180.0f, 900.0f };		// マップ表示位置
-	const Vec2 kBattleNowPos = { 1550.0f, 0.0f };	// バトル中表示
 	constexpr float kWorldWidth = 10000.0f;			// ワールド座標の最大幅
 	constexpr float kWorldDepth = 10000.0f;			// ワールド座標の最大奥行き
 	constexpr int kMapSize = 1000;					// ミニマップのサイズ
 	constexpr int kViewMapSize = 280;				// ミニマップ表示範囲
+
+	const Vec2 kBattleNowPos = { 1550.0f, 50.0f };	// バトル中表示
+	constexpr float kNowBattleMoveSpeed = 13.0f;	// バトル中UIの移動速度
 }
 
 UiBase::UiBase():
 	m_cursorWidth(0.0f),
 	m_cursorDisplayTime(0),
 	m_cursorAlpha(kMaxCursorAlpha),
-	m_dispEnemyKindScale(kDispBattleStartMaxScale)
+	m_dispEnemyKindScale(kDispBattleStartMaxScale),
+	m_dispNowBattlePosX(Game::kScreenWidth)
 {
 	LoadCsv::GetInstance().LoadUiData(m_uiData);
 
@@ -119,9 +122,21 @@ void UiBase::DrawBattleStart()
 	DrawRectRotaGraphF(kDispBattleStartPos.x, kDispBattleStartPos.y, 0, 0, sizeW, sizeH, m_dispEnemyKindScale, 0.0f, m_handle[Handle::kEnemy_tinpira], true);
 }
 
-void UiBase::DrawBattleUi()
+void UiBase::DrawBattleUi(Player& pPlayer)
 {
-	DrawGraphF(kBattleNowPos.x, kBattleNowPos.y, m_handle[Handle::kBattleNow], true);
+	// バトル中の場合
+	if (pPlayer.GetIsBattle())
+	{
+		// バトル開始時UIを右端から表示する
+		m_dispNowBattlePosX -= kNowBattleMoveSpeed;
+		m_dispNowBattlePosX = std::max(kBattleNowPos.x, m_dispNowBattlePosX);
+
+		DrawGraphF(m_dispNowBattlePosX, kBattleNowPos.y, m_handle[Handle::kBattleNow], true);
+	}
+	else
+	{
+		m_dispNowBattlePosX = Game::kScreenWidth;
+	}
 }
 
 void UiBase::DrawMiniMap(Player& pPlayer)
