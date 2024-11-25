@@ -11,8 +11,9 @@ namespace
 	// 画像の種類
 	enum Handle
 	{
-		kMiniMap,		// ミニマップ
 		kCursor,		// カーソル
+		kMiniMap,		// ミニマップ
+		kBattleNow,		// バトル中表示
 		kEnemy_yanki,	// ヤンキー
 		kEnemy_tinpira,	// チンピラ
 		kEnemy_narikin,	// 成金
@@ -21,8 +22,9 @@ namespace
 
 	const char* kHandle[Handle::kHandleNum]
 	{
-		"data/ui/minimap.png",
 		"data/ui/cursor.png",
+		"data/ui/minimap.png",
+		"data/ui/battleNow.png",
 		"data/ui/battleStart/yanki.png",
 		"data/ui/battleStart/tinpira.png",
 		"data/ui/battleStart/narikin.png",
@@ -39,11 +41,12 @@ namespace
 	constexpr float kDispBattleStartChangeScale = 0.6f;	 // 表示する敵種類のサイズ変化量
 	const Vec2 kDispBattleStartPos = { 900.0f, 500.0f }; // 敵種類表示位置
 
-	const Vec2 kMapPos = { 180.0f, 900.0f }; // マップ表示位置
-	constexpr float kWorldWidth = 10000.0f;	 // ワールド座標の最大幅
-	constexpr float kWorldDepth = 10000.0f;	 // ワールド座標の最大奥行き
-	constexpr int kMapSize = 1000;			 // ミニマップのサイズ
-	constexpr int kViewMapSize = 250;		 // ミニマップ表示範囲
+	const Vec2 kMapPos = { 180.0f, 900.0f };		// マップ表示位置
+	const Vec2 kBattleNowPos = { 1550.0f, 0.0f };	// バトル中表示
+	constexpr float kWorldWidth = 10000.0f;			// ワールド座標の最大幅
+	constexpr float kWorldDepth = 10000.0f;			// ワールド座標の最大奥行き
+	constexpr int kMapSize = 1000;					// ミニマップのサイズ
+	constexpr int kViewMapSize = 280;				// ミニマップ表示範囲
 }
 
 UiBase::UiBase():
@@ -114,6 +117,11 @@ void UiBase::DrawBattleStart()
 	int sizeW, sizeH;
 	GetGraphSize(m_handle[Handle::kEnemy_tinpira], &sizeW, &sizeH);
 	DrawRectRotaGraphF(kDispBattleStartPos.x, kDispBattleStartPos.y, 0, 0, sizeW, sizeH, m_dispEnemyKindScale, 0.0f, m_handle[Handle::kEnemy_tinpira], true);
+}
+
+void UiBase::DrawBattleUi()
+{
+	DrawGraphF(kBattleNowPos.x, kBattleNowPos.y, m_handle[Handle::kBattleNow], true);
 }
 
 void UiBase::DrawMiniMap(Player& pPlayer)

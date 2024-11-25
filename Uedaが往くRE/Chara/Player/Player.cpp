@@ -90,6 +90,13 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 		m_pState->m_nextState = m_pState;
 	}
 
+	// バトル中でない場合
+	if (!m_isBattle)
+	{
+		// 武器掴み状態を解除する
+		m_isNowGrabWeapon = false;
+	}
+
 	// 敵がいる場合のみ処理を行う
 	if (!pEnemy.empty())
 	{
@@ -124,11 +131,6 @@ void Player::Draw()
 	debug.DrawBodyCol(m_colData[CharaType::kPlayer]);	// 全身(紫色)
 	//debug.DrawArmCol(m_colData[CharaType::kPlayer]);	// 腕(水色)
 	//debug.DrawLegCol(m_colData[CharaType::kPlayer]);	// 脚(黄色)
-
-	if (m_isBattle)
-	{
-		DrawString(1700, 20, "バトル中", 0xff0000);
-	}
 #endif
 }
 

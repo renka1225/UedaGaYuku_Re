@@ -60,6 +60,10 @@ void Weapon::Update(Stage& stage)
 			loc.pos = loc.initPos;
 			loc.rot = loc.initRot;
 			m_durability = m_weaponData.durability;
+
+			loc.rot = VGet(0.0f, 0.0f, 0.0f); // 回転を初期化
+			frameMatrix = MGetIdent();		  // 単位行列を設定
+			MV1SetMatrix(m_objHandle[loc.name], frameMatrix);
 		}
 		// バトル中の場合
 		else
@@ -84,14 +88,14 @@ void Weapon::Update(Stage& stage)
 			}
 			else
 			{
-				loc.pos = VAdd(loc.pos, VGet(0.0f, m_gravity, 0.0f)); // 重力を足す
-				loc.pos = VAdd(VGet(loc.pos.x, 0.0f, loc.pos.z), stage.CheckObjectCol(*this, VGet(0.0f, 0.0f, 0.0f))); // ステージと当たり判定を行う
-
 				loc.rot = VGet(0.0f, 0.0f, 0.0f); // 回転を初期化
 				frameMatrix = MGetIdent();		  // 単位行列を設定
 				MV1SetMatrix(m_objHandle[loc.name], frameMatrix);
 			}
 		}
+
+		loc.pos = VAdd(loc.pos, VGet(0.0f, m_gravity, 0.0f)); // 重力を足す
+		loc.pos = VAdd(VGet(loc.pos.x, 0.0f, loc.pos.z), stage.CheckObjectCol(*this, VGet(0.0f, 0.0f, 0.0f))); // ステージと当たり判定を行う
 		
 		UpdateCol(loc); // 当たり判定位置更新
 		MV1SetPosition(m_objHandle[loc.name], loc.pos);
@@ -111,6 +115,8 @@ void Weapon::Draw()
 
 	for (auto& loc : m_locationData)
 	{
+		if (m_durability <= 0) continue;
+
 		// プレイヤーが武器に近づいたら拾うUIを表示する
 		if (m_pPlayer->GetIsPossibleGrabWeapon() && !m_pPlayer->GetIsGrabWeapon())
 		{

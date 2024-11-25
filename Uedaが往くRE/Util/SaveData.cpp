@@ -118,11 +118,20 @@ void SaveData::DeleteData()
 
 void SaveData::CreateNewData()
 {
+	// プレイヤーデータを作成
 	m_saveData.playerPos = kInitPos;
 	m_saveData.hp = kInitHp;
 	m_saveData.gauge = 0.0f;
 	m_saveData.money = 0;
 
+	// アイテムデータを作成
+	m_saveData.possessItem.resize(kMaxPossession, -1);
+	//for (int i = 0; i < m_saveData.possessItem.size(); i++)
+	//{
+	//	m_saveData.possessItem[i] = -1; // -1を代入
+	//}
+
+	// カメラデータを作成
 	m_saveData.cameraPos = VGet(0.0f, kHeight, 0.0f);
 	m_saveData.target = VGet(0.0f, 0.0f, 0.0f);
 	m_saveData.angleH = kInitAngleH;

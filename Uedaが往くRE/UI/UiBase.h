@@ -69,6 +69,11 @@ public:
 	void DrawBattleStart();
 
 	/// <summary>
+	/// バトル中のUIを表示
+	/// </summary>
+	void DrawBattleUi();
+
+	/// <summary>
 	/// ミニマップ表示
 	/// </summary>
 	void DrawMiniMap(Player& pPlayer);
