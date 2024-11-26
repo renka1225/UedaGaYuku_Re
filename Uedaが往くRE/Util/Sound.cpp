@@ -1,5 +1,7 @@
 ﻿#include "DxLib.h"
+#include "Input.h"
 #include "Sound.h"
+#include <algorithm>
 #include <fstream>
 #include <sstream>
 #include <cassert>
@@ -11,6 +13,8 @@ namespace
 	const char* kCsvFilePath = "data/csv/soundData.csv";	// 読み込むcsvファイルのパス
 	const std::string kBgmFilePath = "data/sound/BGM/";		// BGMのパス
 	const std::string kSeFilePath = "data/sound/SE/";		// SEのパス
+
+	constexpr int kMaxVolumePal = 255; // 最大音量
 
 	/// <summary>
 	/// 文字列を分割する
@@ -101,6 +105,69 @@ void Sound::SetSeVol(std::string seName)
 	ChangeVolumeSoundMem(m_seData[seName].vol, m_seData[seName].handle);
 }
 
+void Sound::ChangeBgmVol(Input& input)
+{
+	for (auto& [name, data] : m_bgmData)
+	{
+		// 音量を下げる
+		if (input.IsPressing(InputId::kLeft))
+		{
+			m_bgmData[name].vol--;
+		}
+		// 音量を上げる
+		else if (input.IsPressing(InputId::kRight))
+		{
+			m_bgmData[name].vol++;
+		}
+
+		m_bgmData[name].vol = std::clamp(m_bgmData[name].vol, 0, kMaxVolumePal);
+		ChangeVolumeSoundMem(m_bgmData[name].vol, data.handle);
+	}
+}
+
+void Sound::ChangeSeVol(Input& input)
+{
+	for (auto& [name, data] : m_seData)
+	{
+		// 音量を下げる
+		if (input.IsPressing(InputId::kLeft))
+		{
+			m_seData[name].vol--;
+		}
+		// 音量を上げる
+		else if (input.IsPressing(InputId::kRight))
+		{
+			m_seData[name].vol++;
+		}
+
+		m_seData[name].vol = std::clamp(m_seData[name].vol, 0, kMaxVolumePal);
+		ChangeVolumeSoundMem(m_seData[name].vol, data.handle);
+	}
+}
+
+int Sound::ChangeVolRate(int vol)
+{
+	return static_cast<int>((static_cast<float>(vol) / kMaxVolumePal) * 100);
+}
+
+int Sound::RestoreVolRate(int vol)
+{
+	printfDx("%d\n", static_cast<int>((static_cast<float>(vol) / 100.0f) * kMaxVolumePal));
+	return static_cast<int>((static_cast<float>(vol) / 100.0f) * kMaxVolumePal);
+}
+
+int Sound::GetBgmVol()
+{
+	// 仮のBGM音量を取得
+	return ChangeVolRate(m_bgmData["sampleBGM.mp3"].vol);
+}
+
+int Sound::GetSeVol()
+{
+	// 仮のSE音量を取得
+	return ChangeVolRate(m_seData["sampleSE.mp3"].vol);
+}
+
 int Sound::GetBgmVol(std::string bgmName)
 {
 	auto found = m_bgmData.find(bgmName);
@@ -108,6 +175,8 @@ int Sound::GetBgmVol(std::string bgmName)
 	{
 		return found->second.vol;
 	}
+
+	return 0;
 }
 
 int Sound::GetSeVol(std::string seName)
@@ -117,6 +186,8 @@ int Sound::GetSeVol(std::string seName)
 	{
 		return found->second.vol;
 	}
+
+	return 0;
 }
 
 bool Sound::GetIsPlaySe(std::string seName)

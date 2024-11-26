@@ -3,6 +3,8 @@
 #include <vector>
 #include <map>
 
+class Input;
+
 /// <summary>
 /// サウンドの管理を行う
 /// </summary>
@@ -71,14 +73,54 @@ public:
 	void SetSeVol(std::string seName);
 
 	/// <summary>
+	/// BGMの音量を変更する
+	/// </summary>
+	/// <param name="input">入力状態</param>
+	void ChangeBgmVol(Input& input);
+
+	/// <summary>
+	/// SEの音量を変更する
+	/// </summary>
+	/// <param name="input">入力状態</param>
+	void ChangeSeVol(Input& input);
+
+	/// <summary>
+	/// 音量の割合を0～255から0～100に変換する
+	/// </summary>
+	/// <param name="vol">現在の音量</param>
+	/// <returns>変換後の音量</returns>
+	int ChangeVolRate(int vol);
+
+	/// <summary>
+	/// 音量の割合を0～100から0～255に変換する
+	/// </summary>
+	/// <param name="vol"></param>
+	/// <returns></returns>
+	int RestoreVolRate(int vol);
+
+	/// <summary>
 	/// BGMの音量を取得する
 	/// </summary>
 	/// <returns>BGMの音量</returns>
-	int GetBgmVol(std::string bgmName);
+	int GetBgmVol();
 
 	/// <summary>
 	/// SEの音量を取得する
 	/// </summary>
+	/// <returns>SEの音量</returns>
+	int GetSeVol();
+
+	/// <summary>
+	/// 特定のBGMの音量を取得する
+	/// </summary>
+	/// <param name="bgmName">取得したいBGM名</param>
+	/// <returns>BGMの音量</returns>
+	int GetBgmVol(std::string bgmName);
+
+	/// <summary>
+	///  特定のSEの音量を取得する
+	/// </summary>
+	/// <param name="bgmName">取得したいSE名</param>
 	/// <returns>SEの音量</returns>
 	int GetSeVol(std::string seName);
 

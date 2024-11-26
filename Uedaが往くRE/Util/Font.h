@@ -41,6 +41,11 @@ namespace Font
 		kEnhance_skillMoney = kSize36_4,	// 必要金額
 		kEnhance_skillName = kSize40_4,		// スキル名
 		kEnhance_skillExplain = kSize42_4,	// スキルの詳細
+
+		// オプション画面
+		kOption_soundText = kSize36_4,		// サウンドのテキスト
+		kOption_soundVol = kSize36_4,		// 現在の音量
+		kOption_window = kSize36_4,			// 画面サイズのテキスト
 	};
 
 	// フォントのロード、アンロード

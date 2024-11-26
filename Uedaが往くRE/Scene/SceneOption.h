@@ -45,6 +45,8 @@ private:
 	std::shared_ptr<SceneBase> m_pPrevScene;	// 前に実行していたシーン
 
 	int m_afterSelect;	// 選択後の状態
+	int m_bgmVol;		// BGMの音量を一時保存する
+	int m_seVol;		// SEの音量を一時保存する
 	bool m_isSound;		// サウンドが選択中か(true:選択中)
 	bool m_isWindow;	// 画面サイズが選択中か(true:選択中)
 };

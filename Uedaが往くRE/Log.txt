@@ -1,177 +1,1723 @@
 ﻿0:ChangeWindowMode実行 
-0:ウインドウモードフラグが立てられました
-1:ＤＸライブラリの初期化処理開始
-2:	システムの情報を出力します
-2:		ＤＸライブラリ Ver3.24b
-2:		論理プロセッサの数 : 20
-2:		ＯＳ  Windows11 ( Build 26100  )
-104:		現時点のＣＰＵ動作速度：大体3.61GHz
-104:		ＭＭＸ命令を使用します
-104:		ＳＳＥ命令が使用可能です
-105:		ＳＳＥ２命令が使用可能です
-105:		ＣＰＵベンダ：GenuineIntel
-106:		ＣＰＵ名：12th Gen Intel(R) Core(TM) i7-12700KF
-106:	ＣＯＭの初期化... 成功
-190:	非同期読み込み処理の初期化...成功
-192:	ファイルアクセス処理の初期化...成功
-193:	メモリ総量:32560.35MB  空きメモリ領域:16952.92MB 
-193:	タイマーの精度を検査します
-193:	精度結果 更新回数 マルチメディアタイマー：0  パフォーマンスカウンター：60
-193:	 パフォーマンスカウンターを使用します タイマー精度 : 10000.000000 KHz 
-194:	 
-194:	ソフトの二重起動検査... 二重起動はされていませんでした
-194:	ウインドウクラスを登録します... 登録に成功しました
-195:	ウインドウモード起動用のウインドウを作成します
-195:	ディスプレイ情報のセットアップ開始
-196:		モニターの数：2  ディスプレイデバイスの数：4
-196:		No.0  モニター名：\\.\DISPLAY1　1920x1080　32bit　60Hz  96x96dpi
-196:		No.1  モニター名：\\.\DISPLAY2　1920x1080　32bit　60Hz  96x96dpi
-205:	ディスプレイ情報のセットアップ完了
-205:	ウインドウ矩形 ( -16, -50 )-( 1920, 1069 )
-210:	ウインドウの作成に成功しました
-210:	ウインドウを表示します
-240:	ＩＭＥを無効にしました
-242:	ウインドウスタイルをウインドウモード用に変更します... 完了
-277:	XInput DLL の読み込み中... 成功
-281:	DirectInput関係初期化処理
-281:		DirectInput8 の取得を試みます...成功
-359:			引き続き初期化処理... 初期化成功
-361:		ジョイパッドの初期化... 
-361:			XInput 対応コントローラーのチェックを開始します
+1:ウインドウモードフラグが立てられました
+3:ＤＸライブラリの初期化処理開始
+4:	システムの情報を出力します
+5:		ＤＸライブラリ Ver3.24b
+5:		論理プロセッサの数 : 20
+5:		ＯＳ  Windows11 ( Build 26100  )
+106:		現時点のＣＰＵ動作速度：大体2.67GHz
+106:		ＭＭＸ命令を使用します
+107:		ＳＳＥ命令が使用可能です
+107:		ＳＳＥ２命令が使用可能です
+107:		ＣＰＵベンダ：GenuineIntel
+108:		ＣＰＵ名：12th Gen Intel(R) Core(TM) i7-12700H
+109:	ＣＯＭの初期化... 成功
+114:	非同期読み込み処理の初期化...成功
+114:	ファイルアクセス処理の初期化...成功
+115:	メモリ総量:16108.49MB  空きメモリ領域:3857.12MB 
+115:	タイマーの精度を検査します
+115:	精度結果 更新回数 マルチメディアタイマー：0  パフォーマンスカウンター：60
+115:	 パフォーマンスカウンターを使用します タイマー精度 : 10000.000000 KHz 
+116:	 
+116:	ソフトの二重起動検査... 二重起動はされていませんでした
+117:	ウインドウクラスを登録します... 登録に成功しました
+117:	ウインドウモード起動用のウインドウを作成します
+118:	ディスプレイ情報のセットアップ開始
+120:		モニターの数：2  ディスプレイデバイスの数：8
+120:		No.0  モニター名：\\.\DISPLAY1　2560x1440　32bit　60Hz  120x120dpi
+120:		No.1  モニター名：\\.\DISPLAY5　1920x1080　32bit　60Hz  120x120dpi
+154:	ディスプレイ情報のセットアップ完了
+155:	ウインドウ矩形 ( 62, -17 )-( 2480, 1380 )
+160:	ウインドウの作成に成功しました
+160:	ウインドウを表示します
+201:	ＩＭＥを無効にしました
+204:	ウインドウスタイルをウインドウモード用に変更します... 完了
+238:	XInput DLL の読み込み中... 成功
+247:	DirectInput関係初期化処理
+248:		DirectInput8 の取得を試みます...成功
+336:			引き続き初期化処理... 初期化成功
+360:		ジョイパッドの初期化... 
+360:			XInput 対応コントローラーのチェックを開始します
 362:				XInput 対応コントローラー No.0 をチェック
-364:				XInput 対応コントローラー No.0 の接続を確認しました
-364:				XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-365:				XInput 対応コントローラー No.1 をチェック
-365:				XInput 対応コントローラー No.1 の接続は確認できませんでした
-365:				XInput 対応コントローラー No.2 をチェック
-366:				XInput 対応コントローラー No.2 の接続は確認できませんでした
-366:				XInput 対応コントローラー No.3 をチェック
-366:				XInput 対応コントローラー No.3 の接続は確認できませんでした
-367:			XInput 対応コントローラーのチェック完了
-367:			DirectInput 対応ジョイパッドの列挙を開始します
-508:				DirectInput 対応入力装置を検出しました
-509:						Device Product GUID  : c21d046d,0000,0000,00,00,50,49,44,56,49,44
-509:						Device Instance GUID : 6007aec0,4f57,11ef,80,01,44,45,53,54,00,00
-509:					DirectInputDevice8 の作成... 成功
-510:					DirectInputDevice の情報を取得します... 成功
-511:						Device Product Name  : Controller (Gamepad F310)
-511:						Device Instance Name : Controller (Gamepad F310)
-511:					検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-512:					検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 不一致
-512:					検出した DirectInput 対応入力装置が XInput 対応コントローラーか確認... 一致
-888:				検出した DirectInput 対応入力装置の初期化を中断します
-888:			DirectInput 対応ジョイパッドの列挙終了
-889:		ジョイパッドの初期化は正常に終了しました
-889:		マウスデバイスの初期化... 初期化成功
-889:		キーボードデバイスの初期化... 初期化成功
-894:	DirectInput 関連の初期化は正常に終了しました
-896:	WASAPI の初期化を行います
-983:		デバイス名 : PHL 273V7 (NVIDIA High Definition Audio)
-1046:		デフォルト遅延時間 : 10.000 ms
-1047:		最小遅延時間       : 3.000 ms
-1047:		遅延時間           : 10.000 ms
-1047:		チャンネル数  　   : 2 ch
-1047:		量子化ビット深度   : 32 bit
-1048:		有効ビット深度　   : 32 bit
-1048:		サンプリングレート : 48000 Hz
-1048:		データ形式         : 浮動小数点型
-1060:		動作モード         : 共有モード
-1060:	WASAPI の初期化は正常に終了しました
-1064:	d3d11.dll の読み込み.... 成功
-1153:	dxgi.dll の読み込み.... 成功
-1154:	API CreateDXGIFactory2 のアドレスを取得します.... 成功
-1154:	IDXGIFactory2 を作成します.... 成功
-1158:	API CreateDXGIFactory6 のアドレスを取得します.... 成功
-1158:	IDXGIAdapter を列挙
-1158:		Adapter No.0 Desc:NVIDIA GeForce RTX 3070  VRAM:8018MB
-1159:			Output Device No.0 Name:\\.\DISPLAY1 ( 0, 0 )-( 1920, 1080 )
-1159:			Output Device No.1 Name:\\.\DISPLAY2 ( 2, -1080 )-( 1922, 0 )
-1159:		Adapter No.1 Desc:Microsoft Basic Render Driver  VRAM:0MB
-1160:	API D3D11CreateDevice のアドレスを取得します.... 成功
-1160:	IDXGIAdapter を取得します.... 成功
-1161:	IDXGIAdapter1 を取得します.... 成功
-1161:	IDXGIAdapter2 を取得します.... 成功
-1161:	IDXGIAdapter3 を取得します.... 成功
-1162:	IDXGIAdapter4 を取得します.... 成功
-1162:	Direct3D 11 FeatureLevel 11_0 以上を対象とします
-1162:	ID3D11Device オブジェクトを取得します.... 成功
-1268:	IDXGIDevice1 を取得します.... 成功
-1268:	IDXGIDevice1->SetMaximunFrameLatency( 1 ); を実行しました
-1268:	[ウインドウモード 1920x1080 ( 0, 0 )-( 1920, 1080 )]
-1269:	IDXGISwapChain2 を作成します.... 成功
-1270:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
-1270:	IDXGIOutput を取得します.... 成功
-1270:	Graphics Device:NVIDIA GeForce RTX 3070
-1271:	画面のフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
-1271:	16bit Zバッファフォーマットは DXGI_FORMAT_D16_UNORM です
-1271:	24bit Zバッファフォーマットは DXGI_FORMAT_D24_UNORM_S8_UINT です
-1271:	32bit Zバッファフォーマットは DXGI_FORMAT_D32_FLOAT です
-1271:	16bit カラーフォーマットは DXGI_FORMAT_B5G6R5_UNORM です
-1271:	32bit カラーフォーマットは DXGI_FORMAT_B8G8R8X8_UNORM です
-1272:	アルファ付き 16bit カラーフォーマットは DXGI_FORMAT_B4G4R4A4_UNORM です
-1272:	アルファ付き 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
-1272:	アルファテスト用 16bit カラーフォーマットは DXGI_FORMAT_B5G5R5A1_UNORM です
-1272:	アルファテスト用 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
-1273:	ＤＸＴ１テクスチャフォーマットは DXGI_FORMAT_BC1_UNORM です
-1273:	ＤＸＴ２テクスチャフォーマットは使えません
-1273:	ＤＸＴ３テクスチャフォーマットは DXGI_FORMAT_BC2_UNORM です
-1273:	ＤＸＴ４テクスチャフォーマットは使えません
-1273:	ＤＸＴ５テクスチャフォーマットは DXGI_FORMAT_BC3_UNORM です
-1274:	BC7_UNORM テクスチャフォーマットは DXGI_FORMAT_BC7_UNORM です
-1274:	BC7_UNORM_SRGB テクスチャフォーマットは DXGI_FORMAT_BC7_UNORM_SRGB です
-1274:	ABGR 整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_UNORM です
-1274:	ABGR 浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_FLOAT です
-1274:	ABGR 浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32B32A32_FLOAT です
-1274:	１チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8_UNORM です
-1275:	１チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_UNORM です
-1275:	１チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_FLOAT です
-1275:	１チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32_FLOAT です
-1275:	２チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8G8_UNORM です
-1275:	２チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_UNORM です
-1276:	２チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_FLOAT です
-1276:	２チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32_FLOAT です
-1276:	描画用 16bit カラーフォーマットは DXGI_FORMAT_B5G6R5_UNORM です
-1276:	描画用 32bit カラーフォーマットは DXGI_FORMAT_B8G8R8X8_UNORM です
-1276:	描画用アルファ付き 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
-1276:	描画用 ABGR 整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_UNORM です
-1277:	描画用 ABGR 浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_FLOAT です
-1277:	描画用 ABGR 浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32B32A32_FLOAT です
-1277:	描画用１チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8_UNORM です
-1277:	描画用１チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_UNORM です
-1277:	描画用１チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_FLOAT です
-1278:	描画用１チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32_FLOAT です
-1278:	描画用２チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8G8_UNORM です
-1278:	描画用２チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_UNORM です
-1278:	描画用２チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_FLOAT です
-1278:	描画用２チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32_FLOAT です
-1278:	使用する機能レベル:D3D_FEATURE_LEVEL_11_1
-1279:	同時にレンダリングできるバッファの数:8
-1279:	最大テクスチャサイズ　幅:16384 高さ:16384
-1279:	標準描画用の頂点バッファの作成.... 成功
-1279:	シェーダーコード関係の初期化.... 成功
-1290:	各種シェーダー用定数バッファの作成.... 成功
-1291:	各種 ID3D11InputLayout の作成.... 成功
-1301:	画像の単純転送処理の初期化... 成功
-1302:	深度バッファを作成します.... 成功
-1304:	フォントの初期化を行います
-1306:	フォントの初期化は正常に終了しました
-1383:	文字コードバッファの初期化を行います... 完了しました
-1401:ＤＸライブラリの初期化処理終了
-16648:Model File Open Error : C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\data\Model\Stage\skydoom.mv1
-101577:フォントの初期化を行います
-101579:フォントの初期化は正常に終了しました
-101635:d3d11.dll の解放 1
-101635:dxgi.dll の解放 1
-101636:Direct3D11 のオブジェクト数を出力
-101636:Direct3D11 のオブジェクト合計数 : 0
-101640:DirectInput 関連の終了処理... 完了
-101640:サウンド関連の終了処理... 完了
-101654:ウィンドウ関連の終了処理... ウインドウを閉じようとしています
-101663:ウインドウが破棄されようとしています
-101663:ソフトを終了する準備が整いました
-101734:完了
-101742:ＣＯＭを終了... 完了
-101742:
-101742:Alloc memory dump
-101743:	Total size:0(0.000kb)  Alloc num:0
-101743:
+367:				XInput 対応コントローラー No.0 の接続を確認しました
+368:				XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
+368:				XInput 対応コントローラー No.1 をチェック
+369:				XInput 対応コントローラー No.1 の接続は確認できませんでした
+369:				XInput 対応コントローラー No.2 をチェック
+369:				XInput 対応コントローラー No.2 の接続は確認できませんでした
+369:				XInput 対応コントローラー No.3 をチェック
+370:				XInput 対応コントローラー No.3 の接続は確認できませんでした
+370:			XInput 対応コントローラーのチェック完了
+370:			DirectInput 対応ジョイパッドの列挙を開始します
+383:				DirectInput 対応入力装置を検出しました
+384:						Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
+384:						Device Instance GUID : a02a7d30,4ab1,11ee,80,01,44,45,53,54,00,00
+384:					DirectInputDevice8 の作成... 成功
+385:					DirectInputDevice の情報を取得します... 成功
+386:						Device Product Name  : Controller (Xbox One For Windows)
+386:						Device Instance Name : Controller (Xbox One For Windows)
+387:					検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
+387:					検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
+388:				検出した DirectInput 対応入力装置の初期化を中断します
+419:			DirectInput 対応ジョイパッドの列挙終了
+420:		ジョイパッドの初期化は正常に終了しました
+420:		マウスデバイスの初期化... 初期化成功
+420:		キーボードデバイスの初期化... 初期化成功
+430:	DirectInput 関連の初期化は正常に終了しました
+436:	WASAPI の初期化を行います
+445:		デバイス名 : ヘッドホン (AirPods Pro)
+452:		デフォルト遅延時間 : 10.000 ms
+452:		最小遅延時間       : 3.000 ms
+452:		遅延時間           : 10.000 ms
+453:		チャンネル数  　   : 2 ch
+454:		量子化ビット深度   : 32 bit
+454:		有効ビット深度　   : 32 bit
+454:		サンプリングレート : 48000 Hz
+455:		データ形式         : 浮動小数点型
+466:		動作モード         : 共有モード
+466:	WASAPI の初期化は正常に終了しました
+475:	d3d11.dll の読み込み.... 成功
+495:	dxgi.dll の読み込み.... 成功
+495:	API CreateDXGIFactory2 のアドレスを取得します.... 成功
+496:	IDXGIFactory2 を作成します.... 成功
+514:	API CreateDXGIFactory6 のアドレスを取得します.... 成功
+515:	IDXGIAdapter を列挙
+516:		Adapter No.0 Desc:NVIDIA GeForce RTX 3060 Laptop GPU  VRAM:6010MB
+516:			Output Device No.0 Name:\\.\DISPLAY5 ( -2400, 460 )-( 0, 1810 )
+517:		Adapter No.1 Desc:Intel(R) Iris(R) Xe Graphics  VRAM:128MB
+518:			Output Device No.0 Name:\\.\DISPLAY1 ( 0, 0 )-( 2560, 1440 )
+518:		Adapter No.2 Desc:Microsoft Basic Render Driver  VRAM:0MB
+519:	API D3D11CreateDevice のアドレスを取得します.... 成功
+519:	IDXGIAdapter を取得します.... 成功
+520:	IDXGIAdapter1 を取得します.... 成功
+521:	IDXGIAdapter2 を取得します.... 成功
+521:	IDXGIAdapter3 を取得します.... 成功
+521:	IDXGIAdapter4 を取得します.... 成功
+522:	Direct3D 11 FeatureLevel 11_0 以上を対象とします
+522:	ID3D11Device オブジェクトを取得します.... 成功
+608:	IDXGIDevice1 を取得します.... 成功
+609:	IDXGIDevice1->SetMaximunFrameLatency( 1 ); を実行しました
+609:	[ウインドウモード 1920x1080 ( 80, 30 )-( 2480, 1380 )]
+610:	IDXGISwapChain2 を作成します.... 成功
+614:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+615:	IDXGIOutput を取得します.... 成功
+616:	Graphics Device:Intel(R) Iris(R) Xe Graphics
+616:	画面のフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
+616:	16bit Zバッファフォーマットは DXGI_FORMAT_D16_UNORM です
+617:	24bit Zバッファフォーマットは DXGI_FORMAT_D24_UNORM_S8_UINT です
+617:	32bit Zバッファフォーマットは DXGI_FORMAT_D32_FLOAT です
+617:	16bit カラーフォーマットは DXGI_FORMAT_B5G6R5_UNORM です
+618:	32bit カラーフォーマットは DXGI_FORMAT_B8G8R8X8_UNORM です
+618:	アルファ付き 16bit カラーフォーマットは DXGI_FORMAT_B4G4R4A4_UNORM です
+618:	アルファ付き 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
+619:	アルファテスト用 16bit カラーフォーマットは DXGI_FORMAT_B5G5R5A1_UNORM です
+619:	アルファテスト用 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
+620:	ＤＸＴ１テクスチャフォーマットは DXGI_FORMAT_BC1_UNORM です
+620:	ＤＸＴ２テクスチャフォーマットは使えません
+620:	ＤＸＴ３テクスチャフォーマットは DXGI_FORMAT_BC2_UNORM です
+621:	ＤＸＴ４テクスチャフォーマットは使えません
+621:	ＤＸＴ５テクスチャフォーマットは DXGI_FORMAT_BC3_UNORM です
+621:	BC7_UNORM テクスチャフォーマットは DXGI_FORMAT_BC7_UNORM です
+621:	BC7_UNORM_SRGB テクスチャフォーマットは DXGI_FORMAT_BC7_UNORM_SRGB です
+623:	ABGR 整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_UNORM です
+623:	ABGR 浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_FLOAT です
+623:	ABGR 浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32B32A32_FLOAT です
+624:	１チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8_UNORM です
+624:	１チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_UNORM です
+624:	１チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_FLOAT です
+624:	１チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32_FLOAT です
+624:	２チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8G8_UNORM です
+625:	２チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_UNORM です
+625:	２チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_FLOAT です
+626:	２チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32_FLOAT です
+626:	描画用 16bit カラーフォーマットは DXGI_FORMAT_B5G6R5_UNORM です
+626:	描画用 32bit カラーフォーマットは DXGI_FORMAT_B8G8R8X8_UNORM です
+627:	描画用アルファ付き 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
+627:	描画用 ABGR 整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_UNORM です
+628:	描画用 ABGR 浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_FLOAT です
+628:	描画用 ABGR 浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32B32A32_FLOAT です
+628:	描画用１チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8_UNORM です
+629:	描画用１チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_UNORM です
+629:	描画用１チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_FLOAT です
+629:	描画用１チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32_FLOAT です
+630:	描画用２チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8G8_UNORM です
+630:	描画用２チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_UNORM です
+631:	描画用２チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_FLOAT です
+631:	描画用２チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32_FLOAT です
+632:	使用する機能レベル:D3D_FEATURE_LEVEL_11_1
+632:	同時にレンダリングできるバッファの数:8
+632:	最大テクスチャサイズ　幅:16384 高さ:16384
+633:	標準描画用の頂点バッファの作成.... 成功
+634:	シェーダーコード関係の初期化.... 成功
+659:	各種シェーダー用定数バッファの作成.... 成功
+662:	各種 ID3D11InputLayout の作成.... 成功
+676:	画像の単純転送処理の初期化... 成功
+677:	深度バッファを作成します.... 成功
+681:	フォントの初期化を行います
+683:	フォントの初期化は正常に終了しました
+767:	文字コードバッファの初期化を行います... 完了しました
+787:ＤＸライブラリの初期化処理終了
+3756:ChangeWindowMode実行 
+3757:ウインドウモードフラグが倒されました
+3757:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+3777:画面モード変更処理を開始します
+3777:	深度バッファを作成します.... 成功
+3778:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
+3779:	IDXGISwapChain2 を作成します.... 成功
+3780:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+3780:	IDXGIOutput を取得します.... 成功
+3781:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+3790:画面モード変更処理は正常に終了しました
+3796:ChangeWindowMode実行 
+3812:ChangeWindowMode実行 
+3829:ChangeWindowMode実行 
+3846:ChangeWindowMode実行 
+3862:ChangeWindowMode実行 
+3879:ChangeWindowMode実行 
+3896:ChangeWindowMode実行 
+3913:ChangeWindowMode実行 
+3929:ChangeWindowMode実行 
+3947:ChangeWindowMode実行 
+3963:ChangeWindowMode実行 
+3980:ChangeWindowMode実行 
+3996:ChangeWindowMode実行 
+4013:ChangeWindowMode実行 
+4031:ChangeWindowMode実行 
+4047:ChangeWindowMode実行 
+4064:ChangeWindowMode実行 
+4080:ChangeWindowMode実行 
+4098:ChangeWindowMode実行 
+4114:ChangeWindowMode実行 
+4131:ChangeWindowMode実行 
+4148:ChangeWindowMode実行 
+4164:ChangeWindowMode実行 
+4182:ChangeWindowMode実行 
+4198:ChangeWindowMode実行 
+4214:ChangeWindowMode実行 
+4231:ChangeWindowMode実行 
+4232:ウインドウモードフラグが立てられました
+4232:ウインドウスタイルをウインドウモード用に変更します... 完了
+4246:画面モード変更処理を開始します
+4247:	深度バッファを作成します.... 成功
+4247:	[ウインドウモード 1920x1080 ( 80, 30 )-( 2480, 1380 )]
+4248:	IDXGISwapChain2 を作成します.... 成功
+4248:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+4248:	IDXGIOutput を取得します.... 成功
+4249:	ウインドウスタイルをウインドウモード用に変更します... 完了
+4250:画面モード変更処理は正常に終了しました
+4259:ChangeWindowMode実行 
+4276:ChangeWindowMode実行 
+4293:ChangeWindowMode実行 
+4310:ChangeWindowMode実行 
+4327:ChangeWindowMode実行 
+4343:ChangeWindowMode実行 
+4361:ChangeWindowMode実行 
+4377:ChangeWindowMode実行 
+4393:ChangeWindowMode実行 
+4410:ChangeWindowMode実行 
+4427:ChangeWindowMode実行 
+4444:ChangeWindowMode実行 
+4460:ChangeWindowMode実行 
+4477:ChangeWindowMode実行 
+4494:ChangeWindowMode実行 
+4510:ChangeWindowMode実行 
+4528:ChangeWindowMode実行 
+4544:ChangeWindowMode実行 
+4561:ChangeWindowMode実行 
+4578:ChangeWindowMode実行 
+4594:ChangeWindowMode実行 
+4610:ChangeWindowMode実行 
+4627:ChangeWindowMode実行 
+4644:ChangeWindowMode実行 
+4661:ChangeWindowMode実行 
+4677:ChangeWindowMode実行 
+4694:ChangeWindowMode実行 
+4712:ChangeWindowMode実行 
+4728:ChangeWindowMode実行 
+4729:ウインドウモードフラグが倒されました
+4729:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+4734:画面モード変更処理を開始します
+4734:	深度バッファを作成します.... 成功
+4736:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
+4736:	IDXGISwapChain2 を作成します.... 成功
+4737:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+4738:	IDXGIOutput を取得します.... 成功
+4739:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+4746:画面モード変更処理は正常に終了しました
+4749:ChangeWindowMode実行 
+4768:ChangeWindowMode実行 
+4785:ChangeWindowMode実行 
+4801:ChangeWindowMode実行 
+4819:ChangeWindowMode実行 
+4835:ChangeWindowMode実行 
+4852:ChangeWindowMode実行 
+4868:ChangeWindowMode実行 
+4885:ChangeWindowMode実行 
+4902:ChangeWindowMode実行 
+4919:ChangeWindowMode実行 
+4936:ChangeWindowMode実行 
+4953:ChangeWindowMode実行 
+4969:ChangeWindowMode実行 
+4986:ChangeWindowMode実行 
+5002:ChangeWindowMode実行 
+5020:ChangeWindowMode実行 
+5036:ChangeWindowMode実行 
+5053:ChangeWindowMode実行 
+5070:ChangeWindowMode実行 
+5087:ChangeWindowMode実行 
+5087:ウインドウモードフラグが立てられました
+5087:ウインドウスタイルをウインドウモード用に変更します... 完了
+5099:画面モード変更処理を開始します
+5099:	深度バッファを作成します.... 成功
+5100:	[ウインドウモード 1920x1080 ( 80, 30 )-( 2480, 1380 )]
+5100:	IDXGISwapChain2 を作成します.... 成功
+5101:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+5101:	IDXGIOutput を取得します.... 成功
+5102:	ウインドウスタイルをウインドウモード用に変更します... 完了
+5104:画面モード変更処理は正常に終了しました
+5112:ChangeWindowMode実行 
+5130:ChangeWindowMode実行 
+5146:ChangeWindowMode実行 
+5163:ChangeWindowMode実行 
+5179:ChangeWindowMode実行 
+5196:ChangeWindowMode実行 
+5213:ChangeWindowMode実行 
+5230:ChangeWindowMode実行 
+5247:ChangeWindowMode実行 
+5263:ChangeWindowMode実行 
+5279:ChangeWindowMode実行 
+5297:ChangeWindowMode実行 
+5313:ChangeWindowMode実行 
+5330:ChangeWindowMode実行 
+5346:ChangeWindowMode実行 
+5363:ChangeWindowMode実行 
+5380:ChangeWindowMode実行 
+5397:ChangeWindowMode実行 
+5413:ChangeWindowMode実行 
+5431:ChangeWindowMode実行 
+5447:ChangeWindowMode実行 
+5448:ウインドウモードフラグが倒されました
+5448:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+5457:画面モード変更処理を開始します
+5457:	深度バッファを作成します.... 成功
+5458:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
+5459:	IDXGISwapChain2 を作成します.... 成功
+5459:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+5460:	IDXGIOutput を取得します.... 成功
+5460:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+5468:画面モード変更処理は正常に終了しました
+5473:ChangeWindowMode実行 
+5490:ChangeWindowMode実行 
+5506:ChangeWindowMode実行 
+5523:ChangeWindowMode実行 
+5540:ChangeWindowMode実行 
+5556:ChangeWindowMode実行 
+5574:ChangeWindowMode実行 
+5591:ChangeWindowMode実行 
+5608:ChangeWindowMode実行 
+5624:ChangeWindowMode実行 
+5640:ChangeWindowMode実行 
+5657:ChangeWindowMode実行 
+5674:ChangeWindowMode実行 
+5690:ChangeWindowMode実行 
+5707:ChangeWindowMode実行 
+5724:ChangeWindowMode実行 
+5741:ChangeWindowMode実行 
+5758:ChangeWindowMode実行 
+5774:ChangeWindowMode実行 
+5791:ChangeWindowMode実行 
+5808:ChangeWindowMode実行 
+5824:ChangeWindowMode実行 
+5841:ChangeWindowMode実行 
+5858:ChangeWindowMode実行 
+5874:ChangeWindowMode実行 
+5892:ChangeWindowMode実行 
+5908:ChangeWindowMode実行 
+5925:ChangeWindowMode実行 
+5942:ChangeWindowMode実行 
+5959:ChangeWindowMode実行 
+5974:ChangeWindowMode実行 
+5992:ChangeWindowMode実行 
+6009:ChangeWindowMode実行 
+6025:ChangeWindowMode実行 
+6042:ChangeWindowMode実行 
+6059:ChangeWindowMode実行 
+6076:ChangeWindowMode実行 
+6092:ChangeWindowMode実行 
+6109:ChangeWindowMode実行 
+6126:ChangeWindowMode実行 
+6142:ChangeWindowMode実行 
+6159:ChangeWindowMode実行 
+6176:ChangeWindowMode実行 
+6192:ChangeWindowMode実行 
+6209:ChangeWindowMode実行 
+6226:ChangeWindowMode実行 
+6242:ChangeWindowMode実行 
+6259:ChangeWindowMode実行 
+6276:ChangeWindowMode実行 
+6293:ChangeWindowMode実行 
+6310:ChangeWindowMode実行 
+6326:ChangeWindowMode実行 
+6343:ChangeWindowMode実行 
+6359:ChangeWindowMode実行 
+6375:ChangeWindowMode実行 
+6394:ChangeWindowMode実行 
+6410:ChangeWindowMode実行 
+6426:ChangeWindowMode実行 
+6443:ChangeWindowMode実行 
+6460:ChangeWindowMode実行 
+6476:ChangeWindowMode実行 
+6493:ChangeWindowMode実行 
+6510:ChangeWindowMode実行 
+6527:ChangeWindowMode実行 
+6543:ChangeWindowMode実行 
+6560:ChangeWindowMode実行 
+6578:ChangeWindowMode実行 
+6594:ChangeWindowMode実行 
+6610:ChangeWindowMode実行 
+6627:ChangeWindowMode実行 
+6644:ChangeWindowMode実行 
+6661:ChangeWindowMode実行 
+6678:ChangeWindowMode実行 
+6694:ChangeWindowMode実行 
+6694:ウインドウモードフラグが立てられました
+6695:ウインドウスタイルをウインドウモード用に変更します... 完了
+6707:画面モード変更処理を開始します
+6708:	深度バッファを作成します.... 成功
+6708:	[ウインドウモード 1920x1080 ( 80, 30 )-( 2480, 1380 )]
+6708:	IDXGISwapChain2 を作成します.... 成功
+6710:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+6710:	IDXGIOutput を取得します.... 成功
+6711:	ウインドウスタイルをウインドウモード用に変更します... 完了
+6712:画面モード変更処理は正常に終了しました
+6720:ChangeWindowMode実行 
+6735:ChangeWindowMode実行 
+6752:ChangeWindowMode実行 
+6770:ChangeWindowMode実行 
+6787:ChangeWindowMode実行 
+6803:ChangeWindowMode実行 
+6819:ChangeWindowMode実行 
+6836:ChangeWindowMode実行 
+6837:ウインドウモードフラグが倒されました
+6837:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+6846:画面モード変更処理を開始します
+6846:	深度バッファを作成します.... 成功
+6847:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
+6847:	IDXGISwapChain2 を作成します.... 成功
+6848:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+6849:	IDXGIOutput を取得します.... 成功
+6849:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+6855:画面モード変更処理は正常に終了しました
+6868:ChangeWindowMode実行 
+6886:ChangeWindowMode実行 
+6902:ChangeWindowMode実行 
+6919:ChangeWindowMode実行 
+6936:ChangeWindowMode実行 
+6952:ChangeWindowMode実行 
+6970:ChangeWindowMode実行 
+6986:ChangeWindowMode実行 
+7002:ChangeWindowMode実行 
+7019:ChangeWindowMode実行 
+7020:ウインドウモードフラグが立てられました
+7020:ウインドウスタイルをウインドウモード用に変更します... 完了
+7030:画面モード変更処理を開始します
+7031:	深度バッファを作成します.... 成功
+7032:	[ウインドウモード 1920x1080 ( 80, 30 )-( 2480, 1380 )]
+7032:	IDXGISwapChain2 を作成します.... 成功
+7032:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+7033:	IDXGIOutput を取得します.... 成功
+7033:	ウインドウスタイルをウインドウモード用に変更します... 完了
+7036:画面モード変更処理は正常に終了しました
+7041:ChangeWindowMode実行 
+7057:ChangeWindowMode実行 
+7074:ChangeWindowMode実行 
+7091:ChangeWindowMode実行 
+7108:ChangeWindowMode実行 
+7124:ChangeWindowMode実行 
+7142:ChangeWindowMode実行 
+7158:ChangeWindowMode実行 
+7175:ChangeWindowMode実行 
+7192:ChangeWindowMode実行 
+7208:ChangeWindowMode実行 
+7208:ウインドウモードフラグが倒されました
+7209:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+7218:画面モード変更処理を開始します
+7218:	深度バッファを作成します.... 成功
+7219:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
+7220:	IDXGISwapChain2 を作成します.... 成功
+7220:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+7222:	IDXGIOutput を取得します.... 成功
+7222:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+7232:画面モード変更処理は正常に終了しました
+7237:ChangeWindowMode実行 
+7254:ChangeWindowMode実行 
+7271:ChangeWindowMode実行 
+7288:ChangeWindowMode実行 
+7304:ChangeWindowMode実行 
+7322:ChangeWindowMode実行 
+7338:ChangeWindowMode実行 
+7338:ウインドウモードフラグが立てられました
+7339:ウインドウスタイルをウインドウモード用に変更します... 完了
+7345:画面モード変更処理を開始します
+7345:	深度バッファを作成します.... 成功
+7346:	[ウインドウモード 1920x1080 ( 80, 30 )-( 2480, 1380 )]
+7347:	IDXGISwapChain2 を作成します.... 成功
+7348:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+7348:	IDXGIOutput を取得します.... 成功
+7349:	ウインドウスタイルをウインドウモード用に変更します... 完了
+7352:画面モード変更処理は正常に終了しました
+7362:ChangeWindowMode実行 
+7379:ChangeWindowMode実行 
+7395:ChangeWindowMode実行 
+7412:ChangeWindowMode実行 
+7429:ChangeWindowMode実行 
+7446:ChangeWindowMode実行 
+7463:ChangeWindowMode実行 
+7480:ChangeWindowMode実行 
+7496:ChangeWindowMode実行 
+7512:ChangeWindowMode実行 
+7514:ウインドウモードフラグが倒されました
+7514:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+7522:画面モード変更処理を開始します
+7523:	深度バッファを作成します.... 成功
+7524:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
+7524:	IDXGISwapChain2 を作成します.... 成功
+7525:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+7525:	IDXGIOutput を取得します.... 成功
+7526:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+7534:画面モード変更処理は正常に終了しました
+7537:ChangeWindowMode実行 
+7554:ChangeWindowMode実行 
+7572:ChangeWindowMode実行 
+7588:ChangeWindowMode実行 
+7604:ChangeWindowMode実行 
+7622:ChangeWindowMode実行 
+7638:ChangeWindowMode実行 
+7655:ChangeWindowMode実行 
+7672:ChangeWindowMode実行 
+7688:ChangeWindowMode実行 
+7705:ChangeWindowMode実行 
+7721:ChangeWindowMode実行 
+7738:ChangeWindowMode実行 
+7755:ChangeWindowMode実行 
+7772:ChangeWindowMode実行 
+7789:ChangeWindowMode実行 
+7805:ChangeWindowMode実行 
+7822:ChangeWindowMode実行 
+7839:ChangeWindowMode実行 
+7856:ChangeWindowMode実行 
+7872:ChangeWindowMode実行 
+7890:ChangeWindowMode実行 
+7906:ChangeWindowMode実行 
+7923:ChangeWindowMode実行 
+7939:ChangeWindowMode実行 
+7957:ChangeWindowMode実行 
+7957:ウインドウモードフラグが立てられました
+7957:ウインドウスタイルをウインドウモード用に変更します... 完了
+7967:画面モード変更処理を開始します
+7967:	深度バッファを作成します.... 成功
+7968:	[ウインドウモード 1920x1080 ( 80, 30 )-( 2480, 1380 )]
+7969:	IDXGISwapChain2 を作成します.... 成功
+7969:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+7970:	IDXGIOutput を取得します.... 成功
+7970:	ウインドウスタイルをウインドウモード用に変更します... 完了
+7973:画面モード変更処理は正常に終了しました
+7979:ChangeWindowMode実行 
+7996:ChangeWindowMode実行 
+8012:ChangeWindowMode実行 
+8029:ChangeWindowMode実行 
+8046:ChangeWindowMode実行 
+8062:ChangeWindowMode実行 
+8079:ChangeWindowMode実行 
+8095:ChangeWindowMode実行 
+8112:ChangeWindowMode実行 
+8129:ChangeWindowMode実行 
+8146:ChangeWindowMode実行 
+8163:ChangeWindowMode実行 
+8179:ChangeWindowMode実行 
+8196:ChangeWindowMode実行 
+8212:ChangeWindowMode実行 
+8230:ChangeWindowMode実行 
+8246:ChangeWindowMode実行 
+8263:ChangeWindowMode実行 
+8279:ChangeWindowMode実行 
+8297:ChangeWindowMode実行 
+8313:ChangeWindowMode実行 
+8330:ChangeWindowMode実行 
+8346:ChangeWindowMode実行 
+8363:ChangeWindowMode実行 
+8381:ChangeWindowMode実行 
+8397:ChangeWindowMode実行 
+8414:ChangeWindowMode実行 
+8430:ChangeWindowMode実行 
+8446:ChangeWindowMode実行 
+8464:ChangeWindowMode実行 
+8464:ウインドウモードフラグが倒されました
+8464:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+8472:画面モード変更処理を開始します
+8472:	深度バッファを作成します.... 成功
+8473:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
+8474:	IDXGISwapChain2 を作成します.... 成功
+8474:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+8475:	IDXGIOutput を取得します.... 成功
+8475:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+8485:画面モード変更処理は正常に終了しました
+8491:ChangeWindowMode実行 
+8508:ChangeWindowMode実行 
+8524:ChangeWindowMode実行 
+8542:ChangeWindowMode実行 
+8558:ChangeWindowMode実行 
+8574:ChangeWindowMode実行 
+8591:ChangeWindowMode実行 
+8609:ChangeWindowMode実行 
+8625:ChangeWindowMode実行 
+8641:ChangeWindowMode実行 
+8659:ChangeWindowMode実行 
+8676:ChangeWindowMode実行 
+8692:ChangeWindowMode実行 
+8708:ChangeWindowMode実行 
+8726:ChangeWindowMode実行 
+8742:ChangeWindowMode実行 
+8758:ChangeWindowMode実行 
+8776:ChangeWindowMode実行 
+8792:ChangeWindowMode実行 
+8809:ChangeWindowMode実行 
+8826:ChangeWindowMode実行 
+8842:ChangeWindowMode実行 
+8860:ChangeWindowMode実行 
+8876:ChangeWindowMode実行 
+8892:ChangeWindowMode実行 
+8893:ウインドウモードフラグが立てられました
+8893:ウインドウスタイルをウインドウモード用に変更します... 完了
+8906:画面モード変更処理を開始します
+8907:	深度バッファを作成します.... 成功
+8907:	[ウインドウモード 1920x1080 ( 80, 30 )-( 2480, 1380 )]
+8908:	IDXGISwapChain2 を作成します.... 成功
+8908:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+8909:	IDXGIOutput を取得します.... 成功
+8909:	ウインドウスタイルをウインドウモード用に変更します... 完了
+8910:画面モード変更処理は正常に終了しました
+8917:ChangeWindowMode実行 
+8935:ChangeWindowMode実行 
+8953:ChangeWindowMode実行 
+8969:ChangeWindowMode実行 
+8985:ChangeWindowMode実行 
+9003:ChangeWindowMode実行 
+9020:ChangeWindowMode実行 
+9037:ChangeWindowMode実行 
+9053:ChangeWindowMode実行 
+9070:ChangeWindowMode実行 
+9086:ChangeWindowMode実行 
+9102:ChangeWindowMode実行 
+9120:ChangeWindowMode実行 
+9137:ChangeWindowMode実行 
+9154:ChangeWindowMode実行 
+9170:ChangeWindowMode実行 
+9187:ChangeWindowMode実行 
+9204:ChangeWindowMode実行 
+9220:ChangeWindowMode実行 
+9237:ChangeWindowMode実行 
+9254:ChangeWindowMode実行 
+9270:ChangeWindowMode実行 
+9289:ChangeWindowMode実行 
+9305:ChangeWindowMode実行 
+9322:ChangeWindowMode実行 
+9339:ChangeWindowMode実行 
+9356:ChangeWindowMode実行 
+9373:ChangeWindowMode実行 
+9389:ChangeWindowMode実行 
+9405:ChangeWindowMode実行 
+9422:ChangeWindowMode実行 
+9439:ChangeWindowMode実行 
+9456:ChangeWindowMode実行 
+9473:ChangeWindowMode実行 
+9490:ChangeWindowMode実行 
+9506:ChangeWindowMode実行 
+9506:ウインドウモードフラグが倒されました
+9506:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+9516:画面モード変更処理を開始します
+9516:	深度バッファを作成します.... 成功
+9517:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
+9519:	IDXGISwapChain2 を作成します.... 成功
+9519:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+9520:	IDXGIOutput を取得します.... 成功
+9520:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+9527:画面モード変更処理は正常に終了しました
+9536:ChangeWindowMode実行 
+9554:ChangeWindowMode実行 
+9570:ChangeWindowMode実行 
+9588:ChangeWindowMode実行 
+9604:ChangeWindowMode実行 
+9620:ChangeWindowMode実行 
+9638:ChangeWindowMode実行 
+9654:ChangeWindowMode実行 
+9671:ChangeWindowMode実行 
+9688:ChangeWindowMode実行 
+9704:ChangeWindowMode実行 
+9721:ChangeWindowMode実行 
+9738:ChangeWindowMode実行 
+9754:ChangeWindowMode実行 
+9772:ChangeWindowMode実行 
+9789:ChangeWindowMode実行 
+9804:ChangeWindowMode実行 
+9822:ChangeWindowMode実行 
+9838:ChangeWindowMode実行 
+9855:ChangeWindowMode実行 
+9872:ChangeWindowMode実行 
+9889:ChangeWindowMode実行 
+9906:ChangeWindowMode実行 
+9922:ChangeWindowMode実行 
+9938:ChangeWindowMode実行 
+9955:ChangeWindowMode実行 
+9973:ChangeWindowMode実行 
+9989:ChangeWindowMode実行 
+10005:ChangeWindowMode実行 
+10022:ChangeWindowMode実行 
+10039:ChangeWindowMode実行 
+10055:ChangeWindowMode実行 
+10073:ChangeWindowMode実行 
+10089:ChangeWindowMode実行 
+10106:ChangeWindowMode実行 
+10122:ChangeWindowMode実行 
+10139:ChangeWindowMode実行 
+10156:ChangeWindowMode実行 
+10172:ChangeWindowMode実行 
+10190:ChangeWindowMode実行 
+10207:ChangeWindowMode実行 
+10223:ChangeWindowMode実行 
+10240:ChangeWindowMode実行 
+10257:ChangeWindowMode実行 
+10273:ChangeWindowMode実行 
+10290:ChangeWindowMode実行 
+10307:ChangeWindowMode実行 
+10323:ChangeWindowMode実行 
+10340:ChangeWindowMode実行 
+10356:ChangeWindowMode実行 
+10374:ChangeWindowMode実行 
+10391:ChangeWindowMode実行 
+10407:ChangeWindowMode実行 
+10424:ChangeWindowMode実行 
+10441:ChangeWindowMode実行 
+10458:ChangeWindowMode実行 
+10474:ChangeWindowMode実行 
+10490:ChangeWindowMode実行 
+10508:ChangeWindowMode実行 
+10524:ChangeWindowMode実行 
+10541:ChangeWindowMode実行 
+10557:ChangeWindowMode実行 
+10575:ChangeWindowMode実行 
+10590:ChangeWindowMode実行 
+10608:ChangeWindowMode実行 
+10624:ChangeWindowMode実行 
+10642:ChangeWindowMode実行 
+10658:ChangeWindowMode実行 
+10674:ChangeWindowMode実行 
+10691:ChangeWindowMode実行 
+10708:ChangeWindowMode実行 
+10724:ChangeWindowMode実行 
+10742:ChangeWindowMode実行 
+10758:ChangeWindowMode実行 
+10774:ChangeWindowMode実行 
+10791:ChangeWindowMode実行 
+10808:ChangeWindowMode実行 
+10825:ChangeWindowMode実行 
+10842:ChangeWindowMode実行 
+10859:ChangeWindowMode実行 
+10875:ChangeWindowMode実行 
+10892:ChangeWindowMode実行 
+10909:ChangeWindowMode実行 
+10925:ChangeWindowMode実行 
+10942:ChangeWindowMode実行 
+10959:ChangeWindowMode実行 
+10976:ChangeWindowMode実行 
+10992:ChangeWindowMode実行 
+11009:ChangeWindowMode実行 
+11026:ChangeWindowMode実行 
+11042:ChangeWindowMode実行 
+11059:ChangeWindowMode実行 
+11076:ChangeWindowMode実行 
+11092:ChangeWindowMode実行 
+11110:ChangeWindowMode実行 
+11126:ChangeWindowMode実行 
+11142:ChangeWindowMode実行 
+11159:ChangeWindowMode実行 
+11177:ChangeWindowMode実行 
+11193:ChangeWindowMode実行 
+11210:ChangeWindowMode実行 
+11227:ChangeWindowMode実行 
+11243:ChangeWindowMode実行 
+11260:ChangeWindowMode実行 
+11277:ChangeWindowMode実行 
+11293:ChangeWindowMode実行 
+11310:ChangeWindowMode実行 
+11327:ChangeWindowMode実行 
+11343:ChangeWindowMode実行 
+11360:ChangeWindowMode実行 
+11377:ChangeWindowMode実行 
+11393:ChangeWindowMode実行 
+11410:ChangeWindowMode実行 
+11426:ChangeWindowMode実行 
+11444:ChangeWindowMode実行 
+11460:ChangeWindowMode実行 
+11477:ChangeWindowMode実行 
+11494:ChangeWindowMode実行 
+11510:ChangeWindowMode実行 
+11528:ChangeWindowMode実行 
+11544:ChangeWindowMode実行 
+11561:ChangeWindowMode実行 
+11577:ChangeWindowMode実行 
+11594:ChangeWindowMode実行 
+11610:ChangeWindowMode実行 
+11627:ChangeWindowMode実行 
+11645:ChangeWindowMode実行 
+11661:ChangeWindowMode実行 
+11678:ChangeWindowMode実行 
+11694:ChangeWindowMode実行 
+11711:ChangeWindowMode実行 
+11727:ChangeWindowMode実行 
+11744:ChangeWindowMode実行 
+11761:ChangeWindowMode実行 
+11782:ChangeWindowMode実行 
+11799:ChangeWindowMode実行 
+11816:ChangeWindowMode実行 
+11832:ChangeWindowMode実行 
+11848:ChangeWindowMode実行 
+11866:ChangeWindowMode実行 
+11884:ChangeWindowMode実行 
+11902:ChangeWindowMode実行 
+11918:ChangeWindowMode実行 
+11935:ChangeWindowMode実行 
+11952:ChangeWindowMode実行 
+11969:ChangeWindowMode実行 
+11985:ChangeWindowMode実行 
+12002:ChangeWindowMode実行 
+12018:ChangeWindowMode実行 
+12035:ChangeWindowMode実行 
+12053:ChangeWindowMode実行 
+12069:ChangeWindowMode実行 
+12086:ChangeWindowMode実行 
+12103:ChangeWindowMode実行 
+12119:ChangeWindowMode実行 
+12135:ChangeWindowMode実行 
+12153:ChangeWindowMode実行 
+12170:ChangeWindowMode実行 
+12186:ChangeWindowMode実行 
+12203:ChangeWindowMode実行 
+12219:ChangeWindowMode実行 
+12236:ChangeWindowMode実行 
+12252:ChangeWindowMode実行 
+12270:ChangeWindowMode実行 
+12288:ChangeWindowMode実行 
+12306:ChangeWindowMode実行 
+12323:ChangeWindowMode実行 
+12339:ChangeWindowMode実行 
+12356:ChangeWindowMode実行 
+12372:ChangeWindowMode実行 
+12390:ChangeWindowMode実行 
+12406:ChangeWindowMode実行 
+12422:ChangeWindowMode実行 
+12440:ChangeWindowMode実行 
+12456:ChangeWindowMode実行 
+12473:ChangeWindowMode実行 
+12490:ChangeWindowMode実行 
+12506:ChangeWindowMode実行 
+12523:ChangeWindowMode実行 
+12540:ChangeWindowMode実行 
+12556:ChangeWindowMode実行 
+12573:ChangeWindowMode実行 
+12590:ChangeWindowMode実行 
+12607:ChangeWindowMode実行 
+12624:ChangeWindowMode実行 
+12640:ChangeWindowMode実行 
+12657:ChangeWindowMode実行 
+12674:ChangeWindowMode実行 
+12691:ChangeWindowMode実行 
+12707:ChangeWindowMode実行 
+12724:ChangeWindowMode実行 
+12740:ChangeWindowMode実行 
+12757:ChangeWindowMode実行 
+12774:ChangeWindowMode実行 
+12791:ChangeWindowMode実行 
+12808:ChangeWindowMode実行 
+12824:ChangeWindowMode実行 
+12840:ChangeWindowMode実行 
+12858:ChangeWindowMode実行 
+12875:ChangeWindowMode実行 
+12892:ChangeWindowMode実行 
+12908:ChangeWindowMode実行 
+12924:ChangeWindowMode実行 
+12941:ChangeWindowMode実行 
+12958:ChangeWindowMode実行 
+12975:ChangeWindowMode実行 
+12992:ChangeWindowMode実行 
+13008:ChangeWindowMode実行 
+13025:ChangeWindowMode実行 
+13042:ChangeWindowMode実行 
+13058:ChangeWindowMode実行 
+13075:ChangeWindowMode実行 
+13092:ChangeWindowMode実行 
+13108:ChangeWindowMode実行 
+13126:ChangeWindowMode実行 
+13142:ChangeWindowMode実行 
+13159:ChangeWindowMode実行 
+13176:ChangeWindowMode実行 
+13192:ChangeWindowMode実行 
+13209:ChangeWindowMode実行 
+13225:ChangeWindowMode実行 
+13243:ChangeWindowMode実行 
+13260:ChangeWindowMode実行 
+13276:ChangeWindowMode実行 
+13292:ChangeWindowMode実行 
+13309:ChangeWindowMode実行 
+13327:ChangeWindowMode実行 
+13342:ChangeWindowMode実行 
+13360:ChangeWindowMode実行 
+13376:ChangeWindowMode実行 
+13393:ChangeWindowMode実行 
+13409:ChangeWindowMode実行 
+13426:ChangeWindowMode実行 
+13443:ChangeWindowMode実行 
+13461:ChangeWindowMode実行 
+13477:ChangeWindowMode実行 
+13493:ChangeWindowMode実行 
+13511:ChangeWindowMode実行 
+13527:ChangeWindowMode実行 
+13543:ChangeWindowMode実行 
+13560:ChangeWindowMode実行 
+13578:ChangeWindowMode実行 
+13594:ChangeWindowMode実行 
+13610:ChangeWindowMode実行 
+13627:ChangeWindowMode実行 
+13644:ChangeWindowMode実行 
+13660:ChangeWindowMode実行 
+13678:ChangeWindowMode実行 
+13694:ChangeWindowMode実行 
+13710:ChangeWindowMode実行 
+13728:ChangeWindowMode実行 
+13744:ChangeWindowMode実行 
+13760:ChangeWindowMode実行 
+13778:ChangeWindowMode実行 
+13779:ウインドウモードフラグが立てられました
+13779:ウインドウスタイルをウインドウモード用に変更します... 完了
+13792:画面モード変更処理を開始します
+13792:	深度バッファを作成します.... 成功
+13793:	[ウインドウモード 1920x1080 ( 80, 30 )-( 2480, 1380 )]
+13793:	IDXGISwapChain2 を作成します.... 成功
+13794:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+13794:	IDXGIOutput を取得します.... 成功
+13794:	ウインドウスタイルをウインドウモード用に変更します... 完了
+13799:画面モード変更処理は正常に終了しました
+13810:ChangeWindowMode実行 
+13828:ChangeWindowMode実行 
+13844:ChangeWindowMode実行 
+13860:ChangeWindowMode実行 
+13877:ChangeWindowMode実行 
+13894:ChangeWindowMode実行 
+13911:ChangeWindowMode実行 
+13927:ChangeWindowMode実行 
+13944:ChangeWindowMode実行 
+13961:ChangeWindowMode実行 
+13977:ChangeWindowMode実行 
+13994:ChangeWindowMode実行 
+14012:ChangeWindowMode実行 
+14028:ChangeWindowMode実行 
+14045:ChangeWindowMode実行 
+14061:ChangeWindowMode実行 
+14078:ChangeWindowMode実行 
+14094:ChangeWindowMode実行 
+14112:ChangeWindowMode実行 
+14129:ChangeWindowMode実行 
+14145:ChangeWindowMode実行 
+14162:ChangeWindowMode実行 
+14179:ChangeWindowMode実行 
+14195:ChangeWindowMode実行 
+14212:ChangeWindowMode実行 
+14228:ChangeWindowMode実行 
+14245:ChangeWindowMode実行 
+14263:ChangeWindowMode実行 
+14279:ChangeWindowMode実行 
+14296:ChangeWindowMode実行 
+14312:ChangeWindowMode実行 
+14329:ChangeWindowMode実行 
+14345:ChangeWindowMode実行 
+14363:ChangeWindowMode実行 
+14363:ウインドウモードフラグが倒されました
+14363:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+14372:画面モード変更処理を開始します
+14372:	深度バッファを作成します.... 成功
+14373:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
+14373:	IDXGISwapChain2 を作成します.... 成功
+14374:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+14375:	IDXGIOutput を取得します.... 成功
+14376:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+14384:画面モード変更処理は正常に終了しました
+14392:ChangeWindowMode実行 
+14409:ChangeWindowMode実行 
+14425:ChangeWindowMode実行 
+14443:ChangeWindowMode実行 
+14459:ChangeWindowMode実行 
+14476:ChangeWindowMode実行 
+14493:ChangeWindowMode実行 
+14510:ChangeWindowMode実行 
+14526:ChangeWindowMode実行 
+14542:ChangeWindowMode実行 
+14560:ChangeWindowMode実行 
+14576:ChangeWindowMode実行 
+14593:ChangeWindowMode実行 
+14610:ChangeWindowMode実行 
+14627:ChangeWindowMode実行 
+14643:ChangeWindowMode実行 
+14659:ChangeWindowMode実行 
+14676:ChangeWindowMode実行 
+14693:ChangeWindowMode実行 
+14710:ChangeWindowMode実行 
+14726:ChangeWindowMode実行 
+14727:ウインドウモードフラグが立てられました
+14727:ウインドウスタイルをウインドウモード用に変更します... 完了
+14738:画面モード変更処理を開始します
+14738:	深度バッファを作成します.... 成功
+14739:	[ウインドウモード 1920x1080 ( 80, 30 )-( 2480, 1380 )]
+14739:	IDXGISwapChain2 を作成します.... 成功
+14740:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+14740:	IDXGIOutput を取得します.... 成功
+14741:	ウインドウスタイルをウインドウモード用に変更します... 完了
+14742:画面モード変更処理は正常に終了しました
+14750:ChangeWindowMode実行 
+14769:ChangeWindowMode実行 
+14786:ChangeWindowMode実行 
+14803:ChangeWindowMode実行 
+14818:ChangeWindowMode実行 
+14835:ChangeWindowMode実行 
+14853:ChangeWindowMode実行 
+14868:ChangeWindowMode実行 
+14886:ChangeWindowMode実行 
+14902:ChangeWindowMode実行 
+14919:ChangeWindowMode実行 
+14935:ChangeWindowMode実行 
+14952:ChangeWindowMode実行 
+14969:ChangeWindowMode実行 
+14987:ChangeWindowMode実行 
+15002:ChangeWindowMode実行 
+15019:ChangeWindowMode実行 
+15044:ChangeWindowMode実行 
+15065:ChangeWindowMode実行 
+15082:ChangeWindowMode実行 
+15082:ウインドウモードフラグが倒されました
+15082:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+15094:画面モード変更処理を開始します
+15094:	深度バッファを作成します.... 成功
+15096:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
+15096:	IDXGISwapChain2 を作成します.... 成功
+15098:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+15098:	IDXGIOutput を取得します.... 成功
+15099:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+15106:画面モード変更処理は正常に終了しました
+15117:ChangeWindowMode実行 
+15134:ChangeWindowMode実行 
+15151:ChangeWindowMode実行 
+15168:ChangeWindowMode実行 
+15185:ChangeWindowMode実行 
+15201:ChangeWindowMode実行 
+15218:ChangeWindowMode実行 
+15235:ChangeWindowMode実行 
+15252:ChangeWindowMode実行 
+15268:ChangeWindowMode実行 
+15286:ChangeWindowMode実行 
+15302:ChangeWindowMode実行 
+15319:ChangeWindowMode実行 
+15335:ChangeWindowMode実行 
+15352:ChangeWindowMode実行 
+15369:ChangeWindowMode実行 
+15387:ChangeWindowMode実行 
+15403:ChangeWindowMode実行 
+15404:ウインドウモードフラグが立てられました
+15404:ウインドウスタイルをウインドウモード用に変更します... 完了
+15413:画面モード変更処理を開始します
+15413:	深度バッファを作成します.... 成功
+15414:	[ウインドウモード 1920x1080 ( 80, 30 )-( 2480, 1380 )]
+15414:	IDXGISwapChain2 を作成します.... 成功
+15415:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+15415:	IDXGIOutput を取得します.... 成功
+15416:	ウインドウスタイルをウインドウモード用に変更します... 完了
+15418:画面モード変更処理は正常に終了しました
+15428:ChangeWindowMode実行 
+15446:ChangeWindowMode実行 
+15462:ChangeWindowMode実行 
+15478:ChangeWindowMode実行 
+15495:ChangeWindowMode実行 
+15512:ChangeWindowMode実行 
+15529:ChangeWindowMode実行 
+15545:ChangeWindowMode実行 
+15561:ChangeWindowMode実行 
+15579:ChangeWindowMode実行 
+15596:ChangeWindowMode実行 
+15612:ChangeWindowMode実行 
+15629:ChangeWindowMode実行 
+15645:ChangeWindowMode実行 
+15662:ChangeWindowMode実行 
+15679:ChangeWindowMode実行 
+15696:ChangeWindowMode実行 
+15696:ウインドウモードフラグが倒されました
+15696:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+15706:画面モード変更処理を開始します
+15706:	深度バッファを作成します.... 成功
+15707:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
+15707:	IDXGISwapChain2 を作成します.... 成功
+15708:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+15708:	IDXGIOutput を取得します.... 成功
+15709:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+15717:画面モード変更処理は正常に終了しました
+15722:ChangeWindowMode実行 
+15738:ChangeWindowMode実行 
+15756:ChangeWindowMode実行 
+15773:ChangeWindowMode実行 
+15789:ChangeWindowMode実行 
+15806:ChangeWindowMode実行 
+15823:ChangeWindowMode実行 
+15840:ChangeWindowMode実行 
+15856:ChangeWindowMode実行 
+15874:ChangeWindowMode実行 
+15891:ChangeWindowMode実行 
+15907:ChangeWindowMode実行 
+15924:ChangeWindowMode実行 
+15940:ChangeWindowMode実行 
+15957:ChangeWindowMode実行 
+15973:ChangeWindowMode実行 
+15991:ChangeWindowMode実行 
+16008:ChangeWindowMode実行 
+16024:ChangeWindowMode実行 
+16041:ChangeWindowMode実行 
+16057:ChangeWindowMode実行 
+16074:ChangeWindowMode実行 
+16075:ウインドウモードフラグが立てられました
+16075:ウインドウスタイルをウインドウモード用に変更します... 完了
+16088:画面モード変更処理を開始します
+16089:	深度バッファを作成します.... 成功
+16089:	[ウインドウモード 1920x1080 ( 80, 30 )-( 2480, 1380 )]
+16090:	IDXGISwapChain2 を作成します.... 成功
+16090:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+16090:	IDXGIOutput を取得します.... 成功
+16092:	ウインドウスタイルをウインドウモード用に変更します... 完了
+16093:画面モード変更処理は正常に終了しました
+16100:ChangeWindowMode実行 
+16118:ChangeWindowMode実行 
+16134:ChangeWindowMode実行 
+16151:ChangeWindowMode実行 
+16167:ChangeWindowMode実行 
+16184:ChangeWindowMode実行 
+16202:ChangeWindowMode実行 
+16218:ChangeWindowMode実行 
+16234:ChangeWindowMode実行 
+16251:ChangeWindowMode実行 
+16268:ChangeWindowMode実行 
+16285:ChangeWindowMode実行 
+16303:ChangeWindowMode実行 
+16319:ChangeWindowMode実行 
+16336:ChangeWindowMode実行 
+16353:ChangeWindowMode実行 
+16370:ChangeWindowMode実行 
+16387:ChangeWindowMode実行 
+16403:ChangeWindowMode実行 
+16421:ChangeWindowMode実行 
+16421:ウインドウモードフラグが倒されました
+16421:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+16430:画面モード変更処理を開始します
+16430:	深度バッファを作成します.... 成功
+16432:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
+16432:	IDXGISwapChain2 を作成します.... 成功
+16432:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+16433:	IDXGIOutput を取得します.... 成功
+16433:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+16440:画面モード変更処理は正常に終了しました
+16451:ChangeWindowMode実行 
+16467:ChangeWindowMode実行 
+16484:ChangeWindowMode実行 
+16501:ChangeWindowMode実行 
+16517:ChangeWindowMode実行 
+16534:ChangeWindowMode実行 
+16551:ChangeWindowMode実行 
+16567:ChangeWindowMode実行 
+16585:ChangeWindowMode実行 
+16601:ChangeWindowMode実行 
+16618:ChangeWindowMode実行 
+16634:ChangeWindowMode実行 
+16651:ChangeWindowMode実行 
+16669:ChangeWindowMode実行 
+16684:ChangeWindowMode実行 
+16702:ChangeWindowMode実行 
+16718:ChangeWindowMode実行 
+16719:ウインドウモードフラグが立てられました
+16719:ウインドウスタイルをウインドウモード用に変更します... 完了
+16729:画面モード変更処理を開始します
+16729:	深度バッファを作成します.... 成功
+16729:	[ウインドウモード 1920x1080 ( 80, 30 )-( 2480, 1380 )]
+16729:	IDXGISwapChain2 を作成します.... 成功
+16731:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+16732:	IDXGIOutput を取得します.... 成功
+16732:	ウインドウスタイルをウインドウモード用に変更します... 完了
+16735:画面モード変更処理は正常に終了しました
+16742:ChangeWindowMode実行 
+16760:ChangeWindowMode実行 
+16776:ChangeWindowMode実行 
+16793:ChangeWindowMode実行 
+16809:ChangeWindowMode実行 
+16826:ChangeWindowMode実行 
+16843:ChangeWindowMode実行 
+16860:ChangeWindowMode実行 
+16877:ChangeWindowMode実行 
+16893:ChangeWindowMode実行 
+16910:ChangeWindowMode実行 
+16927:ChangeWindowMode実行 
+16944:ChangeWindowMode実行 
+16960:ChangeWindowMode実行 
+16976:ChangeWindowMode実行 
+16993:ChangeWindowMode実行 
+17010:ChangeWindowMode実行 
+17027:ChangeWindowMode実行 
+17044:ChangeWindowMode実行 
+17061:ChangeWindowMode実行 
+17061:ウインドウモードフラグが倒されました
+17062:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+17073:画面モード変更処理を開始します
+17074:	深度バッファを作成します.... 成功
+17074:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
+17074:	IDXGISwapChain2 を作成します.... 成功
+17076:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+17076:	IDXGIOutput を取得します.... 成功
+17077:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+17087:画面モード変更処理は正常に終了しました
+17092:ChangeWindowMode実行 
+17108:ChangeWindowMode実行 
+17125:ChangeWindowMode実行 
+17142:ChangeWindowMode実行 
+17158:ChangeWindowMode実行 
+17176:ChangeWindowMode実行 
+17192:ChangeWindowMode実行 
+17208:ChangeWindowMode実行 
+17226:ChangeWindowMode実行 
+17242:ChangeWindowMode実行 
+17259:ChangeWindowMode実行 
+17276:ChangeWindowMode実行 
+17292:ChangeWindowMode実行 
+17309:ChangeWindowMode実行 
+17325:ChangeWindowMode実行 
+17342:ChangeWindowMode実行 
+17359:ChangeWindowMode実行 
+17376:ChangeWindowMode実行 
+17376:ウインドウモードフラグが立てられました
+17377:ウインドウスタイルをウインドウモード用に変更します... 完了
+17385:画面モード変更処理を開始します
+17386:	深度バッファを作成します.... 成功
+17387:	[ウインドウモード 1920x1080 ( 80, 30 )-( 2480, 1380 )]
+17387:	IDXGISwapChain2 を作成します.... 成功
+17388:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+17388:	IDXGIOutput を取得します.... 成功
+17389:	ウインドウスタイルをウインドウモード用に変更します... 完了
+17391:画面モード変更処理は正常に終了しました
+17398:ChangeWindowMode実行 
+17415:ChangeWindowMode実行 
+17432:ChangeWindowMode実行 
+17449:ChangeWindowMode実行 
+17466:ChangeWindowMode実行 
+17483:ChangeWindowMode実行 
+17500:ChangeWindowMode実行 
+17516:ChangeWindowMode実行 
+17533:ChangeWindowMode実行 
+17550:ChangeWindowMode実行 
+17567:ChangeWindowMode実行 
+17584:ChangeWindowMode実行 
+17600:ChangeWindowMode実行 
+17617:ChangeWindowMode実行 
+17618:ウインドウモードフラグが倒されました
+17618:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+17625:画面モード変更処理を開始します
+17626:	深度バッファを作成します.... 成功
+17627:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
+17627:	IDXGISwapChain2 を作成します.... 成功
+17628:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+17628:	IDXGIOutput を取得します.... 成功
+17629:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+17640:画面モード変更処理は正常に終了しました
+17644:ChangeWindowMode実行 
+17660:ChangeWindowMode実行 
+17676:ChangeWindowMode実行 
+17693:ChangeWindowMode実行 
+17711:ChangeWindowMode実行 
+17727:ChangeWindowMode実行 
+17743:ChangeWindowMode実行 
+17760:ChangeWindowMode実行 
+17777:ChangeWindowMode実行 
+17794:ChangeWindowMode実行 
+17811:ChangeWindowMode実行 
+17828:ChangeWindowMode実行 
+17828:ウインドウモードフラグが立てられました
+17828:ウインドウスタイルをウインドウモード用に変更します... 完了
+17839:画面モード変更処理を開始します
+17840:	深度バッファを作成します.... 成功
+17840:	[ウインドウモード 1920x1080 ( 80, 30 )-( 2480, 1380 )]
+17840:	IDXGISwapChain2 を作成します.... 成功
+17841:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+17842:	IDXGIOutput を取得します.... 成功
+17843:	ウインドウスタイルをウインドウモード用に変更します... 完了
+17845:画面モード変更処理は正常に終了しました
+17851:ChangeWindowMode実行 
+17870:ChangeWindowMode実行 
+17887:ChangeWindowMode実行 
+17903:ChangeWindowMode実行 
+17920:ChangeWindowMode実行 
+17937:ChangeWindowMode実行 
+17953:ChangeWindowMode実行 
+17970:ChangeWindowMode実行 
+17987:ChangeWindowMode実行 
+18003:ChangeWindowMode実行 
+18004:ウインドウモードフラグが倒されました
+18004:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+18015:画面モード変更処理を開始します
+18015:	深度バッファを作成します.... 成功
+18016:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
+18016:	IDXGISwapChain2 を作成します.... 成功
+18017:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+18018:	IDXGIOutput を取得します.... 成功
+18018:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+18028:画面モード変更処理は正常に終了しました
+18035:ChangeWindowMode実行 
+18052:ChangeWindowMode実行 
+18070:ChangeWindowMode実行 
+18088:ChangeWindowMode実行 
+18104:ChangeWindowMode実行 
+18122:ChangeWindowMode実行 
+18138:ChangeWindowMode実行 
+18154:ChangeWindowMode実行 
+18172:ChangeWindowMode実行 
+18188:ChangeWindowMode実行 
+18205:ChangeWindowMode実行 
+18222:ChangeWindowMode実行 
+18238:ChangeWindowMode実行 
+18255:ChangeWindowMode実行 
+18272:ChangeWindowMode実行 
+18288:ChangeWindowMode実行 
+18306:ChangeWindowMode実行 
+18322:ChangeWindowMode実行 
+18338:ChangeWindowMode実行 
+18356:ChangeWindowMode実行 
+18356:ウインドウモードフラグが立てられました
+18357:ウインドウスタイルをウインドウモード用に変更します... 完了
+18369:画面モード変更処理を開始します
+18370:	深度バッファを作成します.... 成功
+18370:	[ウインドウモード 1920x1080 ( 80, 30 )-( 2480, 1380 )]
+18371:	IDXGISwapChain2 を作成します.... 成功
+18371:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+18372:	IDXGIOutput を取得します.... 成功
+18372:	ウインドウスタイルをウインドウモード用に変更します... 完了
+18374:画面モード変更処理は正常に終了しました
+18380:ChangeWindowMode実行 
+18398:ChangeWindowMode実行 
+18422:ChangeWindowMode実行 
+18439:ChangeWindowMode実行 
+18455:ChangeWindowMode実行 
+18472:ChangeWindowMode実行 
+18488:ChangeWindowMode実行 
+18506:ChangeWindowMode実行 
+18522:ChangeWindowMode実行 
+18539:ChangeWindowMode実行 
+18556:ChangeWindowMode実行 
+18572:ChangeWindowMode実行 
+18589:ChangeWindowMode実行 
+18606:ChangeWindowMode実行 
+18622:ChangeWindowMode実行 
+18639:ChangeWindowMode実行 
+18656:ChangeWindowMode実行 
+18672:ChangeWindowMode実行 
+18689:ChangeWindowMode実行 
+18690:ウインドウモードフラグが倒されました
+18690:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+18701:画面モード変更処理を開始します
+18702:	深度バッファを作成します.... 成功
+18703:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
+18703:	IDXGISwapChain2 を作成します.... 成功
+18704:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+18705:	IDXGIOutput を取得します.... 成功
+18705:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+18716:画面モード変更処理は正常に終了しました
+18724:ChangeWindowMode実行 
+18740:ChangeWindowMode実行 
+18757:ChangeWindowMode実行 
+18774:ChangeWindowMode実行 
+18790:ChangeWindowMode実行 
+18807:ChangeWindowMode実行 
+18824:ChangeWindowMode実行 
+18840:ChangeWindowMode実行 
+18857:ChangeWindowMode実行 
+18874:ChangeWindowMode実行 
+18890:ChangeWindowMode実行 
+18908:ChangeWindowMode実行 
+18924:ChangeWindowMode実行 
+18941:ChangeWindowMode実行 
+18958:ChangeWindowMode実行 
+18974:ChangeWindowMode実行 
+18991:ChangeWindowMode実行 
+19007:ChangeWindowMode実行 
+19008:ウインドウモードフラグが立てられました
+19008:ウインドウスタイルをウインドウモード用に変更します... 完了
+19020:画面モード変更処理を開始します
+19020:	深度バッファを作成します.... 成功
+19021:	[ウインドウモード 1920x1080 ( 80, 30 )-( 2480, 1380 )]
+19021:	IDXGISwapChain2 を作成します.... 成功
+19022:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+19022:	IDXGIOutput を取得します.... 成功
+19023:	ウインドウスタイルをウインドウモード用に変更します... 完了
+19026:画面モード変更処理は正常に終了しました
+19033:ChangeWindowMode実行 
+19050:ChangeWindowMode実行 
+19069:ChangeWindowMode実行 
+19086:ChangeWindowMode実行 
+19102:ChangeWindowMode実行 
+19120:ChangeWindowMode実行 
+19137:ChangeWindowMode実行 
+19153:ChangeWindowMode実行 
+19170:ChangeWindowMode実行 
+19186:ChangeWindowMode実行 
+19203:ChangeWindowMode実行 
+19221:ChangeWindowMode実行 
+19236:ChangeWindowMode実行 
+19254:ChangeWindowMode実行 
+19270:ChangeWindowMode実行 
+19271:ウインドウモードフラグが倒されました
+19272:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+19282:画面モード変更処理を開始します
+19283:	深度バッファを作成します.... 成功
+19284:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
+19284:	IDXGISwapChain2 を作成します.... 成功
+19285:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+19285:	IDXGIOutput を取得します.... 成功
+19286:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+19296:画面モード変更処理は正常に終了しました
+19306:ChangeWindowMode実行 
+19322:ChangeWindowMode実行 
+19340:ChangeWindowMode実行 
+19356:ChangeWindowMode実行 
+19373:ChangeWindowMode実行 
+19389:ChangeWindowMode実行 
+19406:ChangeWindowMode実行 
+19423:ChangeWindowMode実行 
+19440:ChangeWindowMode実行 
+19456:ChangeWindowMode実行 
+19474:ChangeWindowMode実行 
+19490:ChangeWindowMode実行 
+19507:ChangeWindowMode実行 
+19523:ChangeWindowMode実行 
+19541:ChangeWindowMode実行 
+19557:ChangeWindowMode実行 
+19574:ChangeWindowMode実行 
+19590:ChangeWindowMode実行 
+19607:ChangeWindowMode実行 
+19623:ChangeWindowMode実行 
+19640:ChangeWindowMode実行 
+19657:ChangeWindowMode実行 
+19658:ウインドウモードフラグが立てられました
+19658:ウインドウスタイルをウインドウモード用に変更します... 完了
+19669:画面モード変更処理を開始します
+19669:	深度バッファを作成します.... 成功
+19670:	[ウインドウモード 1920x1080 ( 80, 30 )-( 2480, 1380 )]
+19670:	IDXGISwapChain2 を作成します.... 成功
+19671:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+19672:	IDXGIOutput を取得します.... 成功
+19672:	ウインドウスタイルをウインドウモード用に変更します... 完了
+19674:画面モード変更処理は正常に終了しました
+19684:ChangeWindowMode実行 
+19700:ChangeWindowMode実行 
+19717:ChangeWindowMode実行 
+19733:ChangeWindowMode実行 
+19750:ChangeWindowMode実行 
+19767:ChangeWindowMode実行 
+19784:ChangeWindowMode実行 
+19800:ChangeWindowMode実行 
+19818:ChangeWindowMode実行 
+19834:ChangeWindowMode実行 
+19850:ChangeWindowMode実行 
+19868:ChangeWindowMode実行 
+19884:ChangeWindowMode実行 
+19903:ChangeWindowMode実行 
+19919:ChangeWindowMode実行 
+19937:ChangeWindowMode実行 
+19953:ChangeWindowMode実行 
+19970:ChangeWindowMode実行 
+19986:ChangeWindowMode実行 
+20003:ChangeWindowMode実行 
+20020:ChangeWindowMode実行 
+20037:ChangeWindowMode実行 
+20037:ウインドウモードフラグが倒されました
+20038:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+20050:画面モード変更処理を開始します
+20051:	深度バッファを作成します.... 成功
+20054:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
+20054:	IDXGISwapChain2 を作成します.... 成功
+20054:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+20055:	IDXGIOutput を取得します.... 成功
+20055:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+20067:画面モード変更処理は正常に終了しました
+20071:ChangeWindowMode実行 
+20088:ChangeWindowMode実行 
+20104:ChangeWindowMode実行 
+20121:ChangeWindowMode実行 
+20138:ChangeWindowMode実行 
+20154:ChangeWindowMode実行 
+20171:ChangeWindowMode実行 
+20188:ChangeWindowMode実行 
+20204:ChangeWindowMode実行 
+20222:ChangeWindowMode実行 
+20238:ChangeWindowMode実行 
+20254:ChangeWindowMode実行 
+20271:ChangeWindowMode実行 
+20288:ChangeWindowMode実行 
+20306:ChangeWindowMode実行 
+20322:ChangeWindowMode実行 
+20339:ChangeWindowMode実行 
+20356:ChangeWindowMode実行 
+20372:ChangeWindowMode実行 
+20389:ChangeWindowMode実行 
+20405:ChangeWindowMode実行 
+20422:ChangeWindowMode実行 
+20439:ChangeWindowMode実行 
+20439:ウインドウモードフラグが立てられました
+20440:ウインドウスタイルをウインドウモード用に変更します... 完了
+20450:画面モード変更処理を開始します
+20450:	深度バッファを作成します.... 成功
+20451:	[ウインドウモード 1920x1080 ( 80, 30 )-( 2480, 1380 )]
+20451:	IDXGISwapChain2 を作成します.... 成功
+20452:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+20452:	IDXGIOutput を取得します.... 成功
+20454:	ウインドウスタイルをウインドウモード用に変更します... 完了
+20455:画面モード変更処理は正常に終了しました
+20459:ChangeWindowMode実行 
+20476:ChangeWindowMode実行 
+20499:ChangeWindowMode実行 
+20522:ChangeWindowMode実行 
+20538:ChangeWindowMode実行 
+20555:ChangeWindowMode実行 
+20571:ChangeWindowMode実行 
+20589:ChangeWindowMode実行 
+20605:ChangeWindowMode実行 
+20622:ChangeWindowMode実行 
+20638:ChangeWindowMode実行 
+20655:ChangeWindowMode実行 
+20672:ChangeWindowMode実行 
+20689:ChangeWindowMode実行 
+20705:ChangeWindowMode実行 
+20722:ChangeWindowMode実行 
+20739:ChangeWindowMode実行 
+20755:ChangeWindowMode実行 
+20772:ChangeWindowMode実行 
+20789:ChangeWindowMode実行 
+20805:ChangeWindowMode実行 
+20823:ChangeWindowMode実行 
+20839:ChangeWindowMode実行 
+20840:ウインドウモードフラグが倒されました
+20840:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+20850:画面モード変更処理を開始します
+20850:	深度バッファを作成します.... 成功
+20852:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
+20852:	IDXGISwapChain2 を作成します.... 成功
+20852:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+20853:	IDXGIOutput を取得します.... 成功
+20853:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+20862:画面モード変更処理は正常に終了しました
+20871:ChangeWindowMode実行 
+20887:ChangeWindowMode実行 
+20904:ChangeWindowMode実行 
+20920:ChangeWindowMode実行 
+20937:ChangeWindowMode実行 
+20954:ChangeWindowMode実行 
+20971:ChangeWindowMode実行 
+20988:ChangeWindowMode実行 
+21004:ChangeWindowMode実行 
+21022:ChangeWindowMode実行 
+21038:ChangeWindowMode実行 
+21054:ChangeWindowMode実行 
+21070:ChangeWindowMode実行 
+21088:ChangeWindowMode実行 
+21105:ChangeWindowMode実行 
+21121:ChangeWindowMode実行 
+21138:ChangeWindowMode実行 
+21155:ChangeWindowMode実行 
+21172:ChangeWindowMode実行 
+21172:ウインドウモードフラグが立てられました
+21172:ウインドウスタイルをウインドウモード用に変更します... 完了
+21182:画面モード変更処理を開始します
+21183:	深度バッファを作成します.... 成功
+21184:	[ウインドウモード 1920x1080 ( 80, 30 )-( 2480, 1380 )]
+21184:	IDXGISwapChain2 を作成します.... 成功
+21185:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+21185:	IDXGIOutput を取得します.... 成功
+21186:	ウインドウスタイルをウインドウモード用に変更します... 完了
+21187:画面モード変更処理は正常に終了しました
+21193:ChangeWindowMode実行 
+21210:ChangeWindowMode実行 
+21232:ChangeWindowMode実行 
+21249:ChangeWindowMode実行 
+21265:ChangeWindowMode実行 
+21282:ChangeWindowMode実行 
+21300:ChangeWindowMode実行 
+21316:ChangeWindowMode実行 
+21333:ChangeWindowMode実行 
+21350:ChangeWindowMode実行 
+21367:ChangeWindowMode実行 
+21384:ChangeWindowMode実行 
+21402:ChangeWindowMode実行 
+21418:ChangeWindowMode実行 
+21435:ChangeWindowMode実行 
+21452:ChangeWindowMode実行 
+21468:ChangeWindowMode実行 
+21485:ChangeWindowMode実行 
+21503:ChangeWindowMode実行 
+21519:ChangeWindowMode実行 
+21535:ChangeWindowMode実行 
+21553:ChangeWindowMode実行 
+21570:ChangeWindowMode実行 
+21586:ChangeWindowMode実行 
+21603:ChangeWindowMode実行 
+21619:ChangeWindowMode実行 
+21636:ChangeWindowMode実行 
+21653:ChangeWindowMode実行 
+21670:ChangeWindowMode実行 
+21687:ChangeWindowMode実行 
+21703:ChangeWindowMode実行 
+21720:ChangeWindowMode実行 
+21737:ChangeWindowMode実行 
+21753:ChangeWindowMode実行 
+21770:ChangeWindowMode実行 
+21788:ChangeWindowMode実行 
+21803:ChangeWindowMode実行 
+21821:ChangeWindowMode実行 
+21837:ChangeWindowMode実行 
+21854:ChangeWindowMode実行 
+21870:ChangeWindowMode実行 
+21888:ChangeWindowMode実行 
+21904:ChangeWindowMode実行 
+21921:ChangeWindowMode実行 
+21937:ChangeWindowMode実行 
+21955:ChangeWindowMode実行 
+21971:ChangeWindowMode実行 
+21988:ChangeWindowMode実行 
+22004:ChangeWindowMode実行 
+22022:ChangeWindowMode実行 
+22038:ChangeWindowMode実行 
+22054:ChangeWindowMode実行 
+22072:ChangeWindowMode実行 
+22088:ChangeWindowMode実行 
+22105:ChangeWindowMode実行 
+22122:ChangeWindowMode実行 
+22138:ChangeWindowMode実行 
+22156:ChangeWindowMode実行 
+22172:ChangeWindowMode実行 
+22188:ChangeWindowMode実行 
+22205:ChangeWindowMode実行 
+22222:ChangeWindowMode実行 
+22239:ChangeWindowMode実行 
+22255:ChangeWindowMode実行 
+22272:ChangeWindowMode実行 
+22289:ChangeWindowMode実行 
+22305:ChangeWindowMode実行 
+22323:ChangeWindowMode実行 
+22339:ChangeWindowMode実行 
+22356:ChangeWindowMode実行 
+22372:ChangeWindowMode実行 
+22390:ChangeWindowMode実行 
+22406:ChangeWindowMode実行 
+22423:ChangeWindowMode実行 
+22439:ChangeWindowMode実行 
+22456:ChangeWindowMode実行 
+22473:ChangeWindowMode実行 
+22489:ChangeWindowMode実行 
+22506:ChangeWindowMode実行 
+22524:ChangeWindowMode実行 
+22539:ChangeWindowMode実行 
+22557:ChangeWindowMode実行 
+22573:ChangeWindowMode実行 
+28812:ChangeWindowMode実行 
+28813:ウインドウモードフラグが倒されました
+28813:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+28827:画面モード変更処理を開始します
+28828:	深度バッファを作成します.... 成功
+28829:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
+28829:	IDXGISwapChain2 を作成します.... 成功
+28830:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+28830:	IDXGIOutput を取得します.... 成功
+28831:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+28839:画面モード変更処理は正常に終了しました
+28842:ChangeWindowMode実行 
+28859:ChangeWindowMode実行 
+28875:ChangeWindowMode実行 
+28893:ChangeWindowMode実行 
+28909:ChangeWindowMode実行 
+28926:ChangeWindowMode実行 
+28942:ChangeWindowMode実行 
+28960:ChangeWindowMode実行 
+28976:ChangeWindowMode実行 
+28993:ChangeWindowMode実行 
+29010:ChangeWindowMode実行 
+29026:ChangeWindowMode実行 
+29043:ChangeWindowMode実行 
+29059:ChangeWindowMode実行 
+29077:ChangeWindowMode実行 
+29093:ChangeWindowMode実行 
+29109:ChangeWindowMode実行 
+29126:ChangeWindowMode実行 
+29144:ChangeWindowMode実行 
+29160:ChangeWindowMode実行 
+29177:ChangeWindowMode実行 
+29194:ChangeWindowMode実行 
+34352:Model File Open Error : C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\data\Model\Stage\skydoom.mv1
+66323:ChangeWindowMode実行 
+66341:ChangeWindowMode実行 
+66357:ChangeWindowMode実行 
+66373:ChangeWindowMode実行 
+66391:ChangeWindowMode実行 
+66407:ChangeWindowMode実行 
+66424:ChangeWindowMode実行 
+66440:ChangeWindowMode実行 
+66458:ChangeWindowMode実行 
+66474:ChangeWindowMode実行 
+66491:ChangeWindowMode実行 
+66507:ChangeWindowMode実行 
+66525:ChangeWindowMode実行 
+66541:ChangeWindowMode実行 
+66558:ChangeWindowMode実行 
+66574:ChangeWindowMode実行 
+66591:ChangeWindowMode実行 
+66607:ChangeWindowMode実行 
+66624:ChangeWindowMode実行 
+66641:ChangeWindowMode実行 
+66658:ChangeWindowMode実行 
+66674:ChangeWindowMode実行 
+66691:ChangeWindowMode実行 
+66708:ChangeWindowMode実行 
+66724:ChangeWindowMode実行 
+66742:ChangeWindowMode実行 
+66758:ChangeWindowMode実行 
+66776:ChangeWindowMode実行 
+66792:ChangeWindowMode実行 
+66809:ChangeWindowMode実行 
+66825:ChangeWindowMode実行 
+70228:フォントの初期化を行います
+70229:フォントの初期化は正常に終了しました
+70551:d3d11.dll の解放 1
+70553:dxgi.dll の解放 1
+70554:Direct3D11 のオブジェクト数を出力
+70555:Direct3D11 のオブジェクト合計数 : 0
+70561:DirectInput 関連の終了処理... 完了
+70561:サウンド関連の終了処理... 完了
+70576:ウィンドウ関連の終了処理... ディスプレイ情報のセットアップ開始
+70578:	モニターの数：2  ディスプレイデバイスの数：8
+70578:	No.0  モニター名：\\.\DISPLAY1　2560x1440　32bit　60Hz  120x120dpi
+70579:	No.1  モニター名：\\.\DISPLAY5　1920x1080　32bit　60Hz  120x120dpi
+70594:ディスプレイ情報のセットアップ完了
+70596:ウインドウを閉じようとしています
+70604:ウインドウが破棄されようとしています
+70604:ソフトを終了する準備が整いました
+70682:完了
+70701:ＣＯＭを終了... 完了
+70702:
+70702:Alloc memory dump
+70702:	Total size:0(0.000kb)  Alloc num:0
+70702:

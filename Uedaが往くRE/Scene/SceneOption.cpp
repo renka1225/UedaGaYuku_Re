@@ -2,10 +2,13 @@
 #include "Vec2.h"
 #include "Game.h"
 #include "Input.h"
+#include "Font.h"
 #include "Sound.h"
+#include "LoadCsv.h"
 #include "UiBase.h"
 #include "SceneDebug.h"
 #include "SceneOption.h"
+#include <algorithm>
 #include <cassert>
 
 namespace
@@ -54,16 +57,31 @@ namespace
 		"data/ui/option/arrow.png",
 	};
 
-	const Vec2 kTextPos = { 92.0f, 78.0f }; // テキスト表示位置
+	// 表示位置
+	const std::map<std::string, Vec2> kDispPos =
+	{
+		{"text", { 92.0f, 78.0f }},			// テキスト表示位置
+		{"bar", {800.0f, 380.0f}},			// 音量バー表示位置
+		{"soundText", {750.0f, 300.0f}},	// サウンドのテキスト表示位置
+		{"winText", {750.0f, 300.0f}},		// 画面サイズのテキスト表示位置
+		{"nowWinText", {1200.0f, 370.0f}},	// 現在の画面状態のテキスト表示位置
+		{"vol", { 1650.0f, 370.0f }},		// 現在の音量表示位置
+		{"arrow", {1100.0f, 370.0f}}		// 矢印表示位置
+	};
+	constexpr float kTextInterval = 170.0f;		// テキスト表示間隔
+	constexpr float kWindowModeTextAdj = 25.0f; // 画面サイズ表示位置調整
 
 	const std::string kCursorId = "cursor_option";				// カーソルのID
 	const std::string kSoundCursorId = "cursor_option_sound";	// サウンドカーソルのID
-	constexpr float kCursorInterval = 150.0f;	 // カーソルの表示間隔
+	constexpr float kCursorInterval = 150.0f;					// カーソルの表示間隔
+	constexpr int kSoundBarColor = 0xcf2223;					// 現在の音量バーの色
 }
 
 SceneOption::SceneOption(std::shared_ptr<SceneBase> pScene):
 	m_pPrevScene(pScene),
 	m_afterSelect(SelectSound::kBGM),
+	m_bgmVol(0),
+	m_seVol(0),
 	m_isSound(false),
 	m_isWindow(false)
 {
@@ -86,47 +104,49 @@ SceneOption::~SceneOption()
 
 std::shared_ptr<SceneBase> SceneOption::Update(Input& input)
 {
-	m_pUi->UpdateCursor(kCursorId);
-
 	//選択状態更新
 	if (m_isSound)
 	{
-		UpdateSound(input);		 // サウンド更新
+		UpdateSound(input);	 // サウンド更新
+		m_pUi->UpdateCursor(kSoundCursorId); // カーソル更新
+
+		if (input.IsTriggered(InputId::kBack))
+		{
+			m_isSound = false;
+		}
 	}
 	else if (m_isWindow)
 	{
 		UpdateWindowMode(input); // 画面サイズ更新
+		m_pUi->UpdateCursor(kSoundCursorId); // カーソル更新
+
+		if (input.IsTriggered(InputId::kBack))
+		{
+			m_isWindow = false;
+		}
 	}
 	else
 	{
 		UpdateSelect(input, Select::kSelectNum);
-	}
+		m_pUi->UpdateCursor(kCursorId); // カーソル更新
 
-	if (input.IsTriggered(InputId::kBack))
-	{
-		return m_pPrevScene;
-	}
-	if (input.IsTriggered(InputId::kOk))
-	{
-		if (m_select == Select::kSound)
+		if (input.IsTriggered(InputId::kBack))
 		{
-			m_isSound = true;
+			return m_pPrevScene;
+		}
 
-			// SE選択中にOKボタンを押しても状態が変わらないようにする
-			if (m_afterSelect == SelectSound::kSE)
+		if (input.IsTriggered(InputId::kOk))
+		{
+			if (m_select == Select::kSound)
 			{
-				m_afterSelect = SelectSound::kSE;
-			}
-			else
-			{
+				m_isSound = true;
 				m_afterSelect = SelectSound::kBGM;
 			}
-
-		}
-		else if (m_select == Select::kWindow)
-		{
-			m_isWindow = true;
-			m_afterSelect = SelectWindow::kFullScreen;
+			else if (m_select == Select::kWindow)
+			{
+				m_isWindow = true;
+				m_afterSelect = SelectWindow::kFullScreen;
+			}
 		}
 	}
 
@@ -141,11 +161,11 @@ void SceneOption::Draw()
 	// カーソル表示
 	if (m_isSound)
 	{
-		m_pUi->DrawCursor(kSoundCursorId, m_select, kCursorInterval);
+		m_pUi->DrawCursor(kSoundCursorId, m_afterSelect, kTextInterval);
 	}
 	else if (m_isWindow)
 	{
-		m_pUi->DrawCursor(kCursorId, m_select, kCursorInterval);
+		m_pUi->DrawCursor(kSoundCursorId, 0, kTextInterval);
 	}
 	else
 	{
@@ -163,7 +183,7 @@ void SceneOption::Draw()
 		DrawWindowMode();
 	}
 
-	DrawGraphF(kTextPos.x, kTextPos.y, m_handle[Handle::kText], true);
+	DrawGraphF(kDispPos.at("text").x, kDispPos.at("text").y, m_handle[Handle::kText], true);
 
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_OPTION");
@@ -176,26 +196,26 @@ void SceneOption::UpdateSound(Input& input)
 	if (input.IsTriggered(InputId::kDown))
 	{
 		m_afterSelect = (m_afterSelect + 1) % SelectSound::kSelectSoundNum;
-		//m_pUI->Init();
+		m_pUi->Init();
 		//PlaySoundMem(Sound::GetInstance().[static_cast<int>(Sound::SeKind::kCursor)], DX_PLAYTYPE_BACK);
 	}
 	// 選択状態を1つ上げる
 	if (input.IsTriggered(InputId::kUp))
 	{
 		m_afterSelect = (m_afterSelect + (SelectSound::kSelectSoundNum - 1)) % SelectSound::kSelectSoundNum;
-		//m_pUI->Init();
+		m_pUi->Init();
 		//PlaySoundMem(Sound::GetInstance().m_seHandle[static_cast<int>(Sound::SeKind::kCursor)], DX_PLAYTYPE_BACK);
 	}
 
 	// BGM選択中の場合
 	if (m_afterSelect == SelectSound::kBGM)
 	{
-		//Sound::GetInstance().ChangeBgmVol(input);
+		Sound::GetInstance().ChangeBgmVol(input);
 	}
 	// SE選択中の場合
-	if (m_afterSelect == SelectSound::kSE)
+	else if (m_afterSelect == SelectSound::kSE)
 	{
-		//Sound::GetInstance().ChangeSeVol(input);
+		Sound::GetInstance().ChangeSeVol(input);
 	}
 }
 
@@ -227,55 +247,68 @@ void SceneOption::UpdateWindowMode(Input& input)
 
 void SceneOption::DrawSound()
 {
-	//// サウンドバー表示
-	//DrawGraphF(kSoundBarPos.x, kSoundBarPos.y + kSelectTextInterval * SelectSound::kBGM, m_handle[static_cast<int>(Handle::kSoundBar)], true);
-	//DrawGraphF(kSoundBarPos.x, kSoundBarPos.y + kSelectTextInterval * SelectSound::kSE, m_handle[static_cast<int>(Handle::kSoundBar)], true);
+	// 現在の音量を取得する
+	int bgmVol = Sound::GetInstance().GetBgmVol();
+	int seVol = Sound::GetInstance().GetSeVol();
 
-	//// 音量に合わせて四角の長さを更新する
-	//float bgmBarWidth = kCurrentSoundBarWidth * (Sound::GetBgmVol() / 100.0f);
-	//float seBarWidth = kCurrentSoundBarWidth * (Sound::GetSeVol() / 100.0f);
-	//DrawBoxAA(kCurrentSoundBarPos.x, kCurrentSoundBarPos.y + kSelectTextInterval * SelectSound::kBGM,
-	//	kCurrentSoundBarPos.x + bgmBarWidth, kCurrentSoundBarPos.y + kCurrentSoundBarHeight + kSelectTextInterval * SelectSound::kBGM,
-	//	kCurrentSoundBarColor, true);
-	//DrawBoxAA(kCurrentSoundBarPos.x, kCurrentSoundBarPos.y + kSelectTextInterval * SelectSound::kSE,
-	//	kCurrentSoundBarPos.x + seBarWidth, kCurrentSoundBarPos.y + kCurrentSoundBarHeight + kSelectTextInterval * SelectSound::kSE,
-	//	kCurrentSoundBarColor, true);
+	// サウンドバー表示
+	DrawGraphF(kDispPos.at("bar").x, kDispPos.at("bar").y + kTextInterval * static_cast<int>(SelectSound::kBGM), m_handle[Handle::kSoundBar], true);
+	DrawGraphF(kDispPos.at("bar").x, kDispPos.at("bar").y + kTextInterval * static_cast<int>(SelectSound::kSE), m_handle[Handle::kSoundBar], true);
 
-	//// 音量によってつまみの位置を更新する
-	//float bgmKnobPosX = kSoundKnobMinPosX + (kSoundKnobPos.x - kSoundKnobMinPosX) * (Sound::GetBgmVol() / 100.0f);
-	//float seKnobPosX = kSoundKnobMinPosX + (kSoundKnobPos.x - kSoundKnobMinPosX) * (Sound::GetSeVol() / 100.0f);
-	//DrawGraphF(bgmKnobPosX, kSoundKnobPos.y + kSelectTextInterval * SelectSound::kBGM, m_handle[static_cast<int>(Handle::kSoundKnob)], true);
-	//DrawGraphF(seKnobPosX, kSoundKnobPos.y + kSelectTextInterval * SelectSound::kSE, m_handle[static_cast<int>(Handle::kSoundKnob)], true);
+	// 音量に合わせて四角の長さを更新する
+	std::string barId = "bar_sound";
+	auto bgData = LoadCsv::GetInstance().GetUiData(barId);
 
-	//// テキスト表示
-	//DrawStringFToHandle(kAfterSelectTextPos.x, kAfterSelectTextPos.y + kSelectTextInterval * SelectSound::kBGM,
-	//	"BGM", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kOption)]);
-	//DrawStringFToHandle(kAfterSelectTextPos.x, kAfterSelectTextPos.y + kSelectTextInterval * SelectSound::kSE,
-	//	"SE", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kOption)]);
-	//DrawFormatStringFToHandle(kSoundNumTextPos.x, kSoundNumTextPos.y + kSelectTextInterval * SelectSound::kBGM,
-	//	kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kOption)], "%d", Sound::GetBgmVol());
-	//DrawFormatStringFToHandle(kSoundNumTextPos.x, kSoundNumTextPos.y + kSelectTextInterval * SelectSound::kSE,
-	//	kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kOption)], "%d", Sound::GetSeVol());
+	float bgmBarWidth = bgData.width * (bgmVol / 100.0f);	// BGMバーの横幅
+	float seBarWidth = bgData.width * (seVol / 100.0f);		// SEバーの横幅
+
+	// BGM
+	DrawBoxAA(bgData.LTposX, bgData.LTposY + kTextInterval * static_cast<int>(SelectSound::kBGM),
+		bgData.LTposX + bgmBarWidth, bgData.RBposY + kTextInterval * static_cast<int>(SelectSound::kBGM),
+		kSoundBarColor, true);
+
+	// SE
+	DrawBoxAA(bgData.LTposX, bgData.LTposY + kTextInterval * static_cast<int>(SelectSound::kSE),
+		bgData.LTposX + seBarWidth, bgData.RBposY + kTextInterval * static_cast<int>(SelectSound::kSE),
+		kSoundBarColor, true);
+
+	// 音量によってつまみの位置を更新する
+	//float bgmKnobPosX = kSoundKnobMinPosX + (kSoundKnobPos.x - kSoundKnobMinPosX) * (bgmVol / 100.0f);
+	//float seKnobPosX = kSoundKnobMinPosX + (kSoundKnobPos.x - kSoundKnobMinPosX) * (seVol / 100.0f);
+	//DrawGraphF(bgmKnobPosX, kSoundKnobPos.y + kSelectTextInterval * static_cast<int>(SelectSound::kBGM), m_handle[static_cast<int>(Handle::kSoundBarKnob)], true);
+	//DrawGraphF(seKnobPosX, kSoundKnobPos.y + kSelectTextInterval * static_cast<int>(SelectSound::kSE), m_handle[static_cast<int>(Handle::kSoundBarKnob)], true);
+
+	// テキスト表示
+	DrawStringFToHandle(kDispPos.at("soundText").x, kDispPos.at("soundText").y + kTextInterval * static_cast<int>(SelectSound::kBGM),
+		"BGM", Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kOption_soundText)]);
+	DrawStringFToHandle(kDispPos.at("soundText").x, kDispPos.at("soundText").y + kTextInterval * static_cast<int>(SelectSound::kSE),
+		"SE", Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kOption_soundText)]);
+
+	// 音量表示
+	DrawFormatStringFToHandle(kDispPos.at("vol").x, kDispPos.at("vol").y + kTextInterval * static_cast<int>(SelectSound::kBGM),
+		Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kOption_soundVol)], "%d", bgmVol);
+	DrawFormatStringFToHandle(kDispPos.at("vol").x, kDispPos.at("vol").y + kTextInterval * static_cast<int>(SelectSound::kSE),
+		Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kOption_soundVol)], "%d", seVol);
 }
 
 void SceneOption::DrawWindowMode()
 {
-	// テキスト表示
-	//DrawStringFToHandle(kAfterSelectTextPos.x, kAfterSelectTextPos.y,
-	//	"ウィンドウモード", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kOption)]);
+	//テキスト表示
+	DrawStringFToHandle(kDispPos.at("winText").x, kDispPos.at("winText").y,
+		"ウィンドウモード", Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kOption_window)]);
 
-	//// 矢印表示
-	//DrawGraphF(kArrowPos.x, kArrowPos.y, m_handle[static_cast<int>(Handle::kArrow)], true);
+	if (m_afterSelect == SelectWindow::kFullScreen)
+	{
+		DrawStringFToHandle(kDispPos.at("nowWinText").x, kDispPos.at("nowWinText").y,
+			"フルスクリーン", Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kOption_window)]);
+	}
+	else
+	{
+		// テキスト表示
+		DrawStringFToHandle(kDispPos.at("nowWinText").x + kWindowModeTextAdj, kDispPos.at("nowWinText").y,
+			"ウィンドウ", Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kOption_window)]);
+	}
 
-	//if (m_afterSelect == SelectWindow::kFullScreen)
-	//{
-	//	DrawStringFToHandle(kWindowModeTextPos.x, kWindowModeTextPos.y,
-	//		"フルスクリーン", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kOption)]);
-	//}
-	//else
-	//{
-	//	// テキスト表示
-	//	DrawStringFToHandle(kWindowModeTextPos.x + kWindowModeTextAdj, kWindowModeTextPos.y,
-	//		"ウィンドウ", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kOption)]);
-	//}
+	// 矢印表示
+	DrawGraphF(kDispPos.at("arrow").x, kDispPos.at("arrow").y, m_handle[static_cast<int>(Handle::kArrow)], true);
 }

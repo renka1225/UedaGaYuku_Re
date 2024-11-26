@@ -276,6 +276,8 @@ int SceneEnhance::GetSelectSkillStep()
 	{
 		return m_pPlayer->GetEnhanceStep().nowAtkUpStep;
 	}
+
+	return 0;
 }
 
 std::string SceneEnhance::GetSkillId(int select, int nowStep)
