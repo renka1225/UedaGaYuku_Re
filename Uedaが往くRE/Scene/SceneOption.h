@@ -15,7 +15,7 @@ public:
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	virtual ~SceneOption() {}
+	virtual ~SceneOption();
 
 	/// <summary>
 	/// 初期化
@@ -35,14 +35,17 @@ public:
 	virtual void Draw() override;
 
 private:
-	enum Select
-	{
-		kSound,		// サウンド
-		kWindow,	// 画面サイズ
-		kCredit,	// クレジット
-		kSelectNum	// 選択数
-	};
+	void UpdateSound(Input& input);		 // サウンド更新
+	void UpdateWindowMode(Input& input); // 画面サイズの変更
+	void DrawSound();					 // サウンド部分表示
+	void DrawWindowMode();				 // 画面サイズ部分表示
+
+private:
 
 	std::shared_ptr<SceneBase> m_pPrevScene;	// 前に実行していたシーン
+
+	int m_afterSelect;	// 選択後の状態
+	bool m_isSound;		// サウンドが選択中か(true:選択中)
+	bool m_isWindow;	// 画面サイズが選択中か(true:選択中)
 };
 
