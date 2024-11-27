@@ -24,10 +24,10 @@ namespace
 	{
 		"data/ui/cursor.png",
 		"data/ui/minimap.png",
-		"data/ui/battleNow.png",
-		"data/ui/battleStart/yanki.png",
-		"data/ui/battleStart/tinpira.png",
-		"data/ui/battleStart/narikin.png",
+		"data/ui/battle/battleNow.png",
+		"data/ui/battle/yanki.png",
+		"data/ui/battle/tinpira.png",
+		"data/ui/battle/narikin.png",
 	};
 
 	constexpr float kCursorSpeed = 60.0f;		// カーソルの横幅の伸びる量

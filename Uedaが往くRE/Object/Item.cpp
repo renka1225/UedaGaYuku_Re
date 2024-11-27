@@ -8,29 +8,29 @@
 namespace
 {
 	// アイテムモデルのパス
-	const std::string kItemHandleFile = "data/model/item/";
-	const std::map<int, std::string> kItemHandlePath
+	const std::string kItemModelFile = "data/model/item/";
+	const std::map<int, std::string> kItemModelPath
 	{
-		//{ Item::ItemType::kHpSmall,  kItemHandleFile + "hpSmall.mv1"},
-		//{ Item::ItemType::kHpMiddle,  kItemHandleFile + "hpMiddle.mv1"},
-		//{ Item::ItemType::kHpLarge,  kItemHandleFile + "hpLarge.mv1"},
-		//{ Item::ItemType::kGaugeSmall,  kItemHandleFile + "gaugeSmall.mv1"},
-		//{ Item::ItemType::kGaugeLarge,  kItemHandleFile + "gaugeLarge.mv1"},
-		//{ Item::ItemType::kHpGaugeSmall,  kItemHandleFile + "hpGaugeSmall.mv1"},
-		//{ Item::ItemType::kHpGaugeLarge,  kItemHandleFile + "hpGaugeLarge.mv1"},
-		//{ Item::ItemType::kAtkSmall,  kItemHandleFile + "atkSmall.mv1"},
-		//{ Item::ItemType::kAtkLarge,  kItemHandleFile + "atkLarge.mv1"},
+		//{ Item::ItemType::kHpSmall,  kItemModelFile + "hpSmall.mv1"},
+		//{ Item::ItemType::kHpMiddle,  kItemModelFile + "hpMiddle.mv1"},
+		//{ Item::ItemType::kHpLarge,  kItemModelFile + "hpLarge.mv1"},
+		//{ Item::ItemType::kGaugeSmall,  kItemModelFile + "gaugeSmall.mv1"},
+		//{ Item::ItemType::kGaugeLarge,  kItemModelFile + "gaugeLarge.mv1"},
+		//{ Item::ItemType::kHpGaugeSmall,  kItemModelFile + "hpGaugeSmall.mv1"},
+		//{ Item::ItemType::kHpGaugeLarge,  kItemModelFile + "hpGaugeLarge.mv1"},
+		//{ Item::ItemType::kAtkSmall,  kItemModelFile + "atkSmall.mv1"},
+		//{ Item::ItemType::kAtkLarge,  kItemModelFile + "atkLarge.mv1"},
 
 		// 仮モデル
-		{ Item::ItemType::kHpSmall,  kItemHandleFile + "item1.mv1"},
-		{ Item::ItemType::kHpMiddle,  kItemHandleFile + "item1.mv1"},
-		{ Item::ItemType::kHpLarge,  kItemHandleFile + "item1.mv1"},
-		{ Item::ItemType::kGaugeSmall,  kItemHandleFile + "item2.mv1"},
-		{ Item::ItemType::kGaugeLarge,  kItemHandleFile + "item2.mv1"},
-		{ Item::ItemType::kHpGaugeSmall,  kItemHandleFile + "item3.mv1"},
-		{ Item::ItemType::kHpGaugeLarge,  kItemHandleFile + "item3.mv1"},
-		{ Item::ItemType::kAtkSmall,  kItemHandleFile + "item4.mv1"},
-		{ Item::ItemType::kAtkLarge,  kItemHandleFile + "item4.mv1"},
+		{ Item::ItemType::kHpSmall,  kItemModelFile + "item1.mv1"},
+		{ Item::ItemType::kHpMiddle,  kItemModelFile + "item2.mv1"},
+		{ Item::ItemType::kHpLarge,  kItemModelFile + "item3.mv1"},
+		{ Item::ItemType::kGaugeSmall,  kItemModelFile + "item4.mv1"},
+		{ Item::ItemType::kGaugeLarge,  kItemModelFile + "item5.mv1"},
+		{ Item::ItemType::kHpGaugeSmall,  kItemModelFile + "item6.mv1"},
+		{ Item::ItemType::kHpGaugeLarge,  kItemModelFile + "item7.mv1"},
+		{ Item::ItemType::kAtkSmall,  kItemModelFile + "item8.mv1"},
+		{ Item::ItemType::kAtkLarge,  kItemModelFile + "item9.mv1"},
 	};
 
 	const float kItemColRadius = 5.0f;	// アイテムの当たり判定の半径
@@ -56,7 +56,7 @@ void Item::Init()
 	m_modelHandle.resize(Item::ItemType::kItemKind);
 	for (int i = 0; i < m_modelHandle.size(); i++)
 	{
-		m_modelHandle[i] = MV1LoadModel(kItemHandlePath.at(i).c_str());
+		m_modelHandle[i] = MV1LoadModel(kItemModelPath.at(i).c_str());
 		MV1SetScale(m_modelHandle[i], VGet(kItemScale, kItemScale, kItemScale));
 	}
 }

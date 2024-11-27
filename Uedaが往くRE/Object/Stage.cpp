@@ -13,9 +13,9 @@ namespace
 
     // ステージサイズ
     const VECTOR kStageScale = VGet(10.0f, 10.0f, 10.0f);
-    const VECTOR kSkydoomScale = VGet(15.0f, 15.0f, 15.0f);
+    const VECTOR kSkydoomScale = VGet(10.0f, 10.0f, 10.0f);
     const VECTOR kStagePos = VGet(0.0f, 0.0f, 0.0f);
-    const VECTOR kSkydoomPos = VGet(-2000.0f, 0.0f, 0.0f);
+    const VECTOR kSkydoomPos = VGet(0.0f, 0.0f, 0.0f);
 
     // 当たり判定
     constexpr float kDefaultSize = 50.0f;	 // 周囲のポリゴン検出に使用する球の初期サイズ

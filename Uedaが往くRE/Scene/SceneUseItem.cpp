@@ -9,8 +9,22 @@
 
 namespace
 {
-	const char* kBgHandlePath = "data/ui/useItem/bg.png";
-	const char* kCursorHandlePath = "data/ui/useItem/cursor.png";
+	// 画像の種類
+	enum Handle
+	{
+		kBg,	 // 背景
+		kText,	 // テキスト
+		kItem,	 // アイテム
+		kCursor, // カーソル
+		kNum
+	};
+
+	const char* kHandlePath[Handle::kNum]
+	{
+		"data/ui/useItem/bg.png",
+		"data/ui/useItem/item.png",
+		"data/ui/useItem/cursor.png"
+	};
 
 	constexpr int kSelectMin = 0;	 // 選択アイテムの最小番号
 	constexpr int kSelectMax = 12;	 // 選択アイテムの最大番号
@@ -21,15 +35,6 @@ namespace
 	const Vec2 kCursorMove = { 178.0f, 220.0f };		// カーソルの移動量
 	const Vec2 kDispItemNamePos = { 250.0f, 790.0f };	// アイテム名表示位置
 	const Vec2 kDispItemExplainPos = { 300.0f, 900.0f };// アイテム説明表示位置
-
-	enum Handle
-	{
-		kBg,	 // 背景
-		kText,	 // テキスト
-		kItem,	 // アイテム
-		kCursor, // カーソル
-		kNum
-	};
 }
 
 SceneUseItem::SceneUseItem(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer)
@@ -41,8 +46,10 @@ SceneUseItem::SceneUseItem(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Pl
 	m_possessItem.resize(kSelectMax);
 
 	m_handle.resize(Handle::kNum);
-	m_handle[Handle::kBg] = LoadGraph(kBgHandlePath);
-	m_handle[Handle::kCursor] = LoadGraph(kCursorHandlePath);
+	for (int i = 0; i < m_handle.size(); i++)
+	{
+		m_handle[i] = LoadGraph(kHandlePath[i]);
+	}
 }
 
 SceneUseItem::~SceneUseItem()
