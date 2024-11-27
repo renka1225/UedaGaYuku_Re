@@ -13,10 +13,9 @@ namespace
 	enum Handle
 	{
 		kBg,	 // 背景
-		kText,	 // テキスト
 		kItem,	 // アイテム
 		kCursor, // カーソル
-		kNum
+		kNum	 // 画像の種類数
 	};
 
 	const char* kHandlePath[Handle::kNum]
@@ -26,15 +25,23 @@ namespace
 		"data/ui/useItem/cursor.png"
 	};
 
+	// 表示位置
+	const std::map<std::string, Vec2> kDispPos
+	{
+		{"cursor", { 420.0f, 280.0f }},			// 初期カーソル
+		{"itemName", { 250.0f, 790.0f }},		// アイテム名
+		{"itemExplain", { 300.0f, 900.0f }},	// アイテム説明
+		{"itemHandle", {505.0f, 390.0f}}		// アイテム画像
+	};
+	const Vec2 kItemHandleInterval = { 180.0f, 220.0f };	// アイテム画像表示間隔
+	const Vec2 kItemSize = {73.0f, 182.0f};					// アイテム画像の1つあたりのサイズ
+
+	const Vec2 kCursorMove = { 178.0f, 220.0f }; // カーソルの移動量
+
 	constexpr int kSelectMin = 0;	 // 選択アイテムの最小番号
 	constexpr int kSelectMax = 12;	 // 選択アイテムの最大番号
 	constexpr int kSelectRow = 2;	 // 選択アイテムの行数
 	constexpr int kSelectCol = 6;	 // 選択アイテムの列数
-	
-	const Vec2 kCursorPos = { 420.0f, 280.0f };			// 初期カーソル表示位置
-	const Vec2 kCursorMove = { 178.0f, 220.0f };		// カーソルの移動量
-	const Vec2 kDispItemNamePos = { 250.0f, 790.0f };	// アイテム名表示位置
-	const Vec2 kDispItemExplainPos = { 300.0f, 900.0f };// アイテム説明表示位置
 }
 
 SceneUseItem::SceneUseItem(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer)
@@ -98,8 +105,24 @@ void SceneUseItem::Draw()
 		// アイテムの情報がない部分は無視する
 		if (m_possessItem[i] == -1) continue;
 		
+		
+		// アイテム画像の表示位置を決める
+		Vec2 disp;
+		if (i < kSelectCol)
+		{
+			disp.x = kDispPos.at("itemHandle").x + kItemHandleInterval.x * i;
+			disp.y = kDispPos.at("itemHandle").y;
+		}
+		else
+		{
+			disp.x = kDispPos.at("itemHandle").x + kItemHandleInterval.x * (i % kSelectCol);
+			disp.y = kDispPos.at("itemHandle").y + kItemHandleInterval.y;
+		}
+
 		// アイテムの画像を表示する
-		//DrawGraph(100 + 200 * i, 300, m_handle[i], true);
+		DrawRectRotaGraphF(disp.x, disp.y,
+			static_cast<int>(kItemSize.x) * m_possessItem[i], 0, static_cast<int>(kItemSize.x), static_cast<int>(kItemSize.y),
+			1.0f, 0.0f, m_handle[Handle::kItem], true);
 
 		// 選択中のアイテム名を表示する
 		if (m_select == i)
@@ -107,10 +130,10 @@ void SceneUseItem::Draw()
 			std::string itemName = m_pItem->GetItemData(m_possessItem[i]).itemName;
 			std::string itemExplain = m_pItem->GetItemData(m_possessItem[i]).itemExplain;
 
-			DrawFormatStringFToHandle(kDispItemNamePos.x, kDispItemNamePos.y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kMenu_itemName)],
+			DrawFormatStringFToHandle(kDispPos.at("itemName").x, kDispPos.at("itemName").y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kMenu_itemName)],
 				"%s", itemName.c_str());
 
-			DrawFormatStringFToHandle(kDispItemExplainPos.x, kDispItemExplainPos.y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kMenu_itemExplain)],
+			DrawFormatStringFToHandle(kDispPos.at("itemExplain").x, kDispPos.at("itemExplain").y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kMenu_itemExplain)],
 				"%s", itemExplain.c_str());
 		}
 	}
@@ -186,12 +209,12 @@ void SceneUseItem::DrawCursor()
 	float dispY;
 	if (m_select < kSelectCol)
 	{
-		dispY = kCursorPos.y;
+		dispY = kDispPos.at("cursor").y;
 	}
 	else
 	{
-		dispY = kCursorPos.y + kCursorMove.y;
+		dispY = kDispPos.at("cursor").y + kCursorMove.y;
 	}
 
-	DrawGraphF(kCursorPos.x + ((m_select % kSelectCol) * kCursorMove.x), dispY, m_handle[Handle::kCursor], true);
+	DrawGraphF(kDispPos.at("cursor").x + ((m_select % kSelectCol) * kCursorMove.x), dispY, m_handle[Handle::kCursor], true);
 }

@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "LoadCsv.h"
 #include "Player.h"
+#include "EnemyBase.h"
 #include "UiBase.h"
 #include <algorithm>
 
@@ -13,6 +14,8 @@ namespace
 	{
 		kCursor,		// カーソル
 		kMiniMap,		// ミニマップ
+		kIconEnemy,		// ミニマップ上に表示する敵アイコン
+		kIconPlayer,	// ミニマップ上に表示するプレイヤーアイコン
 		kBattleNow,		// バトル中表示
 		kEnemy_yanki,	// ヤンキー
 		kEnemy_tinpira,	// チンピラ
@@ -23,7 +26,9 @@ namespace
 	const char* kHandle[Handle::kHandleNum]
 	{
 		"data/ui/cursor.png",
-		"data/ui/minimap.png",
+		"data/ui/map/minimap.png",
+		"data/ui/map/icon_enemy.png",
+		"data/ui/map/icon_player.png",
 		"data/ui/battle/battleNow.png",
 		"data/ui/battle/yanki.png",
 		"data/ui/battle/tinpira.png",
@@ -46,6 +51,7 @@ namespace
 	constexpr float kWorldDepth = 10000.0f;			// ワールド座標の最大奥行き
 	constexpr int kMapSize = 1000;					// ミニマップのサイズ
 	constexpr int kViewMapSize = 280;				// ミニマップ表示範囲
+	constexpr float kIconScale = 0.5f;				// キャラアイコン拡大率
 
 	const Vec2 kBattleNowPos = { 1550.0f, 50.0f };	// バトル中表示
 	constexpr float kNowBattleMoveSpeed = 13.0f;	// バトル中UIの移動速度
@@ -122,7 +128,7 @@ void UiBase::DrawBattleStart()
 	DrawRectRotaGraphF(kDispBattleStartPos.x, kDispBattleStartPos.y, 0, 0, sizeW, sizeH, m_dispEnemyKindScale, 0.0f, m_handle[Handle::kEnemy_tinpira], true);
 }
 
-void UiBase::DrawBattleUi(Player& pPlayer)
+void UiBase::DrawBattleUi(const Player& pPlayer)
 {
 	// バトル中の場合
 	if (pPlayer.GetIsBattle())
@@ -139,21 +145,21 @@ void UiBase::DrawBattleUi(Player& pPlayer)
 	}
 }
 
-void UiBase::DrawMiniMap(Player& pPlayer)
+void UiBase::DrawMiniMap(const Player& pPlayer, std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 {
 	VECTOR playerPos = pPlayer.GetPos();
 
-	// ワールド座標を正規化（0～1の範囲に変換）
-	float normX = playerPos.x / kWorldWidth;
-	float normY = playerPos.z / kWorldDepth;
+	// プレイヤーのワールド座標を正規化（0～1の範囲に変換）
+	float normPlayerX = playerPos.x / kWorldWidth;
+	float normPlayerY = playerPos.z / kWorldDepth;
 
 	// ミニマップ用の座標に変換
-	int mapX = static_cast<int>(normX * kMapSize);
-	int mapY = static_cast<int>(normY * kMapSize);
+	int mapPlayerX = static_cast<int>(normPlayerX * kMapSize);
+	int mapPlayerY = static_cast<int>(normPlayerY * kMapSize);
 
 	// プレイヤーの位置に応じてマップの切り出し位置を変更する
-	int srcX = mapX - kViewMapSize / 2;
-	int srcY = mapY - kViewMapSize / 2;
+	int srcX = mapPlayerX - kViewMapSize / 2;
+	int srcY = mapPlayerY - kViewMapSize / 2;
 
 	// マップをはみ出さないようにする
 	srcX = std::clamp(srcX, 0, kMapSize - kViewMapSize);
@@ -162,7 +168,30 @@ void UiBase::DrawMiniMap(Player& pPlayer)
 	// ミニマップ表示
 	DrawRectRotaGraphF(kMapPos.x, kMapPos.y, srcX, srcY, kViewMapSize, kViewMapSize, 1.0f, 0.0f, m_handle[Handle::kMiniMap], true);
 
+	// 敵のアイコンを表示
+	for (auto& enemy : pEnemy)
+	{
+		VECTOR enemyPos = enemy->GetPos();
+		// プレイヤーから敵までの位置ベクトルを計算
+		VECTOR pToEVec = VSub(enemyPos, playerPos);
+
+		// 敵のワールド座標を正規化（0～1の範囲に変換）
+		float normEnemyX = pToEVec.x / kWorldWidth;
+		float normEnemyY = pToEVec.z / kWorldDepth;
+
+		// ミニマップ用の座標に変換
+		int mapEnemyX = static_cast<int>(normEnemyX * kMapSize) + kMapPos.x;
+		int mapEnemyY = static_cast<int>(normEnemyY * kMapSize) + kMapPos.y;
+
+		// 敵がミニマップ内にいる場合のみ描画する
+		bool isDisp = mapEnemyX >= 0&& mapEnemyX <= kViewMapSize + kMapPos.x + srcX &&
+				mapEnemyY >=0 && mapEnemyY <= kViewMapSize + kMapPos.y + srcY;
+		if (isDisp)
+		{
+			DrawRotaGraphF(mapEnemyX, mapEnemyY, kIconScale, enemy->GetAngle(), m_handle[Handle::kIconEnemy], true);
+		}
+	}
+
 	// プレイヤーのアイコンを表示
-	// TODO:三角形にしてプレイヤーの移動方向を反映させる
-	DrawCircleAA(kMapPos.x, kMapPos.y, 5, 32, 0xff0000, true);
+	DrawRotaGraphF(kMapPos.x, kMapPos.y, kIconScale, pPlayer.GetAngle(), m_handle[Handle::kIconPlayer], true);
 }

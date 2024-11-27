@@ -201,6 +201,11 @@ public:
 	float GetHp() const { return m_hp; }
 
 	/// <summary>
+	/// キャラクターの角度を取得
+	/// </summary>
+	float GetAngle() const { return m_angle; }
+
+	/// <summary>
 	/// キャラクターのHPを取得
 	/// </summary>
 	/// <returns>HP</returns>

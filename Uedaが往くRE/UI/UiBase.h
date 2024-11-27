@@ -5,6 +5,7 @@
 #include <string>
 
 class Player;
+class EnemyBase;
 
 /// <summary>
 /// UI用の基底クラス
@@ -72,13 +73,14 @@ public:
 	/// バトル中のUIを表示
 	/// </summary>
 	/// <param name="pPlayer">プレイヤー参照</param>
-	void DrawBattleUi(Player& pPlayer);
+	void DrawBattleUi(const Player& pPlayer);
 
 	/// <summary>
 	/// ミニマップ表示
 	/// </summary>
 	/// <param name="pPlayer">プレイヤー参照</param>
-	void DrawMiniMap(Player& pPlayer);
+	/// <param name="pEnemy">敵参照</param>
+	void DrawMiniMap(const Player& pPlayer, std::vector<std::shared_ptr<EnemyBase>> pEnemy);
 
 protected:
 	std::map<std::string, UiData> m_uiData;	// UIのデータ

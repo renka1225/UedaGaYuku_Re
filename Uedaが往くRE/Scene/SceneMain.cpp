@@ -26,8 +26,9 @@ namespace
 	constexpr int kEnemyMaxNum = 2;		// 1度に出現する最大の敵数
 	constexpr int kEnemyKindNum = 2;	// 敵の種類
 	constexpr int kEnemyNamekind = 31;	// 敵名の種類
-	constexpr int kEnemySpawnMinTIme = 180;		// 敵がスポーンするまでの最小時間
-	constexpr int kEnemySpawnMaxTIme = 3000;	// 敵がスポーンするまでの最大時間
+	constexpr int kEnemySpawnMinTIme = 180;			// 敵がスポーンするまでの最小時間
+	constexpr int kEnemySpawnMaxTIme = 3000;		// 敵がスポーンするまでの最大時間
+	constexpr float kEnemyExtinctionDist = 2000.0f;	// 敵が消滅する範囲
 
 	constexpr int kBattleStartStagingTime = 40;	// バトル開始時の演出時間
 }
@@ -128,7 +129,7 @@ void SceneMain::Draw()
 	m_pUiBar->DrawPlayerGaugeBar(*m_pPlayer, m_pPlayer->GetStatus().maxGauge);
 
 	// ミニマップを表示
-	m_pUi->DrawMiniMap(*m_pPlayer);
+	m_pUi->DrawMiniMap(*m_pPlayer, m_pEnemy);
 	
 
 #ifdef _DEBUG
@@ -210,8 +211,11 @@ void SceneMain::UpdateEnemy()
 	{
 		if (m_pEnemy[i] == nullptr) continue;
 
+		// プレイヤーと敵の距離を求める
+		float pToEDist = VSize(VSub(m_pPlayer->GetPos(), m_pEnemy[i]->GetPos()));
+
 		// 特定の状態の場合、敵を消滅させる
-		bool isExtinction = m_pEnemy[i]->GetIsDead() || (m_pEnemy[i]->GetPos().y <= 0.0f);
+		bool isExtinction = m_pEnemy[i]->GetIsDead() || (m_pEnemy[i]->GetPos().y <= 0.0f) || (pToEDist >= kEnemyExtinctionDist);
 		if (isExtinction)
 		{
 			m_pEnemy[i] = nullptr;
