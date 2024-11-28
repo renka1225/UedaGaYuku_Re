@@ -24,6 +24,7 @@
     <ProjectGuid>{dd6c6f56-8014-419e-9b57-0a8391421cc0}</ProjectGuid>
     <RootNamespace>Uedaが往くRE</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>UedaGaYukuRE</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

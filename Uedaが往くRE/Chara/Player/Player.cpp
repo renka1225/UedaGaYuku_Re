@@ -28,6 +28,8 @@ namespace
 
 	constexpr float kBattleStartRange = 200.0f;	// バトルが始まる範囲
 	constexpr int kBattleStartTime = 60;		// バトルが開始するまでの時間
+
+	constexpr int kInputRetentionFrame = 30;	// 入力の履歴を削除するまでのフレーム数
 }
 
 Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
@@ -131,6 +133,9 @@ void Player::Draw()
 	debug.DrawBodyCol(m_colData[CharaType::kPlayer]);	// 全身(紫色)
 	//debug.DrawArmCol(m_colData[CharaType::kPlayer]);	// 腕(水色)
 	//debug.DrawLegCol(m_colData[CharaType::kPlayer]);	// 脚(黄色)
+
+	// アニメーションのフレーム数表示
+	debug.DrawAnimFrame(m_currentAnimTime);
 #endif
 }
 
@@ -346,4 +351,47 @@ void Player::GetFramePos()
 	m_colData[CharaType::kPlayer].rightLegPos = GetModelFramePos(PlayerFrameName::kRightLeg.c_str());			// 右膝
 	m_colData[CharaType::kPlayer].rightFootPos = GetModelFramePos(PlayerFrameName::kRightFoot.c_str());			// 右足首
 	m_colData[CharaType::kPlayer].rightEndPos = GetModelFramePos(PlayerFrameName::kRightEnd.c_str());			// 右足終点
+}
+
+void Player::UpdateInputLog(const Input& input, int currentFrame)
+{
+	if (input.IsTriggered(InputId::kPunch))
+	{
+		m_inputLog.push_back({ InputId::kPunch, currentFrame });
+	}
+	if (input.IsTriggered(InputId::kKick))
+	{
+		m_inputLog.push_back({ InputId::kKick, currentFrame });
+	}
+
+	// 履歴を削除
+	for (auto it = m_inputLog.begin(); it != m_inputLog.end(); )
+	{
+		// 入力をチェック
+		if (currentFrame - it->frameCount > kInputRetentionFrame)
+		{
+			// 削除する
+			it = m_inputLog.erase(it);
+		}
+		else
+		{
+			it++;
+		}
+	}
+}
+
+bool Player::CheckCommand(const std::vector<int>& command)
+{
+	//for (const auto& input : m_inputLog)
+	//{
+	//	if (input.button == command[index])
+	//	{
+	//		index++;
+	//		if (index >= command.size())
+	//		{
+	//			return true; // コマンド成立
+	//		}
+	//	}
+	//}
+	return false;
 }

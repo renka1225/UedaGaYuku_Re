@@ -200,12 +200,6 @@ void CharacterBase::UpdateAnim()
 	// アニメーションの再生時間を進める
 	m_currentAnimTime += m_animPlaySpeed;
 
-	//// ガードアニメーションの場合、特定の時間で止める
-	//if (m_isGuard)
-	//{
-	//	m_currentAnimTime = std::min(m_currentAnimTime, 19.0f);
-	//}
-
 	// アニメーションが繰り返し行われる場合
 	if (m_isLoopAnim)
 	{

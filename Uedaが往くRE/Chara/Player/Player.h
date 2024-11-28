@@ -204,12 +204,35 @@ private:
 	/// </summary>
 	void GetFramePos();
 
+	/// <summary>
+	/// 入力コマンドを更新する
+	/// </summary>
+	/// <param name="input">入力状態</param>
+	/// <param name="currentFrame">現在のフレーム</param>
+	void UpdateInputLog(const Input& input, int currentFrame);
+
+	/// <summary>
+	/// 入力コマンドをチェックする
+	/// </summary>
+	/// <param name="command">入力されたボタン</param>
+	/// <returns>入力されたか</returns>
+	bool CheckCommand(const std::vector<int>& command);
+
+private:
+	// ボタンの入力履歴を保存する
+	struct CommandInput
+	{
+		const char* button;		// 入力されたボタン
+		int frameCount;			// 入力されたフレーム数
+	};
+
 private:
 	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
-	std::vector<VECTOR> m_pToEVec;	// プレイヤーから敵への位置ベクトル
-	std::vector<int> m_possessItem;	// プレイヤーが所持しているアイテム情報を保存しておく
-	Status m_saveStatus;			// ステータスを一時保存する
-	EnhanceStep m_enhanceStep;		// 現在の強化段階
+	std::vector<VECTOR> m_pToEVec;			// プレイヤーから敵への位置ベクトル
+	std::vector<int> m_possessItem;			// プレイヤーが所持しているアイテム情報を保存しておく
+	std::vector<CommandInput> m_inputLog;	// 入力情報を一時保存する
+	Status m_saveStatus;					// ステータスを一時保存する
+	EnhanceStep m_enhanceStep;				// 現在の強化段階
 
 	int m_money;			// 所持金額
 	int m_beforeMoney;		// 増減前の金額

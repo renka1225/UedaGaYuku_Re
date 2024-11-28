@@ -90,5 +90,16 @@ public:
 	/// <param name="radius">カプセルの半径</param>
 	/// <param name="capsuleColor">カプセルの色</param>
 	void DrawModelFrameCapsule3D(VECTOR startPos, VECTOR endPos, float radius, int capsuleColor);
+
+	/// <summary>
+	/// アニメーションのフレーム数を表示する
+	/// </summary>
+	/// <param name="animTotalTime">アニメーションの総再生時間</param>
+	void DrawAnimFrame(float animTotalTime);
+
+	/// <summary>
+	/// 入力したコマンドを表示する
+	/// </summary>
+	void DrawInputCommand();
 };
 

@@ -25,14 +25,15 @@ namespace Font
 		kSize24_4,
 		kSize24_4_EDGE,
 		kSize16_4,
-		kNormal,
+		kDebug,
+		kDebug_EDGE,
 		kNum,		// フォントの種類数
 
 		/*使うフォントを指定する*/
 
 		// 選択画面
 		kSelect_explain = kSize42_4,	// 選択テキストの説明
-		
+
 		// メニュー画面
 		kMenu_itemName = kSize40_4,		// アイテム名
 		kMenu_itemExplain = kSize42_4,	// アイテムの説明
@@ -46,6 +47,9 @@ namespace Font
 		kOption_soundText = kSize36_4,		// サウンドのテキスト
 		kOption_soundVol = kSize36_4,		// 現在の音量
 		kOption_window = kSize36_4,			// 画面サイズのテキスト
+
+		// デバッグ
+		kDebug_animFrame = kDebug_EDGE,		// アニメーションのフレーム数
 	};
 
 	// フォントのロード、アンロード

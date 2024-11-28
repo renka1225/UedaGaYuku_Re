@@ -5,6 +5,7 @@ namespace
 {
 	// フォント名
 	const char* kFontName = "Yuji Syuku";
+	const char* kDebugFontName = "ＭＳ　ゴシック";
 
 	// 読み込むフォントファイル名
 	const LPCSTR kFontDataPath[] =
@@ -62,8 +63,10 @@ namespace Font
 		{kFontName, 24, 4,  DX_FONTTYPE_ANTIALIASING_EDGE_8X8},
 		// Size16_4
 		{kFontName, 16, 4, DX_FONTTYPE_ANTIALIASING_8X8},
-		// Normal
-		{"ＭＳ　ゴシック", 16, -1, -1},
+		// Debug
+		{kDebugFontName, 16, -1, -1},
+		// Debug_EDGE
+		{kDebugFontName, 16, -1,  DX_FONTTYPE_ANTIALIASING_8X8},
 	};
 
 

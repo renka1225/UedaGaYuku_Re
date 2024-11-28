@@ -168,6 +168,9 @@ void UiBase::DrawMiniMap(const Player& pPlayer, std::vector<std::shared_ptr<Enem
 	// ミニマップ表示
 	DrawRectRotaGraphF(kMapPos.x, kMapPos.y, srcX, srcY, kViewMapSize, kViewMapSize, 1.0f, 0.0f, m_handle[Handle::kMiniMap], true);
 
+	// バトル中でない場合、敵アイコンを表示しない
+	if (!pPlayer.GetIsBattle()) return;
+
 	// 敵のアイコンを表示
 	for (auto& enemy : pEnemy)
 	{

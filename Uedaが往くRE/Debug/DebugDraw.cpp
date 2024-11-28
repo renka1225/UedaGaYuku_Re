@@ -1,9 +1,12 @@
-﻿#include "Game.h"
+﻿#include "Vec2.h"
+#include "Game.h"
+#include "Font.h"
 #include "DebugDraw.h"
 
 namespace
 {
 	constexpr int kTextInterval = 60;	// 文字列の表示間隔
+	const Vec2 kAnimFramePos = { 400.0f, 900.0f };	// アニメーションフレーム表示位置
 }
 
 void DebugDraw::DrawPlayerInfo(const VECTOR pos, float hp, CharacterBase::Status status, std::string state, bool isGrabWeapon)
@@ -93,7 +96,7 @@ void DebugDraw::DrawItemCol(VECTOR centerPos, float r)
 
 void DebugDraw::DrawModelFrameCircle(VECTOR pos)
 {
-	DrawCircleAA(ConvWorldPosToScreenPos(pos).x, ConvWorldPosToScreenPos(pos).y, 5, 0xff0000, true);
+	DrawCircleAA(ConvWorldPosToScreenPos(pos).x, ConvWorldPosToScreenPos(pos).y, 5, Color::kColorR, true);
 }
 
 void DebugDraw::DrawModelFrameCapsule3D(VECTOR startPos, VECTOR endPos, float radius, int capsuleColor)
@@ -101,3 +104,11 @@ void DebugDraw::DrawModelFrameCapsule3D(VECTOR startPos, VECTOR endPos, float ra
 	DrawCapsule3D(startPos, endPos, radius, 1, capsuleColor, Color::kColorBK, false);
 }
 
+void DebugDraw::DrawAnimFrame(float animTotalTime)
+{
+	DrawFormatStringFToHandle(kAnimFramePos.x, kAnimFramePos.y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kDebug_animFrame)], "フレーム数:%.2f\n", animTotalTime);
+}
+
+void DebugDraw::DrawInputCommand()
+{
+}
