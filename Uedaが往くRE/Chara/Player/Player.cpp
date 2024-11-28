@@ -380,18 +380,29 @@ void Player::UpdateInputLog(const Input& input, int currentFrame)
 	}
 }
 
-bool Player::CheckCommand(const std::vector<int>& command)
+bool Player::CheckCommand(const std::vector<char*>& command, const std::vector<CommandInput>& inputLog)
 {
-	//for (const auto& input : m_inputLog)
-	//{
-	//	if (input.button == command[index])
-	//	{
-	//		index++;
-	//		if (index >= command.size())
-	//		{
-	//			return true; // コマンド成立
-	//		}
-	//	}
-	//}
+	// コマンドの最終入力を確認する
+	int index = command.size() - 1;
+	// 最新の入力時間
+	int currentTime = inputLog.back().frameCount;
+
+	// MEMO;rbegin()は逆イテレータを返す
+	for (auto it = inputLog.rbegin(); it != inputLog.rend(); it++)
+	{
+		if (it->button == command[index])
+		{
+			// 入力時間内にコマンド入力されていない場合
+			if (index >= command.size())
+			{
+				return false;
+			}
+
+			// 入力が確認できた場合
+			index--;
+			// すべてのコマンドが一致している場合
+			if (index < 0) return true;
+		}
+	}
 	return false;
 }

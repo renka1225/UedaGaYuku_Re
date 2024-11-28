@@ -69,6 +69,9 @@ public:
 	{
 		float loopFrame;	// 開始フレーム
 		float playSpeed;	// アニメーションの速度
+		int startupFrame;	// 発生フレーム数
+		int activeFrame;	// 持続フレーム数
+		int recoveryFrame;	// 硬直フレーム数
 	};
 
 public:

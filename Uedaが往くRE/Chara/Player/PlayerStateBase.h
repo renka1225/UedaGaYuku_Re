@@ -62,6 +62,43 @@ public:
 	virtual std::string GetStateName() = 0;
 #endif
 
+private:
+	/// <summary>
+	/// ステートを更新するかチェックする
+	/// </summary>
+	bool IsStateInterrupt();
+
+	/// <summary>
+	/// 待機状態に変更する
+	/// </summary>
+	void ChangeStateIdle();
+
+	/// <summary>
+	/// 攻撃状態に変更する
+	/// </summary>
+	/// <param name="input">入力状態</param>
+	void ChangeStateAttack(const Input& input);
+
+	/// <summary>
+	/// ガード状態に変更する
+	/// </summary>
+	void ChangeStateGuard();
+
+	/// <summary>
+	/// 回避状態に変更する
+	/// </summary>
+	void ChangeStateAvoid();
+
+	/// <summary>
+	/// 掴み状態に変更する
+	/// </summary>
+	void ChangeStateGrab();
+	
+	/// <summary>
+	/// ダメージ状態に変更する
+	/// </summary>
+	void ChangeStateDamage();
+
 public:
 	std::shared_ptr<PlayerStateBase> m_nextState;	// 次のStateを保存する
 

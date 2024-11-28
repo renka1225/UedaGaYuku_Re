@@ -7,6 +7,17 @@
 class PlayerStateAttack : public PlayerStateBase
 {
 public:
+	// プレイヤーの攻撃種類
+	enum class PlayerAttackKinc
+	{
+		kPunch1, // パンチ1コンボ目
+		kPunch2, // パンチ2コンボ目
+		kPunch3, // パンチ3コンボ目
+		kKick,	 // キック
+		kHeat	 // ヒートアクション
+	};
+
+public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>

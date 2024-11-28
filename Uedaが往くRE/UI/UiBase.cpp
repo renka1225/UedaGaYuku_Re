@@ -183,15 +183,15 @@ void UiBase::DrawMiniMap(const Player& pPlayer, std::vector<std::shared_ptr<Enem
 		float normEnemyY = pToEVec.z / kWorldDepth;
 
 		// ミニマップ用の座標に変換
-		int mapEnemyX = static_cast<int>(normEnemyX * kMapSize) + kMapPos.x;
-		int mapEnemyY = static_cast<int>(normEnemyY * kMapSize) + kMapPos.y;
+		int mapEnemyX = static_cast<int>(normEnemyX * kMapSize + kMapPos.x);
+		int mapEnemyY = static_cast<int>(normEnemyY * kMapSize + kMapPos.y);
 
 		// 敵がミニマップ内にいる場合のみ描画する
 		bool isDisp = mapEnemyX >= 0&& mapEnemyX <= kViewMapSize + kMapPos.x + srcX &&
 				mapEnemyY >=0 && mapEnemyY <= kViewMapSize + kMapPos.y + srcY;
 		if (isDisp)
 		{
-			DrawRotaGraphF(mapEnemyX, mapEnemyY, kIconScale, enemy->GetAngle(), m_handle[Handle::kIconEnemy], true);
+			DrawRotaGraph(mapEnemyX, mapEnemyY, kIconScale, enemy->GetAngle(), m_handle[Handle::kIconEnemy], true);
 		}
 	}
 

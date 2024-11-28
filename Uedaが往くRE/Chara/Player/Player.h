@@ -15,6 +15,14 @@ class EnemyBase;
 /// </summary>
 class Player : public CharacterBase, public std::enable_shared_from_this<Player>
 {
+private:
+	// ボタンの入力履歴を保存する
+	struct CommandInput
+	{
+		const char* button;		// 入力されたボタン
+		int frameCount;			// 入力されたフレーム数
+	};
+
 public:
 	// 現在の強化段階
 	struct EnhanceStep
@@ -215,16 +223,9 @@ private:
 	/// 入力コマンドをチェックする
 	/// </summary>
 	/// <param name="command">入力されたボタン</param>
+	/// <param name="inputLog">入力されたボタン</param>
 	/// <returns>入力されたか</returns>
-	bool CheckCommand(const std::vector<int>& command);
-
-private:
-	// ボタンの入力履歴を保存する
-	struct CommandInput
-	{
-		const char* button;		// 入力されたボタン
-		int frameCount;			// 入力されたフレーム数
-	};
+	bool CheckCommand(const std::vector<char*>& command, const std::vector<CommandInput>& inputLog);
 
 private:
 	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
