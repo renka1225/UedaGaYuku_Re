@@ -57,6 +57,17 @@ public:
 #endif
 
 private:
+	/// <summary>
+	/// 攻撃処理の更新
+	/// </summary>
+	void UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr<EnemyBase>> pEnemy);
+
+	/// <summary>
+	/// 攻撃フラグをチェックする
+	/// </summary>
+	//void IsCheckAttackFlag();
+
+private:
 	std::string m_attackKind;	// 入力された攻撃の種類
 	bool m_isAttackEnd;			// 攻撃が終わったかどうか
 };

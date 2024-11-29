@@ -62,7 +62,7 @@ public:
 	virtual std::string GetStateName() = 0;
 #endif
 
-private:
+protected:
 	/// <summary>
 	/// ステートを更新するかチェックする
 	/// </summary>

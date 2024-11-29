@@ -52,7 +52,7 @@ void EnemyStateAttack::Update(Stage& pStage, Player& pPlayer)
         if (pPlayer.GetIsInvincible()) return;
 
         // 敵の攻撃とプレイヤーの当たり判定を取得
-        if (m_attackKind == AnimName::kPunch)
+        if (m_attackKind == AnimName::kPunchStrong)
         {
             bool isHitPunchCol = pPlayer.CheckHitPunchCol(m_pEnemy->GetCol(m_pEnemy->GetEnemyIndex()), 0);
             if (isHitPunchCol)
@@ -75,7 +75,7 @@ void EnemyStateAttack::Update(Stage& pStage, Player& pPlayer)
 
 std::string EnemyStateAttack::GetStateName()
 {
-    if (m_attackKind == AnimName::kPunch)
+    if (m_attackKind == AnimName::kPunchStrong)
     {
         return "パンチ中";
     }

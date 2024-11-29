@@ -149,6 +149,8 @@ bool CharacterBase::CheckHitKickCol(const CharacterBase::ColData& colData, int c
 
 void CharacterBase::ChangeAnim(std::string animName)
 {
+	m_currenAnimName = animName;
+
 	// 前のアニメーションをデタッチする
 	if (m_prevAnimTime != -1)
 	{
@@ -161,9 +163,9 @@ void CharacterBase::ChangeAnim(std::string animName)
 	m_prevAnimTime = m_currentAnimTime;
 
 	// アニメーションを設定
-	m_animPlaySpeed = m_animData[animName].playSpeed;
-	m_animLoopStartTime = m_animData[animName].loopFrame;
-	m_animLoopEndTime = GetAnimTotalTime(animName);
+	m_animPlaySpeed = m_animData[m_currenAnimName].playSpeed;
+	m_animLoopStartTime = m_animData[m_currenAnimName].loopFrame;
+	m_animLoopEndTime = GetAnimTotalTime(m_currenAnimName);
 
 	// ループ終了フレームが0でない場合、ループフラグを立てる
 	if (m_animLoopEndTime > 0.0f)
@@ -172,10 +174,10 @@ void CharacterBase::ChangeAnim(std::string animName)
 	}
 
 	// 新たにアニメーションをアタッチする
-	m_currentPlayAnim = MV1AttachAnim(m_modelHandle, GetAnimIndex(animName));
+	m_currentPlayAnim = MV1AttachAnim(m_modelHandle, GetAnimIndex(m_currenAnimName));
 	m_currentAnimTime = 0.0f;
 	//アニメーションの総再生時間を設定
-	m_totalAnimTime = GetAnimTotalTime(animName);
+	m_totalAnimTime = GetAnimTotalTime(m_currenAnimName);
 
 	// ブレンド率はprevが有効でない場合、1.0にする
 	if (m_prevPlayAnim == -1)

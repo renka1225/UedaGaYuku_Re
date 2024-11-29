@@ -105,7 +105,10 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 		UpdateEnemyInfo(pEnemy);
 	}
 
+	m_currentInputFrame++;
+
 	m_pState->Update(input, camera, stage, weapon, pEnemy);	// stateの更新
+	UpdateInputLog(input, m_currentInputFrame);	// 入力情報を更新
 	UpdateAngle();					// 向きを更新
 	UpdateAnim();					// アニメーションを更新
 	UpdateCol(CharaType::kPlayer);	// 当たり判定の位置更新
@@ -135,7 +138,7 @@ void Player::Draw()
 	//debug.DrawLegCol(m_colData[CharaType::kPlayer]);	// 脚(黄色)
 
 	// アニメーションのフレーム数表示
-	debug.DrawAnimFrame(m_currentAnimTime);
+	debug.DrawAnimFrame(m_totalAnimTime, m_currenAnimName, m_animData);
 #endif
 }
 
@@ -364,14 +367,23 @@ void Player::UpdateInputLog(const Input& input, int currentFrame)
 		m_inputLog.push_back({ InputId::kKick, currentFrame });
 	}
 
-	// 履歴を削除
-	for (auto it = m_inputLog.begin(); it != m_inputLog.end(); )
+	for (int i = 0; i < m_inputLog.size(); i++)
 	{
-		// 入力をチェック
-		if (currentFrame - it->frameCount > kInputRetentionFrame)
+		printfDx("%d.入力コマンド:%s\n", i, m_inputLog[i].button);
+	}
+
+	// 履歴を削除
+	for (auto it = m_inputLog.begin(); it != m_inputLog.end();)
+	{
+		// 入力受付時間
+		const int inputReceptionTime = m_animData[m_currenAnimName].startupFrame + m_animData[m_currenAnimName].activeFrame;
+
+		// 入力をチェック 
+		if (currentFrame - it->frameCount > inputReceptionTime)
 		{
 			// 削除する
 			it = m_inputLog.erase(it);
+			printfDx("入力履歴削除\n");
 		}
 		else
 		{

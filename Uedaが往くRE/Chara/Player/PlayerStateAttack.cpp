@@ -1,4 +1,5 @@
 ﻿#include "Game.h"
+#include "Input.h"
 #include "Weapon.h"
 #include "CharacterBase.h"
 #include "EnemyBase.h"
@@ -32,6 +33,36 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
     PlayerStateBase::Update(input, camera, stage, weapon, pEnemy);
     m_pPlayer->Move(VGet(0.0f, 0.0f, 0.0f), stage);   // 移動情報を反映する
 
+    // ボタン入力がすでにある場合
+    //bool isCommand = m_pPlayer->CheckCommand({ InputId::kPunch, InputId::kKick }, m_pPlayer->GetInputLog());
+    //if (isCommand)
+    //{
+    //    printfDx("コンボ入力あり\n");
+
+    //    // 2コンボ目に移行する
+    //    if (m_attackKind == AnimName::kPunchStrong)
+    //    {
+    //        Init(AnimName::kPunch2);
+    //    }
+    //    // 3コンボ目に移行する
+    //    else if (m_attackKind == AnimName::kPunchStrong)
+    //    {
+    //        Init(AnimName::kPunch3);
+    //    }
+    //    // 現在最終コンボの場合
+    //    else if (m_attackKind == AnimName::kPunchStrong)
+    //    {
+    //        // StateをIdleに変更する
+    //        ChangeStateIdle();
+    //    }
+    //    // キックに移行する
+    //    else if (m_attackKind == AnimName::kKick)
+    //    {
+    //        Init(AnimName::kKick);
+    //    }
+    //    return;
+    //}
+
 	// 攻撃終了した場合
     if (m_isAttackEnd)
     {
@@ -44,64 +75,72 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
 
         // StateをIdleに変更する
         m_pPlayer->SetIsAttack(false);
-        std::shared_ptr<PlayerStateIdle> state = std::make_shared<PlayerStateIdle>(m_pPlayer);
-        m_nextState = state;
-        state->Init();
-        return;
+        ChangeStateIdle();
     }
     else
     {
-        m_animEndTime--;
-        if (m_animEndTime < 0.0f) m_isAttackEnd = true;
-        
-        for (auto& enemy : pEnemy)
+        UpdateAttack(weapon, pEnemy);
+    }
+}
+
+void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr<EnemyBase>> pEnemy)
+{
+    m_animEndTime--;
+    if (m_animEndTime < 0.0f) m_isAttackEnd = true;
+
+    for (auto& enemy : pEnemy)
+    {
+        // 特定の状態の場合はスキップする
+        bool isSkip = enemy == nullptr || enemy->GetIsInvincible();
+        if (isSkip) continue;
+
+        // 武器掴み中の場合
+        if (m_pPlayer->GetIsGrabWeapon())
         {
-            // 特定の状態の場合はスキップする
-            bool isSkip = enemy == nullptr || enemy->GetIsInvincible();
-            if (isSkip) continue;
-
-            // 武器掴み中の場合
-            if (m_pPlayer->GetIsGrabWeapon())
+            // 武器と敵の当たり判定を取得
+            bool isHitWeaponCol = weapon.CheckWeaopnCol(enemy->GetCol(enemy->GetEnemyIndex()), *m_pPlayer);
+            if (isHitWeaponCol)
             {
-                // 武器と敵の当たり判定を取得
-                bool isHitWeaponCol = weapon.CheckWeaopnCol(enemy->GetCol(enemy->GetEnemyIndex()), *m_pPlayer);
-                if (isHitWeaponCol)
-                {
-                    // TODO:片手武器、両手武器によって攻撃力変える
-                    enemy->OnDamage(m_pPlayer->GetStatus().atkPowerOneHandWeapon);
-                    enemy->SetIsInvincible(true);
-                    weapon.DecrementDurability();
-                }
+                // TODO:片手武器、両手武器によって攻撃力変える
+                enemy->OnDamage(m_pPlayer->GetStatus().atkPowerOneHandWeapon);
+                enemy->SetIsInvincible(true);
+                weapon.DecrementDurability();
             }
-            // パンチ攻撃
-            else if (m_attackKind == AnimName::kPunchStrong)
-            {
-                if (enemy == nullptr) continue;
+        }
+        // パンチ攻撃
+        else if (m_attackKind == AnimName::kPunchStrong)
+        {
+            if (enemy == nullptr) continue;
 
-                // パンチ攻撃と敵の当たり判定を取得
-                bool isHitPunchCol = enemy->CheckHitPunchCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
-                if (isHitPunchCol)
-                {
-                    enemy->OnDamage(m_pPlayer->GetStatus().atkPowerPunch1);
-                    enemy->SetIsInvincible(true);
-                }
-            }
-            // キック攻撃
-            else if (m_attackKind == AnimName::kKick)
+            // パンチ攻撃と敵の当たり判定を取得
+            bool isHitPunchCol = enemy->CheckHitPunchCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
+            if (isHitPunchCol)
             {
-                if (enemy == nullptr) continue;
-                
-                // キック攻撃と敵の当たり判定を取得
-                bool isHitKickCol = enemy->CheckHitKickCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
-                if (isHitKickCol)
-                {
-                    enemy->OnDamage(m_pPlayer->GetStatus().atkPowerKick);
-                    enemy->SetIsInvincible(true);
-                }
+                enemy->OnDamage(m_pPlayer->GetStatus().atkPowerPunch1);
+                enemy->SetIsInvincible(true);
+            }
+        }
+        // キック攻撃
+        else if (m_attackKind == AnimName::kKick)
+        {
+            if (enemy == nullptr) continue;
+
+            // キック攻撃と敵の当たり判定を取得
+            bool isHitKickCol = enemy->CheckHitKickCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
+            if (isHitKickCol)
+            {
+                enemy->OnDamage(m_pPlayer->GetStatus().atkPowerKick);
+                enemy->SetIsInvincible(true);
             }
         }
     }
 }
+
+//void PlayerStateAttack::IsCheckAttackFlag()
+//{
+//    bool isPunch = m_attackKind == AnimName::kPunchStrong || m_attackKind == AnimName::kPunch1 ||
+//        m_attackKind == AnimName::kPunch2 || m_attackKind == AnimName::kPunch3;
+//}
 
 #ifdef _DEBUG
 std::string PlayerStateAttack::GetStateName()

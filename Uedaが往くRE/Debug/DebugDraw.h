@@ -95,7 +95,9 @@ public:
 	/// アニメーションのフレーム数を表示する
 	/// </summary>
 	/// <param name="animTotalTime">アニメーションの総再生時間</param>
-	void DrawAnimFrame(float animTotalTime);
+	/// <param name="animName">アニメーション名</param>
+	/// <param name="animData">アニメーションのデータ</param>
+	void DrawAnimFrame(float animTotalTime, std::string animName,std::map<std::string, CharacterBase::AnimInfo> animData);
 
 	/// <summary>
 	/// 入力したコマンドを表示する

@@ -300,6 +300,7 @@ protected:
 	std::map<std::string, AnimInfo> m_animData;	// アニメーションのデータ
 	std::vector<ColData> m_colData; // 当たり判定情報
 	std::vector<VECTOR> m_posLog;	// 過去の位置を保存する
+	std::string m_currenAnimName;	// 現在再生中のアニメーション名を保存する
 	Status m_status;				// ステータス
 	float m_angle;					// 向いている方向の角度
 	float m_hp;						// HP

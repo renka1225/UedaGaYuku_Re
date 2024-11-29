@@ -104,9 +104,21 @@ void DebugDraw::DrawModelFrameCapsule3D(VECTOR startPos, VECTOR endPos, float ra
 	DrawCapsule3D(startPos, endPos, radius, 1, capsuleColor, Color::kColorBK, false);
 }
 
-void DebugDraw::DrawAnimFrame(float animTotalTime)
+void DebugDraw::DrawAnimFrame(float animTotalTime, std::string animName, std::map<std::string, CharacterBase::AnimInfo> animData)
 {
-	DrawFormatStringFToHandle(kAnimFramePos.x, kAnimFramePos.y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kDebug_animFrame)], "フレーム数:%.2f\n", animTotalTime);
+	DrawFormatStringFToHandle(kAnimFramePos.x, kAnimFramePos.y, Color::kColorW,
+		Font::m_fontHandle[static_cast<int>(Font::FontId::kDebug_animFrame)], "合計フレーム数:%.2f\n", animTotalTime);
+
+	DrawFormatStringFToHandle(kAnimFramePos.x, 920.0f, Color::kColorW,
+		Font::m_fontHandle[static_cast<int>(Font::FontId::kDebug_animFrame)], "発生フレーム数:%d\n", animData[animName].startupFrame);
+
+	//printfDx("攻撃フレーム数:%.2f\n", animData[animName].activeFrame);
+	DrawFormatStringFToHandle(kAnimFramePos.x, 940.0f, Color::kColorW,
+		Font::m_fontHandle[static_cast<int>(Font::FontId::kDebug_animFrame)], "攻撃フレーム数:%d\n", animData[animName].activeFrame);
+
+	//printfDx("硬直フレーム数:%.2f\n", animData[animName].recoveryFrame);
+	DrawFormatStringFToHandle(kAnimFramePos.x, 960.0f, Color::kColorW,
+		Font::m_fontHandle[static_cast<int>(Font::FontId::kDebug_animFrame)], "硬直フレーム:%d\n", animData[animName].recoveryFrame);
 }
 
 void DebugDraw::DrawInputCommand()

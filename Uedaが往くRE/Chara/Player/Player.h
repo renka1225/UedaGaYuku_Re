@@ -80,7 +80,6 @@ public:
 	/// 所持金を増やす
 	/// </summary>
 	/// <param name="dropMoney">敵がドロップした金額</param>
-	/// <returns>敵がドロップした金額</returns>
 	void AddMoney(int dropMoney);
 
 	/// <summary>
@@ -178,6 +177,20 @@ public:
 	/// <returns>バトル中かどうか</returns>
 	bool GetIsBattle() const { return m_isBattle; }
 
+	/// <summary>
+	/// 入力状態を取得する
+	/// </summary>
+	/// <returns>入力履歴</returns>
+	std::vector<CommandInput> GetInputLog() const { return m_inputLog; }
+
+	/// <summary>
+	/// 入力コマンドをチェックする
+	/// </summary>
+	/// <param name="command">入力されたボタン</param>
+	/// <param name="inputLog">ボタンログ</param>
+	/// <returns>入力されたか</returns>
+	bool CheckCommand(const std::vector<char*>& command, const std::vector<CommandInput>& inputLog);
+
 private:
 	/// <summary>
 	/// 敵の情報を更新する
@@ -219,14 +232,6 @@ private:
 	/// <param name="currentFrame">現在のフレーム</param>
 	void UpdateInputLog(const Input& input, int currentFrame);
 
-	/// <summary>
-	/// 入力コマンドをチェックする
-	/// </summary>
-	/// <param name="command">入力されたボタン</param>
-	/// <param name="inputLog">入力されたボタン</param>
-	/// <returns>入力されたか</returns>
-	bool CheckCommand(const std::vector<char*>& command, const std::vector<CommandInput>& inputLog);
-
 private:
 	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
 	std::vector<VECTOR> m_pToEVec;			// プレイヤーから敵への位置ベクトル
@@ -235,13 +240,14 @@ private:
 	Status m_saveStatus;					// ステータスを一時保存する
 	EnhanceStep m_enhanceStep;				// 現在の強化段階
 
-	int m_money;			// 所持金額
-	int m_beforeMoney;		// 増減前の金額
-	int m_addMoney;			// 追加する金額
-	int m_itemEffectTime;	// アイテムの効果時間
-	bool m_isAddItem;		// アイテムを追加で取得できるか(true:取得可能)
+	int m_money;			 // 所持金額
+	int m_beforeMoney;		 // 増減前の金額
+	int m_addMoney;			 // 追加する金額
+	int m_currentInputFrame; // 現在の入力フレーム数
+	int m_itemEffectTime;	 // アイテムの効果時間
+	bool m_isAddItem;		 // アイテムを追加で取得できるか(true:取得可能)
 
-	int m_battleStartCount;	// バトルが開始するまでの時間
-	bool m_isBattle;		// バトル状態かどうか(true:バトル中)
+	int m_battleStartCount;	 // バトルが開始するまでの時間
+	bool m_isBattle;		 // バトル状態かどうか(true:バトル中)
 };
 

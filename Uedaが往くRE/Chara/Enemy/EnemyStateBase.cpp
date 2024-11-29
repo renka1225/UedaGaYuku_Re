@@ -113,7 +113,7 @@ void EnemyStateBase::AttackRand()
 		// StateをPunchに変更する
 		std::shared_ptr<EnemyStateAttack> state = std::make_shared<EnemyStateAttack>(m_pEnemy);
 		m_nextState = state;
-		state->Init(AnimName::kPunch);
+		state->Init(AnimName::kPunchStrong);
 		return;
 	}
 	else if (num <= 20)
