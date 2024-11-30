@@ -7,7 +7,9 @@ walk_fight,0,1,31,0,0
 kick,0,1,48,0,0
 kick_heat,0,1,80,0,0
 kick_round,0,1,50,0,0
-punch,0,1,0,0,0
+punch1,0,1,0,0,0
+punch2,0,1,0,0,0
+punch3,0,1,0,0,0
 punch_strong,0,1,25,10,20
 guard,0,1,47,0,0
 avoid,0,3,36,0,0

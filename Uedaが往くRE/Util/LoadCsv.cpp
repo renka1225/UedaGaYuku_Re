@@ -174,9 +174,9 @@ void LoadCsv::LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data)
 		{
 			data[animName].loopFrame = std::stof(strvec[1]);
 			data[animName].playSpeed = std::stof(strvec[2]);
-			data[animName].startupFrame = std::stof(strvec[3]);
-			data[animName].activeFrame = std::stof(strvec[4]);
-			data[animName].recoveryFrame = std::stof(strvec[5]);
+			data[animName].startupFrame = std::stoi(strvec[3]);
+			data[animName].activeFrame = std::stoi(strvec[4]);
+			data[animName].recoveryFrame = std::stoi(strvec[5]);
         }
         catch (const std::invalid_argument&)
 		{

@@ -19,7 +19,7 @@ private:
 	// ボタンの入力履歴を保存する
 	struct CommandInput
 	{
-		const char* button;		// 入力されたボタン
+		std::string button;		// 入力されたコマンド名
 		int frameCount;			// 入力されたフレーム数
 	};
 
@@ -189,7 +189,7 @@ public:
 	/// <param name="command">入力されたボタン</param>
 	/// <param name="inputLog">ボタンログ</param>
 	/// <returns>入力されたか</returns>
-	bool CheckCommand(const std::vector<char*>& command, const std::vector<CommandInput>& inputLog);
+	bool CheckCommand(const std::vector<std::string>& command, const std::vector<CommandInput>& inputLog);
 
 private:
 	/// <summary>

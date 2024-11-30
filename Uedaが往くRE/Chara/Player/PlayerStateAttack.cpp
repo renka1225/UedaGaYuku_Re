@@ -33,35 +33,31 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
     PlayerStateBase::Update(input, camera, stage, weapon, pEnemy);
     m_pPlayer->Move(VGet(0.0f, 0.0f, 0.0f), stage);   // 移動情報を反映する
 
-    // ボタン入力がすでにある場合
-    //bool isCommand = m_pPlayer->CheckCommand({ InputId::kPunch, InputId::kKick }, m_pPlayer->GetInputLog());
-    //if (isCommand)
-    //{
-    //    printfDx("コンボ入力あり\n");
-
-    //    // 2コンボ目に移行する
-    //    if (m_attackKind == AnimName::kPunchStrong)
-    //    {
-    //        Init(AnimName::kPunch2);
-    //    }
-    //    // 3コンボ目に移行する
-    //    else if (m_attackKind == AnimName::kPunchStrong)
-    //    {
-    //        Init(AnimName::kPunch3);
-    //    }
-    //    // 現在最終コンボの場合
-    //    else if (m_attackKind == AnimName::kPunchStrong)
-    //    {
-    //        // StateをIdleに変更する
-    //        ChangeStateIdle();
-    //    }
-    //    // キックに移行する
-    //    else if (m_attackKind == AnimName::kKick)
-    //    {
-    //        Init(AnimName::kKick);
-    //    }
-    //    return;
-    //}
+    // パンチコマンドが入力されている場合
+    if (m_pPlayer->CheckCommand({ InputId::kPunch, InputId::kPunch }, m_pPlayer->GetInputLog()))
+    {
+        // 2コンボ目に移行する
+        if (m_attackKind == AnimName::kPunchStrong)
+        {
+            printfDx("2コンボ目\n");
+            Init(AnimName::kPunch2);
+            return;
+        }
+        // 3コンボ目に移行する
+        else if (m_attackKind == AnimName::kPunch2)
+        {
+            printfDx("3コンボ目\n");
+            Init(AnimName::kPunch3);
+            return;
+        }
+        // 現在最終コンボの場合
+        else if (m_attackKind == AnimName::kPunch3)
+        {
+            // StateをIdleに変更する
+            ChangeStateIdle();
+            return;
+        }
+    }
 
 	// 攻撃終了した場合
     if (m_isAttackEnd)
@@ -135,12 +131,6 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
         }
     }
 }
-
-//void PlayerStateAttack::IsCheckAttackFlag()
-//{
-//    bool isPunch = m_attackKind == AnimName::kPunchStrong || m_attackKind == AnimName::kPunch1 ||
-//        m_attackKind == AnimName::kPunch2 || m_attackKind == AnimName::kPunch3;
-//}
 
 #ifdef _DEBUG
 std::string PlayerStateAttack::GetStateName()

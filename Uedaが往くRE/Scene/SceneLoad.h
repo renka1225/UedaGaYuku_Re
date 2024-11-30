@@ -32,5 +32,7 @@ public:
 	/// </summary>
 	void Draw();
 
+private:
+	int m_sSyncLoadNum; // 非同期読み込みの数
 };
 

@@ -360,16 +360,16 @@ void Player::UpdateInputLog(const Input& input, int currentFrame)
 {
 	if (input.IsTriggered(InputId::kPunch))
 	{
-		m_inputLog.push_back({ InputId::kPunch, currentFrame });
+		m_inputLog.push_back({ InputId::kPunch, currentFrame});
 	}
 	if (input.IsTriggered(InputId::kKick))
 	{
-		m_inputLog.push_back({ InputId::kKick, currentFrame });
+		m_inputLog.push_back({ InputId::kKick, currentFrame});
 	}
 
 	for (int i = 0; i < m_inputLog.size(); i++)
 	{
-		printfDx("%d.入力コマンド:%s\n", i, m_inputLog[i].button);
+		printfDx("%d.入力コマンド:%s\n", i, m_inputLog[i].button.c_str());
 	}
 
 	// 履歴を削除
@@ -392,8 +392,11 @@ void Player::UpdateInputLog(const Input& input, int currentFrame)
 	}
 }
 
-bool Player::CheckCommand(const std::vector<char*>& command, const std::vector<CommandInput>& inputLog)
+bool Player::CheckCommand(const std::vector<std::string>& command, const std::vector<CommandInput>& inputLog)
 {
+	// ログがない場合はチェックしない
+	if (inputLog.empty()) return false;
+
 	// コマンドの最終入力を確認する
 	int index = command.size() - 1;
 	// 最新の入力時間
@@ -404,12 +407,6 @@ bool Player::CheckCommand(const std::vector<char*>& command, const std::vector<C
 	{
 		if (it->button == command[index])
 		{
-			// 入力時間内にコマンド入力されていない場合
-			if (index >= command.size())
-			{
-				return false;
-			}
-
 			// 入力が確認できた場合
 			index--;
 			// すべてのコマンドが一致している場合
