@@ -48,6 +48,9 @@ namespace Font
 		kOption_soundVol = kSize36_4,		// 現在の音量
 		kOption_window = kSize36_4,			// 画面サイズのテキスト
 
+		// ロード画面
+		kLoading = kSize36_4,
+
 		// デバッグ
 		kDebug_animFrame = kDebug_EDGE,		// アニメーションのフレーム数
 	};

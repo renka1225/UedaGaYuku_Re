@@ -1,5 +1,6 @@
 ﻿#include "DxLib.h"
 #include "Game.h"
+#include "Font.h"
 #include "LoadCsv.h"
 #include "Player.h"
 #include "EnemyBase.h"
@@ -53,14 +54,21 @@ namespace
 	constexpr int kViewMapSize = 280;				// ミニマップ表示範囲
 	constexpr float kIconScale = 0.5f;				// キャラアイコン拡大率
 
-	const Vec2 kBattleNowPos = { 1550.0f, 50.0f };	// バトル中表示
+	const Vec2 kBattleNowPos = { 1550.0f, 50.0f };	// バトル中表示位置
 	constexpr float kNowBattleMoveSpeed = 13.0f;	// バトル中UIの移動速度
+
+	const Vec2 kLoadingPos = { 1600.0f, 950.0f };	// ロード中表示位置
+	constexpr float kLoadingMoveSpeed = 1.0f;		// テキストの移動速度
+	constexpr float kLoadingAmplitude = 4.0f;		// テキストの振幅
+	constexpr float kLoadingTextInterval = 20.0f;	// テキストの表示間隔
+	constexpr float kLoadingAnimTime = 0.05f;		// ローディング中のアニメーション時間
 }
 
 UiBase::UiBase():
 	m_cursorWidth(0.0f),
 	m_cursorDisplayTime(0),
 	m_cursorAlpha(kMaxCursorAlpha),
+	m_loadingAnimTime(0.0f),
 	m_dispEnemyKindScale(kDispBattleStartMaxScale),
 	m_dispNowBattlePosX(Game::kScreenWidth)
 {
@@ -117,6 +125,37 @@ void UiBase::DrawCursor(std::string cursorId, int select, float interval)
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
+void UiBase::DrawLoading()
+{
+	m_loadingAnimTime += kLoadingAnimTime;
+
+	// 表示する文字
+	std::string loadingText = "Now Loading...";
+
+	// 文字の表示位置
+	float charPosX = kLoadingPos.x; // 文字の間隔を設定
+
+	// 1文字ずつ描画する
+	for (size_t i = 0; i < loadingText.size(); i++)
+	{
+		// 現在の文字
+		char currentChar = loadingText[i];
+
+		// 現在の文字幅を取得する
+		int charWidth = GetDrawStringWidthToHandle(std::string(1, currentChar).c_str(), 1, Font::m_fontHandle[static_cast<int>(Font::FontId::kLoading)]);
+
+		// sin派を利用して文字を表示する高さを求める
+		float offset = sinf(m_loadingAnimTime * kLoadingMoveSpeed + i) * kLoadingAmplitude;
+		float charPosY = kLoadingPos.y + offset;
+
+		// 文字を描画
+		DrawStringFToHandle(charPosX, charPosY, std::string(1, currentChar).c_str(), Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kLoading)]);
+
+		// 次の文字の描画位置を計算
+		charPosX += charWidth;
+	}
+}
+
 void UiBase::DrawBattleStart()
 {
 	// 画像のサイズをだんだん小さくする
@@ -168,30 +207,31 @@ void UiBase::DrawMiniMap(const Player& pPlayer, std::vector<std::shared_ptr<Enem
 	// ミニマップ表示
 	DrawRectRotaGraphF(kMapPos.x, kMapPos.y, srcX, srcY, kViewMapSize, kViewMapSize, 1.0f, 0.0f, m_handle[Handle::kMiniMap], true);
 
-	// バトル中でない場合、敵アイコンを表示しない
-	if (!pPlayer.GetIsBattle()) return;
-
-	// 敵のアイコンを表示
-	for (auto& enemy : pEnemy)
+	// バトル中のみ敵アイコンを表示する
+	if (pPlayer.GetIsBattle())
 	{
-		VECTOR enemyPos = enemy->GetPos();
-		// プレイヤーから敵までの位置ベクトルを計算
-		VECTOR pToEVec = VSub(enemyPos, playerPos);
-
-		// 敵のワールド座標を正規化（0～1の範囲に変換）
-		float normEnemyX = pToEVec.x / kWorldWidth;
-		float normEnemyY = pToEVec.z / kWorldDepth;
-
-		// ミニマップ用の座標に変換
-		int mapEnemyX = static_cast<int>(normEnemyX * kMapSize + kMapPos.x);
-		int mapEnemyY = static_cast<int>(normEnemyY * kMapSize + kMapPos.y);
-
-		// 敵がミニマップ内にいる場合のみ描画する
-		bool isDisp = mapEnemyX >= 0&& mapEnemyX <= kViewMapSize + kMapPos.x + srcX &&
-				mapEnemyY >=0 && mapEnemyY <= kViewMapSize + kMapPos.y + srcY;
-		if (isDisp)
+		// 敵のアイコンを表示
+		for (auto& enemy : pEnemy)
 		{
-			DrawRotaGraph(mapEnemyX, mapEnemyY, kIconScale, enemy->GetAngle(), m_handle[Handle::kIconEnemy], true);
+			VECTOR enemyPos = enemy->GetPos();
+			// プレイヤーから敵までの位置ベクトルを計算
+			VECTOR pToEVec = VSub(enemyPos, playerPos);
+
+			// 敵のワールド座標を正規化（0～1の範囲に変換）
+			float normEnemyX = pToEVec.x / kWorldWidth;
+			float normEnemyY = pToEVec.z / kWorldDepth;
+
+			// ミニマップ用の座標に変換
+			int mapEnemyX = static_cast<int>(normEnemyX * kMapSize + kMapPos.x);
+			int mapEnemyY = static_cast<int>(normEnemyY * kMapSize + kMapPos.y);
+
+			// 敵がミニマップ内にいる場合のみ描画する
+			bool isDisp = mapEnemyX >= 0 && mapEnemyX <= kViewMapSize + kMapPos.x + srcX &&
+				mapEnemyY >= 0 && mapEnemyY <= kViewMapSize + kMapPos.y + srcY;
+			if (isDisp)
+			{
+				DrawRotaGraph(mapEnemyX, mapEnemyY, kIconScale, enemy->GetAngle(), m_handle[Handle::kIconEnemy], true);
+			}
 		}
 	}
 

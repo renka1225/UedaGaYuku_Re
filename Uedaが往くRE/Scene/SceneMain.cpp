@@ -37,26 +37,22 @@ SceneMain::SceneMain():
 	m_enemySpawnTime(0),
 	m_battleStartStagingTime(0),
 	m_isDispBattleStart(false),
-	m_isPause(false)
+	m_isPause(false),
+	m_isLoading(true)
 {
-	// TODO:非同期処理
+	// 非同期読み込み設定に変更
+	SetUseASyncLoadFlag(true);
 
 	m_modelHandle.resize(kModelNum);
 	m_pEnemy.resize(kEnemyKindNum);
+
 	LoadModelHandle(); // モデルを読み込む
-
-	m_pUiBar = std::make_shared<UiBar>();
-	m_pPlayer = std::make_shared<Player>(m_pUiBar, m_modelHandle[CharacterBase::CharaType::kPlayer]);
-	m_pWeapon = std::make_shared<Weapon>(m_pPlayer);
-	m_pCamera = std::make_shared<Camera>();
-	m_pStage = std::make_shared<Stage>(m_pPlayer);
-
-	SelectEnemy(); // 敵の種類を決める
 }
 
 void SceneMain::Init()
 {
-	if (m_isPause) return;
+	// ロード中、ポーズ中は初期化を行わない
+	if (m_isLoading || m_isPause) return;
 
 	m_pPlayer->Init();
 	m_pWeapon->Init();
@@ -68,6 +64,26 @@ void SceneMain::Init()
 
 std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 {
+	// ロード中の場合
+	if (m_isLoading)
+	{
+		// 非同期読み込み数を確認
+		int aSyncLoadNum = GetASyncLoadNum();
+		
+		// すべての読み込みが終了した場合
+		if (aSyncLoadNum == 0)
+		{
+			// 同期読み込み設定に変更
+			SetUseASyncLoadFlag(false);
+			m_isLoading = false;
+
+			// ロード完了後の処理を行う
+			InitAfterLoading();
+		}
+
+		return shared_from_this();
+	}
+
 	// メニューを開いたとき
 	if (input.IsTriggered(InputId::kMenu))
 	{
@@ -102,6 +118,13 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 
 void SceneMain::Draw()
 {
+	// ロード中
+	if (m_isLoading)
+	{
+		m_pUi->DrawLoading();
+		return;
+	}
+
 	m_pStage->Draw();
 	m_pItem->Draw();
 	m_pPlayer->Draw();
@@ -131,7 +154,6 @@ void SceneMain::Draw()
 	// ミニマップを表示
 	m_pUi->DrawMiniMap(*m_pPlayer, m_pEnemy);
 	
-
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_PLAYING");
 #endif
@@ -150,6 +172,24 @@ void SceneMain::LoadModelHandle()
 		sprintf_s(enemyId, "%02d", (i + 1));
 		m_modelHandle[(i + 1)] = MV1LoadModel((kEnemyHandlePath + std::string(enemyId) + ".mv1").c_str());
 	}
+}
+
+void SceneMain::InitAfterLoading()
+{
+	m_pUiBar = std::make_shared<UiBar>();
+	m_pPlayer = std::make_shared<Player>(m_pUiBar, m_modelHandle[CharacterBase::CharaType::kPlayer]);
+	m_pWeapon = std::make_shared<Weapon>(m_pPlayer);
+	m_pCamera = std::make_shared<Camera>();
+	m_pStage = std::make_shared<Stage>(m_pPlayer);
+
+	SelectEnemy(); // 敵の種類を決める
+
+	// 初期化を行う
+	m_pPlayer->Init();
+	m_pWeapon->Init();
+	m_pCamera->Init();
+	m_pUiBar->Init();
+	m_pItem->Init();
 }
 
 void SceneMain::UpdateBattleStartStaging()

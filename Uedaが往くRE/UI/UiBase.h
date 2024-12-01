@@ -65,6 +65,11 @@ public:
 	void DrawCursor(std::string cursorId, int select, float interval);
 
 	/// <summary>
+	/// ロード中の演出を表示
+	/// </summary>
+	void DrawLoading();
+
+	/// <summary>
 	/// バトル開始時の演出を表示
 	/// </summary>
 	void DrawBattleStart();
@@ -84,14 +89,16 @@ public:
 
 protected:
 	std::map<std::string, UiData> m_uiData;	// UIのデータ
+	std::vector<int> m_handle;	// ハンドル
 
 	float m_cursorWidth;		// カーソルの横幅
 	int m_cursorDisplayTime;	// カーソルを表示する時間
 	int m_cursorAlpha;			// カーソルのα値
 
+	float m_loadingAnimTime;	// ローディング中のアニメーション時間
+
 	float m_dispEnemyKindScale;	// バトル開始時の敵種類の表示サイズ
 	float m_dispNowBattlePosX;	// バトル中のUI表示位置X
 
-	std::vector<int> m_handle;	// ハンドル
 };
 

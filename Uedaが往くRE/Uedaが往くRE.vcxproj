@@ -181,7 +181,6 @@
     <ClCompile Include="Scene\SceneEnhance.cpp" />
     <ClCompile Include="Scene\SceneUseItem.cpp" />
     <ClCompile Include="Scene\SceneMenu.cpp" />
-    <ClCompile Include="Scene\SceneLoad.cpp" />
     <ClCompile Include="UI\UiBar.cpp" />
     <ClCompile Include="Util\EffectManager.cpp" />
     <ClCompile Include="Util\Font.cpp" />
@@ -232,7 +231,6 @@
     <ClInclude Include="Scene\SceneEnhance.h" />
     <ClInclude Include="Scene\SceneUseItem.h" />
     <ClInclude Include="Scene\SceneMenu.h" />
-    <ClInclude Include="Scene\SceneLoad.h" />
     <ClInclude Include="UI\UiBar.h" />
     <ClInclude Include="Util\EffectManager.h" />
     <ClInclude Include="Util\Font.h" />

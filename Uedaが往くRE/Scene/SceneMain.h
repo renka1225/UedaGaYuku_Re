@@ -50,6 +50,11 @@ public:
 
 private:
 	/// <summary>
+	/// ローディング後の初期化
+	/// </summary>
+	void InitAfterLoading();
+
+	/// <summary>
 	/// バトル開始演出の更新を行う
 	/// </summary>
 	void UpdateBattleStartStaging();
@@ -83,4 +88,6 @@ private:
 
 	bool m_isDispBattleStart;	// バトル開始演出が再生中かどうか
 	bool m_isPause;				// ポーズ状態かどうか(true:ポーズ状態)
+
+	bool m_isLoading;	// ロード中か(true:ロード中)
 };
