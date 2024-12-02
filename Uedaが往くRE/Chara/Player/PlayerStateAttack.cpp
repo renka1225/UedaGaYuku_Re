@@ -18,9 +18,17 @@ void PlayerStateAttack::Init(std::string attackName)
     m_attackKind = attackName;
 	m_pPlayer->ChangeAnim(m_attackKind);
 
-    if (m_attackKind == AnimName::kPunchStrong)
+    if (m_attackKind == AnimName::kPunch1)
     {
-        m_animEndTime = m_pPlayer->GetAnimTotalTime(AnimName::kPunchStrong);
+        m_animEndTime = m_pPlayer->GetAnimTotalTime(AnimName::kPunch1);
+    }
+    if (m_attackKind == AnimName::kPunch2)
+    {
+        m_animEndTime = m_pPlayer->GetAnimTotalTime(AnimName::kPunch2);
+    }
+    if (m_attackKind == AnimName::kPunch3)
+    {
+        m_animEndTime = m_pPlayer->GetAnimTotalTime(AnimName::kPunch3);
     }
     else if (m_attackKind == AnimName::kKick)
     {
@@ -37,7 +45,7 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
     if (m_pPlayer->CheckCommand({ InputId::kPunch, InputId::kPunch }, m_pPlayer->GetInputLog()))
     {
         // 2コンボ目に移行する
-        if (m_attackKind == AnimName::kPunchStrong)
+        if (m_attackKind == AnimName::kPunch1)
         {
             printfDx("2コンボ目\n");
             Init(AnimName::kPunch2);
@@ -90,6 +98,9 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
         bool isSkip = enemy == nullptr || enemy->GetIsInvincible();
         if (isSkip) continue;
 
+        // パンチ状態かチェック
+        bool isPunch = m_attackKind == AnimName::kPunch1 || m_attackKind == AnimName::kPunch2 || m_attackKind == AnimName::kPunch3;
+
         // 武器掴み中の場合
         if (m_pPlayer->GetIsGrabWeapon())
         {
@@ -104,7 +115,7 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             }
         }
         // パンチ攻撃
-        else if (m_attackKind == AnimName::kPunchStrong)
+        else if (isPunch)
         {
             if (enemy == nullptr) continue;
 
@@ -135,15 +146,11 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
 #ifdef _DEBUG
 std::string PlayerStateAttack::GetStateName()
 {
-    if (m_attackKind == AnimName::kPunchStrong)
-    {
-        return "パンチ中";
-    }
-    else if (m_attackKind == AnimName::kKick)
-    {
-        return "キック中";
-    }
+    if (m_attackKind == AnimName::kPunch1) return "パンチ1中";
+    else if (m_attackKind == AnimName::kPunch1) return "パンチ2中";
+    if (m_attackKind == AnimName::kPunch1) return "パンチ3中";
+    else if (m_attackKind == AnimName::kKick)  return "キック中";
 
-    return "攻撃中";
+    return "アニメーションなし";
 }
 #endif

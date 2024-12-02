@@ -110,7 +110,7 @@ void PlayerStateBase::ChangeStateAttack(const Input& input)
 	// 押されたボタンによって状態を変更する
 	if (input.IsTriggered(InputId::kPunch))
 	{
-		state->Init(AnimName::kPunchStrong);
+		state->Init(AnimName::kPunch1);
 	}
 	else if (input.IsTriggered(InputId::kKick))
 	{
