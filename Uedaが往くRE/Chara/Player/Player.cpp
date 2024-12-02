@@ -30,6 +30,7 @@ namespace
 	constexpr int kBattleStartTime = 60;		// バトルが開始するまでの時間
 
 	constexpr int kInputRetentionFrame = 30;	// 入力の履歴を削除するまでのフレーム数
+	constexpr int kInputTimeAdj = 40;			// 入力受付時間調節
 }
 
 Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
@@ -367,23 +368,25 @@ void Player::UpdateInputLog(const Input& input, int currentFrame)
 		m_inputLog.push_back({ InputId::kKick, currentFrame});
 	}
 
-	for (int i = 0; i < m_inputLog.size(); i++)
-	{
-		printfDx("%d.入力コマンド:%s\n", i, m_inputLog[i].button.c_str());
-	}
+#ifdef _DEBUG
+	// 入力コマンドをデバックで確認
+	//for (int i = 0; i < m_inputLog.size(); i++)
+	//{
+	//	printfDx("%d.入力コマンド:%s\n", i, m_inputLog[i].button.c_str());
+	//}
+#endif
 
 	// 履歴を削除
 	for (auto it = m_inputLog.begin(); it != m_inputLog.end();)
 	{
 		// 入力受付時間
-		const int inputReceptionTime = m_animData[m_currenAnimName].startupFrame + m_animData[m_currenAnimName].activeFrame;
+		const int inputReceptionTime = m_animData[m_currenAnimName].startupFrame + m_animData[m_currenAnimName].activeFrame + kInputTimeAdj;
 
 		// 入力をチェック 
 		if (currentFrame - it->frameCount > inputReceptionTime)
 		{
 			// 削除する
 			it = m_inputLog.erase(it);
-			printfDx("入力履歴削除\n");
 		}
 		else
 		{

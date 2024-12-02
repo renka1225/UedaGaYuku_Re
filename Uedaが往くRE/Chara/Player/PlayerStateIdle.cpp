@@ -1,6 +1,4 @@
-﻿#include "DxLib.h"
-#include "Game.h"
-#include "Input.h"
+﻿#include "Input.h"
 #include "LoadCsv.h"
 #include "Player.h"
 #include "PlayerStateAttack.h"

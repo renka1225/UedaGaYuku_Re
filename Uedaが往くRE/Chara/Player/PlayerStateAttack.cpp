@@ -1,5 +1,4 @@
-﻿#include "Game.h"
-#include "Input.h"
+﻿#include "Input.h"
 #include "Weapon.h"
 #include "CharacterBase.h"
 #include "EnemyBase.h"
@@ -18,6 +17,7 @@ void PlayerStateAttack::Init(std::string attackName)
     m_attackKind = attackName;
 	m_pPlayer->ChangeAnim(m_attackKind);
 
+    // 現在のアニメーション終了時間を取得する
     if (m_attackKind == AnimName::kPunch1)
     {
         m_animEndTime = m_pPlayer->GetAnimTotalTime(AnimName::kPunch1);
@@ -41,32 +41,6 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
     PlayerStateBase::Update(input, camera, stage, weapon, pEnemy);
     m_pPlayer->Move(VGet(0.0f, 0.0f, 0.0f), stage);   // 移動情報を反映する
 
-    // パンチコマンドが入力されている場合
-    if (m_pPlayer->CheckCommand({ InputId::kPunch, InputId::kPunch }, m_pPlayer->GetInputLog()))
-    {
-        // 2コンボ目に移行する
-        if (m_attackKind == AnimName::kPunch1)
-        {
-            printfDx("2コンボ目\n");
-            Init(AnimName::kPunch2);
-            return;
-        }
-        // 3コンボ目に移行する
-        else if (m_attackKind == AnimName::kPunch2)
-        {
-            printfDx("3コンボ目\n");
-            Init(AnimName::kPunch3);
-            return;
-        }
-        // 現在最終コンボの場合
-        else if (m_attackKind == AnimName::kPunch3)
-        {
-            // StateをIdleに変更する
-            ChangeStateIdle();
-            return;
-        }
-    }
-
 	// 攻撃終了した場合
     if (m_isAttackEnd)
     {
@@ -74,6 +48,7 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
         for (auto& enemy : pEnemy)
         {
             if (enemy == nullptr) continue;
+            // 敵の無敵状態を解除する
             enemy->SetIsInvincible(false);
         }
 
@@ -89,9 +64,6 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
 
 void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 {
-    m_animEndTime--;
-    if (m_animEndTime < 0.0f) m_isAttackEnd = true;
-
     for (auto& enemy : pEnemy)
     {
         // 特定の状態の場合はスキップする
@@ -109,9 +81,10 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             if (isHitWeaponCol)
             {
                 // TODO:片手武器、両手武器によって攻撃力変える
-                enemy->OnDamage(m_pPlayer->GetStatus().atkPowerOneHandWeapon);
-                enemy->SetIsInvincible(true);
+                enemy->OnDamage(GetAttackPower());
                 weapon.DecrementDurability();
+                // 敵を無敵状態にする
+                enemy->SetIsInvincible(true);
             }
         }
         // パンチ攻撃
@@ -123,7 +96,8 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             bool isHitPunchCol = enemy->CheckHitPunchCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
             if (isHitPunchCol)
             {
-                enemy->OnDamage(m_pPlayer->GetStatus().atkPowerPunch1);
+                enemy->OnDamage(GetAttackPower());
+                // 敵を無敵状態にする
                 enemy->SetIsInvincible(true);
             }
         }
@@ -136,20 +110,65 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             bool isHitKickCol = enemy->CheckHitKickCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
             if (isHitKickCol)
             {
-                enemy->OnDamage(m_pPlayer->GetStatus().atkPowerKick);
+                enemy->OnDamage(GetAttackPower());
+                // 敵を無敵状態にする
                 enemy->SetIsInvincible(true);
             }
         }
     }
+
+    // アニメーション時間の更新
+    m_animEndTime--;
+    if (m_animEndTime > 0.0f) return;
+
+    // パンチコマンドが入力されている場合
+    if (m_pPlayer->CheckCommand({ InputId::kPunch, InputId::kPunch }, m_pPlayer->GetInputLog()))
+    {
+        // 2コンボ目に移行する
+        if (m_attackKind == AnimName::kPunch1)
+        {
+            //printfDx("2コンボ目\n");
+            Init(AnimName::kPunch2);
+            return;
+        }
+        // 3コンボ目に移行する
+        else if (m_attackKind == AnimName::kPunch2)
+        {
+            //printfDx("3コンボ目\n");
+            Init(AnimName::kPunch3);
+            return;
+        }
+        // 現在最終コンボの場合
+        else if (m_attackKind == AnimName::kPunch3)
+        {
+            // 攻撃を終了する
+            m_isAttackEnd = true;
+            return;
+        }
+    }
+    else
+    {
+        // 攻撃を終了する
+        m_isAttackEnd = true;
+    }
+}
+
+float PlayerStateAttack::GetAttackPower()
+{
+    auto atk =  m_pPlayer->GetStatus();
+    if (m_attackKind == AnimName::kPunch1) return atk.atkPowerPunch1;
+    if (m_attackKind == AnimName::kPunch2) return atk.atkPowerPunch2;
+    if (m_attackKind == AnimName::kPunch3) return atk.atkPowerPunch3;
+    if (m_attackKind == AnimName::kKick)  return atk.atkPowerKick;
 }
 
 #ifdef _DEBUG
 std::string PlayerStateAttack::GetStateName()
 {
     if (m_attackKind == AnimName::kPunch1) return "パンチ1中";
-    else if (m_attackKind == AnimName::kPunch1) return "パンチ2中";
-    if (m_attackKind == AnimName::kPunch1) return "パンチ3中";
-    else if (m_attackKind == AnimName::kKick)  return "キック中";
+    if (m_attackKind == AnimName::kPunch2) return "パンチ2中";
+    if (m_attackKind == AnimName::kPunch3) return "パンチ3中";
+    if (m_attackKind == AnimName::kKick)  return "キック中";
 
     return "アニメーションなし";
 }

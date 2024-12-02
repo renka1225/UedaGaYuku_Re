@@ -1,5 +1,4 @@
-﻿#include "Game.h"
-#include "EnemyBase.h"
+﻿#include "EnemyBase.h"
 #include "EnemyStateIdle.h"
 #include "EnemyStateAvoid.h"
 

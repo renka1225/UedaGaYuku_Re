@@ -1,5 +1,4 @@
-﻿#include "Game.h"
-#include "Input.h"
+﻿#include "Input.h"
 #include "EffectManager.h"
 #include "SceneBase.h"
 #include "Weapon.h"

@@ -1,5 +1,4 @@
-﻿#include "Game.h"
-#include "CharacterBase.h"
+﻿#include "CharacterBase.h"
 #include "Player.h"
 #include "EnemyBase.h"
 #include "EnemyStateIdle.h"

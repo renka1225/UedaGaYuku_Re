@@ -268,7 +268,8 @@ float CharacterBase::GetAnimTotalTime(std::string animName)
 {
 	int animIndex = GetAnimIndex(animName);
 	float totalTime = MV1GetAnimTotalTime(m_modelHandle, animIndex);
-	return MV1GetAnimTotalTime(m_modelHandle, animIndex);;
+	printfDx("%.2f\n", totalTime);
+	return MV1GetAnimTotalTime(m_modelHandle, animIndex);
 }
 
 int CharacterBase::GetAnimIndex(std::string animName)

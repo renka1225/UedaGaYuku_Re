@@ -62,6 +62,12 @@ private:
 	/// </summary>
 	void UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr<EnemyBase>> pEnemy);
 
+	/// <summary>
+	/// プレイヤーの現在の攻撃力を取得する
+	/// </summary>
+	/// <returns>攻撃力</returns>
+	float GetAttackPower();
+
 private:
 	std::string m_attackKind;	// 入力された攻撃の種類
 	bool m_isAttackEnd;			// 攻撃が終わったかどうか

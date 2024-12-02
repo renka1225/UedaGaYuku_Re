@@ -1,5 +1,4 @@
-﻿#include "Game.h"
-#include "EffectManager.h"
+﻿#include "EffectManager.h"
 #include "Player.h"
 #include "EnemyBase.h"
 #include "EnemyStateIdle.h"

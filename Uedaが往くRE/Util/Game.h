@@ -24,29 +24,3 @@ namespace Color
 	constexpr int kColorLB = 0x00ffff;	// 水色
 	constexpr int kColorP = 0xff00ff;	// 紫色
 }
-
-/// <summary>
-/// アニメーション名
-/// </summary>
-namespace AnimName
-{
-	const char* const kIdleStand = "idle_stand";
-	const char* const kIdleFight = "idle_fight";
-	const char* const kKick = "kick";
-	const char* const kKickRound = "kick_round";
-	const char* const kKickHeat = "kick_heat";
-	const char* const kPunch1 = "punch1";
-	const char* const kPunch2 = "punch2";
-	const char* const kPunch3 = "punch3";
-	const char* const kPunchStrong = "punch_strong";
-	const char* const kRun = "run";
-	const char* const kWalk = "walk";
-	const char* const kWalkFight = "walk_fight";
-	const char* const kAvoid = "avoid";
-	const char* const kGuard = "guard";
-	const char* const kDamage = "damage";
-	const char* const kDown = "down";
-	const char* const kGrabEnemy = "grab_enemy";
-	const char* const kGrabOneHandWeapon = "grab_oneHandWeapon";
-	const char* const kGrabTwoHandWeapon= "grab_twoHandWeapon";
-}

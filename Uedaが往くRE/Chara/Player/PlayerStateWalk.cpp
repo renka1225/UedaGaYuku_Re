@@ -1,5 +1,4 @@
-﻿#include "Game.h"
-#include "Input.h"
+﻿#include "Input.h"
 #include "Camera.h"
 #include "Player.h"
 #include "PlayerStateRun.h"

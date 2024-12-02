@@ -1,5 +1,4 @@
-﻿#include "Game.h"
-#include "Input.h"
+﻿#include "Input.h"
 #include "Player.h"
 #include "PlayerStateIdle.h"
 #include "PlayerStateGuard.h"

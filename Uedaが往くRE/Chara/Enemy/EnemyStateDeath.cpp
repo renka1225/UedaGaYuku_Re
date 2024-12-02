@@ -1,5 +1,4 @@
-﻿#include "Game.h"
-#include "Item.h"
+﻿#include "Item.h"
 #include "EnemyBase.h"
 #include "EnemyStateDeath.h"
 #include <random>
