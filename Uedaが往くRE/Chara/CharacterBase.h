@@ -166,6 +166,16 @@ public:
 	void UpdateAnim();
 
 	/// <summary>
+	/// アニメーションを一時停止する
+	/// </summary>
+	void PauseAnim();
+
+	/// <summary>
+	/// 一時停止したアニメーションを再生する
+	/// </summary>
+	void StartAnim();
+
+	/// <summary>
 	/// 攻撃状態をセットする
 	/// </summary>
 	/// <param name="isGrab">攻撃中かどうか</param>

@@ -50,6 +50,11 @@ public:
 
 private:
 	/// <summary>
+	///	ローディング中の処理
+	/// </summary>
+	void Loading();
+
+	/// <summary>
 	/// ローディング後の初期化
 	/// </summary>
 	void InitAfterLoading();
@@ -58,6 +63,11 @@ private:
 	/// バトル開始演出の更新を行う
 	/// </summary>
 	void UpdateBattleStartStaging();
+
+	/// <summary>
+	/// バトル終了演出の更新を行う
+	/// </summary>
+	void UpdateBattleEndStaging();
 
 	/// <summary>
 	/// 敵を生成する
@@ -85,9 +95,10 @@ private:
 
 	int m_enemySpawnTime;			// 敵がスポーンするまでの時間
 	int m_battleStartStagingTime;	// バトル開始演出の時間
+	int m_battleEndStagingTime;		// バトル終了演出の時間
 
-	bool m_isDispBattleStart;	// バトル開始演出が再生中かどうか
-	bool m_isPause;				// ポーズ状態かどうか(true:ポーズ状態)
-
+	bool m_isDispBattleStart;	// バトル開始演出中かどうか(true:演出中)
+	bool m_isBattleEndStaging;	// バトル終了演出中か(true:演出中)
+	bool m_isPause;		// ポーズ状態かどうか(true:ポーズ状態)
 	bool m_isLoading;	// ロード中か(true:ロード中)
 };

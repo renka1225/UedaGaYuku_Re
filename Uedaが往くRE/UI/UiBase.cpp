@@ -167,6 +167,11 @@ void UiBase::DrawBattleStart()
 	DrawRectRotaGraphF(kDispBattleStartPos.x, kDispBattleStartPos.y, 0, 0, sizeW, sizeH, m_dispEnemyKindScale, 0.0f, m_handle[Handle::kEnemy_tinpira], true);
 }
 
+void UiBase::DrawBattleEnd()
+{
+	DrawString(0, 700, "バトル終了\n", Color::kColorB);
+}
+
 void UiBase::DrawBattleUi(const Player& pPlayer)
 {
 	// バトル中の場合

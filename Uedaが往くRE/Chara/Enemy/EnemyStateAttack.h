@@ -44,6 +44,13 @@ public:
 	virtual std::string GetStateName() override;
 #endif
 
+	/// <summary>
+	/// 敵の現在の攻撃力を取得する
+	/// </summary>
+	/// <param name="pPlayer">プレイヤー参照</param>
+	/// <returns>攻撃力</returns>
+	float GetAttackPower(Player& pPlayer);
+
 private:
 	std::string m_attackKind;	// 入力された攻撃の種類
 	float m_attackEndTime;		// 攻撃が終わるまでの時間

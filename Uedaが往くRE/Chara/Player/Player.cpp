@@ -310,7 +310,6 @@ void Player::UpdateBattle(int enemyIndex)
 			if (m_battleStartCount <= 0)
 			{
 				m_isBattle = true;
-				printfDx("バトル開始\n");
 			}
 		}
 		else

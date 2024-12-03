@@ -31,12 +31,15 @@ namespace
 	constexpr float kEnemyExtinctionDist = 2000.0f;	// 敵が消滅する範囲
 
 	constexpr int kBattleStartStagingTime = 40;	// バトル開始時の演出時間
+	constexpr int kBattleEndStagingTime = 30;	// バトル終了時の演出時間
 }
 
 SceneMain::SceneMain():
 	m_enemySpawnTime(0),
 	m_battleStartStagingTime(0),
+	m_battleEndStagingTime(0),
 	m_isDispBattleStart(false),
+	m_isBattleEndStaging(false),
 	m_isPause(false),
 	m_isLoading(true)
 {
@@ -67,20 +70,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	// ロード中の場合
 	if (m_isLoading)
 	{
-		// 非同期読み込み数を確認
-		int aSyncLoadNum = GetASyncLoadNum();
-		
-		// すべての読み込みが終了した場合
-		if (aSyncLoadNum == 0)
-		{
-			// 同期読み込み設定に変更
-			SetUseASyncLoadFlag(false);
-			m_isLoading = false;
-
-			// ロード完了後の処理を行う
-			InitAfterLoading();
-		}
-
+		Loading();
 		return shared_from_this();
 	}
 
@@ -91,12 +81,17 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		return std::make_shared<SceneMenu>(shared_from_this(), m_pPlayer, m_pCamera);
 	}
 
-	// バトル開始演出の時間を更新する
+	// バトル開始演出
 	UpdateBattleStartStaging();
+	// バトル終了演出
+	UpdateBattleEndStaging();
 
 	// 敵が1体もいなくなった場合
 	if (m_pEnemy.empty())
 	{
+		// バトル終了演出を表示
+		m_isBattleEndStaging = true;
+
 		// プレイヤーを通常状態にする
 		m_pPlayer->SetIsBattle(false);
 
@@ -143,6 +138,11 @@ void SceneMain::Draw()
 	{
 		m_pUi->DrawBattleStart();
 	}
+	// バトル終了の演出を表示
+	if (m_battleEndStagingTime > 0)
+	{
+		m_pUi->DrawBattleEnd();
+	}
 
 	// バトル中UI表示
 	m_pUi->DrawBattleUi(*m_pPlayer);
@@ -171,6 +171,23 @@ void SceneMain::LoadModelHandle()
 		char enemyId[3];
 		sprintf_s(enemyId, "%02d", (i + 1));
 		m_modelHandle[(i + 1)] = MV1LoadModel((kEnemyHandlePath + std::string(enemyId) + ".mv1").c_str());
+	}
+}
+
+void SceneMain::Loading()
+{
+	// 非同期読み込み数を確認
+	int aSyncLoadNum = GetASyncLoadNum();
+
+	// すべての読み込みが終了した場合
+	if (aSyncLoadNum == 0)
+	{
+		// 同期読み込み設定に変更
+		SetUseASyncLoadFlag(false);
+		m_isLoading = false;
+
+		// ロード完了後の処理を行う
+		InitAfterLoading();
 	}
 }
 
@@ -229,6 +246,47 @@ void SceneMain::UpdateBattleStartStaging()
 	{
 		m_battleStartStagingTime = 0;
 		m_isDispBattleStart = false;
+	}
+}
+
+void SceneMain::UpdateBattleEndStaging()
+{
+	// 演出時間をリセットする
+	if (!m_isBattleEndStaging)
+	{
+		m_battleEndStagingTime = kBattleEndStagingTime;
+		m_isBattleEndStaging = true;
+	}
+
+	// 演出中
+	if (m_battleEndStagingTime > 0)
+	{
+		m_battleEndStagingTime--;
+
+		// アニメーションを一時停止する
+		for (auto& enemy : m_pEnemy)
+		{
+			if (enemy == nullptr) continue;
+			//enemy->SetCurrentAnim("Death")
+			enemy->PauseAnim();
+		}
+		m_pPlayer->PauseAnim();
+
+		// 終了BGMを流す
+	}
+	// 演出終了後
+	else
+	{
+		m_isBattleEndStaging = false;
+
+		// アニメーションの再生時間を戻す
+		for (auto& enemy : m_pEnemy)
+		{
+			if (enemy == nullptr) continue;
+			//enemy->SetCurrentAnim("Death")
+			enemy->StartAnim();
+		}
+		m_pPlayer->StartAnim();
 	}
 }
 

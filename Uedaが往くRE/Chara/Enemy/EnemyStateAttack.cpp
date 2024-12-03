@@ -56,7 +56,7 @@ void EnemyStateAttack::Update(Stage& pStage, Player& pPlayer)
             bool isHitPunchCol = pPlayer.CheckHitPunchCol(m_pEnemy->GetCol(m_pEnemy->GetEnemyIndex()), 0);
             if (isHitPunchCol)
             {
-                pPlayer.OnDamage(m_pEnemy->GetStatus().atkPowerPunch1);
+                pPlayer.OnDamage(GetAttackPower(pPlayer));
                 pPlayer.SetIsInvincible(true);
             }
         }
@@ -65,7 +65,7 @@ void EnemyStateAttack::Update(Stage& pStage, Player& pPlayer)
             bool isHitKickCol = pPlayer.CheckHitKickCol(m_pEnemy->GetCol(m_pEnemy->GetEnemyIndex()), 0);
             if (isHitKickCol)
             {
-                pPlayer.OnDamage(m_pEnemy->GetStatus().atkPowerKick);
+                pPlayer.OnDamage(GetAttackPower(pPlayer));
                 pPlayer.SetIsInvincible(true);
             }
         }
@@ -74,13 +74,18 @@ void EnemyStateAttack::Update(Stage& pStage, Player& pPlayer)
 
 std::string EnemyStateAttack::GetStateName()
 {
-    if (m_attackKind == AnimName::kPunchStrong)
-    {
-        return "パンチ中";
-    }
-    else
-    {
-        return "キック中";
-    }
+    if (m_attackKind == AnimName::kPunchStrong)  return "パンチ中";
+    else return "キック中";
     
+}
+
+float EnemyStateAttack::GetAttackPower(Player& pPlayer)
+{
+    // ステータス取得
+    auto status = m_pEnemy->GetStatus();
+
+    // プレイヤーがガード中はダメージが入らないようにする
+    if (pPlayer.GetIsGuard()) return 0.0f;
+    if (m_attackKind == AnimName::kPunchStrong) return status.atkPowerPunch1;
+    if (m_attackKind == AnimName::kKick)  return status.atkPowerKick;
 }

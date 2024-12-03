@@ -75,6 +75,11 @@ public:
 	void DrawBattleStart();
 
 	/// <summary>
+	/// バトル終了時の演出を表示
+	/// </summary>
+	void DrawBattleEnd();
+
+	/// <summary>
 	/// バトル中のUIを表示
 	/// </summary>
 	/// <param name="pPlayer">プレイヤー参照</param>

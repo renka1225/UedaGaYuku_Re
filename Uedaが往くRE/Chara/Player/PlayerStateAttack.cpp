@@ -155,11 +155,13 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
 
 float PlayerStateAttack::GetAttackPower()
 {
-    auto atk =  m_pPlayer->GetStatus();
-    if (m_attackKind == AnimName::kPunch1) return atk.atkPowerPunch1;
-    if (m_attackKind == AnimName::kPunch2) return atk.atkPowerPunch2;
-    if (m_attackKind == AnimName::kPunch3) return atk.atkPowerPunch3;
-    if (m_attackKind == AnimName::kKick)  return atk.atkPowerKick;
+    // ステータス取得
+    auto status =  m_pPlayer->GetStatus();
+
+    if (m_attackKind == AnimName::kPunch1) return status.atkPowerPunch1;
+    if (m_attackKind == AnimName::kPunch2) return status.atkPowerPunch2;
+    if (m_attackKind == AnimName::kPunch3) return status.atkPowerPunch3;
+    if (m_attackKind == AnimName::kKick)  return status.atkPowerKick;
 }
 
 #ifdef _DEBUG

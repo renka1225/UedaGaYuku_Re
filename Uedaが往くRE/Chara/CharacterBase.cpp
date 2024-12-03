@@ -224,6 +224,18 @@ void CharacterBase::UpdateAnim()
 	MV1SetAttachAnimBlendRate(m_modelHandle, m_prevPlayAnim, kAnimBlendMax - m_animBlendRate);
 }
 
+void CharacterBase::PauseAnim()
+{
+	m_animPlaySpeed = 0.0f;
+	printfDx("アニメーション停止中\n");
+}
+
+void CharacterBase::StartAnim()
+{
+	m_animPlaySpeed = m_animData[m_currenAnimName].playSpeed;
+	printfDx("m_animPlaySpeed:%f\n", m_animPlaySpeed);
+}
+
 void CharacterBase::UpdateCol(int charType)
 {
 	// キャラクターの向きをもとに当たり判定の位置を調整する
@@ -268,7 +280,6 @@ float CharacterBase::GetAnimTotalTime(std::string animName)
 {
 	int animIndex = GetAnimIndex(animName);
 	float totalTime = MV1GetAnimTotalTime(m_modelHandle, animIndex);
-	printfDx("%.2f\n", totalTime);
 	return MV1GetAnimTotalTime(m_modelHandle, animIndex);
 }
 
