@@ -24,7 +24,7 @@ public:
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	virtual ~SceneMain() {};
+	virtual ~SceneMain();
 
 	/// <summary>
 	/// 初期化
@@ -68,6 +68,11 @@ private:
 	/// バトル終了演出の更新を行う
 	/// </summary>
 	void UpdateBattleEndStaging();
+
+	/// <summary>
+	/// サウンド再生の処理を行う
+	/// </summary>
+	void UpdateSound();
 
 	/// <summary>
 	/// 敵を生成する

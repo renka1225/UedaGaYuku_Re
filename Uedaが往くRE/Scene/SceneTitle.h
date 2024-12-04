@@ -10,12 +10,12 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	SceneTitle() {}
+	SceneTitle();
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	virtual ~SceneTitle() {}
+	virtual ~SceneTitle();
 
 	/// <summary>
 	/// 初期化

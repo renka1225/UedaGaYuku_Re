@@ -84,6 +84,9 @@ void Sound::PlaySe(std::string seName)
 
 void Sound::PlayBgm(std::string bgmName)
 {
+	// すでに再生中の場合は飛ばす
+	if (CheckSoundMem(m_bgmData[bgmName].handle)) return;
+
 	PlaySoundMem(m_bgmData[bgmName].handle, DX_PLAYTYPE_LOOP);
 	SetBgmVol(bgmName);
 }

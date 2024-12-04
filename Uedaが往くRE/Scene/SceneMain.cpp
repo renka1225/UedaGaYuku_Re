@@ -1,6 +1,7 @@
 ﻿#include "Game.h"
 #include "Input.h"
 #include "LoadCsv.h"
+#include "Sound.h"
 #include "EffectManager.h"
 #include "UiBar.h"
 #include "Camera.h"
@@ -22,6 +23,9 @@ namespace
 {
 	const char* kPlayerHandlePath = "data/model/chara/player.mv1";	// プレイヤーのモデルハンドルパス
 	const char* kEnemyHandlePath = "data/model/chara/enemy_";		// 敵のモデルハンドルパス
+
+	const char* kBattleBgm = "battle.mp3"; // バトルBGM名
+
 	constexpr int kModelNum = 3;		// 読み込むモデルの数
 	constexpr int kEnemyMaxNum = 2;		// 1度に出現する最大の敵数
 	constexpr int kEnemyKindNum = 2;	// 敵の種類
@@ -51,6 +55,12 @@ SceneMain::SceneMain():
 	m_pEnemy.resize(kEnemyKindNum);
 
 	LoadModelHandle(); // モデルを読み込む
+}
+
+SceneMain::~SceneMain()
+{
+	// サウンドの削除
+	Sound::GetInstance().UnLoad();
 }
 
 void SceneMain::Init()
@@ -104,7 +114,11 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	m_pCamera->Update(input, *m_pPlayer, *m_pStage);
 	m_pUiBar->Update();
 
+	// エフェクトの更新
 	EffectManager::GetInstance().Update();
+
+	// サウンドの更新
+	UpdateSound();
 
 	return shared_from_this();
 }
@@ -298,6 +312,20 @@ void SceneMain::UpdateBattleEndStaging()
 		m_pPlayer->SetIsPossibleMove(true);
 		m_pPlayer->ResetAnim();
 	}
+}
+
+void SceneMain::UpdateSound()
+{
+	// バトル中BGMを再生する
+	if (m_pPlayer->GetIsBattle())
+	{
+		Sound::GetInstance().PlayBgm(kBattleBgm);
+	}
+	else
+	{
+		Sound::GetInstance().StopBgm(kBattleBgm);
+	}
+	
 }
 
 void SceneMain::CreateEnemy()

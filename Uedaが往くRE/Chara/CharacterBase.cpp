@@ -9,7 +9,7 @@ namespace
 	constexpr int kColDataNum = 19; // 当たり判定情報数
 	constexpr float kAdj = 2.5f;	// 敵に当たった際の位置調整量
 
-	constexpr float kSlowAnimSpeed = 0.4f;	// スローモーション時のアニメーション速度
+	constexpr float kSlowAnimSpeed = 0.3f;	// スローモーション時のアニメーション速度
 
 	// アニメーション情報
 	constexpr float kAnimBlendMax = 1.0f;	 // アニメーションブレンドの最大値
@@ -175,8 +175,6 @@ void CharacterBase::ChangeAnim(std::string animName)
 	{
 		m_animPlaySpeed = m_animData[m_currenAnimName].playSpeed;
 	}
-
-	printfDx("アニメーション速度:%.2f\n", m_animPlaySpeed);
 
 	m_animLoopStartTime = m_animData[m_currenAnimName].loopFrame;
 	m_animLoopEndTime = GetAnimTotalTime(m_currenAnimName);

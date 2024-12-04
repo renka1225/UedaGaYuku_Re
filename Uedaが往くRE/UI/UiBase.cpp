@@ -18,6 +18,7 @@ namespace
 		kIconEnemy,		// ミニマップ上に表示する敵アイコン
 		kIconPlayer,	// ミニマップ上に表示するプレイヤーアイコン
 		kBattleNow,		// バトル中表示
+		kBattleEnd,		// バトル終了演出中表示
 		kEnemy_yanki,	// ヤンキー
 		kEnemy_tinpira,	// チンピラ
 		kEnemy_narikin,	// 成金
@@ -31,6 +32,7 @@ namespace
 		"data/ui/map/icon_enemy.png",
 		"data/ui/map/icon_player.png",
 		"data/ui/battle/battleNow.png",
+		"data/ui/battle/battleEnd.png",
 		"data/ui/battle/yanki.png",
 		"data/ui/battle/tinpira.png",
 		"data/ui/battle/narikin.png",
@@ -56,6 +58,8 @@ namespace
 
 	const Vec2 kBattleNowPos = { 1550.0f, 50.0f };	// バトル中表示位置
 	constexpr float kNowBattleMoveSpeed = 13.0f;	// バトル中UIの移動速度
+
+	constexpr int kMaxBlend = 255; // 最大ブレンド率
 
 	const Vec2 kLoadingPos = { 1600.0f, 950.0f };	// ロード中表示位置
 	constexpr float kLoadingMoveSpeed = 1.0f;		// テキストの移動速度
@@ -169,9 +173,14 @@ void UiBase::DrawBattleStart()
 
 void UiBase::DrawBattleEnd()
 {
-	// 画面の色味を変更する
-	SetDrawBlendMode(DX_BLENDMODE_MULA, 255);
+	// 乗算で表示する
+	SetDrawBlendMode(DX_BLENDMODE_MULA, kMaxBlend);
 	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, 0x1e90ff, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	// 加算で表示する
+	SetDrawBlendMode(DX_BLENDMODE_MULA, 200);
+	DrawGraph(300, 0, m_handle[Handle::kBattleEnd], true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 

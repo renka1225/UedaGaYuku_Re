@@ -72,12 +72,14 @@ void EnemyStateAttack::Update(Stage& pStage, Player& pPlayer)
     }
 }
 
+#ifdef _DEBUG
 std::string EnemyStateAttack::GetStateName()
 {
     if (m_attackKind == AnimName::kPunchStrong)  return "パンチ中";
     else return "キック中";
-    
+
 }
+#endif
 
 float EnemyStateAttack::GetAttackPower(Player& pPlayer)
 {
