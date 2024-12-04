@@ -362,10 +362,6 @@ void Player::UpdateInputLog(const Input& input, int currentFrame)
 	{
 		m_inputLog.push_back({ InputId::kPunch, currentFrame});
 	}
-	if (input.IsTriggered(InputId::kKick))
-	{
-		m_inputLog.push_back({ InputId::kKick, currentFrame});
-	}
 
 #ifdef _DEBUG
 	// 入力コマンドをデバックで確認

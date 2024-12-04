@@ -169,7 +169,10 @@ void UiBase::DrawBattleStart()
 
 void UiBase::DrawBattleEnd()
 {
-	DrawString(0, 700, "バトル終了\n", Color::kColorB);
+	// 画面の色味を変更する
+	SetDrawBlendMode(DX_BLENDMODE_MULA, 255);
+	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, 0x1e90ff, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
 void UiBase::DrawBattleUi(const Player& pPlayer)

@@ -166,14 +166,14 @@ public:
 	void UpdateAnim();
 
 	/// <summary>
-	/// アニメーションを一時停止する
+	/// アニメーションをスローモーションで再生する
 	/// </summary>
-	void PauseAnim();
+	void SlowAnim();
 
 	/// <summary>
-	/// 一時停止したアニメーションを再生する
+	/// アニメーションの再生速度を戻す
 	/// </summary>
-	void StartAnim();
+	void ResetAnim();
 
 	/// <summary>
 	/// 攻撃状態をセットする
@@ -348,6 +348,7 @@ protected:
 	bool m_isPossibleGrabWeapon;	// 武器が掴める状態かどうか
 	bool m_isNowGrabWeapon;			// 今武器を掴んでいるか
 	bool m_isPossibleMove;			// 移動可能かどうか
+	bool m_isAnimSlow;				// アニメーションをスローモーションで再生中かどうか
 
 	int m_currentPlayAnim;			// 現在のアニメーション
 	int m_prevPlayAnim;				// 前に再生していたアニメーション

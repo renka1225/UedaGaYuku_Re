@@ -169,9 +169,9 @@ void PlayerStateBase::ChangeStateGrab()
 void PlayerStateBase::ChangeStateDamage()
 {
 	// StateをHitAttackに変更する
-	std::shared_ptr<PlayerStateHitAttack> state = std::make_shared<PlayerStateHitAttack>(m_pPlayer);
+	/*std::shared_ptr<PlayerStateHitAttack> state = std::make_shared<PlayerStateHitAttack>(m_pPlayer);
 	m_nextState = state;
-	state->Init();
+	state->Init();*/
 
 	// ガード中の場合
 	if (m_pPlayer->GetIsGuard())

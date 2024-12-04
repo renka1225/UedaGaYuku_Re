@@ -84,6 +84,13 @@ private:
 	/// </summary>
 	void SelectEnemy();
 
+	/// <summary>
+	/// 敵を消滅させるかどうか判定する
+	/// </summary>
+	/// <param name="index">敵のインデックス</param>
+	/// <returns>消滅させるかどうか</returns>
+	bool IsExtinction(int index);
+
 private:
 	std::vector<std::shared_ptr<EnemyBase>> m_pEnemy; // 敵のポインタ
 	std::shared_ptr<Player> m_pPlayer;	 // プレイヤーのポインタ
@@ -93,6 +100,7 @@ private:
 	std::shared_ptr<UiBar> m_pUiBar;	 // キャラクターバーUIのポインタ
 	std::vector<int> m_modelHandle;		 // モデルのハンドル
 
+	int m_currentEnemyNum;			// 現在の敵数
 	int m_enemySpawnTime;			// 敵がスポーンするまでの時間
 	int m_battleStartStagingTime;	// バトル開始演出の時間
 	int m_battleEndStagingTime;		// バトル終了演出の時間

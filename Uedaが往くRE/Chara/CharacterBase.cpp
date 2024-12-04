@@ -7,7 +7,10 @@
 namespace
 {
 	constexpr int kColDataNum = 19; // 当たり判定情報数
-	constexpr float kAdj = 2.0f;	// 敵に当たった際の位置調整量
+	constexpr float kAdj = 2.5f;	// 敵に当たった際の位置調整量
+
+	constexpr float kSlowAnimSpeed = 0.4f;	// スローモーション時のアニメーション速度
+
 	// アニメーション情報
 	constexpr float kAnimBlendMax = 1.0f;	 // アニメーションブレンドの最大値
 	constexpr float kAnimBlendSpeed = 0.2f;	 // アニメーションブレンドの変化速度
@@ -30,6 +33,7 @@ CharacterBase::CharacterBase():
 	m_isPossibleGrabWeapon(false),
 	m_isNowGrabWeapon(false),
 	m_isPossibleMove(true),
+	m_isAnimSlow(false),
 	m_currentPlayAnim(-1),
 	m_prevPlayAnim(-1),
 	m_animBlendRate(0.0f),
@@ -163,7 +167,17 @@ void CharacterBase::ChangeAnim(std::string animName)
 	m_prevAnimTime = m_currentAnimTime;
 
 	// アニメーションを設定
-	m_animPlaySpeed = m_animData[m_currenAnimName].playSpeed;
+	if (m_isAnimSlow)
+	{
+		m_animPlaySpeed = kSlowAnimSpeed;
+	}
+	else
+	{
+		m_animPlaySpeed = m_animData[m_currenAnimName].playSpeed;
+	}
+
+	printfDx("アニメーション速度:%.2f\n", m_animPlaySpeed);
+
 	m_animLoopStartTime = m_animData[m_currenAnimName].loopFrame;
 	m_animLoopEndTime = GetAnimTotalTime(m_currenAnimName);
 
@@ -224,16 +238,15 @@ void CharacterBase::UpdateAnim()
 	MV1SetAttachAnimBlendRate(m_modelHandle, m_prevPlayAnim, kAnimBlendMax - m_animBlendRate);
 }
 
-void CharacterBase::PauseAnim()
+void CharacterBase::SlowAnim()
 {
-	m_animPlaySpeed = 0.0f;
-	printfDx("アニメーション停止中\n");
+	m_isAnimSlow = true;
 }
 
-void CharacterBase::StartAnim()
+void CharacterBase::ResetAnim()
 {
 	m_animPlaySpeed = m_animData[m_currenAnimName].playSpeed;
-	printfDx("m_animPlaySpeed:%f\n", m_animPlaySpeed);
+	m_isAnimSlow = false;
 }
 
 void CharacterBase::UpdateCol(int charType)
@@ -280,7 +293,14 @@ float CharacterBase::GetAnimTotalTime(std::string animName)
 {
 	int animIndex = GetAnimIndex(animName);
 	float totalTime = MV1GetAnimTotalTime(m_modelHandle, animIndex);
-	return MV1GetAnimTotalTime(m_modelHandle, animIndex);
+
+	// スローモーション再生中の場合
+	if (m_isAnimSlow)
+	{
+		totalTime /= kSlowAnimSpeed;
+	}
+
+	return totalTime;
 }
 
 int CharacterBase::GetAnimIndex(std::string animName)

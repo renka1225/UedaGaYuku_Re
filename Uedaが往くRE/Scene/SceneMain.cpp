@@ -30,11 +30,12 @@ namespace
 	constexpr int kEnemySpawnMaxTIme = 3000;		// 敵がスポーンするまでの最大時間
 	constexpr float kEnemyExtinctionDist = 2000.0f;	// 敵が消滅する範囲
 
-	constexpr int kBattleStartStagingTime = 40;	// バトル開始時の演出時間
-	constexpr int kBattleEndStagingTime = 30;	// バトル終了時の演出時間
+	constexpr int kBattleStartStagingTime = 60;	// バトル開始時の演出時間
+	constexpr int kBattleEndStagingTime = 150;	// バトル終了時の演出時間
 }
 
 SceneMain::SceneMain():
+	m_currentEnemyNum(0),
 	m_enemySpawnTime(0),
 	m_battleStartStagingTime(0),
 	m_battleEndStagingTime(0),
@@ -87,12 +88,9 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	UpdateBattleEndStaging();
 
 	// 敵が1体もいなくなった場合
-	if (m_pEnemy.empty())
+	if (m_pEnemy.empty() && !m_isBattleEndStaging)
 	{
-		// バトル終了演出を表示
-		m_isBattleEndStaging = true;
-
-		// プレイヤーを通常状態にする
+		// バトル終了状態にする
 		m_pPlayer->SetIsBattle(false);
 
 		// 敵を生成する
@@ -151,8 +149,12 @@ void SceneMain::Draw()
 	m_pUiBar->DrawPlayerHpBar(*m_pPlayer, m_pPlayer->GetStatus().maxHp);
 	m_pUiBar->DrawPlayerGaugeBar(*m_pPlayer, m_pPlayer->GetStatus().maxGauge);
 
-	// ミニマップを表示
-	m_pUi->DrawMiniMap(*m_pPlayer, m_pEnemy);
+	// バトル終了演出中は表示しない
+	if (!m_isBattleEndStaging)
+	{
+		// ミニマップを表示
+		m_pUi->DrawMiniMap(*m_pPlayer, m_pEnemy);
+	}
 	
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_PLAYING");
@@ -224,19 +226,21 @@ void SceneMain::UpdateBattleStartStaging()
 		{
 			m_battleStartStagingTime--;
 
-			// バトル演出中移動できないようにする
-			for (int i = 0; i < m_pEnemy.size(); i++)
+			// バトル演出中は移動できないようにする
+			for (auto& enemy : m_pEnemy)
 			{
-				m_pEnemy[i]->SetIsPossibleMove(false);
+				if (enemy == nullptr) continue;
+				enemy->SetIsPossibleMove(false);
 			}
 			m_pPlayer->SetIsPossibleMove(false);
 		}
 		else
 		{
 			// 移動できるようにする
-			for (int i = 0; i < m_pEnemy.size(); i++)
+			for(auto& enemy : m_pEnemy)
 			{
-				m_pEnemy[i]->SetIsPossibleMove(true);
+				if (enemy == nullptr) continue;
+				enemy->SetIsPossibleMove(true);
 			}
 			m_pPlayer->SetIsPossibleMove(true);
 		}
@@ -251,26 +255,26 @@ void SceneMain::UpdateBattleStartStaging()
 
 void SceneMain::UpdateBattleEndStaging()
 {
-	// 演出時間をリセットする
-	if (!m_isBattleEndStaging)
-	{
-		m_battleEndStagingTime = kBattleEndStagingTime;
-		m_isBattleEndStaging = true;
-	}
+	// 演出中でない場合は飛ばす
+	if (!m_isBattleEndStaging) return;
 
 	// 演出中
 	if (m_battleEndStagingTime > 0)
 	{
 		m_battleEndStagingTime--;
 
-		// アニメーションを一時停止する
 		for (auto& enemy : m_pEnemy)
 		{
 			if (enemy == nullptr) continue;
-			//enemy->SetCurrentAnim("Death")
-			enemy->PauseAnim();
+
+			// アニメーションをスローで再生する
+			enemy->SlowAnim();
 		}
-		m_pPlayer->PauseAnim();
+
+		// 演出中は移動できないようにする
+		m_pPlayer->SetIsPossibleMove(false);
+		// アニメーションをスローで再生する
+		m_pPlayer->SlowAnim();
 
 		// 終了BGMを流す
 	}
@@ -278,15 +282,21 @@ void SceneMain::UpdateBattleEndStaging()
 	else
 	{
 		m_isBattleEndStaging = false;
+		m_currentEnemyNum = 0;
 
-		// アニメーションの再生時間を戻す
 		for (auto& enemy : m_pEnemy)
 		{
 			if (enemy == nullptr) continue;
-			//enemy->SetCurrentAnim("Death")
-			enemy->StartAnim();
+
+			// 死亡アニメーション終了後、敵を消滅させる
+			if (enemy->GetIsDead()) enemy = nullptr;
+
+			enemy->ResetAnim();
 		}
-		m_pPlayer->StartAnim();
+
+		// プレイヤーは移動できるようにする
+		m_pPlayer->SetIsPossibleMove(true);
+		m_pPlayer->ResetAnim();
 	}
 }
 
@@ -299,6 +309,7 @@ void SceneMain::CreateEnemy()
 	if (m_enemySpawnTime >= spawnTime)
 	{
 		m_enemySpawnTime = 0;
+		// 出現する敵をランダムで選ぶ
 		SelectEnemy();
 	}
 }
@@ -309,14 +320,24 @@ void SceneMain::UpdateEnemy()
 	{
 		if (m_pEnemy[i] == nullptr) continue;
 
-		// プレイヤーと敵の距離を求める
-		float pToEDist = VSize(VSub(m_pPlayer->GetPos(), m_pEnemy[i]->GetPos()));
+		// 残り1体になった場合
+		if (m_currentEnemyNum == 1)
+		{
+			// 敵のHPが0以下になった場合
+			if (!m_isBattleEndStaging && m_pEnemy[i]->GetHp() <= 0.0f)
+			{
+				// バトル終了演出を行う
+				m_isBattleEndStaging = true;
+				m_battleEndStagingTime = kBattleEndStagingTime;
+				return;
+			}
+		}
 
 		// 特定の状態の場合、敵を消滅させる
-		bool isExtinction = m_pEnemy[i]->GetIsDead() || (m_pEnemy[i]->GetPos().y <= 0.0f) || (pToEDist >= kEnemyExtinctionDist);
-		if (isExtinction)
+		if (IsExtinction(i))
 		{
 			m_pEnemy[i] = nullptr;
+			m_currentEnemyNum--;
 		}
 		else
 		{
@@ -343,9 +364,11 @@ void SceneMain::SelectEnemy()
 	int enemySpawnNum = GetRand(kEnemyMaxNum - 1) + 1;
 	m_pEnemy.clear();
 	m_pEnemy.resize(enemySpawnNum);
+	m_currentEnemyNum = enemySpawnNum;
 
 	std::unordered_set<int> enemyKind(enemySpawnNum);  // 生成された敵の種類を保持する
 	std::unordered_set<int> enemyName(enemySpawnNum);  // 決まった敵名を保持する
+
 	for (int i = 0; i < m_pEnemy.size(); i++)
 	{
 		// 敵の種類が重複しないようにする
@@ -357,6 +380,7 @@ void SceneMain::SelectEnemy()
 			std::uniform_int_distribution urdIndex(1, kEnemyKindNum);
 			enemyIndex = urdIndex(mt);
 		} while (enemyKind.count(enemyIndex) > 0);	 // MEMO:countは要素が見つかったら1を、見つからない場合は0を返す
+
 		enemyKind.insert(enemyIndex);
 
 		// 敵名が重複しないようにする
@@ -369,6 +393,7 @@ void SceneMain::SelectEnemy()
 			std::uniform_int_distribution urdIndex(1, kEnemyNamekind);
 			enemyNameIndex = urdIndex(mt);
 		} while (enemyName.count(enemyNameIndex) > 0);
+
 		enemyName.insert(enemyNameIndex);
 		std::string enemyName = LoadCsv::GetInstance().GetEnemyName(enemyNameIndex);
 		
@@ -383,4 +408,20 @@ void SceneMain::SelectEnemy()
 		m_pEnemy[i]->SetEnemyInfo(enemyName, "enemy_" + std::string(enemyId), enemyIndex, m_modelHandle[enemyIndex]);
 		m_pEnemy[i]->Init();
 	}
+}
+
+bool SceneMain::IsExtinction(int index)
+{
+	// 敵が死亡した場合
+	if (m_pEnemy[index]->GetIsDead()) return true;
+
+	// 敵が地面の下に落ちた場合
+	if (m_pEnemy[index]->GetPos().y <= 0.0f) return true;
+
+	// プレイヤーと敵の距離を求める
+	float pToEDist = VSize(VSub(m_pPlayer->GetPos(), m_pEnemy[index]->GetPos()));
+	// 敵がプレイヤーから一定距離離れた場合
+	if(pToEDist >= kEnemyExtinctionDist) return true;
+
+	return false;
 }
