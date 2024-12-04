@@ -34,8 +34,8 @@ namespace
 	constexpr int kEnemySpawnMaxTIme = 3000;		// 敵がスポーンするまでの最大時間
 	constexpr float kEnemyExtinctionDist = 2000.0f;	// 敵が消滅する範囲
 
-	constexpr int kBattleStartStagingTime = 60;	// バトル開始時の演出時間
-	constexpr int kBattleEndStagingTime = 150;	// バトル終了時の演出時間
+	constexpr int kBattleStartStagingTime = 120; // バトル開始時の演出時間
+	constexpr int kBattleEndStagingTime = 150;	 // バトル終了時の演出時間
 }
 
 SceneMain::SceneMain():
