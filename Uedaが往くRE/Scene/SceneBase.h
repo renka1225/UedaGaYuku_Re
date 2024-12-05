@@ -47,6 +47,11 @@ protected:
 	/// </summary>
 	void EndGame();
 
+	/// <summary>
+	/// 決定のSEを流す
+	/// </summary>
+	void SoundSelectSe();
+
 #ifdef _DEBUG
 	/// <summary>
 	/// 現在のシーンをデバッグ表示する

@@ -46,7 +46,7 @@ namespace
 	constexpr int kPressTime = 150;						// PRESSを表示するまでの時間
 
 	/*テキスト*/
-	const Vec2 kTextPos = { 500.0f, 780.0f };			// "PRESS ANY BUTTON"のテキスト位置
+	const Vec2 kTextPos = { 500.0f, 850.0f };			// "PRESS ANY BUTTON"のテキスト位置
 	constexpr int kTextDisplayTime = 2;					// テキストを表示する間隔
 	constexpr int kTextDisplayAnimTime = 240;			// テキストアニメーションの時間
 	constexpr int kMaxAlpha = 255;						// 最大アルファ値

@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Input.h"
 #include "Font.h"
+#include "Sound.h"
 #include "LoadCsv.h"
 #include "SaveData.h"
 #include "SceneTitle.h"
@@ -89,26 +90,29 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 		{
 			// 選択されたセーブデータを読み込む
 			SaveData::GetInstance().Load();
-
+			SoundSelectSe();
 			return std::make_shared<SceneMain>();
 		}
 		if (m_select == kFirst)
 		{
 			// 新しくセーブデータを作成する
 			SaveData::GetInstance().CreateNewData();
-
+			SoundSelectSe();
 			return std::make_shared<SceneMain>();
 		}
 		else if (m_select == SelectScene::kOption)
 		{
+			SoundSelectSe();
 			return std::make_shared<SceneOption>(shared_from_this());
 		}
 		else if (m_select == SelectScene::kCopyright)
 		{
+			SoundSelectSe();
 			m_isDispCopyright = true;
 		}
 		else if (m_select == SelectScene::kGameEnd)
 		{
+			SoundSelectSe();
 			// ゲームを終了する
 			EndGame();
 		}

@@ -52,7 +52,7 @@ namespace
 	constexpr float kViewEnemyIcon = 500.0f;		// 敵アイコンの表示範囲
 	constexpr float kIconScale = 0.5f;				// キャラアイコン拡大率
 
-	constexpr float kDispBattleStartMinScale = 1.0f;	 // バトル開始時の敵種類の最小サイズ
+	constexpr float kDispBattleStartMinScale = 2.0f;	 // バトル開始時の敵種類の最小サイズ
 	constexpr float kDispBattleStartMaxScale = 10.0f;	 // バトル開始時の敵種類の最大サイズ
 	constexpr float kDispBattleStartChangeScale = 0.6f;	 // 表示する敵種類のサイズ変化量
 	const Vec2 kDispBattleStartPos = { 900.0f, 500.0f }; // 敵種類表示位置
