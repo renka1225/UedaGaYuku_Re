@@ -139,7 +139,7 @@ Input::Input()
 	m_commandTable[InputId::kGrab] = { { InputType::keybd, KEY_INPUT_L },
 								{InputType::pad, PAD_INPUT_B } },
 	m_commandTable[InputId::kSpecial] = { { InputType::keybd, KEY_INPUT_W },
-								{InputType::pad, PAD_INPUT_Y } },
+								{InputType::pad, PAD_INPUT_B } },
 
 	/*カメラ回転*/
 	// 左

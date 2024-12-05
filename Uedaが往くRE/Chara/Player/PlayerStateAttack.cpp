@@ -18,22 +18,7 @@ void PlayerStateAttack::Init(std::string attackName)
 	m_pPlayer->ChangeAnim(m_attackKind);
 
     // 現在のアニメーション終了時間を取得する
-    if (m_attackKind == AnimName::kPunch1)
-    {
-        m_animEndTime = m_pPlayer->GetAnimTotalTime(AnimName::kPunch1);
-    }
-    if (m_attackKind == AnimName::kPunch2)
-    {
-        m_animEndTime = m_pPlayer->GetAnimTotalTime(AnimName::kPunch2);
-    }
-    if (m_attackKind == AnimName::kPunch3)
-    {
-        m_animEndTime = m_pPlayer->GetAnimTotalTime(AnimName::kPunch3);
-    }
-    else if (m_attackKind == AnimName::kKick)
-    {
-        m_animEndTime = m_pPlayer->GetAnimTotalTime(AnimName::kKick);
-    }
+    m_animEndTime = GetAnimEndTime();
 }
 
 void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::vector<std::shared_ptr<EnemyBase>> pEnemy)
@@ -80,9 +65,10 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             bool isHitWeaponCol = weapon.CheckWeaopnCol(enemy->GetCol(enemy->GetEnemyIndex()), *m_pPlayer);
             if (isHitWeaponCol)
             {
-                // TODO:片手武器、両手武器によって攻撃力変える
+                // 片手武器、両手武器によって攻撃力変える
                 enemy->OnDamage(GetAttackPower());
                 weapon.DecrementDurability();
+
                 // 敵を無敵状態にする
                 enemy->SetIsInvincible(true);
             }
@@ -121,6 +107,9 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
     m_animEndTime--;
     if (m_animEndTime > 0.0f) return;
 
+    // 必殺技発動中は攻撃できないようにする
+    if (m_attackKind == AnimName::kSpecialAttack) return;
+
     // パンチコマンドが入力されている場合
     if (m_pPlayer->CheckCommand({ InputId::kPunch, InputId::kPunch }, m_pPlayer->GetInputLog()))
     {
@@ -153,6 +142,15 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
     }
 }
 
+float PlayerStateAttack::GetAnimEndTime()
+{
+    if (m_attackKind == AnimName::kPunch1) return m_pPlayer->GetAnimTotalTime(AnimName::kPunch1);
+    if (m_attackKind == AnimName::kPunch2) return m_pPlayer->GetAnimTotalTime(AnimName::kPunch2);
+    if (m_attackKind == AnimName::kPunch3) return m_pPlayer->GetAnimTotalTime(AnimName::kPunch3);
+    if (m_attackKind == AnimName::kKick) return m_pPlayer->GetAnimTotalTime(AnimName::kKick);
+    if (m_attackKind == AnimName::kSpecialAttack) return m_pPlayer->GetAnimTotalTime(AnimName::kKickHeat);
+}
+
 float PlayerStateAttack::GetAttackPower()
 {
     // ステータス取得
@@ -171,6 +169,7 @@ std::string PlayerStateAttack::GetStateName()
     if (m_attackKind == AnimName::kPunch2) return "パンチ2中";
     if (m_attackKind == AnimName::kPunch3) return "パンチ3中";
     if (m_attackKind == AnimName::kKick)  return "キック中";
+    if (m_attackKind == AnimName::kSpecialAttack)  return "必殺技発動中";
 
     return "アニメーションなし";
 }

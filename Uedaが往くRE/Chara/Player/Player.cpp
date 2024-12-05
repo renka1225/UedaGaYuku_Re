@@ -52,6 +52,7 @@ Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
 
 	m_pUiBar = pUi;
 	m_modelHandle = modelHandle;
+	m_saveStatus = m_status;
 	m_possessItem.resize(kMaxPossession, -1);
 
 	// セーブデータの情報を適用する
@@ -334,7 +335,7 @@ void Player::UpdateItemInfo()
 
 void Player::DeleteItemEffect()
 {
-	//m_status = m_saveStatus;
+	m_status = m_saveStatus;
 }
 
 void Player::GetFramePos()

@@ -105,7 +105,6 @@ void SceneUseItem::Draw()
 		// アイテムの情報がない部分は無視する
 		if (m_possessItem[i] == -1) continue;
 		
-		
 		// アイテム画像の表示位置を決める
 		Vec2 disp;
 		if (i < kSelectCol)

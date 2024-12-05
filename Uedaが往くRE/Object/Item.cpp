@@ -33,8 +33,9 @@ namespace
 		{ Item::ItemType::kAtkLarge,  kItemModelFile + "item9.mv1"},
 	};
 
-	const float kItemColRadius = 5.0f;	// アイテムの当たり判定の半径
-	const float kItemScale = 0.5;		// アイテムの拡大率
+	constexpr float kItemColRadius = 5.0f;		// アイテムの当たり判定の半径
+	constexpr float kItemScale = 0.5;			// アイテムの拡大率
+	constexpr float kDeleteItemRange = 500.0f;	// アイテムを削除する範囲
 }
 
 Item::Item():
@@ -67,7 +68,25 @@ void Item::Update(Player& pPlayer)
 
 	for (auto& item : m_dropItem)
 	{
+		// アイテムをセットする
 		MV1SetPosition(m_modelHandle[item.itemType], item.pos);
+	}
+
+	for (auto it = m_dropItem.begin(); it != m_dropItem.end();)
+	{
+		// プレイヤーとアイテムの距離を計算する
+		float iToPDir = VSize(VSub(it->pos, pPlayer.GetPos()));
+
+		// プレイヤーが一定距離離れたらアイテムを削除する
+		if (iToPDir > kDeleteItemRange)
+		{
+			it = m_dropItem.erase(it);
+		}
+		else
+		{
+			// 次のアイテムをチェックする
+			it++;
+		}
 	}
 
 	// プレイヤーとの当たり判定をチェックする

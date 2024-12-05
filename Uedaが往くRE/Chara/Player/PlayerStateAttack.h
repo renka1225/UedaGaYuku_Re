@@ -63,6 +63,11 @@ private:
 	void UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr<EnemyBase>> pEnemy);
 
 	/// <summary>
+	/// アニメーションの終了時間を取得する
+	/// </summary>
+	float GetAnimEndTime();
+
+	/// <summary>
 	/// プレイヤーの現在の攻撃力を取得する
 	/// </summary>
 	/// <returns>攻撃力</returns>

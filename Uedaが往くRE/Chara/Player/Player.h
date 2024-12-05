@@ -148,6 +148,12 @@ public:
 	void SetIsBattle(bool isBattle) { m_isBattle = isBattle; }
 
 	/// <summary>
+	/// ゲージ量をセットする
+	/// </summary>
+	/// <param name="gauge">変更するゲージ量</param>
+	void SetGauge(float gauge) { m_gauge = gauge; }
+
+	/// <summary>
 	/// 現在の所持金額を取得する
 	/// </summary>
 	/// <returns></returns>

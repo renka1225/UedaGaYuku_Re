@@ -80,6 +80,11 @@ protected:
 	void ChangeStateAttack(const Input& input);
 
 	/// <summary>
+	/// 必殺技発動状態に変更する
+	/// </summary>
+	void ChangeStateSpecialAttack();
+
+	/// <summary>
 	/// ガード状態に変更する
 	/// </summary>
 	void ChangeStateGuard();

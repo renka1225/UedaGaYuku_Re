@@ -14,9 +14,12 @@
 // 定数
 namespace
 {
-	const Vec2 kCurrentScenePos = { 0.0f, 0.0f }; // 現在のシーン名表示位置
+	const Vec2 kCurrentScenePos = { 0.0f, 0.0f };		// 現在のシーン名表示位置
 	const Vec2 kDispMoneyBgPos = { 1320.0f, 15.0f };	// 金額の背景表示位置
-	const Vec2 kDispMoneyTextPos = { 1700.0f, 80.0f };  // 所持金額表示位置
+	const Vec2 kDispMoneyTextPos = { 1600.0f, 45.0f };  // 所持金額表示位置
+
+	const char* kCursorSe = "cursor.mp3";
+	const char* kSelectSe = "select.mp3";
 }
 
 SceneBase::SceneBase():
@@ -52,17 +55,21 @@ void SceneBase::UpdateSelect(Input& input, int selectNum)
 	{
 		m_select = (m_select + 1) % selectNum;
 		m_pUi->Init();
+
+		Sound::GetInstance().PlaySe(kCursorSe);
 	}
 	// 選択状態を1つ上げる
 	if (input.IsTriggered(InputId::kUp))
 	{
 		m_select = (m_select + (selectNum - 1)) % selectNum;
 		m_pUi->Init();
+
+		Sound::GetInstance().PlaySe(kCursorSe);
 	}
 }
 
 void SceneBase::DrawMoney(std::shared_ptr<Player> pPlayer)
 {
 	// 現在の所持金額
-	DrawFormatStringF(kDispMoneyTextPos.x, kDispMoneyTextPos.y, Color::kColorW, "%d", pPlayer->GetMoney());
+	DrawFormatStringFToHandle(kDispMoneyTextPos.x, kDispMoneyTextPos.y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kMoney)], "%d 円", pPlayer->GetMoney());
 }

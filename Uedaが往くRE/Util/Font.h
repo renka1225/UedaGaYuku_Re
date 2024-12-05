@@ -35,6 +35,7 @@ namespace Font
 		kSelect_explain = kSize42_4,	// 選択テキストの説明
 
 		// メニュー画面
+		kMoney = kSize36_4,				// 所持金額
 		kMenu_itemName = kSize40_4,		// アイテム名
 		kMenu_itemExplain = kSize42_4,	// アイテムの説明
 

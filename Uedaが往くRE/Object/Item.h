@@ -34,13 +34,13 @@ public:
 	/// </summary>
 	struct ItemData
 	{
-		std::string itemName;	 // アイテム名
-		std::string itemExplain; // アイテムの説明
-		float recoveryHP;		 // HP回復量
-		float recoveryGauge;	 // ゲージ回復量
-		float atkUp;			 // 攻撃力アップ量
-		int time;				 // 効果時間
-		int itemHandle;			 // アイテムの画像
+		std::string itemName;			// アイテム名
+		std::string itemExplain;		// アイテムの説明
+		float recoveryHP = 0.0f;		// HP回復量
+		float recoveryGauge = 0.0f ;	// ゲージ回復量
+		float atkUp = 0.0f;				// 攻撃力アップ量
+		int time = 0;					// 効果時間
+		int itemHandle = -1;			// アイテムの画像
 	};
 
 public:

@@ -44,20 +44,22 @@ namespace
 	constexpr int kMaxCursorAlpha = 255;		// カーソルの最大アルファ値
 	constexpr int kMinCursorAlpha = 40;			// カーソルの最小アルファ値
 
-	constexpr float kDispBattleStartMinScale = 1.0f;	 // バトル開始時の敵種類の最小サイズ
-	constexpr float kDispBattleStartMaxScale = 10.0f;	 // バトル開始時の敵種類の最大サイズ
-	constexpr float kDispBattleStartChangeScale = 0.6f;	 // 表示する敵種類のサイズ変化量
-	const Vec2 kDispBattleStartPos = { 900.0f, 500.0f }; // 敵種類表示位置
-
 	const Vec2 kMapPos = { 180.0f, 900.0f };		// マップ表示位置
 	constexpr float kWorldWidth = 10000.0f;			// ワールド座標の最大幅
 	constexpr float kWorldDepth = 10000.0f;			// ワールド座標の最大奥行き
 	constexpr int kMapSize = 1000;					// ミニマップのサイズ
 	constexpr int kViewMapSize = 280;				// ミニマップ表示範囲
+	constexpr float kViewEnemyIcon = 500.0f;		// 敵アイコンの表示範囲
 	constexpr float kIconScale = 0.5f;				// キャラアイコン拡大率
+
+	constexpr float kDispBattleStartMinScale = 1.0f;	 // バトル開始時の敵種類の最小サイズ
+	constexpr float kDispBattleStartMaxScale = 10.0f;	 // バトル開始時の敵種類の最大サイズ
+	constexpr float kDispBattleStartChangeScale = 0.6f;	 // 表示する敵種類のサイズ変化量
+	const Vec2 kDispBattleStartPos = { 900.0f, 500.0f }; // 敵種類表示位置
 
 	const Vec2 kBattleNowPos = { 1550.0f, 50.0f };	// バトル中表示位置
 	constexpr float kNowBattleMoveSpeed = 13.0f;	// バトル中UIの移動速度
+	constexpr int kBattleEndColor = 0x1e90ff;		// バトル終了時の画面色
 
 	constexpr int kMaxBlend = 255; // 最大ブレンド率
 
@@ -152,7 +154,6 @@ void UiBase::DrawLoading()
 		float offset = sinf(m_loadingAnimTime * kLoadingMoveSpeed + i) * kLoadingAmplitude;
 		float charPosY = kLoadingPos.y + offset;
 
-		// 文字を描画
 		DrawStringFToHandle(charPosX, charPosY, std::string(1, currentChar).c_str(), Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kLoading)]);
 
 		// 次の文字の描画位置を計算
@@ -175,13 +176,13 @@ void UiBase::DrawBattleEnd()
 {
 	// 乗算で表示する
 	SetDrawBlendMode(DX_BLENDMODE_MULA, kMaxBlend);
-	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, 0x1e90ff, true);
+	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, kBattleEndColor, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-	// 加算で表示する
-	SetDrawBlendMode(DX_BLENDMODE_MULA, 200);
-	DrawGraph(300, 0, m_handle[Handle::kBattleEnd], true);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	//// 加算で表示する
+	//SetDrawBlendMode(DX_BLENDMODE_MULA, 200);
+	//DrawGraph(300, 0, m_handle[Handle::kBattleEnd], true);
+	//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
 void UiBase::DrawBattleUi(const Player& pPlayer)
@@ -224,31 +225,26 @@ void UiBase::DrawMiniMap(const Player& pPlayer, std::vector<std::shared_ptr<Enem
 	// ミニマップ表示
 	DrawRectRotaGraphF(kMapPos.x, kMapPos.y, srcX, srcY, kViewMapSize, kViewMapSize, 1.0f, 0.0f, m_handle[Handle::kMiniMap], true);
 
-	// バトル中のみ敵アイコンを表示する
-	if (pPlayer.GetIsBattle())
+	// 敵のアイコンを表示
+	for (auto& enemy : pEnemy)
 	{
-		// 敵のアイコンを表示
-		for (auto& enemy : pEnemy)
+		VECTOR enemyPos = enemy->GetPos();
+		// プレイヤーから敵までの位置ベクトルを計算
+		VECTOR pToEVec = VSub(enemyPos, playerPos);
+
+		// 敵のワールド座標を正規化（0～1の範囲に変換）
+		float normEnemyX = pToEVec.x / kWorldWidth;
+		float normEnemyY = pToEVec.z / kWorldDepth;
+
+		// ミニマップ用の座標に変換
+		int mapEnemyX = static_cast<int>(normEnemyX * kMapSize + kMapPos.x);
+		int mapEnemyY = static_cast<int>(normEnemyY * kMapSize + kMapPos.y);
+
+		// プレイヤーの近くにいる場合のみ描画する
+		bool isDisp = VSize(pToEVec) < kViewEnemyIcon;
+		if (isDisp)
 		{
-			VECTOR enemyPos = enemy->GetPos();
-			// プレイヤーから敵までの位置ベクトルを計算
-			VECTOR pToEVec = VSub(enemyPos, playerPos);
-
-			// 敵のワールド座標を正規化（0～1の範囲に変換）
-			float normEnemyX = pToEVec.x / kWorldWidth;
-			float normEnemyY = pToEVec.z / kWorldDepth;
-
-			// ミニマップ用の座標に変換
-			int mapEnemyX = static_cast<int>(normEnemyX * kMapSize + kMapPos.x);
-			int mapEnemyY = static_cast<int>(normEnemyY * kMapSize + kMapPos.y);
-
-			// 敵がミニマップ内にいる場合のみ描画する
-			bool isDisp = mapEnemyX >= 0 && mapEnemyX <= kViewMapSize + kMapPos.x + srcX &&
-				mapEnemyY >= 0 && mapEnemyY <= kViewMapSize + kMapPos.y + srcY;
-			if (isDisp)
-			{
-				DrawRotaGraph(mapEnemyX, mapEnemyY, kIconScale, enemy->GetAngle(), m_handle[Handle::kIconEnemy], true);
-			}
+			DrawRotaGraph(mapEnemyX, mapEnemyY, kIconScale, enemy->GetAngle(), m_handle[Handle::kIconEnemy], true);
 		}
 	}
 
