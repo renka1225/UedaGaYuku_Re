@@ -2,9 +2,13 @@
 sampleBGM.mp3,BGM,255
 title.mp3,BGM,255
 battle.mp3,BGM,200
+battleEnd.mp3,BGM,200
+congestion.mp3,BGM,150
 sampleSE.mp3,SE,255
 logo.mp3,SE,255
 cursor.mp3,SE,255
 select.mp3,SE,255
 useItem.mp3,SE,255
+walk.mp3,SE,255
+run.mp3,SE,255
 attack.mp3,SE,255

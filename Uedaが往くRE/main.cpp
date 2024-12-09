@@ -23,6 +23,9 @@ int InitDxLib(const char* titleName, int width, int height)
 	ChangeWindowMode(true);
 	// 画面サイズ変更
 	SetGraphMode(width, height, Game::kColorDepth);
+	// Windows側で拡大率を変更しても画面サイズが変更されないようにする
+	SetWindowSizeExtendRate(1.0);
+	SetWindowSizeChangeEnableFlag(true, true);
 
 	if (DxLib_Init() == -1)	// ＤＸライブラリ初期化処理
 	{

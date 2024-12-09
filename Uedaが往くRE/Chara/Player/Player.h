@@ -199,6 +199,11 @@ public:
 
 private:
 	/// <summary>
+	/// セーブデータの情報を適用する
+	/// </summary>
+	void ApplySaveData();
+
+	/// <summary>
 	/// 敵の情報を更新する
 	/// </summary>
 	/// <param name="pEnemy">敵ポインタ</param>

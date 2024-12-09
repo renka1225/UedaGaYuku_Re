@@ -38,8 +38,10 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
         }
 
         // StateをIdleに変更する
-        m_pPlayer->SetIsAttack(false);
         ChangeStateIdle();
+        m_pPlayer->SetIsAttack(false);
+
+        printfDx("攻撃終了\n");
     }
     else
     {
@@ -52,14 +54,37 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
     for (auto& enemy : pEnemy)
     {
         // 特定の状態の場合はスキップする
-        bool isSkip = enemy == nullptr || enemy->GetIsInvincible();
+        bool isSkip = (enemy == nullptr) || (enemy->GetIsInvincible()) ||  (m_attackKind == AnimName::kKickHeat);
         if (isSkip) continue;
 
         // パンチ状態かチェック
         bool isPunch = m_attackKind == AnimName::kPunch1 || m_attackKind == AnimName::kPunch2 || m_attackKind == AnimName::kPunch3;
-
+        // パンチ攻撃
+        if (isPunch)
+        {
+            // パンチ攻撃と敵の当たり判定を取得
+            bool isHitPunchCol = enemy->CheckHitPunchCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
+            if (isHitPunchCol)
+            {
+                enemy->OnDamage(GetAttackPower());
+                // 敵を無敵状態にする
+                enemy->SetIsInvincible(true);
+            }
+        }
+        // キック攻撃
+        else if (m_attackKind == AnimName::kKick)
+        {
+            // キック攻撃と敵の当たり判定を取得
+            bool isHitKickCol = enemy->CheckHitKickCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
+            if (isHitKickCol)
+            {
+                enemy->OnDamage(GetAttackPower());
+                // 敵を無敵状態にする
+                enemy->SetIsInvincible(true);
+            }
+        }
         // 武器掴み中の場合
-        if (m_pPlayer->GetIsGrabWeapon())
+        else if (m_pPlayer->GetIsGrabWeapon())
         {
             // 武器と敵の当たり判定を取得
             bool isHitWeaponCol = weapon.CheckWeaopnCol(enemy->GetCol(enemy->GetEnemyIndex()), *m_pPlayer);
@@ -73,32 +98,13 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
                 enemy->SetIsInvincible(true);
             }
         }
-        // パンチ攻撃
-        else if (isPunch)
+        // 必殺技発動中
+        else if (m_attackKind == AnimName::kSpecialAttack)
         {
-            if (enemy == nullptr) continue;
-
-            // パンチ攻撃と敵の当たり判定を取得
-            bool isHitPunchCol = enemy->CheckHitPunchCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
-            if (isHitPunchCol)
-            {
-                enemy->OnDamage(GetAttackPower());
-                // 敵を無敵状態にする
-                enemy->SetIsInvincible(true);
-            }
-        }
-        // キック攻撃
-        else if (m_attackKind == AnimName::kKick)
-        {
-            if (enemy == nullptr) continue;
-
-            // キック攻撃と敵の当たり判定を取得
             bool isHitKickCol = enemy->CheckHitKickCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
             if (isHitKickCol)
             {
                 enemy->OnDamage(GetAttackPower());
-                // 敵を無敵状態にする
-                enemy->SetIsInvincible(true);
             }
         }
     }
@@ -107,23 +113,18 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
     m_animEndTime--;
     if (m_animEndTime > 0.0f) return;
 
-    // 必殺技発動中は攻撃できないようにする
-    if (m_attackKind == AnimName::kSpecialAttack) return;
-
     // パンチコマンドが入力されている場合
     if (m_pPlayer->CheckCommand({ InputId::kPunch, InputId::kPunch }, m_pPlayer->GetInputLog()))
     {
         // 2コンボ目に移行する
         if (m_attackKind == AnimName::kPunch1)
         {
-            //printfDx("2コンボ目\n");
             Init(AnimName::kPunch2);
             return;
         }
         // 3コンボ目に移行する
         else if (m_attackKind == AnimName::kPunch2)
         {
-            //printfDx("3コンボ目\n");
             Init(AnimName::kPunch3);
             return;
         }
@@ -135,7 +136,8 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             return;
         }
     }
-    else
+    // コンボ入力がない場合
+    else 
     {
         // 攻撃を終了する
         m_isAttackEnd = true;
@@ -148,7 +150,7 @@ float PlayerStateAttack::GetAnimEndTime()
     if (m_attackKind == AnimName::kPunch2) return m_pPlayer->GetAnimTotalTime(AnimName::kPunch2);
     if (m_attackKind == AnimName::kPunch3) return m_pPlayer->GetAnimTotalTime(AnimName::kPunch3);
     if (m_attackKind == AnimName::kKick) return m_pPlayer->GetAnimTotalTime(AnimName::kKick);
-    if (m_attackKind == AnimName::kSpecialAttack) return m_pPlayer->GetAnimTotalTime(AnimName::kKickHeat);
+    if (m_attackKind == AnimName::kKickHeat) return m_pPlayer->GetAnimTotalTime(AnimName::kKickHeat);
 }
 
 float PlayerStateAttack::GetAttackPower()
@@ -160,6 +162,7 @@ float PlayerStateAttack::GetAttackPower()
     if (m_attackKind == AnimName::kPunch2) return status.atkPowerPunch2;
     if (m_attackKind == AnimName::kPunch3) return status.atkPowerPunch3;
     if (m_attackKind == AnimName::kKick)  return status.atkPowerKick;
+    if (m_attackKind == AnimName::kKickHeat)  return status.atkPowerKick * 1.5f;
 }
 
 #ifdef _DEBUG
@@ -169,7 +172,7 @@ std::string PlayerStateAttack::GetStateName()
     if (m_attackKind == AnimName::kPunch2) return "パンチ2中";
     if (m_attackKind == AnimName::kPunch3) return "パンチ3中";
     if (m_attackKind == AnimName::kKick)  return "キック中";
-    if (m_attackKind == AnimName::kSpecialAttack)  return "必殺技発動中";
+    if (m_attackKind == AnimName::kKickHeat)  return "必殺技発動中";
 
     return "アニメーションなし";
 }

@@ -17,9 +17,6 @@ namespace
 	const Vec2 kCurrentScenePos = { 0.0f, 0.0f };		// 現在のシーン名表示位置
 	const Vec2 kDispMoneyBgPos = { 1320.0f, 15.0f };	// 金額の背景表示位置
 	const Vec2 kDispMoneyTextPos = { 1800.0f, 45.0f };  // 所持金額表示位置
-
-	const char* kCursorSe = "cursor.mp3";
-	const char* kSelectSe = "select.mp3";
 }
 
 SceneBase::SceneBase():
@@ -43,7 +40,7 @@ void SceneBase::EndGame()
 
 void SceneBase::SoundSelectSe()
 {
-	Sound::GetInstance().PlaySe(kSelectSe);
+	Sound::GetInstance().PlaySe(SoundName::kSe_select);
 }
 
 #ifdef _DEBUG
@@ -61,7 +58,7 @@ void SceneBase::UpdateSelect(Input& input, int selectNum)
 		m_select = (m_select + 1) % selectNum;
 		m_pUi->Init();
 
-		Sound::GetInstance().PlaySe(kCursorSe);
+		Sound::GetInstance().PlaySe(SoundName::kSe_cursor);
 	}
 	// 選択状態を1つ上げる
 	if (input.IsTriggered(InputId::kUp))
@@ -69,7 +66,7 @@ void SceneBase::UpdateSelect(Input& input, int selectNum)
 		m_select = (m_select + (selectNum - 1)) % selectNum;
 		m_pUi->Init();
 
-		Sound::GetInstance().PlaySe(kCursorSe);
+		Sound::GetInstance().PlaySe(SoundName::kSe_cursor);
 	}
 }
 

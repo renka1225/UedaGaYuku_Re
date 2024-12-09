@@ -29,8 +29,6 @@ namespace
 		"data/ui/title/press.png"
 	};
 
-	const char* kLogoDispSE = "logo.mp3";	// ロゴ表示SE名
-	const char* kBgm = "title.mp3";			// BGM名
 	constexpr int kBGMTime = 150;			// BGMを再生しはじめる時間
 
 	/*タイトルロゴ*/
@@ -99,7 +97,7 @@ std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
 	// シーン遷移する
 	if (CheckInputSceneChange(input))
 	{
-		Sound::GetInstance().StopBgm(kBgm);
+		Sound::GetInstance().StopBgm(SoundName::kBgm_title);
 		return std::make_shared<SceneSelect>();
 	}
 
@@ -165,16 +163,16 @@ void SceneTitle::UpdateSound()
 	// タイトルロゴ表示後BGMを鳴らす
 	if (m_time < kBGMTime)
 	{
-		if (!Sound::GetInstance().GetIsPlaySe(kLogoDispSE))
+		if (!Sound::GetInstance().GetIsPlaySe(SoundName::kSe_logo))
 		{
-			Sound::GetInstance().PlaySe(kLogoDispSE);
+			Sound::GetInstance().PlaySe(SoundName::kSe_logo);
 		}
 	}
 	else
 	{
-		if (!Sound::GetInstance().GetIsPlayBgm(kBgm))
+		if (!Sound::GetInstance().GetIsPlayBgm(SoundName::kBgm_title))
 		{
-			Sound::GetInstance().PlayBgm(kBgm);
+			Sound::GetInstance().PlayLoopBgm(SoundName::kBgm_title);
 		}
 	}
 }

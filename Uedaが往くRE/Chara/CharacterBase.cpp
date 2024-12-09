@@ -1,5 +1,6 @@
 ﻿#include "DebugDraw.h"
 #include "LoadCsv.h"
+#include "Sound.h"
 #include "UiBar.h"
 #include "CharacterBase.h"
 
@@ -67,6 +68,7 @@ void CharacterBase::Init()
 void CharacterBase::Update()
 {
 	ObjectBase::Update();
+	UpdateSe();
 }
 
 void CharacterBase::Draw()
@@ -285,6 +287,20 @@ void CharacterBase::DrawAfterImage()
 		MV1DrawModel(m_modelHandle);
 	}
 	MV1SetOpacityRate(m_modelHandle, 1.0f); // 透明度を戻す
+}
+
+void CharacterBase::UpdateSe()
+{
+	// サウンドのインスタンスを取得
+	auto& sound = Sound::GetInstance();
+
+	if (m_currenAnimName == AnimName::kWalk) sound.PlaySe(SoundName::kSe_walk);
+	else if (m_currenAnimName == AnimName::kRun) sound.PlaySe(SoundName::kSe_run);
+	else
+	{
+		sound.StopSe(SoundName::kSe_walk);
+		sound.StopSe(SoundName::kSe_run);
+	}
 }
 
 float CharacterBase::GetAnimTotalTime(std::string animName)

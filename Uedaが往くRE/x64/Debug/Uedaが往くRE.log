@@ -1,3 +1,2 @@
-﻿  SceneBase.cpp
-C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Scene\SceneBase.cpp(104,79): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+﻿  SceneMain.cpp
   Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\x64\Debug\UedaGaYukuRE.exe

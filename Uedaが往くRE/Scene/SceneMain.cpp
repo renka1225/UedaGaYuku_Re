@@ -24,8 +24,6 @@ namespace
 	const char* kPlayerHandlePath = "data/model/chara/player.mv1";	// プレイヤーのモデルハンドルパス
 	const char* kEnemyHandlePath = "data/model/chara/enemy_";		// 敵のモデルハンドルパス
 
-	const char* kBattleBgm = "battle.mp3"; // バトルBGM名
-
 	constexpr int kModelNum = 3;		// 読み込むモデルの数
 	constexpr int kEnemyMaxNum = 2;		// 1度に出現する最大の敵数
 	constexpr int kEnemyKindNum = 2;	// 敵の種類
@@ -289,8 +287,6 @@ void SceneMain::UpdateBattleEndStaging()
 		m_pPlayer->SetIsPossibleMove(false);
 		// アニメーションをスローで再生する
 		m_pPlayer->SlowAnim();
-
-		// 終了BGMを流す
 	}
 	// 演出終了後
 	else
@@ -316,14 +312,24 @@ void SceneMain::UpdateBattleEndStaging()
 
 void SceneMain::UpdateSound()
 {
-	// バトル中BGMを再生する
-	if (m_pPlayer->GetIsBattle())
+	auto& sound = Sound::GetInstance();
+
+	if (m_battleEndStagingTime > 0)
 	{
-		Sound::GetInstance().PlayBgm(kBattleBgm);
+		// 終了BGMを流す
+		Sound::GetInstance().PlayBgm(SoundName::kBgm_battleEnd);
+		sound.StopBgm(SoundName::kBgm_battle);
+	}
+	// バトル中BGMを再生する
+	else if (m_pPlayer->GetIsBattle())
+	{
+		sound.StopBgm(SoundName::kBgm_congestion);
+		sound.PlayLoopBgm(SoundName::kBgm_battle);
 	}
 	else
 	{
-		Sound::GetInstance().StopBgm(kBattleBgm);
+		sound.StopBgm(SoundName::kBgm_battle);
+		sound.PlayLoopBgm(SoundName::kBgm_congestion);
 	}
 	
 }

@@ -36,7 +36,7 @@ namespace
 Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
 	m_saveStatus(m_status),
 	m_money(0),
-	m_beforeMoney(100000),
+	m_beforeMoney(0),
 	m_addMoney(0),
 	m_itemEffectTime(0),
 	m_battleStartCount(kBattleStartTime),
@@ -56,13 +56,7 @@ Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
 	m_possessItem.resize(kMaxPossession, -1);
 
 	// セーブデータの情報を適用する
-	auto saveData = SaveData::GetInstance().GetSaveData();
-	m_pos = saveData.playerPos;
-	m_hp = saveData.hp;
-	m_gauge = saveData.gauge;
-	m_beforeMoney = saveData.money;
-	m_enhanceStep = saveData.enhanceStep;
-	m_possessItem = saveData.possessItem;
+	ApplySaveData();
 }
 
 Player::~Player()
@@ -413,4 +407,15 @@ bool Player::CheckCommand(const std::vector<std::string>& command, const std::ve
 		}
 	}
 	return false;
+}
+
+void Player::ApplySaveData()
+{
+	auto saveData = SaveData::GetInstance().GetSaveData();
+	m_pos = saveData.playerPos;
+	m_hp = saveData.hp;
+	m_gauge = saveData.gauge;
+	m_beforeMoney = saveData.money;
+	m_enhanceStep = saveData.enhanceStep;
+	m_possessItem = saveData.possessItem;
 }

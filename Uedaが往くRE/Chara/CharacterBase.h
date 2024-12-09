@@ -330,6 +330,11 @@ protected:
 	/// </summary>
 	void DrawAfterImage();
 
+	/// <summary>
+	/// SEを更新する
+	/// </summary>
+	void UpdateSe();
+
 protected:
 	std::shared_ptr<UiBar> m_pUiBar; // バーUIのポインタ
 	std::shared_ptr<Item> m_pItem;	 // アイテムのポインタ

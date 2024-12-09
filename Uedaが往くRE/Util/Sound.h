@@ -5,6 +5,23 @@
 
 class Input;
 
+namespace SoundName
+{
+	constexpr const char* kBgm_sampleBGM = "sampleBGM.mp3";
+	constexpr const char* kBgm_title = "title.mp3";
+	constexpr const char* kBgm_battle = "battle.mp3";
+	constexpr const char* kBgm_battleEnd = "battleEnd.mp3";
+	constexpr const char* kBgm_congestion = "congestion.mp3";
+	constexpr const char* kSe_sampleSE = "sampleSE.mp3";
+	constexpr const char* kSe_logo = "logo.mp3";
+	constexpr const char* kSe_cursor = "cursor.mp3";
+	constexpr const char* kSe_select = "select.mp3";
+	constexpr const char* kSe_useItem = "useItem.mp3";
+	constexpr const char* kSe_walk = "walk.mp3";
+	constexpr const char* kSe_run = "run.mp3";
+	constexpr const char* kSe_attack = "attack.mp3";
+}
+
 /// <summary>
 /// サウンドの管理を行う
 /// </summary>
@@ -49,16 +66,28 @@ public:
 	void PlaySe(std::string seName);
 
 	/// <summary>
-	/// 読み込んだBGMを流す
+	/// 読み込んだBGMを1度だけ流す
 	/// </summary>
 	/// <param name="bgmName">BGM名</param>
 	void PlayBgm(std::string bgmName);
+
+	/// <summary>
+	/// 読み込んだBGMをループ再生する
+	/// </summary>
+	/// <param name="bgmName">BGM名</param>
+	void PlayLoopBgm(std::string bgmName);
 
 	/// <summary>
 	/// 再生中のBGMを止める
 	/// </summary>
 	/// <param name="bgmName">BGM名</param>
 	void StopBgm(std::string bgmName);
+
+	/// <summary>
+	/// 再生中のSEを止める
+	/// </summary>
+	/// <param name="seName">SE名</param>
+	void StopSe(std::string seName);
 
 	/// <summary>
 	/// BGMの音量を調整する

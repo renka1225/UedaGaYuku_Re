@@ -78,11 +78,23 @@ void Sound::UnLoad()
 
 void Sound::PlaySe(std::string seName)
 {
+	// すでに再生中の場合は飛ばす
+	if (CheckSoundMem(m_seData[seName].handle)) return;
+
 	PlaySoundMem(m_seData[seName].handle, DX_PLAYTYPE_BACK);
 	SetBgmVol(seName);
 }
 
 void Sound::PlayBgm(std::string bgmName)
+{
+	// すでに再生中の場合は飛ばす
+	if (CheckSoundMem(m_bgmData[bgmName].handle)) return;
+
+	PlaySoundMem(m_bgmData[bgmName].handle, DX_PLAYTYPE_BACK);
+	SetBgmVol(bgmName);
+}
+
+void Sound::PlayLoopBgm(std::string bgmName)
 {
 	// すでに再生中の場合は飛ばす
 	if (CheckSoundMem(m_bgmData[bgmName].handle)) return;
@@ -94,6 +106,11 @@ void Sound::PlayBgm(std::string bgmName)
 void Sound::StopBgm(std::string bgmName)
 {
 	StopSoundMem(m_bgmData[bgmName].handle);
+}
+
+void Sound::StopSe(std::string seName)
+{
+	StopSoundMem(m_seData[seName].handle);
 }
 
 void Sound::SetBgmVol(std::string bgmName)

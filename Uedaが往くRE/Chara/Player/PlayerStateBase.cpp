@@ -145,7 +145,7 @@ void PlayerStateBase::ChangeStateSpecialAttack()
 	m_pPlayer->SetIsAttack(true);
 	std::shared_ptr<PlayerStateAttack> state = std::make_shared<PlayerStateAttack>(m_pPlayer);
 	m_nextState = state;
-	state->Init(AnimName::kSpecialAttack);
+	state->Init(AnimName::kKickHeat);
 }
 
 void PlayerStateBase::ChangeStateGuard()

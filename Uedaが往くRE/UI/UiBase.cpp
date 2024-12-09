@@ -45,8 +45,8 @@ namespace
 	constexpr int kMinCursorAlpha = 40;			// カーソルの最小アルファ値
 
 	const Vec2 kMapPos = { 180.0f, 900.0f };		// マップ表示位置
-	constexpr float kWorldWidth = 10000.0f;			// ワールド座標の最大幅
-	constexpr float kWorldDepth = 10000.0f;			// ワールド座標の最大奥行き
+	constexpr float kWorldWidth = 16000.0f;			// ワールド座標の最大幅
+	constexpr float kWorldDepth = 16000.0f;			// ワールド座標の最大奥行き
 	constexpr int kMapSize = 1000;					// ミニマップのサイズ
 	constexpr int kViewMapSize = 280;				// ミニマップ表示範囲
 	constexpr float kViewEnemyIcon = 500.0f;		// 敵アイコンの表示範囲
