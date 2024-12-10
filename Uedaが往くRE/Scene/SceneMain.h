@@ -9,6 +9,7 @@ class Player;
 class Weapon;
 class Camera;
 class Stage;
+class EventData;
 
 /// <summary>
 /// メインシーン
@@ -96,14 +97,26 @@ private:
 	/// <returns>消滅させるかどうか</returns>
 	bool IsExtinction(int index);
 
+	/// <summary>
+	/// イベントトリガーをチェックする
+	/// </summary>
+	void CheckEventTrigger();
+
+	/// <summary>
+	/// 呼び出されたイベントを開始する
+	/// </summary>
+	/// <param name="eventId">開始するイベントID</param>
+	void StartEvent(const std::string& eventId);
+
 private:
 	std::vector<std::shared_ptr<EnemyBase>> m_pEnemy; // 敵のポインタ
-	std::shared_ptr<Player> m_pPlayer;	 // プレイヤーのポインタ
-	std::shared_ptr<Weapon> m_pWeapon;	 // 武器のポインタ
-	std::shared_ptr<Camera> m_pCamera;	 // カメラのポインタ
-	std::shared_ptr<Stage> m_pStage;	 // ステージのポインタ
-	std::shared_ptr<UiBar> m_pUiBar;	 // キャラクターバーUIのポインタ
-	std::vector<int> m_modelHandle;		 // モデルのハンドル
+	std::shared_ptr<Player> m_pPlayer;		// プレイヤーのポインタ
+	std::shared_ptr<Weapon> m_pWeapon;		// 武器のポインタ
+	std::shared_ptr<Camera> m_pCamera;		// カメラのポインタ
+	std::shared_ptr<Stage> m_pStage;		// ステージのポインタ
+	std::shared_ptr<UiBar> m_pUiBar;		// キャラクターバーUIのポインタ
+	std::shared_ptr<EventData> m_pEventData;// イベントデータのポインタ
+	std::vector<int> m_modelHandle;			// モデルのハンドル
 
 	int m_currentEnemyNum;			// 現在の敵数
 	int m_enemySpawnTime;			// 敵がスポーンするまでの時間

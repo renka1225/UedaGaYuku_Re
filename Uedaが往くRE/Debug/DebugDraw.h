@@ -103,5 +103,12 @@ public:
 	/// 入力したコマンドを表示する
 	/// </summary>
 	void DrawInputCommand();
+
+	/// <summary>
+	/// イベント用の当たり判定を描画
+	/// </summary>
+	/// <param name="centerPos">表示位置</param>
+	/// <param name="r">半径</param>
+	void DrawEventCol(VECTOR centerPos, float r);
 };
 

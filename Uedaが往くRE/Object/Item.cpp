@@ -11,17 +11,6 @@ namespace
 	const std::string kItemModelFile = "data/model/item/";
 	const std::map<int, std::string> kItemModelPath
 	{
-		//{ Item::ItemType::kHpSmall,  kItemModelFile + "hpSmall.mv1"},
-		//{ Item::ItemType::kHpMiddle,  kItemModelFile + "hpMiddle.mv1"},
-		//{ Item::ItemType::kHpLarge,  kItemModelFile + "hpLarge.mv1"},
-		//{ Item::ItemType::kGaugeSmall,  kItemModelFile + "gaugeSmall.mv1"},
-		//{ Item::ItemType::kGaugeLarge,  kItemModelFile + "gaugeLarge.mv1"},
-		//{ Item::ItemType::kHpGaugeSmall,  kItemModelFile + "hpGaugeSmall.mv1"},
-		//{ Item::ItemType::kHpGaugeLarge,  kItemModelFile + "hpGaugeLarge.mv1"},
-		//{ Item::ItemType::kAtkSmall,  kItemModelFile + "atkSmall.mv1"},
-		//{ Item::ItemType::kAtkLarge,  kItemModelFile + "atkLarge.mv1"},
-
-		// 仮モデル
 		{ Item::ItemType::kHpSmall,  kItemModelFile + "item1.mv1"},
 		{ Item::ItemType::kHpMiddle,  kItemModelFile + "item2.mv1"},
 		{ Item::ItemType::kHpLarge,  kItemModelFile + "item3.mv1"},

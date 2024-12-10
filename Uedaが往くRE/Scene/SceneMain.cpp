@@ -12,6 +12,7 @@
 #include "Weapon.h"
 #include "Item.h"
 #include "Stage.h"
+#include "EventData.h"
 #include "SceneMenu.h"
 #include "SceneMain.h"
 #include <unordered_set>
@@ -57,8 +58,6 @@ SceneMain::SceneMain():
 
 SceneMain::~SceneMain()
 {
-	// サウンドの削除
-	Sound::GetInstance().UnLoad();
 }
 
 void SceneMain::Init()
@@ -111,6 +110,9 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	m_pWeapon->Update(*m_pStage);
 	m_pCamera->Update(input, *m_pPlayer, *m_pStage);
 	m_pUiBar->Update();
+
+	// イベントトリガーのチェック
+	CheckEventTrigger();
 
 	// エフェクトの更新
 	EffectManager::GetInstance().Update();
@@ -170,6 +172,7 @@ void SceneMain::Draw()
 	
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_PLAYING");
+	m_pEventData->Draw();
 #endif
 }
 
@@ -212,6 +215,7 @@ void SceneMain::InitAfterLoading()
 	m_pWeapon = std::make_shared<Weapon>(m_pPlayer);
 	m_pCamera = std::make_shared<Camera>();
 	m_pStage = std::make_shared<Stage>(m_pPlayer);
+	m_pEventData = std::make_shared<EventData>();
 
 	SelectEnemy(); // 敵の種類を決める
 
@@ -458,4 +462,37 @@ bool SceneMain::IsExtinction(int index)
 	if(pToEDist >= kEnemyExtinctionDist) return true;
 
 	return false;
+}
+
+void SceneMain::CheckEventTrigger()
+{
+	// プレイヤー座標を取得
+	VECTOR playerPos = m_pPlayer->GetPos();
+
+	// イベント用の当たり判定を取得
+	const auto& eventData = m_pEventData->GetEventData();
+	for (const auto& event : eventData)
+	{
+		// プレイヤーの当たり判定を取得する
+		auto playerCol = m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer);
+
+		// イベント用カプセルとプレイヤーの当たり判定をチェックする
+		bool isCol = HitCheck_Sphere_Capsule(event.pos, event.radius, playerCol.bodyUpdateStartPos, playerCol.bodyUpdateEndPos, playerCol.bodyRadius);
+
+		// 当たっている場合
+		if (isCol)
+		{
+			// イベントIDに応じた処理を行う
+			StartEvent(event.eventId);
+		}
+	}
+}
+
+void SceneMain::StartEvent(const std::string& eventId)
+{
+	// IDに応じて処理を変更する
+	if (eventId == "bossBattle")
+	{
+		printfDx("ボスバトル開始\n");
+	}
 }

@@ -124,3 +124,8 @@ void DebugDraw::DrawAnimFrame(float animTotalTime, std::string animName, std::ma
 void DebugDraw::DrawInputCommand()
 {
 }
+
+void DebugDraw::DrawEventCol(VECTOR centerPos, float r)
+{
+	DrawSphere3D(centerPos, r, 8, Color::kColorB, Color::kColorBK , false);
+}
