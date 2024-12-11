@@ -40,8 +40,6 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
         // StateをIdleに変更する
         ChangeStateIdle();
         m_pPlayer->SetIsAttack(false);
-
-        printfDx("攻撃終了\n");
     }
     else
     {
@@ -53,6 +51,18 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
 {
     for (auto& enemy : pEnemy)
     {
+        // 必殺技発動中
+        if (m_attackKind == AnimName::kKickHeat)
+        {
+            bool isHitKickCol = enemy->CheckHitKickCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
+            if (isHitKickCol)
+            {
+                enemy->OnDamage(GetAttackPower());
+                // 敵が動かないようにする
+                enemy->SetIsPossibleMove(false);
+            }
+        }
+
         // 特定の状態の場合はスキップする
         bool isSkip = (enemy == nullptr) || (enemy->GetIsInvincible()) ||  (m_attackKind == AnimName::kKickHeat);
         if (isSkip) continue;
@@ -96,15 +106,6 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
 
                 // 敵を無敵状態にする
                 enemy->SetIsInvincible(true);
-            }
-        }
-        // 必殺技発動中
-        else if (m_attackKind == AnimName::kSpecialAttack)
-        {
-            bool isHitKickCol = enemy->CheckHitKickCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
-            if (isHitKickCol)
-            {
-                enemy->OnDamage(GetAttackPower());
             }
         }
     }

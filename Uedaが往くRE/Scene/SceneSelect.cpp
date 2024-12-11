@@ -55,6 +55,8 @@ SceneSelect::SceneSelect():
 	{
 		m_handle[i] = LoadGraph(kHandlePath[i]);
 	}
+
+	Sound::GetInstance().PlayBgm(SoundName::kBgm_select);
 }
 
 SceneSelect::~SceneSelect()
@@ -90,14 +92,14 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 		{
 			// 選択されたセーブデータを読み込む
 			SaveData::GetInstance().Load();
-			SoundSelectSe();
+			SceneChangeSound(SoundName::kBgm_select);
 			return std::make_shared<SceneMain>();
 		}
 		if (m_select == kFirst)
 		{
 			// 新しくセーブデータを作成する
 			SaveData::GetInstance().CreateNewData();
-			SoundSelectSe();
+			SceneChangeSound(SoundName::kBgm_select);
 			return std::make_shared<SceneMain>();
 		}
 		else if (m_select == SelectScene::kOption)
@@ -112,13 +114,15 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 		}
 		else if (m_select == SelectScene::kGameEnd)
 		{
-			SoundSelectSe();
+			SceneChangeSound(SoundName::kBgm_select);
+
 			// ゲームを終了する
 			EndGame();
 		}
 	}
 	else if (input.IsTriggered(InputId::kBack))
 	{
+		SceneChangeSound(SoundName::kBgm_select);
 		// タイトル画面に戻る
 		return std::make_shared<SceneTitle>();
 	}

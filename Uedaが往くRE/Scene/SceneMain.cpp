@@ -58,6 +58,9 @@ SceneMain::SceneMain():
 
 SceneMain::~SceneMain()
 {
+	// サウンド停止
+	Sound::GetInstance().StopBgm(SoundName::kBgm_congestion);
+	Sound::GetInstance().StopBgm(SoundName::kBgm_battleEnd);
 }
 
 void SceneMain::Init()
@@ -479,8 +482,8 @@ void SceneMain::CheckEventTrigger()
 		// イベント用カプセルとプレイヤーの当たり判定をチェックする
 		bool isCol = HitCheck_Sphere_Capsule(event.pos, event.radius, playerCol.bodyUpdateStartPos, playerCol.bodyUpdateEndPos, playerCol.bodyRadius);
 
-		// 当たっている場合
-		if (isCol)
+		// 当たっている場合かつバトル中でない場合
+		if (isCol && !m_pPlayer->GetIsBattle())
 		{
 			// イベントIDに応じた処理を行う
 			StartEvent(event.eventId);

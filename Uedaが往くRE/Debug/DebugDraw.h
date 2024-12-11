@@ -100,11 +100,6 @@ public:
 	void DrawAnimFrame(float animTotalTime, std::string animName,std::map<std::string, CharacterBase::AnimInfo> animData);
 
 	/// <summary>
-	/// 入力したコマンドを表示する
-	/// </summary>
-	void DrawInputCommand();
-
-	/// <summary>
 	/// イベント用の当たり判定を描画
 	/// </summary>
 	/// <param name="centerPos">表示位置</param>

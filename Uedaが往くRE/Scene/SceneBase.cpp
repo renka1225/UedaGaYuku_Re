@@ -43,6 +43,15 @@ void SceneBase::SoundSelectSe()
 	Sound::GetInstance().PlaySe(SoundName::kSe_select);
 }
 
+void SceneBase::SceneChangeSound(std::string bgmName)
+{
+	// 選択SEを再生する
+	SoundSelectSe();
+
+	// 再生中のBGMを停止する
+	Sound::GetInstance().StopBgm(bgmName);
+}
+
 #ifdef _DEBUG
 void SceneBase::DrawSceneText(const char* sceneName)
 {

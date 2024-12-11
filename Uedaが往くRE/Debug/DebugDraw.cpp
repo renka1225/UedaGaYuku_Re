@@ -112,17 +112,11 @@ void DebugDraw::DrawAnimFrame(float animTotalTime, std::string animName, std::ma
 	DrawFormatStringFToHandle(kAnimFramePos.x, 920.0f, Color::kColorW,
 		Font::m_fontHandle[static_cast<int>(Font::FontId::kDebug_animFrame)], "発生フレーム数:%d\n", animData[animName].startupFrame);
 
-	//printfDx("攻撃フレーム数:%.2f\n", animData[animName].activeFrame);
 	DrawFormatStringFToHandle(kAnimFramePos.x, 940.0f, Color::kColorW,
 		Font::m_fontHandle[static_cast<int>(Font::FontId::kDebug_animFrame)], "攻撃フレーム数:%d\n", animData[animName].activeFrame);
 
-	//printfDx("硬直フレーム数:%.2f\n", animData[animName].recoveryFrame);
 	DrawFormatStringFToHandle(kAnimFramePos.x, 960.0f, Color::kColorW,
 		Font::m_fontHandle[static_cast<int>(Font::FontId::kDebug_animFrame)], "硬直フレーム:%d\n", animData[animName].recoveryFrame);
-}
-
-void DebugDraw::DrawInputCommand()
-{
 }
 
 void DebugDraw::DrawEventCol(VECTOR centerPos, float r)

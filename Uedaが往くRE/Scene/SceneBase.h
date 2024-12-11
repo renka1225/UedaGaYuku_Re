@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <memory>
 #include <vector>
+#include <string>
 
 class Input;
 class Item;
@@ -51,6 +52,12 @@ protected:
 	/// 決定のSEを流す
 	/// </summary>
 	void SoundSelectSe();
+
+	/// <summary>
+	/// シーン遷移の際のサウンド処理
+	/// </summary>
+	/// <param name="bgmName">再生中のBGM名</param>
+	void SceneChangeSound(std::string bgmName);
 
 #ifdef _DEBUG
 	/// <summary>

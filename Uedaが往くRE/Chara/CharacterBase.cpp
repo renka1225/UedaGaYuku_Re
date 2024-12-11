@@ -109,7 +109,7 @@ bool CharacterBase::CheckHitPunchCol(const CharacterBase::ColData& colData, int 
 	bool isHit3 = HitCheck_Capsule_Capsule(m_colData[charaType].rightShoulderPos, m_colData[charaType].rightForeArmPos, m_colData[charaType].armRadius,
 		colData.bodyUpdateStartPos, colData.bodyUpdateEndPos, colData.bodyRadius);
 	// 右肘から右手首
-	bool isHit4 = HitCheck_Capsule_Capsule(m_colData[charaType].rightShoulderPos, m_colData[charaType].rightForeArmPos, m_colData[charaType].armRadius,
+	bool isHit4 = HitCheck_Capsule_Capsule(m_colData[charaType].rightForeArmPos, m_colData[charaType].rightHandPos, m_colData[charaType].armRadius,
 		colData.bodyUpdateStartPos, colData.bodyUpdateEndPos, colData.bodyRadius);
 
 	if (isHit1 || isHit2 || isHit3 || isHit4)

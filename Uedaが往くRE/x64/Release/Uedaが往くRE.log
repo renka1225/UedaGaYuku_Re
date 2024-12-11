@@ -15,10 +15,11 @@
   EnemyStateHitAttack.cpp
   EnemyStateAvoid.cpp
   EnemyStateGuard.cpp
+  EventData.cpp
   Item.cpp
   ObjectBase.cpp
-  PlayerStateGrab.cpp
   コンパイル中...
+  PlayerStateGrab.cpp
   PlayerStateAvoid.cpp
   PlayerStateGuard.cpp
   SaveData.cpp
@@ -36,15 +37,16 @@
   SceneDebug.cpp
   main.cpp
   Player.cpp
-C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Player\Player.cpp(399,32): warning C4267: '初期化中': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Player\Player.cpp(390,32): warning C4267: '初期化中': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
   SceneSelect.cpp
   SceneOption.cpp
-  SceneTitle.cpp
   コンパイル中...
+  SceneTitle.cpp
   SceneMain.cpp
   Stage.cpp
   Camera.cpp
   SceneBase.cpp
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Scene\SceneBase.cpp(110,141): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
   SceneManager.cpp
   Input.cpp
   Weapon.cpp
@@ -52,9 +54,10 @@ C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Object\Wea
 C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Object\Weapon.cpp(175,84): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
   コード生成しています。
   Previous IPDB not found, fall back to full compilation.
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Player\PlayerStateAttack.cpp(167): warning C4715: 'PlayerStateAttack::GetAttackPower': 値を返さないコントロール パスがあります。
 C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Enemy\EnemyStateAttack.cpp(93): warning C4715: 'EnemyStateAttack::GetAttackPower': 値を返さないコントロール パスがあります。
-C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Player\PlayerStateAttack.cpp(165): warning C4715: 'PlayerStateAttack::GetAttackPower': 値を返さないコントロール パスがあります。
-  All 4369 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Player\PlayerStateAttack.cpp(155): warning C4715: 'PlayerStateAttack::GetAnimEndTime': 値を返さないコントロール パスがあります。
+  All 4475 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   コード生成が終了しました。
 EffekseerForDXLib_vs2019_x64.lib(EffekseerForDXLib.obj) : warning LNK4099: PDB '' が 'EffekseerForDXLib_vs2019_x64.lib(EffekseerForDXLib.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
   Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Release\UedaGaYukuRE.exe

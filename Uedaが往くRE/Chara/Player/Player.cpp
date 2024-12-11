@@ -39,8 +39,9 @@ Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
 	m_beforeMoney(0),
 	m_addMoney(0),
 	m_itemEffectTime(0),
-	m_battleStartCount(kBattleStartTime),
 	m_isAddItem(true),
+	m_isFoundEnemy(false),
+	m_battleStartCount(kBattleStartTime),
 	m_isBattle(false)
 {
 	// ステータスを読み込む
@@ -261,17 +262,12 @@ void Player::UpdateEnemyInfo(std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 		// 敵との当たり判定をチェックする
 		pEnemy[i]->CheckCharaCol(*this, m_colData[CharaType::kPlayer], pEnemy[i]->GetEnemyIndex());
 
-		// TODO:範囲内にいる場合、掴みをできるようにする
+		// 範囲内にいる場合、敵の方向を向く
+		// 掴みをできるようにする
 		float dot = VDot(VNorm(m_pToEVec[i]), VNorm(m_moveDir)); // プレイヤーの方向と位置ベクトルの内積を計算
 		bool isGrab = VSize(m_pToEVec[i]) < kDistEnemyGrab && dot > 0.0f;
-		if (isGrab)
-		{
-			m_isPossibleGrabEnemy = true;
-		}
-		else
-		{
-			m_isPossibleGrabEnemy = false;
-		}
+
+		m_isPossibleGrabEnemy = isGrab;
 
 		UpdateBattle(i); // バトル状態を更新する
 	}
@@ -407,6 +403,41 @@ bool Player::CheckCommand(const std::vector<std::string>& command, const std::ve
 		}
 	}
 	return false;
+}
+
+void Player::UpdateAngle()
+{
+	// 攻撃中の場合
+	if (m_isAttack)
+	{
+		// 1番近い敵を探す
+		int nearEnemyIndex = -1;
+
+		for (int i = 0; i < m_pToEVec.size(); i++)
+		{
+			float dot = VDot(VNorm(m_pToEVec[i]), VNorm(m_moveDir)); // プレイヤーの方向と位置ベクトルの内積を計算
+			if (dot > -0.5f)
+			{
+				nearEnemyIndex = i;
+			}
+		}
+
+		// 範囲内に敵が存在する場合、1番近い敵の方を向く
+		if (nearEnemyIndex != -1)
+		{
+			// 敵への方向ベクトルを正規化
+			VECTOR dirToEnemy = VNorm(m_pToEVec[nearEnemyIndex]);
+
+			// 角度を計算する
+			m_angle = atan2f(dirToEnemy.x, dirToEnemy.z);
+			MV1SetRotationXYZ(m_modelHandle, VGet(0.0f, m_angle + DX_PI_F, 0.0f));
+		}
+	}
+	else
+	{
+		// 通常の処理
+		CharacterBase::UpdateAngle();
+	}
 }
 
 void Player::ApplySaveData()

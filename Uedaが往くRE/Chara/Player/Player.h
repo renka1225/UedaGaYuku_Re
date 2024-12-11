@@ -199,6 +199,11 @@ public:
 
 private:
 	/// <summary>
+	/// プレイヤーの向きを更新する
+	/// </summary>
+	virtual void UpdateAngle();
+
+	/// <summary>
 	/// セーブデータの情報を適用する
 	/// </summary>
 	void ApplySaveData();
@@ -257,6 +262,7 @@ private:
 	int m_currentInputFrame; // 現在の入力フレーム数
 	int m_itemEffectTime;	 // アイテムの効果時間
 	bool m_isAddItem;		 // アイテムを追加で取得できるか(true:取得可能)
+	bool m_isFoundEnemy;	 // 敵が範囲内にいるかどうか
 
 	int m_battleStartCount;	 // バトルが開始するまでの時間
 	bool m_isBattle;		 // バトル状態かどうか(true:バトル中)
