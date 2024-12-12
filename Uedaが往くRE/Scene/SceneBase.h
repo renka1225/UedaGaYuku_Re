@@ -54,6 +54,11 @@ protected:
 	void SoundSelectSe();
 
 	/// <summary>
+	/// キャンセルSEを流す
+	/// </summary>
+	void SoundCancelSe();
+
+	/// <summary>
 	/// シーン遷移の際のサウンド処理
 	/// </summary>
 	/// <param name="bgmName">再生中のBGM名</param>

@@ -22,7 +22,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Init();
+	virtual void Init() {}
 
 	/// <summary>
 	/// 更新

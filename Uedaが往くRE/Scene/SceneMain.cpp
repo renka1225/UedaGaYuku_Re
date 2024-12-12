@@ -89,6 +89,9 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	if (input.IsTriggered(InputId::kMenu))
 	{
 		m_isPause = true;
+		// 移動中SEが再生されないようにする
+		Sound::GetInstance().StopSe(SoundName::kSe_walk);
+		Sound::GetInstance().StopSe(SoundName::kSe_run);
 		return std::make_shared<SceneMenu>(shared_from_this(), m_pPlayer, m_pCamera);
 	}
 

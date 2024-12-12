@@ -1,4 +1,5 @@
-﻿#include "CharacterBase.h"
+﻿#include "Sound.h"
+#include "CharacterBase.h"
 #include "Player.h"
 #include "EnemyBase.h"
 #include "EnemyStateIdle.h"
@@ -56,6 +57,7 @@ void EnemyStateAttack::Update(Stage& pStage, Player& pPlayer)
             bool isHitPunchCol = pPlayer.CheckHitPunchCol(m_pEnemy->GetCol(m_pEnemy->GetEnemyIndex()), 0);
             if (isHitPunchCol)
             {
+                Sound::GetInstance().PlaySe(SoundName::kSe_attack);
                 pPlayer.OnDamage(GetAttackPower(pPlayer));
                 pPlayer.SetIsInvincible(true);
             }
@@ -65,6 +67,7 @@ void EnemyStateAttack::Update(Stage& pStage, Player& pPlayer)
             bool isHitKickCol = pPlayer.CheckHitKickCol(m_pEnemy->GetCol(m_pEnemy->GetEnemyIndex()), 0);
             if (isHitKickCol)
             {
+                Sound::GetInstance().PlaySe(SoundName::kSe_attack);
                 pPlayer.OnDamage(GetAttackPower(pPlayer));
                 pPlayer.SetIsInvincible(true);
             }
@@ -90,4 +93,6 @@ float EnemyStateAttack::GetAttackPower(Player& pPlayer)
     if (pPlayer.GetIsGuard()) return 0.0f;
     if (m_attackKind == AnimName::kPunchStrong) return status.atkPowerPunch1;
     if (m_attackKind == AnimName::kKick)  return status.atkPowerKick;
+
+    return 0.0f;
 }

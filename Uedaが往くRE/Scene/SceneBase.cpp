@@ -43,6 +43,11 @@ void SceneBase::SoundSelectSe()
 	Sound::GetInstance().PlaySe(SoundName::kSe_select);
 }
 
+void SceneBase::SoundCancelSe()
+{
+	Sound::GetInstance().PlaySe(SoundName::kSe_cancel);
+}
+
 void SceneBase::SceneChangeSound(std::string bgmName)
 {
 	// 選択SEを再生する
@@ -67,7 +72,7 @@ void SceneBase::UpdateSelect(Input& input, int selectNum)
 		m_select = (m_select + 1) % selectNum;
 		m_pUi->Init();
 
-		Sound::GetInstance().PlaySe(SoundName::kSe_cursor);
+		Sound::GetInstance().PlayBackSe(SoundName::kSe_cursor);
 	}
 	// 選択状態を1つ上げる
 	if (input.IsTriggered(InputId::kUp))
@@ -75,7 +80,7 @@ void SceneBase::UpdateSelect(Input& input, int selectNum)
 		m_select = (m_select + (selectNum - 1)) % selectNum;
 		m_pUi->Init();
 
-		Sound::GetInstance().PlaySe(SoundName::kSe_cursor);
+		Sound::GetInstance().PlayBackSe(SoundName::kSe_cursor);
 	}
 }
 

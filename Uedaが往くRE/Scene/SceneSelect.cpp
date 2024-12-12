@@ -80,6 +80,7 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 		// 戻るボタンを押したら選択画面に戻る
 		if (input.IsTriggered(InputId::kBack))
 		{
+			SoundCancelSe();
 			m_isDispCopyright = false;
 			return shared_from_this();
 		}
@@ -88,6 +89,8 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 	// 遷移
 	if (input.IsTriggered(InputId::kOk))
 	{
+		SoundSelectSe();
+
 		if (m_select == SelectScene::kContinue)
 		{
 			// 選択されたセーブデータを読み込む
@@ -104,12 +107,10 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 		}
 		else if (m_select == SelectScene::kOption)
 		{
-			SoundSelectSe();
 			return std::make_shared<SceneOption>(shared_from_this());
 		}
 		else if (m_select == SelectScene::kCopyright)
 		{
-			SoundSelectSe();
 			m_isDispCopyright = true;
 		}
 		else if (m_select == SelectScene::kGameEnd)

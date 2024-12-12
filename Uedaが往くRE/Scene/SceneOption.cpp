@@ -132,6 +132,7 @@ std::shared_ptr<SceneBase> SceneOption::Update(Input& input)
 
 		if (input.IsTriggered(InputId::kBack))
 		{
+			SoundCancelSe();
 			return m_pPrevScene;
 		}
 

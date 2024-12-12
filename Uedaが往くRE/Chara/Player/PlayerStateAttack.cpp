@@ -1,4 +1,5 @@
 ﻿#include "Input.h"
+#include "Sound.h"
 #include "Weapon.h"
 #include "CharacterBase.h"
 #include "EnemyBase.h"
@@ -57,6 +58,7 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             bool isHitKickCol = enemy->CheckHitKickCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
             if (isHitKickCol)
             {
+                Sound::GetInstance().PlaySe(SoundName::kSe_attack);
                 enemy->OnDamage(GetAttackPower());
                 // 敵が動かないようにする
                 enemy->SetIsPossibleMove(false);
@@ -76,6 +78,7 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             bool isHitPunchCol = enemy->CheckHitPunchCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
             if (isHitPunchCol)
             {
+                Sound::GetInstance().PlayBackSe(SoundName::kSe_attack);
                 enemy->OnDamage(GetAttackPower());
                 // 敵を無敵状態にする
                 enemy->SetIsInvincible(true);
@@ -88,6 +91,7 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             bool isHitKickCol = enemy->CheckHitKickCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
             if (isHitKickCol)
             {
+                Sound::GetInstance().PlayBackSe(SoundName::kSe_attack);
                 enemy->OnDamage(GetAttackPower());
                 // 敵を無敵状態にする
                 enemy->SetIsInvincible(true);
@@ -100,6 +104,8 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             bool isHitWeaponCol = weapon.CheckWeaopnCol(enemy->GetCol(enemy->GetEnemyIndex()), *m_pPlayer);
             if (isHitWeaponCol)
             {
+                Sound::GetInstance().PlayBackSe(SoundName::kSe_attack);
+
                 // 片手武器、両手武器によって攻撃力変える
                 enemy->OnDamage(GetAttackPower());
                 weapon.DecrementDurability();

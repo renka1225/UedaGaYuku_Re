@@ -29,6 +29,7 @@ std::shared_ptr<SceneBase> SceneSave::Update(Input& input)
 
 	if (input.IsTriggered(InputId::kBack))
 	{
+		SoundCancelSe();
 		return m_pPrevScene; // メニュー画面に戻る
 	}
 

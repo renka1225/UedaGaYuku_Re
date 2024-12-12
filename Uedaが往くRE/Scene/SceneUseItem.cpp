@@ -1,6 +1,7 @@
 ﻿#include "DxLib.h"
 #include "Vec2.h"
 #include "Game.h"
+#include "Sound.h"
 #include "Input.h"
 #include "Font.h"
 #include "Item.h"
@@ -67,10 +68,6 @@ SceneUseItem::~SceneUseItem()
 	}
 }
 
-void SceneUseItem::Init()
-{
-}
-
 std::shared_ptr<SceneBase> SceneUseItem::Update(Input& input)
 {
 	// プレイヤーの所持しているアイテム情報を取得する
@@ -78,14 +75,17 @@ std::shared_ptr<SceneBase> SceneUseItem::Update(Input& input)
 
 	MoveCursor(input); 	// カーソル移動の処理
 
+	// Bボタンを押した場合
 	if (input.IsTriggered(InputId::kBack))
 	{
+		SoundCancelSe();
 		return m_pPrevScene; // メニュー画面に戻る
 	}
 
-	// 決定ボタンを押したらアイテムを使用する
+	// 決定ボタンを場合
 	if (input.IsTriggered(InputId::kA))
 	{
+		Sound::GetInstance().PlayBackSe(SoundName::kSe_useItem);
 		UseItem(); // アイテムを使用する
 	}
 
@@ -129,11 +129,11 @@ void SceneUseItem::Draw()
 			std::string itemName = m_pItem->GetItemData(m_possessItem[i]).itemName;
 			std::string itemExplain = m_pItem->GetItemData(m_possessItem[i]).itemExplain;
 
-			DrawFormatStringFToHandle(kDispPos.at("itemName").x, kDispPos.at("itemName").y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kMenu_itemName)],
-				"%s", itemName.c_str());
+			DrawFormatStringFToHandle(kDispPos.at("itemName").x, kDispPos.at("itemName").y, Color::kColorW, 
+				Font::m_fontHandle[static_cast<int>(Font::FontId::kMenu_itemName)], "%s", itemName.c_str());
 
-			DrawFormatStringFToHandle(kDispPos.at("itemExplain").x, kDispPos.at("itemExplain").y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kMenu_itemExplain)],
-				"%s", itemExplain.c_str());
+			DrawFormatStringFToHandle(kDispPos.at("itemExplain").x, kDispPos.at("itemExplain").y, Color::kColorW, 
+				Font::m_fontHandle[static_cast<int>(Font::FontId::kMenu_itemExplain)], "%s", itemExplain.c_str());
 		}
 	}
 

@@ -85,6 +85,12 @@ void Sound::PlaySe(std::string seName)
 	SetBgmVol(seName);
 }
 
+void Sound::PlayBackSe(std::string seName)
+{
+	PlaySoundMem(m_seData[seName].handle, DX_PLAYTYPE_BACK);
+	SetBgmVol(seName);
+}
+
 void Sound::PlayBgm(std::string bgmName)
 {
 	// すでに再生中の場合は飛ばす
@@ -178,13 +184,13 @@ int Sound::RestoreVolRate(int vol)
 
 int Sound::GetBgmVol()
 {
-	// 仮のBGM音量を取得
+	// テスト用のBGM音量を取得
 	return ChangeVolRate(m_bgmData["sampleBGM.mp3"].vol);
 }
 
 int Sound::GetSeVol()
 {
-	// 仮のSE音量を取得
+	// テスト用のSE音量を取得
 	return ChangeVolRate(m_seData["sampleSE.mp3"].vol);
 }
 

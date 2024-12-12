@@ -79,6 +79,7 @@ std::shared_ptr<SceneBase> SceneMenu::Update(Input& input)
 
 	if (input.IsTriggered(InputId::kBack))
 	{
+		SoundCancelSe();
 		return m_pPrevScene; // ゲーム画面に戻る
 	}
 	else if (input.IsTriggered(InputId::kOk))
@@ -104,7 +105,7 @@ std::shared_ptr<SceneBase> SceneMenu::Update(Input& input)
 			return std::make_shared<SceneTitle>(); // タイトル画面に遷移
 		}
 	}
-	else if (input.IsTriggered("pause"))
+	else if (input.IsTriggered(InputId::kPause))
 	{
 		return m_pPrevScene;	// ゲーム画面にもどる
 	}

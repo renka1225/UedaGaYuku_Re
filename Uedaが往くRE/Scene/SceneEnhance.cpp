@@ -105,12 +105,14 @@ std::shared_ptr<SceneBase> SceneEnhance::Update(Input& input)
 	// Bボタンが押された場合
 	if (input.IsTriggered(InputId::kBack))
 	{
+		SoundCancelSe();
 		return m_pPrevScene; // メニュー画面に戻る
 	}
 
 	// Aボタンが押された場合
 	if (input.IsTriggered(InputId::kA))
 	{
+		SoundSelectSe();
 		SetEnhance(); // 選択中のスキルを強化する
 	}
 	

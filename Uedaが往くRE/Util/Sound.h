@@ -17,10 +17,13 @@ namespace SoundName
 	constexpr const char* kSe_logo = "logo.mp3";
 	constexpr const char* kSe_cursor = "cursor.mp3";
 	constexpr const char* kSe_select = "select.mp3";
+	constexpr const char* kSe_cancel = "cancel.mp3";
 	constexpr const char* kSe_useItem = "useItem.mp3";
 	constexpr const char* kSe_walk = "walk.mp3";
 	constexpr const char* kSe_run = "run.mp3";
+	constexpr const char* kSe_avoid = "avoid.mp3";
 	constexpr const char* kSe_attack = "attack.mp3";
+	constexpr const char* kSe_guardAttack = "guardAttack.mp3";
 }
 
 /// <summary>
@@ -61,19 +64,25 @@ public:
 	void UnLoad();
 
 	/// <summary>
-	/// 読み込んだSEを流す
+	/// SEを再生する
 	/// </summary>
 	/// <param name="seName">SE名</param>
 	void PlaySe(std::string seName);
 
 	/// <summary>
-	/// 読み込んだBGMを1度だけ流す
+	/// 再生中関係なくSEを再生する
+	/// </summary>
+	/// <param name="seName">SE名</param>
+	void PlayBackSe(std::string seName);
+
+	/// <summary>
+	/// BGMを1度だけ再生する
 	/// </summary>
 	/// <param name="bgmName">BGM名</param>
 	void PlayBgm(std::string bgmName);
 
 	/// <summary>
-	/// 読み込んだBGMをループ再生する
+	/// BGMをループ再生する
 	/// </summary>
 	/// <param name="bgmName">BGM名</param>
 	void PlayLoopBgm(std::string bgmName);

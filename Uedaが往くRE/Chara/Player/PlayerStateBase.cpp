@@ -1,4 +1,5 @@
 ﻿#include "Input.h"
+#include "Sound.h"
 #include "EffectManager.h"
 #include "SceneBase.h"
 #include "Weapon.h"
@@ -159,6 +160,8 @@ void PlayerStateBase::ChangeStateGuard()
 
 void PlayerStateBase::ChangeStateAvoid()
 {
+	Sound::GetInstance().PlaySe(SoundName::kSe_avoid);
+
 	// StateをAvoidに変更する
 	std::shared_ptr<PlayerStateAvoid> state = std::make_shared<PlayerStateAvoid>(m_pPlayer);
 	m_nextState = state;
@@ -206,6 +209,8 @@ void PlayerStateBase::ChangeStateDamage()
 	// ガード中の場合
 	if (m_pPlayer->GetIsGuard())
 	{
+		Sound::GetInstance().PlaySe(SoundName::kSe_guardAttack);
+
 		// ガードエフェクトを表示
 		//EffectManager::GetInstance().Add("guard", m_pPlayer->GetPos());
 	}

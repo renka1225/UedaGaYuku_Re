@@ -26,6 +26,7 @@ namespace InputId
 	const char* const kMenu = "MENU";
 	const char* const kSelect = "SELECT";
 	const char* const kCancel = "CANCEL";
+	const char* const kPause = "PAUSE";
 
 	const char* const kPunch = "punch";
 	const char* const kKick = "kick";

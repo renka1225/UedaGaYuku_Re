@@ -1,4 +1,5 @@
 ﻿#include "EffectManager.h"
+#include "Sound.h"
 #include "Player.h"
 #include "EnemyBase.h"
 #include "EnemyStateIdle.h"
@@ -12,8 +13,8 @@
 
 namespace
 {
-	constexpr float kMinChaseRange = 150.0f;	// プレイヤーを追いかける最小範囲
-	constexpr float kMaxChaseRange = 600.0f;	// プレイヤーを追いかける最大範囲
+	constexpr float kMinChaseRange = 200.0f;	// プレイヤーを追いかける最小範囲
+	constexpr float kMaxChaseRange = 800.0f;	// プレイヤーを追いかける最大範囲
 }
 
 EnemyStateBase::EnemyStateBase(std::shared_ptr<EnemyBase> pEnemy):
@@ -91,6 +92,10 @@ void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
 		pPlayer.SetIsBattle(false);
 
 		// 待機か歩きのみを行う
+		std::shared_ptr<EnemyStateIdle> state = std::make_shared<EnemyStateIdle>(m_pEnemy);
+		m_nextState = state;
+		state->Init();
+		return;
 	}
 	else
 	{
@@ -125,6 +130,7 @@ void EnemyStateBase::AttackRand()
 	}
 	if (num <= 30)
 	{
+		Sound::GetInstance().PlaySe(SoundName::kSe_avoid);
 		// StateをAvoidに変更する
 		std::shared_ptr<EnemyStateAvoid> state = std::make_shared<EnemyStateAvoid>(m_pEnemy);
 		m_nextState = state;
