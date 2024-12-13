@@ -1,18 +1,5 @@
-﻿  CharacterBase.cpp
-  EnemyStateAttack.cpp
-  EnemyStateBase.cpp
-  PlayerStateAttack.cpp
-  PlayerStateBase.cpp
-  SceneBase.cpp
-C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Scene\SceneBase.cpp(115,79): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+﻿  SceneDebug.cpp
   SceneMain.cpp
-  SceneOption.cpp
   SceneSelect.cpp
-  SceneTitle.cpp
-  SceneUseItem.cpp
-  Sound.cpp
-  main.cpp
   コードを生成中...
-C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Chara\Player\PlayerStateAttack.cpp(173): warning C4715: 'PlayerStateAttack::GetAttackPower': 値を返さないコントロール パスがあります。
-C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Chara\Player\PlayerStateAttack.cpp(161): warning C4715: 'PlayerStateAttack::GetAnimEndTime': 値を返さないコントロール パスがあります。
-  Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\x64\Debug\UedaGaYukuRE.exe
+  Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\UedaGaYukuRE.exe

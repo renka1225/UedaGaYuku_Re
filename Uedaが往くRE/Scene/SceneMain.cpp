@@ -14,6 +14,7 @@
 #include "Stage.h"
 #include "EventData.h"
 #include "SceneMenu.h"
+#include "SceneTitle.h"
 #include "SceneMain.h"
 #include <unordered_set>
 #include <random>
@@ -29,12 +30,13 @@ namespace
 	constexpr int kEnemyMaxNum = 2;		// 1度に出現する最大の敵数
 	constexpr int kEnemyKindNum = 2;	// 敵の種類
 	constexpr int kEnemyNamekind = 31;	// 敵名の種類
-	constexpr int kEnemySpawnMinTIme = 180;			// 敵がスポーンするまでの最小時間
+	constexpr int kEnemySpawnMinTIme = 300;			// 敵がスポーンするまでの最小時間
 	constexpr int kEnemySpawnMaxTIme = 3000;		// 敵がスポーンするまでの最大時間
 	constexpr float kEnemyExtinctionDist = 2000.0f;	// 敵が消滅する範囲
 
 	constexpr int kBattleStartStagingTime = 120; // バトル開始時の演出時間
 	constexpr int kBattleEndStagingTime = 150;	 // バトル終了時の演出時間
+	constexpr int kEndingTime = 60;				 // エンディングの時間
 }
 
 SceneMain::SceneMain():
@@ -42,10 +44,13 @@ SceneMain::SceneMain():
 	m_enemySpawnTime(0),
 	m_battleStartStagingTime(0),
 	m_battleEndStagingTime(0),
+	m_endingTime(0),
 	m_isDispBattleStart(false),
 	m_isBattleEndStaging(false),
+	m_isEnding(false),
 	m_isPause(false),
-	m_isLoading(true)
+	m_isLoading(true),
+	m_isLastBattle(false)
 {
 	// 非同期読み込み設定に変更
 	SetUseASyncLoadFlag(true);
@@ -85,6 +90,14 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		return shared_from_this();
 	}
 
+	// エンディング中の場合
+	if (m_isEnding)
+	{
+		auto nextScene = UpdateEndingStaging();
+		if (nextScene != shared_from_this()) return nextScene;
+		return shared_from_this();
+	}
+
 	// メニューを開いたとき
 	if (input.IsTriggered(InputId::kMenu))
 	{
@@ -95,22 +108,38 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		return std::make_shared<SceneMenu>(shared_from_this(), m_pPlayer, m_pCamera);
 	}
 
-	// バトル開始演出
-	UpdateBattleStartStaging();
-	// バトル終了演出
-	UpdateBattleEndStaging();
-
-	// 敵が1体もいなくなった場合
-	if (m_pEnemy.empty() && !m_isBattleEndStaging)
+	// 最終決戦中でない場合
+	if (!m_isLastBattle)
 	{
-		// バトル終了状態にする
-		m_pPlayer->SetIsBattle(false);
+		// バトル開始演出
+		UpdateBattleStartStaging();
+		// バトル終了演出
+		UpdateBattleEndStaging();
+
+		// 敵が1体もいなくなった場合
+		if (m_pEnemy.empty() && !m_isBattleEndStaging)
+		{
+			// バトル終了状態にする
+			m_pPlayer->SetIsBattle(false);
+		}
 
 		// 敵を生成する
-		CreateEnemy();
+		if (!m_pPlayer->GetIsBattle())
+		{
+			CreateEnemy();
+		}
+		
+		// 敵の更新
+		UpdateEnemy();
 	}
-
-	UpdateEnemy();
+	else
+	{
+		// ラスボスの更新
+		UpdateBossEnemy();
+		// エンディング演出
+		UpdateEndingStaging();
+	}
+	
 	m_pPlayer->Update(input, *m_pCamera, *m_pStage, *m_pWeapon, m_pEnemy);
 	m_pItem->Update(*m_pPlayer);
 	m_pWeapon->Update(*m_pStage);
@@ -138,6 +167,13 @@ void SceneMain::Draw()
 		return;
 	}
 
+	// エンディング演出を表示
+	if (m_isEnding)
+	{
+		m_pUi->DrawEnding();
+		return;
+	}
+
 	m_pStage->Draw();
 	m_pItem->Draw();
 	m_pPlayer->Draw();
@@ -151,26 +187,31 @@ void SceneMain::Draw()
 	m_pWeapon->Draw();
 	EffectManager::GetInstance().Draw();
 
-	// バトル開始の演出を表示
-	if (m_battleStartStagingTime > 0)
+	// 最終決戦でない場合
+	if (!m_isLastBattle)
 	{
-		m_pUi->DrawBattleStart();
-	}
-	// バトル終了の演出を表示
-	if (m_battleEndStagingTime > 0)
-	{
-		m_pUi->DrawBattleEnd();
-	}
+		// バトル開始の演出を表示
+		if (m_battleStartStagingTime > 0)
+		{
+			m_pUi->DrawBattleStart();
+		}
+		// バトル終了の演出を表示
+		if (m_battleEndStagingTime > 0)
+		{
+			m_pUi->DrawBattleEnd();
+		}
 
-	// バトル中UI表示
-	m_pUi->DrawBattleUi(*m_pPlayer);
+		// バトル中UI表示
+		m_pUi->DrawBattleUi(*m_pPlayer);
+	}
 
 	// プレイヤーのバーUI表示
 	m_pUiBar->DrawPlayerHpBar(*m_pPlayer, m_pPlayer->GetStatus().maxHp);
 	m_pUiBar->DrawPlayerGaugeBar(*m_pPlayer, m_pPlayer->GetStatus().maxGauge);
 
-	// バトル終了演出中は表示しない
-	if (!m_isBattleEndStaging)
+	// 特定の状態の場合は表示しない
+	bool isDrawMap = !m_isBattleEndStaging || !m_isLastBattle || m_isEnding;
+	if (isDrawMap)
 	{
 		// ミニマップを表示
 		m_pUi->DrawMiniMap(*m_pPlayer, m_pEnemy);
@@ -320,6 +361,27 @@ void SceneMain::UpdateBattleEndStaging()
 	}
 }
 
+std::shared_ptr<SceneBase> SceneMain::UpdateEndingStaging()
+{
+	// エンディング中でない場合は表示しない
+	if(!m_isEnding) return shared_from_this();
+
+	// 演出中
+	if (m_endingTime > 0)
+	{
+		m_endingTime--;
+		printfDx("エンディング中\n");
+	}
+	// 演出終了後
+	else
+	{
+		// エンディング終了後、タイトルに戻る
+		return std::make_shared<SceneTitle>();
+	}
+
+	return shared_from_this();
+}
+
 void SceneMain::UpdateSound()
 {
 	auto& sound = Sound::GetInstance();
@@ -346,15 +408,25 @@ void SceneMain::UpdateSound()
 
 void SceneMain::CreateEnemy()
 {
-	// スポーンするまでの時間をランダムで決める
-	const int spawnTime = GetRand(kEnemySpawnMaxTIme) + kEnemySpawnMinTIme;
-	m_enemySpawnTime++;
-
-	if (m_enemySpawnTime >= spawnTime)
+	// ラスボス戦でない場合
+	if (!m_isLastBattle)
 	{
-		m_enemySpawnTime = 0;
-		// 出現する敵をランダムで選ぶ
-		SelectEnemy();
+		// スポーンするまでの時間をランダムで決める
+		const int spawnTime = GetRand(kEnemySpawnMaxTIme) + kEnemySpawnMinTIme;
+		m_enemySpawnTime++;
+
+		if (m_enemySpawnTime >= spawnTime)
+		{
+			m_enemySpawnTime = 0;
+			// 出現する敵をランダムで選ぶ
+			SelectEnemy();
+		}
+	}
+	// ラスボス戦の場合
+	else
+	{
+		// ラスボス用の敵を生成する
+
 	}
 }
 
@@ -398,6 +470,21 @@ void SceneMain::UpdateEnemy()
 
 	// erase-removeイディオムで特定の要素(nullptr)だけを削除する
 	m_pEnemy.erase(std::remove(m_pEnemy.begin(), m_pEnemy.end(), nullptr), m_pEnemy.end());
+}
+
+void SceneMain::UpdateBossEnemy()
+{
+	// ラスボスの更新
+	//m_pEnemy[0]->Update(*m_pStage, *m_pPlayer);
+
+	// HPが0になった場合
+	if (m_pEnemy[0]->GetHp() <= 0.0f)
+	{
+		// クリア演出を行う
+		// TODO:エンディングを流す
+		m_endingTime = kEndingTime;
+		m_isEnding = true;
+	}
 }
 
 void SceneMain::SelectEnemy()
@@ -490,6 +577,7 @@ void SceneMain::CheckEventTrigger()
 		{
 			// イベントIDに応じた処理を行う
 			StartEvent(event.eventId);
+			printfDx("当たった\n");
 		}
 	}
 }
@@ -500,5 +588,7 @@ void SceneMain::StartEvent(const std::string& eventId)
 	if (eventId == "bossBattle")
 	{
 		printfDx("ボスバトル開始\n");
+		m_pPlayer->SetIsBattle(true);
+		m_isLastBattle = true;
 	}
 }

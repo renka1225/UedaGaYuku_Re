@@ -185,6 +185,14 @@ void UiBase::DrawBattleEnd()
 	//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
+void UiBase::DrawEnding()
+{
+	// 背景表示
+	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, Color::kColorBK, true);
+
+	DrawString(0, 0, "エンディング中\n", Color::kColorW);
+}
+
 void UiBase::DrawBattleUi(const Player& pPlayer)
 {
 	// バトル中の場合

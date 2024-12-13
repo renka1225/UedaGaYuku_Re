@@ -71,6 +71,12 @@ private:
 	void UpdateBattleEndStaging();
 
 	/// <summary>
+	/// エンディング演出の更新を行う
+	/// </summary>
+	/// <returns>遷移するシーン</returns>
+	std::shared_ptr<SceneBase> UpdateEndingStaging();
+
+	/// <summary>
 	/// サウンド再生の処理を行う
 	/// </summary>
 	void UpdateSound();
@@ -84,6 +90,11 @@ private:
 	/// 敵を更新する
 	/// </summary>
 	void UpdateEnemy();
+
+	/// <summary>
+	/// ボス敵の更新を行う
+	/// </summary>
+	void UpdateBossEnemy();
 
 	/// <summary>
 	/// 敵をランダムで決定する
@@ -122,9 +133,12 @@ private:
 	int m_enemySpawnTime;			// 敵がスポーンするまでの時間
 	int m_battleStartStagingTime;	// バトル開始演出の時間
 	int m_battleEndStagingTime;		// バトル終了演出の時間
+	int m_endingTime;				// エンディングの時間
 
 	bool m_isDispBattleStart;	// バトル開始演出中かどうか(true:演出中)
 	bool m_isBattleEndStaging;	// バトル終了演出中か(true:演出中)
-	bool m_isPause;		// ポーズ状態かどうか(true:ポーズ状態)
-	bool m_isLoading;	// ロード中か(true:ロード中)
+	bool m_isEnding;			// エンディング演出中か(true:演出中)
+	bool m_isPause;				// ポーズ状態かどうか(true:ポーズ状態)
+	bool m_isLoading;			// ロード中か(true:ロード中)
+	bool m_isLastBattle;		// ボス戦かどうか
 };
