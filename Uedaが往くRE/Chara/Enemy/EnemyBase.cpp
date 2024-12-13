@@ -14,6 +14,8 @@ namespace
 {
 	constexpr float kScale = 0.15f;					// モデルの拡大率
 	constexpr float kSpawnRange = 500.0f;			// スポーンする範囲
+	const VECTOR kBossSpwnPos = VGet(9100.0f, 45.0f, 4000.0f); // ボスのスポーン位置
+
 	constexpr float kDispNameRange = 1000.0f;		// 敵名を表示する範囲
 	const Vec2 kAdjDispNamePos = { 32.0f, 30.0f };	// 敵名の表示位置調整
 }
@@ -28,10 +30,17 @@ EnemyBase::EnemyBase(std::shared_ptr<UiBar> pUi, std::shared_ptr<Item> pItem, Pl
 	m_pItem = pItem;
 
 	// 敵の初期位置を設定
-	// プレイヤーの範囲内に配置する
-	float randPosX = player.GetPos().x + GetRand(static_cast<int>(kSpawnRange) * 2) - kSpawnRange;
-	float randPosZ = player.GetPos().z + GetRand(static_cast<int>(kSpawnRange) * 2) - kSpawnRange;
-	m_pos = VGet(randPosX, player.GetPos().y, randPosZ);
+	if (m_enemyIndex == CharacterBase::CharaType::kEnemy_boss)
+	{
+		m_pos = kBossSpwnPos;
+	}
+	else
+	{
+		// プレイヤーの範囲内に配置する
+		float randPosX = player.GetPos().x + GetRand(static_cast<int>(kSpawnRange) * 2) - kSpawnRange;
+		float randPosZ = player.GetPos().z + GetRand(static_cast<int>(kSpawnRange) * 2) - kSpawnRange;
+		m_pos = VGet(randPosX, player.GetPos().y, randPosZ);
+	}
 }
 
 EnemyBase::~EnemyBase()

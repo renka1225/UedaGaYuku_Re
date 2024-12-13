@@ -14,6 +14,7 @@
 #include "PlayerStateIdle.h"
 #include "ModelFrameName.h"
 #include "Player.h"
+#include <random>
 
 // 定数
 namespace
@@ -25,6 +26,9 @@ namespace
 
 	constexpr int kMaxPossession = 12;		// アイテムの最大所持数
 	constexpr int kMoneyIncrement = 100;	// 一度に増える所持金数
+
+	constexpr float kDecreaseMoneyMin = 0.1f; // 減らす金額の最小割合
+	constexpr float kDecreaseMoneyMax = 0.3f; // 減らす金額の最大割合
 
 	constexpr float kBattleStartRange = 200.0f;	// バトルが始まる範囲
 	constexpr int kBattleStartTime = 60;		// バトルが開始するまでの時間
@@ -100,6 +104,16 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 	if (!pEnemy.empty())
 	{
 		UpdateEnemyInfo(pEnemy);
+	}
+
+	// HPが0以下の場合
+	if (m_hp <= 0.0f)
+	{
+		// ダウン処理を行う
+		Down();
+
+		// HPを1にする
+		m_hp = 1.0f;
 	}
 
 	m_currentInputFrame++;
@@ -308,6 +322,22 @@ void Player::UpdateBattle(int enemyIndex)
 			m_battleStartCount = kBattleStartTime;
 		}
 	}
+}
+
+void Player::Down()
+{
+	// バトルを終了する
+	m_isBattle = false;
+
+	// 所持金の10%～30%をランダムで減らす
+	std::random_device rd;
+	std::mt19937 mt(rd());
+	std::uniform_real_distribution<float> dist(kDecreaseMoneyMin, kDecreaseMoneyMax);
+	float decreaseRate = dist(mt);
+	printfDx("%.2f\n", decreaseRate);
+
+	m_money -= static_cast<int>(m_money * decreaseRate);
+	m_money = std::max(0, m_money);
 }
 
 void Player::UpdateItemInfo()

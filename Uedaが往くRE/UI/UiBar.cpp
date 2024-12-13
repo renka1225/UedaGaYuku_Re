@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "EnemyBase.h"
 #include "UiBar.h"
+#include <algorithm>
 #include <cassert>
 
 namespace
@@ -137,7 +138,8 @@ void UiBar::DrawPlayerHpBar(Player& player, float maxHp)
 
 	// ダメージバーの長さを変える
 	float damageHpRatio = (player.GetHp() + m_playerDamage) / maxHp;
-	float damageHpLength = damageData.RBposX * damageHpRatio;
+	float damageHpLength = damageData.LTposX + (damageData.RBposX - damageData.LTposX) * damageHpRatio;;
+
 	DrawExtendGraphF(damageData.LTposX, damageData.LTposY, damageHpLength, damageData.RBposY, m_handle[Handle::kPlayerHpDamage], true);
 
 	/*HPバー*/
@@ -146,7 +148,9 @@ void UiBar::DrawPlayerHpBar(Player& player, float maxHp)
 
 	// 現在のHP量に応じてバーの長さを変える
 	float hpRatio = player.GetHp() / maxHp;
-	float hpLength = hpData.RBposX * hpRatio;
+	float hpLength = hpData.LTposX + (hpData.RBposX - hpData.LTposX) * hpRatio;
+	hpLength = std::max(hpData.LTposX, hpLength);
+
 	DrawExtendGraphF(hpData.LTposX, hpData.LTposY, hpLength, hpData.RBposY, m_handle[Handle::kPlayerHp], true);
 }
 

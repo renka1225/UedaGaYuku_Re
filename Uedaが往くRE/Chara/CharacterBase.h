@@ -44,9 +44,10 @@ public:
 	// キャラクターの種類
 	enum CharaType
 	{
-		kPlayer,	// プレイヤー
-		kEnemy_01,	// 敵1
-		kEnemy_02,	// 敵2
+		kPlayer,	 // プレイヤー
+		kEnemy_01,	 // 敵1
+		kEnemy_02,	 // 敵2
+		kEnemy_boss, // ボス
 	};
 
 	// キャラクターのステータス

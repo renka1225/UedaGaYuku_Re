@@ -11,6 +11,7 @@ namespace SoundName
 	constexpr const char* kBgm_title = "title.mp3";
 	constexpr const char* kBgm_select = "titleNext.mp3";
 	constexpr const char* kBgm_battle = "battle.mp3";
+	constexpr const char* kBgm_bossBattle = "bossBattle.mp3";
 	constexpr const char* kBgm_battleEnd = "battleEnd.mp3";
 	constexpr const char* kBgm_congestion = "congestion.mp3";
 	constexpr const char* kSe_sampleSE = "sampleSE.mp3";

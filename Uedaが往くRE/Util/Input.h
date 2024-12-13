@@ -43,6 +43,7 @@ namespace InputId
 
 	const char* const kDebugDamage = "debug_damage";
 	const char* const kDebugSpawn = "debug_spawn";
+	const char* const kDebugEnding = "debug_ending";
 	const char* const kEnd = "end";
 }
 

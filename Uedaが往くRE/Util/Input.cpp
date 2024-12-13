@@ -156,18 +156,16 @@ Input::Input()
 								{InputType::pad, PAD_INPUT_10} };
 
 	/*デバッグ機能*/
-	m_commandTable[InputId::kDebugDamage] = { {InputType::keybd, KEY_INPUT_LSHIFT},
+	m_commandTable[InputId::kDebugDamage] = { {InputType::keybd, KEY_INPUT_SPACE},
 								{InputType::pad, PAD_INPUT_11} };
 	m_commandTable[InputId::kDebugSpawn] = { {InputType::keybd, KEY_INPUT_LSHIFT},
 								{InputType::pad, PAD_INPUT_Z} };
+	m_commandTable[InputId::kDebugEnding] = { {InputType::keybd, KEY_INPUT_0},
+							{InputType::pad, PAD_INPUT_11} };
 	m_commandTable["debug_pause"] = { {InputType::keybd, KEY_INPUT_P},
 								{InputType::pad, PAD_INPUT_11} };
 	m_commandTable["debug_enter"] = { {InputType::keybd, KEY_INPUT_RETURN},
 								{InputType::pad, PAD_INPUT_11} };
-	m_commandTable["debug_clear"] = { {InputType::keybd, KEY_INPUT_B},
-								{InputType::pad, PAD_INPUT_10} };
-	m_commandTable["debug_gameover"] = { {InputType::keybd, KEY_INPUT_N},
-								{InputType::pad, PAD_INPUT_10} };
 	m_commandTable[InputId::kEnd] = { {InputType::keybd, KEY_INPUT_ESCAPE},
 								{InputType::pad, PAD_INPUT_10} };
 }

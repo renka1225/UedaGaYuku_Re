@@ -23,10 +23,10 @@
 // 定数
 namespace
 {
-	const char* kPlayerHandlePath = "data/model/chara/player.mv1";	// プレイヤーのモデルハンドルパス
-	const char* kEnemyHandlePath = "data/model/chara/enemy_";		// 敵のモデルハンドルパス
+	const std::string kPlayerHandlePath = "data/model/chara/player.mv1";	// プレイヤーのモデルハンドルパス
+	const std::string kEnemyHandlePath = "data/model/chara/enemy_";			// 敵のモデルハンドルパス
 
-	constexpr int kModelNum = 3;		// 読み込むモデルの数
+	constexpr int kModelNum = 4;		// 読み込むモデルの数
 	constexpr int kEnemyMaxNum = 2;		// 1度に出現する最大の敵数
 	constexpr int kEnemyKindNum = 2;	// 敵の種類
 	constexpr int kEnemyNamekind = 31;	// 敵名の種類
@@ -65,6 +65,8 @@ SceneMain::~SceneMain()
 {
 	// サウンド停止
 	Sound::GetInstance().StopBgm(SoundName::kBgm_congestion);
+	Sound::GetInstance().StopBgm(SoundName::kBgm_battle);
+	Sound::GetInstance().StopBgm(SoundName::kBgm_bossBattle);
 	Sound::GetInstance().StopBgm(SoundName::kBgm_battleEnd);
 }
 
@@ -123,7 +125,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 			m_pPlayer->SetIsBattle(false);
 		}
 
-		// 敵を生成する
+		// バトル中でない場合、敵を生成する
 		if (!m_pPlayer->GetIsBattle())
 		{
 			CreateEnemy();
@@ -139,7 +141,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		// エンディング演出
 		UpdateEndingStaging();
 	}
-	
+
 	m_pPlayer->Update(input, *m_pCamera, *m_pStage, *m_pWeapon, m_pEnemy);
 	m_pItem->Update(*m_pPlayer);
 	m_pWeapon->Update(*m_pStage);
@@ -154,6 +156,15 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 
 	// サウンドの更新
 	UpdateSound();
+
+#ifdef _DEBUG // デバックコマンド
+	if (input.IsTriggered(InputId::kDebugEnding))
+	{
+		m_isEnding = true;
+	}
+	
+#endif // _DEBUG // デバックコマンド
+
 
 	return shared_from_this();
 }
@@ -226,7 +237,7 @@ void SceneMain::Draw()
 void SceneMain::LoadModelHandle()
 {
 	// プレイヤー
-	m_modelHandle[CharacterBase::CharaType::kPlayer] = MV1LoadModel(kPlayerHandlePath);
+	m_modelHandle[CharacterBase::CharaType::kPlayer] = MV1LoadModel(kPlayerHandlePath.c_str());
 
 	// 敵
 	for (int i = 0; i < m_pEnemy.size(); i++)
@@ -236,6 +247,9 @@ void SceneMain::LoadModelHandle()
 		sprintf_s(enemyId, "%02d", (i + 1));
 		m_modelHandle[(i + 1)] = MV1LoadModel((kEnemyHandlePath + std::string(enemyId) + ".mv1").c_str());
 	}
+
+	// ラスボス
+	m_modelHandle[CharacterBase::CharaType::kEnemy_boss] = MV1LoadModel((kEnemyHandlePath + "boss.mv1").c_str());
 }
 
 void SceneMain::Loading()
@@ -396,14 +410,29 @@ void SceneMain::UpdateSound()
 	else if (m_pPlayer->GetIsBattle())
 	{
 		sound.StopBgm(SoundName::kBgm_congestion);
-		sound.PlayLoopBgm(SoundName::kBgm_battle);
+
+		// ボス戦の場合
+		if (m_isLastBattle)
+		{
+			sound.PlayLoopBgm(SoundName::kBgm_bossBattle);
+
+			if (m_pEnemy[0]->GetHp() < 0.0f)
+			{
+				sound.StopBgm(SoundName::kBgm_bossBattle);
+			}
+		}
+		// ボス戦以外の場合
+		else
+		{
+			
+			sound.PlayLoopBgm(SoundName::kBgm_battle);
+		}
 	}
 	else
 	{
 		sound.StopBgm(SoundName::kBgm_battle);
 		sound.PlayLoopBgm(SoundName::kBgm_congestion);
 	}
-	
 }
 
 void SceneMain::CreateEnemy()
@@ -425,8 +454,16 @@ void SceneMain::CreateEnemy()
 	// ラスボス戦の場合
 	else
 	{
-		// ラスボス用の敵を生成する
+		// 敵がいる場合は削除する
+		m_pEnemy.clear();
 
+		// ラスボス用の敵を生成する
+		int enemyIndex = CharacterBase::CharaType::kEnemy_boss;
+		
+		auto bossEnemy = std::make_shared<EnemyBase>(m_pUiBar, m_pItem, *m_pPlayer);
+		bossEnemy->SetEnemyInfo("ラスボス", "enemy_boss", enemyIndex, m_modelHandle[enemyIndex]);
+		bossEnemy->Init();
+		m_pEnemy.push_back(bossEnemy);
 	}
 }
 
@@ -475,7 +512,7 @@ void SceneMain::UpdateEnemy()
 void SceneMain::UpdateBossEnemy()
 {
 	// ラスボスの更新
-	//m_pEnemy[0]->Update(*m_pStage, *m_pPlayer);
+	m_pEnemy[0]->Update(*m_pStage, *m_pPlayer);
 
 	// HPが0になった場合
 	if (m_pEnemy[0]->GetHp() <= 0.0f)
@@ -577,7 +614,6 @@ void SceneMain::CheckEventTrigger()
 		{
 			// イベントIDに応じた処理を行う
 			StartEvent(event.eventId);
-			printfDx("当たった\n");
 		}
 	}
 }
@@ -588,7 +624,8 @@ void SceneMain::StartEvent(const std::string& eventId)
 	if (eventId == "bossBattle")
 	{
 		printfDx("ボスバトル開始\n");
-		m_pPlayer->SetIsBattle(true);
 		m_isLastBattle = true;
+		CreateEnemy();
+		m_pPlayer->SetIsBattle(true);
 	}
 }

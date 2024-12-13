@@ -158,6 +158,8 @@ float PlayerStateAttack::GetAnimEndTime()
     if (m_attackKind == AnimName::kPunch3) return m_pPlayer->GetAnimTotalTime(AnimName::kPunch3);
     if (m_attackKind == AnimName::kKick) return m_pPlayer->GetAnimTotalTime(AnimName::kKick);
     if (m_attackKind == AnimName::kKickHeat) return m_pPlayer->GetAnimTotalTime(AnimName::kKickHeat);
+
+    return 0.0f;
 }
 
 float PlayerStateAttack::GetAttackPower()
@@ -170,6 +172,8 @@ float PlayerStateAttack::GetAttackPower()
     if (m_attackKind == AnimName::kPunch3) return status.atkPowerPunch3;
     if (m_attackKind == AnimName::kKick)  return status.atkPowerKick;
     if (m_attackKind == AnimName::kKickHeat)  return status.atkPowerKick * 1.5f;
+
+    return 0.0f;
 }
 
 #ifdef _DEBUG
