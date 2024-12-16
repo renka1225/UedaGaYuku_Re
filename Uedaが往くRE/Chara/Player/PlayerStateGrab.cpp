@@ -16,10 +16,15 @@ void PlayerStateGrab::Init(std::string grabKind)
         m_pPlayer->ChangeAnim(AnimName::kGrabEnemy);
         m_animEndTime = 10.0f;
     }
-    else
+    else if(m_grabKind == "oneHandWeapon")
     {
         m_pPlayer->ChangeAnim(AnimName::kGrabOneHandWeapon);
         m_animEndTime = 10.0f;
+    }
+    else
+    {
+        m_pPlayer->ChangeAnim(AnimName::kGrabTwoHandWeapon);
+        m_animEndTime = 20.0f;
     }
 }
 
@@ -49,6 +54,10 @@ std::string PlayerStateGrab::GetStateName()
     else if (m_grabKind == "oneHandWeapon")
     {
         return "片手武器掴み";
+    }
+    else if (m_grabKind == "twoHandWeapon")
+    {
+        return "両手武器掴み";
     }
     else
     {

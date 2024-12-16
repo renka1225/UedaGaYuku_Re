@@ -47,6 +47,41 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	// 敵が範囲内にいるか
 	bool isRange = m_pPlayer->GetIsPossibleGrabEnemy();
 
+	// 攻撃のボタンが押された場合
+	if (input.IsTriggered(InputId::kPunch) || input.IsTriggered(InputId::kKick))
+	{
+		ChangeStateAttack(input);
+		return;
+	}
+
+	// ガードのボタンが押された場合
+	else if (input.IsPressing(InputId::kGuard))
+	{
+		ChangeStateGuard();
+		return;
+	}
+
+	// 回避のボタンが押された場合
+	else if (input.IsTriggered(InputId::kAvoid))
+	{
+		ChangeStateAvoid();
+		return;
+	}
+
+	// 掴みのボタンが押された場合
+	else if (input.IsTriggered(InputId::kGrab))
+	{
+		ChangeStateGrab(weapon);
+		return;
+	}
+
+	// ダメージを受けた場合
+	if (m_pPlayer->GetIsOnDamage())
+	{
+		ChangeStateDamage();
+		return;
+	}
+
 	// 必殺技のボタンが押された場合
 	if (input.IsTriggered(InputId::kSpecial))
 	{
@@ -61,40 +96,6 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 		return;
 	}
 
-	// 攻撃のボタンが押された場合
-	if (input.IsTriggered(InputId::kPunch) || input.IsTriggered(InputId::kKick))
-	{
-		ChangeStateAttack(input);
-		return;
-	}
-
-	// ガードのボタンが押された場合
-	if (input.IsPressing(InputId::kGuard))
-	{
-		ChangeStateGuard();
-		return;
-	}
-
-	// 回避のボタンが押された場合
-	if (input.IsTriggered(InputId::kAvoid))
-	{
-		ChangeStateAvoid();
-		return;
-	}
-
-	// 掴みのボタンが押された場合
-	if (input.IsTriggered(InputId::kGrab))
-	{
-		ChangeStateGrab();
-		return;
-	}
-
-	// ダメージを受けた場合
-	if (m_pPlayer->GetIsOnDamage())
-	{
-		ChangeStateDamage();
-		return;
-	}
 }
 
 bool PlayerStateBase::IsStateInterrupt()
@@ -168,7 +169,7 @@ void PlayerStateBase::ChangeStateAvoid()
 	state->Init();
 }
 
-void PlayerStateBase::ChangeStateGrab()
+void PlayerStateBase::ChangeStateGrab(const Weapon& pWeapon)
 {
 	// 敵を掴める場合
 	if (m_pPlayer->GetIsPossibleGrabEnemy())
@@ -179,8 +180,10 @@ void PlayerStateBase::ChangeStateGrab()
 		state->Init("enemy");
 	}
 	// 武器を掴める場合
-	else if (m_pPlayer->GetIsPossibleGrabWeapon())
+	if (m_pPlayer->GetIsPossibleGrabWeapon())
 	{
+		std::string weaponTag = pWeapon.FindNearWeaponTag(m_pPlayer->GetPos());
+
 		// 武器を掴んでいない場合
 		if (!m_pPlayer->GetIsGrabWeapon())
 		{
@@ -189,6 +192,8 @@ void PlayerStateBase::ChangeStateGrab()
 			// StateをGrabに変更する
 			std::shared_ptr<PlayerStateGrab> state = std::make_shared<PlayerStateGrab>(m_pPlayer);
 			m_nextState = state;
+
+			// TODO:武器の種類をセットする
 			state->Init("OneHandWeapon");
 		}
 		// すでに武器を掴んでいる場合

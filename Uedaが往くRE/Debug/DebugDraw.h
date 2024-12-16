@@ -41,7 +41,8 @@ public:
 	/// <param name="rot">回転率</param>
 	/// <param name="scale">サイズ</param>
 	/// <param name="durability">耐久力</param>
-	void DrawWeaponInfo(std::string name, std::string tag, VECTOR pos, VECTOR rot, VECTOR scale, int durability);
+	/// <param name="durability">情報表示位置</param>
+	void DrawWeaponInfo(std::string name, std::string tag, VECTOR pos, VECTOR rot, VECTOR scale, int durability, int dispY);
 
 	/// <summary>
 	/// 全身の当たり判定を描画

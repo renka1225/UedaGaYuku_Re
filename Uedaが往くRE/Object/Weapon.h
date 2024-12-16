@@ -76,6 +76,12 @@ public:
 	/// <param name="isHit"></param>
 	void SetIsHitAttack(bool isHit) { m_isHitAttack = isHit; }
 
+	/// <summary>
+	/// プレイヤーの近くにある武器の情報を取得する
+	/// </summary>
+	/// <param name="playerPos">プレイヤー座標</param>
+	std::string FindNearWeaponTag(const VECTOR& playerPos);
+
 private:
 	/// <summary>
 	/// 配置データを読み込む
@@ -108,6 +114,8 @@ protected:
 		VECTOR scale;		// スケール
 		VECTOR initPos;		// 初期位置
 		VECTOR initRot;		// 初期回転量
+		UpdateColData updateCol;	// 更新後の当たり判定データ
+		bool isGrab = false;		// 武器が掴まれた状態か
 	};
 	std::vector<LocationData> m_locationData;
 
@@ -115,7 +123,6 @@ protected:
 	std::shared_ptr<Player> m_pPlayer; // プレイヤーのポインタ
 	std::unordered_map<std::string, int> m_objHandle; // 読み込むオブジェクトのハンドル
 	WeaponData m_weaponData;	// 武器のデータ
-	UpdateColData m_updateCol;	// 更新後の当たり判定データ
 	int m_locationDataHandle;	// 読み込む配置データ
 	int m_durability;			// 武器の耐久力
 	bool m_isHitAttack;			// 攻撃中に当たっているかどうか

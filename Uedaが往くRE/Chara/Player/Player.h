@@ -71,6 +71,14 @@ public:
 	virtual void OnDamage(float damage);
 
 	/// <summary>
+	/// プレイヤーが武器に近づいているか判断する
+	/// </summary>
+	/// <param name="weaponPos"></param>
+	/// <returns></returns>
+	bool IsNearWeapon(const VECTOR& weaponPos);
+
+
+	/// <summary>
 	/// 所持金を更新する
 	/// </summary>
 	/// <param name="dropMoney">敵がドロップした金額</param>

@@ -40,7 +40,7 @@ void Weapon::Init()
 	{
 		LoadCsv::GetInstance().LoadWeaponData(m_weaponData, loc.name);
 		m_durability = m_weaponData.durability;
-		m_updateCol.colRadius = m_weaponData.colRadius;
+		loc.updateCol.colRadius = m_weaponData.colRadius;
 		MV1SetScale(m_objHandle[loc.name], loc.scale);
 		MV1SetPosition(m_objHandle[loc.name], loc.pos);
 	}
@@ -71,7 +71,7 @@ void Weapon::Update(Stage& stage)
 			// 耐久力が0になった場合
 			if (m_durability <= 0)
 			{
-				// TODO:モデルを非表示にする、当たり判定を消す
+				// モデルを非表示にする、当たり判定を消す
 				MV1SetFrameVisible(m_objHandle[loc.name], 0, false);
 				m_pPlayer->SetIsGrabWeapon(false); // プレイヤーの武器掴み状態を解除する
 				m_durability = std::max(m_durability, 0);
@@ -82,7 +82,7 @@ void Weapon::Update(Stage& stage)
 			}
 
 			// プレイヤーが武器を掴んだ場合、プレイヤーの手の位置に武器を移動させる
-			if (m_pPlayer->GetIsGrabWeapon())
+			if (m_pPlayer->GetIsGrabWeapon() && loc.isGrab)
 			{
 				SetModelFramePos(m_pPlayer->GetHandle(), kPlayerHandFrameName, m_objHandle[loc.name], loc, frameMatrix);
 			}
@@ -118,7 +118,7 @@ void Weapon::Draw()
 		if (m_durability <= 0) continue;
 
 		// プレイヤーが武器に近づいたら拾うUIを表示する
-		if (m_pPlayer->GetIsPossibleGrabWeapon() && !m_pPlayer->GetIsGrabWeapon())
+		if (m_pPlayer->IsNearWeapon(loc.pos) && !m_pPlayer->GetIsGrabWeapon())
 		{
 			// UIの位置を計算する
 			VECTOR modelTopPos = VAdd(loc.pos, VGet(0.0f, kDispTextAdjY, 0.0f));
@@ -130,14 +130,16 @@ void Weapon::Draw()
 
 #ifdef _DEBUG
 	DebugDraw debug;
+	int dispY = 440; // 武器情報デバッグ表示位置
 	for (const auto& loc : m_locationData)
 	{
 		if (m_durability <= 0) continue;
 
 		// 武器情報描画
-		debug.DrawWeaponInfo(loc.name.c_str(), loc.tag.c_str(), loc.pos, loc.rot, loc.scale, m_durability);
+		debug.DrawWeaponInfo(loc.name.c_str(), loc.tag.c_str(), loc.pos, loc.rot, loc.scale, m_durability, dispY);
 		// 当たり判定描画
-		debug.DrawWeaponCol(m_updateCol.colStartPos, m_updateCol.colEndPos, m_updateCol.colRadius);
+		debug.DrawWeaponCol(loc.updateCol.colStartPos, loc.updateCol.colEndPos, loc.updateCol.colRadius);
+		dispY += 20;
 	}
 #endif
 }
@@ -148,6 +150,31 @@ void Weapon::DecrementDurability()
 
 	m_durability--;  // 耐久力を1減らす
 	m_isHitAttack = true;
+}
+
+std::string Weapon::FindNearWeaponTag(const VECTOR& playerPos)
+{
+	float minDistance = 0.0f;
+	const LocationData* nearestWeapon = nullptr;
+
+	for (const auto& loc : m_locationData)
+	{
+		if (!MV1GetFrameVisible(m_objHandle.at(loc.name), 0)) continue; // 非表示の場合はスキップ
+		float distance = VSize(VSub(loc.pos, playerPos)); // 距離を計算
+
+		if (distance < minDistance)
+		{
+			minDistance = distance;
+			nearestWeapon = &loc;
+		}
+	}
+
+	if (nearestWeapon != nullptr)
+	{
+		return nearestWeapon->name; // プレイヤーに最も近い武器のタグ名を返す
+	}
+
+	return "";
 }
 
 void Weapon::LoadLocationData()
@@ -203,13 +230,21 @@ void Weapon::UpdateCol(auto& loc)
 	MATRIX rotationMatrix = MGetRotY(loc.rot.y);
 
 	// 当たり判定位置を更新
-	m_updateCol.colStartPos = VAdd(loc.pos, (VTransform(m_weaponData.colStartPos, rotationMatrix)));
-	m_updateCol.colEndPos = VAdd(m_updateCol.colStartPos, (VTransform(m_weaponData.colEndPos, rotationMatrix)));
+	loc.updateCol.colStartPos = VAdd(loc.pos, (VTransform(m_weaponData.colStartPos, rotationMatrix)));
+	loc.updateCol.colEndPos = VAdd(loc.updateCol.colStartPos, (VTransform(m_weaponData.colEndPos, rotationMatrix)));
 }
 
 bool Weapon::CheckWeaopnCol(const CharacterBase::ColData& colData, Player& player)
 {
-	return HitCheck_Capsule_Capsule(m_updateCol.colStartPos, m_updateCol.colEndPos, m_updateCol.colRadius, colData.bodyUpdateStartPos, colData.bodyUpdateEndPos, colData.bodyRadius);
+	for (auto& loc : m_locationData)
+	{
+		if (m_pPlayer->IsNearWeapon(loc.pos))
+		{
+			return HitCheck_Capsule_Capsule(loc.updateCol.colStartPos, loc.updateCol.colEndPos, loc.updateCol.colRadius, colData.bodyUpdateStartPos, colData.bodyUpdateEndPos, colData.bodyRadius);
+		}	
+	}
+
+	return false;
 }
 
 void Weapon::SetModelFramePos(int modelHandle, const char* frameName, int setModelHandle, auto& loc, MATRIX frameMatrix)

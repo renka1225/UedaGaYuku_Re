@@ -116,10 +116,8 @@ bool CharacterBase::CheckHitPunchCol(const CharacterBase::ColData& colData, int 
 	{
 		return true;
 	}
-	else
-	{
-		return false;
-	}
+	
+	return false;
 }
 
 bool CharacterBase::CheckHitKickCol(const CharacterBase::ColData& colData, int charaType)

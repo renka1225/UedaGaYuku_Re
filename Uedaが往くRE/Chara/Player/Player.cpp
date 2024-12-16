@@ -302,6 +302,14 @@ void Player::UpdateWeaponColInfo(Weapon& weapon)
 	}
 }
 
+bool Player::IsNearWeapon(const VECTOR& weaponPos)
+{
+	const float kNearDist = 20.0f; 
+	float dist = VSize(VSub(weaponPos, m_pos));
+
+	if(dist <= kNearDist) return true;
+}
+
 void Player::UpdateBattle(int enemyIndex)
 {
 	// 敵に一定距離近づいた場合
