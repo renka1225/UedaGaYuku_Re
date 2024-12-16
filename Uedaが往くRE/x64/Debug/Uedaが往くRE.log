@@ -1,4 +1,4 @@
 ﻿  Weapon.cpp
-C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Object\Weapon.cpp(171,85): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
-C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Object\Weapon.cpp(177,84): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
-  Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\UedaGaYukuRE.exe
+C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Object\Weapon.cpp(184,46): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Object\Weapon.cpp(190,46): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+  Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\x64\Debug\UedaGaYukuRE.exe

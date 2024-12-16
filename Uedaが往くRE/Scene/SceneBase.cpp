@@ -112,7 +112,7 @@ void SceneBase::DrawMoney(std::shared_ptr<Player> pPlayer)
 	}
 
 	// 金額部分を右詰めにする
-	int moneyWidth = GetDrawStringWidthToHandle(moneyText.c_str(), moneyText.size(), Font::m_fontHandle[static_cast<int>(Font::FontId::kMoney)]);
+	int moneyWidth = GetDrawStringWidthToHandle(moneyText.c_str(), static_cast<int>(moneyText.size()), Font::m_fontHandle[static_cast<int>(Font::FontId::kMoney)]);
 	float dispX = kDispMoneyTextPos.x - moneyWidth;
 
 	// 現在の所持金額

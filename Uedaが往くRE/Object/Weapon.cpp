@@ -41,8 +41,8 @@ void Weapon::Init()
 		LoadCsv::GetInstance().LoadWeaponData(m_weaponData, loc.name);
 		m_durability = m_weaponData.durability;
 		loc.updateCol.colRadius = m_weaponData.colRadius;
-		MV1SetScale(m_objHandle[loc.name], loc.scale);
 		MV1SetPosition(m_objHandle[loc.name], loc.pos);
+		MV1SetScale(m_objHandle[loc.name], loc.scale);
 	}
 }
 
@@ -82,7 +82,7 @@ void Weapon::Update(Stage& stage)
 			}
 
 			// プレイヤーが武器を掴んだ場合、プレイヤーの手の位置に武器を移動させる
-			if (m_pPlayer->GetIsGrabWeapon() && loc.isGrab)
+			if (m_pPlayer->GetIsGrabWeapon() && m_pPlayer->IsNearWeapon(loc.pos))
 			{
 				SetModelFramePos(m_pPlayer->GetHandle(), kPlayerHandFrameName, m_objHandle[loc.name], loc, frameMatrix);
 			}
@@ -152,26 +152,14 @@ void Weapon::DecrementDurability()
 	m_isHitAttack = true;
 }
 
-std::string Weapon::FindNearWeaponTag(const VECTOR& playerPos)
+std::string Weapon::GetNearWeaponTag() const
 {
-	float minDistance = 0.0f;
-	const LocationData* nearestWeapon = nullptr;
-
-	for (const auto& loc : m_locationData)
+	for (auto& loc : m_locationData)
 	{
-		if (!MV1GetFrameVisible(m_objHandle.at(loc.name), 0)) continue; // 非表示の場合はスキップ
-		float distance = VSize(VSub(loc.pos, playerPos)); // 距離を計算
-
-		if (distance < minDistance)
+		if (m_pPlayer->IsNearWeapon(loc.pos))
 		{
-			minDistance = distance;
-			nearestWeapon = &loc;
+			return loc.tag;
 		}
-	}
-
-	if (nearestWeapon != nullptr)
-	{
-		return nearestWeapon->name; // プレイヤーに最も近い武器のタグ名を返す
 	}
 
 	return "";
@@ -234,7 +222,7 @@ void Weapon::UpdateCol(auto& loc)
 	loc.updateCol.colEndPos = VAdd(loc.updateCol.colStartPos, (VTransform(m_weaponData.colEndPos, rotationMatrix)));
 }
 
-bool Weapon::CheckWeaopnCol(const CharacterBase::ColData& colData, Player& player)
+bool Weapon::CheckWeaponCol(const CharacterBase::ColData& colData, Player& player)
 {
 	for (auto& loc : m_locationData)
 	{
@@ -256,5 +244,7 @@ void Weapon::SetModelFramePos(int modelHandle, const char* frameName, int setMod
 	// 武器位置を更新
 	loc.pos = VTransform(VGet(0.0f, 0.0f, 0.0f), frameMatrix);
 	loc.rot = VTransform(VGet(0.0f, 0.0f, 0.0f), frameMatrix);
+
 	MV1SetMatrix(setModelHandle, frameMatrix);
+	MV1SetScale(setModelHandle, loc.scale);
 }

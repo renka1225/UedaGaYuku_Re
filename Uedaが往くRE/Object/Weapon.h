@@ -68,7 +68,7 @@ public:
 	/// <param name="colData">キャラクターの当たり判定情報</param>
 	/// <param name="player">プレイヤー情報参照</param>
 	/// <returns>当たっているかどうか</returns>
-	bool CheckWeaopnCol(const CharacterBase::ColData& colData, Player& player);
+	bool CheckWeaponCol(const CharacterBase::ColData& colData, Player& player);
 
 	/// <summary>
 	/// 攻撃中の武器当たり状態をセットする
@@ -77,10 +77,9 @@ public:
 	void SetIsHitAttack(bool isHit) { m_isHitAttack = isHit; }
 
 	/// <summary>
-	/// プレイヤーの近くにある武器の情報を取得する
+	/// プレイヤーの近くにある武器のタグ名を取得する
 	/// </summary>
-	/// <param name="playerPos">プレイヤー座標</param>
-	std::string FindNearWeaponTag(const VECTOR& playerPos);
+	std::string GetNearWeaponTag() const;
 
 private:
 	/// <summary>

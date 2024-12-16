@@ -289,7 +289,8 @@ void Player::UpdateEnemyInfo(std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 
 void Player::UpdateWeaponColInfo(Weapon& weapon)
 {
-	bool isHitWeapon = weapon.CheckWeaopnCol(m_colData[CharaType::kPlayer], *this);
+	bool isHitWeapon = weapon.CheckWeaponCol(m_colData[CharaType::kPlayer], *this);;
+
 	// 範囲内に武器がある場合
 	if (isHitWeapon)
 	{
@@ -308,6 +309,8 @@ bool Player::IsNearWeapon(const VECTOR& weaponPos)
 	float dist = VSize(VSub(weaponPos, m_pos));
 
 	if(dist <= kNearDist) return true;
+
+	return false;
 }
 
 void Player::UpdateBattle(int enemyIndex)

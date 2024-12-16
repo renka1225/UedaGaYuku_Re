@@ -101,7 +101,7 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
         else if (m_pPlayer->GetIsGrabWeapon())
         {
             // 武器と敵の当たり判定を取得
-            bool isHitWeaponCol = weapon.CheckWeaopnCol(enemy->GetCol(enemy->GetEnemyIndex()), *m_pPlayer);
+            bool isHitWeaponCol = weapon.CheckWeaponCol(enemy->GetCol(enemy->GetEnemyIndex()), *m_pPlayer);
             if (isHitWeaponCol)
             {
                 Sound::GetInstance().PlayBackSe(SoundName::kSe_attack);
