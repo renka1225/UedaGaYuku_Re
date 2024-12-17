@@ -1,5 +1,4 @@
-﻿  Player.cpp
-C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\Chara\Player\Player.cpp(432,32): warning C4267: '初期化中': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
-  SceneMain.cpp
-  コードを生成中...
-  Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\UedaGaYukuRE.exe
+﻿  Weapon.cpp
+C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Object\Weapon.cpp(212,46): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\Object\Weapon.cpp(218,46): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+  Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\x64\Debug\UedaGaYukuRE.exe

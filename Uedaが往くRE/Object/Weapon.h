@@ -117,12 +117,9 @@ private:
 	/// <summary>
 	/// 武器を持った際に位置を更新する
 	/// </summary>
-	/// <param name="modelHandle">キャラクターの3Dモデル</param>
-	/// <param name="frameName">セットするフレーム名</param>
-	/// <param name="setModelHandle">セットする武器のモデル</param>
-	/// <param name="setModelHandle">配置データ</param>
+	/// <param name="loc">配置データ</param>
 	/// <param name="frameMatrix">モデルの行列</param>
-	void SetModelFramePos(int modelHandle, const char* frameName, int setModelHandle, auto& loc, MATRIX frameMatrix);
+	void SetModelFramePos(auto& loc, MATRIX frameMatrix);
 
 protected:
 	std::vector<LocationData> m_locationData;
@@ -131,7 +128,7 @@ protected:
 	std::shared_ptr<Player> m_pPlayer; // プレイヤーのポインタ
 	std::unordered_map<std::string, int> m_objHandle; // 読み込むオブジェクトのハンドル
 	std::map<std::string, WeaponData> m_weaponData;	  // 武器のデータ
-	int m_locationDataHandle;	// 読み込む配置データ
+	int m_loadLocationData;		// 読み込む配置データ
 	bool m_isHitAttack;			// 攻撃中に当たっているかどうか
 	int m_handle;				// 画像ハンドル
 };

@@ -21,8 +21,9 @@ namespace
 {
 	const std::string kCharaId = "player";	// キャラクターのID名
 
-	constexpr float kScale = 0.14f;			// モデルの拡大率
-	constexpr float kDistEnemyGrab = 50.0f;	// 敵を掴める距離
+	constexpr float kScale = 0.14f;			 // モデルの拡大率
+	constexpr float kDistEnemyGrab = 50.0f;	 // 敵を掴める距離
+	constexpr float kDistWeaponGrab = 20.0f; // 武器を掴める距離
 
 	constexpr int kMaxPossession = 12;		// アイテムの最大所持数
 	constexpr int kMoneyIncrement = 100;	// 一度に増える所持金数
@@ -306,7 +307,7 @@ void Player::UpdateWeaponColInfo(Weapon& weapon)
 
 bool Player::IsNearWeapon(const VECTOR& weaponPos)
 {
-	const float kNearDist = 20.0f; 
+	const float kNearDist = kDistWeaponGrab;
 	float dist = VSize(VSub(weaponPos, m_pos));
 
 	if(dist <= kNearDist) return true;
