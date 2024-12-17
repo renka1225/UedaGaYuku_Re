@@ -67,7 +67,7 @@ public:
 	/// </summary>
 	/// <param name="data">武器情報</param>
 	/// <param name="weaponName">武器名</param>
-	void LoadWeaponData(Weapon::WeaponData& data, std::string weaponName);
+	void LoadWeaponData(std::map<std::string, Weapon::WeaponData>& data);
 
 	/// <summary>
 	/// アイテム情報を読み込む

@@ -35,6 +35,7 @@ namespace
 
 	constexpr int kInputRetentionFrame = 30;	// 入力の履歴を削除するまでのフレーム数
 	constexpr int kInputTimeAdj = 40;			// 入力受付時間調節
+	constexpr float kChangeAngleDot = -0.5f;	// プレイヤーの角度を調節する範囲
 }
 
 Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
@@ -345,7 +346,6 @@ void Player::Down()
 	std::mt19937 mt(rd());
 	std::uniform_real_distribution<float> dist(kDecreaseMoneyMin, kDecreaseMoneyMax);
 	float decreaseRate = dist(mt);
-	printfDx("%.2f\n", decreaseRate);
 
 	m_money -= static_cast<int>(m_money * decreaseRate);
 	m_money = std::max(0, m_money);
@@ -457,14 +457,14 @@ void Player::UpdateAngle()
 		for (int i = 0; i < m_pToEVec.size(); i++)
 		{
 			float dot = VDot(VNorm(m_pToEVec[i]), VNorm(m_moveDir)); // プレイヤーの方向と位置ベクトルの内積を計算
-			if (dot > -0.5f)
+			if (dot > kChangeAngleDot)
 			{
 				nearEnemyIndex = i;
 			}
 		}
 
 		// 範囲内に敵が存在する場合、1番近い敵の方を向く
-		if (nearEnemyIndex != -1)
+		if (nearEnemyIndex != -1 && VSize(m_pToEVec[nearEnemyIndex]) < kDistEnemyGrab)
 		{
 			// 敵への方向ベクトルを正規化
 			VECTOR dirToEnemy = VNorm(m_pToEVec[nearEnemyIndex]);
@@ -472,6 +472,10 @@ void Player::UpdateAngle()
 			// 角度を計算する
 			m_angle = atan2f(dirToEnemy.x, dirToEnemy.z);
 			MV1SetRotationXYZ(m_modelHandle, VGet(0.0f, m_angle + DX_PI_F, 0.0f));
+		}
+		else
+		{
+			CharacterBase::UpdateAngle();
 		}
 	}
 	else

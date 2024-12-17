@@ -69,6 +69,24 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
         bool isSkip = (enemy == nullptr) || (enemy->GetIsInvincible()) ||  (m_attackKind == AnimName::kKickHeat);
         if (isSkip) continue;
 
+        // 武器掴み中の場合
+        if (m_pPlayer->GetIsGrabWeapon())
+        {
+            // 武器と敵の当たり判定を取得
+            bool isHitWeaponCol = weapon.CheckWeaponCol(enemy->GetCol(enemy->GetEnemyIndex()), *m_pPlayer);
+            if (isHitWeaponCol)
+            {
+                Sound::GetInstance().PlayBackSe(SoundName::kSe_attack);
+
+                // 片手武器、両手武器によって攻撃力変える
+                enemy->OnDamage(GetAttackPower());
+                weapon.DecrementDurability();
+
+                // 敵を無敵状態にする
+                enemy->SetIsInvincible(true);
+            }
+        }
+
         // パンチ状態かチェック
         bool isPunch = m_attackKind == AnimName::kPunch1 || m_attackKind == AnimName::kPunch2 || m_attackKind == AnimName::kPunch3;
         // パンチ攻撃
@@ -93,23 +111,6 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             {
                 Sound::GetInstance().PlayBackSe(SoundName::kSe_attack);
                 enemy->OnDamage(GetAttackPower());
-                // 敵を無敵状態にする
-                enemy->SetIsInvincible(true);
-            }
-        }
-        // 武器掴み中の場合
-        else if (m_pPlayer->GetIsGrabWeapon())
-        {
-            // 武器と敵の当たり判定を取得
-            bool isHitWeaponCol = weapon.CheckWeaponCol(enemy->GetCol(enemy->GetEnemyIndex()), *m_pPlayer);
-            if (isHitWeaponCol)
-            {
-                Sound::GetInstance().PlayBackSe(SoundName::kSe_attack);
-
-                // 片手武器、両手武器によって攻撃力変える
-                enemy->OnDamage(GetAttackPower());
-                weapon.DecrementDurability();
-
                 // 敵を無敵状態にする
                 enemy->SetIsInvincible(true);
             }

@@ -247,9 +247,9 @@ public:
 	float GetAngle() const { return m_angle; }
 
 	/// <summary>
-	/// キャラクターのHPを取得
+	/// キャラクターのゲージ量を取得
 	/// </summary>
-	/// <returns>HP</returns>
+	/// <returns>ゲージ量</returns>
 	float GetGauge() const { return m_gauge; }
 
 	/// <summary>
@@ -257,6 +257,12 @@ public:
 	/// </summary>
 	/// <returns>3Dモデルハンドル</returns>
 	int GetHandle() const { return m_modelHandle; }
+
+	/// <summary>
+	/// 現在のアニメーション名を取得
+	/// </summary>
+	/// <returns>現在のアニメーション名</returns>
+	std::string GetCurrentAnim() const { return m_currenAnimName; }
 
 	/// <summary>
 	/// 当たり判定情報を取得

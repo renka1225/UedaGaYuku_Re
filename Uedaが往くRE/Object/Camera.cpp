@@ -105,8 +105,9 @@ void Camera::FixCameraPos(const Player& pPlayer)
 	m_rotY = MGetRotY(m_angleH);	// 水平方向の回転
 	m_rotZ = MGetRotZ(m_angleV);	// 垂直方向の回転
 
-	// プレイヤーがバトル中の場合
-	if (pPlayer.GetIsBattle())
+	// プレイヤーがバトル中または走り状態の場合
+	bool isCameraMove = pPlayer.GetIsBattle() || pPlayer.GetCurrentAnim() == AnimName::kRun;
+	if (isCameraMove)
 	{
 		// カメラを離す
 		m_dist += kDistMoveSpeed;

@@ -98,7 +98,7 @@ protected:
 	/// 掴み状態に変更する
 	/// </summary>
 	/// <param name="pWeapon">武器情報参照</param>
-	void ChangeStateGrab(const Weapon& pWeapon);
+	void ChangeStateGrab(Weapon& pWeapon);
 	
 	/// <summary>
 	/// ダメージ状態に変更する

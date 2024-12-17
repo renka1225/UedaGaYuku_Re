@@ -91,7 +91,6 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 		ChangeStateDamage();
 		return;
 	}
-
 }
 
 bool PlayerStateBase::IsStateInterrupt()
@@ -165,8 +164,37 @@ void PlayerStateBase::ChangeStateAvoid()
 	state->Init();
 }
 
-void PlayerStateBase::ChangeStateGrab(const Weapon& pWeapon)
+void PlayerStateBase::ChangeStateGrab(Weapon& pWeapon)
 {
+	// すでに武器を掴んでいる場合
+	if (m_pPlayer->GetIsGrabWeapon())
+	{
+		m_pPlayer->SetIsGrabWeapon(false); // 武器を離す
+		m_pPlayer->SetIsPossibleGrabWeapon(true);
+
+		pWeapon.UpdateIsGrab(false);
+		return;
+	}
+
+	// 武器を掴んでいない場合かつ範囲内に武器がある場合
+	if (!m_pPlayer->GetIsGrabWeapon() && m_pPlayer->GetIsPossibleGrabWeapon())
+	{
+		// 拾った武器の情報を取得する
+		std::string weaponTag = pWeapon.GetNearWeaponTag();
+
+		m_pPlayer->SetIsGrabWeapon(true);	// 武器を掴む
+
+		// StateをGrabに変更する
+		std::shared_ptr<PlayerStateGrab> state = std::make_shared<PlayerStateGrab>(m_pPlayer);
+		m_nextState = state;
+
+		// 武器の種類をセットする
+		state->Init(weaponTag);
+
+		pWeapon.UpdateIsGrab(true);
+		return;
+	}
+
 	// 範囲内に敵がいる場合
 	if (m_pPlayer->GetIsPossibleGrabEnemy())
 	{
@@ -174,31 +202,7 @@ void PlayerStateBase::ChangeStateGrab(const Weapon& pWeapon)
 		std::shared_ptr<PlayerStateGrab> state = std::make_shared<PlayerStateGrab>(m_pPlayer);
 		m_nextState = state;
 		state->Init("enemy");
-	}
-	// 範囲内に武器がある場合
-	if (m_pPlayer->GetIsPossibleGrabWeapon())
-	{
-		// 拾った武器の情報を取得する
-		std::string weaponTag = pWeapon.GetNearWeaponTag();
-		printfDx("%s\n", weaponTag.c_str());
-
-		// 武器を掴んでいない場合
-		if (!m_pPlayer->GetIsGrabWeapon())
-		{
-			m_pPlayer->SetIsGrabWeapon(true); // 武器を掴む
-
-			// StateをGrabに変更する
-			std::shared_ptr<PlayerStateGrab> state = std::make_shared<PlayerStateGrab>(m_pPlayer);
-			m_nextState = state;
-
-			// 武器の種類をセットする
-			state->Init(weaponTag);
-		}
-		// すでに武器を掴んでいる場合
-		else
-		{
-			m_pPlayer->SetIsGrabWeapon(false); // 武器を離す
-		}
+		return;
 	}
 }
 

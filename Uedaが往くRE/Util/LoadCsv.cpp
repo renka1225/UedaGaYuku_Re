@@ -167,9 +167,9 @@ void LoadCsv::LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data)
     while (std::getline(ifs, line))
     {
         strvec = split(line, ',');
-
         // アニメーション情報を設定
         std::string animName = strvec[0];
+
         try
 		{
 			data[animName].loopFrame = std::stof(strvec[1]);
@@ -185,7 +185,7 @@ void LoadCsv::LoadAnimData(std::map<std::string, CharacterBase::AnimInfo>& data)
     }
 }
 
-void LoadCsv::LoadWeaponData(Weapon::WeaponData& data, std::string weaponName)
+void LoadCsv::LoadWeaponData(std::map<std::string, Weapon::WeaponData>& data)
 {
 	std::ifstream ifs(kPath.at("weapon"));
 	std::string line;
@@ -194,29 +194,25 @@ void LoadCsv::LoadWeaponData(Weapon::WeaponData& data, std::string weaponName)
 	while (std::getline(ifs, line))
 	{
 		strvec = split(line, ',');
-		std::string charaId = strvec[0].c_str();
+		std::string weaponId = strvec[0];
 
-		if (charaId == weaponName)
+		try
 		{
-			try
-			{
-				// 外部ファイルの情報を入れる
-				data.durability = std::stoi(strvec[1]);
-				data.colStartPos.x = std::stof(strvec[2]);
-				data.colStartPos.y = std::stof(strvec[3]);
-				data.colStartPos.z = std::stof(strvec[4]);
-				data.colEndPos.x = std::stof(strvec[5]);
-				data.colEndPos.y = std::stof(strvec[6]);
-				data.colEndPos.z = std::stof(strvec[7]);
-				data.colRadius = std::stof(strvec[8]);
-			}
-			catch (const std::invalid_argument&)
-			{
-				// 無効な文字列をスキップ
-			}
-
-			break;
+			// 外部ファイルの情報を入れる
+			data[weaponId].durability = std::stoi(strvec[1]);
+			data[weaponId].colStartPos.x = std::stof(strvec[2]);
+			data[weaponId].colStartPos.y = std::stof(strvec[3]);
+			data[weaponId].colStartPos.z = std::stof(strvec[4]);
+			data[weaponId].colEndPos.x = std::stof(strvec[5]);
+			data[weaponId].colEndPos.y = std::stof(strvec[6]);
+			data[weaponId].colEndPos.z = std::stof(strvec[7]);
+			data[weaponId].colRadius = std::stof(strvec[8]);
 		}
+		catch (const std::invalid_argument&)
+		{
+			// 無効な文字列をスキップ
+		}
+		
 	}
 }
 

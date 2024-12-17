@@ -77,7 +77,6 @@ public:
 	/// <returns></returns>
 	bool IsNearWeapon(const VECTOR& weaponPos);
 
-
 	/// <summary>
 	/// 所持金を更新する
 	/// </summary>

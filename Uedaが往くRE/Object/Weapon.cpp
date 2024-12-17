@@ -15,7 +15,6 @@ namespace
 }
 
 Weapon::Weapon(std::shared_ptr<Player> pPlayer) :
-	m_durability(0),
 	m_locationDataHandle(-1),
 	m_isHitAttack(false)
 {
@@ -35,12 +34,13 @@ Weapon::~Weapon()
 
 void Weapon::Init()
 {
+	LoadCsv::GetInstance().LoadWeaponData(m_weaponData);
+
 	// サイズや位置の調整
 	for (auto& loc : m_locationData)
 	{
-		LoadCsv::GetInstance().LoadWeaponData(m_weaponData, loc.name);
-		m_durability = m_weaponData.durability;
-		loc.updateCol.colRadius = m_weaponData.colRadius;
+		loc.durability = m_weaponData[loc.name].durability;
+		loc.updateCol.colRadius = m_weaponData[loc.name].colRadius;
 		MV1SetPosition(m_objHandle[loc.name], loc.pos);
 		MV1SetScale(m_objHandle[loc.name], loc.scale);
 	}
@@ -59,8 +59,8 @@ void Weapon::Update(Stage& stage)
 			// 武器の位置を初期位置にリセット
 			loc.pos = loc.initPos;
 			loc.rot = loc.initRot;
-			m_durability = m_weaponData.durability;
-
+			loc.durability = m_weaponData[loc.name].durability;
+			loc.isGrab = false;
 			loc.rot = VGet(0.0f, 0.0f, 0.0f); // 回転を初期化
 			frameMatrix = MGetIdent();		  // 単位行列を設定
 			MV1SetMatrix(m_objHandle[loc.name], frameMatrix);
@@ -69,12 +69,13 @@ void Weapon::Update(Stage& stage)
 		else
 		{
 			// 耐久力が0になった場合
-			if (m_durability <= 0)
+			if (loc.durability <= 0)
 			{
-				// モデルを非表示にする、当たり判定を消す
+				// モデルを非表示し、当たり判定を消す
 				MV1SetFrameVisible(m_objHandle[loc.name], 0, false);
 				m_pPlayer->SetIsGrabWeapon(false); // プレイヤーの武器掴み状態を解除する
-				m_durability = std::max(m_durability, 0);
+				loc.isGrab = false;
+				loc.durability = std::max(loc.durability, 0);
 			}
 			else
 			{
@@ -82,7 +83,7 @@ void Weapon::Update(Stage& stage)
 			}
 
 			// プレイヤーが武器を掴んだ場合、プレイヤーの手の位置に武器を移動させる
-			if (m_pPlayer->GetIsGrabWeapon() && m_pPlayer->IsNearWeapon(loc.pos))
+			if (loc.isGrab)
 			{
 				SetModelFramePos(m_pPlayer->GetHandle(), kPlayerHandFrameName, m_objHandle[loc.name], loc, frameMatrix);
 			}
@@ -115,10 +116,10 @@ void Weapon::Draw()
 
 	for (auto& loc : m_locationData)
 	{
-		if (m_durability <= 0) continue;
+		if (loc.durability <= 0) continue;
 
 		// プレイヤーが武器に近づいたら拾うUIを表示する
-		if (m_pPlayer->IsNearWeapon(loc.pos) && !m_pPlayer->GetIsGrabWeapon())
+		if (!m_pPlayer->GetIsGrabWeapon() && m_pPlayer->IsNearWeapon(loc.pos))
 		{
 			// UIの位置を計算する
 			VECTOR modelTopPos = VAdd(loc.pos, VGet(0.0f, kDispTextAdjY, 0.0f));
@@ -133,13 +134,15 @@ void Weapon::Draw()
 	int dispY = 440; // 武器情報デバッグ表示位置
 	for (const auto& loc : m_locationData)
 	{
-		if (m_durability <= 0) continue;
-
 		// 武器情報描画
-		debug.DrawWeaponInfo(loc.name.c_str(), loc.tag.c_str(), loc.pos, loc.rot, loc.scale, m_durability, dispY);
+		debug.DrawWeaponInfo(loc.name.c_str(), loc.tag.c_str(), loc.pos, loc.rot, loc.scale, loc.durability, dispY);
+		dispY += 20;
+
+		if (loc.durability <= 0) continue;
+		
 		// 当たり判定描画
 		debug.DrawWeaponCol(loc.updateCol.colStartPos, loc.updateCol.colEndPos, loc.updateCol.colRadius);
-		dispY += 20;
+	
 	}
 #endif
 }
@@ -147,9 +150,33 @@ void Weapon::Draw()
 void Weapon::DecrementDurability()
 {
 	if (m_isHitAttack) return;
+	
+	for (auto& loc : m_locationData)
+	{
+		if (loc.isGrab)
+		{
+			loc.durability--;  // 耐久力を1減らす
+			m_isHitAttack = true;
+		}
+	}
+}
 
-	m_durability--;  // 耐久力を1減らす
-	m_isHitAttack = true;
+void Weapon::UpdateIsGrab(bool isGrab)
+{
+	for (auto& loc : m_locationData)
+	{
+		if (isGrab)
+		{
+			if (m_pPlayer->IsNearWeapon(loc.pos))
+			{
+				loc.isGrab = true;
+			}
+		}
+		else
+		{
+			loc.isGrab = false;
+		}
+	}
 }
 
 std::string Weapon::GetNearWeaponTag() const
@@ -218,8 +245,8 @@ void Weapon::UpdateCol(auto& loc)
 	MATRIX rotationMatrix = MGetRotY(loc.rot.y);
 
 	// 当たり判定位置を更新
-	loc.updateCol.colStartPos = VAdd(loc.pos, (VTransform(m_weaponData.colStartPos, rotationMatrix)));
-	loc.updateCol.colEndPos = VAdd(loc.updateCol.colStartPos, (VTransform(m_weaponData.colEndPos, rotationMatrix)));
+	loc.updateCol.colStartPos = VAdd(loc.pos, (VTransform(m_weaponData[loc.name].colStartPos, rotationMatrix)));
+	loc.updateCol.colEndPos = VAdd(loc.updateCol.colStartPos, (VTransform(m_weaponData[loc.name].colEndPos, rotationMatrix)));
 }
 
 bool Weapon::CheckWeaponCol(const CharacterBase::ColData& colData, Player& player)

@@ -29,6 +29,22 @@ public:
 		float colRadius;	// 武器の当たり判定半径
 	};
 
+private:
+	// 配置情報データ
+	struct LocationData
+	{
+		std::string name;	// 名前
+		std::string tag;	// タグ
+		VECTOR pos;			// 座標
+		VECTOR rot;			// 回転
+		VECTOR scale;		// スケール
+		VECTOR initPos;		// 初期位置
+		VECTOR initRot;		// 初期回転量
+		UpdateColData updateCol;	// 更新後の当たり判定データ
+		int durability;				// 武器の耐久力
+		bool isGrab = false;		// 武器が掴まれた状態か
+	};
+
 public:
 	/// <summary>
 	/// コンストラクタ
@@ -77,6 +93,12 @@ public:
 	void SetIsHitAttack(bool isHit) { m_isHitAttack = isHit; }
 
 	/// <summary>
+	/// 武器の掴み状態を更新
+	/// </summary>
+	/// <param name="isGrab">掴み状態</param>
+	void UpdateIsGrab(bool isGrab);
+
+	/// <summary>
 	/// プレイヤーの近くにある武器のタグ名を取得する
 	/// </summary>
 	std::string GetNearWeaponTag() const;
@@ -103,27 +125,13 @@ private:
 	void SetModelFramePos(int modelHandle, const char* frameName, int setModelHandle, auto& loc, MATRIX frameMatrix);
 
 protected:
-	// 配置情報データ
-	struct LocationData
-	{
-		std::string name;	// 名前
-		std::string tag;	// タグ
-		VECTOR pos;			// 座標
-		VECTOR rot;			// 回転
-		VECTOR scale;		// スケール
-		VECTOR initPos;		// 初期位置
-		VECTOR initRot;		// 初期回転量
-		UpdateColData updateCol;	// 更新後の当たり判定データ
-		bool isGrab = false;		// 武器が掴まれた状態か
-	};
 	std::vector<LocationData> m_locationData;
 
 protected:
 	std::shared_ptr<Player> m_pPlayer; // プレイヤーのポインタ
 	std::unordered_map<std::string, int> m_objHandle; // 読み込むオブジェクトのハンドル
-	WeaponData m_weaponData;	// 武器のデータ
+	std::map<std::string, WeaponData> m_weaponData;	  // 武器のデータ
 	int m_locationDataHandle;	// 読み込む配置データ
-	int m_durability;			// 武器の耐久力
 	bool m_isHitAttack;			// 攻撃中に当たっているかどうか
 	int m_handle;				// 画像ハンドル
 };
