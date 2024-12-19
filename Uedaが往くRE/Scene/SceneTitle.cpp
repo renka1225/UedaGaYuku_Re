@@ -29,7 +29,7 @@ namespace
 		"data/ui/title/press.png"
 	};
 
-	constexpr int kBGMTime = 150;			// BGMを再生しはじめる時間
+	constexpr int kBGMTime = 150; // BGMを再生しはじめる時間
 
 	/*タイトルロゴ*/
 	const Vec2 kTitleLogoPos = { 900.0f, 400.0f };		// タイトルロゴ表示位置

@@ -2,6 +2,7 @@
 #include "Sound.h"
 #include "Player.h"
 #include "EnemyBase.h"
+#include "EnemyAI.h"
 #include "EnemyStateIdle.h"
 #include "EnemyStateRun.h"
 #include "EnemyStateAvoid.h"
@@ -18,17 +19,21 @@ namespace
 }
 
 EnemyStateBase::EnemyStateBase(std::shared_ptr<EnemyBase> pEnemy):
+	m_pEnemy(pEnemy),
 	m_upMoveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_leftMoveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_moveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_animEndTime(0.0f)
 {
-	m_pEnemy = pEnemy;
+	m_pEnemyAI = std::make_shared<EnemyAI>();
 }
 
 void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
 {
 	if (m_pEnemy == nullptr) return;
+
+	// AIの更新
+	m_pEnemyAI->Update();
 
 	// ダウン状態中は状態を更新しない
 	if (GetKind() == EnemyStateKind::kDeath) return;
@@ -36,40 +41,28 @@ void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
 	// 動けない状態の場合
 	if (!m_pEnemy->GetIsPossibleMove())
 	{
-		if (GetKind() == EnemyStateKind::kIdle) return;
-
-		// StateをIdleに変更する
-		std::shared_ptr<EnemyStateIdle> state = std::make_shared<EnemyStateIdle>(m_pEnemy);
-		m_nextState = state;
-		state->Init();
+		ChangeStateIdle();
 		return;
 	}
 
 	// 攻撃を受けた場合
-	if (m_pEnemy->GetIsOnDamage() && !(GetKind() == EnemyStateKind::kDamage))
+	if (m_pEnemy->GetIsOnDamage())
 	{	
-		// StateをStateHitAttackに変更する
-		std::shared_ptr<EnemyStateHitAttack> state = std::make_shared<EnemyStateHitAttack>(m_pEnemy);
-		m_nextState = state;
-		state->Init();
-
-		// ダメージエフェクトを表示
-		EffectManager::GetInstance().Add("attack", m_pEnemy->GetPos());
+		ChangeStateDamage();
 		return;
 	}
 
 	// HPが0以下になったら
 	if (m_pEnemy->GetHp() <= 0.0f)
 	{
-		// StateをDeathに変更する
-		std::shared_ptr<EnemyStateDeath> state = std::make_shared<EnemyStateDeath>(m_pEnemy);
-		m_nextState = state;
-		state->Init();
+		ChangeStateDeath();
 		return;
 	}
 
 	float dist = VSize(m_pEnemy->GetEToPVec());	// 敵からプレイヤーまでの距離
 
+	// TODO:AIクラスを参照する
+	/*
 	// プレイヤーを追いかける範囲内に入っている場合
 	bool isChaseRange = dist > kMinChaseRange && dist < kMaxChaseRange;
 	if (isChaseRange)
@@ -80,9 +73,7 @@ void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
 		if (isNotChange) return;
 
 		// StateをRunに変更する
-		std::shared_ptr<EnemyStateRun> state = std::make_shared<EnemyStateRun>(m_pEnemy);
-		m_nextState = state;
-		state->Init();
+		ChangeStateRun();
 		return;
 	}
 	// プレイヤーから離れた場合
@@ -92,9 +83,7 @@ void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
 		pPlayer.SetIsBattle(false);
 
 		// 待機か歩きのみを行う
-		std::shared_ptr<EnemyStateIdle> state = std::make_shared<EnemyStateIdle>(m_pEnemy);
-		m_nextState = state;
-		state->Init();
+		ChangeStateIdle();
 		return;
 	}
 	else
@@ -107,6 +96,63 @@ void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
 		// TODO:ランダムで攻撃をする
 		AttackRand();
 	}
+	*/
+}
+
+void EnemyStateBase::ChangeStateIdle()
+{
+	if (GetKind() == EnemyStateKind::kIdle) return;
+
+	// StateをIdleに変更する
+	std::shared_ptr<EnemyStateIdle> state = std::make_shared<EnemyStateIdle>(m_pEnemy);
+	m_nextState = state;
+	state->Init();
+	return;
+}
+
+void EnemyStateBase::ChangeStateWalk()
+{
+}
+
+void EnemyStateBase::ChangeStateRun()
+{
+	// StateをRunに変更する
+	std::shared_ptr<EnemyStateRun> state = std::make_shared<EnemyStateRun>(m_pEnemy);
+	m_nextState = state;
+	state->Init();
+}
+
+void EnemyStateBase::ChangeStateAttack()
+{
+}
+
+void EnemyStateBase::ChangeStateGuard()
+{
+}
+
+void EnemyStateBase::ChangeStateAvoid()
+{
+}
+
+void EnemyStateBase::ChangeStateDamage()
+{
+	if (GetKind() == EnemyStateKind::kDamage) return;
+
+	// StateをStateHitAttackに変更する
+	std::shared_ptr<EnemyStateHitAttack> state = std::make_shared<EnemyStateHitAttack>(m_pEnemy);
+	m_nextState = state;
+	state->Init();
+
+	// ダメージエフェクトを表示
+	EffectManager::GetInstance().Add("attack", m_pEnemy->GetPos());
+}
+
+void EnemyStateBase::ChangeStateDeath()
+{
+	// StateをDeathに変更する
+	std::shared_ptr<EnemyStateDeath> state = std::make_shared<EnemyStateDeath>(m_pEnemy);
+	m_nextState = state;
+	state->Init();
 }
 
 void EnemyStateBase::AttackRand()
@@ -144,5 +190,27 @@ void EnemyStateBase::AttackRand()
 		m_nextState = state;
 		state->Init();
 		return;
+	}
+
+	// Stateを更新する
+	switch (m_pEnemyAI->GetNextState())
+	{
+	case EnemyStateKind::kWalk:
+		printfDx("歩き\n");
+		break;
+	case EnemyStateKind::kRun:
+		printfDx("走り\n");
+		break;
+	case EnemyStateKind::kAvoid:
+		printfDx("回避\n");
+		break;
+	case EnemyStateKind::kPunch:
+		printfDx("パンチ\n");
+		break;
+	case EnemyStateKind::kKick:
+		printfDx("キック\n");
+		break;
+	default:
+		break;
 	}
 }

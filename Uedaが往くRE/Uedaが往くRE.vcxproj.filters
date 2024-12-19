@@ -213,6 +213,9 @@
     <ClCompile Include="Scene\SceneClear.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Chara\Enemy\EnemyAI.cpp">
+      <Filter>ソース ファイル\Chara\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\SceneManager.h">
@@ -370,6 +373,9 @@
     </ClInclude>
     <ClInclude Include="Scene\SceneGameover.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Enemy\EnemyAI.h">
+      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

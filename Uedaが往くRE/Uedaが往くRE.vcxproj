@@ -171,6 +171,7 @@
     <ClCompile Include="Chara\Enemy\EnemyStateHitAttack.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyStateAvoid.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyStateGuard.cpp" />
+    <ClCompile Include="Chara\Enemy\EnemyAI.cpp" />
     <ClCompile Include="Scene\SceneGameover.cpp" />
     <ClCompile Include="Scene\SceneClear.cpp" />
     <ClCompile Include="Util\EventData.cpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="Chara\ModelFrameName.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateAvoid.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateGuard.h" />
+    <ClInclude Include="Chara\Enemy\EnemyAI.h" />
     <ClInclude Include="Scene\SceneGameover.h" />
     <ClInclude Include="Scene\SceneClear.h" />
     <ClInclude Include="Util\EventData.h" />

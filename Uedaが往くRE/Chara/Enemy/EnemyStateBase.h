@@ -4,6 +4,7 @@
 #include <string>
 
 class EnemyBase;
+class EnemyAI;
 class Stage;
 
 /// <summary>
@@ -18,7 +19,8 @@ public:
 		kIdle,	 // 待機
 		kWalk,	 // 歩き
 		kRun,	 // 走り
-		kAttack, // 攻撃
+		kPunch,  // パンチ攻撃
+		kKick,	 // キック攻撃
 		kAvoid,	 // 回避
 		kGuard,	 // ガード
 		kDamage, // 攻撃を受ける
@@ -34,7 +36,7 @@ public:
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	virtual ~EnemyStateBase() {};
+	virtual ~EnemyStateBase() {}
 
 	/// <summary>
 	/// 更新
@@ -57,6 +59,47 @@ public:
 	virtual std::string GetStateName() = 0;
 #endif
 
+protected:
+	/// <summary>
+	/// 待機状態に変更する
+	/// </summary>
+	void ChangeStateIdle();
+
+	/// <summary>
+	/// 歩き状態に変更する
+	/// </summary>
+	void ChangeStateWalk();
+
+	/// <summary>
+	/// 走り状態に変更する
+	/// </summary>
+	void ChangeStateRun();
+
+	/// <summary>
+	/// 攻撃状態に変更する
+	/// </summary>
+	void ChangeStateAttack();
+
+	/// <summary>
+	/// ガード状態に変更する
+	/// </summary>
+	void ChangeStateGuard();
+
+	/// <summary>
+	/// 回避状態に変更する
+	/// </summary>
+	void ChangeStateAvoid();
+
+	/// <summary>
+	/// ダメージ状態に変更する
+	/// </summary>
+	void ChangeStateDamage();
+
+	/// <summary>
+	/// 死亡状態に変更する
+	/// </summary>
+	void ChangeStateDeath();
+
 private:
 	/// <summary>
 	/// 確率で攻撃する
@@ -68,6 +111,7 @@ public:
 
 protected:
 	std::shared_ptr<EnemyBase> m_pEnemy; // 敵のポインタ
+	std::shared_ptr<EnemyAI> m_pEnemyAI; // AIのポインタ
 	VECTOR m_upMoveVec;		// 上ボタンを入力をしたときの移動方向ベクトル
 	VECTOR m_leftMoveVec;	// 左ボタンを入力をしたときの移動方向ベクトル
 	VECTOR m_moveVec;		// 移動ベクトル
