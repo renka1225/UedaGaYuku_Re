@@ -162,6 +162,10 @@ Input::Input()
 								{InputType::pad, PAD_INPUT_Z} };
 	m_commandTable[InputId::kDebugEnding] = { {InputType::keybd, KEY_INPUT_0},
 							{InputType::pad, PAD_INPUT_11} };
+	m_commandTable[InputId::kDebugClear] = { {InputType::keybd, KEY_INPUT_1},
+						{InputType::pad, PAD_INPUT_12} };
+	m_commandTable[InputId::kDebugGameover] = { {InputType::keybd, KEY_INPUT_2},
+						{InputType::pad, PAD_INPUT_13} };
 	m_commandTable["debug_pause"] = { {InputType::keybd, KEY_INPUT_P},
 								{InputType::pad, PAD_INPUT_11} };
 	m_commandTable["debug_enter"] = { {InputType::keybd, KEY_INPUT_RETURN},

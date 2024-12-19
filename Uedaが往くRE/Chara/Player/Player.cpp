@@ -113,15 +113,12 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 	{
 		// ダウン処理を行う
 		Down();
-
-		// HPを1にする
-		m_hp = 1.0f;
 	}
 
 	m_currentInputFrame++;
 
 	m_pState->Update(input, camera, stage, weapon, pEnemy);	// stateの更新
-	UpdateInputLog(input, m_currentInputFrame);	// 入力情報を更新
+	UpdateInputLog(input, m_currentInputFrame);				// 入力情報を更新
 	UpdateAngle();					// 向きを更新
 	UpdateAnim();					// アニメーションを更新
 	UpdateCol(CharaType::kPlayer);	// 当たり判定の位置更新
@@ -278,8 +275,7 @@ void Player::UpdateEnemyInfo(std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 		// 敵との当たり判定をチェックする
 		pEnemy[i]->CheckCharaCol(*this, m_colData[CharaType::kPlayer], pEnemy[i]->GetEnemyIndex());
 
-		// 範囲内にいる場合、敵の方向を向く
-		// 掴みをできるようにする
+		// 範囲内にいる場合、掴みをできるようにする
 		float dot = VDot(VNorm(m_pToEVec[i]), VNorm(m_moveDir)); // プレイヤーの方向と位置ベクトルの内積を計算
 		bool isGrab = VSize(m_pToEVec[i]) < kDistEnemyGrab && dot > 0.0f;
 

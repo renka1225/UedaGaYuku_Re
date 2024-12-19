@@ -15,6 +15,8 @@
 #include "EventData.h"
 #include "SceneMenu.h"
 #include "SceneTitle.h"
+#include "SceneClear.h"
+#include "SceneGameover.h"
 #include "SceneMain.h"
 #include <unordered_set>
 #include <random>
@@ -23,9 +25,10 @@
 // 定数
 namespace
 {
-	const std::string kPlayerHandlePath = "data/model/chara/player.mv1";	// プレイヤーのモデルハンドルパス
-	const std::string kEnemyHandlePath = "data/model/chara/enemy_";			// 敵のモデルハンドルパス
+	const std::string kPlayerHandlePath = "data/model/chara/player.mv1"; // プレイヤーのモデルハンドルパス
+	const std::string kEnemyHandlePath = "data/model/chara/enemy_";		 // 敵のモデルハンドルパス
 
+	constexpr int kClearEnemyNum = 5;	// クリア条件
 	constexpr int kModelNum = 4;		// 読み込むモデルの数
 	constexpr int kEnemyMaxNum = 2;		// 1度に出現する最大の敵数
 	constexpr int kEnemyKindNum = 2;	// 敵の種類
@@ -41,6 +44,7 @@ namespace
 
 SceneMain::SceneMain():
 	m_currentEnemyNum(0),
+	m_deadEnemyNum(0),
 	m_enemySpawnTime(0),
 	m_battleStartStagingTime(0),
 	m_battleEndStagingTime(0),
@@ -110,6 +114,18 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		return std::make_shared<SceneMenu>(shared_from_this(), m_pPlayer, m_pCamera);
 	}
 
+	// ゲームクリア
+	if (m_deadEnemyNum >= kClearEnemyNum)
+	{
+		return std::make_shared<SceneClear>();
+	}
+
+	// ゲームオーバー
+	if (m_pPlayer->GetHp() <= 0.0f)
+	{
+		return std::make_shared<SceneGameover>();
+	}
+
 	// 最終決戦中でない場合
 	if (!m_isLastBattle)
 	{
@@ -158,13 +174,19 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	UpdateSound();
 
 #ifdef _DEBUG // デバックコマンド
-	if (input.IsTriggered(InputId::kDebugEnding))
+	if (input.IsTriggered(InputId::kDebugClear))
+	{
+		return std::make_shared<SceneClear>();
+	}
+	else if (input.IsTriggered(InputId::kDebugEnding))
 	{
 		m_isEnding = true;
 	}
-	
-#endif // _DEBUG // デバックコマンド
-
+	else if (input.IsTriggered(InputId::kDebugGameover))
+	{
+		return std::make_shared<SceneGameover>();
+	}
+#endif
 
 	return shared_from_this();
 }
@@ -231,6 +253,7 @@ void SceneMain::Draw()
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_PLAYING");
 	m_pEventData->Draw();
+	DrawFormatString(0, 550, Color::kColorW, "倒した敵数:%d\n", m_deadEnemyNum);
 #endif
 }
 
@@ -490,6 +513,7 @@ void SceneMain::UpdateEnemy()
 		if (IsExtinction(i))
 		{
 			m_pEnemy[i] = nullptr;
+			m_deadEnemyNum++;
 			m_currentEnemyNum--;
 		}
 		else
