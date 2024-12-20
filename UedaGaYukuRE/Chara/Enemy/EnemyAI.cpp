@@ -31,7 +31,7 @@ void EnemyAI::Draw()
 {
 }
 
-void EnemyAI::DecideNextAction(const Player& pPlayer, const std::vector<std::shared_ptr<EnemyBase>>& pEnemy)
+void EnemyAI::DecideNextAction(const Player& pPlayer)
 {
 	// ダメージを受けている最中は更新しない
 	if (m_pEnemy->GetCurrentAnim() == AnimName::kDamage) return;
@@ -43,7 +43,7 @@ void EnemyAI::DecideNextAction(const Player& pPlayer, const std::vector<std::sha
 
 	// 他の敵の状態
 	int attackEnemyNum = 0;
-	for (const auto& enemy : pEnemy)
+	/*for (const auto& enemy : pEnemy)
 	{
 		if (enemy->GetCurrentAnim() == AnimName::kPunch1 ||
 			enemy->GetCurrentAnim() == AnimName::kPunch2 ||
@@ -52,7 +52,7 @@ void EnemyAI::DecideNextAction(const Player& pPlayer, const std::vector<std::sha
 		{
 			attackEnemyNum++;
 		}
-	}
+	}*/
 
 	// プレイヤーとの距離
 	float dist = VSize(m_pEnemy->GetEToPVec());

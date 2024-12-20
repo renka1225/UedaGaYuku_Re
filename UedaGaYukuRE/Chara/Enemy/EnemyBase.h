@@ -5,6 +5,7 @@
 class UiBar;
 class Item;
 class Player;
+class EnemyAI;
 
 /// <summary>
 /// 敵の基底クラス
@@ -78,6 +79,12 @@ public:
 	/// </summary>
 	/// <returns>敵の番号</returns>
 	int GetEnemyIndex() const { return m_enemyIndex; }
+
+	/// <summary>
+	/// 敵AIのポインタを取得する
+	/// </summary>
+	/// <returns></returns>
+	std::shared_ptr<EnemyAI> GetAI() const { return m_pEnemyAI; }
 	
 	/// <summary>
 	/// アイテムポインタを取得する
@@ -93,6 +100,7 @@ private:
 
 protected:
 	std::shared_ptr<EnemyStateBase> m_pState; // stateパターン
+	std::shared_ptr<EnemyAI> m_pEnemyAI;	  // AIのポインタ
 	std::shared_ptr<UiBar> m_pUiBar;		  // バーのUIを表示する
 	std::string m_enemyName; // 敵名
 	int m_enemyIndex;		 // 敵の番号

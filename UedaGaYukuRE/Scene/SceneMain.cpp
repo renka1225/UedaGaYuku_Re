@@ -8,6 +8,7 @@
 #include "CharacterBase.h"
 #include "Player.h"
 #include "EnemyBase.h"
+#include "EnemyAI.h"
 #include "ObjectBase.h"
 #include "Weapon.h"
 #include "Item.h"
@@ -85,6 +86,11 @@ void SceneMain::Init()
 	m_pUiBar->Init();
 	m_pItem->Init();
 	m_isPause = false;
+
+	for (auto& enemy : m_pEnemy)
+	{
+		enemy->GetAI()->SetEnemyList(m_pEnemy);
+	}
 }
 
 std::shared_ptr<SceneBase> SceneMain::Update(Input& input)

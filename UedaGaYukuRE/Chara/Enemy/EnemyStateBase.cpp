@@ -20,14 +20,14 @@ namespace
 	constexpr float kMinHp = 0.0f;	// 最小HP
 }
 
-EnemyStateBase::EnemyStateBase(std::shared_ptr<EnemyBase> pEnemy):
+EnemyStateBase::EnemyStateBase(std::shared_ptr<EnemyBase> pEnemy, std::shared_ptr<EnemyAI> pEnemyAI):
 	m_pEnemy(pEnemy),
+	m_pEnemyAI(pEnemyAI),
 	m_upMoveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_leftMoveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_moveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_animEndTime(0.0f)
 {
-	m_pEnemyAI = std::make_shared<EnemyAI>(pEnemy);
 }
 
 void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
@@ -94,8 +94,8 @@ void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
 			(GetKind() == EnemyStateKind::kAvoid) || (GetKind() == EnemyStateKind::kGuard) || (GetKind() == EnemyStateKind::kDamage);
 		if (isNotChange) return;
 
-		// ランダムで攻撃をする
-		AttackRand();
+		// 状態を更新する
+		UpdateState();
 	}
 }
 
@@ -170,30 +170,8 @@ void EnemyStateBase::ChangeStateDeath()
 	state->Init();
 }
 
-void EnemyStateBase::AttackRand()
+void EnemyStateBase::UpdateState()
 {
-	/*int num = GetRand(100);
-	if (num <= 10)
-	{
-		ChangeStatePunch();
-		return;
-	}
-	else if (num <= 20)
-	{
-		ChangeStateKick();
-		return;
-	}
-	if (num <= 30)
-	{
-		ChangeStateAvoid();
-		return;
-	}
-	if (num <= 40)
-	{
-		ChangeStateGuard();
-		return;
-	}*/
-
 	// Stateを更新する
 	switch (m_pEnemyAI->GetNextState())
 	{

@@ -31,12 +31,18 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="pEnemy">敵参照</param>
-	EnemyStateBase(std::shared_ptr<EnemyBase> pEnemy);
+	/// <param name="pEnemyAI">敵AI参照</param>
+	EnemyStateBase(std::shared_ptr<EnemyBase> pEnemy, std::shared_ptr<EnemyAI> pEnemyAI);
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
 	virtual ~EnemyStateBase() {}
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	virtual void Init() = 0;
 
 	/// <summary>
 	/// 更新
@@ -107,10 +113,11 @@ protected:
 
 private:
 	/// <summary>
-	/// 確率で攻撃する
+	// ステートを更新する
 	/// </summary>
-	void AttackRand();
+	void UpdateState();
 
+		
 public:
 	std::shared_ptr<EnemyStateBase> m_nextState; // 次のStateを保存する
 

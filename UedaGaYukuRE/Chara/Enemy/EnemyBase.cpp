@@ -41,6 +41,8 @@ EnemyBase::EnemyBase(std::shared_ptr<UiBar> pUi, std::shared_ptr<Item> pItem, Pl
 		float randPosZ = player.GetPos().z + GetRand(static_cast<int>(kSpawnRange) * 2) - kSpawnRange;
 		m_pos = VGet(randPosX, player.GetPos().y, randPosZ);
 	}
+
+	m_pEnemyAI = std::make_shared<EnemyAI>(*this, m_pEnemyAI);
 }
 
 EnemyBase::~EnemyBase()
