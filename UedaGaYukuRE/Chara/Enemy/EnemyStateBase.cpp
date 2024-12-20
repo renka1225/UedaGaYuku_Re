@@ -27,7 +27,7 @@ EnemyStateBase::EnemyStateBase(std::shared_ptr<EnemyBase> pEnemy):
 	m_moveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_animEndTime(0.0f)
 {
-	//m_pEnemyAI = std::make_shared<EnemyAI>(pEnemy);
+	m_pEnemyAI = std::make_shared<EnemyAI>(pEnemy);
 }
 
 void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
@@ -35,7 +35,8 @@ void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
 	if (m_pEnemy == nullptr) return;
 
 	// AIの更新
-	//m_pEnemyAI->Update();
+	m_pEnemyAI->Update();
+	//m_pEnemyAI->DecideNextAction(pPlayer);
 
 	// ダウン状態中は状態を更新しない
 	if (GetKind() == EnemyStateKind::kDeath) return;
@@ -62,8 +63,6 @@ void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
 	}
 
 	float dist = VSize(m_pEnemy->GetEToPVec());	// 敵からプレイヤーまでの距離
-
-	// TODO:AIクラスを参照する
 	
 	// プレイヤーを追いかける範囲内に入っている場合
 	bool isChaseRange = dist > kMinChaseRange && dist < kMaxChaseRange;
@@ -173,7 +172,7 @@ void EnemyStateBase::ChangeStateDeath()
 
 void EnemyStateBase::AttackRand()
 {
-	int num = GetRand(100);
+	/*int num = GetRand(100);
 	if (num <= 10)
 	{
 		ChangeStatePunch();
@@ -193,27 +192,32 @@ void EnemyStateBase::AttackRand()
 	{
 		ChangeStateGuard();
 		return;
-	}
+	}*/
 
 	// Stateを更新する
-	/*switch (m_pEnemyAI->GetNextState())
+	switch (m_pEnemyAI->GetNextState())
 	{
 	case EnemyStateKind::kWalk:
 		printfDx("歩き\n");
+		ChangeStateWalk();
 		break;
 	case EnemyStateKind::kRun:
 		printfDx("走り\n");
+		ChangeStateRun();
 		break;
 	case EnemyStateKind::kAvoid:
 		printfDx("回避\n");
+		ChangeStateAvoid();
 		break;
 	case EnemyStateKind::kPunch:
 		printfDx("パンチ\n");
+		ChangeStatePunch();
 		break;
 	case EnemyStateKind::kKick:
 		printfDx("キック\n");
+		ChangeStateKick();
 		break;
 	default:
 		break;
-	}*/
+	}
 }
