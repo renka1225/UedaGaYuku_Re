@@ -12,8 +12,8 @@ namespace
     constexpr float kKickEndTime = 120;
 }
 
-EnemyStateAttack::EnemyStateAttack(std::shared_ptr<EnemyBase> enemy):
-    EnemyStateBase(enemy),
+EnemyStateAttack::EnemyStateAttack(std::shared_ptr<EnemyBase> pEnemy):
+    EnemyStateBase(pEnemy),
     m_attackEndTime(0.0f),
     m_isAttackEnd(false)
 {

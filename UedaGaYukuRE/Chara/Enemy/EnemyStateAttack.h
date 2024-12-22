@@ -10,7 +10,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	EnemyStateAttack(std::shared_ptr<EnemyBase> enemy);
+	EnemyStateAttack(std::shared_ptr<EnemyBase> pEnemy);
 
 	/// <summary>
 	/// デストラクタ

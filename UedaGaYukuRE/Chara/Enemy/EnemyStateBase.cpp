@@ -20,9 +20,9 @@ namespace
 	constexpr float kMinHp = 0.0f;	// 最小HP
 }
 
-EnemyStateBase::EnemyStateBase(std::shared_ptr<EnemyBase> pEnemy, std::shared_ptr<EnemyAI> pEnemyAI):
+EnemyStateBase::EnemyStateBase(std::shared_ptr<EnemyBase> pEnemy):
 	m_pEnemy(pEnemy),
-	m_pEnemyAI(pEnemyAI),
+	//m_pEnemyAI(pEnemyAI),
 	m_upMoveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_leftMoveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_moveVec(VGet(0.0f, 0.0f, 0.0f)),
@@ -35,7 +35,7 @@ void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
 	if (m_pEnemy == nullptr) return;
 
 	// AIの更新
-	m_pEnemyAI->Update();
+	//m_pEnemyAI->Update();
 	//m_pEnemyAI->DecideNextAction(pPlayer);
 
 	// ダウン状態中は状態を更新しない
@@ -95,7 +95,7 @@ void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
 		if (isNotChange) return;
 
 		// 状態を更新する
-		UpdateState();
+		//UpdateState();
 	}
 }
 
@@ -124,16 +124,16 @@ void EnemyStateBase::ChangeStateRun()
 
 void EnemyStateBase::ChangeStatePunch()
 {
-	std::shared_ptr<EnemyStateAttack> state = std::make_shared<EnemyStateAttack>(m_pEnemy);
-	m_nextState = state;
-	state->Init(AnimName::kPunchStrong);
+	//std::shared_ptr<EnemyStateAttack> state = std::make_shared<EnemyStateAttack>(m_pEnemy);
+	//m_nextState = state;
+	//state->Init(AnimName::kPunchStrong);
 }
 
 void EnemyStateBase::ChangeStateKick()
 {
-	std::shared_ptr<EnemyStateAttack> state = std::make_shared<EnemyStateAttack>(m_pEnemy);
-	m_nextState = state;
-	state->Init(AnimName::kKick);
+	//std::shared_ptr<EnemyStateAttack> state = std::make_shared<EnemyStateAttack>(m_pEnemy);
+	//m_nextState = state;
+	//state->Init(AnimName::kKick);
 }
 
 void EnemyStateBase::ChangeStateGuard()

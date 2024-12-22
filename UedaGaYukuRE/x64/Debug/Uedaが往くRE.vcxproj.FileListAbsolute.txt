@@ -2,3 +2,4 @@ C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Debug\
 C:\GitHub\UedaGaYuku_RE\Uedaが往くRE\x64\Debug\UedaGaYukuRE.exe
 C:\Users\lotus\デスクトップ\1219_バグ発生中\x64\Debug\UedaGaYukuRE.exe
 C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\UedaGaYukuRE\x64\Debug\UedaGaYukuRE.exe
+C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\UedaGaYukuRE.exe

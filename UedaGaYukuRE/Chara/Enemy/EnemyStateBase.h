@@ -31,8 +31,7 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="pEnemy">敵参照</param>
-	/// <param name="pEnemyAI">敵AI参照</param>
-	EnemyStateBase(std::shared_ptr<EnemyBase> pEnemy, std::shared_ptr<EnemyAI> pEnemyAI);
+	EnemyStateBase(std::shared_ptr<EnemyBase> pEnemy);
 
 	/// <summary>
 	/// デストラクタ
@@ -117,7 +116,6 @@ private:
 	/// </summary>
 	void UpdateState();
 
-		
 public:
 	std::shared_ptr<EnemyStateBase> m_nextState; // 次のStateを保存する
 

@@ -465,15 +465,10 @@ void Player::UpdateAngle()
 		{
 			// 敵への方向ベクトルを正規化
 			VECTOR dirToEnemy = VNorm(m_pToEVec[nearEnemyIndex]);
-
-			// 角度を計算する
-			m_angle = atan2f(dirToEnemy.x, dirToEnemy.z);
-			MV1SetRotationXYZ(m_modelHandle, VGet(0.0f, m_angle + DX_PI_F, 0.0f));
+			m_moveDir = dirToEnemy;
 		}
-		else
-		{
-			CharacterBase::UpdateAngle();
-		}
+		
+		CharacterBase::UpdateAngle();
 	}
 	else
 	{
