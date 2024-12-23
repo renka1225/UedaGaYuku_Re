@@ -13,8 +13,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	/// <param name="pEnemy">ポインタ</param>
-	EnemyAI(std::shared_ptr<EnemyBase> pEnemy);
+	EnemyAI();
 
 	/// <summary>
 	/// デストラクタ
@@ -24,7 +23,8 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Init();
+	/// <param name="pEnemy">ポインタ</param>
+	void Init(std::shared_ptr<EnemyBase> pEnemy);
 
 	/// <summary>
 	/// 更新

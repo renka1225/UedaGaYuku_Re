@@ -4,7 +4,6 @@
 #include <string>
 
 class EnemyBase;
-class EnemyAI;
 class Stage;
 
 /// <summary>
@@ -64,7 +63,7 @@ public:
 	virtual std::string GetStateName() = 0;
 #endif
 
-protected:
+public:
 	/// <summary>
 	/// 待機状態に変更する
 	/// </summary>
@@ -121,7 +120,6 @@ public:
 
 protected:
 	std::shared_ptr<EnemyBase> m_pEnemy; // 敵のポインタ
-	std::shared_ptr<EnemyAI> m_pEnemyAI; // AIのポインタ
 	VECTOR m_upMoveVec;		// 上ボタンを入力をしたときの移動方向ベクトル
 	VECTOR m_leftMoveVec;	// 左ボタンを入力をしたときの移動方向ベクトル
 	VECTOR m_moveVec;		// 移動ベクトル

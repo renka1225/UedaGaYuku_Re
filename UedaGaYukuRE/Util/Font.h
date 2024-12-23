@@ -34,6 +34,9 @@ namespace Font
 		// 選択画面
 		kSelect_explain = kSize42_4,	// 選択テキストの説明
 
+		// メイン画面
+		kEnemyName = kDebug_EDGE, // 敵名
+
 		// メニュー画面
 		kMoney = kSize36_4,				// 所持金額
 		kMenu_itemName = kSize40_4,		// アイテム名

@@ -86,11 +86,6 @@ void SceneMain::Init()
 	m_pUiBar->Init();
 	m_pItem->Init();
 	m_isPause = false;
-
-	for (auto& enemy : m_pEnemy)
-	{
-		enemy->GetAI()->SetEnemyList(m_pEnemy);
-	}
 }
 
 std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
@@ -398,6 +393,9 @@ void SceneMain::UpdateBattleEndStaging()
 			enemy->ResetAnim();
 		}
 
+		// nullptr をまとめて削除
+		m_pEnemy.erase(std::remove(m_pEnemy.begin(), m_pEnemy.end(), nullptr), m_pEnemy.end());
+
 		// プレイヤーは移動できるようにする
 		m_pPlayer->SetIsPossibleMove(true);
 		m_pPlayer->ResetAnim();
@@ -534,9 +532,6 @@ void SceneMain::UpdateEnemy()
 			m_pEnemy[i]->CheckCharaCol(*m_pEnemy[j], m_pEnemy[j]->GetCol(j), j);
 		}
 	}
-
-	// erase-removeイディオムで特定の要素(nullptr)だけを削除する
-	m_pEnemy.erase(std::remove(m_pEnemy.begin(), m_pEnemy.end(), nullptr), m_pEnemy.end());
 }
 
 void SceneMain::UpdateBossEnemy()

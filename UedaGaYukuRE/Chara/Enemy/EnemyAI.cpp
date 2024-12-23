@@ -7,8 +7,8 @@ namespace
 	constexpr int kDecisionFrame = 60; // 行動を更新する時間
 }
 
-EnemyAI::EnemyAI(std::shared_ptr<EnemyBase> pEnemy):
-	m_pEnemy(pEnemy),
+EnemyAI::EnemyAI():
+	m_pEnemy(nullptr),
 	m_nextState(EnemyStateBase::EnemyStateKind::kIdle),
 	m_decisionFrame(0)
 {
@@ -18,8 +18,9 @@ EnemyAI::~EnemyAI()
 {
 }
 
-void EnemyAI::Init()
+void EnemyAI::Init(std::shared_ptr<EnemyBase> pEnemy)
 {
+	m_pEnemy = pEnemy;
 }
 
 void EnemyAI::Update()
@@ -43,7 +44,7 @@ void EnemyAI::DecideNextAction(const Player& pPlayer)
 
 	// 他の敵の状態
 	int attackEnemyNum = 0;
-	/*for (const auto& enemy : pEnemy)
+	for (const auto& enemy : m_pEnemyList)
 	{
 		if (enemy->GetCurrentAnim() == AnimName::kPunch1 ||
 			enemy->GetCurrentAnim() == AnimName::kPunch2 ||
@@ -52,7 +53,7 @@ void EnemyAI::DecideNextAction(const Player& pPlayer)
 		{
 			attackEnemyNum++;
 		}
-	}*/
+	}
 
 	// プレイヤーとの距離
 	float dist = VSize(m_pEnemy->GetEToPVec());
@@ -83,6 +84,8 @@ void EnemyAI::DecideNextAction(const Player& pPlayer)
 			m_candidateState.emplace_back(EnemyStateBase::EnemyStateKind::kIdle, 50);
 			m_candidateState.emplace_back(EnemyStateBase::EnemyStateKind::kWalk, 30);
 			m_candidateState.emplace_back(EnemyStateBase::EnemyStateKind::kAvoid, 20);
+
+			printfDx("状態1\n");
 		}
 		else if (attackEnemyNum == 1)
 		{
@@ -90,6 +93,7 @@ void EnemyAI::DecideNextAction(const Player& pPlayer)
 			m_candidateState.emplace_back(EnemyStateBase::EnemyStateKind::kPunch, 40);
 			m_candidateState.emplace_back(EnemyStateBase::EnemyStateKind::kKick, 30);
 			m_candidateState.emplace_back(EnemyStateBase::EnemyStateKind::kGuard, 30);
+			printfDx("状態2\n");
 		}
 		else
 		{
@@ -97,6 +101,7 @@ void EnemyAI::DecideNextAction(const Player& pPlayer)
 			m_candidateState.emplace_back(EnemyStateBase::EnemyStateKind::kPunch, 70);
 			m_candidateState.emplace_back(EnemyStateBase::EnemyStateKind::kKick, 50);
 			m_candidateState.emplace_back(EnemyStateBase::EnemyStateKind::kGuard, 10);
+			printfDx("状態3\n");
 		}
 
 		// プレイヤーが攻撃中の場合

@@ -2,9 +2,9 @@
 #include "Sound.h"
 #include "Player.h"
 #include "EnemyBase.h"
-#include "EnemyAI.h"
 #include "EnemyStateIdle.h"
 #include "EnemyStateRun.h"
+#include "EnemyStateWalk.h"
 #include "EnemyStateAvoid.h"
 #include "EnemyStateGuard.h"
 #include "EnemyStateAttack.h"
@@ -14,15 +14,14 @@
 
 namespace
 {
-	constexpr float kMinChaseRange = 200.0f;	// プレイヤーを追いかける最小範囲
-	constexpr float kMaxChaseRange = 800.0f;	// プレイヤーを追いかける最大範囲
+	constexpr float kMinChaseRange = 200.0f; // プレイヤーを追いかける最小範囲
+	constexpr float kMaxChaseRange = 800.0f; // プレイヤーを追いかける最大範囲
 
 	constexpr float kMinHp = 0.0f;	// 最小HP
 }
 
 EnemyStateBase::EnemyStateBase(std::shared_ptr<EnemyBase> pEnemy):
 	m_pEnemy(pEnemy),
-	//m_pEnemyAI(pEnemyAI),
 	m_upMoveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_leftMoveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_moveVec(VGet(0.0f, 0.0f, 0.0f)),
@@ -33,10 +32,6 @@ EnemyStateBase::EnemyStateBase(std::shared_ptr<EnemyBase> pEnemy):
 void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
 {
 	if (m_pEnemy == nullptr) return;
-
-	// AIの更新
-	//m_pEnemyAI->Update();
-	//m_pEnemyAI->DecideNextAction(pPlayer);
 
 	// ダウン状態中は状態を更新しない
 	if (GetKind() == EnemyStateKind::kDeath) return;
@@ -93,9 +88,6 @@ void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
 		bool isNotChange = !pPlayer.GetIsBattle() || m_pEnemy->GetIsAttack() || 
 			(GetKind() == EnemyStateKind::kAvoid) || (GetKind() == EnemyStateKind::kGuard) || (GetKind() == EnemyStateKind::kDamage);
 		if (isNotChange) return;
-
-		// 状態を更新する
-		//UpdateState();
 	}
 }
 
@@ -110,7 +102,7 @@ void EnemyStateBase::ChangeStateIdle()
 
 void EnemyStateBase::ChangeStateWalk()
 {
-	std::shared_ptr<EnemyStateIdle> state = std::make_shared<EnemyStateIdle>(m_pEnemy);
+	std::shared_ptr<EnemyStateWalk> state = std::make_shared<EnemyStateWalk>(m_pEnemy);
 	m_nextState = state;
 	state->Init();
 }
@@ -124,16 +116,18 @@ void EnemyStateBase::ChangeStateRun()
 
 void EnemyStateBase::ChangeStatePunch()
 {
-	//std::shared_ptr<EnemyStateAttack> state = std::make_shared<EnemyStateAttack>(m_pEnemy);
-	//m_nextState = state;
-	//state->Init(AnimName::kPunchStrong);
+	std::shared_ptr<EnemyStateAttack> state = std::make_shared<EnemyStateAttack>(m_pEnemy);
+	m_nextState = state;
+	state->SetAttackKind(AnimName::kPunchStrong);
+	state->Init();
 }
 
 void EnemyStateBase::ChangeStateKick()
 {
-	//std::shared_ptr<EnemyStateAttack> state = std::make_shared<EnemyStateAttack>(m_pEnemy);
-	//m_nextState = state;
-	//state->Init(AnimName::kKick);
+	std::shared_ptr<EnemyStateAttack> state = std::make_shared<EnemyStateAttack>(m_pEnemy);
+	m_nextState = state;
+	state->SetAttackKind(AnimName::kKick);
+	state->Init();
 }
 
 void EnemyStateBase::ChangeStateGuard()
@@ -168,34 +162,4 @@ void EnemyStateBase::ChangeStateDeath()
 	std::shared_ptr<EnemyStateDeath> state = std::make_shared<EnemyStateDeath>(m_pEnemy);
 	m_nextState = state;
 	state->Init();
-}
-
-void EnemyStateBase::UpdateState()
-{
-	// Stateを更新する
-	switch (m_pEnemyAI->GetNextState())
-	{
-	case EnemyStateKind::kWalk:
-		printfDx("歩き\n");
-		ChangeStateWalk();
-		break;
-	case EnemyStateKind::kRun:
-		printfDx("走り\n");
-		ChangeStateRun();
-		break;
-	case EnemyStateKind::kAvoid:
-		printfDx("回避\n");
-		ChangeStateAvoid();
-		break;
-	case EnemyStateKind::kPunch:
-		printfDx("パンチ\n");
-		ChangeStatePunch();
-		break;
-	case EnemyStateKind::kKick:
-		printfDx("キック\n");
-		ChangeStateKick();
-		break;
-	default:
-		break;
-	}
 }

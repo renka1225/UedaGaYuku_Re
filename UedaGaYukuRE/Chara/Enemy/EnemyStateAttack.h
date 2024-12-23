@@ -20,8 +20,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	/// <param name="attackName">入力された攻撃名</param>
-	void Init(std::string attackName);
+	virtual void Init() override;
 
 	/// <summary>
 	/// 更新
@@ -50,6 +49,12 @@ public:
 	/// <param name="pPlayer">プレイヤー参照</param>
 	/// <returns>攻撃力</returns>
 	float GetAttackPower(Player& pPlayer);
+
+	/// <summary>
+	/// 攻撃の種類をセットする
+	/// </summary>
+	/// <param name="attackName">入力された攻撃名</param>
+	void SetAttackKind(std::string attackName) { m_attackKind = attackName; }
 
 private:
 	std::string m_attackKind;	// 入力された攻撃の種類

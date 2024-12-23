@@ -6,6 +6,7 @@ class UiBar;
 class Item;
 class Player;
 class EnemyAI;
+class EnemyStateBase;
 
 /// <summary>
 /// 敵の基底クラス
@@ -81,12 +82,6 @@ public:
 	int GetEnemyIndex() const { return m_enemyIndex; }
 
 	/// <summary>
-	/// 敵AIのポインタを取得する
-	/// </summary>
-	/// <returns></returns>
-	std::shared_ptr<EnemyAI> GetAI() const { return m_pEnemyAI; }
-	
-	/// <summary>
 	/// アイテムポインタを取得する
 	/// </summary>
 	/// <returns>アイテムのポインタ</returns>
@@ -97,6 +92,12 @@ private:
 	/// 敵のフレーム位置を取得する
 	/// </summary>
 	void GetFramePos();
+
+	/// <summary>
+	/// 状態を変更する
+	/// </summary>
+	/// <param name="nextState">次の状態</param>
+	void ChangeState(EnemyStateBase::EnemyStateKind nextState);
 
 protected:
 	std::shared_ptr<EnemyStateBase> m_pState; // stateパターン

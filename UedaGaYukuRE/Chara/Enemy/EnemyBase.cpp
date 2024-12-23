@@ -3,9 +3,11 @@
 #include "DebugDraw.h"
 #include "LoadCsv.h"
 #include "ModelFrameName.h"
+#include "Font.h"
 #include "UiBar.h"
 #include "Item.h"
 #include "Player.h"
+#include "EnemyAI.h"
 #include "EnemyStateIdle.h"
 #include "EnemyBase.h"
 
@@ -20,7 +22,7 @@ namespace
 	const Vec2 kAdjDispNamePos = { 32.0f, 30.0f };	// 敵名の表示位置調整
 }
 
-EnemyBase::EnemyBase(std::shared_ptr<UiBar> pUi, std::shared_ptr<Item> pItem, Player& player):
+EnemyBase::EnemyBase(std::shared_ptr<UiBar> pUi, std::shared_ptr<Item> pItem, Player& pPlayer):
 	m_enemyName(""),
 	m_enemyIndex(0),
 	m_eToPVec(VGet(0.0f, 0.0f, 0.0f)),
@@ -28,6 +30,7 @@ EnemyBase::EnemyBase(std::shared_ptr<UiBar> pUi, std::shared_ptr<Item> pItem, Pl
 {
 	m_pUiBar = pUi;
 	m_pItem = pItem;
+	m_pEnemyAI = std::make_shared<EnemyAI>();
 
 	// 敵の初期位置を設定
 	if (m_enemyIndex == CharacterBase::CharaType::kEnemy_boss)
@@ -37,12 +40,10 @@ EnemyBase::EnemyBase(std::shared_ptr<UiBar> pUi, std::shared_ptr<Item> pItem, Pl
 	else
 	{
 		// プレイヤーの範囲内に配置する
-		float randPosX = player.GetPos().x + GetRand(static_cast<int>(kSpawnRange) * 2) - kSpawnRange;
-		float randPosZ = player.GetPos().z + GetRand(static_cast<int>(kSpawnRange) * 2) - kSpawnRange;
-		m_pos = VGet(randPosX, player.GetPos().y, randPosZ);
+		float randPosX = pPlayer.GetPos().x + GetRand(static_cast<int>(kSpawnRange) * 2) - kSpawnRange;
+		float randPosZ = pPlayer.GetPos().z + GetRand(static_cast<int>(kSpawnRange) * 2) - kSpawnRange;
+		m_pos = VGet(randPosX, pPlayer.GetPos().y, randPosZ);
 	}
-
-	//m_pEnemyAI = std::make_shared<EnemyAI>(*this, m_pEnemyAI);
 }
 
 EnemyBase::~EnemyBase()
@@ -64,11 +65,16 @@ void EnemyBase::Init()
 	state->Init();
 }
 
-void EnemyBase::Update(Stage& stage, Player& player)
+void EnemyBase::Update(Stage& pStage, Player& pPlayer)
 {
 	if (nullptr) return;
 
 	CharacterBase::Update();
+
+	// AIの更新
+	m_pEnemyAI->Update();
+	m_pEnemyAI->DecideNextAction(pPlayer);
+	EnemyStateBase::EnemyStateKind nextState = m_pEnemyAI->GetNextState();  // AIから次の状態を取得
 
 	// 前のフレームと違うstateの場合
 	if (m_pState->GetKind() != m_pState->m_nextState->GetKind())
@@ -76,19 +82,20 @@ void EnemyBase::Update(Stage& stage, Player& player)
 		// stateを変更する
 		m_pState = m_pState->m_nextState;
 		m_pState->m_nextState = m_pState;
+		ChangeState(nextState);
 	}
 
-	m_eToPVec = VSub(player.GetPos(), m_pos);
+	m_eToPVec = VSub(pPlayer.GetPos(), m_pos);
 
 	// 当たり判定をチェックする
-	player.CheckCharaCol(*this, m_colData[m_enemyIndex], CharaType::kPlayer);
+	pPlayer.CheckCharaCol(*this, m_colData[m_enemyIndex], CharaType::kPlayer);
 
-	m_pState->Update(stage, player); // stateの更新
-	UpdateAngle();					 // 向きを更新
-	UpdateAnim();					 // アニメーションを更新
-	UpdateCol(m_enemyIndex);		 // 当たり判定位置更新
-	UpdatePosLog();					 // 位置ログを更新
-	GetFramePos();					 // モデルフレーム位置を取得
+	m_pState->Update(pStage, pPlayer);	// stateの更新
+	UpdateAngle();						// 向きを更新
+	UpdateAnim();						// アニメーションを更新
+	UpdateCol(m_enemyIndex);			// 当たり判定位置更新
+	UpdatePosLog();						// 位置ログを更新
+	GetFramePos();						// モデルフレーム位置を取得
 
 	m_pUiBar->Update(); // HPバーの更新
 }
@@ -112,7 +119,8 @@ void EnemyBase::Draw(Player& player)
 	if (isDispName)
 	{
 		m_pUiBar->DrawEnemyHpBar(*this);
-		DrawFormatStringF(screenPos.x - kAdjDispNamePos.x, screenPos.y - kAdjDispNamePos.y, Color::kColorW, "%s", m_enemyName.c_str());
+		DrawFormatStringFToHandle(screenPos.x - kAdjDispNamePos.x, screenPos.y - kAdjDispNamePos.y, Color::kColorW, 
+			Font::m_fontHandle[static_cast<int>(Font::FontId::kEnemyName)], "%s", m_enemyName.c_str());
 	}
 
 #ifdef _DEBUG
@@ -172,4 +180,33 @@ void EnemyBase::GetFramePos()
 	m_colData[m_enemyIndex].rightLegPos = GetModelFramePos((enemyRig + EnemyFrameName::kRightLeg).c_str());				// 右膝
 	m_colData[m_enemyIndex].rightFootPos = GetModelFramePos((enemyRig + EnemyFrameName::kRightFoot).c_str());			// 右足首
 	m_colData[m_enemyIndex].rightEndPos = GetModelFramePos((enemyRig + EnemyFrameName::kRightEnd).c_str());				// 右足終点
+}
+
+void EnemyBase::ChangeState(EnemyStateBase::EnemyStateKind nextState)
+{
+	switch (nextState)
+	{
+	case EnemyStateBase::EnemyStateKind::kWalk:
+		printfDx("歩き\n");
+		m_pState->ChangeStateWalk();
+		break;
+	case EnemyStateBase::EnemyStateKind::kRun:
+		printfDx("走り\n");
+		m_pState->ChangeStateRun();
+		break;
+	case EnemyStateBase::EnemyStateKind::kAvoid:
+		printfDx("回避\n");
+		m_pState->ChangeStateAvoid();
+		break;
+	case EnemyStateBase::EnemyStateKind::kPunch:
+		printfDx("パンチ\n");
+		m_pState->ChangeStatePunch();
+		break;
+	case EnemyStateBase::EnemyStateKind::kKick:
+		printfDx("キック\n");
+		m_pState->ChangeStateKick();
+		break;
+	default:
+		break;
+	}
 }

@@ -19,9 +19,8 @@ EnemyStateAttack::EnemyStateAttack(std::shared_ptr<EnemyBase> pEnemy):
 {
 }
 
-void EnemyStateAttack::Init(std::string attackName)
+void EnemyStateAttack::Init()
 {
-    m_attackKind = attackName;
     m_pEnemy->SetIsAttack(true);
     m_pEnemy->ChangeAnim(m_attackKind);
     m_attackEndTime = m_pEnemy->GetAnimTotalTime(m_attackKind);
