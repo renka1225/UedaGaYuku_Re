@@ -15,7 +15,8 @@
 namespace
 {
 	constexpr float kScale = 0.15f;					// モデルの拡大率
-	constexpr float kSpawnRange = 500.0f;			// スポーンする範囲
+	constexpr float kFirstSpawnRange = 500.0f;		// 1体目のスポーンする範囲
+	constexpr float kSpawnRange = 100.0f;			// 2体目以降のスポーンする範囲
 	const VECTOR kBossSpwnPos = VGet(9100.0f, 45.0f, 4000.0f); // ボスのスポーン位置
 
 	constexpr float kDispNameRange = 1000.0f;		// 敵名を表示する範囲
@@ -30,20 +31,6 @@ EnemyBase::EnemyBase(std::shared_ptr<UiBar> pUi, std::shared_ptr<Item> pItem, Pl
 {
 	m_pUiBar = pUi;
 	m_pItem = pItem;
-	m_pEnemyAI = std::make_shared<EnemyAI>();
-
-	// 敵の初期位置を設定
-	if (m_enemyIndex == CharacterBase::CharaType::kEnemy_boss)
-	{
-		m_pos = kBossSpwnPos;
-	}
-	else
-	{
-		// プレイヤーの範囲内に配置する
-		float randPosX = pPlayer.GetPos().x + GetRand(static_cast<int>(kSpawnRange) * 2) - kSpawnRange;
-		float randPosZ = pPlayer.GetPos().z + GetRand(static_cast<int>(kSpawnRange) * 2) - kSpawnRange;
-		m_pos = VGet(randPosX, pPlayer.GetPos().y, randPosZ);
-	}
 }
 
 EnemyBase::~EnemyBase()
@@ -57,18 +44,18 @@ void EnemyBase::Init()
 
 	MV1SetScale(m_modelHandle, VGet(kScale, kScale, kScale));
 
-	m_pState = nullptr;
 	m_pState = std::make_shared<EnemyStateIdle>(shared_from_this());
 	m_pState->m_nextState = m_pState;
 
 	auto state = std::dynamic_pointer_cast<EnemyStateIdle>(m_pState);
 	state->Init();
+
+	m_pEnemyAI = std::make_shared<EnemyAI>(shared_from_this());
+	m_pEnemyAI->Init();
 }
 
 void EnemyBase::Update(Stage& pStage, Player& pPlayer)
 {
-	if (nullptr) return;
-
 	CharacterBase::Update();
 
 	// AIの更新
@@ -151,6 +138,38 @@ void EnemyBase::SetEnemyInfo(std::string name, std::string charaId, int index, i
 
 	m_colData[m_enemyIndex].bodyUpdateStartPos = m_colData[m_enemyIndex].bodyStartPos;
 	m_colData[m_enemyIndex].bodyUpdateEndPos = m_colData[m_enemyIndex].bodyEndPos;
+}
+
+void EnemyBase::SetEnemySpawnPos(const Player& pPlayer, int index)
+{
+	// ボスの場合
+	if (m_enemyIndex == CharacterBase::CharaType::kEnemy_boss)
+	{
+		m_pos = kBossSpwnPos;
+	}
+	else
+	{
+		// 1体目の敵位置を保存する
+		static VECTOR firstEnemyPos;
+
+		// 1体目の位置を決める
+		if (index == 0)
+		{
+			// プレイヤーの範囲内に配置する
+			float firstRandPosX = pPlayer.GetPos().x + GetRand(static_cast<int>(kFirstSpawnRange) * 2) - kFirstSpawnRange;
+			float firstRandPosZ = pPlayer.GetPos().z + GetRand(static_cast<int>(kFirstSpawnRange) * 2) - kFirstSpawnRange;
+			m_pos = VGet(firstRandPosX, pPlayer.GetPos().y, firstRandPosZ);
+			firstEnemyPos = m_pos;
+		}
+		// 2体目以降の敵位置を決める
+		else
+		{
+			// 1体目の位置を基準にランダムな位置を生成
+			float randPosX = firstEnemyPos.x + GetRand(static_cast<int>(kSpawnRange) * 2) - kSpawnRange;
+			float randPosZ = firstEnemyPos.z + GetRand(static_cast<int>(kSpawnRange) * 2) - kSpawnRange;
+			m_pos = VGet(randPosX, firstEnemyPos.y, randPosZ);
+		}
+	}
 }
 
 void EnemyBase::GetFramePos()

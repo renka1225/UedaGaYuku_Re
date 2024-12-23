@@ -13,18 +13,18 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	EnemyAI();
+	/// <param name="pEnemy">敵ポインタ</param>
+	EnemyAI(std::shared_ptr<EnemyBase> pEnemy);
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~EnemyAI();
+	~EnemyAI() {}
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	/// <param name="pEnemy">ポインタ</param>
-	void Init(std::shared_ptr<EnemyBase> pEnemy);
+	void Init() {}
 
 	/// <summary>
 	/// 更新
@@ -32,16 +32,31 @@ public:
 	void Update();
 
 	/// <summary>
-	/// 描画
-	/// </summary>
-	void Draw();
-
-	/// <summary>
 	/// 次の行動を決定する
 	/// </summary>
 	/// <param name="pPlayer">プレイヤー参照</param>
 	void DecideNextAction(const Player& pPlayer);
 
+	/// <summary>
+	/// バトル中の行動を更新する
+	/// </summary>
+	void SelectBattleAction(const Player& pPlayer);
+
+	/// <summary>
+	/// 行動をランダムで決定する
+	/// </summary>
+	void SelectRandomAction();
+
+	/// <summary>
+	/// 状態を更新するかチェックする
+	/// </summary>
+	/// <returns>状態を更新するかどうか</returns>
+	bool IsChangeState();
+
+	/// <summary>
+	/// 敵のリストをセットする
+	/// </summary>
+	/// <param name="enemies"></param>
 	void SetEnemyList(const std::vector<std::shared_ptr<EnemyBase>>& enemies) { m_pEnemyList = enemies; }
 
 	/// <summary>

@@ -36,6 +36,7 @@ public:
 	/// 更新
 	/// </summary>
 	/// <param name="stage">ステージ参照</param>
+	/// <param name="player">プレイヤー参照</param>
 	virtual void Update(Stage& stage, Player& player);
 
 	/// <summary>
@@ -57,6 +58,13 @@ public:
 	/// <param name="index">キャラクターの番号</param>
 	/// <param name="modelHandle">モデルハンドル</param>
 	void SetEnemyInfo(std::string name, std::string charaId, int index, int modelHandle);
+	
+	/// <summary>
+	/// 敵のスポーン位置を決める
+	/// </summary>
+	/// <param name="pPlayer">プレイヤー参照</param>
+	/// <param name="index">敵のインデックス</param>
+	void SetEnemySpawnPos(const Player& pPlayer, int index);
 
 	/// <summary>
 	/// 死亡フラグをセットする
@@ -86,6 +94,12 @@ public:
 	/// </summary>
 	/// <returns>アイテムのポインタ</returns>
 	std::shared_ptr<Item> GetItemPointer() const { return m_pItem; }
+
+	/// <summary>
+	/// 敵AIのポインタを取得する
+	/// </summary>
+	/// <returns>敵AIのポインタ</returns>
+	std::shared_ptr<EnemyAI> GetEnemyAI() const { return m_pEnemyAI; }
 
 private:
 	/// <summary>

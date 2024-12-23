@@ -236,6 +236,8 @@ void UiBase::DrawMiniMap(const Player& pPlayer, std::vector<std::shared_ptr<Enem
 	// 敵のアイコンを表示
 	for (auto& enemy : pEnemy)
 	{
+		if (enemy == nullptr) continue;
+
 		VECTOR enemyPos = enemy->GetPos();
 		// プレイヤーから敵までの位置ベクトルを計算
 		VECTOR pToEVec = VSub(enemyPos, playerPos);

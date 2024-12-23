@@ -393,9 +393,6 @@ void SceneMain::UpdateBattleEndStaging()
 			enemy->ResetAnim();
 		}
 
-		// nullptr をまとめて削除
-		m_pEnemy.erase(std::remove(m_pEnemy.begin(), m_pEnemy.end(), nullptr), m_pEnemy.end());
-
 		// プレイヤーは移動できるようにする
 		m_pPlayer->SetIsPossibleMove(true);
 		m_pPlayer->ResetAnim();
@@ -531,6 +528,8 @@ void SceneMain::UpdateEnemy()
 			if ((i == j) || (m_pEnemy[i] == nullptr) || (m_pEnemy[j] == nullptr)) continue;
 			m_pEnemy[i]->CheckCharaCol(*m_pEnemy[j], m_pEnemy[j]->GetCol(j), j);
 		}
+
+		m_pEnemy.erase(std::remove(m_pEnemy.begin(), m_pEnemy.end(), nullptr), m_pEnemy.end());
 	}
 }
 
@@ -559,8 +558,11 @@ void SceneMain::SelectEnemy()
 	m_pEnemy.resize(enemySpawnNum);
 	m_currentEnemyNum = enemySpawnNum;
 
-	std::unordered_set<int> enemyKind(enemySpawnNum);  // 生成された敵の種類を保持する
-	std::unordered_set<int> enemyName(enemySpawnNum);  // 決まった敵名を保持する
+	std::unordered_set<int> enemyKind;  // 生成された敵の種類を保持する
+	std::unordered_set<int> enemyName;  // 決まった敵名を保持する
+
+	std::random_device rd;
+	std::mt19937 mt(rd());
 
 	for (int i = 0; i < m_pEnemy.size(); i++)
 	{
@@ -568,8 +570,6 @@ void SceneMain::SelectEnemy()
 		int enemyIndex;
 		do
 		{
-			std::random_device rd;
-			std::mt19937 mt(rd());
 			std::uniform_int_distribution urdIndex(1, kEnemyKindNum);
 			enemyIndex = urdIndex(mt);
 		} while (enemyKind.count(enemyIndex) > 0);	 // MEMO:countは要素が見つかったら1を、見つからない場合は0を返す
@@ -581,8 +581,6 @@ void SceneMain::SelectEnemy()
 		do
 		{
 			// 敵の名前をランダムで選ぶ
-			std::random_device rd;
-			std::mt19937 mt(rd());
 			std::uniform_int_distribution urdIndex(1, kEnemyNamekind);
 			enemyNameIndex = urdIndex(mt);
 		} while (enemyName.count(enemyNameIndex) > 0);
@@ -599,7 +597,9 @@ void SceneMain::SelectEnemy()
 
 		m_pEnemy[i] = std::make_shared<EnemyBase>(m_pUiBar, m_pItem, *m_pPlayer);
 		m_pEnemy[i]->SetEnemyInfo(enemyName, "enemy_" + std::string(enemyId), enemyIndex, m_modelHandle[enemyIndex]);
+		m_pEnemy[i]->SetEnemySpawnPos(*m_pPlayer, i);
 		m_pEnemy[i]->Init();
+		m_pEnemy[i]->GetEnemyAI()->SetEnemyList(m_pEnemy);
 	}
 }
 
