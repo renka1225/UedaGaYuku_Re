@@ -65,6 +65,11 @@ public:
 
 public:
 	/// <summary>
+	/// 状態を変更する
+	/// </summary>
+	void ChangeState(EnemyStateKind nextState);
+
+	/// <summary>
 	/// 待機状態に変更する
 	/// </summary>
 	void ChangeStateIdle();
@@ -108,12 +113,6 @@ public:
 	/// 死亡状態に変更する
 	/// </summary>
 	void ChangeStateDeath();
-
-private:
-	/// <summary>
-	// ステートを更新する
-	/// </summary>
-	void UpdateState();
 
 public:
 	std::shared_ptr<EnemyStateBase> m_nextState; // 次のStateを保存する

@@ -144,9 +144,8 @@ void Player::Draw()
 	debug.DrawPlayerInfo(m_pos, m_hp, m_status, m_pState->GetStateName(), m_isNowGrabWeapon); // プレイヤーの情報を描画
 	// 当たり判定描画
 	debug.DrawBodyCol(m_colData[CharaType::kPlayer]);	// 全身(紫色)
-	//debug.DrawArmCol(m_colData[CharaType::kPlayer]);	// 腕(水色)
-	//debug.DrawLegCol(m_colData[CharaType::kPlayer]);	// 脚(黄色)
-
+	debug.DrawArmCol(m_colData[CharaType::kPlayer]);	// 腕(水色)
+	debug.DrawLegCol(m_colData[CharaType::kPlayer]);	// 脚(黄色)
 	// アニメーションのフレーム数表示
 	debug.DrawAnimFrame(m_totalAnimTime, m_currenAnimName, m_animData);
 #endif

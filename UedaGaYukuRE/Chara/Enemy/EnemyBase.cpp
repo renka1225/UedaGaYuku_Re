@@ -61,28 +61,26 @@ void EnemyBase::Update(Stage& pStage, Player& pPlayer)
 	// AIの更新
 	m_pEnemyAI->Update();
 	m_pEnemyAI->DecideNextAction(pPlayer);
-	EnemyStateBase::EnemyStateKind nextState = m_pEnemyAI->GetNextState();  // AIから次の状態を取得
 
-	// 前のフレームと違うstateの場合
+	// stateを更新する
 	if (m_pState->GetKind() != m_pState->m_nextState->GetKind())
 	{
 		// stateを変更する
 		m_pState = m_pState->m_nextState;
 		m_pState->m_nextState = m_pState;
-		ChangeState(nextState);
 	}
+	m_pState->Update(pStage, pPlayer);
 
 	m_eToPVec = VSub(pPlayer.GetPos(), m_pos);
 
 	// 当たり判定をチェックする
 	pPlayer.CheckCharaCol(*this, m_colData[m_enemyIndex], CharaType::kPlayer);
 
-	m_pState->Update(pStage, pPlayer);	// stateの更新
-	UpdateAngle();						// 向きを更新
-	UpdateAnim();						// アニメーションを更新
-	UpdateCol(m_enemyIndex);			// 当たり判定位置更新
-	UpdatePosLog();						// 位置ログを更新
-	GetFramePos();						// モデルフレーム位置を取得
+	UpdateAngle();				// 向きを更新
+	UpdateAnim();				// アニメーションを更新
+	UpdateCol(m_enemyIndex);	// 当たり判定位置更新
+	UpdatePosLog();				// 位置ログを更新
+	GetFramePos();				// モデルフレーム位置を取得
 
 	m_pUiBar->Update(); // HPバーの更新
 }
@@ -199,33 +197,4 @@ void EnemyBase::GetFramePos()
 	m_colData[m_enemyIndex].rightLegPos = GetModelFramePos((enemyRig + EnemyFrameName::kRightLeg).c_str());				// 右膝
 	m_colData[m_enemyIndex].rightFootPos = GetModelFramePos((enemyRig + EnemyFrameName::kRightFoot).c_str());			// 右足首
 	m_colData[m_enemyIndex].rightEndPos = GetModelFramePos((enemyRig + EnemyFrameName::kRightEnd).c_str());				// 右足終点
-}
-
-void EnemyBase::ChangeState(EnemyStateBase::EnemyStateKind nextState)
-{
-	switch (nextState)
-	{
-	case EnemyStateBase::EnemyStateKind::kWalk:
-		printfDx("歩き\n");
-		m_pState->ChangeStateWalk();
-		break;
-	case EnemyStateBase::EnemyStateKind::kRun:
-		printfDx("走り\n");
-		m_pState->ChangeStateRun();
-		break;
-	case EnemyStateBase::EnemyStateKind::kAvoid:
-		printfDx("回避\n");
-		m_pState->ChangeStateAvoid();
-		break;
-	case EnemyStateBase::EnemyStateKind::kPunch:
-		printfDx("パンチ\n");
-		m_pState->ChangeStatePunch();
-		break;
-	case EnemyStateBase::EnemyStateKind::kKick:
-		printfDx("キック\n");
-		m_pState->ChangeStateKick();
-		break;
-	default:
-		break;
-	}
 }

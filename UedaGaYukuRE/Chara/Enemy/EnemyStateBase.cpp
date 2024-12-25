@@ -1,6 +1,7 @@
 ﻿#include "EffectManager.h"
 #include "Sound.h"
 #include "Player.h"
+#include "EnemyAI.h"
 #include "EnemyBase.h"
 #include "EnemyStateIdle.h"
 #include "EnemyStateRun.h"
@@ -57,37 +58,71 @@ void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
 		return;
 	}
 
-	float dist = VSize(m_pEnemy->GetEToPVec());	// 敵からプレイヤーまでの距離
-	
-	// プレイヤーを追いかける範囲内に入っている場合
-	bool isChaseRange = dist > kMinChaseRange && dist < kMaxChaseRange;
-	if (isChaseRange)
-	{
-		// 特定の状態中は更新しない
-		bool isNotChange = m_pEnemy->GetIsAttack() || (GetKind() == EnemyStateKind::kAvoid) || (GetKind() == EnemyStateKind::kGuard) || 
-			(GetKind() == EnemyStateKind::kDamage) || (GetKind() == EnemyStateKind::kRun);
-		if (isNotChange) return;
+	EnemyStateKind nextState = m_pEnemy->GetEnemyAI()->GetNextState();
+	ChangeState(nextState);
 
-		// StateをRunに変更する
+	//float dist = VSize(m_pEnemy->GetEToPVec());	// 敵からプレイヤーまでの距離
+	//
+	//// プレイヤーを追いかける範囲内に入っている場合
+	//bool isChaseRange = dist > kMinChaseRange && dist < kMaxChaseRange;
+	//if (isChaseRange)
+	//{
+	//	// 特定の状態中は更新しない
+	//	bool isNotChange = m_pEnemy->GetIsAttack() || (GetKind() == EnemyStateKind::kAvoid) || (GetKind() == EnemyStateKind::kGuard) || 
+	//		(GetKind() == EnemyStateKind::kDamage) || (GetKind() == EnemyStateKind::kRun);
+	//	if (isNotChange) return;
+
+	//	// StateをRunに変更する
+	//	ChangeStateRun();
+	//	return;
+	//}
+	//// プレイヤーから離れた場合
+	//else if (dist >= kMaxChaseRange)
+	//{
+	//	// バトルを終了状態にする
+	//	pPlayer.SetIsBattle(false);
+
+	//	// 待機か歩きのみを行う
+	//	ChangeStateIdle();
+	//	return;
+	//}
+	//else
+	//{
+	//	// 特定の状態中は更新しない
+	//	bool isNotChange = !pPlayer.GetIsBattle() || m_pEnemy->GetIsAttack() || 
+	//		(GetKind() == EnemyStateKind::kAvoid) || (GetKind() == EnemyStateKind::kGuard) || (GetKind() == EnemyStateKind::kDamage);
+	//	if (isNotChange) return;
+	//}
+}
+
+void EnemyStateBase::ChangeState(EnemyStateKind nextState)
+{
+	if (GetKind() == nextState) return;
+
+	switch (nextState)
+	{
+	case EnemyStateBase::EnemyStateKind::kWalk:
+		//printfDx("歩き\n");
+		ChangeStateWalk();
+		break;
+	case EnemyStateBase::EnemyStateKind::kRun:
+		//printfDx("走り\n");
 		ChangeStateRun();
-		return;
-	}
-	// プレイヤーから離れた場合
-	else if (dist >= kMaxChaseRange)
-	{
-		// バトルを終了状態にする
-		pPlayer.SetIsBattle(false);
-
-		// 待機か歩きのみを行う
-		ChangeStateIdle();
-		return;
-	}
-	else
-	{
-		// 特定の状態中は更新しない
-		bool isNotChange = !pPlayer.GetIsBattle() || m_pEnemy->GetIsAttack() || 
-			(GetKind() == EnemyStateKind::kAvoid) || (GetKind() == EnemyStateKind::kGuard) || (GetKind() == EnemyStateKind::kDamage);
-		if (isNotChange) return;
+		break;
+	case EnemyStateBase::EnemyStateKind::kAvoid:
+		//printfDx("回避\n");
+		ChangeStateAvoid();
+		break;
+	case EnemyStateBase::EnemyStateKind::kPunch:
+		//printfDx("パンチ\n");
+		ChangeStatePunch();
+		break;
+	case EnemyStateBase::EnemyStateKind::kKick:
+		//printfDx("キック\n");
+		ChangeStateKick();
+		break;
+	default:
+		break;
 	}
 }
 
@@ -116,6 +151,9 @@ void EnemyStateBase::ChangeStateRun()
 
 void EnemyStateBase::ChangeStatePunch()
 {
+	if (GetKind() == EnemyStateKind::kPunch) return;
+
+	printfDx("パンチ攻撃\n");
 	std::shared_ptr<EnemyStateAttack> state = std::make_shared<EnemyStateAttack>(m_pEnemy);
 	m_nextState = state;
 	state->SetAttackKind(AnimName::kPunchStrong);

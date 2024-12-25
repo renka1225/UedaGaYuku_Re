@@ -35,7 +35,7 @@ public:
 	/// 次の行動を決定する
 	/// </summary>
 	/// <param name="pPlayer">プレイヤー参照</param>
-	void DecideNextAction(const Player& pPlayer);
+	void DecideNextAction(Player& pPlayer);
 
 	/// <summary>
 	/// バトル中の行動を更新する
@@ -66,10 +66,10 @@ public:
 	EnemyStateBase::EnemyStateKind GetNextState() const { return m_nextState; }
 
 private:
-	std::shared_ptr<EnemyBase> m_pEnemy;					// 敵ポインタ
-	std::vector<std::shared_ptr<EnemyBase>> m_pEnemyList;	// 敵のリスト
-	EnemyStateBase::EnemyStateKind m_nextState;				// 次の状態
-	std::vector<std::pair<EnemyStateBase::EnemyStateKind, int>> m_candidateState; // 行動の候補を保存する
+	std::shared_ptr<EnemyBase> m_pEnemy;						// 敵ポインタ
+	std::vector<std::shared_ptr<EnemyBase>> m_pEnemyList;		// 敵のリスト
+	std::map<EnemyStateBase::EnemyStateKind, int> m_priority;	// 攻撃の優先度
+	EnemyStateBase::EnemyStateKind m_nextState;					// 次の状態
 
 	int m_decisionFrame; // 行動を決定するフレーム数
 };

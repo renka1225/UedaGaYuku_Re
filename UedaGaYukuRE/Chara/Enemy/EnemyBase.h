@@ -107,12 +107,6 @@ private:
 	/// </summary>
 	void GetFramePos();
 
-	/// <summary>
-	/// 状態を変更する
-	/// </summary>
-	/// <param name="nextState">次の状態</param>
-	void ChangeState(EnemyStateBase::EnemyStateKind nextState);
-
 protected:
 	std::shared_ptr<EnemyStateBase> m_pState; // stateパターン
 	std::shared_ptr<EnemyAI> m_pEnemyAI;	  // AIのポインタ

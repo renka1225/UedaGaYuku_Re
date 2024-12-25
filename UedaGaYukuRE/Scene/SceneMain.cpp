@@ -73,6 +73,12 @@ SceneMain::~SceneMain()
 	Sound::GetInstance().StopBgm(SoundName::kBgm_battle);
 	Sound::GetInstance().StopBgm(SoundName::kBgm_bossBattle);
 	Sound::GetInstance().StopBgm(SoundName::kBgm_battleEnd);
+
+	m_pEnemy.clear();
+	for (auto& handle : m_handle)
+	{
+		DeleteGraph(handle);
+	}
 }
 
 void SceneMain::Init()
@@ -413,8 +419,8 @@ std::shared_ptr<SceneBase> SceneMain::UpdateEndingStaging()
 	// 演出終了後
 	else
 	{
-		// エンディング終了後、タイトルに戻る
-		return std::make_shared<SceneTitle>();
+		// エンディング終了後、クリア画面に遷移する
+		return std::make_shared<SceneClear>();
 	}
 
 	return shared_from_this();
@@ -553,7 +559,8 @@ void SceneMain::SelectEnemy()
 	LoadCsv::GetInstance().LoadEnemyName(); // 敵名を読み込む
 
 	// 出現する敵の数をランダムで決定する
-	int enemySpawnNum = GetRand(kEnemyMaxNum - 1) + 1;
+	//int enemySpawnNum = GetRand(kEnemyMaxNum - 1) + 1;
+	int enemySpawnNum = 2;
 	m_pEnemy.clear();
 	m_pEnemy.resize(enemySpawnNum);
 	m_currentEnemyNum = enemySpawnNum;

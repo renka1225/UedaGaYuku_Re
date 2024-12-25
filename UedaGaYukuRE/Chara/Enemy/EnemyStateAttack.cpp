@@ -5,13 +5,6 @@
 #include "EnemyStateIdle.h"
 #include "EnemyStateAttack.h"
 
-// 定数
-namespace
-{
-    constexpr float kPunchEndTime = 30;
-    constexpr float kKickEndTime = 120;
-}
-
 EnemyStateAttack::EnemyStateAttack(std::shared_ptr<EnemyBase> pEnemy):
     EnemyStateBase(pEnemy),
     m_attackEndTime(0.0f),
