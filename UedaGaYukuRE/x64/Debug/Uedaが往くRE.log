@@ -1,2 +1,8 @@
-﻿  EnemyBase.cpp
+﻿  EnemyAI.cpp
+  EnemyBase.cpp
+  EnemyStateBase.cpp
+  Player.cpp
+C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Player\Player.cpp(430,12): warning C4267: '初期化中': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+  SceneMain.cpp
+  コードを生成中...
   Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\UedaGaYukuRE.exe

@@ -36,13 +36,13 @@ void EnemyStateAttack::Update(Stage& pStage, Player& pPlayer)
     else
     {
         m_attackEndTime--;
-        if (m_attackEndTime < 0.0f) m_isAttackEnd = true;
+        if (m_attackEndTime <= 0.0f) m_isAttackEnd = true;
 
         // 特定の状態の場合はスキップする
         if (pPlayer.GetIsInvincible()) return;
 
         // 敵の攻撃とプレイヤーの当たり判定を取得
-        if (m_attackKind == AnimName::kPunchStrong)
+        if (m_attackKind == AnimName::kPunch)
         {
             bool isHitPunchCol = pPlayer.CheckHitPunchCol(m_pEnemy->GetCol(m_pEnemy->GetEnemyIndex()), 0);
             if (isHitPunchCol)
@@ -67,7 +67,7 @@ void EnemyStateAttack::Update(Stage& pStage, Player& pPlayer)
 
 EnemyStateBase::EnemyStateKind EnemyStateAttack::GetKind()
 {
-    if (m_attackKind == AnimName::kPunchStrong)
+    if (m_attackKind == AnimName::kPunch)
     {
         return EnemyStateKind::kPunch;
     }
@@ -82,7 +82,7 @@ EnemyStateBase::EnemyStateKind EnemyStateAttack::GetKind()
 #ifdef _DEBUG
 std::string EnemyStateAttack::GetStateName()
 {
-    if (m_attackKind == AnimName::kPunchStrong)  return "パンチ中";
+    if (m_attackKind == AnimName::kPunch)  return "パンチ中";
     else return "キック中";
 }
 #endif
@@ -94,7 +94,7 @@ float EnemyStateAttack::GetAttackPower(Player& pPlayer)
 
     // プレイヤーがガード中はダメージが入らないようにする
     if (pPlayer.GetIsGuard()) return 0.0f;
-    if (m_attackKind == AnimName::kPunchStrong) return status.atkPowerPunch1;
+    if (m_attackKind == AnimName::kPunch) return status.atkPowerPunch1;
     if (m_attackKind == AnimName::kKick)  return status.atkPowerKick;
 
     return 0.0f;

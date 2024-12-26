@@ -40,7 +40,7 @@ public:
 	/// <summary>
 	/// バトル中の行動を更新する
 	/// </summary>
-	void SelectBattleAction(const Player& pPlayer);
+	void SelectBattleAction(Player& pPlayer);
 
 	/// <summary>
 	/// 行動をランダムで決定する

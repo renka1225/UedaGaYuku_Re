@@ -12,6 +12,7 @@ cursor.mp3,SE,255
 select.mp3,SE,255
 cancel.mp3,SE,255
 useItem.mp3,SE,255
+getItem.mp3,SE,255
 walk.mp3,SE,255
 run.mp3,SE,255
 avoid.mp3,SE,255

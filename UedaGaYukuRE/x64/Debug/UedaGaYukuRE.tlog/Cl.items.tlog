@@ -8,14 +8,13 @@ C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Player\PlayerStateWalk.cpp;C:\GitHub\
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Enemy\EnemyBase.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\EnemyBase.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Enemy\EnemyStateBase.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\EnemyStateBase.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Enemy\EnemyStateIdle.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\EnemyStateIdle.obj
-C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Enemy\EnemyStateRun.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\EnemyStateRun.obj
-C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Enemy\EnemyStateWalk.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\EnemyStateWalk.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Enemy\EnemyStateAttack.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\EnemyStateAttack.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Enemy\EnemyStateDeath.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\EnemyStateDeath.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Enemy\EnemyStateHitAttack.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\EnemyStateHitAttack.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Enemy\EnemyStateAvoid.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\EnemyStateAvoid.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Enemy\EnemyStateGuard.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\EnemyStateGuard.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Enemy\EnemyAI.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\EnemyAI.obj
+C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Enemy\EnemyStateMove.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\EnemyStateMove.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Scene\SceneGameover.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\SceneGameover.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Scene\SceneClear.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\SceneClear.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Util\EventData.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\EventData.obj

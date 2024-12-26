@@ -3,6 +3,7 @@
 #include "Vec2.h"
 #include "Game.h"
 #include "Input.h"
+#include "Sound.h"
 #include "LoadCsv.h"
 #include "SaveData.h"
 #include "UiBar.h"
@@ -178,6 +179,8 @@ void Player::AddItem(int itemType)
 		m_isAddItem = false;
 		return;
 	}
+
+	Sound::GetInstance().PlayBackSe(SoundName::kSe_getItem);
 
 	for (int i = 0; i < m_possessItem.size(); i++)
 	{

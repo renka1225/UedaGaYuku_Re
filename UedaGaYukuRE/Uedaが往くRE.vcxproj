@@ -164,14 +164,13 @@
     <ClCompile Include="Chara\Enemy\EnemyBase.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyStateBase.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyStateIdle.cpp" />
-    <ClCompile Include="Chara\Enemy\EnemyStateRun.cpp" />
-    <ClCompile Include="Chara\Enemy\EnemyStateWalk.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyStateAttack.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyStateDeath.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyStateHitAttack.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyStateAvoid.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyStateGuard.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyAI.cpp" />
+    <ClCompile Include="Chara\Enemy\EnemyStateMove.cpp" />
     <ClCompile Include="Scene\SceneGameover.cpp" />
     <ClCompile Include="Scene\SceneClear.cpp" />
     <ClCompile Include="Util\EventData.cpp" />
@@ -217,8 +216,6 @@
     <ClInclude Include="Chara\Enemy\EnemyBase.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateBase.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateIdle.h" />
-    <ClInclude Include="Chara\Enemy\EnemyStateRun.h" />
-    <ClInclude Include="Chara\Enemy\EnemyStateWalk.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateAttack.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateDeath.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateHitAttack.h" />
@@ -226,6 +223,7 @@
     <ClInclude Include="Chara\Enemy\EnemyStateAvoid.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateGuard.h" />
     <ClInclude Include="Chara\Enemy\EnemyAI.h" />
+    <ClInclude Include="Chara\Enemy\EnemyStateMove.h" />
     <ClInclude Include="Scene\SceneGameover.h" />
     <ClInclude Include="Scene\SceneClear.h" />
     <ClInclude Include="Util\EventData.h" />

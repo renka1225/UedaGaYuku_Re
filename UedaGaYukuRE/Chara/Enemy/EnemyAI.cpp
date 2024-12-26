@@ -6,7 +6,7 @@ namespace
 {
 	constexpr float kMinChaseRange = 200.0f; // プレイヤーを追いかける最小範囲
 	constexpr float kMaxChaseRange = 800.0f; // プレイヤーを追いかける最大範囲
-	constexpr int kDecisionFrame = 180; // 行動を更新する時間
+	constexpr int kDecisionFrame = 60; // 行動を更新する時間
 }
 
 EnemyAI::EnemyAI(std::shared_ptr<EnemyBase> pEnemy):
@@ -92,7 +92,7 @@ void EnemyAI::DecideNextAction(Player& pPlayer)
 	}
 }
 
-void EnemyAI::SelectBattleAction(const Player& pPlayer)
+void EnemyAI::SelectBattleAction(Player& pPlayer)
 {
 	/*MEMO*/
 	// 他2体が攻撃中の場合は待機か移動のみ
@@ -115,6 +115,14 @@ void EnemyAI::SelectBattleAction(const Player& pPlayer)
 			attackEnemyNum++;
 		}
 		printfDx("攻撃中敵数:%d\n", attackEnemyNum);
+	}
+
+	// プレイヤーから離れた場合
+	if (dist >= kMaxChaseRange)
+	{
+		// バトルを終了状態にする
+		pPlayer.SetIsBattle(false);
+		return;
 	}
 
 	// プレイヤーとの距離が離れている場合
@@ -199,10 +207,9 @@ void EnemyAI::SelectRandomAction()
 
 bool EnemyAI::IsChangeState()
 {
+	if (m_pEnemy->GetIsAttack()) return true;
 	if (m_pEnemy->GetCurrentAnim() == AnimName::kDamage) return true;
 	if (m_pEnemy->GetCurrentAnim() == AnimName::kDown) return true;
-
-	if (m_pEnemy->GetIsAttack()) return true;
 	if(m_pEnemy->GetCurrentAnim() == AnimName::kAvoid) return true;
 	if(m_pEnemy->GetCurrentAnim() == AnimName::kGuard) return true;
 

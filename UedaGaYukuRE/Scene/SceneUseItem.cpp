@@ -150,6 +150,8 @@ void SceneUseItem::UseItem()
 	// 使用したアイテムを削除する
 	m_pPlayer->DeleteItem(m_select);
 
+	Sound::GetInstance().PlayBackSe(SoundName::kSe_useItem);
+
 #ifdef _DEBUG
 	printfDx("%dのアイテム使用した\n", m_possessItem[m_select]);
 #endif

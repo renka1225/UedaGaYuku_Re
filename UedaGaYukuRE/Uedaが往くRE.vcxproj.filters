@@ -126,12 +126,6 @@
     <ClCompile Include="Chara\Enemy\EnemyStateIdle.cpp">
       <Filter>ソース ファイル\Chara\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Chara\Enemy\EnemyStateRun.cpp">
-      <Filter>ソース ファイル\Chara\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Chara\Enemy\EnemyStateWalk.cpp">
-      <Filter>ソース ファイル\Chara\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Chara\Player\PlayerStateAttack.cpp">
       <Filter>ソース ファイル\Chara\Player</Filter>
     </ClCompile>
@@ -216,6 +210,9 @@
     <ClCompile Include="Chara\Enemy\EnemyAI.cpp">
       <Filter>ソース ファイル\Chara\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Chara\Enemy\EnemyStateMove.cpp">
+      <Filter>ソース ファイル\Chara\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\SceneManager.h">
@@ -288,12 +285,6 @@
       <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Chara\Enemy\EnemyStateIdle.h">
-      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Chara\Enemy\EnemyStateRun.h">
-      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Chara\Enemy\EnemyStateWalk.h">
       <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Chara\Player\PlayerStateAttack.h">
@@ -375,6 +366,9 @@
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Chara\Enemy\EnemyAI.h">
+      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Enemy\EnemyStateMove.h">
       <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
