@@ -114,6 +114,8 @@ protected:
 	VECTOR m_leftMoveVec;	// 左ボタンを入力をしたときの移動方向ベクトル
 	VECTOR m_moveVec;		// 移動ベクトル
 	float m_animEndTime;	// アニメーションが終わるまでの時間
+	int m_avoidNum;			// 現在の回避の回数
+	int m_avoidCoolTime;	// 回避のクールタイム
 
 	DINPUT_JOYSTATE m_analogInput; 		// アナログスティック情報取得
 	int m_analogX;						// アナログスティックの左右の入力状態

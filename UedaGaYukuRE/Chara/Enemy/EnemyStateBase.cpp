@@ -95,8 +95,6 @@ void EnemyStateBase::ChangeState(EnemyStateKind nextState)
 void EnemyStateBase::ChangeStateIdle()
 {
 	if (GetKind() == EnemyStateKind::kIdle) return;
-
-	printfDx("待機中\n");
 	std::shared_ptr<EnemyStateIdle> state = std::make_shared<EnemyStateIdle>(m_pEnemy);
 	m_nextState = state;
 	state->Init();

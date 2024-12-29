@@ -17,7 +17,7 @@ namespace
 	constexpr float kScale = 0.15f;					// モデルの拡大率
 	constexpr float kFirstSpawnRange = 500.0f;		// 1体目のスポーンする範囲
 	constexpr float kSpawnRange = 100.0f;			// 2体目以降のスポーンする範囲
-	const VECTOR kBossSpwnPos = VGet(9100.0f, 45.0f, 4000.0f); // ボスのスポーン位置
+	const VECTOR kBossSpwnPos = VGet(8900.0f, 45.0f, 2900.0f); // ボスのスポーン位置
 
 	constexpr float kDispNameRange = 1000.0f;		// 敵名を表示する範囲
 	const Vec2 kAdjDispNamePos = { 32.0f, 30.0f };	// 敵名の表示位置調整
@@ -113,8 +113,8 @@ void EnemyBase::Draw(Player& player)
 	debug.DrawEnemyInfo(m_pos, m_hp, m_enemyIndex, m_pState->GetStateName()); // 敵の情報を描画
 	// 当たり判定描画
 	debug.DrawBodyCol(m_colData[m_enemyIndex]);// 全身(紫色)
-	//debug.DrawArmCol(m_colData[m_enemyIndex]);	// 腕(水色)
-	//debug.DrawLegCol(m_colData[m_enemyIndex]);	// 脚(黄色)
+	debug.DrawArmCol(m_colData[m_enemyIndex]);	// 腕(水色)
+	debug.DrawLegCol(m_colData[m_enemyIndex]);	// 脚(黄色)
 #endif
 }
 
@@ -176,6 +176,10 @@ void EnemyBase::GetFramePos()
 	if (m_enemyIndex == CharaType::kEnemy_01)
 	{
 		enemyRig = "mixamorig12:";
+	}
+	else if(m_enemyIndex == CharaType::kEnemy_boss)
+	{
+		enemyRig = "mixamorig7:";
 	}
 	else
 	{

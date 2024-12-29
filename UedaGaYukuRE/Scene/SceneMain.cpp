@@ -492,6 +492,7 @@ void SceneMain::CreateEnemy()
 		
 		auto bossEnemy = std::make_shared<EnemyBase>(m_pUiBar, m_pItem, *m_pPlayer);
 		bossEnemy->SetEnemyInfo("ラスボス", "enemy_boss", enemyIndex, m_modelHandle[enemyIndex]);
+		bossEnemy->SetEnemySpawnPos(*m_pPlayer, 0);
 		bossEnemy->Init();
 		m_pEnemy.push_back(bossEnemy);
 	}
@@ -652,6 +653,8 @@ void SceneMain::CheckEventTrigger()
 
 void SceneMain::StartEvent(const std::string& eventId)
 {
+	if (m_isLastBattle) return;
+
 	// IDに応じて処理を変更する
 	if (eventId == "bossBattle")
 	{

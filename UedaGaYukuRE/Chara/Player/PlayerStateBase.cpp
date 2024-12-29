@@ -12,11 +12,19 @@
 #include "PlayerStateGrab.h"
 #include "PlayerStateBase.h"
 
+namespace
+{
+	constexpr int kAvoidCoolTime = 30;	// 回避のクールタイム
+	constexpr int kAvoidMaxNum = 3;		// 1度に回避できる回数
+}
+
 PlayerStateBase::PlayerStateBase(std::shared_ptr<Player> pPlayer):
 	m_upMoveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_leftMoveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_moveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_animEndTime(0.0f),
+	m_avoidNum(0),
+	m_avoidCoolTime(0),
 	m_analogInput({}),
 	m_analogX(0),
 	m_analogY(0)
@@ -41,6 +49,12 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 
 	// バトル中でない場合は以下の処理はできないようにする
 	if (!m_pPlayer->GetIsBattle()) return;
+
+	// 回避できない場合
+	if (m_avoidCoolTime > 0)
+	{
+		m_avoidCoolTime--;
+	}
 
 	// ゲージが最大まで溜まっているか
 	bool isSpecial = m_pPlayer->GetGauge() >= m_pPlayer->GetStatus().maxGauge;
@@ -156,6 +170,14 @@ void PlayerStateBase::ChangeStateGuard()
 
 void PlayerStateBase::ChangeStateAvoid()
 {
+	m_avoidNum++;
+	// 回避数が最大になった場合
+	if (m_avoidNum > kAvoidMaxNum)
+	{
+		m_avoidNum = 0;
+		m_avoidCoolTime = kAvoidCoolTime;
+	}
+
 	Sound::GetInstance().PlaySe(SoundName::kSe_avoid);
 
 	// StateをAvoidに変更する

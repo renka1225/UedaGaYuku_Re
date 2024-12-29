@@ -1,8 +1,39 @@
 ﻿  EnemyAI.cpp
   EnemyBase.cpp
+  EnemyStateAttack.cpp
   EnemyStateBase.cpp
+  EnemyStateMove.cpp
   Player.cpp
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Player\Player.cpp(430,12): warning C4267: '初期化中': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+  PlayerStateAttack.cpp
+  PlayerStateAvoid.cpp
+  PlayerStateBase.cpp
+  PlayerStateGrab.cpp
+  PlayerStateGuard.cpp
+  PlayerStateHitAttack.cpp
+  PlayerStateIdle.cpp
+  PlayerStateRun.cpp
+  PlayerStateWalk.cpp
+  SceneDebug.cpp
+  Camera.cpp
+  Item.cpp
+  Stage.cpp
+  Weapon.cpp
+C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Object\Weapon.cpp(212,46): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Object\Weapon.cpp(218,46): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+  コードを生成中...
+C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Enemy\EnemyStateMove.cpp(49): warning C4715: 'EnemyStateMove::GetStateName': 値を返さないコントロール パスがあります。
+  コンパイル中...
+  SceneBase.cpp
+  SceneEnhance.cpp
   SceneMain.cpp
+  SceneMenu.cpp
+  SceneSave.cpp
+  SceneSelect.cpp
+  SceneUseItem.cpp
+  UiBar.cpp
+  UiBase.cpp
+  EffectManager.cpp
+  SaveData.cpp
   コードを生成中...
   Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\UedaGaYukuRE.exe
