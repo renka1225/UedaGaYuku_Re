@@ -47,7 +47,6 @@ void EffectManager::Load()
 		try
 		{
 			data.effektHandle = LoadEffekseerEffect((kEffectFilePath + strvec[0] + ".efk").c_str());
-			//assert(data.handle != -1);
 			data.adjPos.x = stof(strvec[1]);
 			data.adjPos.y = stof(strvec[2]);
 			data.adjPos.z = stof(strvec[3]);

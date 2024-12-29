@@ -1,6 +1,7 @@
 ﻿#include "DebugDraw.h"
 #include "DxLib.h"
 #include "LoadCsv.h"
+#include "EffectManager.h"
 #include "CharacterBase.h"
 #include "Player.h"
 #include "Item.h"
@@ -102,6 +103,7 @@ void Item::Draw()
 void Item::SetDropItem(int itemType, VECTOR enemyPos)
 {
 	m_dropItem.push_back({itemType, enemyPos});
+	EffectManager::GetInstance().Add("dropItem", enemyPos);
 }
 
 void Item::CheckPlayerCol(Player& pPlayer)
@@ -124,6 +126,7 @@ void Item::CheckPlayerCol(Player& pPlayer)
 			pPlayer.AddItem(it->itemType);
 			// 取得したアイテムを削除する
 			it = m_dropItem.erase(it);
+			EffectManager::GetInstance().Delete();
 		}
 		else
 		{
