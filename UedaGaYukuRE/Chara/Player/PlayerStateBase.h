@@ -110,6 +110,7 @@ public:
 
 protected:
 	std::shared_ptr<Player> m_pPlayer;	// プレイヤーのポインタ
+
 	VECTOR m_upMoveVec;		// 上ボタンを入力をしたときの移動方向ベクトル
 	VECTOR m_leftMoveVec;	// 左ボタンを入力をしたときの移動方向ベクトル
 	VECTOR m_moveVec;		// 移動ベクトル

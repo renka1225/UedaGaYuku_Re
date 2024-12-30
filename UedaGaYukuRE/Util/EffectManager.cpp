@@ -64,9 +64,15 @@ void EffectManager::Load()
 	}
 }
 
-void EffectManager::Delete()
+void EffectManager::Delete(const std::string name)
 {
-	m_effectData.clear();
+	//m_effectData.clear();
+
+	auto it = m_effectData.find(name);
+	if (it != m_effectData.end())
+	{
+		m_effectData.erase(it);
+	}
 }
 
 void EffectManager::Init()
@@ -87,8 +93,17 @@ void EffectManager::Update()
 		// 再生時間を超えた場合
 		if (data.elapsedTime >= data.playTime)
 		{
-			StopEffekseer3DEffect(data.playingHandle); // 再生中のエフェクトを停止する
-			data.isPlaying = false;
+			// ループ再生の場合
+			if (data.isLoop)
+			{
+				data.elapsedTime = 0;
+				data.playingHandle = PlayEffekseer3DEffect(data.effektHandle);
+			}
+			else
+			{
+				StopEffekseer3DEffect(data.playingHandle); // 再生中のエフェクトを停止する
+				data.isPlaying = false;
+			}
 		}
 		else
 		{
@@ -114,5 +129,10 @@ void EffectManager::Add(const std::string name, VECTOR pos)
 		data.elapsedTime = 0;
 		data.isPlaying = true;
 		data.playingHandle = PlayEffekseer3DEffect(data.effektHandle);
+
+		if (name == EffectName::kItemDrop)
+		{
+			data.isLoop = true;
+		}
 	}
 }

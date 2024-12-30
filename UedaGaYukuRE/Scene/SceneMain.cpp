@@ -29,7 +29,6 @@ namespace
 	const std::string kPlayerHandlePath = "data/model/chara/player.mv1"; // プレイヤーのモデルハンドルパス
 	const std::string kEnemyHandlePath = "data/model/chara/enemy_";		 // 敵のモデルハンドルパス
 
-	constexpr int kClearEnemyNum = 5;	// クリア条件
 	constexpr int kModelNum = 4;		// 読み込むモデルの数
 	constexpr int kEnemyMaxNum = 2;		// 1度に出現する最大の敵数
 	constexpr int kEnemyKindNum = 2;	// 敵の種類
@@ -37,6 +36,7 @@ namespace
 	constexpr int kEnemySpawnMinTIme = 300;			// 敵がスポーンするまでの最小時間
 	constexpr int kEnemySpawnMaxTIme = 3000;		// 敵がスポーンするまでの最大時間
 	constexpr float kEnemyExtinctionDist = 2000.0f;	// 敵が消滅する範囲
+	constexpr int kClearEnemyNum = 3;	// クリア条件
 
 	constexpr int kBattleStartStagingTime = 120; // バトル開始時の演出時間
 	constexpr int kBattleEndStagingTime = 150;	 // バトル終了時の演出時間
@@ -119,12 +119,6 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		Sound::GetInstance().StopSe(SoundName::kSe_walk);
 		Sound::GetInstance().StopSe(SoundName::kSe_run);
 		return std::make_shared<SceneMenu>(shared_from_this(), m_pPlayer, m_pCamera);
-	}
-
-	// ゲームクリア
-	if (m_deadEnemyNum >= kClearEnemyNum)
-	{
-		return std::make_shared<SceneClear>();
 	}
 
 	// ゲームオーバー
@@ -658,6 +652,7 @@ void SceneMain::StartEvent(const std::string& eventId)
 	// IDに応じて処理を変更する
 	if (eventId == "bossBattle")
 	{
+		if (m_deadEnemyNum < kClearEnemyNum) return;
 		printfDx("ボスバトル開始\n");
 		m_isLastBattle = true;
 		CreateEnemy();

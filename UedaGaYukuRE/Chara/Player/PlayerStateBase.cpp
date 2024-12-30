@@ -14,7 +14,7 @@
 
 namespace
 {
-	constexpr int kAvoidCoolTime = 30;	// 回避のクールタイム
+	constexpr int kAvoidCoolTime = 180;	// 回避のクールタイム
 	constexpr int kAvoidMaxNum = 3;		// 1度に回避できる回数
 }
 
@@ -54,6 +54,13 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	if (m_avoidCoolTime > 0)
 	{
 		m_avoidCoolTime--;
+	}
+
+	// ダメージを受けた場合
+	if (m_pPlayer->GetIsOnDamage())
+	{
+		ChangeStateDamage();
+		return;
 	}
 
 	// ゲージが最大まで溜まっているか
@@ -96,13 +103,6 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 			// ゲージを減らす
 			m_pPlayer->SetGauge(0.0f);
 		}
-		return;
-	}
-
-	// ダメージを受けた場合
-	else if (m_pPlayer->GetIsOnDamage())
-	{
-		ChangeStateDamage();
 		return;
 	}
 }
@@ -170,12 +170,16 @@ void PlayerStateBase::ChangeStateGuard()
 
 void PlayerStateBase::ChangeStateAvoid()
 {
+	if (m_avoidCoolTime > 0) return;
+
 	m_avoidNum++;
+	printfDx("回避:%d\n",m_avoidNum);
+
 	// 回避数が最大になった場合
-	if (m_avoidNum > kAvoidMaxNum)
+	if (m_avoidNum >= 1)
 	{
-		m_avoidNum = 0;
 		m_avoidCoolTime = kAvoidCoolTime;
+		m_avoidNum = 0;
 	}
 
 	Sound::GetInstance().PlaySe(SoundName::kSe_avoid);
@@ -231,16 +235,15 @@ void PlayerStateBase::ChangeStateGrab(Weapon& pWeapon)
 void PlayerStateBase::ChangeStateDamage()
 {
 	// StateをHitAttackに変更する
-	/*std::shared_ptr<PlayerStateHitAttack> state = std::make_shared<PlayerStateHitAttack>(m_pPlayer);
+	std::shared_ptr<PlayerStateHitAttack> state = std::make_shared<PlayerStateHitAttack>(m_pPlayer);
 	m_nextState = state;
-	state->Init();*/
+	state->Init();
 
 	// ガード中の場合
 	if (m_pPlayer->GetIsGuard())
 	{
 		Sound::GetInstance().PlaySe(SoundName::kSe_guardAttack);
-
-		// ガードエフェクトを表示
-		//EffectManager::GetInstance().Add("guard", m_pPlayer->GetPos());
+		EffectManager::GetInstance().Add(EffectName::kGuard, m_pPlayer->GetPos());
 	}
+	return;
 }

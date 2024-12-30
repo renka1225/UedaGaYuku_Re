@@ -113,8 +113,8 @@ void EnemyBase::Draw(Player& player)
 	debug.DrawEnemyInfo(m_pos, m_hp, m_enemyIndex, m_pState->GetStateName()); // 敵の情報を描画
 	// 当たり判定描画
 	debug.DrawBodyCol(m_colData[m_enemyIndex]);// 全身(紫色)
-	debug.DrawArmCol(m_colData[m_enemyIndex]);	// 腕(水色)
-	debug.DrawLegCol(m_colData[m_enemyIndex]);	// 脚(黄色)
+	//debug.DrawArmCol(m_colData[m_enemyIndex]);	// 腕(水色)
+	//debug.DrawLegCol(m_colData[m_enemyIndex]);	// 脚(黄色)
 #endif
 }
 

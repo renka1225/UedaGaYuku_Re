@@ -71,6 +71,7 @@ void Item::Update(Player& pPlayer)
 		if (iToPDir > kDeleteItemRange)
 		{
 			it = m_dropItem.erase(it);
+			EffectManager::GetInstance().Delete(EffectName::kItemDrop);
 		}
 		else
 		{
@@ -103,7 +104,7 @@ void Item::Draw()
 void Item::SetDropItem(int itemType, VECTOR enemyPos)
 {
 	m_dropItem.push_back({itemType, enemyPos});
-	EffectManager::GetInstance().Add("dropItem", enemyPos);
+	EffectManager::GetInstance().Add(EffectName::kItemDrop, enemyPos);
 }
 
 void Item::CheckPlayerCol(Player& pPlayer)
@@ -126,7 +127,7 @@ void Item::CheckPlayerCol(Player& pPlayer)
 			pPlayer.AddItem(it->itemType);
 			// 取得したアイテムを削除する
 			it = m_dropItem.erase(it);
-			EffectManager::GetInstance().Delete();
+			EffectManager::GetInstance().Delete(EffectName::kItemDrop);
 		}
 		else
 		{

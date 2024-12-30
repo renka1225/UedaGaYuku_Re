@@ -68,23 +68,18 @@ void EnemyStateBase::ChangeState(EnemyStateKind nextState)
 	switch (nextState)
 	{
 	case EnemyStateBase::EnemyStateKind::kWalk:
-		//printfDx("歩き\n");
 		ChangeStateWalk();
 		break;
 	case EnemyStateBase::EnemyStateKind::kRun:
-		//printfDx("走り\n");
 		ChangeStateRun();
 		break;
 	case EnemyStateBase::EnemyStateKind::kAvoid:
-		//printfDx("回避\n");
 		ChangeStateAvoid();
 		break;
 	case EnemyStateBase::EnemyStateKind::kPunch:
-		//printfDx("パンチ\n");
 		ChangeStatePunch();
 		break;
 	case EnemyStateBase::EnemyStateKind::kKick:
-		//printfDx("キック\n");
 		ChangeStateKick();
 		break;
 	default:
@@ -156,7 +151,7 @@ void EnemyStateBase::ChangeStateDamage()
 	state->Init();
 
 	// ダメージエフェクトを表示
-	EffectManager::GetInstance().Add("attack", m_pEnemy->GetPos());
+	EffectManager::GetInstance().Add(EffectName::kAttack, m_pEnemy->GetPos());
 }
 
 void EnemyStateBase::ChangeStateDeath()

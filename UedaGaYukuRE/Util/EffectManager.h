@@ -7,6 +7,14 @@
 class Player;
 class EnemyBase;
 
+// エフェクト名
+namespace EffectName
+{
+	const std::string kAttack = "attack";
+	const std::string kGuard = "guard";
+	const std::string kItemDrop = "itemDrop";
+}
+
 /// <summary>
 /// エフェクトの管理を行う
 /// </summary>
@@ -25,6 +33,7 @@ public:
 		int playTime;			// トータルの再生時間
 		int elapsedTime;		// 現在の再生時間
 		bool isPlaying = false;	// エフェクトを再生中か
+		bool isLoop = false;	// ループ再生するかどうか
 	};
 
 	// コピーコンストラクタの禁止
@@ -56,7 +65,7 @@ public:
 	/// <summary>
 	/// 画面上のエフェクトを削除する
 	/// </summary>
-	void Delete();
+	void Delete(const std::string name);
 
 	/// <summary>
 	/// 初期化
