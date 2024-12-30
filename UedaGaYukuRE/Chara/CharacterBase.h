@@ -178,6 +178,11 @@ public:
 	void ResetAnim();
 
 	/// <summary>
+	/// 回避状態を更新する
+	/// </summary>
+	void UpdateAvoid();
+
+	/// <summary>
 	/// 攻撃状態をセットする
 	/// </summary>
 	/// <param name="isGrab">攻撃中かどうか</param>
@@ -251,6 +256,12 @@ public:
 	/// </summary>
 	/// <returns>ゲージ量</returns>
 	float GetGauge() const { return m_gauge; }
+
+	/// <summary>
+	/// 回避のクールタイムを取得
+	/// </summary>
+	/// <returns>回避のクールタイム</returns>
+	int GetAvoidCoolTime() const { return m_avoidCoolTime; }
 
 	/// <summary>
 	/// キャラクターの3Dモデルを取得
@@ -350,9 +361,13 @@ protected:
 	std::vector<VECTOR> m_posLog;	// 過去の位置を保存する
 	std::string m_currenAnimName;	// 現在再生中のアニメーション名を保存する
 	Status m_status;				// ステータス
+
 	float m_angle;					// 向いている方向の角度
 	float m_hp;						// HP
 	float m_gauge;					// ゲージ量
+	int m_avoidNum;					// 現在の回避の回数
+	int m_avoidCoolTime;			// 回避のクールタイム
+
 	bool m_isAttack;				// 攻撃中かどうか
 	bool m_isInvincible;			// 無敵中かどうか
 	bool m_isGuard;					// ガード中かどうか

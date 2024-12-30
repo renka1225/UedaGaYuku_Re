@@ -10,9 +10,11 @@ namespace
 	constexpr int kColDataNum = 19; // 当たり判定情報数
 	constexpr float kAdj = 2.5f;	// 敵に当たった際の位置調整量
 
-	constexpr float kSlowAnimSpeed = 0.3f;	// スローモーション時のアニメーション速度
+	constexpr int kAvoidCoolTime = 60;	// 回避のクールタイム
+	constexpr int kAvoidMaxNum = 3;		// 1度に回避できる回数
 
 	// アニメーション情報
+	constexpr float kSlowAnimSpeed = 0.3f;	 // スローモーション時のアニメーション速度
 	constexpr float kAnimBlendMax = 1.0f;	 // アニメーションブレンドの最大値
 	constexpr float kAnimBlendSpeed = 0.2f;	 // アニメーションブレンドの変化速度
 	constexpr int kPosLogNum = 6;			 // 覚えておく過去の位置情報の数
@@ -26,6 +28,8 @@ CharacterBase::CharacterBase():
 	m_angle(0.0f),
 	m_hp(0.0f),
 	m_gauge(0.0f),
+	m_avoidNum(0),
+	m_avoidCoolTime(0),
 	m_isAttack(false),
 	m_isInvincible(false),
 	m_isGuard(false),
@@ -69,6 +73,12 @@ void CharacterBase::Update()
 {
 	ObjectBase::Update();
 	UpdateSe();
+
+	// 回避のクールタイム
+	if (m_avoidCoolTime > 0)
+	{
+		m_avoidCoolTime--;
+	}
 }
 
 void CharacterBase::Draw()
@@ -245,6 +255,18 @@ void CharacterBase::ResetAnim()
 {
 	m_animPlaySpeed = m_animData[m_currenAnimName].playSpeed;
 	m_isAnimSlow = false;
+}
+
+void CharacterBase::UpdateAvoid()
+{
+	m_avoidNum++;
+
+	// 回避数が最大になった場合
+	if (m_avoidNum >= kAvoidMaxNum)
+	{
+		m_avoidCoolTime = kAvoidCoolTime;
+		m_avoidNum = 0;
+	}
 }
 
 void CharacterBase::UpdateCol(int charType)

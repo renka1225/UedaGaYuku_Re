@@ -136,6 +136,9 @@ void EnemyStateBase::ChangeStateGuard()
 
 void EnemyStateBase::ChangeStateAvoid()
 {
+	if (m_pEnemy->GetAvoidCoolTime() > 0) return;
+
+	m_pEnemy->UpdateAvoid();
 	Sound::GetInstance().PlaySe(SoundName::kSe_avoid);
 	std::shared_ptr<EnemyStateAvoid> state = std::make_shared<EnemyStateAvoid>(m_pEnemy);
 	m_nextState = state;
