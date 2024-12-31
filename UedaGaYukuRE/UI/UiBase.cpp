@@ -45,8 +45,8 @@ namespace
 	constexpr int kMinCursorAlpha = 40;			// カーソルの最小アルファ値
 
 	const Vec2 kMapPos = { 180.0f, 900.0f };		// マップ表示位置
-	constexpr float kWorldWidth = 16000.0f;			// ワールド座標の最大幅
-	constexpr float kWorldDepth = 16000.0f;			// ワールド座標の最大奥行き
+	constexpr float kWorldWidth = 16500.0f;			// ワールド座標の最大幅
+	constexpr float kWorldDepth = 16500.0f;			// ワールド座標の最大奥行き
 	constexpr int kMapSize = 1000;					// ミニマップのサイズ
 	constexpr int kViewMapSize = 280;				// ミニマップ表示範囲
 	constexpr float kViewEnemyIcon = 500.0f;		// 敵アイコンの表示範囲
@@ -54,8 +54,8 @@ namespace
 
 	constexpr float kDispBattleStartMinScale = 2.0f;	 // バトル開始時の敵種類の最小サイズ
 	constexpr float kDispBattleStartMaxScale = 10.0f;	 // バトル開始時の敵種類の最大サイズ
-	constexpr float kDispBattleStartChangeScale = 0.6f;	 // 表示する敵種類のサイズ変化量
-	const Vec2 kDispBattleStartPos = { 900.0f, 500.0f }; // 敵種類表示位置
+	constexpr float kDispBattleStartChangeScale = 1.2f;	 // 表示する敵種類のサイズ変化量
+	const Vec2 kDispBattleStartPos = { 900.0f, 700.0f }; // 敵種類表示位置
 
 	const Vec2 kBattleNowPos = { 1550.0f, 50.0f };	// バトル中表示位置
 	constexpr float kNowBattleMoveSpeed = 13.0f;	// バトル中UIの移動速度

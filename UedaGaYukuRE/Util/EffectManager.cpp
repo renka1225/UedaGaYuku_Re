@@ -66,8 +66,6 @@ void EffectManager::Load()
 
 void EffectManager::Delete(const std::string name)
 {
-	//m_effectData.clear();
-
 	auto it = m_effectData.find(name);
 	if (it != m_effectData.end())
 	{
