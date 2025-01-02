@@ -70,8 +70,8 @@ void Item::Update(Player& pPlayer)
 		// プレイヤーが一定距離離れたらアイテムを削除する
 		if (iToPDir > kDeleteItemRange)
 		{
+			EffectManager::GetInstance().StopItemEffect(EffectName::kItemDrop, it->pos);
 			it = m_dropItem.erase(it);
-			EffectManager::GetInstance().Delete(EffectName::kItemDrop);
 		}
 		else
 		{
@@ -103,8 +103,8 @@ void Item::Draw()
 
 void Item::SetDropItem(int itemType, VECTOR enemyPos)
 {
-	m_dropItem.push_back({itemType, enemyPos});
 	EffectManager::GetInstance().Add(EffectName::kItemDrop, enemyPos);
+	m_dropItem.push_back({ itemType, enemyPos });
 }
 
 void Item::CheckPlayerCol(Player& pPlayer)
@@ -126,8 +126,8 @@ void Item::CheckPlayerCol(Player& pPlayer)
 			// プレイヤーのアイテムを追加する
 			pPlayer.AddItem(it->itemType);
 			// 取得したアイテムを削除する
+			EffectManager::GetInstance().StopItemEffect(EffectName::kItemDrop, it->pos);
 			it = m_dropItem.erase(it);
-			EffectManager::GetInstance().Delete(EffectName::kItemDrop);
 		}
 		else
 		{

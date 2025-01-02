@@ -65,7 +65,7 @@ public:
 	/// <summary>
 	/// 画面上のエフェクトを削除する
 	/// </summary>
-	void Delete(const std::string name);
+	void Delete(const std::string& name);
 
 	/// <summary>
 	/// 初期化
@@ -87,7 +87,13 @@ public:
 	/// </summary>
 	/// <param name="name">追加するエフェクト名</param>
 	/// <param name="enemyPos">キャラクターの位置</param>
-	void Add(const std::string name, VECTOR pos);
+	void Add(const std::string& name, const VECTOR& pos);
+
+	/// <summary>
+	/// ドロップアイテムをのエフェクトを停止する
+	/// </summary>
+	/// <param name="pos">エフェクト位置</param>
+	void StopItemEffect(const std::string& name, const VECTOR& pos);
 
 private:
 	EffectManager() = default;
@@ -96,4 +102,5 @@ private:
 
 private:
 	std::map<std::string, EffectData> m_effectData; // エフェクトのデータ
+	std::vector<EffectData> m_effects; // エフェクトを複数管理する
 };

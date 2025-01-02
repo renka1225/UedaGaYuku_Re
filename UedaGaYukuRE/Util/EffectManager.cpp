@@ -58,13 +58,14 @@ void EffectManager::Load()
 		}
 		catch (const std::invalid_argument&)
 		{
+			continue;
 		}
 
 		m_effectData[strvec[0]] = data;
 	}
 }
 
-void EffectManager::Delete(const std::string name)
+void EffectManager::Delete(const std::string& name)
 {
 	auto it = m_effectData.find(name);
 	if (it != m_effectData.end())
@@ -83,9 +84,16 @@ void EffectManager::Update()
 	Effekseer_Sync3DSetting();	// 3Dの情報をDxLibとEffekseerで合わせる
 	UpdateEffekseer3D();
 
-	for (auto& [name, data] : m_effectData)
+	for (auto it = m_effects.begin(); it != m_effects.end();)
 	{
-		if (!data.isPlaying) continue;
+		EffectData& data = *it;
+
+		if (!data.isPlaying)
+		{
+			it = m_effects.erase(it); // エフェクトを削除する
+			continue;
+		}
+
 		data.elapsedTime++;
 
 		// 再生時間を超えた場合
@@ -99,7 +107,7 @@ void EffectManager::Update()
 			}
 			else
 			{
-				StopEffekseer3DEffect(data.playingHandle); // 再生中のエフェクトを停止する
+				StopEffekseer3DEffect(data.playingHandle);
 				data.isPlaying = false;
 			}
 		}
@@ -109,6 +117,8 @@ void EffectManager::Update()
 			SetScalePlayingEffekseer3DEffect(data.playingHandle, data.scale, data.scale, data.scale);
 			SetRotationPlayingEffekseer3DEffect(data.playingHandle, data.rotate.x, data.rotate.y, data.rotate.z);
 		}
+
+		it++;
 	}
 }
 
@@ -117,7 +127,7 @@ void EffectManager::Draw()
 	DrawEffekseer3D();
 }
 
-void EffectManager::Add(const std::string name, VECTOR pos)
+void EffectManager::Add(const std::string& name, const VECTOR& pos)
 {
 	auto it = m_effectData.find(name);
 	if (it != m_effectData.end())
@@ -131,6 +141,27 @@ void EffectManager::Add(const std::string name, VECTOR pos)
 		if (name == EffectName::kItemDrop)
 		{
 			data.isLoop = true;
+		}
+
+		m_effects.push_back(data);
+	}
+}
+
+void EffectManager::StopItemEffect(const std::string& name, const VECTOR& pos)
+{
+	for (auto it = m_effects.begin(); it != m_effects.end();)
+	{
+		EffectData& data = *it;
+
+		// 位置が一致するかどうか
+		if (VSize(pos) == VSize(data.pos))
+		{
+			StopEffekseer3DEffect(data.playingHandle);
+			it = m_effects.erase(it);
+		}
+		else
+		{
+			it++;
 		}
 	}
 }

@@ -105,8 +105,8 @@ private:
 	// ドロップしたアイテムの情報
 	struct DropItem
 	{
-		int itemType;	// アイテムの種類
-		VECTOR pos;		// アイテム位置
+		int itemType;		// アイテムの種類
+		VECTOR pos;			// アイテム位置
 	};
 	std::vector<DropItem> m_dropItem;	// ドロップしたアイテムの情報を保存する
 };
