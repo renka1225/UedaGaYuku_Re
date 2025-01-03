@@ -20,7 +20,8 @@ namespace
 }
 
 SceneBase::SceneBase():
-	m_select(0)
+	m_select(0),
+	m_saveSelect(0)
 {
 	m_pItem = std::make_shared<Item>();
 	m_pUi = std::make_shared<UiBase>();
@@ -78,6 +79,26 @@ void SceneBase::UpdateSelect(Input& input, int selectNum)
 	if (input.IsTriggered(InputId::kUp))
 	{
 		m_select = (m_select + (selectNum - 1)) % selectNum;
+		m_pUi->Init();
+
+		Sound::GetInstance().PlayBackSe(SoundName::kSe_cursor);
+	}
+}
+
+void SceneBase::UpdateSaveSelect(Input& input, int selectNum)
+{
+	// 選択状態を1つ下げる
+	if (input.IsTriggered(InputId::kDown))
+	{
+		m_saveSelect = (m_saveSelect + 1) % selectNum;
+		m_pUi->Init();
+
+		Sound::GetInstance().PlayBackSe(SoundName::kSe_cursor);
+	}
+	// 選択状態を1つ上げる
+	if (input.IsTriggered(InputId::kUp))
+	{
+		m_saveSelect = (m_saveSelect + (selectNum - 1)) % selectNum;
 		m_pUi->Init();
 
 		Sound::GetInstance().PlayBackSe(SoundName::kSe_cursor);

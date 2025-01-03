@@ -24,7 +24,8 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Init() {}
+	/// <param name="enemyIndex">敵の種類</param>
+	void Init(int enemyIndex);
 
 	/// <summary>
 	/// 更新
@@ -66,6 +67,23 @@ public:
 	EnemyStateBase::EnemyStateKind GetNextState() const { return m_nextState; }
 
 private:
+	/// <summary>
+	/// 敵AIのデータを読み込む
+	/// </summary>
+	/// <param name="enemyIndex">敵の種類</param>
+	void LoadAIData(int enemyIndex);
+
+private:
+	// 行動の確率情報
+	struct Probability
+	{
+		int veryLowProbability = 0; // 超低確率
+		int lowProbability = 0;		// 低確率
+		int mediumProbability = 0;	// 中確率
+		int highProbability = 0;	// 高確率
+	};
+	Probability m_probability; // 行動の確率
+
 	std::shared_ptr<EnemyBase> m_pEnemy;						// 敵ポインタ
 	std::vector<std::shared_ptr<EnemyBase>> m_pEnemyList;		// 敵のリスト
 	std::map<EnemyStateBase::EnemyStateKind, int> m_priority;	// 攻撃の優先度

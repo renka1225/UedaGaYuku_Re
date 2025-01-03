@@ -200,6 +200,11 @@ public:
 	void SetIsGuard(bool isGuard) { m_isGuard = isGuard; }
 
 	/// <summary>
+	/// 死亡フラグをセットする
+	/// </summary>
+	void SetIsDead(bool isDead) { m_isDead = isDead; }
+
+	/// <summary>
 	/// ダメージを受けている状態かどうかセットする
 	/// </summary>
 	void SetIsOnDamage(bool isOnDamage) { m_isOnDamage = isOnDamage; }
@@ -305,9 +310,10 @@ public:
 	bool GetIsOnDamage() const { return m_isOnDamage; }
 
 	/// <summary>
-	/// 敵を掴めるかどうか取得する
+	/// 死亡フラグを取得する
 	/// </summary>
-	bool GetIsPossibleGrabEnemy() const { return m_isPossibleGrabEnemy; }
+	/// <returns>死亡しているかどうか</returns>
+	bool GetIsDead() const { return m_isDead; }
 
 	/// <summary>
 	/// 武器を掴める状態かどうか取得する
@@ -372,7 +378,7 @@ protected:
 	bool m_isInvincible;			// 無敵中かどうか
 	bool m_isGuard;					// ガード中かどうか
 	bool m_isOnDamage;				// ダメージを受けた状態かどうか
-	bool m_isPossibleGrabEnemy;		// 敵を掴める状態かどうか
+	bool m_isDead;					// 死亡したかどうか
 	bool m_isPossibleGrabWeapon;	// 武器が掴める状態かどうか
 	bool m_isNowGrabWeapon;			// 今武器を掴んでいるか
 	bool m_isPossibleMove;			// 移動可能かどうか

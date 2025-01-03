@@ -22,12 +22,12 @@ namespace
 {
 	const std::string kCharaId = "player";	// キャラクターのID名
 
-	constexpr float kScale = 0.14f;			 // モデルの拡大率
-	constexpr float kDistEnemyGrab = 50.0f;	 // 敵を掴める距離
-	constexpr float kDistWeaponGrab = 20.0f; // 武器を掴める距離
+	constexpr float kScale = 0.14f;				// モデルの拡大率
+	constexpr float kRangeFoundEnemy = 50.0f;	// 敵を認識する範囲
+	constexpr float kDistWeaponGrab = 20.0f;	// 武器を掴める距離
 
-	constexpr int kMaxPossession = 12;		// アイテムの最大所持数
-	constexpr int kMoneyIncrement = 100;	// 一度に増える所持金数
+	constexpr int kMaxPossession = 12;	 // アイテムの最大所持数
+	constexpr int kMoneyIncrement = 100; // 一度に増える所持金数
 
 	constexpr float kDecreaseMoneyMin = 0.1f; // 減らす金額の最小割合
 	constexpr float kDecreaseMoneyMax = 0.3f; // 減らす金額の最大割合
@@ -47,7 +47,7 @@ Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
 	m_addMoney(0),
 	m_itemEffectTime(0),
 	m_isAddItem(true),
-	m_isFoundEnemy(false),
+	m_isSpecial(false),
 	m_battleStartCount(kBattleStartTime),
 	m_isBattle(false)
 {
@@ -274,14 +274,14 @@ void Player::UpdateEnemyInfo(std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 		// プレイヤーから敵の位置ベクトルを計算する
 		m_pToEVec[i] = VSub(pEnemy[i]->GetPos(), m_pos);
 
+		// 敵が範囲内にいる場合
+		if (VSize(m_pToEVec[i]) <= 30.0f)
+		{
+			m_isSpecial = true;
+		}
+
 		// 敵との当たり判定をチェックする
 		pEnemy[i]->CheckCharaCol(*this, m_colData[CharaType::kPlayer], pEnemy[i]->GetEnemyIndex());
-
-		// 範囲内にいる場合、掴みをできるようにする
-		float dot = VDot(VNorm(m_pToEVec[i]), VNorm(m_moveDir)); // プレイヤーの方向と位置ベクトルの内積を計算
-		bool isGrab = VSize(m_pToEVec[i]) < kDistEnemyGrab && dot > 0.0f;
-
-		m_isPossibleGrabEnemy = isGrab;
 
 		UpdateBattle(i); // バトル状態を更新する
 	}
@@ -339,15 +339,6 @@ void Player::Down()
 {
 	// バトルを終了する
 	m_isBattle = false;
-
-	// 所持金の10%～30%をランダムで減らす
-	std::random_device rd;
-	std::mt19937 mt(rd());
-	std::uniform_real_distribution<float> dist(kDecreaseMoneyMin, kDecreaseMoneyMax);
-	float decreaseRate = dist(mt);
-
-	m_money -= static_cast<int>(m_money * decreaseRate);
-	m_money = std::max(0, m_money);
 }
 
 void Player::UpdateItemInfo()
@@ -463,7 +454,7 @@ void Player::UpdateAngle()
 		}
 
 		// 範囲内に敵が存在する場合、1番近い敵の方を向く
-		if (nearEnemyIndex != -1 && VSize(m_pToEVec[nearEnemyIndex]) < kDistEnemyGrab)
+		if (nearEnemyIndex != -1 && VSize(m_pToEVec[nearEnemyIndex]) < kRangeFoundEnemy)
 		{
 			// 敵への方向ベクトルを正規化
 			VECTOR dirToEnemy = VNorm(m_pToEVec[nearEnemyIndex]);
@@ -488,4 +479,5 @@ void Player::ApplySaveData()
 	m_beforeMoney = saveData.money;
 	m_enhanceStep = saveData.enhanceStep;
 	m_possessItem = saveData.possessItem;
+	m_deadEnemyNum = saveData.deadEnemyNum;
 }

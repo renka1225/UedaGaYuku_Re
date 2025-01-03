@@ -48,6 +48,7 @@ namespace
 }
 
 SceneSelect::SceneSelect():
+	m_isDispSaveData(false),
 	m_isDispCopyright(false)
 {
 	m_handle.resize(Handle::kNum);
@@ -69,17 +70,37 @@ SceneSelect::~SceneSelect()
 
 std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 {
-	// 選択状態更新
-	if (!m_isDispCopyright)
+	// セーブデータ選択中
+	if (m_isDispSaveData)
+	{
+		// 選択状態を更新
+		UpdateSaveSelect(input, SaveData::SelectSaveData::kSaveNum);
+
+		if (input.IsTriggered(InputId::kOk))
+		{
+			// 選択されたセーブデータを読み込む
+			SaveData::GetInstance().Load(m_saveSelect);
+			SceneChangeSound(SoundName::kBgm_select);
+			return std::make_shared<SceneMain>();
+		}
+
+		if (input.IsTriggered(InputId::kBack))
+		{
+			SoundCancelSe();
+			m_isDispSaveData = false;
+			return shared_from_this();
+		}
+	}
+	else if (!m_isDispCopyright)
 	{
 		UpdateSelect(input, SelectScene::kSelectNum);
 		m_pUi->UpdateCursor(kCursorId);
 	}
 	else
 	{
-		// 戻るボタンを押したら選択画面に戻る
 		if (input.IsTriggered(InputId::kBack))
 		{
+			// 選択画面に戻る
 			SoundCancelSe();
 			m_isDispCopyright = false;
 			return shared_from_this();
@@ -93,15 +114,12 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 
 		if (m_select == SelectScene::kContinue)
 		{
-			// 選択されたセーブデータを読み込む
-			SaveData::GetInstance().Load();
-			SceneChangeSound(SoundName::kBgm_select);
-			return std::make_shared<SceneMain>();
+			m_isDispSaveData = true;
 		}
 		if (m_select == kFirst)
 		{
 			// 新しくセーブデータを作成する
-			SaveData::GetInstance().CreateNewData();
+			SaveData::GetInstance().CreateNewData(m_saveSelect);
 			SceneChangeSound(SoundName::kBgm_select);
 			return std::make_shared<SceneMain>();
 		}
@@ -145,10 +163,40 @@ void SceneSelect::Draw()
 		DrawGraphF(kDispTextPos.x, kDispTextPos.y, m_handle[Handle::kSelectText], true); // テキスト表示
 		DrawExplain();
 
+		// セーブデータの表示
+		if (m_isDispSaveData)
+		{
+			DrawSaveData();
+		}
+
 #ifdef _DEBUG
 		DrawSceneText("MSG_DEBUG_SELECT"); // シーン名表示
 #endif
 	}
+}
+
+void SceneSelect::DrawSaveData()
+{
+#ifdef _DEBUG	// デバッグ表示
+	int one = Color::kColorW;
+	int two = Color::kColorW;
+	int three = Color::kColorW;
+
+	if (m_saveSelect == SaveData::SelectSaveData::one) one = Color::kColorR;
+	if (m_saveSelect == SaveData::SelectSaveData::two) two = Color::kColorR;
+	if (m_saveSelect == SaveData::SelectSaveData::three) three = Color::kColorR;
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
+	DrawBox(300, 200, Game::kScreenWidth - 300, Game::kScreenHeight - 200, 0x000000, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	DrawString(0, 40, "セーブデータ:1", one);
+	DrawString(0, 60, "セーブデータ:2", two);
+	DrawString(0, 80, "セーブデータ:3", three);
+
+	// セーブデータの情報を表示
+	SaveData::GetInstance().DrawSaveData(m_saveSelect);
+#endif
 }
 
 void SceneSelect::DrawCopyright()

@@ -1,12 +1,36 @@
 ﻿#include "Player.h"
 #include "EnemyBase.h"
 #include "EnemyAI.h"
+#include <fstream>
+#include <sstream>
 
 namespace
 {
-	constexpr float kMinChaseRange = 200.0f; // プレイヤーを追いかける最小範囲
-	constexpr float kMaxChaseRange = 800.0f; // プレイヤーを追いかける最大範囲
-	constexpr int kDecisionFrame = 60; // 行動を更新する時間
+	constexpr float kMinApproachRange = 30.0f;	// プレイヤーに近づく最小範囲
+	constexpr float kMinChaseRange = 200.0f;	// プレイヤーを追いかける最小範囲
+	constexpr float kMaxChaseRange = 800.0f;	// プレイヤーを追いかける最大範囲
+	constexpr int kDecisionFrame = 60;			// 行動を更新する時間
+	constexpr int kMaxAttackEnemyNum = 2;		// 1度に攻撃する敵数
+	
+	const char* kLoadFilePath = "data/csv/enemyAI.csv";
+
+	/// <summary>
+	/// 文字列を分割する
+	/// </summary>
+	/// <param name="input">文字列</param>
+	/// <param name="delimiter">区切る文字(,)</param>
+	/// <returns>分割した文字列</returns>
+	std::vector<std::string> split(std::string& input, char delimiter)
+	{
+		std::istringstream stream(input);
+		std::string field;
+		std::vector<std::string> result;
+		while (getline(stream, field, delimiter))
+		{
+			result.push_back(field);
+		}
+		return result;
+	}
 }
 
 EnemyAI::EnemyAI(std::shared_ptr<EnemyBase> pEnemy):
@@ -18,6 +42,11 @@ EnemyAI::EnemyAI(std::shared_ptr<EnemyBase> pEnemy):
 	{
 		pair.second = 0;
 	}
+}
+
+void EnemyAI::Init(int enemyIndex)
+{
+	LoadAIData(enemyIndex);
 }
 
 void EnemyAI::Update()
@@ -48,14 +77,14 @@ void EnemyAI::DecideNextAction(Player& pPlayer)
 		bool isChaseRange = dist > kMinChaseRange && dist < kMaxChaseRange;
 		if (isChaseRange)
 		{
-			m_priority[EnemyStateBase::EnemyStateKind::kRun] += 50;
-			m_priority[EnemyStateBase::EnemyStateKind::kWalk] += 20;
-			m_priority[EnemyStateBase::EnemyStateKind::kIdle] += 10;
+			m_priority[EnemyStateBase::EnemyStateKind::kRun] += m_probability.highProbability;
+			m_priority[EnemyStateBase::EnemyStateKind::kWalk] += m_probability.mediumProbability;
+			m_priority[EnemyStateBase::EnemyStateKind::kIdle] += m_probability.lowProbability;
 		}
 		else
 		{
-			m_priority[EnemyStateBase::EnemyStateKind::kIdle] += 70;
-			m_priority[EnemyStateBase::EnemyStateKind::kWalk] += 10;
+			m_priority[EnemyStateBase::EnemyStateKind::kIdle] += m_probability.highProbability;
+			m_priority[EnemyStateBase::EnemyStateKind::kWalk] += m_probability.lowProbability;
 
 			pPlayer.SetIsBattle(false);
 		}
@@ -116,76 +145,70 @@ void EnemyAI::SelectBattleAction(Player& pPlayer)
 		}
 		printfDx("攻撃中敵数:%d\n", attackEnemyNum);
 	}
-
-	// プレイヤーから離れた場合
-	if (dist >= kMaxChaseRange)
+	
+	// バトル中プレイヤーから離れた場合
+	if (pPlayer.GetIsBattle() && dist >= kMaxChaseRange)
 	{
 		// バトルを終了状態にする
 		pPlayer.SetIsBattle(false);
 		return;
 	}
 
+	// プレイヤーに一定距離近づいた場合
+	if (dist <= kMinApproachRange)
+	{
+		// 移動しないようにする
+		m_priority[EnemyStateBase::EnemyStateKind::kIdle] += m_probability.lowProbability;
+	}
 	// プレイヤーとの距離が離れている場合
-	if (dist > kMinChaseRange)
+	else if (dist > kMinChaseRange)
 	{
 		// 歩きor走りでプレイヤーに近づく
-		m_priority[EnemyStateBase::EnemyStateKind::kRun] += 10;
+		m_priority[EnemyStateBase::EnemyStateKind::kRun] += m_probability.lowProbability;
 	}
 	// 距離が近い場合
 	else
 	{
 		// 他の敵が攻撃中の場合
-		if (attackEnemyNum >= 2)
+		if (attackEnemyNum >= kMaxAttackEnemyNum)
 		{
-			m_priority[EnemyStateBase::EnemyStateKind::kIdle] += 10;
-			m_priority[EnemyStateBase::EnemyStateKind::kWalk] += 10;
+			m_priority[EnemyStateBase::EnemyStateKind::kIdle] += m_probability.lowProbability;
+			m_priority[EnemyStateBase::EnemyStateKind::kWalk] += m_probability.lowProbability;
 		}
-		else if (attackEnemyNum == 1)
+		else if (attackEnemyNum == 0)
 		{
-			// ランダム行動
-			SelectRandomAction();
+			// 攻撃優先
+			m_priority[EnemyStateBase::EnemyStateKind::kPunch] += m_probability.lowProbability;
+			m_priority[EnemyStateBase::EnemyStateKind::kKick] += m_probability.lowProbability;
 		}
 		else
 		{
-			// 攻撃優先
-			m_priority[EnemyStateBase::EnemyStateKind::kPunch] += 10;
-			m_priority[EnemyStateBase::EnemyStateKind::kKick] += 10;
+			// ランダム行動
+			SelectRandomAction();
 		}
 
 		// プレイヤーが攻撃中の場合
 		if (pPlayer.GetIsAttack())
 		{
-			m_priority[EnemyStateBase::EnemyStateKind::kGuard] += 10;
-			m_priority[EnemyStateBase::EnemyStateKind::kAvoid] += 10;
+			m_priority[EnemyStateBase::EnemyStateKind::kGuard] += m_probability.lowProbability;
+			m_priority[EnemyStateBase::EnemyStateKind::kAvoid] += m_probability.veryLowProbability;
 		}
 		// プレイヤーが回避中の場合
 		else if (playerState == AnimName::kAvoid)
 		{
-			m_priority[EnemyStateBase::EnemyStateKind::kIdle] += 10;
-			m_priority[EnemyStateBase::EnemyStateKind::kWalk] += 10;
+			m_priority[EnemyStateBase::EnemyStateKind::kIdle] += m_probability.lowProbability;
+			m_priority[EnemyStateBase::EnemyStateKind::kWalk] += m_probability.lowProbability;
+			m_priority[EnemyStateBase::EnemyStateKind::kPunch] += m_probability.veryLowProbability;
+			m_priority[EnemyStateBase::EnemyStateKind::kKick] += m_probability.veryLowProbability;
 		}
 		// プレイヤーがガード中の場合
 		else if (playerState == AnimName::kGuard)
 		{
-			m_priority[EnemyStateBase::EnemyStateKind::kIdle] += 10;
-			m_priority[EnemyStateBase::EnemyStateKind::kWalk] += 10;
+			m_priority[EnemyStateBase::EnemyStateKind::kIdle] += m_probability.lowProbability;
+			m_priority[EnemyStateBase::EnemyStateKind::kWalk] += m_probability.lowProbability;
+			m_priority[EnemyStateBase::EnemyStateKind::kPunch] += m_probability.veryLowProbability;
+			m_priority[EnemyStateBase::EnemyStateKind::kKick] += m_probability.veryLowProbability;
 		}
-		// プレイヤーのHPが高い場合
-		//else if (pPlayer.GetHp() >= 100.0f)
-		//{
-		//	m_candidateState.emplace_back(EnemyStateBase::EnemyStateKind::kAvoid, 10);
-		//	m_candidateState.emplace_back(EnemyStateBase::EnemyStateKind::kGuard, 30);
-		//	m_candidateState.emplace_back(EnemyStateBase::EnemyStateKind::kPunch, 50);
-		//	m_candidateState.emplace_back(EnemyStateBase::EnemyStateKind::kKick, 40);
-		//}
-		//// プレイヤーのHPが低い場合
-		//else if (pPlayer.GetHp() <= 50.0f)
-		//{
-		//	m_candidateState.emplace_back(EnemyStateBase::EnemyStateKind::kAvoid, 10);
-		//	m_candidateState.emplace_back(EnemyStateBase::EnemyStateKind::kGuard, 10);
-		//	m_candidateState.emplace_back(EnemyStateBase::EnemyStateKind::kPunch, 70);
-		//	m_candidateState.emplace_back(EnemyStateBase::EnemyStateKind::kKick, 30);
-		//}
 		// その他
 		else
 		{
@@ -196,13 +219,13 @@ void EnemyAI::SelectBattleAction(Player& pPlayer)
 
 void EnemyAI::SelectRandomAction()
 {
-	m_priority[EnemyStateBase::EnemyStateKind::kIdle] += 10;
-	m_priority[EnemyStateBase::EnemyStateKind::kWalk] += 10;
-	m_priority[EnemyStateBase::EnemyStateKind::kRun] += 10;
-	m_priority[EnemyStateBase::EnemyStateKind::kPunch] += 10;
-	m_priority[EnemyStateBase::EnemyStateKind::kKick] += 10;
-	m_priority[EnemyStateBase::EnemyStateKind::kAvoid] += 10;
-	m_priority[EnemyStateBase::EnemyStateKind::kGuard] += 10;
+	m_priority[EnemyStateBase::EnemyStateKind::kIdle] += m_probability.mediumProbability;
+	m_priority[EnemyStateBase::EnemyStateKind::kWalk] += m_probability.mediumProbability;
+	m_priority[EnemyStateBase::EnemyStateKind::kRun] += m_probability.lowProbability;
+	m_priority[EnemyStateBase::EnemyStateKind::kPunch] += m_probability.lowProbability;
+	m_priority[EnemyStateBase::EnemyStateKind::kKick] += m_probability.lowProbability;
+	m_priority[EnemyStateBase::EnemyStateKind::kAvoid] += m_probability.lowProbability;
+	m_priority[EnemyStateBase::EnemyStateKind::kGuard] += m_probability.lowProbability;
 }
 
 bool EnemyAI::IsChangeState()
@@ -214,4 +237,44 @@ bool EnemyAI::IsChangeState()
 	if(m_pEnemy->GetCurrentAnim() == AnimName::kGuard) return true;
 
 	return false;
+}
+
+void EnemyAI::LoadAIData(int enemyIndex)
+{
+	std::ifstream ifs(kLoadFilePath);
+	std::string line;
+	std::vector<std::string> strvec;
+
+	while (std::getline(ifs, line))
+	{
+		strvec = split(line, ',');
+
+		std::string charaID; // 読み込みID名
+
+		// キャラクターのタイプがボスの場合
+		if (enemyIndex == CharacterBase::kEnemy_boss)
+		{
+			charaID = "Boss";
+		}
+		// ボス以外の場合
+		else
+		{
+			charaID = "Default";
+		}
+		
+		if (strvec[0] == charaID)
+		{
+			try
+			{
+				m_probability.veryLowProbability = stoi(strvec[1]);
+				m_probability.lowProbability = stoi(strvec[2]);
+				m_probability.mediumProbability = stoi(strvec[3]);
+				m_probability.highProbability = stoi(strvec[4]);
+			}
+			catch (const std::invalid_argument&)
+			{
+				// 無効な文字列をスキップ
+			}
+		}
+	}
 }

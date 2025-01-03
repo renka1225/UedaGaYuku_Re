@@ -26,6 +26,7 @@ std::shared_ptr<SceneBase> SceneDebug::Update(Input& input)
 {
 	// 選択状態更新
 	UpdateSelect(input, kSelectNum);
+	UpdateSaveSelect(input, SaveData::SelectSaveData::kSaveNum);
 
 	// 遷移
 	if (input.IsTriggered(InputId::kOk))
@@ -41,7 +42,7 @@ std::shared_ptr<SceneBase> SceneDebug::Update(Input& input)
 		else if (m_select == SelectScene::kMain)
 		{
 			// 選択されたセーブデータを読み込む
-			SaveData::GetInstance().Load();
+			SaveData::GetInstance().Load(m_saveSelect);
 			return std::make_shared<SceneMain>();
 		}
 		else if (m_select == SelectScene::kOption)

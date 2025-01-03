@@ -136,8 +136,8 @@ void Weapon::Draw()
 	for (const auto& loc : m_locationData)
 	{
 		// 武器情報描画
-		debug.DrawWeaponInfo(loc.name.c_str(), loc.tag.c_str(), loc.pos, loc.rot, loc.scale, loc.durability, dispY);
-		dispY += 20;
+		//debug.DrawWeaponInfo(loc.name.c_str(), loc.tag.c_str(), loc.pos, loc.rot, loc.scale, loc.durability, dispY);
+		//dispY += 20;
 
 		if (loc.durability <= 0) continue;
 		

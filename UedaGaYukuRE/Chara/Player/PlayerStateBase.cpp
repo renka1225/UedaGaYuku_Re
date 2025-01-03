@@ -10,6 +10,7 @@
 #include "PlayerStateAvoid.h"
 #include "PlayerStateGuard.h"
 #include "PlayerStateGrab.h"
+#include "PlayerStateDeath.h"
 #include "PlayerStateBase.h"
 
 PlayerStateBase::PlayerStateBase(std::shared_ptr<Player> pPlayer):
@@ -32,15 +33,20 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	// 特定の状態中は更新しない
 	if (IsStateInterrupt()) return;
 
-	// 移動できない状態の場合
+	// 移動できない場合
 	if (!m_pPlayer->GetIsPossibleMove())
 	{
 		ChangeStateIdle();
 		return;
 	}
 
-	// バトル中でない場合は以下の処理はできないようにする
+	// バトル中でない場合
 	if (!m_pPlayer->GetIsBattle()) return;
+
+	if (m_pPlayer->GetHp() <= 0.0f)
+	{
+		ChangeStateDeath();
+	}
 
 	// ダメージを受けた場合
 	if (m_pPlayer->GetIsOnDamage())
@@ -51,8 +57,6 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 
 	// ゲージが最大まで溜まっているか
 	bool isSpecial = m_pPlayer->GetGauge() >= m_pPlayer->GetStatus().maxGauge;
-	// 敵が範囲内にいるか
-	bool isRange = m_pPlayer->GetIsPossibleGrabEnemy();
 
 	// 攻撃のボタンが押された場合
 	if (input.IsTriggered(InputId::kPunch) || input.IsTriggered(InputId::kKick))
@@ -72,23 +76,23 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 		ChangeStateAvoid();
 		return;
 	}
-	// 掴みのボタンが押された場合
-	else if (input.IsTriggered(InputId::kGrab))
-	{
-		ChangeStateGrab(weapon);
-		return;
-	}
 	// 必殺技のボタンが押された場合
 	else if (input.IsTriggered(InputId::kSpecial))
 	{
 		// 条件を満たしていれば必殺技を発動する
-		if (isSpecial && isRange)
+		if (isSpecial && m_pPlayer->GetIsSpecial())
 		{
 			ChangeStateSpecialAttack();
 
 			// ゲージを減らす
 			m_pPlayer->SetGauge(0.0f);
 		}
+		return;
+	}
+	// 掴みのボタンが押された場合
+	else if (input.IsTriggered(InputId::kGrab))
+	{
+		ChangeStateGrab(weapon);
 		return;
 	}
 }
@@ -101,6 +105,8 @@ bool PlayerStateBase::IsStateInterrupt()
 	if (GetKind() == PlayerStateKind::kDamage) return true;
 	// 攻撃中
 	if (GetKind() == PlayerStateKind::kAttack) return true;
+	// 死亡時
+	if (GetKind() == PlayerStateKind::kDeath) return true;
 
 	return false;
 }
@@ -147,7 +153,6 @@ void PlayerStateBase::ChangeStateSpecialAttack()
 
 void PlayerStateBase::ChangeStateGuard()
 {
-	// StateをGuardに変更する
 	m_pPlayer->SetIsGuard(true);
 	std::shared_ptr<PlayerStateGuard> state = std::make_shared<PlayerStateGuard>(m_pPlayer);
 	m_nextState = state;
@@ -163,7 +168,6 @@ void PlayerStateBase::ChangeStateAvoid()
 
 	Sound::GetInstance().PlaySe(SoundName::kSe_avoid);
 
-	// StateをAvoidに変更する
 	std::shared_ptr<PlayerStateAvoid> state = std::make_shared<PlayerStateAvoid>(m_pPlayer);
 	m_nextState = state;
 	state->Init();
@@ -199,21 +203,10 @@ void PlayerStateBase::ChangeStateGrab(Weapon& pWeapon)
 		pWeapon.UpdateIsGrab(true);
 		return;
 	}
-
-	// 範囲内に敵がいる場合
-	if (m_pPlayer->GetIsPossibleGrabEnemy())
-	{
-		// StateをGrabに変更する
-		std::shared_ptr<PlayerStateGrab> state = std::make_shared<PlayerStateGrab>(m_pPlayer);
-		m_nextState = state;
-		state->Init("enemy");
-		return;
-	}
 }
 
 void PlayerStateBase::ChangeStateDamage()
 {
-	// StateをHitAttackに変更する
 	std::shared_ptr<PlayerStateHitAttack> state = std::make_shared<PlayerStateHitAttack>(m_pPlayer);
 	m_nextState = state;
 	state->Init();
@@ -224,5 +217,11 @@ void PlayerStateBase::ChangeStateDamage()
 		Sound::GetInstance().PlaySe(SoundName::kSe_guardAttack);
 		EffectManager::GetInstance().Add(EffectName::kGuard, m_pPlayer->GetPos());
 	}
-	return;
+}
+
+void PlayerStateBase::ChangeStateDeath()
+{
+	std::shared_ptr<PlayerStateDeath> state = std::make_shared<PlayerStateDeath>(m_pPlayer);
+	m_nextState = state;
+	state->Init();
 }

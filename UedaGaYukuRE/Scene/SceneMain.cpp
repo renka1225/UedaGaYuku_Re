@@ -45,7 +45,6 @@ namespace
 
 SceneMain::SceneMain():
 	m_currentEnemyNum(0),
-	m_deadEnemyNum(0),
 	m_enemySpawnTime(0),
 	m_battleStartStagingTime(0),
 	m_battleEndStagingTime(0),
@@ -122,9 +121,12 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	}
 
 	// ゲームオーバー
-	if (m_pPlayer->GetHp() <= 0.0f)
+	if (m_pPlayer->GetIsDead() && !m_isBattleEndStaging)
 	{
-		return std::make_shared<SceneGameover>();
+		// バトル終了演出を行う
+		m_isBattleEndStaging = true;
+		m_battleEndStagingTime = kBattleEndStagingTime;
+		shared_from_this();
 	}
 
 	// 最終決戦中でない場合
@@ -132,8 +134,6 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	{
 		// バトル開始演出
 		UpdateBattleStartStaging();
-		// バトル終了演出
-		UpdateBattleEndStaging();
 
 		// 敵が1体もいなくなった場合
 		if (m_pEnemy.empty() && !m_isBattleEndStaging)
@@ -158,6 +158,8 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		// エンディング演出
 		UpdateEndingStaging();
 	}
+	// バトル終了演出
+	UpdateBattleEndStaging();
 
 	m_pPlayer->Update(input, *m_pCamera, *m_pStage, *m_pWeapon, m_pEnemy);
 	m_pItem->Update(*m_pPlayer);
@@ -254,7 +256,7 @@ void SceneMain::Draw()
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_PLAYING");
 	m_pEventData->Draw();
-	DrawFormatString(0, 550, Color::kColorW, "倒した敵数:%d\n", m_deadEnemyNum);
+	DrawFormatString(0, 550, Color::kColorW, "倒した敵数:%d\n", m_pPlayer->GetDeadEnemyNum());
 #endif
 }
 
@@ -354,10 +356,10 @@ void SceneMain::UpdateBattleStartStaging()
 	}
 }
 
-void SceneMain::UpdateBattleEndStaging()
+std::shared_ptr<SceneBase> SceneMain::UpdateBattleEndStaging()
 {
 	// 演出中でない場合は飛ばす
-	if (!m_isBattleEndStaging) return;
+	if (!m_isBattleEndStaging) return shared_from_this();
 
 	// 演出中
 	if (m_battleEndStagingTime > 0)
@@ -380,6 +382,9 @@ void SceneMain::UpdateBattleEndStaging()
 	// 演出終了後
 	else
 	{
+		// プレイヤーが死亡している場合、ゲームオーバー画面に遷移する
+		if (m_pPlayer->GetIsDead()) return std::make_shared<SceneGameover>();
+
 		m_isBattleEndStaging = false;
 		m_currentEnemyNum = 0;
 
@@ -397,12 +402,14 @@ void SceneMain::UpdateBattleEndStaging()
 		m_pPlayer->SetIsPossibleMove(true);
 		m_pPlayer->ResetAnim();
 	}
+
+	return shared_from_this();
 }
 
 std::shared_ptr<SceneBase> SceneMain::UpdateEndingStaging()
 {
 	// エンディング中でない場合は表示しない
-	if(!m_isEnding) return shared_from_this();
+	if(!m_isEnding && m_isBattleEndStaging) return shared_from_this();
 
 	// 演出中
 	if (m_endingTime > 0)
@@ -515,7 +522,7 @@ void SceneMain::UpdateEnemy()
 		if (IsExtinction(i))
 		{
 			m_pEnemy[i] = nullptr;
-			m_deadEnemyNum++;
+			m_pPlayer->AddDeadEnemyNum();
 			m_currentEnemyNum--;
 		}
 		else
@@ -554,8 +561,8 @@ void SceneMain::SelectEnemy()
 	LoadCsv::GetInstance().LoadEnemyName(); // 敵名を読み込む
 
 	// 出現する敵の数をランダムで決定する
-	//int enemySpawnNum = GetRand(kEnemyMaxNum - 1) + 1;
-	int enemySpawnNum = 2;
+	int enemySpawnNum = GetRand(kEnemyMaxNum - 1) + 1;
+	//int enemySpawnNum = 2;
 	m_pEnemy.clear();
 	m_pEnemy.resize(enemySpawnNum);
 	m_currentEnemyNum = enemySpawnNum;
@@ -652,7 +659,7 @@ void SceneMain::StartEvent(const std::string& eventId)
 	// IDに応じて処理を変更する
 	if (eventId == "bossBattle")
 	{
-		if (m_deadEnemyNum < kClearEnemyNum) return;
+		if (m_pPlayer->GetDeadEnemyNum() < kClearEnemyNum) return;
 		printfDx("ボスバトル開始\n");
 		m_isLastBattle = true;
 		CreateEnemy();

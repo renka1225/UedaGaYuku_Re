@@ -67,21 +67,10 @@ public:
 	void SetEnemySpawnPos(const Player& pPlayer, int index);
 
 	/// <summary>
-	/// 死亡フラグをセットする
-	/// </summary>
-	void SetIsDead(bool isDead) { m_isDead = isDead; }
-
-	/// <summary>
 	/// 敵からプレイヤーへの位置ベクトルを取得する
 	/// </summary>
 	/// <returns></returns>
 	VECTOR GetEToPVec() const { return m_eToPVec; }
-
-	/// <summary>
-	/// 死亡フラグを取得する
-	/// </summary>
-	/// <returns>死亡しているかどうか</returns>
-	bool GetIsDead() const { return m_isDead; }
 
 	/// <summary>
 	/// 敵の番号を取得する
@@ -114,6 +103,5 @@ protected:
 	std::string m_enemyName; // 敵名
 	int m_enemyIndex;		 // 敵の番号
 	VECTOR m_eToPVec;		 // 敵からプレイヤーまでの位置ベクトル
-	bool m_isDead;			 // 死亡したかどうか
 };
 

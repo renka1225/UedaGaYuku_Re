@@ -78,6 +78,11 @@ public:
 	bool IsNearWeapon(const VECTOR& weaponPos);
 
 	/// <summary>
+	/// 倒した敵数を増やす
+	/// </summary>
+	void AddDeadEnemyNum() { m_deadEnemyNum++; }
+
+	/// <summary>
 	/// 所持金を更新する
 	/// </summary>
 	/// <param name="dropMoney">敵がドロップした金額</param>
@@ -184,11 +189,19 @@ public:
 	/// <returns>強化段階の情報</returns>
 	EnhanceStep GetEnhanceStep() const { return m_enhanceStep; }
 
+	int GetDeadEnemyNum() const { return m_deadEnemyNum; }
+
 	/// <summary>
 	/// バトル中かどうか取得する
 	/// </summary>
 	/// <returns>バトル中かどうか</returns>
 	bool GetIsBattle() const { return m_isBattle; }
+
+	/// <summary>
+	/// 必殺技を出せるかどうか取得する
+	/// </summary>
+	/// <returns>必殺技を出せるかどうか</returns>
+	bool GetIsSpecial() const { return m_isSpecial; }
 
 	/// <summary>
 	/// 入力状態を取得する
@@ -268,13 +281,14 @@ private:
 	Status m_saveStatus;					// ステータスを一時保存する
 	EnhanceStep m_enhanceStep;				// 現在の強化段階
 
+	int m_deadEnemyNum;		 // 倒した敵数
 	int m_money;			 // 所持金額
 	int m_beforeMoney;		 // 増減前の金額
 	int m_addMoney;			 // 追加する金額
 	int m_currentInputFrame; // 現在の入力フレーム数
 	int m_itemEffectTime;	 // アイテムの効果時間
 	bool m_isAddItem;		 // アイテムを追加で取得できるか(true:取得可能)
-	bool m_isFoundEnemy;	 // 敵が範囲内にいるかどうか
+	bool m_isSpecial;		 // 必殺技が出せるかどうか
 
 	int m_battleStartCount;	 // バトルが開始するまでの時間
 	bool m_isBattle;		 // バトル状態かどうか(true:バトル中)

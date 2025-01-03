@@ -34,7 +34,7 @@ CharacterBase::CharacterBase():
 	m_isInvincible(false),
 	m_isGuard(false),
 	m_isOnDamage(false),
-	m_isPossibleGrabEnemy(false),
+	m_isDead(false),
 	m_isPossibleGrabWeapon(false),
 	m_isNowGrabWeapon(false),
 	m_isPossibleMove(true),

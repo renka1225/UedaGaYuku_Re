@@ -27,6 +27,7 @@ public:
 		kAvoid,		// 回避
 		kGuard,		// ガード
 		kGrab,		// 掴み
+		kDeath,		// 死亡
 	};
 
 	/// <summary>
@@ -104,6 +105,11 @@ protected:
 	/// ダメージ状態に変更する
 	/// </summary>
 	void ChangeStateDamage();
+
+	/// <summary>
+	/// 死亡状態に変更する
+	// </summary>
+	void ChangeStateDeath();
 
 public:
 	std::shared_ptr<PlayerStateBase> m_nextState;	// 次のStateを保存する

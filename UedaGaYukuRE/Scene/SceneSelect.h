@@ -36,6 +36,11 @@ public:
 
 private:
 	/// <summary>
+	/// セーブデータの表示
+	/// </summary>
+	void DrawSaveData();
+
+	/// <summary>
 	/// 権利表記の表示
 	/// </summary>
 	void DrawCopyright();
@@ -46,6 +51,7 @@ private:
 	void DrawExplain();
 
 private:
+	bool m_isDispSaveData;	// セーブデータを表示中かどうか(true:表示中)
 	bool m_isDispCopyright; // 権利表記の表示中かどうか(true:表示中)
 };
 

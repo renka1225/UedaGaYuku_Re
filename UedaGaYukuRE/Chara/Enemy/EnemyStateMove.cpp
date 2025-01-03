@@ -46,4 +46,5 @@ std::string EnemyStateMove::GetStateName()
 {
     if (m_animKind == AnimName::kWalk)  return "歩き";
     if(m_animKind == AnimName::kRun) return "走り";
+    return "なし";
 }

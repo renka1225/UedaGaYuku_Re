@@ -26,8 +26,7 @@ namespace
 EnemyBase::EnemyBase(std::shared_ptr<UiBar> pUi, std::shared_ptr<Item> pItem, Player& pPlayer):
 	m_enemyName(""),
 	m_enemyIndex(0),
-	m_eToPVec(VGet(0.0f, 0.0f, 0.0f)),
-	m_isDead(false)
+	m_eToPVec(VGet(0.0f, 0.0f, 0.0f))
 {
 	m_pUiBar = pUi;
 	m_pItem = pItem;
@@ -51,7 +50,7 @@ void EnemyBase::Init()
 	state->Init();
 
 	m_pEnemyAI = std::make_shared<EnemyAI>(shared_from_this());
-	m_pEnemyAI->Init();
+	m_pEnemyAI->Init(m_enemyIndex);
 }
 
 void EnemyBase::Update(Stage& pStage, Player& pPlayer)
