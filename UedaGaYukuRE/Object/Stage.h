@@ -22,6 +22,11 @@ public:
 	virtual ~Stage();
 
 	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update();
+
+	/// <summary>
 	/// 描画
 	/// </summary>
 	void Draw();
@@ -40,13 +45,6 @@ public:
 	/// <param name="enemyPos">お金をドロップする敵の座標</param>
 	/// <param name="dropMoney">ドロップした金額</param>
 	void SetDropMoney(VECTOR enemyPos, int dropMoney);
-
-	/// <summary>
-	/// 敵がドロップしたアイテムをセットする
-	/// </summary>
-	/// <param name="enemyPos">アイテムをドロップする敵の座標</param>
-	/// <param name="dropItem">ドロップしたアイテム</param>
-	void SetDropItem(VECTOR enemyPos, int dropItem);
 
 	/// <summary>
 	/// ステージモデルを取得
@@ -82,6 +80,7 @@ private:
 
 	std::shared_ptr<Player> m_pPlayer; // プレイヤーのポインタ
 
+	float m_skydoomRotate;	// スカイドームの回転角度
 	int m_wallNum;			// 壁ポリゴンの数
 	int	m_floorNum;			// 床ポリゴンの数
 	int m_stageHandle;		// ステージの3Dモデル

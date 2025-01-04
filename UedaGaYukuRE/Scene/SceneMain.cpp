@@ -33,8 +33,8 @@ namespace
 	constexpr int kEnemyMaxNum = 2;		// 1度に出現する最大の敵数
 	constexpr int kEnemyKindNum = 2;	// 敵の種類
 	constexpr int kEnemyNamekind = 31;	// 敵名の種類
-	constexpr int kClearEnemyNum = 3;	// クリア条件
-	constexpr int kEnemySpawnMinTIme = 300;			// 敵がスポーンするまでの最小時間
+	constexpr int kClearEnemyNum = 1;	// クリア条件
+	constexpr int kEnemySpawnMinTIme = 1200;		// 敵がスポーンするまでの最小時間
 	constexpr int kEnemySpawnMaxTIme = 3000;		// 敵がスポーンするまでの最大時間
 	constexpr float kEnemyExtinctionDist = 2000.0f;	// 敵が消滅する範囲
 
@@ -126,7 +126,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		// バトル終了演出を行う
 		m_isBattleEndStaging = true;
 		m_battleEndStagingTime = kBattleEndStagingTime;
-		shared_from_this();
+		return shared_from_this();
 	}
 
 	// 最終決戦中でない場合
@@ -161,6 +161,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	// バトル終了演出
 	UpdateBattleEndStaging();
 
+	m_pStage->Update();
 	m_pPlayer->Update(input, *m_pCamera, *m_pStage, *m_pWeapon, m_pEnemy);
 	m_pItem->Update(*m_pPlayer);
 	m_pWeapon->Update(*m_pStage);
@@ -447,7 +448,7 @@ void SceneMain::UpdateSound()
 		{
 			sound.PlayLoopBgm(SoundName::kBgm_bossBattle);
 
-			if (m_pEnemy[0]->GetHp() < 0.0f)
+			if (m_pEnemy[0]->GetHp() <= 0.0f)
 			{
 				sound.StopBgm(SoundName::kBgm_bossBattle);
 			}
@@ -495,6 +496,7 @@ void SceneMain::CreateEnemy()
 		bossEnemy->SetEnemyInfo("ラスボス", "enemy_boss", enemyIndex, m_modelHandle[enemyIndex]);
 		bossEnemy->SetEnemySpawnPos(*m_pPlayer, 0);
 		bossEnemy->Init();
+		bossEnemy->GetEnemyAI()->SetEnemyList(m_pEnemy);
 		m_pEnemy.push_back(bossEnemy);
 	}
 }
@@ -630,39 +632,42 @@ bool SceneMain::IsExtinction(int index)
 
 void SceneMain::CheckEventTrigger()
 {
+	// バトル中は飛ばす
+	if (m_pPlayer->GetIsBattle()) return;
+
 	// プレイヤー座標を取得
 	VECTOR playerPos = m_pPlayer->GetPos();
 
 	// イベント用の当たり判定を取得
 	const auto& eventData = m_pEventData->GetEventData();
-	for (const auto& event : eventData)
+	for (const auto& data : eventData)
 	{
 		// プレイヤーの当たり判定を取得する
 		auto playerCol = m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer);
 
 		// イベント用カプセルとプレイヤーの当たり判定をチェックする
-		bool isCol = HitCheck_Sphere_Capsule(event.pos, event.radius, playerCol.bodyUpdateStartPos, playerCol.bodyUpdateEndPos, playerCol.bodyRadius);
+		bool isCol = HitCheck_Sphere_Capsule(data.pos, data.radius, playerCol.bodyUpdateStartPos, playerCol.bodyUpdateEndPos, playerCol.bodyRadius);
 
 		// 当たっている場合かつバトル中でない場合
-		if (isCol && !m_pPlayer->GetIsBattle())
+		if (isCol)
 		{
 			// イベントIDに応じた処理を行う
-			StartEvent(event.eventId);
+			StartEvent(data.eventId);
 		}
 	}
 }
 
 void SceneMain::StartEvent(const std::string& eventId)
 {
-	if (m_isLastBattle) return;
-
 	// IDに応じて処理を変更する
 	if (eventId == "bossBattle")
 	{
 		if (m_pPlayer->GetDeadEnemyNum() < kClearEnemyNum) return;
-		printfDx("ボスバトル開始\n");
+		if (m_isLastBattle) return;
+
 		m_isLastBattle = true;
-		CreateEnemy();
 		m_pPlayer->SetIsBattle(true);
+		CreateEnemy();
+		return;
 	}
 }

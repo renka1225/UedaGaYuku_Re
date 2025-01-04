@@ -1,11 +1,2 @@
-﻿  Player.cpp
-C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Player\Player.cpp(421,12): warning C4267: '初期化中': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
-  SceneDebug.cpp
-  Camera.cpp
-  SceneSave.cpp
-  SceneSelect.cpp
-  SaveData.cpp
-  コードを生成中...
-EffekseerRendererDX9_vs2019_x64_d.lib(ShaderGenerator.obj) : warning LNK4099: PDB '' が 'EffekseerRendererDX9_vs2019_x64_d.lib(ShaderGenerator.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-EffekseerRendererDX9_vs2019_x64_d.lib(ShaderGeneratorCommon.obj) : warning LNK4099: PDB '' が 'EffekseerRendererDX9_vs2019_x64_d.lib(ShaderGeneratorCommon.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+﻿  Stage.cpp
   Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\UedaGaYukuRE.exe

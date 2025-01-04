@@ -8,14 +8,16 @@
 namespace
 {
     // ハンドルのパス
-    const char* kCityHandle = "data/Model/city/city.mv1";
-    const char* kSkydoomHandle = "data/Model/Stage/skydoom.mv1";
+    const char* kCityHandle = "data/model/city/city.mv1";
+    const char* kSkydoomHandle = "data/model/city/skydoom.mv1";
 
-    // ステージサイズ
+    // ステージ
     const VECTOR kStageScale = VGet(10.0f, 10.0f, 10.0f);
-    const VECTOR kSkydoomScale = VGet(10.0f, 10.0f, 10.0f);
+    const VECTOR kSkydoomScale = VGet(1.0f, 1.0f, 1.0f);
     const VECTOR kStagePos = VGet(0.0f, 0.0f, 0.0f);
-    const VECTOR kSkydoomPos = VGet(0.0f, 0.0f, 0.0f);
+    const VECTOR kSkydoomPos = VGet(13000.0f, 40.0f, 1000.0f);
+    constexpr float kSkydoomRotationSpeed = 0.001f;
+
 
     // 当たり判定
     constexpr float kDefaultSize = 50.0f;	 // 周囲のポリゴン検出に使用する球の初期サイズ
@@ -28,6 +30,7 @@ namespace
 }
 
 Stage::Stage(std::shared_ptr<Player> player) :
+    m_skydoomRotate(0.0f),
     m_wallNum(0),
     m_floorNum(0),
     m_floor(),
@@ -53,11 +56,23 @@ Stage::~Stage()
     MV1DeleteModel(m_skydoomHandle);
 }
 
+void Stage::Update()
+{
+    // スカイドームを回転させる
+    m_skydoomRotate += kSkydoomRotationSpeed;
+    
+    if (m_skydoomRotate > DX_PI_F * 2)
+    {
+        m_skydoomRotate -= DX_PI_F * 2;
+    }
+
+    MV1SetRotationXYZ(m_skydoomHandle, VGet(0.0f, m_skydoomRotate, 0.0f));
+}
+
 void Stage::Draw()
 {
-    // ステージ描画
-    MV1DrawModel(m_stageHandle);
     MV1DrawModel(m_skydoomHandle);
+    MV1DrawModel(m_stageHandle);
 }
 
 VECTOR Stage::CheckObjectCol(ObjectBase& obj, const VECTOR& moveVec)
@@ -86,12 +101,6 @@ VECTOR Stage::CheckObjectCol(ObjectBase& obj, const VECTOR& moveVec)
 void Stage::SetDropMoney(VECTOR enemyPos, int dropMoney)
 {
     m_pPlayer->AddMoney(dropMoney); // プレイヤーの所持金を増やす
-}
-
-void Stage::SetDropItem(VECTOR enemyPos, int dropItem)
-{
-    printfDx("%d\n", dropItem);
-    //m_pItem->Draw(dropItem);
 }
 
 void Stage::AnalyzeWallAndFloor(MV1_COLL_RESULT_POLY_DIM hitDim, const VECTOR& checkPosition)

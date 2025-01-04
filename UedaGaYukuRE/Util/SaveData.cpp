@@ -62,11 +62,6 @@ void SaveData::Load(int slot)
 		file.read((char*)&m_saveData.date.Hour, sizeof(m_saveData.date.Hour));
 		file.read((char*)&m_saveData.date.Min, sizeof(m_saveData.date.Min));
 		file.read((char*)&m_saveData.date.Sec, sizeof(m_saveData.date.Sec));
-
-#ifdef _DEBUG
-		printfDx("ファイル読み込み成功\n");
-#endif
-
 		file.close();
 	}
 	else
@@ -119,9 +114,6 @@ void SaveData::Write(int slot)
 		file.write((char*)&m_saveData.date.Hour, sizeof(m_saveData.date.Hour));
 		file.write((char*)&m_saveData.date.Min, sizeof(m_saveData.date.Min));
 		file.write((char*)&m_saveData.date.Sec, sizeof(m_saveData.date.Sec));
-#ifdef _DEBUG
-		printfDx("ファイル書き込み成功\n");
-#endif
 		file.close();
 	}
 	else
