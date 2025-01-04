@@ -8,7 +8,7 @@
 namespace
 {
 	constexpr int kColDataNum = 19; // 当たり判定情報数
-	constexpr float kAdj = 2.5f;	// 敵に当たった際の位置調整量
+	constexpr float kAdj = 1.5f;	// 敵に当たった際の位置調整量
 
 	constexpr int kAvoidCoolTime = 60;	// 回避のクールタイム
 	constexpr int kAvoidMaxNum = 3;		// 1度に回避できる回数

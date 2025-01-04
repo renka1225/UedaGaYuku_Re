@@ -29,9 +29,9 @@ namespace
 	const std::string kPlayerHandlePath = "data/model/chara/player.mv1"; // プレイヤーのモデルハンドルパス
 	const std::string kEnemyHandlePath = "data/model/chara/enemy_";		 // 敵のモデルハンドルパス
 
-	constexpr int kModelNum = 4;		// 読み込むモデルの数
-	constexpr int kEnemyMaxNum = 2;		// 1度に出現する最大の敵数
-	constexpr int kEnemyKindNum = 2;	// 敵の種類
+	constexpr int kModelNum = 5;		// 読み込むモデルの数
+	constexpr int kEnemyMaxNum = 3;		// 1度に出現する最大の敵数
+	constexpr int kEnemyKindNum = 3;	// 敵の種類
 	constexpr int kEnemyNamekind = 31;	// 敵名の種類
 	constexpr int kClearEnemyNum = 1;	// クリア条件
 	constexpr int kEnemySpawnMinTIme = 1200;		// 敵がスポーンするまでの最小時間
@@ -498,6 +498,7 @@ void SceneMain::CreateEnemy()
 		bossEnemy->Init();
 		bossEnemy->GetEnemyAI()->SetEnemyList(m_pEnemy);
 		m_pEnemy.push_back(bossEnemy);
+		return;
 	}
 }
 
@@ -564,7 +565,6 @@ void SceneMain::SelectEnemy()
 
 	// 出現する敵の数をランダムで決定する
 	int enemySpawnNum = GetRand(kEnemyMaxNum - 1) + 1;
-	//int enemySpawnNum = 2;
 	m_pEnemy.clear();
 	m_pEnemy.resize(enemySpawnNum);
 	m_currentEnemyNum = enemySpawnNum;
@@ -633,7 +633,7 @@ bool SceneMain::IsExtinction(int index)
 void SceneMain::CheckEventTrigger()
 {
 	// バトル中は飛ばす
-	if (m_pPlayer->GetIsBattle()) return;
+	if (m_pPlayer->GetIsBattle() || m_isLastBattle) return;
 
 	// プレイヤー座標を取得
 	VECTOR playerPos = m_pPlayer->GetPos();
@@ -663,7 +663,6 @@ void SceneMain::StartEvent(const std::string& eventId)
 	if (eventId == "bossBattle")
 	{
 		if (m_pPlayer->GetDeadEnemyNum() < kClearEnemyNum) return;
-		if (m_isLastBattle) return;
 
 		m_isLastBattle = true;
 		m_pPlayer->SetIsBattle(true);

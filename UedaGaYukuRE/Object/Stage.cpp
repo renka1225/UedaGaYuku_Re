@@ -13,9 +13,9 @@ namespace
 
     // ステージ
     const VECTOR kStageScale = VGet(10.0f, 10.0f, 10.0f);
-    const VECTOR kSkydoomScale = VGet(1.0f, 1.0f, 1.0f);
+    const VECTOR kSkydoomScale = VGet(1.5f, 1.5f, 1.5f);
     const VECTOR kStagePos = VGet(0.0f, 0.0f, 0.0f);
-    const VECTOR kSkydoomPos = VGet(13000.0f, 40.0f, 1000.0f);
+    const VECTOR kSkydoomPos = VGet(7000.0f, 60.0f, 5000.0f);
     constexpr float kSkydoomRotationSpeed = 0.001f;
 
 

@@ -47,6 +47,7 @@ public:
 		kPlayer,	 // プレイヤー
 		kEnemy_01,	 // 敵1
 		kEnemy_02,	 // 敵2
+		kEnemy_03,	 // 敵3
 		kEnemy_boss, // ボス
 	};
 

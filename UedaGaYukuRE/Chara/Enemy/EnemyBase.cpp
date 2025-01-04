@@ -15,6 +15,7 @@
 namespace
 {
 	constexpr float kScale = 0.15f;					// モデルの拡大率
+	constexpr float kFirstSpawnMinDist = 200.0f;	// 1体目の敵のスポーン位置の最小距離
 	constexpr float kFirstSpawnRange = 1000.0f;		// 1体目のスポーンする範囲
 	constexpr float kSpawnRange = 100.0f;			// 2体目以降のスポーンする範囲
 	const VECTOR kBossSpwnPos = VGet(8900.0f, 45.0f, 2900.0f); // ボスのスポーン位置
@@ -152,10 +153,23 @@ void EnemyBase::SetEnemySpawnPos(const Player& pPlayer, int index)
 		// 1体目の位置を決める
 		if (index == 0)
 		{
-			// プレイヤーの範囲内に配置する
-			float firstRandPosX = pPlayer.GetPos().x + GetRand(static_cast<int>(kFirstSpawnRange) * 2) - kFirstSpawnRange;
-			float firstRandPosZ = pPlayer.GetPos().z + GetRand(static_cast<int>(kFirstSpawnRange) * 2) - kFirstSpawnRange;
-			m_pos = VGet(firstRandPosX, pPlayer.GetPos().y, firstRandPosZ);
+			// 範囲内にスポーンさせる
+			VECTOR spawnPos;
+			while (true)
+			{
+				float firstRandPosX = pPlayer.GetPos().x + GetRand(static_cast<int>(kFirstSpawnRange) * 2) - kFirstSpawnRange;
+				float firstRandPosZ = pPlayer.GetPos().z + GetRand(static_cast<int>(kFirstSpawnRange) * 2) - kFirstSpawnRange;
+
+				spawnPos = VGet(firstRandPosX, pPlayer.GetPos().y, firstRandPosZ);
+				float dist = VSize(VSub(spawnPos, pPlayer.GetPos()));
+
+				if (dist >= kFirstSpawnMinDist)
+				{
+					break;
+				}
+			}
+
+			m_pos = spawnPos;
 			firstEnemyPos = m_pos;
 		}
 		// 2体目以降の敵位置を決める
@@ -175,6 +189,10 @@ void EnemyBase::GetFramePos()
 	if (m_enemyIndex == CharaType::kEnemy_01)
 	{
 		enemyRig = "mixamorig12:";
+	}
+	else if(m_enemyIndex == CharaType::kEnemy_03)
+	{
+		enemyRig = "mixamorig10:";
 	}
 	else if(m_enemyIndex == CharaType::kEnemy_boss)
 	{
