@@ -410,7 +410,7 @@ std::shared_ptr<SceneBase> SceneMain::UpdateBattleEndStaging()
 std::shared_ptr<SceneBase> SceneMain::UpdateEndingStaging()
 {
 	// エンディング中でない場合は表示しない
-	if(!m_isEnding && m_isBattleEndStaging) return shared_from_this();
+	if(!m_isEnding) return shared_from_this();
 
 	// 演出中
 	if (m_endingTime > 0)
@@ -491,14 +491,13 @@ void SceneMain::CreateEnemy()
 
 		// ラスボス用の敵を生成する
 		int enemyIndex = CharacterBase::CharaType::kEnemy_boss;
-		
+
 		auto bossEnemy = std::make_shared<EnemyBase>(m_pUiBar, m_pItem, *m_pPlayer);
 		bossEnemy->SetEnemyInfo("ラスボス", "enemy_boss", enemyIndex, m_modelHandle[enemyIndex]);
 		bossEnemy->SetEnemySpawnPos(*m_pPlayer, 0);
 		bossEnemy->Init();
-		bossEnemy->GetEnemyAI()->SetEnemyList(m_pEnemy);
 		m_pEnemy.push_back(bossEnemy);
-		return;
+		bossEnemy->GetEnemyAI()->SetEnemyList(m_pEnemy);
 	}
 }
 
@@ -632,9 +631,6 @@ bool SceneMain::IsExtinction(int index)
 
 void SceneMain::CheckEventTrigger()
 {
-	// バトル中は飛ばす
-	if (m_pPlayer->GetIsBattle() || m_isLastBattle) return;
-
 	// プレイヤー座標を取得
 	VECTOR playerPos = m_pPlayer->GetPos();
 
@@ -642,6 +638,9 @@ void SceneMain::CheckEventTrigger()
 	const auto& eventData = m_pEventData->GetEventData();
 	for (const auto& data : eventData)
 	{
+		// バトル中は飛ばす
+		if (m_pPlayer->GetIsBattle() || m_isLastBattle) return;
+
 		// プレイヤーの当たり判定を取得する
 		auto playerCol = m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer);
 
@@ -665,8 +664,7 @@ void SceneMain::StartEvent(const std::string& eventId)
 		if (m_pPlayer->GetDeadEnemyNum() < kClearEnemyNum) return;
 
 		m_isLastBattle = true;
-		m_pPlayer->SetIsBattle(true);
 		CreateEnemy();
-		return;
+		m_pPlayer->SetIsBattle(true);
 	}
 }
