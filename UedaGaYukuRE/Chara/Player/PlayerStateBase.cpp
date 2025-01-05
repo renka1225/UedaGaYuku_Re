@@ -58,6 +58,13 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	// ゲージが最大まで溜まっているか
 	bool isSpecial = m_pPlayer->GetGauge() >= m_pPlayer->GetStatus().maxGauge;
 
+	// 掴みのボタンが押された場合
+	if (input.IsTriggered(InputId::kGrab))
+	{
+		ChangeStateGrab(weapon);
+		return;
+	}
+
 	// 攻撃のボタンが押された場合
 	if (input.IsTriggered(InputId::kPunch) || input.IsTriggered(InputId::kKick))
 	{
@@ -65,19 +72,19 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 		return;
 	}
 	// ガードのボタンが押された場合
-	else if (input.IsPressing(InputId::kGuard))
+	if (input.IsPressing(InputId::kGuard))
 	{
 		ChangeStateGuard();
 		return;
 	}
 	// 回避のボタンが押された場合
-	else if (input.IsTriggered(InputId::kAvoid))
+	if (input.IsTriggered(InputId::kAvoid))
 	{
 		ChangeStateAvoid();
 		return;
 	}
 	// 必殺技のボタンが押された場合
-	else if (input.IsTriggered(InputId::kSpecial))
+	if (input.IsTriggered(InputId::kSpecial))
 	{
 		// 条件を満たしていれば必殺技を発動する
 		if (isSpecial && m_pPlayer->GetIsSpecial())
@@ -87,12 +94,6 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 			// ゲージを減らす
 			m_pPlayer->SetGauge(0.0f);
 		}
-		return;
-	}
-	// 掴みのボタンが押された場合
-	else if (input.IsTriggered(InputId::kGrab))
-	{
-		ChangeStateGrab(weapon);
 		return;
 	}
 }

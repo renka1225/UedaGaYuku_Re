@@ -1,2 +1,4 @@
-﻿  SceneMain.cpp
+﻿  Weapon.cpp
+C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Object\Weapon.cpp(215,46): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Object\Weapon.cpp(221,46): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
   Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\UedaGaYukuRE.exe

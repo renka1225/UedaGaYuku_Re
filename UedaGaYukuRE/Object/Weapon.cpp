@@ -11,6 +11,7 @@ namespace
 	const char* kTextHandleFileName = "data/ui/text/hirou.png";		// 画像ハンドルのパス名
 	const std::string kWeaponFileName = "data/model/weapon/";		// モデルのファイルパス名
 	const char* kPlayerHandFrameName = "mixamorig:LeftHandIndex2";  // プレイヤーの手の部分のフレーム名
+	constexpr int kPlayerHandFrameNum = 51;	// 武器をアタッチするフレーム番号
 	const float kDispTextAdjY = 30.0f; // 拾うのテキスト調整位置
 }
 
@@ -117,10 +118,12 @@ void Weapon::Draw()
 
 	for (auto& loc : m_locationData)
 	{
+		if(m_pPlayer->GetIsGrabWeapon()) return;
+
 		if (loc.durability <= 0) continue;
 
 		// プレイヤーが武器に近づいたら拾うUIを表示する
-		if (!m_pPlayer->GetIsGrabWeapon() && m_pPlayer->IsNearWeapon(loc.pos))
+		if (m_pPlayer->IsNearWeapon(loc.pos))
 		{
 			// UIの位置を計算する
 			VECTOR modelTopPos = VAdd(loc.pos, VGet(0.0f, kDispTextAdjY, 0.0f));
@@ -195,7 +198,7 @@ std::string Weapon::GetNearWeaponTag() const
 
 void Weapon::LoadLocationData()
 {
-	m_loadLocationData = FileRead_open((kWeaponFileName + "locationData.loc").c_str());
+	m_loadLocationData = FileRead_open((kWeaponFileName + "data.loc").c_str());
 
 	int dataCnt = 0; // データ数
 	FileRead_read(&dataCnt, sizeof(dataCnt), m_loadLocationData);
@@ -267,9 +270,7 @@ bool Weapon::CheckWeaponCol(const CharacterBase::ColData& colData, Player& playe
 
 void Weapon::SetModelFramePos(auto& loc, MATRIX frameMatrix)
 {
-	// フレーム名からフレーム番号を取得する
-	int frameIndex = MV1SearchFrame(m_pPlayer->GetHandle(), kPlayerHandFrameName);
-	frameMatrix = MV1GetFrameLocalWorldMatrix(m_pPlayer->GetHandle(), frameIndex);
+	frameMatrix = MV1GetFrameLocalWorldMatrix(m_pPlayer->GetHandle(), kPlayerHandFrameNum);
 
 	// 武器位置を更新
 	loc.pos = VTransform(VGet(0.0f, 0.0f, 0.0f), frameMatrix);
