@@ -11,6 +11,7 @@ punch,0,1.0,20,8,13
 punch1,0,0.8,10,7,11
 punch2,0,0.8,11,18,29
 punch3,0,1,25,10,20
+oneHandWeapon,0,1,16,14,15
 special,0,1,0,0,0
 grabEnemy,0,1,14,0,0
 guard,0,1,47,0,0

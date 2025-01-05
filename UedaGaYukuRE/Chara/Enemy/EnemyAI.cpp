@@ -6,7 +6,7 @@
 
 namespace
 {
-	constexpr float kMinApproachRange = 30.0f;	// プレイヤーに近づく最小範囲
+	constexpr float kMinApproachRange = 10.0f;	// プレイヤーに近づく最小範囲
 	constexpr float kMinChaseRange = 200.0f;	// プレイヤーを追いかける最小範囲
 	constexpr float kMaxChaseRange = 800.0f;	// プレイヤーを追いかける最大範囲
 	constexpr int kDecisionFrame = 60;			// 行動を更新する時間
@@ -158,10 +158,12 @@ void EnemyAI::SelectBattleAction(Player& pPlayer)
 	if (dist <= kMinApproachRange)
 	{
 		// 移動しないようにする
-		m_priority[EnemyStateBase::EnemyStateKind::kIdle] += m_probability.lowProbability;
+		m_priority[EnemyStateBase::EnemyStateKind::kRun] = 0;
+		m_priority[EnemyStateBase::EnemyStateKind::kWalk] = 0;
 	}
+
 	// プレイヤーとの距離が離れている場合
-	else if (dist > kMinChaseRange)
+	if (dist > kMinChaseRange)
 	{
 		// 歩きor走りでプレイヤーに近づく
 		m_priority[EnemyStateBase::EnemyStateKind::kRun] += m_probability.lowProbability;

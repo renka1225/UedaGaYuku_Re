@@ -7,6 +7,11 @@
 #include "PlayerStateIdle.h"
 #include "PlayerStateAttack.h"
 
+namespace
+{
+    constexpr float kSpecialAtkPower = 1.5f; // 必殺技の攻撃力
+}
+
 PlayerStateAttack::PlayerStateAttack(std::shared_ptr<Player> player):
     PlayerStateBase(player),
     m_isAttackEnd(false)
@@ -159,6 +164,8 @@ float PlayerStateAttack::GetAnimEndTime()
     if (m_attackKind == AnimName::kPunch3) return m_pPlayer->GetAnimTotalTime(AnimName::kPunch3);
     if (m_attackKind == AnimName::kKick) return m_pPlayer->GetAnimTotalTime(AnimName::kKick);
     if (m_attackKind == AnimName::kKickHeat) return m_pPlayer->GetAnimTotalTime(AnimName::kKickHeat);
+    if (m_attackKind == AnimName::kOneHandWeapon) return m_pPlayer->GetAnimTotalTime(AnimName::kOneHandWeapon);
+    if (m_attackKind == AnimName::kTwoHandWeapon) return m_pPlayer->GetAnimTotalTime(AnimName::kTwoHandWeapon);
 
     return 0.0f;
 }
@@ -172,7 +179,9 @@ float PlayerStateAttack::GetAttackPower()
     if (m_attackKind == AnimName::kPunch2) return status.atkPowerPunch2;
     if (m_attackKind == AnimName::kPunch3) return status.atkPowerPunch3;
     if (m_attackKind == AnimName::kKick)  return status.atkPowerKick;
-    if (m_attackKind == AnimName::kKickHeat)  return status.atkPowerKick * 1.5f;
+    if (m_attackKind == AnimName::kKickHeat)  return status.atkPowerKick * kSpecialAtkPower;
+    if (m_attackKind == AnimName::kOneHandWeapon)  return status.atkPowerOneHandWeapon;
+    if (m_attackKind == AnimName::kTwoHandWeapon)  return status.atkPowerTwoHandWeapon;
 
     return 0.0f;
 }
@@ -185,6 +194,8 @@ std::string PlayerStateAttack::GetStateName()
     if (m_attackKind == AnimName::kPunch3) return "パンチ3中";
     if (m_attackKind == AnimName::kKick)  return "キック中";
     if (m_attackKind == AnimName::kKickHeat)  return "必殺技発動中";
+    if (m_attackKind == AnimName::kOneHandWeapon)  return "片手武器攻撃中";
+    if (m_attackKind == AnimName::kTwoHandWeapon)  return "両手武器攻撃中";
 
     return "アニメーションなし";
 }

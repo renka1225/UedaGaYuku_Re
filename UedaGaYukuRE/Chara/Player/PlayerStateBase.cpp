@@ -117,7 +117,6 @@ void PlayerStateBase::ChangeStateIdle()
 	// すでに待機状態の場合は飛ばす
 	if (GetKind() == PlayerStateKind::kIdle) return;
 
-	// StateをIdleに変更する
 	std::shared_ptr<PlayerStateIdle> state = std::make_shared<PlayerStateIdle>(m_pPlayer);
 	m_nextState = state;
 	state->Init();
@@ -136,7 +135,15 @@ void PlayerStateBase::ChangeStateAttack(const Input& input)
 	// 押されたボタンによって状態を変更する
 	if (input.IsTriggered(InputId::kPunch))
 	{
-		state->Init(AnimName::kPunch1);
+		if (m_pPlayer->GetIsGrabWeapon())
+		{
+			state->Init(AnimName::kOneHandWeapon);
+		}
+		else
+		{
+			state->Init(AnimName::kPunch1);
+		}
+		
 	}
 	else if (input.IsTriggered(InputId::kKick))
 	{

@@ -15,8 +15,8 @@
 namespace
 {
 	constexpr float kScale = 0.15f;					// モデルの拡大率
-	constexpr float kFirstSpawnMinDist = 200.0f;	// 1体目の敵のスポーン位置の最小距離
-	constexpr float kFirstSpawnRange = 1000.0f;		// 1体目のスポーンする範囲
+	constexpr float kFirstSpawnMinDist = 150.0f;	// 1体目の敵のスポーン位置の最小距離
+	constexpr float kFirstSpawnRange = 600.0f;		// 1体目のスポーンする範囲
 	constexpr float kSpawnRange = 100.0f;			// 2体目以降のスポーンする範囲
 	const VECTOR kBossSpwnPos = VGet(8900.0f, 45.0f, 2900.0f); // ボスのスポーン位置
 

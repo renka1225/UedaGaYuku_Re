@@ -16,7 +16,7 @@ namespace
     const VECTOR kSkydoomScale = VGet(1.5f, 1.5f, 1.5f);
     const VECTOR kStagePos = VGet(0.0f, 0.0f, 0.0f);
     const VECTOR kSkydoomPos = VGet(7000.0f, 60.0f, 5000.0f);
-    constexpr float kSkydoomRotationSpeed = 0.001f;
+    constexpr float kSkydoomRotationSpeed = 0.0005f;
 
 
     // 当たり判定

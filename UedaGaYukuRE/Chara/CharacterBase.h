@@ -22,6 +22,8 @@ namespace AnimName
 	const char* const kPunch2 = "punch2";
 	const char* const kPunch3 = "punch3";
 	const char* const kPunch = "punch";
+	const char* const kOneHandWeapon = "oneHandWeapon";
+	const char* const kTwoHandWeapon = "twoHandWeapon";
 	const char* const kSpecialAttack = "special";
 	const char* const kRun = "run";
 	const char* const kWalk = "walk";
