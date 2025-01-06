@@ -17,10 +17,15 @@ namespace
 	const Vec2 kCurrentScenePos = { 0.0f, 0.0f };		// 現在のシーン名表示位置
 	const Vec2 kDispMoneyBgPos = { 1320.0f, 15.0f };	// 金額の背景表示位置
 	const Vec2 kDispMoneyTextPos = { 1800.0f, 45.0f };  // 所持金額表示位置
+
+	constexpr int kFadeColor = 0x1a0306; // フェードの色
+	constexpr int kMaxFade = 255;		 // フェードの最大値
 }
 
 SceneBase::SceneBase():
 	m_select(0),
+	m_fadeAlpha(0),
+	m_isFadeOut(false),
 	m_saveSelect(0)
 {
 	m_pItem = std::make_shared<Item>();
@@ -138,4 +143,32 @@ void SceneBase::DrawMoney(std::shared_ptr<Player> pPlayer)
 
 	// 現在の所持金額
 	DrawStringFToHandle(dispX, kDispMoneyTextPos.y, moneyText.c_str(), Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kMoney)]);
+}
+
+void SceneBase::FadeIn(int fadeFrame)
+{
+	m_fadeAlpha += fadeFrame;
+	m_fadeAlpha = std::min(m_fadeAlpha, kMaxFade);
+}
+
+void SceneBase::FadeOut(int fadeFrame)
+{
+	m_fadeAlpha -= fadeFrame;
+	m_fadeAlpha = std::max(0, m_fadeAlpha);
+
+	if (m_fadeAlpha <= 0)
+	{
+		m_isFadeOut = false;
+	}
+	else
+	{
+		m_isFadeOut = true;
+	}
+}
+
+void SceneBase::DrawFade()
+{
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);
+	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, kFadeColor, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

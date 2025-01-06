@@ -221,6 +221,23 @@ void CharacterBase::UpdateAnim()
 		m_animBlendRate = std::min(m_animBlendRate, kAnimBlendMax);
 	}
 
+	// ガードの場合
+	if (m_isGuard)
+	{
+		// 特定の場所で止める
+		if (m_currentAnimTime >= m_animLoopEndTime)
+		{
+			m_currentAnimTime = m_animLoopStartTime;
+			m_animPlaySpeed = 0.0f;
+		}
+
+		// 再生時間を更新
+		MV1SetAttachAnimTime(m_modelHandle, m_currentPlayAnim, m_currentAnimTime);
+		// アニメーションのブレンド率を設定する
+		MV1SetAttachAnimBlendRate(m_modelHandle, m_prevPlayAnim, kAnimBlendMax - m_animBlendRate);
+		return;
+	}
+
 	// アニメーションの再生時間を進める
 	m_currentAnimTime += m_animPlaySpeed;
 

@@ -97,6 +97,11 @@ public:
 	/// <param name="pEnemy">敵参照</param>
 	void DrawMiniMap(const Player& pPlayer, std::vector<std::shared_ptr<EnemyBase>> pEnemy);
 
+	/// <summary>
+	/// 操作説明表示
+	/// </summary>
+	void DrawOperation();
+
 protected:
 	std::map<std::string, UiData> m_uiData;	// UIのデータ
 	std::vector<int> m_handle;	// ハンドル

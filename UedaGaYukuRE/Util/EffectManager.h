@@ -95,6 +95,12 @@ public:
 	/// <param name="pos">エフェクト位置</param>
 	void StopItemEffect(const std::string& name, const VECTOR& pos);
 
+	/// <summary>
+	/// エフェクトが再生中か取得する
+	/// </summary>
+	/// <param name="name">確認したいエフェクト名</param>
+	bool GetIsPlaying(const std::string& name) { return m_effectData[name].isPlaying; }
+
 private:
 	EffectManager() = default;
 	virtual ~EffectManager() = default;

@@ -246,6 +246,9 @@ void SceneMain::Draw()
 	m_pUiBar->DrawPlayerHpBar(*m_pPlayer, m_pPlayer->GetStatus().maxHp);
 	m_pUiBar->DrawPlayerGaugeBar(*m_pPlayer, m_pPlayer->GetStatus().maxGauge);
 
+	// 操作説明表示
+	m_pUi->DrawOperation();
+
 	// 特定の状態の場合は表示しない
 	bool isDrawMap = !m_isBattleEndStaging || !m_isLastBattle || m_isEnding;
 	if (isDrawMap)

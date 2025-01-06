@@ -52,6 +52,9 @@ namespace
 	constexpr int kTextTime = 120;						// テキストを表示するまでの時間
 	constexpr int kTextColor = 0x000000;				// テキストの色
 
+	/*フェード*/
+	constexpr int kStartFadeAlpha = 255; // スタート時のフェード値
+	constexpr int kFadeFrame = 8;		 // フェード変化量
 }
 
 SceneTitle::SceneTitle():
@@ -61,6 +64,8 @@ SceneTitle::SceneTitle():
 	m_titleLogoRot(kTitleLogoInitRot),
 	m_textAlpha(kMinAlpha)
 {
+	m_fadeAlpha = kStartFadeAlpha;
+
 	m_handle.resize(Handle::kNum);
 	for (int i = 0; i < m_handle.size(); i++)
 	{
@@ -87,6 +92,9 @@ void SceneTitle::Init()
 /// </summary>
 std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
 {
+	FadeOut(kFadeFrame);	// フェードアウト
+	if (m_isFadeOut) return shared_from_this(); // フェード中は操作できないようにする
+
 	m_time++; // 経過時間を更新
 	UpdatePressText();
 	UpdateLogo();
@@ -97,6 +105,7 @@ std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
 	// シーン遷移する
 	if (CheckInputSceneChange(input))
 	{
+		FadeIn(kFadeFrame); // フェードイン
 		Sound::GetInstance().StopBgm(SoundName::kBgm_title);
 		return std::make_shared<SceneSelect>();
 	}
@@ -131,6 +140,8 @@ void SceneTitle::Draw()
 		DrawGraphF(kTextPos.x, kTextPos.y, m_handle[Handle::kPRESS], true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
+
+	DrawFade();	// フェードインアウト描画
 
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_TITLE");

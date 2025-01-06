@@ -18,6 +18,7 @@ PlayerStateBase::PlayerStateBase(std::shared_ptr<Player> pPlayer):
 	m_leftMoveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_moveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_animEndTime(0.0f),
+	m_isGuardEffect(false),
 	m_analogInput({}),
 	m_analogX(0),
 	m_analogY(0)
@@ -102,6 +103,8 @@ bool PlayerStateBase::IsStateInterrupt()
 {
 	// 回避中
 	if (GetKind() == PlayerStateKind::kAvoid) return true;
+	// ガード中
+	if (GetKind() == PlayerStateKind::kGuard) return true;
 	// ダメージを受けている途中
 	if (GetKind() == PlayerStateKind::kDamage) return true;
 	// 攻撃中
@@ -173,9 +176,7 @@ void PlayerStateBase::ChangeStateAvoid()
 	if (m_pPlayer->GetAvoidCoolTime() > 0) return;
 
 	m_pPlayer->UpdateAvoid();
-
 	Sound::GetInstance().PlaySe(SoundName::kSe_avoid);
-
 	std::shared_ptr<PlayerStateAvoid> state = std::make_shared<PlayerStateAvoid>(m_pPlayer);
 	m_nextState = state;
 	state->Init();
@@ -188,7 +189,6 @@ void PlayerStateBase::ChangeStateGrab(Weapon& pWeapon)
 	{
 		m_pPlayer->SetIsGrabWeapon(false); // 武器を離す
 		m_pPlayer->SetIsPossibleGrabWeapon(true);
-
 		pWeapon.UpdateIsGrab(false);
 		return;
 	}
@@ -215,16 +215,20 @@ void PlayerStateBase::ChangeStateGrab(Weapon& pWeapon)
 
 void PlayerStateBase::ChangeStateDamage()
 {
-	std::shared_ptr<PlayerStateHitAttack> state = std::make_shared<PlayerStateHitAttack>(m_pPlayer);
-	m_nextState = state;
-	state->Init();
-
 	// ガード中の場合
 	if (m_pPlayer->GetIsGuard())
 	{
+		// エフェクト再生中の場合は飛ばす
+		//if (EffectManager::GetInstance().GetIsPlaying(EffectName::kGuard)) return;
+
 		Sound::GetInstance().PlaySe(SoundName::kSe_guardAttack);
 		EffectManager::GetInstance().Add(EffectName::kGuard, m_pPlayer->GetPos());
+		return;
 	}
+
+	std::shared_ptr<PlayerStateHitAttack> state = std::make_shared<PlayerStateHitAttack>(m_pPlayer);
+	m_nextState = state;
+	state->Init();
 }
 
 void PlayerStateBase::ChangeStateDeath()

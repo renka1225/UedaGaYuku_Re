@@ -10,9 +10,9 @@ namespace
 {
 	const char* kTextHandleFileName = "data/ui/text/hirou.png";		// 画像ハンドルのパス名
 	const std::string kWeaponFileName = "data/model/weapon/";		// モデルのファイルパス名
-	const char* kPlayerHandFrameName = "mixamorig:LeftHandIndex2";  // プレイヤーの手の部分のフレーム名
 	constexpr int kPlayerHandFrameNum = 51;	// 武器をアタッチするフレーム番号
-	const float kDispTextAdjY = 30.0f; // 拾うのテキスト調整位置
+	constexpr float kGroundHeight = 41.0f;  // 地面の高さ
+	const float kDispTextAdjY = 25.0f; // 拾うのテキスト調整位置
 }
 
 Weapon::Weapon(std::shared_ptr<Player> pPlayer) :
@@ -98,6 +98,7 @@ void Weapon::Update(Stage& stage)
 
 		loc.pos = VAdd(loc.pos, VGet(0.0f, m_gravity, 0.0f)); // 重力を足す
 		loc.pos = VAdd(VGet(loc.pos.x, 0.0f, loc.pos.z), stage.CheckObjectCol(*this, VGet(0.0f, 0.0f, 0.0f))); // ステージと当たり判定を行う
+		loc.pos.y = std::max(kGroundHeight, loc.pos.y);
 		
 		UpdateCol(loc); // 当たり判定位置更新
 		MV1SetPosition(m_objHandle[loc.name], loc.pos);
@@ -246,9 +247,8 @@ void Weapon::LoadLocationData()
 void Weapon::UpdateCol(auto& loc)
 {
 	// 向きをもとに当たり判定の位置を調整する
-	MATRIX rotationMatrix = MGetRotY(loc.rot.x);
-	rotationMatrix = MGetRotY(loc.rot.y);
-	rotationMatrix = MGetRotY(loc.rot.z);
+	//MATRIX rotationMatrix = MMult(MMult(MGetRotX(loc.rot.x), MGetRotY(loc.rot.y)), MGetRotZ(loc.rot.z));
+	MATRIX rotationMatrix = MGetRotY(loc.rot.z);
 
 	// 当たり判定位置を更新
 	loc.updateCol.colStartPos = VAdd(loc.pos, (VTransform(m_weaponData[loc.name].colStartPos, rotationMatrix)));

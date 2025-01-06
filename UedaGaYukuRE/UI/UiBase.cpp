@@ -17,6 +17,7 @@ namespace
 		kMiniMap,		// ミニマップ
 		kIconEnemy,		// ミニマップ上に表示する敵アイコン
 		kIconPlayer,	// ミニマップ上に表示するプレイヤーアイコン
+		kOperation,		// 操作説明
 		kBattleNow,		// バトル中表示
 		kBattleEnd,		// バトル終了演出中表示
 		kEnemy_yanki,	// ヤンキー
@@ -28,9 +29,10 @@ namespace
 	const char* kHandle[Handle::kHandleNum]
 	{
 		"data/ui/cursor.png",
-		"data/ui/map/minimap.png",
-		"data/ui/map/icon_enemy.png",
-		"data/ui/map/icon_player.png",
+		"data/ui/main/minimap.png",
+		"data/ui/main/icon_enemy.png",
+		"data/ui/main/icon_player.png",
+		"data/ui/main/operation.png",
 		"data/ui/battle/battleNow.png",
 		"data/ui/battle/battleEnd.png",
 		"data/ui/battle/yanki.png",
@@ -44,19 +46,20 @@ namespace
 	constexpr int kMaxCursorAlpha = 255;		// カーソルの最大アルファ値
 	constexpr int kMinCursorAlpha = 40;			// カーソルの最小アルファ値
 
-	const Vec2 kMapPos = { 180.0f, 900.0f };		// マップ表示位置
-	constexpr float kWorldWidth = 13740.0f;			// ワールド座標の最大幅
-	constexpr float kWorldDepth = 11220.0f;			// ワールド座標の最大奥行き
-	constexpr int kMapSize = 1000;					// ミニマップのサイズ
-	constexpr int kViewMapSize = 280;				// ミニマップ表示範囲
-	constexpr float kViewEnemyIcon = 500.0f;		// 敵アイコンの表示範囲
-	constexpr float kIconScale = 0.5f;				// キャラアイコン拡大率
+	const Vec2 kMapPos = { 180.0f, 900.0f };	// マップ表示位置
+	constexpr float kWorldWidth = 13740.0f;		// ワールド座標の最大幅
+	constexpr float kWorldDepth = 11220.0f;		// ワールド座標の最大奥行き
+	constexpr int kMapSize = 1000;				// ミニマップのサイズ
+	constexpr int kViewMapSize = 280;			// ミニマップ表示範囲
+	constexpr float kViewEnemyIcon = 500.0f;	// 敵アイコンの表示範囲
+	constexpr float kIconScale = 0.5f;			// キャラアイコン拡大率
 
 	constexpr float kDispBattleStartMinScale = 2.0f;	 // バトル開始時の敵種類の最小サイズ
 	constexpr float kDispBattleStartMaxScale = 10.0f;	 // バトル開始時の敵種類の最大サイズ
 	constexpr float kDispBattleStartChangeScale = 1.2f;	 // 表示する敵種類のサイズ変化量
 	const Vec2 kDispBattleStartPos = { 900.0f, 700.0f }; // 敵種類表示位置
 
+	const Vec2 kDispOperationPos = { 1584.0f, 700.0f };	 // 操作説明表示位置
 	const Vec2 kBattleNowPos = { 1550.0f, 50.0f };	// バトル中表示位置
 	constexpr float kNowBattleMoveSpeed = 13.0f;	// バトル中UIの移動速度
 	constexpr int kBattleEndColor = 0x1e90ff;		// バトル終了時の画面色
@@ -260,4 +263,9 @@ void UiBase::DrawMiniMap(const Player& pPlayer, std::vector<std::shared_ptr<Enem
 
 	// プレイヤーのアイコンを表示
 	DrawRotaGraphF(kMapPos.x, kMapPos.y, kIconScale, pPlayer.GetAngle(), m_handle[Handle::kIconPlayer], true);
+}
+
+void UiBase::DrawOperation()
+{
+	DrawGraphF(kDispOperationPos.x, kDispOperationPos.y, m_handle[Handle::kOperation], true);
 }

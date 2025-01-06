@@ -36,10 +36,16 @@ namespace
 	constexpr int kBgColor = 0x9a9a9a; // 背景色
 	const std::string kCursorId = "cursor_clear"; // カーソルのID
 	constexpr float kCursorInterval = 195.0f;	  // カーソルの表示間隔
+
+	/*フェード*/
+	constexpr int kStartFadeAlpha = 255; // スタート時のフェード値
+	constexpr int kFadeFrame = 8;		 // フェード変化量
 }
 
 SceneClear::SceneClear()
 {
+	m_fadeAlpha = kStartFadeAlpha;
+
 	m_select = Select::kTitle;
 
 	m_handle.resize(Handle::kNum);
@@ -59,6 +65,9 @@ SceneClear::~SceneClear()
 
 std::shared_ptr<SceneBase> SceneClear::Update(Input& input)
 {
+	FadeOut(kFadeFrame); // フェードアウト
+	if (m_isFadeOut) return shared_from_this(); // フェードアウト中は操作できないようにする
+
 	// 選択状態を更新
 	UpdateSelect(input, Select::kSelectNum);
 	m_pUi->UpdateCursor(kCursorId);
@@ -67,6 +76,7 @@ std::shared_ptr<SceneBase> SceneClear::Update(Input& input)
 	{
 		if (m_select == Select::kTitle)
 		{
+			FadeIn(kFadeFrame); // フェードイン
 			return std::make_shared<SceneTitle>();
 		}
 		else if (m_select == Select::kGameEnd)
@@ -84,6 +94,8 @@ void SceneClear::Draw()
 	DrawGraphF(kGameoverPos.x, kGameoverPos.y, m_handle[Handle::kClear], true);
 	m_pUi->DrawCursor(kCursorId, m_select, kCursorInterval);
 	DrawGraphF(kTextPos.x, kTextPos.y, m_handle[Handle::kText], true);
+
+	DrawFade();	// フェードインアウト描画
 
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_CLEAR");

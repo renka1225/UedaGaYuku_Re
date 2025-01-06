@@ -45,12 +45,18 @@ namespace
 	const std::string kExplainId = "EXPLAIN_SELECT_";	// 選択中テキストの説明ID
 	const Vec2 kDispTextPos = { 156.0f, 210.0f };		// テキスト表示位置
 	const Vec2 kDispExplainTextPos = { 100.0f, 830.0f }; // 説明テキスト表示位置
+
+	/*フェード*/
+	constexpr int kStartFadeAlpha = 255; // スタート時のフェード値
+	constexpr int kFadeFrame = 8;		 // フェード変化量
 }
 
 SceneSelect::SceneSelect():
 	m_isDispSaveData(false),
 	m_isDispCopyright(false)
 {
+	m_fadeAlpha = kStartFadeAlpha;
+
 	m_handle.resize(Handle::kNum);
 	for (int i = 0; i < m_handle.size(); i++)
 	{
@@ -70,6 +76,9 @@ SceneSelect::~SceneSelect()
 
 std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 {
+	FadeOut(kFadeFrame); // フェードアウト
+	if (m_isFadeOut) return shared_from_this(); // フェードアウト中は操作できないようにする
+
 	// セーブデータ選択中
 	if (m_isDispSaveData)
 	{
@@ -81,6 +90,7 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 			// 選択されたセーブデータを読み込む
 			SaveData::GetInstance().Load(m_saveSelect);
 			SceneChangeSound(SoundName::kBgm_select);
+			FadeIn(kFadeFrame); // フェードイン
 			return std::make_shared<SceneMain>();
 		}
 
@@ -168,6 +178,8 @@ void SceneSelect::Draw()
 		{
 			DrawSaveData();
 		}
+
+		DrawFade();	// フェードインアウト描画
 
 #ifdef _DEBUG
 		DrawSceneText("MSG_DEBUG_SELECT"); // シーン名表示

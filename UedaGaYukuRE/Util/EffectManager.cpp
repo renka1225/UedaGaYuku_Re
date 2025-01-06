@@ -157,6 +157,7 @@ void EffectManager::StopItemEffect(const std::string& name, const VECTOR& pos)
 		if (VSize(pos) == VSize(data.pos))
 		{
 			StopEffekseer3DEffect(data.playingHandle);
+			data.isPlaying = false;
 			it = m_effects.erase(it);
 		}
 		else

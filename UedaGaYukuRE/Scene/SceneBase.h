@@ -64,14 +64,6 @@ protected:
 	/// <param name="bgmName">再生中のBGM名</param>
 	void SceneChangeSound(std::string bgmName);
 
-#ifdef _DEBUG
-	/// <summary>
-	/// 現在のシーンをデバッグ表示する
-	/// </summary>
-	/// <param name="sceneName">現在のシーン名</param>
-	void DrawSceneText(const char* sceneName);
-#endif
-
 	/// <summary>
 	///	選択状態を更新 
 	/// </summary>
@@ -92,6 +84,31 @@ protected:
 	/// <param name="pPlayer">プレイヤーのポインタ</param>
 	void DrawMoney(std::shared_ptr<Player> pPlayer);
 
+	/// <summary>
+	/// フェードイン処理
+	/// </summary>
+	/// <param name="fadeFrame">フェード変化量</param>
+	virtual void FadeIn(int fadeFrame);
+
+	/// <summary>
+	/// フェードアウト処理
+	/// </summary>
+	/// <param name="fadeFrame">フェード変化量</param>
+	virtual void FadeOut(int fadeFrame);
+
+	/// <summary>
+	/// フェードインアウト描画
+	/// </summary>
+	void DrawFade();
+
+#ifdef _DEBUG
+	/// <summary>
+	/// 現在のシーンをデバッグ表示する
+	/// </summary>
+	/// <param name="sceneName">現在のシーン名</param>
+	void DrawSceneText(const char* sceneName);
+#endif
+
 protected:
 	std::shared_ptr<SceneBase> m_pPrevScene; // 前に実行していたシーン
 	std::shared_ptr<Item> m_pItem;			 // アイテムのポインタ
@@ -100,6 +117,8 @@ protected:
 	std::shared_ptr<Camera> m_pCamera;		 // カメラのポインタ
 	std::vector<int> m_handle;	// ハンドル
 	int m_select;		// 現在の選択状態
+	int m_fadeAlpha;	// フェードのα値
+	bool m_isFadeOut;	// フェード中かどうか(true:フェード中)
 	int m_saveSelect;	// セーブデータの選択状態
 };
 
