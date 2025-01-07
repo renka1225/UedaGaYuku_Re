@@ -108,7 +108,9 @@ namespace Font
 			}
 			else
 			{
+#ifdef _DEBUG
 				MessageBox(NULL, "フォント削除失敗", "", MB_OK);
+#endif
 			}
 		}
 

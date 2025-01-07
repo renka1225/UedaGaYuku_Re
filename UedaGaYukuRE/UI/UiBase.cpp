@@ -140,7 +140,7 @@ void UiBase::DrawCursor(std::string cursorId, int select, float interval)
 void UiBase::DrawSaveCursor(Vec2 pos, int select)
 {
 	pos.y = pos.y + (select * kSaveCursorMove);
-	DrawGraph(pos.x, pos.y, m_handle[Handle::kSaveCursor], true);
+	DrawGraphF(pos.x, pos.y, m_handle[Handle::kSaveCursor], true);
 }
 
 void UiBase::DrawLoading()

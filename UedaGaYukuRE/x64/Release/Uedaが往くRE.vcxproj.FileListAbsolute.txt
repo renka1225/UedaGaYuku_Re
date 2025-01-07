@@ -1,2 +1,3 @@
 C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Uedaが往くRE\x64\Release\UedaGaYukuRE.exe
 C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\UedaGaYukuRE\x64\Release\UedaGaYukuRE.exe
+C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Release\UedaGaYukuRE.exe

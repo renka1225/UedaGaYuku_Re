@@ -197,7 +197,7 @@ void SceneSelect::Draw()
 
 void SceneSelect::DrawSaveData()
 {
-	DrawGraph(kDispSavePos.x, kDispSavePos.y, m_handle[Handle::kSaveBg], true);
+	DrawGraphF(kDispSavePos.x, kDispSavePos.y, m_handle[Handle::kSaveBg], true);
 	m_pUi->DrawSaveCursor(kDispSaveCursorPos, m_saveSelect);
 
 	// セーブデータの情報を表示

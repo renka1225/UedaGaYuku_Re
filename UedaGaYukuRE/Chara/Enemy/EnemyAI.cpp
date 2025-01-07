@@ -95,7 +95,6 @@ void EnemyAI::DecideNextAction(Player& pPlayer)
 		if (!IsChangeState())
 		{
 			SelectBattleAction(pPlayer);
-			printfDx("状態更新\n");
 		}
 	}
 
@@ -115,7 +114,9 @@ void EnemyAI::DecideNextAction(Player& pPlayer)
 		if (randomValue < currenSum)
 		{
 			m_nextState = pair.first;
+#ifdef _DEBUG
 			printfDx("次行動:%d\n", m_nextState);
+#endif
 			break;
 		}
 	}
@@ -143,7 +144,9 @@ void EnemyAI::SelectBattleAction(Player& pPlayer)
 		{
 			attackEnemyNum++;
 		}
+#ifdef _DEBUG
 		printfDx("攻撃中敵数:%d\n", attackEnemyNum);
+#endif
 	}
 	
 	// バトル中プレイヤーから離れた場合
