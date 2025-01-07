@@ -28,6 +28,7 @@ namespace
 	enum Handle
 	{
 		kSelectBg,		// 背景
+		kSaveBg,		// セーブ画面の背景
 		kSelectText,	// テキスト
 		kNum			// ハンドルの数
 	};
@@ -36,15 +37,20 @@ namespace
 	const char* kHandlePath[Handle::kNum]
 	{
 		"data/ui/select/bg.png",
+		"data/ui/select/save.png",
 		"data/ui/select/text.png"
 	};
 
 	const std::string kCursorId = "cursor_select";	// カーソルのID
 	constexpr float kCursorInterval = 115.0f;		// カーソルの表示間隔
 	
-	const std::string kExplainId = "EXPLAIN_SELECT_";	// 選択中テキストの説明ID
-	const Vec2 kDispTextPos = { 156.0f, 210.0f };		// テキスト表示位置
+	const std::string kExplainId = "EXPLAIN_SELECT_";	 // 選択中テキストの説明ID
+	const Vec2 kDispTextPos = { 156.0f, 210.0f };		 // テキスト表示位置
 	const Vec2 kDispExplainTextPos = { 100.0f, 830.0f }; // 説明テキスト表示位置
+
+	const Vec2 kDispSavePos = { 259.0f, 115.0f };		 // セーブ画面表示位置
+	const Vec2 kDispSaveCursorPos = { 442.0f, 265.0f };  // セーブ画面のカーソル表示位置
+	const Vec2 kDispSaveDataPos = { 730.0f, 305.0f };	 // セーブデータ情報表示位置
 
 	/*フェード*/
 	constexpr int kStartFadeAlpha = 255; // スタート時のフェード値
@@ -87,8 +93,16 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 
 		if (input.IsTriggered(InputId::kOk))
 		{
-			// 選択されたセーブデータを読み込む
-			SaveData::GetInstance().Load(m_saveSelect);
+			if (m_select == SelectScene::kContinue)
+			{
+				// 選択されたセーブデータを読み込む
+				SaveData::GetInstance().Load(m_saveSelect);
+			}
+			if (m_select == SelectScene::kFirst)
+			{
+				// 新しくセーブデータを作成する
+				SaveData::GetInstance().CreateNewData(m_saveSelect);
+			}
 			SceneChangeSound(SoundName::kBgm_select);
 			FadeIn(kFadeFrame); // フェードイン
 			return std::make_shared<SceneMain>();
@@ -97,6 +111,7 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 		if (input.IsTriggered(InputId::kBack))
 		{
 			SoundCancelSe();
+			m_saveSelect = SaveData::SelectSaveData::one;
 			m_isDispSaveData = false;
 			return shared_from_this();
 		}
@@ -122,16 +137,9 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 	{
 		SoundSelectSe();
 
-		if (m_select == SelectScene::kContinue)
+		if (m_select == SelectScene::kContinue || m_select == SelectScene::kFirst)
 		{
 			m_isDispSaveData = true;
-		}
-		if (m_select == kFirst)
-		{
-			// 新しくセーブデータを作成する
-			SaveData::GetInstance().CreateNewData(m_saveSelect);
-			SceneChangeSound(SoundName::kBgm_select);
-			return std::make_shared<SceneMain>();
 		}
 		else if (m_select == SelectScene::kOption)
 		{
@@ -189,26 +197,11 @@ void SceneSelect::Draw()
 
 void SceneSelect::DrawSaveData()
 {
-#ifdef _DEBUG	// デバッグ表示
-	int one = Color::kColorW;
-	int two = Color::kColorW;
-	int three = Color::kColorW;
-
-	if (m_saveSelect == SaveData::SelectSaveData::one) one = Color::kColorR;
-	if (m_saveSelect == SaveData::SelectSaveData::two) two = Color::kColorR;
-	if (m_saveSelect == SaveData::SelectSaveData::three) three = Color::kColorR;
-
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-	DrawBox(300, 200, Game::kScreenWidth - 300, Game::kScreenHeight - 200, 0x000000, true);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-	DrawString(0, 40, "セーブデータ:1", one);
-	DrawString(0, 60, "セーブデータ:2", two);
-	DrawString(0, 80, "セーブデータ:3", three);
+	DrawGraph(kDispSavePos.x, kDispSavePos.y, m_handle[Handle::kSaveBg], true);
+	m_pUi->DrawSaveCursor(kDispSaveCursorPos, m_saveSelect);
 
 	// セーブデータの情報を表示
-	SaveData::GetInstance().DrawSaveData(m_saveSelect);
-#endif
+	SaveData::GetInstance().DrawSaveData(kDispSaveDataPos);
 }
 
 void SceneSelect::DrawCopyright()

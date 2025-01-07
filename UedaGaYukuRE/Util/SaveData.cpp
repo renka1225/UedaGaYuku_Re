@@ -1,4 +1,7 @@
-﻿#include "Camera.h"
+﻿#include "Game.h"
+#include "Vec2.h"
+#include "Font.h"
+#include "Camera.h"
 #include "SaveData.h"
 #include <fstream>
 
@@ -7,8 +10,7 @@ SaveData* SaveData::m_instance = nullptr;
 namespace
 {
 	const char* const kSaveDataPath = "data/saveData/savedata."; // セーブデータの保存を行うパス名
-
-	constexpr int kCurrentSaveVersion = 0; // セーブデータのバージョン
+	constexpr float kSaveDataInterval = 212.0f;	// セーブデータ情報表示位置間隔
 
 	const VECTOR kInitPos = VGet(7425.0f, 40.0f, 5190.0f);	// プレイヤーの初期位置
 	constexpr float kInitHp = 10000.0f;						// プレイヤーの初期HP
@@ -189,11 +191,24 @@ void SaveData::SaveDateData()
 	m_saveData.date.Sec = date.Sec;
 }
 
-void SaveData::DrawSaveData(int slot)
+void SaveData::DrawSaveData(Vec2 pos)
 {
-	SaveData::GetInstance().Load(slot);
-	DrawFormatString(300, 100, 0xffffff, "%d/%d/%d %d時:%d分:%d秒",
-	m_saveData.date.Year, m_saveData.date.Mon, m_saveData.date.Day, m_saveData.date.Hour, m_saveData.date.Min, m_saveData.date.Sec);
+	auto& saveData = SaveData::GetInstance();
+
+	saveData.Load(SaveData::SelectSaveData::one);
+	DrawFormatStringFToHandle(pos.x, pos.y + (kSaveDataInterval * SaveData::SelectSaveData::one), 
+		Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kSave)],
+		"%d/%d/%d %d時:%d分:%d秒", m_saveData.date.Year, m_saveData.date.Mon, m_saveData.date.Day, m_saveData.date.Hour, m_saveData.date.Min, m_saveData.date.Sec);
+
+	saveData.Load(SaveData::SelectSaveData::two);
+	DrawFormatStringFToHandle(pos.x, pos.y + (kSaveDataInterval * SaveData::SelectSaveData::two),
+		Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kSave)],
+		"%d/%d/%d %d時:%d分:%d秒", m_saveData.date.Year, m_saveData.date.Mon, m_saveData.date.Day, m_saveData.date.Hour, m_saveData.date.Min, m_saveData.date.Sec);
+
+	saveData.Load(SaveData::SelectSaveData::three);
+	DrawFormatStringFToHandle(pos.x, pos.y + (kSaveDataInterval * SaveData::SelectSaveData::three),
+		Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kSave)],
+		"%d/%d/%d %d時:%d分:%d秒", m_saveData.date.Year, m_saveData.date.Mon, m_saveData.date.Day, m_saveData.date.Hour, m_saveData.date.Min, m_saveData.date.Sec);
 }
 
 std::string SaveData::GetSaveDataPath(int slot)

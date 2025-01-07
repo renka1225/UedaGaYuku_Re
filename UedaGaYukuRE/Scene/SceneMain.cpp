@@ -29,22 +29,24 @@ namespace
 	const std::string kPlayerHandlePath = "data/model/chara/player.mv1"; // プレイヤーのモデルハンドルパス
 	const std::string kEnemyHandlePath = "data/model/chara/enemy_";		 // 敵のモデルハンドルパス
 
-	constexpr int kModelNum = 5;		// 読み込むモデルの数
-	constexpr int kEnemyMaxNum = 3;		// 1度に出現する最大の敵数
-	constexpr int kEnemyKindNum = 3;	// 敵の種類
-	constexpr int kEnemyNamekind = 31;	// 敵名の種類
-	constexpr int kClearEnemyNum = 1;	// クリア条件
-	constexpr int kEnemySpawnMinTIme = 1200;		// 敵がスポーンするまでの最小時間
-	constexpr int kEnemySpawnMaxTIme = 3000;		// 敵がスポーンするまでの最大時間
+	constexpr int kModelNum = 5;			// 読み込むモデルの数
+	constexpr int kEnemyMaxNum = 3;			// 1度に出現する最大の敵数
+	constexpr int kEnemyKindNum = 3;		// 敵の種類
+	constexpr int kEnemyNamekind = 31;		// 敵名の種類
+	constexpr int kClearEnemyNum = 1;		// クリア条件
+	constexpr int kFirstSpawnTime = 1200;	// ゲーム開始から最初の敵がスポーンするまでの時間
+	constexpr int kEnemySpawnMinTime = 1200;		// 敵がスポーンするまでの最小時間
+	constexpr int kEnemySpawnMaxTime = 3000;		// 敵がスポーンするまでの最大時間
 	constexpr float kEnemyExtinctionDist = 2000.0f;	// 敵が消滅する範囲
 
 	constexpr int kBattleStartStagingTime = 120; // バトル開始時の演出時間
 	constexpr int kBattleEndStagingTime = 150;	 // バトル終了時の演出時間
-	constexpr int kEndingTime = 60;				 // エンディングの時間
+	constexpr int kEndingTime = 10;				 // エンディングの時間
 }
 
 SceneMain::SceneMain():
 	m_currentEnemyNum(0),
+	m_playTime(0),
 	m_enemySpawnTime(0),
 	m_battleStartStagingTime(0),
 	m_battleEndStagingTime(0),
@@ -110,6 +112,8 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		return shared_from_this();
 	}
 
+	m_playTime++;
+
 	// メニューを開いたとき
 	if (input.IsTriggered(InputId::kMenu))
 	{
@@ -147,7 +151,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		{
 			CreateEnemy();
 		}
-		
+
 		// 敵の更新
 		UpdateEnemy();
 	}
@@ -472,11 +476,14 @@ void SceneMain::UpdateSound()
 
 void SceneMain::CreateEnemy()
 {
+	// ゲーム開始時、時間が経ってから敵を生成する
+	if (m_playTime < kFirstSpawnTime) return;
+
 	// ラスボス戦でない場合
 	if (!m_isLastBattle)
 	{
 		// スポーンするまでの時間をランダムで決める
-		const int spawnTime = GetRand(kEnemySpawnMaxTIme) + kEnemySpawnMinTIme;
+		const int spawnTime = GetRand(kEnemySpawnMaxTime) + kEnemySpawnMinTime;
 		m_enemySpawnTime++;
 
 		if (m_enemySpawnTime >= spawnTime)

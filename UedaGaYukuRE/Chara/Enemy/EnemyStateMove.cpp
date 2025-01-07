@@ -42,9 +42,11 @@ EnemyStateBase::EnemyStateKind EnemyStateMove::GetKind()
     return EnemyStateKind::kIdle;
 }
 
+#ifdef _DEBUG
 std::string EnemyStateMove::GetStateName()
 {
     if (m_animKind == AnimName::kWalk)  return "歩き";
-    if(m_animKind == AnimName::kRun) return "走り";
+    if (m_animKind == AnimName::kRun) return "走り";
     return "なし";
 }
+#endif

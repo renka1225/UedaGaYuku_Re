@@ -293,4 +293,3 @@ private:
 	int m_battleStartCount;	 // バトルが開始するまでの時間
 	bool m_isBattle;		 // バトル状態かどうか(true:バトル中)
 };
-

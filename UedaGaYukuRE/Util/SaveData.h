@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "DxLib.h"
+#include "Vec2.h"
 #include "Player.h"
 #include <vector>
 
@@ -106,8 +107,8 @@ public:
 	/// <summary>
 	/// セーブデータの情報を描画する
 	/// </summary>
-	/// <param name="slot">選択中のスロット番号</param>
-	void DrawSaveData(int slot);
+	/// <param name="pos">表示位置</param>
+	void DrawSaveData(Vec2 pos);
 
 	/// <summary>
 	/// セーブデータの情報を取得

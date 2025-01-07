@@ -6,7 +6,7 @@
 
 namespace
 {
-	constexpr float kMinApproachRange = 10.0f;	// プレイヤーに近づく最小範囲
+	constexpr float kMinApproachRange = 20.0f;	// プレイヤーに近づく最小範囲
 	constexpr float kMinChaseRange = 200.0f;	// プレイヤーを追いかける最小範囲
 	constexpr float kMaxChaseRange = 800.0f;	// プレイヤーを追いかける最大範囲
 	constexpr int kDecisionFrame = 60;			// 行動を更新する時間
@@ -154,14 +154,6 @@ void EnemyAI::SelectBattleAction(Player& pPlayer)
 		return;
 	}
 
-	// プレイヤーに一定距離近づいた場合
-	if (dist <= kMinApproachRange)
-	{
-		// 移動しないようにする
-		m_priority[EnemyStateBase::EnemyStateKind::kRun] = 0;
-		m_priority[EnemyStateBase::EnemyStateKind::kWalk] = 0;
-	}
-
 	// プレイヤーとの距離が離れている場合
 	if (dist > kMinChaseRange)
 	{
@@ -175,7 +167,7 @@ void EnemyAI::SelectBattleAction(Player& pPlayer)
 		if (attackEnemyNum >= kMaxAttackEnemyNum)
 		{
 			m_priority[EnemyStateBase::EnemyStateKind::kIdle] += m_probability.lowProbability;
-			m_priority[EnemyStateBase::EnemyStateKind::kWalk] += m_probability.lowProbability;
+			m_priority[EnemyStateBase::EnemyStateKind::kWalk] += 0;
 		}
 		else if (attackEnemyNum == 0)
 		{
@@ -216,6 +208,14 @@ void EnemyAI::SelectBattleAction(Player& pPlayer)
 		{
 			SelectRandomAction();
 		}
+	}
+
+	// プレイヤーに一定距離近づいた場合
+	if (dist <= kMinApproachRange)
+	{
+		// 移動しないようにする
+		m_priority[EnemyStateBase::EnemyStateKind::kRun] = 0;
+		m_priority[EnemyStateBase::EnemyStateKind::kWalk] = 0;
 	}
 }
 

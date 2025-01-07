@@ -14,6 +14,7 @@ namespace
 	enum Handle
 	{
 		kCursor,		// カーソル
+		kSaveCursor,	// セーブ用のカーソル
 		kMiniMap,		// ミニマップ
 		kIconEnemy,		// ミニマップ上に表示する敵アイコン
 		kIconPlayer,	// ミニマップ上に表示するプレイヤーアイコン
@@ -29,6 +30,7 @@ namespace
 	const char* kHandle[Handle::kHandleNum]
 	{
 		"data/ui/cursor.png",
+		"data/ui/save/cursor.png",
 		"data/ui/main/minimap.png",
 		"data/ui/main/icon_enemy.png",
 		"data/ui/main/icon_player.png",
@@ -45,6 +47,7 @@ namespace
 	constexpr int kTextDisplayAnimTime = 240;	// カーソルアニメーションの時間
 	constexpr int kMaxCursorAlpha = 255;		// カーソルの最大アルファ値
 	constexpr int kMinCursorAlpha = 40;			// カーソルの最小アルファ値
+	constexpr float kSaveCursorMove = 212.0f;	// セーブ画面のカーソル移動量
 
 	const Vec2 kMapPos = { 180.0f, 900.0f };	// マップ表示位置
 	constexpr float kWorldWidth = 13740.0f;		// ワールド座標の最大幅
@@ -132,6 +135,12 @@ void UiBase::DrawCursor(std::string cursorId, int select, float interval)
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_cursorAlpha);
 	DrawExtendGraphF(dispLTPos.x, dispLTPos.y, dispRBPos.x, dispRBPos.y, m_handle[Handle::kCursor], true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+}
+
+void UiBase::DrawSaveCursor(Vec2 pos, int select)
+{
+	pos.y = pos.y + (select * kSaveCursorMove);
+	DrawGraph(pos.x, pos.y, m_handle[Handle::kSaveCursor], true);
 }
 
 void UiBase::DrawLoading()

@@ -65,6 +65,13 @@ public:
 	void DrawCursor(std::string cursorId, int select, float interval);
 
 	/// <summary>
+	/// セーブ用のカーソルを表示
+	/// </summary>
+	/// <param name="pos">表示位置</param>
+	/// <param name="select">選択状態</param>
+	void DrawSaveCursor(Vec2 pos, int select);
+
+	/// <summary>
 	/// ロード中の演出を表示
 	/// </summary>
 	void DrawLoading();

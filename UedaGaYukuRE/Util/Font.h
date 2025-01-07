@@ -55,6 +55,9 @@ namespace Font
 		// ロード画面
 		kLoading = kSize36_4,
 
+		// セーブ画面
+		kSave = kSize36_4,
+
 		// デバッグ
 		kDebug_animFrame = kDebug_EDGE,		// アニメーションのフレーム数
 	};
