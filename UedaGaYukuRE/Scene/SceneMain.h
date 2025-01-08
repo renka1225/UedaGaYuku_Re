@@ -158,5 +158,5 @@ private:
 	bool m_isLoading;			// ロード中か(true:ロード中)
 	bool m_isLastBattle;		// ボス戦かどうか
 
-	std::vector<int> m_shadowMap; // シャドウマップ
+	int m_shadowMap; // シャドウマップ
 };

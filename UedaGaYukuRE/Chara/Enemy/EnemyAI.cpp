@@ -9,7 +9,7 @@ namespace
 	constexpr float kMinApproachRange = 20.0f;	// プレイヤーに近づく最小範囲
 	constexpr float kMinChaseRange = 200.0f;	// プレイヤーを追いかける最小範囲
 	constexpr float kMaxChaseRange = 800.0f;	// プレイヤーを追いかける最大範囲
-	constexpr int kDecisionFrame = 60;			// 行動を更新する時間
+	constexpr int kDecisionFrame = 120;			// 行動を更新する時間
 	constexpr int kMaxAttackEnemyNum = 2;		// 1度に攻撃する敵数
 	
 	const char* kLoadFilePath = "data/csv/enemyAI.csv";

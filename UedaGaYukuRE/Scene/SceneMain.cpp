@@ -46,17 +46,10 @@ namespace
 	constexpr int kEndingTime = 10;				 // エンディングの時間
 
 	/*影*/
-	// 影の種類
-	enum Shadow
-	{
-		kStage,	// ステージ
-		kChara,	// キャラクター
-		kNum
-	};
-	constexpr int kShadowMapSize = 16384;								// ステージのシャドウマップサイズ
-	const VECTOR kShadowAreaMinPos = VGet(5000.0f, 0.0f, 3000.0f);		// シャドウマップに描画する最小範囲
-	const VECTOR kShadowAreaMaxPos = VGet(10000.0f, 50.0f, 12000.0f);	// シャドウマップに描画する最大範囲
-	const VECTOR kShadowDir = VGet(-0.9f, -3.0f, -0.9f);
+	constexpr int kShadowMapSize = 4096;								// ステージのシャドウマップサイズ
+	const VECTOR kShadowAreaMinPos = VGet(2000.0f, 0.0f, 2000.0f);		// シャドウマップに描画する最小範囲
+	const VECTOR kShadowAreaMaxPos = VGet(10000.0f, 30.0f, 12000.0f);	// シャドウマップに描画する最大範囲
+	const VECTOR kShadowDir = VGet(0.5f, -2.0f, -2.0f);
 }
 
 SceneMain::SceneMain():
@@ -77,7 +70,6 @@ SceneMain::SceneMain():
 
 	m_modelHandle.resize(CharacterBase::CharaType::kCharaNum);
 	m_pEnemy.resize(kEnemyKindNum);
-	m_shadowMap.resize(Shadow::kNum);
 
 	LoadModelHandle();	// モデルを読み込む
 }
@@ -96,10 +88,7 @@ SceneMain::~SceneMain()
 		DeleteGraph(handle);
 	}
 
-	for (auto& shadow : m_shadowMap)
-	{
-		DeleteShadowMap(shadow); // シャドウマップの削除
-	}
+	DeleteShadowMap(m_shadowMap); // シャドウマップの削除
 }
 
 void SceneMain::Init()
@@ -720,18 +709,18 @@ void SceneMain::StartEvent(const std::string& eventId, const Input& input)
 
 void SceneMain::SetShadowMap()
 {
-	m_shadowMap[Shadow::kStage] = MakeShadowMap(kShadowMapSize, kShadowMapSize);
+	m_shadowMap = MakeShadowMap(kShadowMapSize, kShadowMapSize);
 
 	// シャドウマップに描画する範囲を設定
-	SetShadowMapDrawArea(m_shadowMap[Shadow::kStage], kShadowAreaMinPos, kShadowAreaMaxPos);
+	SetShadowMapDrawArea(m_shadowMap, kShadowAreaMinPos, kShadowAreaMaxPos);
 	// シャドウマップが想定するライトの方向をセット
-	SetShadowMapLightDirection(m_shadowMap[Shadow::kStage], kShadowDir);
+	SetShadowMapLightDirection(m_shadowMap, kShadowDir);
 }
 
 void SceneMain::DrawSetUpShadow()
 {
 	// ステージモデル用のシャドウマップへの描画の準備
-	ShadowMap_DrawSetup(m_shadowMap[Shadow::kStage]);
+	ShadowMap_DrawSetup(m_shadowMap);
 	m_pStage->DrawStage();
 	m_pItem->Draw();
 	m_pPlayer->Draw();
@@ -747,7 +736,7 @@ void SceneMain::DrawSetUpShadow()
 	ShadowMap_DrawEnd(); /*シャドウマップへの描画を終了*/
 
 	/*描画に使用するシャドウマップを設定*/
-	SetUseShadowMap(Shadow::kStage, m_shadowMap[Shadow::kStage]);
+	SetUseShadowMap(0, m_shadowMap);
 	m_pStage->DrawStage();
 	m_pItem->Draw();
 	m_pPlayer->Draw();
@@ -760,5 +749,5 @@ void SceneMain::DrawSetUpShadow()
 	}
 
 	m_pWeapon->Draw();
-	SetUseShadowMap(Shadow::kStage, -1); /*描画に使用するシャドウマップの設定を解除*/
+	SetUseShadowMap(0, -1); /*描画に使用するシャドウマップの設定を解除*/
 }

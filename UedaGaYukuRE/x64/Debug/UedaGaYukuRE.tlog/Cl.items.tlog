@@ -16,6 +16,7 @@ C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Enemy\EnemyStateGuard.cpp;C:\GitHub\U
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Enemy\EnemyAI.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\EnemyAI.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Enemy\EnemyStateMove.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\EnemyStateMove.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Player\PlayerStateDeath.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\PlayerStateDeath.obj
+C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Npc.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\Npc.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Scene\SceneGameover.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\SceneGameover.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Scene\SceneClear.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\SceneClear.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Util\EventData.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\EventData.obj
