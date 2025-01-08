@@ -166,6 +166,12 @@ public:
 	void SetGauge(float gauge) { m_gauge = gauge; }
 
 	/// <summary>
+	/// NPCとの会話状態をセットする
+	/// </summary>
+	/// <param name="isTalk">会話できるかどうか</param>
+	void SetIsTalk(bool isTalk) { m_isTalk = isTalk; }
+
+	/// <summary>
 	/// 現在の所持金額を取得する
 	/// </summary>
 	/// <returns></returns>
@@ -189,6 +195,10 @@ public:
 	/// <returns>強化段階の情報</returns>
 	EnhanceStep GetEnhanceStep() const { return m_enhanceStep; }
 
+	/// <summary>
+	/// 倒した敵数を取得する
+	/// </summary>
+	/// <returns></returns>
 	int GetDeadEnemyNum() const { return m_deadEnemyNum; }
 
 	/// <summary>
@@ -202,6 +212,12 @@ public:
 	/// </summary>
 	/// <returns>必殺技を出せるかどうか</returns>
 	bool GetIsSpecial() const { return m_isSpecial; }
+
+	/// <summary>
+	/// 会話できるかどうか取得する
+	/// </summary>
+	/// <returns>会話できるかどうか</returns>
+	bool GetIsTalk() const { return m_isTalk; }
 
 	/// <summary>
 	/// 入力状態を取得する
@@ -289,6 +305,7 @@ private:
 	int m_itemEffectTime;	 // アイテムの効果時間
 	bool m_isAddItem;		 // アイテムを追加で取得できるか(true:取得可能)
 	bool m_isSpecial;		 // 必殺技が出せるかどうか
+	bool m_isTalk;			 // NPCと会話できるかどうか
 
 	int m_battleStartCount;	 // バトルが開始するまでの時間
 	bool m_isBattle;		 // バトル状態かどうか(true:バトル中)

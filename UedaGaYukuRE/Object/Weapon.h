@@ -74,6 +74,11 @@ public:
 	virtual void Draw();
 
 	/// <summary>
+	/// 武器UI描画
+	/// </summary>
+	void DrawWeaponUi();
+
+	/// <summary>
 	/// 武器の耐久力を減らす
 	/// </summary>
 	void DecrementDurability();

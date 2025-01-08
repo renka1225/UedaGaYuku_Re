@@ -69,10 +69,14 @@ void Stage::Update()
     MV1SetRotationXYZ(m_skydoomHandle, VGet(0.0f, m_skydoomRotate, 0.0f));
 }
 
-void Stage::Draw()
+void Stage::DrawStage()
+{
+    MV1DrawModel(m_stageHandle);
+}
+
+void Stage::DrawSkyDoom()
 {
     MV1DrawModel(m_skydoomHandle);
-    MV1DrawModel(m_stageHandle);
 }
 
 VECTOR Stage::CheckObjectCol(ObjectBase& obj, const VECTOR& moveVec)

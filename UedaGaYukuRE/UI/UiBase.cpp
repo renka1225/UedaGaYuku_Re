@@ -18,6 +18,7 @@ namespace
 		kMiniMap,		// ミニマップ
 		kIconEnemy,		// ミニマップ上に表示する敵アイコン
 		kIconPlayer,	// ミニマップ上に表示するプレイヤーアイコン
+		kNpcTalk,		// 話すのUI
 		kOperation,		// 操作説明
 		kBattleNow,		// バトル中表示
 		kBattleEnd,		// バトル終了演出中表示
@@ -34,6 +35,7 @@ namespace
 		"data/ui/main/minimap.png",
 		"data/ui/main/icon_enemy.png",
 		"data/ui/main/icon_player.png",
+		"data/ui/text/hanasu.png",
 		"data/ui/main/operation.png",
 		"data/ui/battle/battleNow.png",
 		"data/ui/battle/battleEnd.png",
@@ -56,6 +58,8 @@ namespace
 	constexpr int kViewMapSize = 280;			// ミニマップ表示範囲
 	constexpr float kViewEnemyIcon = 500.0f;	// 敵アイコンの表示範囲
 	constexpr float kIconScale = 0.5f;			// キャラアイコン拡大率
+
+	const Vec2 kDispTalkUiPos = { -5.0f, 32.0f };		// "話す"テキスト表示位置調整
 
 	constexpr float kDispBattleStartMinScale = 2.0f;	 // バトル開始時の敵種類の最小サイズ
 	constexpr float kDispBattleStartMaxScale = 10.0f;	 // バトル開始時の敵種類の最大サイズ
@@ -203,6 +207,19 @@ void UiBase::DrawEnding()
 	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, Color::kColorBK, true);
 
 	DrawString(0, 0, "エンディング中\n", Color::kColorW);
+}
+
+void UiBase::DrawNpcUi(VECTOR pos)
+{
+	// NPCの位置からUIの位置を決める
+	VECTOR modelTopPos = VAdd(pos, VGet(kDispTalkUiPos.x, kDispTalkUiPos.y, 0.0f));
+	VECTOR screenPos = ConvWorldPosToScreenPos(modelTopPos);
+	bool isViewClip = CheckCameraViewClip(modelTopPos); // カメラの視界内に入っているか(true:視界に入っていない)
+
+	if (!isViewClip)
+	{
+		DrawGraph(screenPos.x, screenPos.y, m_handle[Handle::kNpcTalk], true);
+	}
 }
 
 void UiBase::DrawBattleUi(const Player& pPlayer)

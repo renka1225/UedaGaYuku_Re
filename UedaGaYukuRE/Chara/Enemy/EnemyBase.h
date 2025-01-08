@@ -45,6 +45,11 @@ public:
 	virtual void Draw(Player& player);
 
 	/// <summary>
+	/// 敵UI描画
+	/// </summary>
+	void DrawUi();
+
+	/// <summary>
 	/// 敵がダメージを受けた際の処理
 	/// </summary>
 	/// <param name="damage">ダメージ量</param>

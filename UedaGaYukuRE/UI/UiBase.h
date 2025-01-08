@@ -92,6 +92,12 @@ public:
 	void DrawEnding();
 
 	/// <summary>
+	/// NPC用のUIを表示する
+	/// </summary>
+	/// <param name="pos">NPCの座標</param>
+	void DrawNpcUi(VECTOR pos);
+
+	/// <summary>
 	/// バトル中のUIを表示
 	/// </summary>
 	/// <param name="pPlayer">プレイヤー参照</param>

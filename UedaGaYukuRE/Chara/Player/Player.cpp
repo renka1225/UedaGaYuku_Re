@@ -48,6 +48,7 @@ Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
 	m_itemEffectTime(0),
 	m_isAddItem(true),
 	m_isSpecial(false),
+	m_isTalk(true),
 	m_battleStartCount(kBattleStartTime),
 	m_isBattle(false)
 {

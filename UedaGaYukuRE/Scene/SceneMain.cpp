@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "CharacterBase.h"
 #include "Player.h"
+#include "Npc.h"
 #include "EnemyBase.h"
 #include "EnemyAI.h"
 #include "ObjectBase.h"
@@ -26,8 +27,9 @@
 // 定数
 namespace
 {
-	const std::string kPlayerHandlePath = "data/model/chara/player.mv1"; // プレイヤーのモデルハンドルパス
-	const std::string kEnemyHandlePath = "data/model/chara/enemy_";		 // 敵のモデルハンドルパス
+	const std::string kHandlePath = "data/model/chara/";			  // モデルハンドルパス
+	const std::string kPlayerHandlePath = kHandlePath + "player.mv1"; // プレイヤーのモデルハンドルパス
+	const std::string kEnemyHandlePath = kHandlePath + "enemy_";	  // 敵のモデルハンドルパス
 
 	constexpr int kModelNum = 5;			// 読み込むモデルの数
 	constexpr int kEnemyMaxNum = 3;			// 1度に出現する最大の敵数
@@ -42,6 +44,19 @@ namespace
 	constexpr int kBattleStartStagingTime = 120; // バトル開始時の演出時間
 	constexpr int kBattleEndStagingTime = 150;	 // バトル終了時の演出時間
 	constexpr int kEndingTime = 10;				 // エンディングの時間
+
+	/*影*/
+	// 影の種類
+	enum Shadow
+	{
+		kStage,	// ステージ
+		kChara,	// キャラクター
+		kNum
+	};
+	constexpr int kShadowMapSize = 16384;								// ステージのシャドウマップサイズ
+	const VECTOR kShadowAreaMinPos = VGet(5000.0f, 0.0f, 3000.0f);		// シャドウマップに描画する最小範囲
+	const VECTOR kShadowAreaMaxPos = VGet(10000.0f, 50.0f, 12000.0f);	// シャドウマップに描画する最大範囲
+	const VECTOR kShadowDir = VGet(-0.9f, -3.0f, -0.9f);
 }
 
 SceneMain::SceneMain():
@@ -58,13 +73,13 @@ SceneMain::SceneMain():
 	m_isLoading(true),
 	m_isLastBattle(false)
 {
-	// 非同期読み込み設定に変更
-	SetUseASyncLoadFlag(true);
+	SetUseASyncLoadFlag(true); 	// 非同期読み込み設定に変更
 
-	m_modelHandle.resize(kModelNum);
+	m_modelHandle.resize(CharacterBase::CharaType::kCharaNum);
 	m_pEnemy.resize(kEnemyKindNum);
+	m_shadowMap.resize(Shadow::kNum);
 
-	LoadModelHandle(); // モデルを読み込む
+	LoadModelHandle();	// モデルを読み込む
 }
 
 SceneMain::~SceneMain()
@@ -79,6 +94,11 @@ SceneMain::~SceneMain()
 	for (auto& handle : m_handle)
 	{
 		DeleteGraph(handle);
+	}
+
+	for (auto& shadow : m_shadowMap)
+	{
+		DeleteShadowMap(shadow); // シャドウマップの削除
 	}
 }
 
@@ -167,13 +187,14 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 
 	m_pStage->Update();
 	m_pPlayer->Update(input, *m_pCamera, *m_pStage, *m_pWeapon, m_pEnemy);
+	m_pNpc->Update(*m_pStage);
 	m_pItem->Update(*m_pPlayer);
 	m_pWeapon->Update(*m_pStage);
 	m_pCamera->Update(input, *m_pPlayer, *m_pStage);
 	m_pUiBar->Update();
 
 	// イベントトリガーのチェック
-	CheckEventTrigger();
+	CheckEventTrigger(input);
 
 	// エフェクトの更新
 	EffectManager::GetInstance().Update();
@@ -215,17 +236,16 @@ void SceneMain::Draw()
 		return;
 	}
 
-	m_pStage->Draw();
-	m_pItem->Draw();
-	m_pPlayer->Draw();
+	m_pStage->DrawSkyDoom();
+	DrawSetUpShadow();
 
 	for (auto& enemy : m_pEnemy)
 	{
 		if (enemy == nullptr) continue;
-		enemy->Draw(*m_pPlayer);
+		enemy->DrawUi();
 	}
 
-	m_pWeapon->Draw();
+	// エフェクト表示
 	EffectManager::GetInstance().Draw();
 
 	// 最終決戦でない場合
@@ -246,11 +266,14 @@ void SceneMain::Draw()
 		m_pUi->DrawBattleUi(*m_pPlayer);
 	}
 
-	// プレイヤーのバーUI表示
+	if (m_pPlayer->GetIsTalk())
+	{
+		m_pUi->DrawNpcUi(m_pNpc->GetPos());
+	}
+
+	m_pWeapon->DrawWeaponUi();
 	m_pUiBar->DrawPlayerHpBar(*m_pPlayer, m_pPlayer->GetStatus().maxHp);
 	m_pUiBar->DrawPlayerGaugeBar(*m_pPlayer, m_pPlayer->GetStatus().maxGauge);
-
-	// 操作説明表示
 	m_pUi->DrawOperation();
 
 	// 特定の状態の場合は表示しない
@@ -265,6 +288,7 @@ void SceneMain::Draw()
 	DrawSceneText("MSG_DEBUG_PLAYING");
 	m_pEventData->Draw();
 	DrawFormatString(0, 550, Color::kColorW, "倒した敵数:%d\n", m_pPlayer->GetDeadEnemyNum());
+	//TestDrawShadowMap(m_shadowMap[Shadow::kStage], 0, 0, 480, 270);
 #endif
 }
 
@@ -284,6 +308,9 @@ void SceneMain::LoadModelHandle()
 
 	// ラスボス
 	m_modelHandle[CharacterBase::CharaType::kEnemy_boss] = MV1LoadModel((kEnemyHandlePath + "boss.mv1").c_str());
+	// NPC
+	m_modelHandle[CharacterBase::CharaType::kNpc] = MV1LoadModel((kHandlePath + "npc.mv1").c_str());
+
 }
 
 void SceneMain::Loading()
@@ -307,15 +334,18 @@ void SceneMain::InitAfterLoading()
 {
 	m_pUiBar = std::make_shared<UiBar>();
 	m_pPlayer = std::make_shared<Player>(m_pUiBar, m_modelHandle[CharacterBase::CharaType::kPlayer]);
+	m_pNpc = std::make_shared<Npc>(m_modelHandle[CharacterBase::CharaType::kNpc]);
 	m_pWeapon = std::make_shared<Weapon>(m_pPlayer);
 	m_pCamera = std::make_shared<Camera>();
 	m_pStage = std::make_shared<Stage>(m_pPlayer);
 	m_pEventData = std::make_shared<EventData>();
 
+	SetShadowMap();	// シャドウマップをセットする
 	SelectEnemy(); // 敵の種類を決める
 
 	// 初期化を行う
 	m_pPlayer->Init();
+	m_pNpc->Init();
 	m_pWeapon->Init();
 	m_pCamera->Init();
 	m_pUiBar->Init();
@@ -562,7 +592,6 @@ void SceneMain::UpdateBossEnemy()
 	if (m_pEnemy[0]->GetHp() <= 0.0f)
 	{
 		// クリア演出を行う
-		// TODO:エンディングを流す
 		m_endingTime = kEndingTime;
 		m_isEnding = true;
 	}
@@ -639,7 +668,7 @@ bool SceneMain::IsExtinction(int index)
 	return false;
 }
 
-void SceneMain::CheckEventTrigger()
+void SceneMain::CheckEventTrigger(const Input& input)
 {
 	// プレイヤー座標を取得
 	VECTOR playerPos = m_pPlayer->GetPos();
@@ -657,24 +686,79 @@ void SceneMain::CheckEventTrigger()
 		// イベント用カプセルとプレイヤーの当たり判定をチェックする
 		bool isCol = HitCheck_Sphere_Capsule(data.pos, data.radius, playerCol.bodyUpdateStartPos, playerCol.bodyUpdateEndPos, playerCol.bodyRadius);
 
-		// 当たっている場合かつバトル中でない場合
+		// 当たっている場合
 		if (isCol)
 		{
 			// イベントIDに応じた処理を行う
-			StartEvent(data.eventId);
+			StartEvent(data.eventId, input);
+		}
+		else
+		{
+			m_pPlayer->SetIsTalk(false);
 		}
 	}
 }
 
-void SceneMain::StartEvent(const std::string& eventId)
+void SceneMain::StartEvent(const std::string& eventId, const Input& input)
 {
 	// IDに応じて処理を変更する
 	if (eventId == "bossBattle")
 	{
-		if (m_pPlayer->GetDeadEnemyNum() < kClearEnemyNum) return;
+		m_pPlayer->SetIsTalk(true);
 
-		m_isLastBattle = true;
-		CreateEnemy();
-		m_pPlayer->SetIsBattle(true);
+		if (input.IsTriggered(InputId::kOk))
+		{
+			m_pPlayer->SetIsTalk(false);
+			if (m_pPlayer->GetDeadEnemyNum() < kClearEnemyNum) return;
+
+			m_isLastBattle = true;
+			CreateEnemy();
+			m_pPlayer->SetIsBattle(true);
+		}
 	}
+}
+
+void SceneMain::SetShadowMap()
+{
+	m_shadowMap[Shadow::kStage] = MakeShadowMap(kShadowMapSize, kShadowMapSize);
+
+	// シャドウマップに描画する範囲を設定
+	SetShadowMapDrawArea(m_shadowMap[Shadow::kStage], kShadowAreaMinPos, kShadowAreaMaxPos);
+	// シャドウマップが想定するライトの方向をセット
+	SetShadowMapLightDirection(m_shadowMap[Shadow::kStage], kShadowDir);
+}
+
+void SceneMain::DrawSetUpShadow()
+{
+	// ステージモデル用のシャドウマップへの描画の準備
+	ShadowMap_DrawSetup(m_shadowMap[Shadow::kStage]);
+	m_pStage->DrawStage();
+	m_pItem->Draw();
+	m_pPlayer->Draw();
+	m_pNpc->Draw();
+
+	for (auto& enemy : m_pEnemy)
+	{
+		if (enemy == nullptr) continue;
+		enemy->Draw(*m_pPlayer);
+	}
+
+	m_pWeapon->Draw();
+	ShadowMap_DrawEnd(); /*シャドウマップへの描画を終了*/
+
+	/*描画に使用するシャドウマップを設定*/
+	SetUseShadowMap(Shadow::kStage, m_shadowMap[Shadow::kStage]);
+	m_pStage->DrawStage();
+	m_pItem->Draw();
+	m_pPlayer->Draw();
+	m_pNpc->Draw();
+
+	for (auto& enemy : m_pEnemy)
+	{
+		if (enemy == nullptr) continue;
+		enemy->Draw(*m_pPlayer);
+	}
+
+	m_pWeapon->Draw();
+	SetUseShadowMap(Shadow::kStage, -1); /*描画に使用するシャドウマップの設定を解除*/
 }

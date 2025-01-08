@@ -27,9 +27,14 @@ public:
 	void Update();
 
 	/// <summary>
-	/// 描画
+	/// ステージ描画
 	/// </summary>
-	void Draw();
+	void DrawStage();
+
+	/// <summary>
+	/// スカイドーム描画
+	/// </summary>
+	void DrawSkyDoom();
 
 	/// <summary>
 	/// オブジェクトと当たり判定を行う

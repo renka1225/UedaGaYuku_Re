@@ -117,23 +117,6 @@ void Weapon::Draw()
 	// バトル中でない場合は表示しない
 	if(!m_pPlayer->GetIsBattle()) return;
 
-	for (auto& loc : m_locationData)
-	{
-		if(m_pPlayer->GetIsGrabWeapon()) return;
-
-		if (loc.durability <= 0) continue;
-
-		// プレイヤーが武器に近づいたら拾うUIを表示する
-		if (m_pPlayer->IsNearWeapon(loc.pos))
-		{
-			// UIの位置を計算する
-			VECTOR modelTopPos = VAdd(loc.pos, VGet(0.0f, kDispTextAdjY, 0.0f));
-			VECTOR screenPos = ConvWorldPosToScreenPos(modelTopPos);
-
-			DrawGraphF(screenPos.x, screenPos.y, m_handle, true);
-		}
-	}
-
 #ifdef _DEBUG
 	DebugDraw debug;
 	int dispY = 440; // 武器情報デバッグ表示位置
@@ -150,6 +133,29 @@ void Weapon::Draw()
 	
 	}
 #endif
+}
+
+void Weapon::DrawWeaponUi()
+{
+	// バトル中でない場合は表示しない
+	if (!m_pPlayer->GetIsBattle()) return;
+
+	for (auto& loc : m_locationData)
+	{
+		if (m_pPlayer->GetIsGrabWeapon()) return;
+
+		if (loc.durability <= 0) continue;
+
+		// プレイヤーが武器に近づいたら拾うUIを表示する
+		if (m_pPlayer->IsNearWeapon(loc.pos))
+		{
+			// UIの位置を計算する
+			VECTOR modelTopPos = VAdd(loc.pos, VGet(0.0f, kDispTextAdjY, 0.0f));
+			VECTOR screenPos = ConvWorldPosToScreenPos(modelTopPos);
+
+			DrawGraphF(screenPos.x, screenPos.y, m_handle, true);
+		}
+	}
 }
 
 void Weapon::DecrementDurability()

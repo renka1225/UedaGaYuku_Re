@@ -1,438 +1,176 @@
 ﻿0:ChangeWindowMode実行 
 0:ウインドウモードフラグが立てられました
-2:ＤＸライブラリの初期化処理開始
-3:	システムの情報を出力します
+1:ＤＸライブラリの初期化処理開始
+2:	システムの情報を出力します
 3:		ＤＸライブラリ Ver3.24b
-4:		論理プロセッサの数 : 20
-4:		ＯＳ  Windows11 ( Build 26100  )
-105:		現時点のＣＰＵ動作速度：大体2.71GHz
-105:		ＭＭＸ命令を使用します
-105:		ＳＳＥ命令が使用可能です
-106:		ＳＳＥ２命令が使用可能です
-106:		ＣＰＵベンダ：GenuineIntel
-109:		ＣＰＵ名：12th Gen Intel(R) Core(TM) i7-12700H
-109:	ＣＯＭの初期化... 成功
-114:	非同期読み込み処理の初期化...成功
-114:	ファイルアクセス処理の初期化...成功
-115:	メモリ総量:16108.49MB  空きメモリ領域:1824.54MB 
-115:	タイマーの精度を検査します
-116:	精度結果 更新回数 マルチメディアタイマー：0  パフォーマンスカウンター：60
-116:	 パフォーマンスカウンターを使用します タイマー精度 : 10000.000000 KHz 
-116:	 
-117:	ソフトの二重起動検査... 二重起動はされていませんでした
-118:	ウインドウクラスを登録します... 登録に成功しました
-118:	ウインドウモード起動用のウインドウを作成します
-118:	ディスプレイ情報のセットアップ開始
-119:		モニターの数：2  ディスプレイデバイスの数：8
-121:		No.0  モニター名：\\.\DISPLAY1　2560x1440　32bit　60Hz  120x120dpi
-122:		No.1  モニター名：\\.\DISPLAY5　1920x1080　32bit　60Hz  120x120dpi
-139:	ディスプレイ情報のセットアップ完了
-139:	ウインドウ矩形 ( 302, 118 )-( 2240, 1245 )
-144:	ウインドウの作成に成功しました
-145:	ウインドウを表示します
-194:	ＩＭＥを無効にしました
-197:	ウインドウスタイルをウインドウモード用に変更します... 完了
-239:	XInput DLL の読み込み中... 成功
-244:	DirectInput関係初期化処理
-246:		DirectInput8 の取得を試みます...成功
-395:			引き続き初期化処理... 初期化成功
-399:		ジョイパッドの初期化... 
-400:			XInput 対応コントローラーのチェックを開始します
-400:				XInput 対応コントローラー No.0 をチェック
-405:				XInput 対応コントローラー No.0 の接続を確認しました
-405:				XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-405:				XInput 対応コントローラー No.1 をチェック
-406:				XInput 対応コントローラー No.1 の接続は確認できませんでした
-406:				XInput 対応コントローラー No.2 をチェック
-407:				XInput 対応コントローラー No.2 の接続は確認できませんでした
-407:				XInput 対応コントローラー No.3 をチェック
-408:				XInput 対応コントローラー No.3 の接続は確認できませんでした
-408:			XInput 対応コントローラーのチェック完了
-408:			DirectInput 対応ジョイパッドの列挙を開始します
-416:				DirectInput 対応入力装置を検出しました
-417:						Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-417:						Device Instance GUID : a02a7d30,4ab1,11ee,80,01,44,45,53,54,00,00
-417:					DirectInputDevice8 の作成... 成功
-419:					DirectInputDevice の情報を取得します... 成功
-420:						Device Product Name  : Controller (Xbox One For Windows)
-420:						Device Instance Name : Controller (Xbox One For Windows)
-420:					検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-420:					検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-421:				検出した DirectInput 対応入力装置の初期化を中断します
-453:			DirectInput 対応ジョイパッドの列挙終了
-454:		ジョイパッドの初期化は正常に終了しました
-454:		マウスデバイスの初期化... 初期化成功
-455:		キーボードデバイスの初期化... 初期化成功
-463:	DirectInput 関連の初期化は正常に終了しました
-466:	WASAPI の初期化を行います
-477:		デバイス名 : ヘッドホン (AirPods Pro)
-484:		デフォルト遅延時間 : 10.000 ms
-484:		最小遅延時間       : 3.000 ms
-485:		遅延時間           : 10.000 ms
-485:		チャンネル数  　   : 2 ch
-486:		量子化ビット深度   : 32 bit
-486:		有効ビット深度　   : 32 bit
-486:		サンプリングレート : 44100 Hz
-486:		データ形式         : 浮動小数点型
-499:		動作モード         : 共有モード
-501:	WASAPI の初期化は正常に終了しました
-505:	d3d11.dll の読み込み.... 成功
-523:	dxgi.dll の読み込み.... 成功
-524:	API CreateDXGIFactory2 のアドレスを取得します.... 成功
-525:	IDXGIFactory2 を作成します.... 成功
-543:	API CreateDXGIFactory6 のアドレスを取得します.... 成功
-544:	IDXGIAdapter を列挙
-544:		Adapter No.0 Desc:NVIDIA GeForce RTX 3060 Laptop GPU  VRAM:6010MB
-544:			Output Device No.0 Name:\\.\DISPLAY5 ( -2400, 460 )-( 0, 1810 )
-545:		Adapter No.1 Desc:Intel(R) Iris(R) Xe Graphics  VRAM:128MB
-545:			Output Device No.0 Name:\\.\DISPLAY1 ( 0, 0 )-( 2560, 1440 )
-546:		Adapter No.2 Desc:Microsoft Basic Render Driver  VRAM:0MB
-546:	API D3D11CreateDevice のアドレスを取得します.... 成功
-546:	IDXGIAdapter を取得します.... 成功
-548:	IDXGIAdapter1 を取得します.... 成功
-549:	IDXGIAdapter2 を取得します.... 成功
-549:	IDXGIAdapter3 を取得します.... 成功
-550:	IDXGIAdapter4 を取得します.... 成功
-550:	Direct3D 11 FeatureLevel 11_0 以上を対象とします
-550:	ID3D11Device オブジェクトを取得します.... 成功
-638:	IDXGIDevice1 を取得します.... 成功
-638:	IDXGIDevice1->SetMaximunFrameLatency( 1 ); を実行しました
-638:	[ウインドウモード 1920x1080 ( 320, 164 )-( 2240, 1244 )]
-639:	IDXGISwapChain2 を作成します.... 成功
-641:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
-641:	IDXGIOutput を取得します.... 成功
-641:	Graphics Device:Intel(R) Iris(R) Xe Graphics
-642:	画面のフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
-642:	16bit Zバッファフォーマットは DXGI_FORMAT_D16_UNORM です
-642:	24bit Zバッファフォーマットは DXGI_FORMAT_D24_UNORM_S8_UINT です
-642:	32bit Zバッファフォーマットは DXGI_FORMAT_D32_FLOAT です
-642:	16bit カラーフォーマットは DXGI_FORMAT_B5G6R5_UNORM です
-643:	32bit カラーフォーマットは DXGI_FORMAT_B8G8R8X8_UNORM です
-643:	アルファ付き 16bit カラーフォーマットは DXGI_FORMAT_B4G4R4A4_UNORM です
-643:	アルファ付き 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
-643:	アルファテスト用 16bit カラーフォーマットは DXGI_FORMAT_B5G5R5A1_UNORM です
-643:	アルファテスト用 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
-643:	ＤＸＴ１テクスチャフォーマットは DXGI_FORMAT_BC1_UNORM です
-645:	ＤＸＴ２テクスチャフォーマットは使えません
-645:	ＤＸＴ３テクスチャフォーマットは DXGI_FORMAT_BC2_UNORM です
-645:	ＤＸＴ４テクスチャフォーマットは使えません
-645:	ＤＸＴ５テクスチャフォーマットは DXGI_FORMAT_BC3_UNORM です
-646:	BC7_UNORM テクスチャフォーマットは DXGI_FORMAT_BC7_UNORM です
-646:	BC7_UNORM_SRGB テクスチャフォーマットは DXGI_FORMAT_BC7_UNORM_SRGB です
-646:	ABGR 整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_UNORM です
-646:	ABGR 浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_FLOAT です
-646:	ABGR 浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32B32A32_FLOAT です
-647:	１チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8_UNORM です
-647:	１チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_UNORM です
-647:	１チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_FLOAT です
-647:	１チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32_FLOAT です
-648:	２チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8G8_UNORM です
-648:	２チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_UNORM です
-648:	２チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_FLOAT です
-648:	２チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32_FLOAT です
-649:	描画用 16bit カラーフォーマットは DXGI_FORMAT_B5G6R5_UNORM です
-649:	描画用 32bit カラーフォーマットは DXGI_FORMAT_B8G8R8X8_UNORM です
-649:	描画用アルファ付き 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
-649:	描画用 ABGR 整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_UNORM です
-649:	描画用 ABGR 浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_FLOAT です
-649:	描画用 ABGR 浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32B32A32_FLOAT です
-649:	描画用１チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8_UNORM です
-651:	描画用１チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_UNORM です
-651:	描画用１チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_FLOAT です
-651:	描画用１チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32_FLOAT です
-651:	描画用２チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8G8_UNORM です
-652:	描画用２チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_UNORM です
-652:	描画用２チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_FLOAT です
-652:	描画用２チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32_FLOAT です
-653:	使用する機能レベル:D3D_FEATURE_LEVEL_11_1
-653:	同時にレンダリングできるバッファの数:8
-653:	最大テクスチャサイズ　幅:16384 高さ:16384
-654:	標準描画用の頂点バッファの作成.... 成功
-654:	シェーダーコード関係の初期化.... 成功
-674:	各種シェーダー用定数バッファの作成.... 成功
-676:	各種 ID3D11InputLayout の作成.... 成功
-696:	画像の単純転送処理の初期化... 成功
-697:	深度バッファを作成します.... 成功
-699:	フォントの初期化を行います
-702:	フォントの初期化は正常に終了しました
-788:	文字コードバッファの初期化を行います... 完了しました
-807:ＤＸライブラリの初期化処理終了
-23747:ChangeWindowMode実行 
-23748:ウインドウモードフラグが倒されました
-23748:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
-23763:画面モード変更処理を開始します
-23763:	深度バッファを作成します.... 成功
-23765:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
-23766:	IDXGISwapChain2 を作成します.... 成功
-23767:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
-23768:	IDXGIOutput を取得します.... 成功
-23768:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
-23784:画面モード変更処理は正常に終了しました
-23792:ChangeWindowMode実行 
-23808:ChangeWindowMode実行 
-23825:ChangeWindowMode実行 
-23842:ChangeWindowMode実行 
-23858:ChangeWindowMode実行 
-23875:ChangeWindowMode実行 
-23892:ChangeWindowMode実行 
-23909:ChangeWindowMode実行 
-23926:ChangeWindowMode実行 
-23942:ChangeWindowMode実行 
-23958:ChangeWindowMode実行 
-23976:ChangeWindowMode実行 
-23992:ChangeWindowMode実行 
-24009:ChangeWindowMode実行 
-24025:ChangeWindowMode実行 
-24042:ChangeWindowMode実行 
-24059:ChangeWindowMode実行 
-24076:ChangeWindowMode実行 
-24092:ChangeWindowMode実行 
-24109:ChangeWindowMode実行 
-24126:ChangeWindowMode実行 
-24143:ChangeWindowMode実行 
-24160:ChangeWindowMode実行 
-24177:ChangeWindowMode実行 
-24193:ChangeWindowMode実行 
-24210:ChangeWindowMode実行 
-24226:ChangeWindowMode実行 
-24243:ChangeWindowMode実行 
-24260:ChangeWindowMode実行 
-24277:ChangeWindowMode実行 
-24293:ChangeWindowMode実行 
-24309:ChangeWindowMode実行 
-24327:ChangeWindowMode実行 
-24344:ChangeWindowMode実行 
-24361:ChangeWindowMode実行 
-24377:ChangeWindowMode実行 
-24394:ChangeWindowMode実行 
-24411:ChangeWindowMode実行 
-24427:ChangeWindowMode実行 
-24444:ChangeWindowMode実行 
-24461:ChangeWindowMode実行 
-24477:ChangeWindowMode実行 
-24494:ChangeWindowMode実行 
-24512:ChangeWindowMode実行 
-24527:ChangeWindowMode実行 
-24544:ChangeWindowMode実行 
-24561:ChangeWindowMode実行 
-24578:ChangeWindowMode実行 
-24594:ChangeWindowMode実行 
-24612:ChangeWindowMode実行 
-24628:ChangeWindowMode実行 
-24645:ChangeWindowMode実行 
-24662:ChangeWindowMode実行 
-24678:ChangeWindowMode実行 
-24695:ChangeWindowMode実行 
-24712:ChangeWindowMode実行 
-24729:ChangeWindowMode実行 
-24745:ChangeWindowMode実行 
-24762:ChangeWindowMode実行 
-24778:ChangeWindowMode実行 
-24795:ChangeWindowMode実行 
-24796:ウインドウモードフラグが立てられました
-24796:ウインドウスタイルをウインドウモード用に変更します... 完了
-24843:画面モード変更処理を開始します
-24844:	深度バッファを作成します.... 成功
-24845:	[ウインドウモード 1920x1080 ( 320, 164 )-( 2240, 1244 )]
-24845:	IDXGISwapChain2 を作成します.... 成功
-24846:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
-24846:	IDXGIOutput を取得します.... 成功
-24848:	ウインドウスタイルをウインドウモード用に変更します... 完了
-24849:画面モード変更処理は正常に終了しました
-24856:ChangeWindowMode実行 
-24874:ChangeWindowMode実行 
-24890:ChangeWindowMode実行 
-24906:ChangeWindowMode実行 
-24924:ChangeWindowMode実行 
-24939:ChangeWindowMode実行 
-24957:ChangeWindowMode実行 
-24973:ChangeWindowMode実行 
-24989:ChangeWindowMode実行 
-25007:ChangeWindowMode実行 
-25023:ChangeWindowMode実行 
-25041:ChangeWindowMode実行 
-25057:ChangeWindowMode実行 
-25074:ChangeWindowMode実行 
-25091:ChangeWindowMode実行 
-25107:ChangeWindowMode実行 
-25124:ChangeWindowMode実行 
-25141:ChangeWindowMode実行 
-25157:ChangeWindowMode実行 
-25174:ChangeWindowMode実行 
-25191:ChangeWindowMode実行 
-25207:ChangeWindowMode実行 
-25224:ChangeWindowMode実行 
-25241:ChangeWindowMode実行 
-25257:ChangeWindowMode実行 
-25274:ChangeWindowMode実行 
-25292:ChangeWindowMode実行 
-25309:ChangeWindowMode実行 
-25325:ChangeWindowMode実行 
-25342:ChangeWindowMode実行 
-25359:ChangeWindowMode実行 
-25375:ChangeWindowMode実行 
-25392:ChangeWindowMode実行 
-25408:ChangeWindowMode実行 
-25425:ChangeWindowMode実行 
-25443:ChangeWindowMode実行 
-25459:ChangeWindowMode実行 
-25459:ウインドウモードフラグが倒されました
-25460:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
-25468:画面モード変更処理を開始します
-25468:	深度バッファを作成します.... 成功
-25469:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
-25470:	IDXGISwapChain2 を作成します.... 成功
-25472:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
-25473:	IDXGIOutput を取得します.... 成功
-25474:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
-25495:画面モード変更処理は正常に終了しました
-25499:ChangeWindowMode実行 
-25515:ChangeWindowMode実行 
-25532:ChangeWindowMode実行 
-25549:ChangeWindowMode実行 
-25566:ChangeWindowMode実行 
-25583:ChangeWindowMode実行 
-25599:ChangeWindowMode実行 
-25616:ChangeWindowMode実行 
-25632:ChangeWindowMode実行 
-25649:ChangeWindowMode実行 
-25666:ChangeWindowMode実行 
-25682:ChangeWindowMode実行 
-25699:ChangeWindowMode実行 
-25716:ChangeWindowMode実行 
-25733:ChangeWindowMode実行 
-25749:ChangeWindowMode実行 
-25766:ChangeWindowMode実行 
-25783:ChangeWindowMode実行 
-25800:ChangeWindowMode実行 
-25816:ChangeWindowMode実行 
-25833:ChangeWindowMode実行 
-25849:ChangeWindowMode実行 
-25866:ChangeWindowMode実行 
-25883:ChangeWindowMode実行 
-25900:ChangeWindowMode実行 
-25916:ChangeWindowMode実行 
-25934:ChangeWindowMode実行 
-25949:ChangeWindowMode実行 
-25967:ChangeWindowMode実行 
-25984:ChangeWindowMode実行 
-25985:ウインドウモードフラグが立てられました
-25985:ウインドウスタイルをウインドウモード用に変更します... 完了
-25998:画面モード変更処理を開始します
-25998:	深度バッファを作成します.... 成功
-25999:	[ウインドウモード 1920x1080 ( 320, 164 )-( 2240, 1244 )]
-25999:	IDXGISwapChain2 を作成します.... 成功
-26000:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
-26001:	IDXGIOutput を取得します.... 成功
-26001:	ウインドウスタイルをウインドウモード用に変更します... 完了
-26003:画面モード変更処理は正常に終了しました
-26009:ChangeWindowMode実行 
-26025:ChangeWindowMode実行 
-26042:ChangeWindowMode実行 
-26058:ChangeWindowMode実行 
-26075:ChangeWindowMode実行 
-26092:ChangeWindowMode実行 
-26108:ChangeWindowMode実行 
-26126:ChangeWindowMode実行 
-26142:ChangeWindowMode実行 
-26159:ChangeWindowMode実行 
-26176:ChangeWindowMode実行 
-26193:ChangeWindowMode実行 
-26209:ChangeWindowMode実行 
-26226:ChangeWindowMode実行 
-26243:ChangeWindowMode実行 
-26260:ChangeWindowMode実行 
-26276:ChangeWindowMode実行 
-26293:ChangeWindowMode実行 
-26309:ChangeWindowMode実行 
-26326:ChangeWindowMode実行 
-26343:ChangeWindowMode実行 
-26343:ウインドウモードフラグが倒されました
-26344:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
-26371:画面モード変更処理を開始します
-26372:	深度バッファを作成します.... 成功
-26373:	[ウインドウモード 1920x1080 ( 0, 0 )-( 2560, 1440 )]
-26373:	IDXGISwapChain2 を作成します.... 成功
-26374:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
-26374:	IDXGIOutput を取得します.... 成功
-26375:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
-26384:画面モード変更処理は正常に終了しました
-26392:ChangeWindowMode実行 
-26408:ChangeWindowMode実行 
-26424:ChangeWindowMode実行 
-26442:ChangeWindowMode実行 
-26458:ChangeWindowMode実行 
-26475:ChangeWindowMode実行 
-26492:ChangeWindowMode実行 
-26508:ChangeWindowMode実行 
-26525:ChangeWindowMode実行 
-26542:ChangeWindowMode実行 
-26559:ChangeWindowMode実行 
-26575:ChangeWindowMode実行 
-26593:ChangeWindowMode実行 
-26609:ChangeWindowMode実行 
-26626:ChangeWindowMode実行 
-26643:ChangeWindowMode実行 
-26659:ChangeWindowMode実行 
-26676:ChangeWindowMode実行 
-26693:ChangeWindowMode実行 
-26709:ChangeWindowMode実行 
-26726:ChangeWindowMode実行 
-26743:ChangeWindowMode実行 
-26759:ChangeWindowMode実行 
-26776:ChangeWindowMode実行 
-26794:ChangeWindowMode実行 
-26811:ChangeWindowMode実行 
-26827:ChangeWindowMode実行 
-26845:ChangeWindowMode実行 
-26861:ChangeWindowMode実行 
-26878:ChangeWindowMode実行 
-26895:ChangeWindowMode実行 
-26911:ChangeWindowMode実行 
-26928:ChangeWindowMode実行 
-26944:ChangeWindowMode実行 
-26962:ChangeWindowMode実行 
-26978:ChangeWindowMode実行 
-26995:ChangeWindowMode実行 
-27012:ChangeWindowMode実行 
-27028:ChangeWindowMode実行 
-27045:ChangeWindowMode実行 
-27062:ChangeWindowMode実行 
-27078:ChangeWindowMode実行 
-27095:ChangeWindowMode実行 
-27112:ChangeWindowMode実行 
-27128:ChangeWindowMode実行 
-27145:ChangeWindowMode実行 
-27162:ChangeWindowMode実行 
-27178:ChangeWindowMode実行 
-27195:ChangeWindowMode実行 
-27213:ChangeWindowMode実行 
-27229:ChangeWindowMode実行 
-27246:ChangeWindowMode実行 
-27263:ChangeWindowMode実行 
-27280:ChangeWindowMode実行 
-27296:ChangeWindowMode実行 
-27313:ChangeWindowMode実行 
-27330:ChangeWindowMode実行 
-85387:フォントの初期化を行います
-85390:フォントの初期化は正常に終了しました
-85669:d3d11.dll の解放 1
-85669:dxgi.dll の解放 1
-85672:Direct3D11 のオブジェクト数を出力
-85672:Direct3D11 のオブジェクト合計数 : 0
-85675:DirectInput 関連の終了処理... 完了
-85676:サウンド関連の終了処理... ディスプレイ情報のセットアップ開始
-85679:	モニターの数：2  ディスプレイデバイスの数：8
-85679:	No.0  モニター名：\\.\DISPLAY1　2560x1440　32bit　60Hz  120x120dpi
-85680:	No.1  モニター名：\\.\DISPLAY5　1920x1080　32bit　60Hz  120x120dpi
-85693:ディスプレイ情報のセットアップ完了
-85698:完了
-85699:ウィンドウ関連の終了処理... ウインドウを閉じようとしています
-85706:ウインドウが破棄されようとしています
-85708:ソフトを終了する準備が整いました
-85781:完了
-85797:ＣＯＭを終了... 完了
-85798:
-85798:Alloc memory dump
-85798:	Total size:0(0.000kb)  Alloc num:0
-85799:
+3:		論理プロセッサの数 : 20
+3:		ＯＳ  Windows11 ( Build 26100  )
+103:		現時点のＣＰＵ動作速度：大体3.59GHz
+103:		ＭＭＸ命令を使用します
+103:		ＳＳＥ命令が使用可能です
+103:		ＳＳＥ２命令が使用可能です
+103:		ＣＰＵベンダ：GenuineIntel
+105:		ＣＰＵ名：12th Gen Intel(R) Core(TM) i7-12700KF
+106:	ＣＯＭの初期化... 成功
+209:	非同期読み込み処理の初期化...成功
+209:	ファイルアクセス処理の初期化...成功
+210:	メモリ総量:32560.35MB  空きメモリ領域:14430.23MB 
+210:	タイマーの精度を検査します
+211:	精度結果 更新回数 マルチメディアタイマー：0  パフォーマンスカウンター：60
+211:	 パフォーマンスカウンターを使用します タイマー精度 : 10000.000000 KHz 
+212:	 
+212:	ソフトの二重起動検査... 二重起動はされていませんでした
+212:	ウインドウクラスを登録します... 登録に成功しました
+213:	ウインドウモード起動用のウインドウを作成します
+213:	ディスプレイ情報のセットアップ開始
+215:		モニターの数：2  ディスプレイデバイスの数：4
+216:		No.0  モニター名：\\.\DISPLAY1　1920x1080　32bit　60Hz  96x96dpi
+218:		No.1  モニター名：\\.\DISPLAY2　1920x1080　32bit　60Hz  96x96dpi
+265:	ディスプレイ情報のセットアップ完了
+265:	ウインドウ矩形 ( -16, -50 )-( 1920, 1069 )
+273:	ウインドウの作成に成功しました
+274:	ウインドウを表示します
+321:	ＩＭＥを無効にしました
+324:	ウインドウスタイルをウインドウモード用に変更します... 完了
+371:	XInput DLL の読み込み中... 成功
+376:	DirectInput関係初期化処理
+377:		DirectInput8 の取得を試みます...成功
+462:			引き続き初期化処理... 初期化成功
+464:		ジョイパッドの初期化... 
+465:			XInput 対応コントローラーのチェックを開始します
+465:				XInput 対応コントローラー No.0 をチェック
+467:				XInput 対応コントローラー No.0 の接続を確認しました
+468:				XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
+468:				XInput 対応コントローラー No.1 をチェック
+468:				XInput 対応コントローラー No.1 の接続は確認できませんでした
+469:				XInput 対応コントローラー No.2 をチェック
+469:				XInput 対応コントローラー No.2 の接続は確認できませんでした
+469:				XInput 対応コントローラー No.3 をチェック
+470:				XInput 対応コントローラー No.3 の接続は確認できませんでした
+470:			XInput 対応コントローラーのチェック完了
+470:			DirectInput 対応ジョイパッドの列挙を開始します
+615:				DirectInput 対応入力装置を検出しました
+615:						Device Product GUID  : c21d046d,0000,0000,00,00,50,49,44,56,49,44
+616:						Device Instance GUID : 6007aec0,4f57,11ef,80,01,44,45,53,54,00,00
+616:					DirectInputDevice8 の作成... 成功
+617:					DirectInputDevice の情報を取得します... 成功
+617:						Device Product Name  : Controller (Gamepad F310)
+617:						Device Instance Name : Controller (Gamepad F310)
+618:					検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
+618:					検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 不一致
+619:					検出した DirectInput 対応入力装置が XInput 対応コントローラーか確認... 一致
+975:				検出した DirectInput 対応入力装置の初期化を中断します
+975:			DirectInput 対応ジョイパッドの列挙終了
+976:		ジョイパッドの初期化は正常に終了しました
+976:		マウスデバイスの初期化... 初期化成功
+976:		キーボードデバイスの初期化... 初期化成功
+983:	DirectInput 関連の初期化は正常に終了しました
+1007:	WASAPI の初期化を行います
+1108:		デバイス名 : PHL 273V7 (NVIDIA High Definition Audio)
+1113:		デフォルト遅延時間 : 10.000 ms
+1114:		最小遅延時間       : 3.000 ms
+1114:		遅延時間           : 10.000 ms
+1114:		チャンネル数  　   : 2 ch
+1115:		量子化ビット深度   : 32 bit
+1115:		有効ビット深度　   : 32 bit
+1115:		サンプリングレート : 48000 Hz
+1115:		データ形式         : 浮動小数点型
+1123:		動作モード         : 共有モード
+1123:	WASAPI の初期化は正常に終了しました
+1128:	d3d11.dll の読み込み.... 成功
+2732:	dxgi.dll の読み込み.... 成功
+2732:	API CreateDXGIFactory2 のアドレスを取得します.... 成功
+2733:	IDXGIFactory2 を作成します.... 成功
+2736:	API CreateDXGIFactory6 のアドレスを取得します.... 成功
+2736:	IDXGIAdapter を列挙
+2736:		Adapter No.0 Desc:NVIDIA GeForce RTX 3070  VRAM:8018MB
+2737:			Output Device No.0 Name:\\.\DISPLAY1 ( 0, 0 )-( 1920, 1080 )
+2737:			Output Device No.1 Name:\\.\DISPLAY2 ( 2, -1080 )-( 1922, 0 )
+2738:		Adapter No.1 Desc:Microsoft Basic Render Driver  VRAM:0MB
+2738:	API D3D11CreateDevice のアドレスを取得します.... 成功
+2738:	IDXGIAdapter を取得します.... 成功
+2739:	IDXGIAdapter1 を取得します.... 成功
+2739:	IDXGIAdapter2 を取得します.... 成功
+2740:	IDXGIAdapter3 を取得します.... 成功
+2740:	IDXGIAdapter4 を取得します.... 成功
+2740:	Direct3D 11 FeatureLevel 11_0 以上を対象とします
+2740:	ID3D11Device オブジェクトを取得します.... 成功
+2861:	IDXGIDevice1 を取得します.... 成功
+2862:	IDXGIDevice1->SetMaximunFrameLatency( 1 ); を実行しました
+2862:	[ウインドウモード 1920x1080 ( 0, 0 )-( 1920, 1080 )]
+2862:	IDXGISwapChain2 を作成します.... 成功
+2863:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+2865:	IDXGIOutput を取得します.... 成功
+2865:	Graphics Device:NVIDIA GeForce RTX 3070
+2865:	画面のフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
+2865:	16bit Zバッファフォーマットは DXGI_FORMAT_D16_UNORM です
+2865:	24bit Zバッファフォーマットは DXGI_FORMAT_D24_UNORM_S8_UINT です
+2865:	32bit Zバッファフォーマットは DXGI_FORMAT_D32_FLOAT です
+2866:	16bit カラーフォーマットは DXGI_FORMAT_B5G6R5_UNORM です
+2866:	32bit カラーフォーマットは DXGI_FORMAT_B8G8R8X8_UNORM です
+2866:	アルファ付き 16bit カラーフォーマットは DXGI_FORMAT_B4G4R4A4_UNORM です
+2866:	アルファ付き 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
+2867:	アルファテスト用 16bit カラーフォーマットは DXGI_FORMAT_B5G5R5A1_UNORM です
+2867:	アルファテスト用 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
+2867:	ＤＸＴ１テクスチャフォーマットは DXGI_FORMAT_BC1_UNORM です
+2867:	ＤＸＴ２テクスチャフォーマットは使えません
+2867:	ＤＸＴ３テクスチャフォーマットは DXGI_FORMAT_BC2_UNORM です
+2868:	ＤＸＴ４テクスチャフォーマットは使えません
+2868:	ＤＸＴ５テクスチャフォーマットは DXGI_FORMAT_BC3_UNORM です
+2868:	BC7_UNORM テクスチャフォーマットは DXGI_FORMAT_BC7_UNORM です
+2868:	BC7_UNORM_SRGB テクスチャフォーマットは DXGI_FORMAT_BC7_UNORM_SRGB です
+2868:	ABGR 整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_UNORM です
+2868:	ABGR 浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_FLOAT です
+2869:	ABGR 浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32B32A32_FLOAT です
+2869:	１チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8_UNORM です
+2869:	１チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_UNORM です
+2869:	１チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_FLOAT です
+2869:	１チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32_FLOAT です
+2870:	２チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8G8_UNORM です
+2870:	２チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_UNORM です
+2870:	２チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_FLOAT です
+2870:	２チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32_FLOAT です
+2870:	描画用 16bit カラーフォーマットは DXGI_FORMAT_B5G6R5_UNORM です
+2870:	描画用 32bit カラーフォーマットは DXGI_FORMAT_B8G8R8X8_UNORM です
+2871:	描画用アルファ付き 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
+2871:	描画用 ABGR 整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_UNORM です
+2871:	描画用 ABGR 浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_FLOAT です
+2871:	描画用 ABGR 浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32B32A32_FLOAT です
+2871:	描画用１チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8_UNORM です
+2872:	描画用１チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_UNORM です
+2872:	描画用１チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_FLOAT です
+2872:	描画用１チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32_FLOAT です
+2872:	描画用２チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8G8_UNORM です
+2872:	描画用２チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_UNORM です
+2873:	描画用２チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_FLOAT です
+2873:	描画用２チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32_FLOAT です
+2873:	使用する機能レベル:D3D_FEATURE_LEVEL_11_1
+2873:	同時にレンダリングできるバッファの数:8
+2873:	最大テクスチャサイズ　幅:16384 高さ:16384
+2874:	標準描画用の頂点バッファの作成.... 成功
+2875:	シェーダーコード関係の初期化.... 成功
+2883:	各種シェーダー用定数バッファの作成.... 成功
+2885:	各種 ID3D11InputLayout の作成.... 成功
+2895:	画像の単純転送処理の初期化... 成功
+2896:	深度バッファを作成します.... 成功
+2898:	フォントの初期化を行います
+2900:	フォントの初期化は正常に終了しました
+2960:	文字コードバッファの初期化を行います... 完了しました
+2977:ＤＸライブラリの初期化処理終了
+66644:フォントの初期化を行います
+66646:フォントの初期化は正常に終了しました
+66719:d3d11.dll の解放 1
+66719:dxgi.dll の解放 1
+66720:Direct3D11 のオブジェクト数を出力
+66720:Direct3D11 のオブジェクト合計数 : 0
+66724:DirectInput 関連の終了処理... 完了
+66724:サウンド関連の終了処理... 完了
+66736:ウィンドウ関連の終了処理... ウインドウを閉じようとしています
+66744:ウインドウが破棄されようとしています
+66744:ソフトを終了する準備が整いました
+66818:完了
+66825:ＣＯＭを終了... 完了
+66826:
+66826:Alloc memory dump
+66826:	Total size:0(0.000kb)  Alloc num:0
+66826:

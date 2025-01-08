@@ -172,6 +172,7 @@
     <ClCompile Include="Chara\Enemy\EnemyAI.cpp" />
     <ClCompile Include="Chara\Enemy\EnemyStateMove.cpp" />
     <ClCompile Include="Chara\Player\PlayerStateDeath.cpp" />
+    <ClCompile Include="Chara\Npc.cpp" />
     <ClCompile Include="Scene\SceneGameover.cpp" />
     <ClCompile Include="Scene\SceneClear.cpp" />
     <ClCompile Include="Util\EventData.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="Chara\Enemy\EnemyAI.h" />
     <ClInclude Include="Chara\Enemy\EnemyStateMove.h" />
     <ClInclude Include="Chara\Player\PlayerStateDeath.h" />
+    <ClInclude Include="Chara\Npc.h" />
     <ClInclude Include="Scene\SceneGameover.h" />
     <ClInclude Include="Scene\SceneClear.h" />
     <ClInclude Include="Util\EventData.h" />

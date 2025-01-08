@@ -7,6 +7,7 @@ class UiBase;
 class UiBar;
 class EnemyBase;
 class Player;
+class Npc;
 class Weapon;
 class Camera;
 class Stage;
@@ -112,17 +113,30 @@ private:
 	/// <summary>
 	/// イベントトリガーをチェックする
 	/// </summary>
-	void CheckEventTrigger();
+	/// <param name="input">入力状態</param>
+	void CheckEventTrigger(const Input& input);
 
 	/// <summary>
 	/// 呼び出されたイベントを開始する
 	/// </summary>
+	/// <param name="input">入力状態</param>
 	/// <param name="eventId">開始するイベントID</param>
-	void StartEvent(const std::string& eventId);
+	void StartEvent(const std::string& eventId, const Input& input);
+
+	/// <summary>
+	/// シャドウマップをセットする
+	/// </summary>
+	void SetShadowMap();
+
+	/// <summary>
+	/// シャドウマップの描画情報をセットする
+	/// </summary>
+	void DrawSetUpShadow();
 
 private:
 	std::vector<std::shared_ptr<EnemyBase>> m_pEnemy; // 敵のポインタ
 	std::shared_ptr<Player> m_pPlayer;		// プレイヤーのポインタ
+	std::shared_ptr<Npc> m_pNpc;			// NPCのポインタ
 	std::shared_ptr<Weapon> m_pWeapon;		// 武器のポインタ
 	std::shared_ptr<Camera> m_pCamera;		// カメラのポインタ
 	std::shared_ptr<Stage> m_pStage;		// ステージのポインタ
@@ -143,4 +157,6 @@ private:
 	bool m_isPause;				// ポーズ状態かどうか(true:ポーズ状態)
 	bool m_isLoading;			// ロード中か(true:ロード中)
 	bool m_isLastBattle;		// ボス戦かどうか
+
+	std::vector<int> m_shadowMap; // シャドウマップ
 };

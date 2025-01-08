@@ -95,6 +95,18 @@ void EnemyBase::Draw(Player& player)
 		DrawAfterImage();
 	}
 
+#ifdef _DEBUG
+	DebugDraw debug;
+	debug.DrawEnemyInfo(m_pos, m_hp, m_enemyIndex, m_pState->GetStateName()); // 敵の情報を描画
+	// 当たり判定描画
+	debug.DrawBodyCol(m_colData[m_enemyIndex]);// 全身(紫色)
+	//debug.DrawArmCol(m_colData[m_enemyIndex]);	// 腕(水色)
+	//debug.DrawLegCol(m_colData[m_enemyIndex]);	// 脚(黄色)
+#endif
+}
+
+void EnemyBase::DrawUi()
+{
 	// プレイヤーに近づいたら敵名を表示する
 	VECTOR modelTopPos = VAdd(m_pos, VGet(0.0f, kAdjDispNamePos.y, 0.0f));
 	VECTOR screenPos = ConvWorldPosToScreenPos(modelTopPos);
@@ -104,18 +116,9 @@ void EnemyBase::Draw(Player& player)
 	if (isDispName)
 	{
 		m_pUiBar->DrawEnemyHpBar(*this);
-		DrawFormatStringFToHandle(screenPos.x - kAdjDispNamePos.x, screenPos.y - kAdjDispNamePos.y, Color::kColorW, 
+		DrawFormatStringFToHandle(screenPos.x - kAdjDispNamePos.x, screenPos.y - kAdjDispNamePos.y, Color::kColorW,
 			Font::m_fontHandle[static_cast<int>(Font::FontId::kEnemyName)], "%s", m_enemyName.c_str());
 	}
-
-#ifdef _DEBUG
-	DebugDraw debug;
-	debug.DrawEnemyInfo(m_pos, m_hp, m_enemyIndex, m_pState->GetStateName()); // 敵の情報を描画
-	// 当たり判定描画
-	debug.DrawBodyCol(m_colData[m_enemyIndex]);// 全身(紫色)
-	//debug.DrawArmCol(m_colData[m_enemyIndex]);	// 腕(水色)
-	//debug.DrawLegCol(m_colData[m_enemyIndex]);	// 脚(黄色)
-#endif
 }
 
 void EnemyBase::OnDamage(float damage)
