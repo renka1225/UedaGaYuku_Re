@@ -9,7 +9,7 @@ namespace
 	constexpr float kMinApproachRange = 20.0f;	// プレイヤーに近づく最小範囲
 	constexpr float kMinChaseRange = 200.0f;	// プレイヤーを追いかける最小範囲
 	constexpr float kMaxChaseRange = 800.0f;	// プレイヤーを追いかける最大範囲
-	constexpr int kDecisionFrame = 120;			// 行動を更新する時間
+	constexpr int kDecisionFrame = 300;			// 行動を更新する時間
 	constexpr int kMaxAttackEnemyNum = 2;		// 1度に攻撃する敵数
 	
 	const char* kLoadFilePath = "data/csv/enemyAI.csv";
@@ -175,8 +175,11 @@ void EnemyAI::SelectBattleAction(Player& pPlayer)
 		else if (attackEnemyNum == 0)
 		{
 			// 攻撃優先
-			m_priority[EnemyStateBase::EnemyStateKind::kPunch] += m_probability.lowProbability;
-			m_priority[EnemyStateBase::EnemyStateKind::kKick] += m_probability.lowProbability;
+			m_priority[EnemyStateBase::EnemyStateKind::kPunch] += m_probability.mediumProbability;
+			m_priority[EnemyStateBase::EnemyStateKind::kKick] += m_probability.mediumProbability;
+			m_priority[EnemyStateBase::EnemyStateKind::kRun] += m_probability.lowProbability;
+			m_priority[EnemyStateBase::EnemyStateKind::kAvoid] += m_probability.lowProbability;
+			m_priority[EnemyStateBase::EnemyStateKind::kGuard] += m_probability.lowProbability;
 		}
 		else
 		{

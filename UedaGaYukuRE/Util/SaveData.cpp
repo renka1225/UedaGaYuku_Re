@@ -12,7 +12,7 @@ namespace
 	const char* const kSaveDataPath = "data/saveData/savedata."; // セーブデータの保存を行うパス名
 	constexpr float kSaveDataInterval = 212.0f;	// セーブデータ情報表示位置間隔
 
-	const VECTOR kInitPos = VGet(7425.0f, 40.0f, 5190.0f);	// プレイヤーの初期位置
+	const VECTOR kInitPos = VGet(8957.0f, 40.0f, 2827.0f);	// プレイヤーの初期位置
 	constexpr float kInitHp = 10000.0f;						// プレイヤーの初期HP
 	constexpr int kMaxPossession = 12;						// アイテムの最大所持数
 
@@ -141,7 +141,11 @@ void SaveData::CreateNewData(int slot)
 	m_saveData.deadEnemyNum = 0;
 
 	// アイテムデータを作成
-	m_saveData.possessItem.resize(kMaxPossession, -1);
+	m_saveData.possessItem.resize(kMaxPossession);
+	for (auto& item : m_saveData.possessItem)
+	{
+		item = -1;
+	}
 
 	// カメラデータを作成
 	m_saveData.cameraPos = VGet(0.0f, kHeight, 0.0f);

@@ -142,6 +142,8 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		return shared_from_this();
 	}
 
+	if (m_pPlayer->GetIsBattle()) m_pPlayer->SetIsTalk(false);
+
 	// 最終決戦中でない場合
 	if (!m_isLastBattle)
 	{

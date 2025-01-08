@@ -46,5 +46,4 @@ void Npc::Update(Stage& stage)
 void Npc::Draw()
 {
 	CharacterBase::Draw();
-	DrawFormatString(0, 700, 0xffffff, "NPC(X:%.2f,Y:%.2f,Z:%.2f)", m_pos.x, m_pos.y, m_pos.z);
 }
