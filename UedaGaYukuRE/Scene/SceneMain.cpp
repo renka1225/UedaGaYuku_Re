@@ -134,12 +134,20 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	}
 
 	// ゲームオーバー
-	if (m_pPlayer->GetIsDead() && !m_isBattleEndStaging)
+	if (m_pPlayer->GetIsDead())
 	{
-		// バトル終了演出を行う
-		m_isBattleEndStaging = true;
-		m_battleEndStagingTime = kBattleEndStagingTime;
-		return shared_from_this();
+		if (!m_isBattleEndStaging)
+		{
+			// バトル終了演出を行う
+			m_isBattleEndStaging = true;
+			m_battleEndStagingTime = kBattleEndStagingTime;
+			return shared_from_this();
+		}
+		
+		if (m_battleStartStagingTime <= 0)
+		{
+			return std::make_shared<SceneGameover>();
+		}
 	}
 
 	if (m_pPlayer->GetIsBattle()) m_pPlayer->SetIsTalk(false);
@@ -272,7 +280,7 @@ void SceneMain::Draw()
 	if (isDrawMap)
 	{
 		// ミニマップを表示
-		m_pUi->DrawMiniMap(*m_pPlayer, m_pEnemy);
+		//m_pUi->DrawMiniMap(*m_pPlayer, m_pEnemy);
 	}
 	
 #ifdef _DEBUG
@@ -411,9 +419,6 @@ std::shared_ptr<SceneBase> SceneMain::UpdateBattleEndStaging()
 	// 演出終了後
 	else
 	{
-		// プレイヤーが死亡している場合、ゲームオーバー画面に遷移する
-		if (m_pPlayer->GetIsDead()) return std::make_shared<SceneGameover>();
-
 		m_isBattleEndStaging = false;
 		m_currentEnemyNum = 0;
 
@@ -444,7 +449,6 @@ std::shared_ptr<SceneBase> SceneMain::UpdateEndingStaging()
 	if (m_endingTime > 0)
 	{
 		m_endingTime--;
-		printfDx("エンディング中\n");
 	}
 	// 演出終了後
 	else

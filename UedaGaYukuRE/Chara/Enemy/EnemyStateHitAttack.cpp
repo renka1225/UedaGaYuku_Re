@@ -4,7 +4,7 @@
 
 namespace
 {
-	constexpr float kDamageReleaseTime = 10; // 無敵状態を解除する時間
+	constexpr float kDamageReleaseTime = 8; // 無敵状態を解除する時間
 }
 
 void EnemyStateHitAttack::Init()

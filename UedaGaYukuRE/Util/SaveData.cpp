@@ -200,9 +200,10 @@ void SaveData::DrawSaveData(Vec2 pos)
 	auto& saveData = SaveData::GetInstance();
 
 	saveData.Load(SaveData::SelectSaveData::one);
-	DrawFormatStringFToHandle(pos.x, pos.y + (kSaveDataInterval * static_cast<float>(SaveData::SelectSaveData::one)), 
+	DrawFormatStringFToHandle(pos.x, pos.y + (kSaveDataInterval * static_cast<float>(SaveData::SelectSaveData::one)),
 		Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kSave)],
 		"%d/%d/%d %d時:%d分:%d秒", m_saveData.date.Year, m_saveData.date.Mon, m_saveData.date.Day, m_saveData.date.Hour, m_saveData.date.Min, m_saveData.date.Sec);
+
 
 	saveData.Load(SaveData::SelectSaveData::two);
 	DrawFormatStringFToHandle(pos.x, pos.y + (kSaveDataInterval * static_cast<float>(SaveData::SelectSaveData::two)),

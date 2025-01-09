@@ -31,6 +31,12 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	GetJoypadAnalogInput(&m_analogX, &m_analogY, DX_INPUT_PAD1); // アナログスティックの入力状態
 	m_pPlayer->Move(m_moveVec, stage, false);   // 移動情報を反映する
 
+	// 死亡処理
+	if (m_pPlayer->GetHp() <= 0.0f)
+	{
+		ChangeStateDeath();
+	}
+
 	// 特定の状態中は更新しない
 	if (IsStateInterrupt()) return;
 
@@ -43,11 +49,6 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 
 	// バトル中でない場合
 	if (!m_pPlayer->GetIsBattle()) return;
-
-	if (m_pPlayer->GetHp() <= 0.0f)
-	{
-		ChangeStateDeath();
-	}
 
 	// ダメージを受けた場合
 	if (m_pPlayer->GetIsOnDamage())

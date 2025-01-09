@@ -16,9 +16,10 @@
   EnemyAI.cpp
   EnemyStateMove.cpp
   PlayerStateDeath.cpp
+  Npc.cpp
   SceneGameover.cpp
-  SceneClear.cpp
   コンパイル中...
+  SceneClear.cpp
   EventData.cpp
   Item.cpp
   ObjectBase.cpp
@@ -26,9 +27,6 @@
   PlayerStateAvoid.cpp
   PlayerStateGuard.cpp
   SaveData.cpp
-C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Util\SaveData.cpp(199,62): warning C5055: 演算子 '*': 列挙型と浮動小数点型の間では非推奨です
-C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Util\SaveData.cpp(204,62): warning C5055: 演算子 '*': 列挙型と浮動小数点型の間では非推奨です
-C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Util\SaveData.cpp(209,62): warning C5055: 演算子 '*': 列挙型と浮動小数点型の間では非推奨です
   SceneSave.cpp
   SceneEnhance.cpp
   SceneUseItem.cpp
@@ -41,10 +39,10 @@ C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Util\SaveData.cpp(209,62): warning C5055: �
   LoadCsv.cpp
   DebugDraw.cpp
   SceneDebug.cpp
-  main.cpp
   コンパイル中...
+  main.cpp
   Player.cpp
-C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Player\Player.cpp(421,12): warning C4267: '初期化中': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\UedaGaYukuRE\Chara\Player\Player.cpp(422,32): warning C4267: '初期化中': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
   SceneSelect.cpp
   SceneOption.cpp
   SceneTitle.cpp
@@ -55,11 +53,11 @@ C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Player\Player.cpp(421,12): warning C4
   SceneManager.cpp
   Input.cpp
   Weapon.cpp
-C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Object\Weapon.cpp(216,46): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
-C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Object\Weapon.cpp(222,46): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\UedaGaYukuRE\Object\Weapon.cpp(222,83): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\UedaGaYukuRE\Object\Weapon.cpp(228,82): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
   コード生成しています。
   Previous IPDB not found, fall back to full compilation.
-  All 4874 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 5022 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   コード生成が終了しました。
 EffekseerForDXLib_vs2019_x64.lib(EffekseerForDXLib.obj) : warning LNK4099: PDB '' が 'EffekseerForDXLib_vs2019_x64.lib(EffekseerForDXLib.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-  Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Release\UedaGaYukuRE.exe
+  Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\UedaGaYukuRE\x64\Release\UedaGaYukuRE.exe
