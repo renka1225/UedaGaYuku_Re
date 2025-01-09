@@ -43,9 +43,11 @@ namespace
 	constexpr int kSelectMax = 12;	 // 選択アイテムの最大番号
 	constexpr int kSelectRow = 2;	 // 選択アイテムの行数
 	constexpr int kSelectCol = 6;	 // 選択アイテムの列数
+	constexpr int kDispTime = 3;	// アイテム画像を表示し始める時間
 }
 
-SceneUseItem::SceneUseItem(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer)
+SceneUseItem::SceneUseItem(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer):
+	m_time(0)
 {
 	m_pPlayer = pPlayer;
 	m_pPrevScene = pScene;
@@ -70,6 +72,8 @@ SceneUseItem::~SceneUseItem()
 
 std::shared_ptr<SceneBase> SceneUseItem::Update(Input& input)
 {
+	m_time++;
+
 	// プレイヤーの所持しているアイテム情報を取得する
 	m_possessItem = m_pPlayer->GetPossessItem();
 
@@ -100,6 +104,7 @@ void SceneUseItem::Draw()
 	DrawMoney(m_pPlayer); // 所持金額表示
 
 	// アイテムの情報を表示する
+	if (m_time < kDispTime) return;
 	for (int i = 0; i < m_possessItem.size(); i++)
 	{
 		// アイテムの情報がない部分は無視する

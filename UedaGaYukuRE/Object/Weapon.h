@@ -16,32 +16,32 @@ public:
 	struct WeaponData
 	{
 		int durability;		// 耐久力
-		VECTOR colStartPos; // 武器の当たり判定始点
-		VECTOR colEndPos;	// 武器の当たり判定終点
-		float colRadius;	// 武器の当たり判定半径
+		VECTOR colStartPos = VGet(0.0f ,0.0f, 0.0f); // 武器の当たり判定始点
+		VECTOR colEndPos = VGet(0.0f, 0.0f, 0.0f);	 // 武器の当たり判定終点
+		float colRadius = 0.0f;						 // 武器の当たり判定半径
 	};
 
 	// 当たり判定更新データ
 	struct UpdateColData
 	{
-		VECTOR colStartPos; // 武器の当たり判定始点
-		VECTOR colEndPos;	// 武器の当たり判定終点
-		float colRadius;	// 武器の当たり判定半径
+		VECTOR colStartPos = VGet(0.0f, 0.0f, 0.0f); // 武器の当たり判定始点
+		VECTOR colEndPos = VGet(0.0f, 0.0f, 0.0f);	// 武器の当たり判定終点
+		float colRadius = 0.0f;	// 武器の当たり判定半径
 	};
 
 private:
 	// 配置情報データ
 	struct LocationData
 	{
-		std::string name;	// 名前
-		std::string tag;	// タグ
-		VECTOR pos;			// 座標
-		VECTOR rot;			// 回転
-		VECTOR scale;		// スケール
-		VECTOR initPos;		// 初期位置
-		VECTOR initRot;		// 初期回転量
+		std::string name = "";	// 名前
+		std::string tag = "";	// タグ
+		VECTOR pos = VGet(0.0f, 0.0f, 0.0f);		// 座標
+		VECTOR rot = VGet(0.0f, 0.0f, 0.0f);		// 回転
+		VECTOR scale = VGet(0.0f, 0.0f, 0.0f);		// スケール
+		VECTOR initPos = VGet(0.0f, 0.0f, 0.0f);	// 初期位置
+		VECTOR initRot = VGet(0.0f, 0.0f, 0.0f);	// 初期回転量
 		UpdateColData updateCol;	// 更新後の当たり判定データ
-		int durability;				// 武器の耐久力
+		int durability = 0;			// 武器の耐久力
 		bool isGrab = false;		// 武器が掴まれた状態か
 	};
 

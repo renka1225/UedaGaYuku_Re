@@ -218,7 +218,7 @@ void UiBase::DrawNpcUi(VECTOR pos)
 
 	if (!isViewClip)
 	{
-		DrawGraph(screenPos.x, screenPos.y, m_handle[Handle::kNpcTalk], true);
+		DrawGraphF(screenPos.x, screenPos.y, m_handle[Handle::kNpcTalk], true);
 	}
 }
 

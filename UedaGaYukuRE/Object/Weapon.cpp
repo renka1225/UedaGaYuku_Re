@@ -205,7 +205,7 @@ std::string Weapon::GetNearWeaponTag() const
 
 void Weapon::LoadLocationData()
 {
-	m_loadLocationData = FileRead_open((kWeaponFileName + "data.loc").c_str());
+	m_loadLocationData = FileRead_open((kWeaponFileName + "locationData.loc").c_str());
 
 	int dataCnt = 0; // データ数
 	FileRead_read(&dataCnt, sizeof(dataCnt), m_loadLocationData);

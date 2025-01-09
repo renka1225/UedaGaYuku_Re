@@ -39,7 +39,7 @@ namespace
 	constexpr int kFirstSpawnTime = 1200;	// ゲーム開始から最初の敵がスポーンするまでの時間
 	constexpr int kEnemySpawnMinTime = 1200;		// 敵がスポーンするまでの最小時間
 	constexpr int kEnemySpawnMaxTime = 3000;		// 敵がスポーンするまでの最大時間
-	constexpr float kEnemyExtinctionDist = 2000.0f;	// 敵が消滅する範囲
+	constexpr float kEnemyExtinctionDist = 2500.0f;	// 敵が消滅する範囲
 
 	constexpr int kBattleStartStagingTime = 120; // バトル開始時の演出時間
 	constexpr int kBattleEndStagingTime = 150;	 // バトル終了時の演出時間
@@ -555,8 +555,13 @@ void SceneMain::UpdateEnemy()
 		if (IsExtinction(i))
 		{
 			m_pEnemy[i] = nullptr;
-			m_pPlayer->AddDeadEnemyNum();
-			m_currentEnemyNum--;
+
+			// バトル中の場合は、倒した敵数を増やす
+			if (m_pPlayer->GetIsBattle())
+			{
+				m_pPlayer->AddDeadEnemyNum();
+				m_currentEnemyNum--;
+			}
 		}
 		else
 		{

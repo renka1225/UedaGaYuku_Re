@@ -54,5 +54,6 @@ private:
 
 private:
 	std::vector<int> m_possessItem;	// プレイヤーが所持しているアイテム
+	int m_time; // アイテム画面を開いてからの時間
 };
 

@@ -58,53 +58,53 @@ public:
 	// キャラクターのステータス
 	struct Status
 	{
-		float maxHp;				 // 最大HP
-		float maxGauge;				 // 最大ゲージ量
-		float walkSpeed;			 // 歩き速度
-		float runSpeed;				 // 走り速度
-		float avoidDist;			 // 回避距離
-		float atkPowerPunch1;		 // 攻撃力_パンチ1コンボ目
-		float atkPowerPunch2;		 // 攻撃力_パンチ2コンボ目
-		float atkPowerPunch3;		 // 攻撃力_パンチ3コンボ目
-		float atkPowerKick;			 // 攻撃力_キック
-		float atkPowerOneHandWeapon; // 攻撃力_片手武器
-		float atkPowerTwoHandWeapon; // 攻撃力_両手武器
+		float maxHp = 0.0f;					// 最大HP
+		float maxGauge = 0.0f;				// 最大ゲージ量
+		float walkSpeed = 0.0f;				// 歩き速度
+		float runSpeed = 0.0f;				// 走り速度
+		float avoidDist = 0.0f;				// 回避距離
+		float atkPowerPunch1 = 0.0f;		// 攻撃力_パンチ1コンボ目
+		float atkPowerPunch2 = 0.0f;		// 攻撃力_パンチ2コンボ目
+		float atkPowerPunch3 = 0.0f;		// 攻撃力_パンチ3コンボ目
+		float atkPowerKick = 0.0f;			// 攻撃力_キック
+		float atkPowerOneHandWeapon = 0.0f; // 攻撃力_片手武器
+		float atkPowerTwoHandWeapon = 0.0f; // 攻撃力_両手武器
 	};
 
 	// 当たり判定情報
 	struct ColData
 	{
-		VECTOR bodyStartPos;		// 全身の当たり判定始点
-		VECTOR bodyEndPos;			// 全身の当たり判定終点
-		VECTOR bodyUpdateStartPos;	// 更新後の全身の当たり判定始点
-		VECTOR bodyUpdateEndPos;	// 更新後の全身の当たり判定終点
-		VECTOR leftShoulderPos;		// 左肩
-		VECTOR leftForeArmPos;		// 左肘
-		VECTOR leftHandPos;			// 左手首
-		VECTOR rightShoulderPos;	// 右肩
-		VECTOR rightForeArmPos;		// 右肘
-		VECTOR rightHandPos;		// 右手首
-		VECTOR leftUpLegPos;		// 左もも
-		VECTOR leftLegPos;			// 左膝
-		VECTOR leftFootPos;			// 左足首
-		VECTOR leftEndPos;			// 左つま先
-		VECTOR rightUpLegPos;		// 右もも
-		VECTOR rightLegPos;			// 右膝
-		VECTOR rightFootPos;		// 右足首
-		VECTOR rightEndPos;			// 右足終点
-		float bodyRadius;			// 全身の当たり判定の半径
-		float armRadius;			// 腕の当たり判定の半径
-		float legRadius;			// 脚の当たり判定の半径
+		VECTOR bodyStartPos = VGet(0.0f, 0.0f, 0.0f);		// 全身の当たり判定始点
+		VECTOR bodyEndPos = VGet(0.0f, 0.0f, 0.0f);			// 全身の当たり判定終点
+		VECTOR bodyUpdateStartPos = VGet(0.0f, 0.0f, 0.0f);	// 更新後の全身の当たり判定始点
+		VECTOR bodyUpdateEndPos = VGet(0.0f, 0.0f, 0.0f);	// 更新後の全身の当たり判定終点
+		VECTOR leftShoulderPos = VGet(0.0f, 0.0f, 0.0f);	// 左肩
+		VECTOR leftForeArmPos = VGet(0.0f, 0.0f, 0.0f);		// 左肘
+		VECTOR leftHandPos = VGet(0.0f, 0.0f, 0.0f);		// 左手首
+		VECTOR rightShoulderPos = VGet(0.0f, 0.0f, 0.0f);	// 右肩
+		VECTOR rightForeArmPos = VGet(0.0f, 0.0f, 0.0f);	// 右肘
+		VECTOR rightHandPos = VGet(0.0f, 0.0f, 0.0f);		// 右手首
+		VECTOR leftUpLegPos = VGet(0.0f, 0.0f, 0.0f);		// 左もも
+		VECTOR leftLegPos = VGet(0.0f, 0.0f, 0.0f);			// 左膝
+		VECTOR leftFootPos = VGet(0.0f, 0.0f, 0.0f);		// 左足首
+		VECTOR leftEndPos = VGet(0.0f, 0.0f, 0.0f);			// 左つま先
+		VECTOR rightUpLegPos = VGet(0.0f, 0.0f, 0.0f);		// 右もも
+		VECTOR rightLegPos = VGet(0.0f, 0.0f, 0.0f);		// 右膝
+		VECTOR rightFootPos = VGet(0.0f, 0.0f, 0.0f);		// 右足首
+		VECTOR rightEndPos = VGet(0.0f, 0.0f, 0.0f);		// 右足終点
+		float bodyRadius = 0.0f; // 全身の当たり判定の半径
+		float armRadius = 0.0f;	 // 腕の当たり判定の半径
+		float legRadius = 0.0f;	 // 脚の当たり判定の半径
 	};
 
 	// アニメーション情報
 	struct AnimInfo
 	{
-		float loopFrame;	// 開始フレーム
-		float playSpeed;	// アニメーションの速度
-		int startupFrame;	// 発生フレーム数
-		int activeFrame;	// 持続フレーム数
-		int recoveryFrame;	// 硬直フレーム数
+		float loopFrame = 0.0f;	// 開始フレーム
+		float playSpeed = 0.0f;	// アニメーションの速度
+		int startupFrame = 0;	// 発生フレーム数
+		int activeFrame = 0;	// 持続フレーム数
+		int recoveryFrame = 0;	// 硬直フレーム数
 	};
 
 public:

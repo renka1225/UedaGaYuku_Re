@@ -146,7 +146,7 @@ std::shared_ptr<SceneBase> SceneOption::Update(Input& input)
 			else if (m_select == Select::kWindow)
 			{
 				m_isWindow = true;
-				m_afterSelect = SelectWindow::kFullScreen;
+				m_afterSelect = SelectWindow::kWindowMode;
 			}
 		}
 	}
