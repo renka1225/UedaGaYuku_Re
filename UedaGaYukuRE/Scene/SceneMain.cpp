@@ -42,7 +42,7 @@ namespace
 	constexpr float kEnemyExtinctionDist = 2500.0f;	// 敵が消滅する範囲
 
 	constexpr int kBattleStartStagingTime = 120; // バトル開始時の演出時間
-	constexpr int kBattleEndStagingTime = 150;	 // バトル終了時の演出時間
+	constexpr int kBattleEndStagingTime = 240;	 // バトル終了時の演出時間
 	constexpr int kEndingTime = 10;				 // エンディングの時間
 
 	/*影*/
@@ -126,6 +126,12 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	// メニューを開いたとき
 	if (input.IsTriggered(InputId::kMenu))
 	{
+		// ガード中の場合、ガード状態を解除する
+		if (m_pPlayer->GetIsGuard())
+		{
+			m_pPlayer->Update(input, *m_pCamera, *m_pStage, *m_pWeapon, m_pEnemy);
+		}
+
 		m_isPause = true;
 		// 移動中SEが再生されないようにする
 		Sound::GetInstance().StopSe(SoundName::kSe_walk);
@@ -150,39 +156,11 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		}
 	}
 
+	// バトル中は会話できないようにする
 	if (m_pPlayer->GetIsBattle()) m_pPlayer->SetIsTalk(false);
 
-	// 最終決戦中でない場合
-	if (!m_isLastBattle)
-	{
-		// バトル開始演出
-		UpdateBattleStartStaging();
-
-		// 敵が1体もいなくなった場合
-		if (m_pEnemy.empty() && !m_isBattleEndStaging)
-		{
-			// バトル終了状態にする
-			m_pPlayer->SetIsBattle(false);
-		}
-
-		// バトル中でない場合、敵を生成する
-		if (!m_pPlayer->GetIsBattle())
-		{
-			CreateEnemy();
-		}
-
-		// 敵の更新
-		UpdateEnemy();
-	}
-	else
-	{
-		// ラスボスの更新
-		UpdateBossEnemy();
-		// エンディング演出
-		UpdateEndingStaging();
-	}
-	// バトル終了演出
-	UpdateBattleEndStaging();
+	// 演出の更新
+	UpdateStaging();
 
 	m_pStage->Update();
 	m_pPlayer->Update(input, *m_pCamera, *m_pStage, *m_pWeapon, m_pEnemy);
@@ -258,7 +236,7 @@ void SceneMain::Draw()
 		// バトル終了の演出を表示
 		if (m_battleEndStagingTime > 0)
 		{
-			m_pUi->DrawBattleEnd();
+			m_pUi->DrawBattleEnd(m_battleEndStagingTime);
 		}
 
 		// バトル中UI表示
@@ -349,6 +327,41 @@ void SceneMain::InitAfterLoading()
 	m_pCamera->Init();
 	m_pUiBar->Init();
 	m_pItem->Init();
+}
+
+void SceneMain::UpdateStaging()
+{
+	// 最終決戦中でない場合
+	if (!m_isLastBattle)
+	{
+		// バトル開始演出
+		UpdateBattleStartStaging();
+
+		// 敵が1体もいなくなった場合
+		if (m_pEnemy.empty() && !m_isBattleEndStaging)
+		{
+			// バトル終了状態にする
+			m_pPlayer->SetIsBattle(false);
+		}
+
+		// バトル中でない場合、敵を生成する
+		if (!m_pPlayer->GetIsBattle())
+		{
+			CreateEnemy();
+		}
+
+		// 敵の更新
+		UpdateEnemy();
+	}
+	else
+	{
+		// ラスボスの更新
+		UpdateBossEnemy();
+		// エンディング演出
+		UpdateEndingStaging();
+	}
+	// バトル終了演出
+	UpdateBattleEndStaging();
 }
 
 void SceneMain::UpdateBattleStartStaging()

@@ -72,7 +72,8 @@ public:
 	/// <summary>
 	/// 待機状態に変更する
 	/// </summary>
-	void ChangeStateIdle();
+	/// <param name="pPlayer">プレイヤー参照</param>
+	void ChangeStateIdle(const Player& pPlayer);
 
 	/// <summary>
 	/// 歩き状態に変更する

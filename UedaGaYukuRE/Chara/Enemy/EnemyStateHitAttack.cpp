@@ -30,7 +30,7 @@ void EnemyStateHitAttack::Update(Stage& pStage, Player& pPlayer)
 	if (m_animEndTime < 0.0f)
 	{
 		// StateをIdleに変更する
-		ChangeStateIdle();
+		ChangeStateIdle(pPlayer);
 		return;
 	}
 	

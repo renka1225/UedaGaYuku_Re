@@ -173,17 +173,17 @@ void UiBar::DrawPlayerGaugeBar(Player& player, float maxGauge)
 	float gaugeLength = gaugeData.RBposX * gaugeRatio;
 	DrawExtendGraphF(gaugeData.LTposX, gaugeData.LTposY, gaugeData.LTposX + gaugeLength, gaugeData.RBposY, m_handle[Handle::kPlayerGauge], true);
 
-	// ゲージの円部分
-	auto gaugeCircleData = LoadCsv::GetInstance().GetUiData(kBarID.at("playerGaugeCircle"));
-	DrawExtendGraphF(gaugeCircleData.LTposX, gaugeCircleData.LTposY, gaugeCircleData.RBposX, gaugeCircleData.RBposY, m_handle[Handle::kPlayerGaugeCircle], true);
+	//// ゲージの円部分
+	//auto gaugeCircleData = LoadCsv::GetInstance().GetUiData(kBarID.at("playerGaugeCircle"));
+	//DrawExtendGraphF(gaugeCircleData.LTposX, gaugeCircleData.LTposY, gaugeCircleData.RBposX, gaugeCircleData.RBposY, m_handle[Handle::kPlayerGaugeCircle], true);
 
-	// ゲージが最大まで溜まっている場合
-	if (player.GetGauge() >= maxGauge)
-	{
-		// 円の色を変える
-		auto gaugeMaxData = LoadCsv::GetInstance().GetUiData(kBarID.at("playerGaugeMax"));
-		DrawExtendGraphF(gaugeMaxData.LTposX, gaugeMaxData.LTposY, gaugeMaxData.RBposX, gaugeMaxData.RBposY, m_handle[Handle::kPlayerGaugeMax], true);
-	}
+	//// ゲージが最大まで溜まっている場合
+	//if (player.GetGauge() >= maxGauge)
+	//{
+	//	// 円の色を変える
+	//	auto gaugeMaxData = LoadCsv::GetInstance().GetUiData(kBarID.at("playerGaugeMax"));
+	//	DrawExtendGraphF(gaugeMaxData.LTposX, gaugeMaxData.LTposY, gaugeMaxData.RBposX, gaugeMaxData.RBposY, m_handle[Handle::kPlayerGaugeMax], true);
+	//}
 }
 
 void UiBar::DrawEnemyHpBar(EnemyBase& pEnemy)

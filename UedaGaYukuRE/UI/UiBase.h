@@ -80,11 +80,17 @@ public:
 	/// バトル開始時の演出を表示
 	/// </summary>
 	void DrawBattleStart();
-
+	
 	/// <summary>
 	/// バトル終了時の演出を表示
 	/// </summary>
-	void DrawBattleEnd();
+	/// <param name="time">現在の演出時間</param>
+	void DrawBattleEnd(int time);
+
+	/// <summary>
+	/// バトルに負けた場合の演出を表示
+	/// </summary>
+	void DrawBattleLose();
 
 	/// <summary>
 	/// エンディングの演出を表示
@@ -128,5 +134,6 @@ protected:
 	float m_dispEnemyKindScale;	// バトル開始時の敵種類の表示サイズ
 	float m_dispNowBattlePosX;	// バトル中のUI表示位置X
 
+	float m_dispGekihaTextScale; // "撃破"テキストの表示サイズ
 };
 

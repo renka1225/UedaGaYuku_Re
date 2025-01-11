@@ -63,6 +63,11 @@ private:
 	void InitAfterLoading();
 
 	/// <summary>
+	/// 演出の更新を行う
+	/// </summary>
+	void UpdateStaging();
+
+	/// <summary>
 	/// バトル開始演出の更新を行う
 	/// </summary>
 	void UpdateBattleStartStaging();

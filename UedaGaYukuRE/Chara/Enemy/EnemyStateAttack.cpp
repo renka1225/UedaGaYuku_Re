@@ -30,7 +30,7 @@ void EnemyStateAttack::Update(Stage& pStage, Player& pPlayer)
         // StateをIdleに変更する
         pPlayer.SetIsInvincible(false);
         m_pEnemy->SetIsAttack(false);
-        ChangeStateIdle();
+        ChangeStateIdle(pPlayer);
         return;
     }
     else

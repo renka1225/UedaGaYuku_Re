@@ -39,14 +39,19 @@ public:
 	void DecideNextAction(Player& pPlayer);
 
 	/// <summary>
-	/// バトル中の行動を更新する
+	/// 行動優先度を決める
 	/// </summary>
-	void SelectBattleAction(Player& pPlayer);
+	void DecidePriority(Player& pPlayer);
 
 	/// <summary>
-	/// 行動をランダムで決定する
+	/// バトル中の場合の行動優先度を決める
 	/// </summary>
-	void SelectRandomAction();
+	void DecideBattlePriority(Player& pPlayer);
+
+	/// <summary>
+	/// 行動優先度をランダムで決める
+	/// </summary>
+	void DecideRandomPriority();
 
 	/// <summary>
 	/// 状態を更新するかチェックする
@@ -88,6 +93,7 @@ private:
 	std::vector<std::shared_ptr<EnemyBase>> m_pEnemyList;		// 敵のリスト
 	std::map<EnemyStateBase::EnemyStateKind, int> m_priority;	// 攻撃の優先度
 	EnemyStateBase::EnemyStateKind m_nextState;					// 次の状態
+	EnemyStateBase::EnemyStateKind m_prevState;					// 1つ前の状態
 
 	int m_decisionFrame; // 行動を決定するフレーム数
 };

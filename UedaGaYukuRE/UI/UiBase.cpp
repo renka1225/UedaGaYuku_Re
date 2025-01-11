@@ -10,7 +10,7 @@
 // 定数
 namespace
 {
-	// 画像の種類
+	/*画像の種類*/
 	enum Handle
 	{
 		kCursor,		// カーソル
@@ -20,8 +20,10 @@ namespace
 		kIconPlayer,	// ミニマップ上に表示するプレイヤーアイコン
 		kNpcTalk,		// 話すのUI
 		kOperation,		// 操作説明
-		kBattleNow,		// バトル中表示
-		kBattleEnd,		// バトル終了演出中表示
+		kBattle_now,	// バトル中
+		kBattle_end,	// バトル終了
+		kBattle_lose,	// バトルで負けた
+		kBattle_gekiha,	// 撃破
 		kEnemy_yanki,	// ヤンキー
 		kEnemy_tinpira,	// チンピラ
 		kEnemy_narikin,	// 成金
@@ -39,11 +41,14 @@ namespace
 		"data/ui/main/operation.png",
 		"data/ui/battle/battleNow.png",
 		"data/ui/battle/battleEnd.png",
+		"data/ui/battle/battleLose.png",
+		"data/ui/battle/gekiha.png",
 		"data/ui/battle/yanki.png",
 		"data/ui/battle/tinpira.png",
 		"data/ui/battle/narikin.png",
 	};
 
+	/*カーソル*/
 	constexpr float kCursorSpeed = 60.0f;		// カーソルの横幅の伸びる量
 	constexpr int kTextDisplayTime = 2;			// カーソルの表示間隔
 	constexpr int kTextDisplayAnimTime = 240;	// カーソルアニメーションの時間
@@ -51,6 +56,7 @@ namespace
 	constexpr int kMinCursorAlpha = 40;			// カーソルの最小アルファ値
 	constexpr float kSaveCursorMove = 212.0f;	// セーブ画面のカーソル移動量
 
+	/*ミニマップ*/
 	const Vec2 kMapPos = { 180.0f, 900.0f };	// マップ表示位置
 	constexpr float kWorldWidth = 13740.0f;		// ワールド座標の最大幅
 	constexpr float kWorldDepth = 11220.0f;		// ワールド座標の最大奥行き
@@ -59,20 +65,28 @@ namespace
 	constexpr float kViewEnemyIcon = 500.0f;	// 敵アイコンの表示範囲
 	constexpr float kIconScale = 0.5f;			// キャラアイコン拡大率
 
-	const Vec2 kDispTalkUiPos = { -5.0f, 32.0f };		// "話す"テキスト表示位置調整
+	const Vec2 kDispTalkUiPos = { -5.0f, 32.0f };	// "話す"テキスト表示位置調整
 
-	constexpr float kDispBattleStartMinScale = 2.0f;	 // バトル開始時の敵種類の最小サイズ
-	constexpr float kDispBattleStartMaxScale = 10.0f;	 // バトル開始時の敵種類の最大サイズ
-	constexpr float kDispBattleStartChangeScale = 1.2f;	 // 表示する敵種類のサイズ変化量
+	/*バトル*/
+	constexpr float kDispBattleTextMinScale = 1.0f;		 // バトル演出テキストの最小サイズ
+	constexpr float kDispBattleTextMaxScale = 10.0f;	 // バトル演出テキストの最大サイズ
+	constexpr float kDispBattleStartChangeScale = 0.6f;	 // 表示する敵種類のサイズ変化量
 	const Vec2 kDispBattleStartPos = { 900.0f, 700.0f }; // 敵種類表示位置
+
+	const Vec2 kBattleEndBgPos = { 200, 0 };		// バトル終了時の背景位置
+	const Vec2 kGekihaTextPos = { 950, 500 };		// "撃破"テキスト位置
+	constexpr int kGekihaDispTime = 80;				// "撃破"テキストを表示しはじめる時間
+	constexpr float kGekihaTextMinScale = 1.0f;		// "撃破"テキスト最小サイズ
+	constexpr float kGekihaTextMaxScale = 10.0f;	// "撃破"テキスト最大サイズ
+	constexpr float kGekihaTextChangeScale = 0.6f;	// "撃破"テキストサイズ
 
 	const Vec2 kDispOperationPos = { 1584.0f, 700.0f };	 // 操作説明表示位置
 	const Vec2 kBattleNowPos = { 1550.0f, 50.0f };	// バトル中表示位置
 	constexpr float kNowBattleMoveSpeed = 13.0f;	// バトル中UIの移動速度
-	constexpr int kBattleEndColor = 0x1e90ff;		// バトル終了時の画面色
 
 	constexpr int kMaxBlend = 255; // 最大ブレンド率
 
+	/*ロード*/
 	const Vec2 kLoadingPos = { 1600.0f, 950.0f };	// ロード中表示位置
 	constexpr float kLoadingMoveSpeed = 1.0f;		// テキストの移動速度
 	constexpr float kLoadingAmplitude = 4.0f;		// テキストの振幅
@@ -80,13 +94,14 @@ namespace
 	constexpr float kLoadingAnimTime = 0.05f;		// ローディング中のアニメーション時間
 }
 
-UiBase::UiBase():
+UiBase::UiBase() :
 	m_cursorWidth(0.0f),
 	m_cursorDisplayTime(0),
 	m_cursorAlpha(kMaxCursorAlpha),
 	m_loadingAnimTime(0.0f),
-	m_dispEnemyKindScale(kDispBattleStartMaxScale),
-	m_dispNowBattlePosX(Game::kScreenWidth)
+	m_dispEnemyKindScale(kDispBattleTextMaxScale),
+	m_dispNowBattlePosX(Game::kScreenWidth),
+	m_dispGekihaTextScale(kDispBattleTextMaxScale)
 {
 	LoadCsv::GetInstance().LoadUiData(m_uiData);
 
@@ -188,17 +203,30 @@ void UiBase::DrawBattleStart()
 	DrawRectRotaGraphF(kDispBattleStartPos.x, kDispBattleStartPos.y, 0, 0, sizeW, sizeH, m_dispEnemyKindScale, 0.0f, m_handle[Handle::kEnemy_tinpira], true);
 }
 
-void UiBase::DrawBattleEnd()
+void UiBase::DrawBattleEnd(int time)
 {
 	// 乗算で表示する
 	SetDrawBlendMode(DX_BLENDMODE_MULA, kMaxBlend);
-	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, kBattleEndColor, true);
+	DrawGraphF(kBattleEndBgPos.x, kBattleEndBgPos.y, m_handle[Handle::kBattle_end], true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-	//// 加算で表示する
-	//SetDrawBlendMode(DX_BLENDMODE_MULA, 200);
-	//DrawGraph(300, 0, m_handle[Handle::kBattleEnd], true);
-	//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	if (time < kGekihaDispTime)
+	{
+		// テキストのサイズをだんだん小さくする
+		m_dispGekihaTextScale -= kGekihaTextChangeScale;
+		m_dispGekihaTextScale = std::max(kDispBattleTextMinScale, m_dispGekihaTextScale);
+
+		int sizeW, sizeH;
+		GetGraphSize(m_handle[Handle::kBattle_gekiha], &sizeW, &sizeH);
+		DrawRectRotaGraphF(kGekihaTextPos.x, kGekihaTextPos.y, 0, 0, sizeW, sizeH, m_dispGekihaTextScale, 0.0f, m_handle[Handle::kBattle_gekiha], true);
+	}
+}
+
+void UiBase::DrawBattleLose()
+{
+	SetDrawBlendMode(DX_BLENDMODE_MULA, kMaxBlend);
+	DrawGraph(0, 0, m_handle[Handle::kBattle_lose], true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
 void UiBase::DrawEnding()
@@ -231,7 +259,7 @@ void UiBase::DrawBattleUi(const Player& pPlayer)
 		m_dispNowBattlePosX -= kNowBattleMoveSpeed;
 		m_dispNowBattlePosX = std::max(kBattleNowPos.x, m_dispNowBattlePosX);
 
-		DrawGraphF(m_dispNowBattlePosX, kBattleNowPos.y, m_handle[Handle::kBattleNow], true);
+		DrawGraphF(m_dispNowBattlePosX, kBattleNowPos.y, m_handle[Handle::kBattle_now], true);
 	}
 	else
 	{

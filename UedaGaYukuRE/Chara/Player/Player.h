@@ -71,6 +71,18 @@ public:
 	virtual void OnDamage(float damage);
 
 	/// <summary>
+	/// 攻撃時、プレイヤーの位置を調整する
+	/// </summary>
+	void AdjPosAttack();
+
+	/// <summary>
+	/// プレイヤーから一番近くにいる敵を探す
+	/// </summary>
+	/// <param name="range">調べる範囲</param>
+	/// <returns>一番近くにいる敵のインデックス</returns>
+	int FindNearEnemy(float range);
+
+	/// <summary>
 	/// プレイヤーが武器に近づいているか判断する
 	/// </summary>
 	/// <param name="weaponPos"></param>

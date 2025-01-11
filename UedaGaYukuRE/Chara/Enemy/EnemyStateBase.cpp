@@ -39,7 +39,7 @@ void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
 	// 動けない状態の場合
 	if (!m_pEnemy->GetIsPossibleMove())
 	{
-		ChangeStateIdle();
+		ChangeStateIdle(pPlayer);
 		return;
 	}
 
@@ -87,11 +87,21 @@ void EnemyStateBase::ChangeState(EnemyStateKind nextState)
 	}
 }
 
-void EnemyStateBase::ChangeStateIdle()
+void EnemyStateBase::ChangeStateIdle(const Player& pPlayer)
 {
 	if (GetKind() == EnemyStateKind::kIdle) return;
 	std::shared_ptr<EnemyStateIdle> state = std::make_shared<EnemyStateIdle>(m_pEnemy);
 	m_nextState = state;
+	
+	// バトルの場合
+	if (pPlayer.GetIsBattle())
+	{
+		state->SetAnimKind(AnimName::kIdleFight);
+	}
+	else
+	{
+		state->SetAnimKind(AnimName::kIdleStand);
+	}
 	state->Init();
 }
 

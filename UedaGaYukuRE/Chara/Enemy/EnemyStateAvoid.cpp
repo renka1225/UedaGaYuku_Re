@@ -15,7 +15,7 @@ void EnemyStateAvoid::Update(Stage& pStage, Player& pPlayer)
 	m_animEndTime--;
 	if (m_animEndTime < 0.0f)
 	{
-		ChangeStateIdle();
+		ChangeStateIdle(pPlayer);
 		return;
 	}
 

@@ -41,7 +41,16 @@ public:
 	/// 現在の状態名を取得
 	/// </summary>
 	/// <returns>State名</returns>
-	virtual std::string GetStateName() override { return "待機中"; }
+	virtual std::string GetStateName() override;
 #endif
+
+	/// <summary>
+	/// アニメーションの種類をセットする
+	/// </summary>
+	/// <param name="animName">アニメーション名</param>
+	void SetAnimKind(std::string animName) { m_animKind = animName; }
+
+private:
+	std::string m_animKind; // 再生するアニメーション名
 };
 

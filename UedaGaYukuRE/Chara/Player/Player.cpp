@@ -25,6 +25,7 @@ namespace
 	constexpr float kScale = 0.14f;				// モデルの拡大率
 	constexpr float kRangeFoundEnemy = 50.0f;	// 敵を認識する範囲
 	constexpr float kDistWeaponGrab = 20.0f;	// 武器を掴める距離
+	constexpr float kMoveAttack = 0.3f;			// 攻撃時の移動量
 
 	constexpr int kMaxPossession = 12;	 // アイテムの最大所持数
 	constexpr int kMoneyIncrement = 100; // 一度に増える所持金数
@@ -102,6 +103,7 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 	{
 		// 武器掴み状態を解除する
 		m_isNowGrabWeapon = false;
+		m_isOnDamage = false;
 	}
 
 	// 敵がいる場合のみ処理を行う
@@ -159,8 +161,38 @@ void Player::OnDamage(float damage)
 	m_pUiBar->SetPlayerDamage(damage);
 }
 
+void Player::AdjPosAttack()
+{
+	int nearEnemyIndex = -1;
+	nearEnemyIndex = FindNearEnemy(kRangeFoundEnemy);
+
+	// 敵が範囲内にいる場合、敵に近づく
+	bool isNear = nearEnemyIndex != -1 && VSize(m_pToEVec[nearEnemyIndex]) < kRangeFoundEnemy;
+	if (isNear)
+	{
+		VECTOR scale = VScale(m_pToEVec[nearEnemyIndex], kMoveAttack);
+		scale.y = 0.0f;
+		m_pos = VAdd(m_pos, scale);
+	}
+}
+
+int Player::FindNearEnemy(float range)
+{
+	for (int i = 0; i < m_pToEVec.size(); i++)
+	{
+		float dot = VDot(VNorm(m_pToEVec[i]), VNorm(m_moveDir)); // プレイヤーの方向と位置ベクトルの内積を計算
+		if (dot > kChangeAngleDot)
+		{
+			return i;
+		}
+	}
+
+	return -1;
+}
+
 void Player::UpdateMoney()
 {
+	if (m_addMoney <= 0) return;
 	m_money += kMoneyIncrement;
 	m_money = std::min(m_beforeMoney + m_addMoney, m_money);
 }
@@ -444,15 +476,7 @@ void Player::UpdateAngle()
 	{
 		// 1番近い敵を探す
 		int nearEnemyIndex = -1;
-
-		for (int i = 0; i < m_pToEVec.size(); i++)
-		{
-			float dot = VDot(VNorm(m_pToEVec[i]), VNorm(m_moveDir)); // プレイヤーの方向と位置ベクトルの内積を計算
-			if (dot > kChangeAngleDot)
-			{
-				nearEnemyIndex = i;
-			}
-		}
+		nearEnemyIndex = FindNearEnemy(kChangeAngleDot);
 
 		// 範囲内に敵が存在する場合、1番近い敵の方を向く
 		if (nearEnemyIndex != -1 && VSize(m_pToEVec[nearEnemyIndex]) < kRangeFoundEnemy)
@@ -477,7 +501,7 @@ void Player::ApplySaveData()
 	m_pos = saveData.playerPos;
 	m_hp = saveData.hp;
 	m_gauge = saveData.gauge;
-	m_beforeMoney = saveData.money;
+	m_money = saveData.money;
 	m_enhanceStep = saveData.enhanceStep;
 	m_possessItem = saveData.possessItem;
 	m_deadEnemyNum = saveData.deadEnemyNum;

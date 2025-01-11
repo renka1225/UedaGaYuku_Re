@@ -31,6 +31,15 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	GetJoypadAnalogInput(&m_analogX, &m_analogY, DX_INPUT_PAD1); // アナログスティックの入力状態
 	m_pPlayer->Move(m_moveVec, stage, false);   // 移動情報を反映する
 
+
+	// メニューを開いたとき
+	if (input.IsTriggered(InputId::kMenu))
+	{
+		// ガード状態を解除する
+		m_pPlayer->SetIsGuard(false);
+		ChangeStateIdle();
+	}
+
 	// 死亡処理
 	if (m_pPlayer->GetHp() <= 0.0f)
 	{
@@ -130,6 +139,9 @@ void PlayerStateBase::ChangeStateAttack(const Input& input)
 {
 	// 攻撃中は再度攻撃できないようにする
 	if (m_pPlayer->GetIsAttack()) return;
+
+	// 敵に近づく
+	m_pPlayer->AdjPosAttack();
 
 	// StateをAttackに変更する
 	m_pPlayer->SetIsAttack(true);

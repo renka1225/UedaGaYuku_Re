@@ -3,7 +3,7 @@
 
 void PlayerStateDeath::Init()
 {
-    m_pPlayer->ChangeAnim(AnimName::kGrabTwoHandWeapon);
+    m_pPlayer->ChangeAnim(AnimName::kDown);
     m_animEndTime = m_pPlayer->GetAnimTotalTime(AnimName::kDown);
 }
 
@@ -15,6 +15,5 @@ void PlayerStateDeath::Update(const Input& input, const Camera& camera, Stage& s
 	if (m_animEndTime < 0.0f)
 	{
 		m_pPlayer->SetIsDead(true);
-		return;
 	}
 }
