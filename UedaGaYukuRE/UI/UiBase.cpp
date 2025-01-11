@@ -69,9 +69,9 @@ namespace
 
 	/*バトル*/
 	constexpr float kDispBattleTextMinScale = 1.0f;		 // バトル演出テキストの最小サイズ
-	constexpr float kDispBattleTextMaxScale = 10.0f;	 // バトル演出テキストの最大サイズ
+	constexpr float kDispBattleTextMaxScale = 15.0f;	 // バトル演出テキストの最大サイズ
 	constexpr float kDispBattleStartChangeScale = 0.6f;	 // 表示する敵種類のサイズ変化量
-	const Vec2 kDispBattleStartPos = { 900.0f, 700.0f }; // 敵種類表示位置
+	const Vec2 kDispBattleStartPos = { 950.0f, 700.0f }; // 敵種類表示位置
 
 	const Vec2 kBattleEndBgPos = { 200, 0 };		// バトル終了時の背景位置
 	const Vec2 kGekihaTextPos = { 950, 500 };		// "撃破"テキスト位置
@@ -196,7 +196,7 @@ void UiBase::DrawBattleStart()
 {
 	// 画像のサイズをだんだん小さくする
 	m_dispEnemyKindScale -= kDispBattleStartChangeScale;
-	m_dispEnemyKindScale = std::max(kDispBattleStartChangeScale, m_dispEnemyKindScale);
+	m_dispEnemyKindScale = std::max(kDispBattleTextMinScale, m_dispEnemyKindScale);
 
 	int sizeW, sizeH;
 	GetGraphSize(m_handle[Handle::kEnemy_tinpira], &sizeW, &sizeH);

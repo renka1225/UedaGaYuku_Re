@@ -235,7 +235,9 @@ void EnemyAI::DecideBattlePriority(Player& pPlayer)
 		if (m_priority.find(m_prevState) != m_priority.end())
 		{
 			m_priority[m_prevState] = static_cast<int>(std::max(0, m_priority[m_prevState] - m_probability.veryLowProbability) * kProbabilityRate);
+#ifdef _DEBUG
 			printfDx("%dの攻撃確率減少:%d\n", static_cast<int>(m_prevState), m_priority[m_prevState]);
+#endif
 		}
 	}
 }
