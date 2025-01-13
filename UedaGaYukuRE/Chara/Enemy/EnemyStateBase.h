@@ -108,7 +108,8 @@ public:
 	/// <summary>
 	/// ダメージ状態に変更する
 	/// </summary>
-	void ChangeStateDamage();
+	/// <param name="pPlayer">プレイヤー参照</param>
+	void ChangeStateDamage(Player& pPlayer);
 
 	/// <summary>
 	/// 死亡状態に変更する

@@ -71,7 +71,7 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
         }
 
         // 特定の状態の場合はスキップする
-        bool isSkip = (enemy == nullptr) || (enemy->GetIsInvincible()) ||  (m_attackKind == AnimName::kKickHeat);
+        bool isSkip = enemy == nullptr || enemy->GetIsInvincible() || m_attackKind == AnimName::kKickHeat;
         if (isSkip) continue;
 
         // 武器掴み中の場合

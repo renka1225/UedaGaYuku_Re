@@ -35,6 +35,12 @@ public:
 	/// <returns>Stateの種類</returns>
 	virtual EnemyStateKind GetKind() override { return EnemyStateKind::kDamage; }
 
+	/// <summary>
+	/// 無敵時間をセットする
+	/// </summary>
+	/// <param name="pPlayer">プレイヤー参照</param>
+	void SetInvincibleTime(Player& pPlayer);
+
 #ifdef _DEBUG
 	/// <summary>
 	/// 現在の状態名を取得

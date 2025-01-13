@@ -1,16 +1,11 @@
-﻿#include "EnemyBase.h"
+﻿#include "Player.h"
+#include "EnemyBase.h"
 #include "EnemyStateIdle.h"
 #include "EnemyStateHitAttack.h"
-
-namespace
-{
-	constexpr float kDamageReleaseTime = 8; // 無敵状態を解除する時間
-}
 
 void EnemyStateHitAttack::Init()
 {
 	m_pEnemy->ChangeAnim(AnimName::kDamage);
-	m_animEndTime = m_pEnemy->GetAnimTotalTime(AnimName::kDamage);
 }
 
 void EnemyStateHitAttack::Update(Stage& pStage, Player& pPlayer)
@@ -21,10 +16,10 @@ void EnemyStateHitAttack::Update(Stage& pStage, Player& pPlayer)
 	m_animEndTime--;
 
 	// 硬直フレーム時に無敵状態を解除する
-	float totalTime = m_pEnemy->GetAnimTotalTime(AnimName::kDamage);
-	if (m_animEndTime >= totalTime - kDamageReleaseTime)
+	if (m_animEndTime <= 0.0f)
 	{
 		m_pEnemy->SetIsOnDamage(false);
+		m_pEnemy->SetIsInvincible(false);
 	}
 
 	if (m_animEndTime < 0.0f)
@@ -33,5 +28,10 @@ void EnemyStateHitAttack::Update(Stage& pStage, Player& pPlayer)
 		ChangeStateIdle(pPlayer);
 		return;
 	}
-	
+}
+
+void EnemyStateHitAttack::SetInvincibleTime(Player& pPlayer)
+{
+	// プレイヤーの攻撃アニメーションによって無敵時間を変える
+	m_animEndTime = pPlayer.GetAnimTotalTime(pPlayer.GetCurrentAnim());
 }

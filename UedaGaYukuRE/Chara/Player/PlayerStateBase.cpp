@@ -13,6 +13,11 @@
 #include "PlayerStateDeath.h"
 #include "PlayerStateBase.h"
 
+namespace
+{
+	constexpr float kDamageEffectAdjY = -20.0f; // ダメージエフェクトの表示位置調整
+}
+
 PlayerStateBase::PlayerStateBase(std::shared_ptr<Player> pPlayer):
 	m_upMoveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_leftMoveVec(VGet(0.0f, 0.0f, 0.0f)),
@@ -177,6 +182,7 @@ void PlayerStateBase::ChangeStateSpecialAttack()
 
 void PlayerStateBase::ChangeStateGuard()
 {
+	m_pPlayer->SetIsInvincible(false);
 	m_pPlayer->SetIsGuard(true);
 	std::shared_ptr<PlayerStateGuard> state = std::make_shared<PlayerStateGuard>(m_pPlayer);
 	m_nextState = state;
@@ -231,12 +237,14 @@ void PlayerStateBase::ChangeStateDamage()
 	// ガード中の場合
 	if (m_pPlayer->GetIsGuard())
 	{
-		// エフェクト再生中の場合は飛ばす
-		//if (EffectManager::GetInstance().GetIsPlaying(EffectName::kGuard)) return;
-
 		Sound::GetInstance().PlaySe(SoundName::kSe_guardAttack);
 		EffectManager::GetInstance().Add(EffectName::kGuard, m_pPlayer->GetPos());
 		return;
+	}
+	else
+	{
+		// ダメージエフェクトを表示
+		EffectManager::GetInstance().Add(EffectName::kAttack, m_pPlayer->GetPos(), kDamageEffectAdjY);
 	}
 
 	std::shared_ptr<PlayerStateHitAttack> state = std::make_shared<PlayerStateHitAttack>(m_pPlayer);

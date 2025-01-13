@@ -19,7 +19,7 @@ void PlayerStateGuard::Update(const Input& input, const Camera& camera, Stage& s
 	{
 		// StateをIdleに変更する
 		m_pPlayer->SetIsGuard(false);
-		m_pPlayer->SetIsOnDamage(false);
+		m_pPlayer->SetIsInvincible(false);
 		std::shared_ptr<PlayerStateIdle> state = std::make_shared<PlayerStateIdle>(m_pPlayer);
 		m_nextState = state;
 		state->Init();

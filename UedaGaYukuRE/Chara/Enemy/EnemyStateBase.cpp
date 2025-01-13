@@ -53,7 +53,7 @@ void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
 	// 攻撃を受けた場合
 	if (m_pEnemy->GetIsOnDamage())
 	{	
-		ChangeStateDamage();
+		ChangeStateDamage(pPlayer);
 		return;
 	}
 
@@ -155,16 +155,26 @@ void EnemyStateBase::ChangeStateAvoid()
 	state->Init();
 }
 
-void EnemyStateBase::ChangeStateDamage()
+void EnemyStateBase::ChangeStateDamage(Player& pPlayer)
 {
 	if (GetKind() == EnemyStateKind::kDamage) return;
+
+	// ガード中の場合
+	if (m_pEnemy->GetIsGuard())
+	{
+		Sound::GetInstance().PlaySe(SoundName::kSe_guardAttack);
+		EffectManager::GetInstance().Add(EffectName::kGuard, m_pEnemy->GetPos());
+		return;
+	}
+	else
+	{
+		EffectManager::GetInstance().Add(EffectName::kAttack, m_pEnemy->GetPos());
+	}
 
 	std::shared_ptr<EnemyStateHitAttack> state = std::make_shared<EnemyStateHitAttack>(m_pEnemy);
 	m_nextState = state;
 	state->Init();
-
-	// ダメージエフェクトを表示
-	EffectManager::GetInstance().Add(EffectName::kAttack, m_pEnemy->GetPos());
+	state->SetInvincibleTime(pPlayer);
 }
 
 void EnemyStateBase::ChangeStateDeath()

@@ -101,7 +101,6 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 	// バトル中でない場合
 	if (!m_isBattle)
 	{
-		// 武器掴み状態を解除する
 		m_isNowGrabWeapon = false;
 		m_isOnDamage = false;
 	}

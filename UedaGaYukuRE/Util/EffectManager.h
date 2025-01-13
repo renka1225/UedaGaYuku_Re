@@ -87,7 +87,8 @@ public:
 	/// </summary>
 	/// <param name="name">追加するエフェクト名</param>
 	/// <param name="enemyPos">キャラクターの位置</param>
-	void Add(const std::string& name, const VECTOR& pos);
+	/// <param name="adjust">表示位置調整</param>
+	void Add(const std::string& name, const VECTOR& pos, float adjust = 0.0f);
 
 	/// <summary>
 	/// ドロップアイテムをのエフェクトを停止する

@@ -127,13 +127,17 @@ void EffectManager::Draw()
 	DrawEffekseer3D();
 }
 
-void EffectManager::Add(const std::string& name, const VECTOR& pos)
+void EffectManager::Add(const std::string& name, const VECTOR& pos, float adjust)
 {
 	auto it = m_effectData.find(name);
 	if (it != m_effectData.end())
 	{
 		EffectData& data = it->second;
-		data.pos = VAdd(data.adjPos, pos); // エフェクトの位置を調整
+
+		// エフェクトの位置を調整
+		data.pos = VAdd(data.adjPos, pos);
+		data.pos.y += adjust;
+
 		data.elapsedTime = 0;
 		data.isPlaying = true;
 		data.playingHandle = PlayEffekseer3DEffect(data.effektHandle);
