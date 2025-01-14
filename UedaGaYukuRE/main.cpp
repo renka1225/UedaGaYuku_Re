@@ -42,6 +42,8 @@ void Load()
 {
 	// メッセージロード
 	LoadCsv::GetInstance().LoadMessage();
+	LoadCsv::GetInstance().LoadConversation();
+
 	// サウンドロード
 	Sound::GetInstance().Load();
 	// フォントロード

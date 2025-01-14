@@ -184,6 +184,12 @@ public:
 	void SetIsTalk(bool isTalk) { m_isTalk = isTalk; }
 
 	/// <summary>
+	/// NPCと会話中かどうかセットする
+	/// </summary>
+	/// <param name="isNowTalk">会話中かどうか</param>
+	void SetIsNowTalk(bool isNowTalk) { m_isNowTalk = isNowTalk; }
+
+	/// <summary>
 	/// 現在の所持金額を取得する
 	/// </summary>
 	/// <returns></returns>
@@ -230,6 +236,12 @@ public:
 	/// </summary>
 	/// <returns>会話できるかどうか</returns>
 	bool GetIsTalk() const { return m_isTalk; }
+
+	/// <summary>
+	/// 現在会話中かどうか取得する
+	/// </summary>
+	/// <returns>会話中かどうか</returns>
+	bool GetIsNowTalk() const { return m_isNowTalk; }
 
 	/// <summary>
 	/// 入力状態を取得する
@@ -318,6 +330,7 @@ private:
 	bool m_isAddItem;		 // アイテムを追加で取得できるか(true:取得可能)
 	bool m_isSpecial;		 // 必殺技が出せるかどうか
 	bool m_isTalk;			 // NPCと会話できるかどうか
+	bool m_isNowTalk;		 // 今会話中かどうか
 
 	int m_battleStartCount;	 // バトルが開始するまでの時間
 	bool m_isBattle;		 // バトル状態かどうか(true:バトル中)

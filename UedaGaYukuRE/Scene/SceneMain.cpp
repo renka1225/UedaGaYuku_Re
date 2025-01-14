@@ -3,6 +3,7 @@
 #include "LoadCsv.h"
 #include "Sound.h"
 #include "EffectManager.h"
+#include "UiMain.h"
 #include "UiBar.h"
 #include "Camera.h"
 #include "CharacterBase.h"
@@ -42,8 +43,9 @@ namespace
 	constexpr float kEnemyExtinctionDist = 2500.0f;	// 敵が消滅する範囲
 
 	constexpr int kBattleStartStagingTime = 120; // バトル開始時の演出時間
-	constexpr int kBattleEndStagingTime = 240;	 // バトル終了時の演出時間
+	constexpr int kBattleEndStagingTime = 120;	 // バトル終了時の演出時間
 	constexpr int kEndingTime = 10;				 // エンディングの時間
+	constexpr int kTalkDispTime = 30;			 // 会話を表示させる最低限の時間
 
 	/*影*/
 	constexpr int kShadowMapSize = 4096;								// ステージのシャドウマップサイズ
@@ -59,6 +61,7 @@ SceneMain::SceneMain():
 	m_battleStartStagingTime(0),
 	m_battleEndStagingTime(0),
 	m_endingTime(0),
+	m_nowTalkId(""),
 	m_isDispBattleStart(false),
 	m_isBattleEndStaging(false),
 	m_isEnding(false),
@@ -70,6 +73,8 @@ SceneMain::SceneMain():
 
 	m_modelHandle.resize(CharacterBase::CharaType::kCharaNum);
 	m_pEnemy.resize(kEnemyKindNum);
+
+	m_pUiMain = std::make_shared<UiMain>();
 
 	LoadModelHandle();	// モデルを読み込む
 }
@@ -159,8 +164,11 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	// バトル中は会話できないようにする
 	if (m_pPlayer->GetIsBattle()) m_pPlayer->SetIsTalk(false);
 
-	// 演出の更新
-	UpdateStaging();
+	UpdateStaging(); // 演出の更新
+	EffectManager::GetInstance().Update(); 	// エフェクトの更新
+	UpdateSound();				// サウンド更新
+	CheckEventTrigger(input);	// イベントトリガーのチェック
+	UpdateTalk(input);			// 会話状態を更新
 
 	m_pStage->Update();
 	m_pPlayer->Update(input, *m_pCamera, *m_pStage, *m_pWeapon, m_pEnemy);
@@ -169,15 +177,6 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	m_pWeapon->Update(*m_pStage);
 	m_pCamera->Update(input, *m_pPlayer, *m_pStage);
 	m_pUiBar->Update();
-
-	// イベントトリガーのチェック
-	CheckEventTrigger(input);
-
-	// エフェクトの更新
-	EffectManager::GetInstance().Update();
-
-	// サウンドの更新
-	UpdateSound();
 
 #ifdef _DEBUG // デバックコマンド
 	if (input.IsTriggered(InputId::kDebugClear))
@@ -202,20 +201,22 @@ void SceneMain::Draw()
 	// ロード中
 	if (m_isLoading)
 	{
-		m_pUi->DrawLoading();
+		m_pUiMain->DrawLoading();
 		return;
 	}
 
 	// エンディング演出を表示
 	if (m_isEnding)
 	{
-		m_pUi->DrawEnding();
+		m_pUiMain->DrawEnding();
 		return;
 	}
 
+	// ステージモデル表示
 	m_pStage->DrawSkyDoom();
 	DrawSetUpShadow();
 
+	// 敵UI表示
 	for (auto& enemy : m_pEnemy)
 	{
 		if (enemy == nullptr) continue;
@@ -231,31 +232,43 @@ void SceneMain::Draw()
 		// バトル開始の演出を表示
 		if (m_battleStartStagingTime > 0)
 		{
-			m_pUi->DrawBattleStart();
+			m_pUiMain->DrawBattleStart();
 		}
 		// バトル終了の演出を表示
 		if (m_battleEndStagingTime > 0)
 		{
-			m_pUi->DrawBattleEnd(m_battleEndStagingTime);
+			m_pUiMain->DrawBattleEnd(m_battleEndStagingTime);
 		}
 
 		// バトル中UI表示
-		m_pUi->DrawBattleUi(*m_pPlayer);
+		m_pUiMain->DrawBattleUi(*m_pPlayer);
 	}
 
+	// 話すUI表示
 	if (m_pPlayer->GetIsTalk())
 	{
-		m_pUi->DrawNpcUi(m_pNpc->GetPos());
+		m_pUiMain->DrawNpcUi(m_pNpc->GetPos());
 	}
 
 	m_pWeapon->DrawWeaponUi();
 	m_pUiBar->DrawPlayerHpBar(*m_pPlayer, m_pPlayer->GetStatus().maxHp);
 	m_pUiBar->DrawPlayerGaugeBar(*m_pPlayer, m_pPlayer->GetStatus().maxGauge);
-	m_pUi->DrawOperation();
+
+	// 会話中
+	if (m_pPlayer->GetIsNowTalk())
+	{
+		m_pUiMain->DrawTalk(*m_pPlayer, m_nowTalkId, kClearEnemyNum);
+	}
+
+	// 会話中は操作説明を表示しない
+	if (!m_pPlayer->GetIsNowTalk())
+	{
+		m_pUiMain->DrawOperation();
+	}
 
 	// 特定の状態の場合は表示しない
-	bool isDrawMap = !m_isBattleEndStaging || !m_isLastBattle || m_isEnding;
-	if (isDrawMap)
+	bool isNotDrawMap = !m_isBattleEndStaging || !m_isLastBattle || m_isEnding || m_pPlayer->GetIsNowTalk();
+	if (!isNotDrawMap)
 	{
 		// ミニマップを表示
 		//m_pUi->DrawMiniMap(*m_pPlayer, m_pEnemy);
@@ -318,7 +331,7 @@ void SceneMain::InitAfterLoading()
 	m_pEventData = std::make_shared<EventData>();
 
 	SetShadowMap();	// シャドウマップをセットする
-	SelectEnemy(); // 敵の種類を決める
+	SelectEnemy();	// 敵の種類を決める
 
 	// 初期化を行う
 	m_pPlayer->Init();
@@ -331,6 +344,9 @@ void SceneMain::InitAfterLoading()
 
 void SceneMain::UpdateStaging()
 {
+	// 会話中は敵を更新しない
+	if (m_pPlayer->GetIsNowTalk()) return;
+
 	// 最終決戦中でない場合
 	if (!m_isLastBattle)
 	{
@@ -520,6 +536,9 @@ void SceneMain::CreateEnemy()
 	// ラスボス戦でない場合
 	if (!m_isLastBattle)
 	{
+		// 会話中は敵を生成しない
+		if (m_pPlayer->GetIsNowTalk()) return;
+
 		// スポーンするまでの時間をランダムで決める
 		const int spawnTime = GetRand(kEnemySpawnMaxTime) + kEnemySpawnMinTime;
 		m_enemySpawnTime++;
@@ -690,8 +709,8 @@ void SceneMain::CheckEventTrigger(const Input& input)
 	const auto& eventData = m_pEventData->GetEventData();
 	for (const auto& data : eventData)
 	{
-		// バトル中は飛ばす
-		if (m_pPlayer->GetIsBattle() || m_isLastBattle) return;
+		// 特定の場合は飛ばす
+		if (m_pPlayer->GetIsNowTalk() || m_pPlayer->GetIsBattle() || m_isLastBattle) return;
 
 		// プレイヤーの当たり判定を取得する
 		auto playerCol = m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer);
@@ -717,17 +736,51 @@ void SceneMain::StartEvent(const std::string& eventId, const Input& input)
 	// IDに応じて処理を変更する
 	if (eventId == "bossBattle")
 	{
+		// 会話できる状態にする
 		m_pPlayer->SetIsTalk(true);
 
+		// 決定ボタンを押した場合
 		if (input.IsTriggered(InputId::kOk))
 		{
+			// 会話中にする
+			m_pPlayer->SetIsNowTalk(true);
 			m_pPlayer->SetIsTalk(false);
-			if (m_pPlayer->GetDeadEnemyNum() < kClearEnemyNum) return;
+			m_talkDispTime = kTalkDispTime;
 
+			if (m_pPlayer->GetDeadEnemyNum() < kClearEnemyNum)
+			{
+				m_nowTalkId = "BOSS_NG";
+			}
+			else
+			{
+				m_nowTalkId = "BOSS_OK";
+			}
+		}
+	}
+}
+
+void SceneMain::UpdateTalk(const Input& input)
+{
+	if (!m_pPlayer->GetIsNowTalk() || m_pPlayer->GetIsBattle()) return;
+
+	m_talkDispTime--;
+	if (m_talkDispTime > 0) return;
+
+	printfDx("会話中\n");
+
+	if (input.IsTriggered(InputId::kOk))
+	{
+		// 条件を満たしている場合、ラスボスを出現させる
+		if (m_pPlayer->GetDeadEnemyNum() >= kClearEnemyNum)
+		{
 			m_isLastBattle = true;
 			CreateEnemy();
 			m_pPlayer->SetIsBattle(true);
 		}
+
+		// 会話状態を解除する
+		m_pPlayer->SetIsNowTalk(false);
+		return;
 	}
 }
 

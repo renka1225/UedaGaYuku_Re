@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Vec2.h"
 #include <vector>
+#include <map>
 #include <memory>
 #include <string>
 
@@ -43,7 +44,7 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	virtual void Update();
+	virtual void Update() {}
 
 	/// <summary>
 	/// 描画
@@ -71,55 +72,7 @@ public:
 	/// <param name="select">選択状態</param>
 	void DrawSaveCursor(Vec2 pos, int select);
 
-	/// <summary>
-	/// ロード中の演出を表示
-	/// </summary>
-	void DrawLoading();
-
-	/// <summary>
-	/// バトル開始時の演出を表示
-	/// </summary>
-	void DrawBattleStart();
 	
-	/// <summary>
-	/// バトル終了時の演出を表示
-	/// </summary>
-	/// <param name="time">現在の演出時間</param>
-	void DrawBattleEnd(int time);
-
-	/// <summary>
-	/// バトルに負けた場合の演出を表示
-	/// </summary>
-	void DrawBattleLose();
-
-	/// <summary>
-	/// エンディングの演出を表示
-	/// </summary>
-	void DrawEnding();
-
-	/// <summary>
-	/// NPC用のUIを表示する
-	/// </summary>
-	/// <param name="pos">NPCの座標</param>
-	void DrawNpcUi(VECTOR pos);
-
-	/// <summary>
-	/// バトル中のUIを表示
-	/// </summary>
-	/// <param name="pPlayer">プレイヤー参照</param>
-	void DrawBattleUi(const Player& pPlayer);
-
-	/// <summary>
-	/// ミニマップ表示
-	/// </summary>
-	/// <param name="pPlayer">プレイヤー参照</param>
-	/// <param name="pEnemy">敵参照</param>
-	void DrawMiniMap(const Player& pPlayer, std::vector<std::shared_ptr<EnemyBase>> pEnemy);
-
-	/// <summary>
-	/// 操作説明表示
-	/// </summary>
-	void DrawOperation();
 
 protected:
 	std::map<std::string, UiData> m_uiData;	// UIのデータ
@@ -128,12 +81,5 @@ protected:
 	float m_cursorWidth;		// カーソルの横幅
 	int m_cursorDisplayTime;	// カーソルを表示する時間
 	int m_cursorAlpha;			// カーソルのα値
-
-	float m_loadingAnimTime;	// ローディング中のアニメーション時間
-
-	float m_dispEnemyKindScale;	// バトル開始時の敵種類の表示サイズ
-	float m_dispNowBattlePosX;	// バトル中のUI表示位置X
-
-	float m_dispGekihaTextScale; // "撃破"テキストの表示サイズ
 };
 

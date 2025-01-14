@@ -50,6 +50,7 @@ Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
 	m_isAddItem(true),
 	m_isSpecial(false),
 	m_isTalk(true),
+	m_isNowTalk(false),
 	m_battleStartCount(kBattleStartTime),
 	m_isBattle(false)
 {
@@ -103,6 +104,16 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 	{
 		m_isNowGrabWeapon = false;
 		m_isOnDamage = false;
+	}
+
+	// 会話中の場合
+	if (m_isNowTalk)
+	{
+		m_isPossibleMove = false;
+	}
+	else
+	{
+		m_isPossibleMove = true;
 	}
 
 	// 敵がいる場合のみ処理を行う

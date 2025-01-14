@@ -4,6 +4,7 @@
 #include <vector>
 
 class UiBase;
+class UiMain;
 class UiBar;
 class EnemyBase;
 class Player;
@@ -129,6 +130,12 @@ private:
 	void StartEvent(const std::string& eventId, const Input& input);
 
 	/// <summary>
+	/// 会話情報を更新する
+	/// </summary>
+	/// <param name="input">入力情報</param>
+	void UpdateTalk(const Input& input);
+
+	/// <summary>
 	/// シャドウマップをセットする
 	/// </summary>
 	void SetShadowMap();
@@ -145,15 +152,19 @@ private:
 	std::shared_ptr<Weapon> m_pWeapon;		// 武器のポインタ
 	std::shared_ptr<Camera> m_pCamera;		// カメラのポインタ
 	std::shared_ptr<Stage> m_pStage;		// ステージのポインタ
+	std::shared_ptr<UiMain> m_pUiMain;		// メイン用UIのポインタ
 	std::shared_ptr<UiBar> m_pUiBar;		// キャラクターバーUIのポインタ
 	std::shared_ptr<EventData> m_pEventData;// イベントデータのポインタ
 	std::vector<int> m_modelHandle;			// モデルのハンドル
+
+	std::string m_nowTalkId;	// 現在の会話ID
 
 	int m_currentEnemyNum;			// 現在の敵数
 	int m_playTime;					// 現在のプレイ時間
 	int m_enemySpawnTime;			// 敵がスポーンするまでの時間
 	int m_battleStartStagingTime;	// バトル開始演出の時間
 	int m_battleEndStagingTime;		// バトル終了演出の時間
+	int m_talkDispTime;				// 会話を表示させる最低限の時間
 	int m_endingTime;				// エンディングの時間
 
 	bool m_isDispBattleStart;	// バトル開始演出中かどうか(true:演出中)

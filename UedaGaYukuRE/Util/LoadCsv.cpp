@@ -20,7 +20,8 @@ namespace
 		{"item", "data/csv/itemData.csv"},			// アイテムデータ
 		{"ui", "data/csv/uiData.csv"},				// UIデータ
 		{"enemyName", "data/csv/enemyName.csv"},	// 敵名データ
-		{"message", "data/csv/message.csv"}			// メッセージデータ
+		{"message", "data/csv/message.csv"},		// メッセージデータ
+		{"conversation", "data/csv/conversation.csv"}	// 会話テキストデータ
 	};
 
 	// 文字列のIDからItemTypeに変更する
@@ -294,6 +295,19 @@ void LoadCsv::LoadMessage()
 	}
 }
 
+void LoadCsv::LoadConversation()
+{
+	std::ifstream ifs(kPath.at("conversation"));
+	std::string line;
+	m_conversationData.clear();
+
+	while (std::getline(ifs, line))
+	{
+		std::vector<std::string> strvec = split(line, ',');
+		m_conversationData[strvec.at(0)] = { strvec.at(1), strvec.at(2) };
+	}
+}
+
 void LoadCsv::LoadEnemyName()
 {
 	std::ifstream ifs(kPath.at("enemyName"));
@@ -326,6 +340,16 @@ std::string LoadCsv::Get_sMessage(std::string id)
 const char* LoadCsv::Get_cMessage(std::string id)
 {
 	return m_messageData[id].c_str();
+}
+
+const char* LoadCsv::GetConversationName(std::string id)
+{
+	return m_conversationData[id].name.c_str();
+}
+
+const char* LoadCsv::GetConversationText(std::string id)
+{
+	return m_conversationData[id].text.c_str();
 }
 
 std::string LoadCsv::GetEnemyName(int enemyIndex)

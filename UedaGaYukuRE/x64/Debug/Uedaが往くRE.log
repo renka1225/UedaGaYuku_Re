@@ -1,2 +1,6 @@
-﻿  PlayerStateBase.cpp
-  Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\UedaGaYukuRE.exe
+﻿  SceneMain.cpp
+  UiMain.cpp
+  コードを生成中...
+EffekseerRendererDX9_vs2019_x64_d.lib(ShaderGenerator.obj) : warning LNK4099: PDB '' が 'EffekseerRendererDX9_vs2019_x64_d.lib(ShaderGenerator.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+EffekseerRendererDX9_vs2019_x64_d.lib(ShaderGeneratorCommon.obj) : warning LNK4099: PDB '' が 'EffekseerRendererDX9_vs2019_x64_d.lib(ShaderGeneratorCommon.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+  Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\UedaGaYukuRE\x64\Debug\UedaGaYukuRE.exe

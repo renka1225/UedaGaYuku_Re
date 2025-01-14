@@ -80,10 +80,15 @@ public:
 	/// <param name="data">UI情報</param>
 	void LoadUiData(std::map<std::string, UiBase::UiData>& data);
 
-	/// /// <summary>
-	/// csvファイルからメッセージを読み込む
+	/// <summary>
+	/// メッセージを読み込む
 	/// </summary>
 	void LoadMessage();
+
+	/// <summary>
+	/// 会話テキストを読み込む
+	/// </summary>
+	void LoadConversation();
 
 	/// <summary>
 	/// 敵の名前情報を読み込む
@@ -112,6 +117,20 @@ public:
 	const char* Get_cMessage(std::string id);
 
 	/// <summary>
+	/// 会話中の人物名を取得する
+	/// </summary>
+	/// <param name="id">取得したいID</param>
+	/// <returns>名前</returns>
+	const char* GetConversationName(std::string id);
+
+	/// <summary>
+	/// 会話テキストを取得
+	/// </summary>
+	/// <param name="id">取得したいID</param>
+	/// <returns>テキスト</returns>
+	const char* GetConversationText(std::string id);
+
+	/// <summary>
 	/// 敵名を取得する
 	/// </summary>
 	/// <param name="enemyIndex">取得する敵の番号</param>
@@ -124,8 +143,16 @@ private:
 	static LoadCsv* m_instance;	 // インスタンス
 
 private:
+	// 会話情報
+	struct Talk
+	{
+		std::string name = "";	// 会話している人の名前
+		std::string text = "";	// テキスト
+	};
+
 	std::vector<std::string> m_enemyNameData;			// 敵名のデータ
 	std::map<std::string, UiBase::UiData> m_uiData;		// UI情報のデータ
 	std::map<std::string, std::string> m_messageData;	// メッセージのデータ
+	std::map<std::string, Talk> m_conversationData;		// 会話のデータ
 };
 
