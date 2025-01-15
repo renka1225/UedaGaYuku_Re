@@ -11,7 +11,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	PlayerStateGuard(std::shared_ptr<Player> player) : PlayerStateBase(player) {};
+	PlayerStateGuard(const std::shared_ptr<Player>& pPlayer) : PlayerStateBase(pPlayer) {};
 
 	/// <summary>
 	/// デストラクタ

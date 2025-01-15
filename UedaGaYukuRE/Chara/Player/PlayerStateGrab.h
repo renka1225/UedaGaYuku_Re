@@ -11,7 +11,7 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="player">プレイヤー参照</param>
-	PlayerStateGrab(std::shared_ptr<Player> player);
+	PlayerStateGrab(const std::shared_ptr<Player>& pPlayer);
 
 	/// <summary>
 	/// デストラクタ

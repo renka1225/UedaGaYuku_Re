@@ -11,7 +11,7 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="player">プレイヤー参照</param>
-	PlayerStateWalk(std::shared_ptr<Player> player) : PlayerStateBase(player) {}
+	PlayerStateWalk(const std::shared_ptr<Player>& pPlayer) : PlayerStateBase(pPlayer) {}
 
 	/// <summary>
 	/// デストラクタ

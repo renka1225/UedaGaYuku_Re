@@ -1,7 +1,16 @@
 ﻿#include "Item.h"
+#include "Player.h"
 #include "EnemyBase.h"
 #include "EnemyStateDeath.h"
 #include <random>
+
+namespace
+{
+	constexpr int kMaxItemDrop = 30;	// アイテムがドロップする最大確率
+	constexpr int kMoneyItemDrop = 10;	// お金がドロップする最大確率
+	constexpr int kMinDropMoney = 500;	// ドロップする最小金額
+	constexpr int kMaxDropMoney = 2000;	// ドロップする最大金額
+}
 
 EnemyStateDeath::EnemyStateDeath(std::shared_ptr<EnemyBase> pEnemy) :
 	EnemyStateBase(pEnemy),
@@ -23,32 +32,26 @@ void EnemyStateDeath::Update(Stage& pStage, Player& pPlayer)
 	m_deathTime--;
 	if (m_deathTime <= 0.0f)
 	{
-		DropItem(pStage); // アイテムをドロップする
+		DropItem(pPlayer); // アイテムをドロップする
 
 		m_pEnemy->SetIsDead(true);
 		MV1DetachAnim(m_pEnemy->GetHandle(),m_pEnemy->GetAnimIndex(AnimName::kDown));
 	}
 }
 
-void EnemyStateDeath::DropItem(Stage& pStage)
+void EnemyStateDeath::DropItem(Player& pPlayer)
 {
 	if (m_pEnemy == nullptr) return;
 
 	// 確率でお金かアイテムをドロップする
-	int randNum = GetRand(30);
+	int randNum = GetRand(kMaxItemDrop);
 
-	if (randNum <= 5)
+	if (randNum <= kMoneyItemDrop)
 	{
-		// 敵がいた場所にお金をドロップする
-		pStage.SetDropMoney(m_pEnemy->GetPos(), 500);
-	}
-	else if (randNum <= 10)
-	{
-		pStage.SetDropMoney(m_pEnemy->GetPos(), 1000);
-	}
-	else if(randNum <= 15)
-	{
-		pStage.SetDropMoney(m_pEnemy->GetPos(), 1500);
+		// ドロップするする金額を決める
+		int dropMoney = GetRand((kMaxDropMoney - kMinDropMoney)) + kMinDropMoney;
+
+		pPlayer.AddMoney(dropMoney);
 	}
 	else
 	{

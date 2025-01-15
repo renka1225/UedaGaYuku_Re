@@ -30,15 +30,13 @@ namespace
 	constexpr int kMaxPossession = 12;	 // アイテムの最大所持数
 	constexpr int kMoneyIncrement = 100; // 一度に増える所持金数
 
-	constexpr float kDecreaseMoneyMin = 0.1f; // 減らす金額の最小割合
-	constexpr float kDecreaseMoneyMax = 0.3f; // 減らす金額の最大割合
-
 	constexpr float kBattleStartRange = 200.0f;	// バトルが始まる範囲
-	constexpr int kBattleStartTime = 60;		// バトルが開始するまでの時間
+	constexpr int kBattleStartTime = 50;		// バトルが開始するまでの時間
 
 	constexpr int kInputRetentionFrame = 30;	// 入力の履歴を削除するまでのフレーム数
 	constexpr int kInputTimeAdj = 40;			// 入力受付時間調節
 	constexpr float kChangeAngleDot = -0.5f;	// プレイヤーの角度を調節する範囲
+	constexpr float kBattleStartChangeAngleDot = 1.0f; // バトル開始時のプレイヤーの角度を調整する範囲
 }
 
 Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
@@ -46,6 +44,7 @@ Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
 	m_money(0),
 	m_beforeMoney(0),
 	m_addMoney(0),
+	m_currentInputFrame(0),
 	m_itemEffectTime(0),
 	m_isAddItem(true),
 	m_isSpecial(false),
@@ -186,6 +185,36 @@ void Player::AdjPosAttack()
 	}
 }
 
+void Player::UpdateAngleNearEnemy()
+{
+	// 1番近い敵を探す
+	int nearEnemyIndex = -1;
+	nearEnemyIndex = FindNearEnemy(kBattleStartChangeAngleDot);
+
+	// 範囲内に敵が存在する場合、1番近い敵の方を向く
+	if (nearEnemyIndex != -1)
+	{
+		// 敵への方向ベクトルを正規化
+		VECTOR dirToEnemy = VNorm(m_pToEVec[nearEnemyIndex]);
+		m_moveDir = dirToEnemy;
+	}
+
+	CharacterBase::UpdateAngle();
+
+	return;
+}
+
+void Player::UpdateBattleEnd()
+{
+	m_isBattle = false;
+	m_isPossibleMove = false;
+
+	m_pState->UpdateBattleEnd();
+
+	// アニメーションをスローモーションで再生
+	SlowAnim();
+}
+
 int Player::FindNearEnemy(float range)
 {
 	for (int i = 0; i < m_pToEVec.size(); i++)
@@ -209,6 +238,7 @@ void Player::UpdateMoney()
 
 void Player::AddMoney(int dropMoney)
 {
+	m_money += dropMoney;
 	m_addMoney = dropMoney;
 	m_beforeMoney = m_money;
 }
@@ -482,7 +512,7 @@ bool Player::CheckCommand(const std::vector<std::string>& command, const std::ve
 void Player::UpdateAngle()
 {
 	// 攻撃中の場合
-	if (m_isAttack)
+	if (m_isAttack && m_isBattle)
 	{
 		// 1番近い敵を探す
 		int nearEnemyIndex = -1;
@@ -495,7 +525,7 @@ void Player::UpdateAngle()
 			VECTOR dirToEnemy = VNorm(m_pToEVec[nearEnemyIndex]);
 			m_moveDir = dirToEnemy;
 		}
-		
+
 		CharacterBase::UpdateAngle();
 	}
 	else

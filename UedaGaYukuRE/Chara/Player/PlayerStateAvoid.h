@@ -11,7 +11,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	PlayerStateAvoid(std::shared_ptr<Player> player) : PlayerStateBase(player) {};
+	PlayerStateAvoid(const std::shared_ptr<Player>& pPlayer) : PlayerStateBase(pPlayer) {};
 
 	/// <summary>
 	/// デストラクタ

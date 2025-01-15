@@ -75,7 +75,8 @@ public:
 	/// <summary>
 	/// 操作説明表示
 	/// </summary>
-	void DrawOperation();
+	/// <param name="isBattle">バトル中かどうか</param>
+	void DrawOperation(bool isBattle);
 
 	/// <summary>
 	/// 会話画面を表示

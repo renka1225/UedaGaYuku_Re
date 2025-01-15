@@ -18,7 +18,7 @@ namespace
 	constexpr float kDamageEffectAdjY = -20.0f; // ダメージエフェクトの表示位置調整
 }
 
-PlayerStateBase::PlayerStateBase(std::shared_ptr<Player> pPlayer):
+PlayerStateBase::PlayerStateBase(const std::shared_ptr<Player>& pPlayer):
 	m_upMoveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_leftMoveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_moveVec(VGet(0.0f, 0.0f, 0.0f)),
@@ -36,7 +36,6 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	GetJoypadAnalogInput(&m_analogX, &m_analogY, DX_INPUT_PAD1); // アナログスティックの入力状態
 	m_pPlayer->Move(m_moveVec, stage, false);   // 移動情報を反映する
 
-
 	// メニューを開いたとき
 	if (input.IsTriggered(InputId::kMenu))
 	{
@@ -51,9 +50,6 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 		ChangeStateDeath();
 	}
 
-	// 特定の状態中は更新しない
-	if (IsStateInterrupt()) return;
-
 	// 移動できない場合
 	if (!m_pPlayer->GetIsPossibleMove())
 	{
@@ -61,13 +57,25 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 		return;
 	}
 
+	// 特定の状態中は更新しない
+	if (IsStateInterrupt()) return;
+
 	// バトル中でない場合
 	if (!m_pPlayer->GetIsBattle()) return;
 
 	// ダメージを受けた場合
 	if (m_pPlayer->GetIsOnDamage())
 	{
-		ChangeStateDamage();
+		if (m_pPlayer->GetIsGuard())
+		{
+			Sound::GetInstance().PlaySe(SoundName::kSe_guardAttack);
+			EffectManager::GetInstance().Add(EffectName::kGuard, m_pPlayer->GetPos());
+			return;
+		}
+		else
+		{
+			ChangeStateDamage();
+		}
 		return;
 	}
 
@@ -81,16 +89,17 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 		return;
 	}
 
-	// 攻撃のボタンが押された場合
-	if (input.IsTriggered(InputId::kPunch) || input.IsTriggered(InputId::kKick))
-	{
-		ChangeStateAttack(input);
-		return;
-	}
 	// ガードのボタンが押された場合
 	if (input.IsPressing(InputId::kGuard))
 	{
 		ChangeStateGuard();
+		return;
+	}
+
+	// 攻撃のボタンが押された場合
+	if (input.IsTriggered(InputId::kPunch) || input.IsTriggered(InputId::kKick))
+	{
+		ChangeStateAttack(input);
 		return;
 	}
 	// 回避のボタンが押された場合
@@ -112,6 +121,11 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 		}
 		return;
 	}
+}
+
+void PlayerStateBase::UpdateBattleEnd()
+{
+	ChangeStateIdle();
 }
 
 bool PlayerStateBase::IsStateInterrupt()
@@ -234,19 +248,8 @@ void PlayerStateBase::ChangeStateGrab(Weapon& pWeapon)
 
 void PlayerStateBase::ChangeStateDamage()
 {
-	// ガード中の場合
-	if (m_pPlayer->GetIsGuard())
-	{
-		Sound::GetInstance().PlaySe(SoundName::kSe_guardAttack);
-		EffectManager::GetInstance().Add(EffectName::kGuard, m_pPlayer->GetPos());
-		return;
-	}
-	else
-	{
-		// ダメージエフェクトを表示
-		EffectManager::GetInstance().Add(EffectName::kAttack, m_pPlayer->GetPos(), kDamageEffectAdjY);
-	}
-
+	// ダメージエフェクトを表示
+	EffectManager::GetInstance().Add(EffectName::kAttack, m_pPlayer->GetPos(), kDamageEffectAdjY);
 	std::shared_ptr<PlayerStateHitAttack> state = std::make_shared<PlayerStateHitAttack>(m_pPlayer);
 	m_nextState = state;
 	state->Init();
@@ -254,6 +257,8 @@ void PlayerStateBase::ChangeStateDamage()
 
 void PlayerStateBase::ChangeStateDeath()
 {
+	if (GetKind() == PlayerStateKind::kDeath) return;
+
 	std::shared_ptr<PlayerStateDeath> state = std::make_shared<PlayerStateDeath>(m_pPlayer);
 	m_nextState = state;
 	state->Init();

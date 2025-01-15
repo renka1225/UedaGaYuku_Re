@@ -45,13 +45,6 @@ public:
 	VECTOR CheckObjectCol(ObjectBase& obj, const VECTOR& moveVec);
 
 	/// <summary>
-	/// 敵がドロップしたお金をセットする
-	/// </summary>
-	/// <param name="enemyPos">お金をドロップする敵の座標</param>
-	/// <param name="dropMoney">ドロップした金額</param>
-	void SetDropMoney(VECTOR enemyPos, int dropMoney);
-
-	/// <summary>
 	/// ステージモデルを取得
 	/// </summary>
 	/// <returns>3Dモデルのハンドル</returns>

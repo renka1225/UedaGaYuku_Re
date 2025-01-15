@@ -12,20 +12,21 @@ namespace
 	/*画像の種類*/
 	enum Handle
 	{
-		kTextBox,		// テキストボックス
-		kMiniMap,		// ミニマップ
-		kIconEnemy,		// ミニマップ上に表示する敵アイコン
-		kIconPlayer,	// ミニマップ上に表示するプレイヤーアイコン
-		kNpcTalk,		// 話すのUI
-		kOperation,		// 操作説明
-		kBattle_now,	// バトル中
-		kBattle_end,	// バトル終了
-		kBattle_lose,	// バトルで負けた
-		kBattle_gekiha,	// 撃破
-		kEnemy_yanki,	// ヤンキー
-		kEnemy_tinpira,	// チンピラ
-		kEnemy_narikin,	// 成金
-		kNum			// 画像の種類
+		kTextBox,			// テキストボックス
+		kMiniMap,			// ミニマップ
+		kIconEnemy,			// ミニマップ上に表示する敵アイコン
+		kIconPlayer,		// ミニマップ上に表示するプレイヤーアイコン
+		kNpcTalk,			// 話すのUI
+		kOperation_normal,	// 操作説明
+		kOperation_battle,	// バトル時操作説明
+		kBattle_now,		// バトル中
+		kBattle_end,		// バトル終了
+		kBattle_lose,		// バトルで負けた
+		kBattle_gekiha,		// 撃破
+		kEnemy_yanki,		// ヤンキー
+		kEnemy_tinpira,		// チンピラ
+		kEnemy_narikin,		// 成金
+		kNum				// 画像の種類
 	};
 
 	const char* kHandle[Handle::kNum]
@@ -35,7 +36,8 @@ namespace
 		"data/ui/main/icon_enemy.png",
 		"data/ui/main/icon_player.png",
 		"data/ui/text/hanasu.png",
-		"data/ui/main/operation.png",
+		"data/ui/main/operation_normal.png",
+		"data/ui/main/operation_battle.png",
 		"data/ui/battle/battleNow.png",
 		"data/ui/battle/battleEnd.png",
 		"data/ui/battle/battleLose.png",
@@ -44,6 +46,9 @@ namespace
 		"data/ui/battle/tinpira.png",
 		"data/ui/battle/narikin.png",
 	};
+
+	const Vec2 kDispOperationPos = { 1635.0f, 905.0f };			// 通常操作説明表示位置
+	const Vec2 kDispBattleOperationPos = { 1584.0f, 700.0f };	// バトル中操作説明表示位置
 
 	/*会話*/
 	const Vec2 kDispTalkUiPos = { -5.0f, 32.0f }; // "話す"テキスト表示位置調整
@@ -73,7 +78,6 @@ namespace
 	constexpr float kGekihaTextMaxScale = 10.0f;	// "撃破"テキスト最大サイズ
 	constexpr float kGekihaTextChangeScale = 0.6f;	// "撃破"テキストサイズ
 
-	const Vec2 kDispOperationPos = { 1584.0f, 700.0f };	 // 操作説明表示位置
 	const Vec2 kBattleNowPos = { 1550.0f, 50.0f };	// バトル中表示位置
 	constexpr float kNowBattleMoveSpeed = 13.0f;	// バトル中UIの移動速度
 
@@ -267,9 +271,16 @@ void UiMain::DrawMiniMap(const Player& pPlayer, std::vector<std::shared_ptr<Enem
 	DrawRotaGraphF(kMapPos.x, kMapPos.y, kIconScale, pPlayer.GetAngle(), m_handle[Handle::kIconPlayer], true);
 }
 
-void UiMain::DrawOperation()
+void UiMain::DrawOperation(bool isBattle)
 {
-	DrawGraphF(kDispOperationPos.x, kDispOperationPos.y, m_handle[Handle::kOperation], true);
+	if (isBattle)
+	{
+		DrawGraphF(kDispBattleOperationPos.x, kDispBattleOperationPos.y, m_handle[Handle::kOperation_battle], true);
+	}
+	else
+	{
+		DrawGraphF(kDispOperationPos.x, kDispOperationPos.y, m_handle[Handle::kOperation_normal], true);
+	}
 }
 
 void UiMain::DrawTalk(const Player& pPlayer, std::string id, int clearNum)

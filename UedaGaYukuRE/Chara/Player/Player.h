@@ -76,6 +76,16 @@ public:
 	void AdjPosAttack();
 
 	/// <summary>
+	/// 一番近くの敵の方に向く処理
+	/// </summary>
+	void UpdateAngleNearEnemy();
+
+	/// <summary>
+	/// バトル終了時状態を更新する
+	/// </summary>
+	void UpdateBattleEnd();
+
+	/// <summary>
 	/// プレイヤーから一番近くにいる敵を探す
 	/// </summary>
 	/// <param name="range">調べる範囲</param>

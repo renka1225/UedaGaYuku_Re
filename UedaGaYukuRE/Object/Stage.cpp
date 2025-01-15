@@ -102,11 +102,6 @@ VECTOR Stage::CheckObjectCol(ObjectBase& obj, const VECTOR& moveVec)
     return nextPos;
 }
 
-void Stage::SetDropMoney(VECTOR enemyPos, int dropMoney)
-{
-    m_pPlayer->AddMoney(dropMoney); // プレイヤーの所持金を増やす
-}
-
 void Stage::AnalyzeWallAndFloor(MV1_COLL_RESULT_POLY_DIM hitDim, const VECTOR& checkPosition)
 {
     // 壁ポリゴンと床ポリゴンの数を初期化する

@@ -34,7 +34,7 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="player">プレイヤー参照</param>
-	PlayerStateBase(std::shared_ptr<Player> pPlayer);
+	PlayerStateBase(const std::shared_ptr<Player>& pPlayer);
 
 	/// <summary>
 	/// デストラクタ
@@ -48,6 +48,11 @@ public:
 	/// <param name="camera">カメラ参照</param>
 	/// <param name="stage">ステージ参照</param>
 	virtual void Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::vector<std::shared_ptr<EnemyBase>> pEnemy);
+
+	/// <summary>
+	/// バトル終了時の状態を更新
+	/// </summary>
+	void UpdateBattleEnd();
 	
 	/// <summary>
 	/// 現在のStateを取得
@@ -122,6 +127,7 @@ protected:
 	VECTOR m_moveVec;		// 移動ベクトル
 	float m_animEndTime;	// アニメーションが終わるまでの時間
 	bool m_isGuardEffect;	// ガードエフェクト再生中かどうか
+	//bool m_isBattleEnd;		// バトル終了中か
 
 	DINPUT_JOYSTATE m_analogInput; 	// アナログスティック情報取得
 	int m_analogX;					// アナログスティックの左右の入力状態

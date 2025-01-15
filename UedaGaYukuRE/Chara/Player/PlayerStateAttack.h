@@ -22,7 +22,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	PlayerStateAttack(std::shared_ptr<Player> player);
+	PlayerStateAttack(const std::shared_ptr<Player>& pPlayer);
 
 	/// <summary>
 	/// デストラクタ

@@ -2,8 +2,8 @@
 #include "PLayerStateIdle.h"
 #include "PlayerStateGrab.h"
 
-PlayerStateGrab::PlayerStateGrab(std::shared_ptr<Player> player):
-    PlayerStateBase(player)
+PlayerStateGrab::PlayerStateGrab(const std::shared_ptr<Player>& pPlayer):
+    PlayerStateBase(pPlayer)
 {
 }
 

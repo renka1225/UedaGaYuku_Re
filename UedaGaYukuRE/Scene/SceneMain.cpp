@@ -155,7 +155,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 			return shared_from_this();
 		}
 		
-		if (m_battleStartStagingTime <= 0)
+		if (m_battleEndStagingTime <= 0)
 		{
 			return std::make_shared<SceneGameover>();
 		}
@@ -263,7 +263,7 @@ void SceneMain::Draw()
 	// 会話中は操作説明を表示しない
 	if (!m_pPlayer->GetIsNowTalk())
 	{
-		m_pUiMain->DrawOperation();
+		m_pUiMain->DrawOperation(m_pPlayer->GetIsBattle());
 	}
 
 	// 特定の状態の場合は表示しない
@@ -376,6 +376,7 @@ void SceneMain::UpdateStaging()
 		// エンディング演出
 		UpdateEndingStaging();
 	}
+
 	// バトル終了演出
 	UpdateBattleEndStaging();
 }
@@ -402,6 +403,9 @@ void SceneMain::UpdateBattleStartStaging()
 				enemy->SetIsPossibleMove(false);
 			}
 			m_pPlayer->SetIsPossibleMove(false);
+
+			// 一番の近くの敵の方向を向く
+			m_pPlayer->UpdateAngleNearEnemy();
 		}
 		else
 		{
@@ -432,18 +436,14 @@ std::shared_ptr<SceneBase> SceneMain::UpdateBattleEndStaging()
 	{
 		m_battleEndStagingTime--;
 
+		// プレイヤーの終了処理
+		m_pPlayer->UpdateBattleEnd();
+
 		for (auto& enemy : m_pEnemy)
 		{
 			if (enemy == nullptr) continue;
-
-			// アニメーションをスローで再生する
 			enemy->SlowAnim();
 		}
-
-		// 演出中は移動できないようにする
-		m_pPlayer->SetIsPossibleMove(false);
-		// アニメーションをスローで再生する
-		m_pPlayer->SlowAnim();
 	}
 	// 演出終了後
 	else
@@ -765,8 +765,6 @@ void SceneMain::UpdateTalk(const Input& input)
 
 	m_talkDispTime--;
 	if (m_talkDispTime > 0) return;
-
-	printfDx("会話中\n");
 
 	if (input.IsTriggered(InputId::kOk))
 	{

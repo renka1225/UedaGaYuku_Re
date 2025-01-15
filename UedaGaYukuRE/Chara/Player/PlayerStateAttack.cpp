@@ -12,8 +12,8 @@ namespace
     constexpr float kSpecialAtkPower = 1.5f; // 必殺技の攻撃力
 }
 
-PlayerStateAttack::PlayerStateAttack(std::shared_ptr<Player> player):
-    PlayerStateBase(player),
+PlayerStateAttack::PlayerStateAttack(const std::shared_ptr<Player>& pPlayer):
+    PlayerStateBase(pPlayer),
     m_isAttackEnd(false)
 {
 }

@@ -5,6 +5,11 @@
 #include "EnemyStateIdle.h"
 #include "EnemyStateAttack.h"
 
+namespace
+{
+    constexpr float kAttackEndAdjTime = 5.0f; // 攻撃終了の時間を調整
+}
+
 EnemyStateAttack::EnemyStateAttack(std::shared_ptr<EnemyBase> pEnemy):
     EnemyStateBase(pEnemy),
     m_attackEndTime(0.0f),
@@ -29,6 +34,7 @@ void EnemyStateAttack::Update(Stage& pStage, Player& pPlayer)
     {
         // StateをIdleに変更する
         pPlayer.SetIsInvincible(false);
+        pPlayer.SetIsOnDamage(false);
         m_pEnemy->SetIsAttack(false);
         ChangeStateIdle(pPlayer);
         return;
@@ -36,7 +42,7 @@ void EnemyStateAttack::Update(Stage& pStage, Player& pPlayer)
     else
     {
         m_attackEndTime--;
-        if (m_attackEndTime <= 0.0f) m_isAttackEnd = true;
+        if (m_attackEndTime <= kAttackEndAdjTime) m_isAttackEnd = true;
 
         // 特定の状態の場合はスキップする
         if (pPlayer.GetIsInvincible()) return;

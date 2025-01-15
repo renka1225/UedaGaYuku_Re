@@ -33,8 +33,8 @@ public:
 	/// <summary>
 	/// アイテムをドロップする
 	/// </summary>
-	/// <param name="pStage">ステージ参照</param>
-	void DropItem(Stage& pStage);
+	/// <param name="pPlayer">プレイヤー参照</param>
+	void DropItem(Player& pPlayer);
 
 	/// <summary>
 	/// 現在のStateを取得
