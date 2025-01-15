@@ -86,6 +86,11 @@ public:
 	/// <param name="clearNum">条件の敵数</param>
 	void DrawTalk(const Player& pPlayer, std::string id, int clearNum);
 
+	/// <summary>
+	/// チュートリアル表示
+	/// </summary>
+	void DrawTutorial();
+
 private:
 	float m_loadingAnimTime;	// ローディング中のアニメーション時間
 

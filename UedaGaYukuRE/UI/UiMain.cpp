@@ -12,6 +12,12 @@ namespace
 	/*画像の種類*/
 	enum Handle
 	{
+		kTuto_bg,			// チュートリアル背景
+		kTuto_check,		// チュートリアルチェック
+		kTuto_1,			// チュートリアル1
+		kTuto_2,			// チュートリアル2
+		kTuto_3,			// チュートリアル3
+		kTuto_4,			// チュートリアル4
 		kTextBox,			// テキストボックス
 		kMiniMap,			// ミニマップ
 		kIconEnemy,			// ミニマップ上に表示する敵アイコン
@@ -31,6 +37,12 @@ namespace
 
 	const char* kHandle[Handle::kNum]
 	{
+		"data/ui/tutorial/bg.png",
+		"data/ui/tutorial/check.png",
+		"data/ui/tutorial/tuto1.png",
+		"data/ui/tutorial/tuto2.png",
+		"data/ui/tutorial/tuto3.png",
+		"data/ui/tutorial/tuto4.png",
 		"data/ui/main/textBox.png",
 		"data/ui/main/minimap.png",
 		"data/ui/main/icon_enemy.png",
@@ -47,6 +59,12 @@ namespace
 		"data/ui/battle/narikin.png",
 	};
 
+	/*チュートリアル*/
+	constexpr int kBgAlpha = 200;	// 背景のブレンド率
+	const Vec2 kTutoBgPos = { 1433.0f, 238.0f };	// 背景位置
+	const Vec2 kTutoTextPos = { 1433.0f, 237.0f };	// テキスト位置
+
+	/*操作説明*/
 	const Vec2 kDispOperationPos = { 1635.0f, 905.0f };			// 通常操作説明表示位置
 	const Vec2 kDispBattleOperationPos = { 1584.0f, 700.0f };	// バトル中操作説明表示位置
 
@@ -306,4 +324,13 @@ void UiMain::DrawTalk(const Player& pPlayer, std::string id, int clearNum)
 	}
 
 	DrawFormatStringFToHandle(kTalkPos.x, kTalkPos.y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kTalk)], drawText.c_str(), drawNum);
+}
+
+void UiMain::DrawTutorial()
+{
+	SetDrawBlendMode(DX_BLENDMODE_MULA, kBgAlpha);
+	DrawGraphF(kTutoBgPos.x, kTutoBgPos.y, m_handle[Handle::kTuto_bg], true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	DrawGraphF(kTutoTextPos.x, kTutoTextPos.y, m_handle[Handle::kTuto_1], true);
 }

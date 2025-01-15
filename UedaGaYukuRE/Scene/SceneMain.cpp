@@ -67,6 +67,7 @@ SceneMain::SceneMain():
 	m_isEnding(false),
 	m_isPause(false),
 	m_isLoading(true),
+	m_isTutorial(true),
 	m_isLastBattle(false)
 {
 	SetUseASyncLoadFlag(true); 	// 非同期読み込み設定に変更
@@ -142,6 +143,13 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		Sound::GetInstance().StopSe(SoundName::kSe_walk);
 		Sound::GetInstance().StopSe(SoundName::kSe_run);
 		return std::make_shared<SceneMenu>(shared_from_this(), m_pPlayer, m_pCamera);
+	}
+
+	// チュートリアル中
+	if (m_isTutorial)
+	{
+		// チュートリアル状態にする
+		//m_pPlayer->UpdateTutorial();
 	}
 
 	// ゲームオーバー
@@ -260,14 +268,24 @@ void SceneMain::Draw()
 		m_pUiMain->DrawTalk(*m_pPlayer, m_nowTalkId, kClearEnemyNum);
 	}
 
-	// 会話中は操作説明を表示しない
-	if (!m_pPlayer->GetIsNowTalk())
+
+	// チュートリアル表示
+	if (m_isTutorial)
 	{
-		m_pUiMain->DrawOperation(m_pPlayer->GetIsBattle());
+		m_pUiMain->DrawTutorial();
+	}
+	// 操作説明表示
+	else
+	{
+		// 会話中は操作説明を表示しない
+		if ( !m_pPlayer->GetIsNowTalk())
+		{
+			m_pUiMain->DrawOperation(m_pPlayer->GetIsBattle());
+		}
 	}
 
 	// 特定の状態の場合は表示しない
-	bool isNotDrawMap = !m_isBattleEndStaging || !m_isLastBattle || m_isEnding || m_pPlayer->GetIsNowTalk();
+	bool isNotDrawMap = !m_isBattleEndStaging || !m_isLastBattle || m_isEnding || m_isTutorial || m_pPlayer->GetIsNowTalk();
 	if (!isNotDrawMap)
 	{
 		// ミニマップを表示

@@ -172,6 +172,7 @@ private:
 	bool m_isEnding;			// エンディング演出中か(true:演出中)
 	bool m_isPause;				// ポーズ状態かどうか(true:ポーズ状態)
 	bool m_isLoading;			// ロード中か(true:ロード中)
+	bool m_isTutorial;			// チュートリアル中か(true:チュートリアル中)
 	bool m_isLastBattle;		// ボス戦かどうか
 
 	int m_shadowMap; // シャドウマップ
