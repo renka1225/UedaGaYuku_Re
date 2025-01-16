@@ -94,4 +94,3 @@ private:
 	DINPUT_JOYSTATE m_analogInput; 	// アナログパッド情報取得
 	int m_lightHandle;				// ライトハンドル
 };
-

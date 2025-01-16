@@ -51,6 +51,7 @@ public:
 		kEnemy_02,	 // 敵2
 		kEnemy_03,	 // 敵3
 		kEnemy_boss, // ボス
+		kEnemy_tuto, // チュートリアル敵
 		kNpc,		 // NPC
 		kCharaNum,	 // 合計のキャラ数
 	};

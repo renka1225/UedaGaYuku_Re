@@ -13,10 +13,12 @@ namespace
 	{
 		kTuto_bg,			// チュートリアル背景
 		kTuto_check,		// チュートリアルチェック
+		kTuto_ok,			// チュートリアル完了
 		kTuto_1,			// チュートリアル1
 		kTuto_2,			// チュートリアル2
 		kTuto_3,			// チュートリアル3
 		kTuto_4,			// チュートリアル4
+		kTuto_5,			// チュートリアル5
 		kTextBox,			// テキストボックス
 		kMiniMap,			// ミニマップ
 		kIconEnemy,			// ミニマップ上に表示する敵アイコン
@@ -38,10 +40,12 @@ namespace
 	{
 		"data/ui/tutorial/bg.png",
 		"data/ui/tutorial/check.png",
+		"data/ui/tutorial/ok.png",
 		"data/ui/tutorial/tuto1.png",
 		"data/ui/tutorial/tuto2.png",
 		"data/ui/tutorial/tuto3.png",
 		"data/ui/tutorial/tuto4.png",
+		"data/ui/tutorial/tuto5.png",
 		"data/ui/main/textBox.png",
 		"data/ui/main/minimap.png",
 		"data/ui/main/icon_enemy.png",
@@ -69,13 +73,14 @@ namespace
 		{"grab", {1814.0f, 345.0f}},
 		{"weaponAtk", {1824.0f, 432.0f}},
 		{"heat", {1828.0f, 344.0f}},
+		{"bg", { 1433.0f, 238.0f }},	// 背景位置
+		{"text", { 1433.0f, 237.0f }},	// テキスト位置
+		{"check", { 1450.0f, 339.0f }},	// チェックマーク位置
+		{"ok",{1432.0f, 422.0f}}		// OK表示位置
 	};
 
-	constexpr int kBgAlpha = 200;	// 背景のブレンド率
-	const Vec2 kTutoBgPos = { 1433.0f, 238.0f };	// 背景位置
-	const Vec2 kTutoTextPos = { 1433.0f, 237.0f };	// テキスト位置
-	const Vec2 kTutoCheckPos = { 1450.0f, 339.0f };	// チェックマーク位置
-	constexpr float kTutoCheckHeight = 84.0f;		// チェックマーク表示間隔
+	constexpr float kTutoCheckHeight = 84.0f;	// チェックマーク表示間隔
+	constexpr int kBgAlpha = 200;				// 背景のブレンド率
 
 	/*操作説明*/
 	const Vec2 kDispOperationPos = { 1635.0f, 905.0f };			// 通常操作説明表示位置
@@ -342,7 +347,7 @@ void UiMain::DrawTalk(const Player& pPlayer, std::string id, int clearNum)
 void UiMain::DrawTutorial(Player::TutorialInfo tutoInfo)
 {
 	SetDrawBlendMode(DX_BLENDMODE_MULA, kBgAlpha);
-	DrawGraphF(kTutoBgPos.x, kTutoBgPos.y, m_handle[Handle::kTuto_bg], true);
+	DrawGraphF(kDispTutoPos.at("bg").x, kDispTutoPos.at("bg").y, m_handle[Handle::kTuto_bg], true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	switch (tutoInfo.currentNum)
@@ -363,30 +368,40 @@ void UiMain::DrawTutorial(Player::TutorialInfo tutoInfo)
 	case Player::TutorialNum::kTuto_4:
 		DrawTuto4(tutoInfo);
 		break;
+		// チュートリアル4
+	case Player::TutorialNum::kTuto_5:
+		DrawTuto5(tutoInfo);
+		break;
+	}
+
+	// チュートリアル完了の表示
+	if (tutoInfo.tutorialChangeTime > 0)
+	{
+		DrawTutorialOk();
 	}
 }
 
 void UiMain::DrawTuto1(Player::TutorialInfo tutoInfo)
 {
-	DrawGraphF(kTutoTextPos.x, kTutoTextPos.y, m_handle[Handle::kTuto_1], true);
+	DrawGraphF(kDispTutoPos.at("text").x, kDispTutoPos.at("text").y, m_handle[Handle::kTuto_1], true);
 
 	if (tutoInfo.isMove)
 	{
-		DrawTutorialCheck(kTutoCheckPos.y);
+		DrawTutorialCheck(kDispTutoPos.at("check").y);
 	}
 	if (tutoInfo.isDush)
 	{
-		DrawTutorialCheck(kTutoCheckPos.y + kTutoCheckHeight);
+		DrawTutorialCheck(kDispTutoPos.at("check").y + kTutoCheckHeight);
 	}
 	if (tutoInfo.isCameraMove)
 	{
-		DrawTutorialCheck(kTutoCheckPos.y + kTutoCheckHeight * 2);
+		DrawTutorialCheck(kDispTutoPos.at("check").y + kTutoCheckHeight * 2);
 	}
 }
 
 void UiMain::DrawTuto2(Player::TutorialInfo tutoInfo)
 {
-	DrawGraphF(kTutoTextPos.x, kTutoTextPos.y, m_handle[Handle::kTuto_2], true);
+	DrawGraphF(kDispTutoPos.at("text").x, kDispTutoPos.at("text").y, m_handle[Handle::kTuto_2], true);
 
 	DrawTutorialCurrentNum(kDispTutoPos.at("punch"), tutoInfo.currentPunch);
 	DrawTutorialCurrentNum(kDispTutoPos.at("kick"), tutoInfo.currentKick);
@@ -395,54 +410,64 @@ void UiMain::DrawTuto2(Player::TutorialInfo tutoInfo)
 
 	if (tutoInfo.isPunch)
 	{
-		DrawTutorialCheck(kTutoCheckPos.y);
+		DrawTutorialCheck(kDispTutoPos.at("check").y);
 	}
 	if (tutoInfo.isKick)
 	{
-		DrawTutorialCheck(kTutoCheckPos.y + kTutoCheckHeight);
+		DrawTutorialCheck(kDispTutoPos.at("check").y + kTutoCheckHeight);
 	}
 	if (tutoInfo.isAvoid)
 	{
-		DrawTutorialCheck(kTutoCheckPos.y + kTutoCheckHeight * 2);
+		DrawTutorialCheck(kDispTutoPos.at("check").y + kTutoCheckHeight * 2);
 	}
 	if (tutoInfo.isGuard)
 	{
-		DrawTutorialCheck(kTutoCheckPos.y + kTutoCheckHeight * 3);
+		DrawTutorialCheck(kDispTutoPos.at("check").y + kTutoCheckHeight * 3);
 	}
 }
 
 void UiMain::DrawTuto3(Player::TutorialInfo tutoInfo)
 {
-	DrawGraphF(kTutoTextPos.x, kTutoTextPos.y, m_handle[Handle::kTuto_3], true);
+	DrawGraphF(kDispTutoPos.at("text").x, kDispTutoPos.at("text").y, m_handle[Handle::kTuto_3], true);
 
 	DrawTutorialCurrentNum(kDispTutoPos.at("grab"), tutoInfo.currentGrab);
 	DrawTutorialCurrentNum(kDispTutoPos.at("weaponAtk"), tutoInfo.currentWeaponAtk);
 
 	if (tutoInfo.isGrab)
 	{
-		DrawTutorialCheck(kTutoCheckPos.y);
+		DrawTutorialCheck(kDispTutoPos.at("check").y);
 	}
 	if (tutoInfo.isWeaponAtk)
 	{
-		DrawTutorialCheck(kTutoCheckPos.y + kTutoCheckHeight);
+		DrawTutorialCheck(kDispTutoPos.at("check").y + kTutoCheckHeight);
 	}
 }
 
 void UiMain::DrawTuto4(Player::TutorialInfo tutoInfo)
 {
-	DrawGraphF(kTutoTextPos.x, kTutoTextPos.y, m_handle[Handle::kTuto_4], true);
+	DrawGraphF(kDispTutoPos.at("text").x, kDispTutoPos.at("text").y, m_handle[Handle::kTuto_4], true);
 
 	DrawTutorialCurrentNum(kDispTutoPos.at("heat"), tutoInfo.currentHeat);
 
 	if (tutoInfo.isHeat)
 	{
-		DrawTutorialCheck(kTutoCheckPos.y);
+		DrawTutorialCheck(kDispTutoPos.at("check").y);
 	}
+}
+
+void UiMain::DrawTuto5(Player::TutorialInfo tutoInfo)
+{
+	DrawGraphF(kDispTutoPos.at("text").x, kDispTutoPos.at("text").y, m_handle[Handle::kTuto_5], true);
 }
 
 void UiMain::DrawTutorialCheck(float posY)
 {
-	DrawGraphF(kTutoCheckPos.x, posY, m_handle[Handle::kTuto_check], true);
+	DrawGraphF(kDispTutoPos.at("check").x, posY, m_handle[Handle::kTuto_check], true);
+}
+
+void UiMain::DrawTutorialOk()
+{
+	DrawGraphF(kDispTutoPos.at("ok").x, kDispTutoPos.at("ok").y, m_handle[Handle::kTuto_ok], true);
 }
 
 void UiMain::DrawTutorialCurrentNum(Vec2 pos, int currentNum)

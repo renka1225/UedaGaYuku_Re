@@ -118,13 +118,24 @@ public:
 	void DrawTuto4(Player::TutorialInfo tutoInfo);
 
 	/// <summary>
-	/// チュートリアルのチェックを描画
+	/// チュートリアル4表示
+	/// </summary>
+	/// <param name="tutoInfo">チュートリアル情報</param>
+	void DrawTuto5(Player::TutorialInfo tutoInfo);
+
+	/// <summary>
+	/// チュートリアルのチェックを表示
 	/// </summary>
 	/// <param name="posY">Y座標の表示位置</param>
 	void DrawTutorialCheck(float posY);
 
 	/// <summary>
-	/// チュートリアルの現在の実行回数を描画
+	/// チュートリアル完了時の表示
+	/// </summary>
+	void DrawTutorialOk();
+
+	/// <summary>
+	/// チュートリアルの現在の実行回数を表示
 	/// </summary>
 	/// <param name="pos">表示位置</param>
 	/// <param name="currentNum">現在の実行回数</param>

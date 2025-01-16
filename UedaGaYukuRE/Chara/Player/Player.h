@@ -27,6 +27,7 @@ public:
 	// チュートリアル情報
 	struct TutorialInfo
 	{
+		int tutorialChangeTime = 0;	// チュートリアルの切り替え時間
 		int currentNum = 0;			// 現在のチュートリアル数
 		int currentPunch = 0;		// 現在のパンチ回数
 		int currentKick = 0;		// 現在のキック回数
@@ -35,6 +36,7 @@ public:
 		int currentGrab = 0;		// 現在の掴み回数
 		int currentWeaponAtk = 0;	// 現在の武器攻撃回数
 		int currentHeat = 0;		// 現在のヒートアクション回数
+		bool isNowChange = false;	// チュートリアル切り替え中か
 		bool isMove = false;		// 移動したか
 		bool isDush = false;		// ダッシュしたか
 		bool isCameraMove = false;	// カメラ移動したか
@@ -54,6 +56,7 @@ public:
 		kTuto_2,
 		kTuto_3,
 		kTuto_4,
+		kTuto_5,
 		kTutoNum
 	};
 
@@ -216,6 +219,11 @@ public:
 	void UpdateTutorial(const Input& input);
 
 	/// <summary>
+	/// チュートリアルを切り替える
+	/// </summary>
+	void ChangeTutorial();
+
+	/// <summary>
 	/// バトル状態をセットする
 	/// </summary>
 	/// <param name="isBattle">バトル中かどうか</param>
@@ -372,8 +380,7 @@ private:
 	/// <summary>
 	/// チュートリアル1
 	/// </summary>
-	/// <param name="input">入力情報</param>
-	void UpdateTuto1(const Input& input);
+	void UpdateTuto1();
 
 	/// <summary>
 	/// チュートリアル2
@@ -392,6 +399,11 @@ private:
 	/// </summary>
 	/// <param name="input">入力情報</param> 
 	void UpdateTuto4(const Input& input);
+
+	/// <summary>
+	/// チュートリアル5
+	/// </summary>
+	void UpdateTuto5();
 
 private:
 	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン

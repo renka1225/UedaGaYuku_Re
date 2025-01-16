@@ -281,6 +281,10 @@ void EnemyAI::LoadAIData(int enemyIndex)
 		{
 			charaID = "Boss";
 		}
+		else if (enemyIndex == CharacterBase::kEnemy_tuto)
+		{
+			charaID = "Tuto";
+		}
 		// ボス以外の場合
 		else
 		{

@@ -42,6 +42,7 @@ namespace
 	constexpr int kTutoMinNum = 1;		// チュートリアルの最小回数
 	constexpr int kTutoMidiumNum = 3;	// チュートリアルの中回数
 	constexpr int kTutoMaxNum = 5;		// チュートリアルの最大回数
+	constexpr int kTutoChangeTime = 30;	// チュートリアルの切り替え時間
 }
 
 Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
@@ -351,16 +352,16 @@ void Player::UpdateTutorial(const Input& input)
 #endif // _DEBUG
 
 	// HPを回復し続ける
-	if (m_hp < m_status.maxHp)
-	{
-		RecoveryHp(kMaxRecoveryRate);
-	}
+	m_hp = std::min(m_hp, m_status.maxHp);
+	RecoveryHp(kMaxRecoveryRate);
+
+	m_tutorial.tutorialChangeTime--;
 
 	switch (m_tutorial.currentNum)
 	{
 	// チュートリアル1
 	case TutorialNum::kTuto_1:
-		UpdateTuto1(input);
+		UpdateTuto1();
 		break;
 	// チュートリアル2
 	case TutorialNum::kTuto_2:
@@ -374,8 +375,28 @@ void Player::UpdateTutorial(const Input& input)
 	case TutorialNum::kTuto_4:
 		UpdateTuto4(input);
 		break;
+	// チュートリアル5
+	case TutorialNum::kTuto_5:
+		UpdateTuto5();
+		break;
 	default:
 		break;
+	}
+}
+
+void Player::ChangeTutorial()
+{
+	if (!m_tutorial.isNowChange)
+	{
+		m_tutorial.isNowChange = true;
+		m_tutorial.tutorialChangeTime = kTutoChangeTime;
+		Sound::GetInstance().PlaySe(SoundName::kSe_tuto_change);
+	}
+
+	if (m_tutorial.tutorialChangeTime < 0)
+	{
+		m_tutorial.isNowChange = false;
+		m_tutorial.currentNum++;
 	}
 }
 
@@ -590,7 +611,7 @@ void Player::ApplySaveData()
 	m_deadEnemyNum = saveData.deadEnemyNum;
 }
 
-void Player::UpdateTuto1(const Input& input)
+void Player::UpdateTuto1()
 {
 	// 移動
 	if (GetCurrentAnim() == AnimName::kWalk)
@@ -603,9 +624,9 @@ void Player::UpdateTuto1(const Input& input)
 		m_tutorial.isDush = true;
 	}
 	// カメラ移動
-	DINPUT_JOYSTATE analogInput;
-	GetJoypadAnalogInput(&analogInput.Rx, &analogInput.Ry, DX_INPUT_PAD1);
-	if (analogInput.Rx > 0 || analogInput.Ry > 0)
+	DINPUT_JOYSTATE cameraInput;
+	GetJoypadDirectInputState(DX_INPUT_PAD1, &cameraInput);
+	if (cameraInput.Rx != 0 || cameraInput.Ry != 0)
 	{
 		m_tutorial.isCameraMove = true;
 	}
@@ -613,7 +634,7 @@ void Player::UpdateTuto1(const Input& input)
 	// 次のチュートリアルに移る
 	if (m_tutorial.isMove && m_tutorial.isDush && m_tutorial.isCameraMove)
 	{
-		m_tutorial.currentNum++;
+		ChangeTutorial();
 	}
 }
 
@@ -661,7 +682,7 @@ void Player::UpdateTuto2(const Input& input)
 	// 次のチュートリアルに移る
 	if (m_tutorial.isPunch && m_tutorial.isKick && m_tutorial.isAvoid && m_tutorial.isGuard)
 	{
-		m_tutorial.currentNum++;
+		ChangeTutorial();
 	}
 }
 
@@ -690,7 +711,7 @@ void Player::UpdateTuto3(const Input& input)
 	// 次のチュートリアルに移る
 	if (m_tutorial.currentGrab && m_tutorial.currentWeaponAtk)
 	{
-		m_tutorial.currentNum++;
+		ChangeTutorial();
 	}
 }
 
@@ -708,8 +729,21 @@ void Player::UpdateTuto4(const Input& input)
 		m_tutorial.isHeat = true;
 	}
 
-	// チュートリアルを終わる
+	// 次のチュートリアルに移る
 	if (m_tutorial.isHeat)
+	{
+		ChangeTutorial();
+	}
+}
+
+void Player::UpdateTuto5()
+{
+	// ヒートゲージを最大にする
+	RecoveryGauge(kMaxRecoveryRate);
+
+	
+	// チュートリアルを終了する
+	if (!m_isBattle)
 	{
 		m_tutorial.currentNum++;
 	}

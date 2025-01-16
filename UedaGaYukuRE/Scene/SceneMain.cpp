@@ -560,8 +560,21 @@ void SceneMain::CreateEnemy()
 	// ゲーム開始時、時間が経ってから敵を生成する
 	if (m_playTime < kFirstSpawnTime) return;
 
+	// チュートリアルの場合
+	if (m_isTutorial)
+	{
+		// チュートリアル用の敵を生成する
+		int enemyIndex = CharacterBase::CharaType::kEnemy_tuto;
+
+		auto tutoEnemy = std::make_shared<EnemyBase>(m_pUiBar, m_pItem, *m_pPlayer);
+		tutoEnemy->SetEnemyInfo("Saionzi", "enemy_tuto", enemyIndex, m_modelHandle[enemyIndex]);
+		tutoEnemy->SetEnemySpawnPos(*m_pPlayer, 0);
+		tutoEnemy->Init();
+		m_pEnemy.push_back(tutoEnemy);
+		tutoEnemy->GetEnemyAI()->SetEnemyList(m_pEnemy);
+	}
 	// ラスボス戦でない場合
-	if (!m_isLastBattle)
+	else if (!m_isLastBattle)
 	{
 		// 会話中は敵を生成しない
 		if (m_pPlayer->GetIsNowTalk()) return;
