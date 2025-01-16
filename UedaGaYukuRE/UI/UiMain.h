@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Player.h"
 #include "UiBase.h"
 
 /// <summary>
@@ -89,7 +90,45 @@ public:
 	/// <summary>
 	/// チュートリアル表示
 	/// </summary>
-	void DrawTutorial();
+	/// <param name="tutoInfo">チュートリアル情報</param>
+	void DrawTutorial(Player::TutorialInfo tutoInfo);
+
+	/// <summary>
+	/// チュートリアル1表示
+	/// </summary>
+	/// <param name="tutoInfo">チュートリアル情報</param>
+	void DrawTuto1(Player::TutorialInfo tutoInfo);
+
+	/// <summary>
+	/// チュートリアル2表示
+	/// </summary>
+	/// <param name="tutoInfo">チュートリアル情報</param>
+	void DrawTuto2(Player::TutorialInfo tutoInfo);
+
+	/// <summary>
+	/// チュートリアル3表示
+	/// </summary>
+	/// <param name="tutoInfo">チュートリアル情報</param>
+	void DrawTuto3(Player::TutorialInfo tutoInfo);
+
+	/// <summary>
+	/// チュートリアル4表示
+	/// </summary>
+	/// <param name="tutoInfo">チュートリアル情報</param>
+	void DrawTuto4(Player::TutorialInfo tutoInfo);
+
+	/// <summary>
+	/// チュートリアルのチェックを描画
+	/// </summary>
+	/// <param name="posY">Y座標の表示位置</param>
+	void DrawTutorialCheck(float posY);
+
+	/// <summary>
+	/// チュートリアルの現在の実行回数を描画
+	/// </summary>
+	/// <param name="pos">表示位置</param>
+	/// <param name="currentNum">現在の実行回数</param>
+	void DrawTutorialCurrentNum(Vec2 pos, int currentNum);
 
 private:
 	float m_loadingAnimTime;	// ローディング中のアニメーション時間

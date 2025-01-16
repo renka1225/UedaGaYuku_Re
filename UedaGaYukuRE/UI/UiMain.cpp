@@ -2,7 +2,6 @@
 #include "Game.h"
 #include "LoadCsv.h"
 #include "Font.h"
-#include "Player.h"
 #include "EnemyBase.h"
 #include "UiMain.h"
 #include <algorithm>
@@ -60,9 +59,23 @@ namespace
 	};
 
 	/*チュートリアル*/
+	// 表示位置
+	const std::map<std::string, Vec2> kDispTutoPos
+	{
+		{"punch", {1745.0f, 346.0f}},
+		{"kick", {1749.0f, 433.0f}},
+		{"avoid", {1670.0f, 519.0f}},
+		{"guard", {1698.0f, 604.0f}},
+		{"grab", {1814.0f, 345.0f}},
+		{"weaponAtk", {1824.0f, 432.0f}},
+		{"heat", {1828.0f, 344.0f}},
+	};
+
 	constexpr int kBgAlpha = 200;	// 背景のブレンド率
 	const Vec2 kTutoBgPos = { 1433.0f, 238.0f };	// 背景位置
 	const Vec2 kTutoTextPos = { 1433.0f, 237.0f };	// テキスト位置
+	const Vec2 kTutoCheckPos = { 1450.0f, 339.0f };	// チェックマーク位置
+	constexpr float kTutoCheckHeight = 84.0f;		// チェックマーク表示間隔
 
 	/*操作説明*/
 	const Vec2 kDispOperationPos = { 1635.0f, 905.0f };			// 通常操作説明表示位置
@@ -326,11 +339,113 @@ void UiMain::DrawTalk(const Player& pPlayer, std::string id, int clearNum)
 	DrawFormatStringFToHandle(kTalkPos.x, kTalkPos.y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kTalk)], drawText.c_str(), drawNum);
 }
 
-void UiMain::DrawTutorial()
+void UiMain::DrawTutorial(Player::TutorialInfo tutoInfo)
 {
 	SetDrawBlendMode(DX_BLENDMODE_MULA, kBgAlpha);
 	DrawGraphF(kTutoBgPos.x, kTutoBgPos.y, m_handle[Handle::kTuto_bg], true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
+	switch (tutoInfo.currentNum)
+	{
+	// チュートリアル1
+	case Player::TutorialNum::kTuto_1:
+		DrawTuto1(tutoInfo);
+		break;
+	// チュートリアル2
+	case Player::TutorialNum::kTuto_2:
+		DrawTuto2(tutoInfo);
+		break;
+	// チュートリアル3
+	case Player::TutorialNum::kTuto_3:
+		DrawTuto3(tutoInfo);
+		break;
+	// チュートリアル4
+	case Player::TutorialNum::kTuto_4:
+		DrawTuto4(tutoInfo);
+		break;
+	}
+}
+
+void UiMain::DrawTuto1(Player::TutorialInfo tutoInfo)
+{
 	DrawGraphF(kTutoTextPos.x, kTutoTextPos.y, m_handle[Handle::kTuto_1], true);
+
+	if (tutoInfo.isMove)
+	{
+		DrawTutorialCheck(kTutoCheckPos.y);
+	}
+	if (tutoInfo.isDush)
+	{
+		DrawTutorialCheck(kTutoCheckPos.y + kTutoCheckHeight);
+	}
+	if (tutoInfo.isCameraMove)
+	{
+		DrawTutorialCheck(kTutoCheckPos.y + kTutoCheckHeight * 2);
+	}
+}
+
+void UiMain::DrawTuto2(Player::TutorialInfo tutoInfo)
+{
+	DrawGraphF(kTutoTextPos.x, kTutoTextPos.y, m_handle[Handle::kTuto_2], true);
+
+	DrawTutorialCurrentNum(kDispTutoPos.at("punch"), tutoInfo.currentPunch);
+	DrawTutorialCurrentNum(kDispTutoPos.at("kick"), tutoInfo.currentKick);
+	DrawTutorialCurrentNum(kDispTutoPos.at("avoid"), tutoInfo.currentAvoid);
+	DrawTutorialCurrentNum(kDispTutoPos.at("guard"), tutoInfo.currentGuard);
+
+	if (tutoInfo.isPunch)
+	{
+		DrawTutorialCheck(kTutoCheckPos.y);
+	}
+	if (tutoInfo.isKick)
+	{
+		DrawTutorialCheck(kTutoCheckPos.y + kTutoCheckHeight);
+	}
+	if (tutoInfo.isAvoid)
+	{
+		DrawTutorialCheck(kTutoCheckPos.y + kTutoCheckHeight * 2);
+	}
+	if (tutoInfo.isGuard)
+	{
+		DrawTutorialCheck(kTutoCheckPos.y + kTutoCheckHeight * 3);
+	}
+}
+
+void UiMain::DrawTuto3(Player::TutorialInfo tutoInfo)
+{
+	DrawGraphF(kTutoTextPos.x, kTutoTextPos.y, m_handle[Handle::kTuto_3], true);
+
+	DrawTutorialCurrentNum(kDispTutoPos.at("grab"), tutoInfo.currentGrab);
+	DrawTutorialCurrentNum(kDispTutoPos.at("weaponAtk"), tutoInfo.currentWeaponAtk);
+
+	if (tutoInfo.isGrab)
+	{
+		DrawTutorialCheck(kTutoCheckPos.y);
+	}
+	if (tutoInfo.isWeaponAtk)
+	{
+		DrawTutorialCheck(kTutoCheckPos.y + kTutoCheckHeight);
+	}
+}
+
+void UiMain::DrawTuto4(Player::TutorialInfo tutoInfo)
+{
+	DrawGraphF(kTutoTextPos.x, kTutoTextPos.y, m_handle[Handle::kTuto_4], true);
+
+	DrawTutorialCurrentNum(kDispTutoPos.at("heat"), tutoInfo.currentHeat);
+
+	if (tutoInfo.isHeat)
+	{
+		DrawTutorialCheck(kTutoCheckPos.y);
+	}
+}
+
+void UiMain::DrawTutorialCheck(float posY)
+{
+	DrawGraphF(kTutoCheckPos.x, posY, m_handle[Handle::kTuto_check], true);
+}
+
+void UiMain::DrawTutorialCurrentNum(Vec2 pos, int currentNum)
+{
+	DrawFormatStringFToHandle(pos.x, pos.y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kTutorial)], "%d", currentNum);
 }

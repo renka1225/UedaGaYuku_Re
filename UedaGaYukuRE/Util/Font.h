@@ -34,6 +34,9 @@ namespace Font
 		// 選択画面
 		kSelect_explain = kSize42_4,	// 選択テキストの説明
 
+		// チュートリアル
+		kTutorial = kSize28_4,
+
 		// メイン画面
 		kEnemyName = kDebug_EDGE,		// 敵名
 		kTalk_Name = kSize30_4_EDGE,	// 会話の名前画面

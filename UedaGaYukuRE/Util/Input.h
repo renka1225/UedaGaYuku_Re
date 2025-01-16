@@ -46,6 +46,7 @@ namespace InputId
 	const char* const kDebugEnding = "debug_ending";
 	const char* const kDebugClear = "debug_clear";
 	const char* const kDebugGameover = "debug_gameover";
+	const char* const kDebugTutorial = "debug_tutorial";
 	const char* const kEnd = "end";
 }
 

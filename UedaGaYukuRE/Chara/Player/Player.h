@@ -19,11 +19,44 @@ private:
 	// ボタンの入力履歴を保存する
 	struct CommandInput
 	{
-		std::string button;		// 入力されたコマンド名
-		int frameCount;			// 入力されたフレーム数
+		std::string button;	// 入力されたコマンド名
+		int frameCount;		// 入力されたフレーム数
 	};
 
 public:
+	// チュートリアル情報
+	struct TutorialInfo
+	{
+		int currentNum = 0;			// 現在のチュートリアル数
+		int currentPunch = 0;		// 現在のパンチ回数
+		int currentKick = 0;		// 現在のキック回数
+		int currentAvoid = 0;		// 現在回避回数
+		int currentGuard = 0;		// 現在のガード回数
+		int currentGrab = 0;		// 現在の掴み回数
+		int currentWeaponAtk = 0;	// 現在の武器攻撃回数
+		int currentHeat = 0;		// 現在のヒートアクション回数
+		bool isMove = false;		// 移動したか
+		bool isDush = false;		// ダッシュしたか
+		bool isCameraMove = false;	// カメラ移動したか
+		bool isPunch = false;		// パンチしたか
+		bool isKick = false;		// キックしたか
+		bool isAvoid = false;		// 回避したか
+		bool isGuard = false;		// ガードしたか
+		bool isGrab = false;		// 武器を掴んだか
+		bool isWeaponAtk = false;	// 武器で攻撃したか
+		bool isHeat = false;		// ヒートアクションを行ったか
+	};
+
+	// チュートリアル数
+	enum TutorialNum
+	{
+		kTuto_1,
+		kTuto_2,
+		kTuto_3,
+		kTuto_4,
+		kTutoNum
+	};
+
 	// 現在の強化段階
 	struct EnhanceStep
 	{
@@ -32,6 +65,7 @@ public:
 		int nowAtkUpStep = 0;	// 攻撃力強化段階
 	};
 
+public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -176,6 +210,12 @@ public:
 	void EnhanceAtkUp(float upAmount, int money);
 
 	/// <summary>
+	/// チュートリアルの情報を更新する
+	/// </summary>
+	/// <param name="input">入力情報</param>
+	void UpdateTutorial(const Input& input);
+
+	/// <summary>
 	/// バトル状態をセットする
 	/// </summary>
 	/// <param name="isBattle">バトル中かどうか</param>
@@ -198,6 +238,12 @@ public:
 	/// </summary>
 	/// <param name="isNowTalk">会話中かどうか</param>
 	void SetIsNowTalk(bool isNowTalk) { m_isNowTalk = isNowTalk; }
+
+	/// <summary>
+	/// 現在のチュートリアル情報を取得する
+	/// </summary>
+	/// <returns></returns>
+	TutorialInfo GetTutoInfo() const { return m_tutorial; }
 
 	/// <summary>
 	/// 現在の所持金額を取得する
@@ -323,12 +369,37 @@ private:
 	/// <param name="currentFrame">現在のフレーム</param>
 	void UpdateInputLog(const Input& input, int currentFrame);
 
+	/// <summary>
+	/// チュートリアル1
+	/// </summary>
+	/// <param name="input">入力情報</param>
+	void UpdateTuto1(const Input& input);
+
+	/// <summary>
+	/// チュートリアル2
+	/// </summary>
+	/// <param name="input">入力情報</param>
+	void UpdateTuto2(const Input& input);
+
+	/// <summary>
+	/// チュートリアル3
+	/// </summary>
+	/// <param name="input">入力情報</param> 
+	void UpdateTuto3(const Input& input);
+
+	/// <summary>
+	/// チュートリアル4
+	/// </summary>
+	/// <param name="input">入力情報</param> 
+	void UpdateTuto4(const Input& input);
+
 private:
 	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
 	std::vector<VECTOR> m_pToEVec;			// プレイヤーから敵への位置ベクトル
 	std::vector<int> m_possessItem;			// プレイヤーが所持しているアイテム情報を保存しておく
 	std::vector<CommandInput> m_inputLog;	// 入力情報を一時保存する
 	Status m_saveStatus;					// ステータスを一時保存する
+	TutorialInfo m_tutorial;				// チュートリアルの情報
 	EnhanceStep m_enhanceStep;				// 現在の強化段階
 
 	int m_deadEnemyNum;		 // 倒した敵数

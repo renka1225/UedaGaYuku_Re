@@ -29,6 +29,7 @@ namespace
 
 	constexpr int kMaxPossession = 12;	 // アイテムの最大所持数
 	constexpr int kMoneyIncrement = 100; // 一度に増える所持金数
+	constexpr float kMaxRecoveryRate = 100.0f;	// 最大の回復割合
 
 	constexpr float kBattleStartRange = 200.0f;	// バトルが始まる範囲
 	constexpr int kBattleStartTime = 50;		// バトルが開始するまでの時間
@@ -37,6 +38,10 @@ namespace
 	constexpr int kInputTimeAdj = 40;			// 入力受付時間調節
 	constexpr float kChangeAngleDot = -0.5f;	// プレイヤーの角度を調節する範囲
 	constexpr float kBattleStartChangeAngleDot = 1.0f; // バトル開始時のプレイヤーの角度を調整する範囲
+
+	constexpr int kTutoMinNum = 1;		// チュートリアルの最小回数
+	constexpr int kTutoMidiumNum = 3;	// チュートリアルの中回数
+	constexpr int kTutoMaxNum = 5;		// チュートリアルの最大回数
 }
 
 Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
@@ -336,6 +341,44 @@ void Player::EnhanceAtkUp(float upAmount, int money)
 	m_enhanceStep.nowAtkUpStep++;
 }
 
+void Player::UpdateTutorial(const Input& input)
+{
+#ifdef _DEBUG // デバッグコマンド
+	if (input.IsTriggered(InputId::kDebugTutorial))
+	{
+		m_tutorial.currentNum++;
+	}
+#endif // _DEBUG
+
+	// HPを回復し続ける
+	if (m_hp < m_status.maxHp)
+	{
+		RecoveryHp(kMaxRecoveryRate);
+	}
+
+	switch (m_tutorial.currentNum)
+	{
+	// チュートリアル1
+	case TutorialNum::kTuto_1:
+		UpdateTuto1(input);
+		break;
+	// チュートリアル2
+	case TutorialNum::kTuto_2:
+		UpdateTuto2(input);
+		break;
+	// チュートリアル3
+	case TutorialNum::kTuto_3:
+		UpdateTuto3(input);
+		break;
+	// チュートリアル4
+	case TutorialNum::kTuto_4:
+		UpdateTuto4(input);
+		break;
+	default:
+		break;
+	}
+}
+
 void Player::UpdateEnemyInfo(std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 {
 	m_pToEVec.resize(pEnemy.size());
@@ -545,4 +588,129 @@ void Player::ApplySaveData()
 	m_enhanceStep = saveData.enhanceStep;
 	m_possessItem = saveData.possessItem;
 	m_deadEnemyNum = saveData.deadEnemyNum;
+}
+
+void Player::UpdateTuto1(const Input& input)
+{
+	// 移動
+	if (GetCurrentAnim() == AnimName::kWalk)
+	{
+		m_tutorial.isMove = true;
+	}
+	// ダッシュ
+	if (GetCurrentAnim() == AnimName::kRun)
+	{
+		m_tutorial.isDush = true;
+	}
+	// カメラ移動
+	DINPUT_JOYSTATE analogInput;
+	GetJoypadAnalogInput(&analogInput.Rx, &analogInput.Ry, DX_INPUT_PAD1);
+	if (analogInput.Rx > 0 || analogInput.Ry > 0)
+	{
+		m_tutorial.isCameraMove = true;
+	}
+
+	// 次のチュートリアルに移る
+	if (m_tutorial.isMove && m_tutorial.isDush && m_tutorial.isCameraMove)
+	{
+		m_tutorial.currentNum++;
+	}
+}
+
+void Player::UpdateTuto2(const Input& input)
+{
+	// パンチ攻撃
+	if (input.IsTriggered(InputId::kPunch))
+	{
+		if (m_isAttack) return;
+		m_tutorial.currentPunch++;
+		m_tutorial.currentPunch = std::min(kTutoMaxNum, m_tutorial.currentPunch);
+
+		if (m_tutorial.currentPunch < kTutoMaxNum) return;
+		m_tutorial.isPunch = true;
+	}
+	// キック攻撃
+	if (input.IsTriggered(InputId::kKick))
+	{
+		if (m_isAttack) return;
+		m_tutorial.currentKick++;
+		m_tutorial.currentKick = std::min(kTutoMidiumNum, m_tutorial.currentKick);
+
+		if (m_tutorial.currentKick < kTutoMidiumNum) return;
+		m_tutorial.isKick = true;
+	}
+	// 回避
+	if (input.IsTriggered(InputId::kAvoid))
+	{
+		m_tutorial.currentAvoid++;
+		m_tutorial.currentAvoid = std::min(kTutoMidiumNum, m_tutorial.currentAvoid);
+
+		if (m_tutorial.currentAvoid < kTutoMidiumNum) return;
+		m_tutorial.isAvoid = true;
+	}
+	// ガード
+	if (input.IsReleased(InputId::kGuard))
+	{
+		m_tutorial.currentGuard++;
+		m_tutorial.currentGuard = std::min(kTutoMidiumNum, m_tutorial.currentGuard);
+
+		if (m_tutorial.currentGuard < kTutoMidiumNum) return;
+		m_tutorial.isGuard = true;
+	}
+
+	// 次のチュートリアルに移る
+	if (m_tutorial.isPunch && m_tutorial.isKick && m_tutorial.isAvoid && m_tutorial.isGuard)
+	{
+		m_tutorial.currentNum++;
+	}
+}
+
+void Player::UpdateTuto3(const Input& input)
+{
+	// 武器掴み
+	if (m_isNowGrabWeapon)
+	{
+		m_tutorial.currentGrab++;
+		m_tutorial.currentGrab = std::min(kTutoMinNum, m_tutorial.currentGrab);
+
+		if (m_tutorial.currentPunch < kTutoMinNum) return;
+		m_tutorial.isGrab = true;
+	}
+	// 武器攻撃
+	if (input.IsTriggered(InputId::kPunch) && m_isNowGrabWeapon)
+	{
+		if (m_isAttack) return;
+		m_tutorial.currentWeaponAtk++;
+		m_tutorial.currentGrab = std::min(kTutoMidiumNum, m_tutorial.currentGrab);
+
+		if (m_tutorial.currentWeaponAtk < kTutoMidiumNum) return;
+		m_tutorial.isWeaponAtk = true;
+	}
+
+	// 次のチュートリアルに移る
+	if (m_tutorial.currentGrab && m_tutorial.currentWeaponAtk)
+	{
+		m_tutorial.currentNum++;
+	}
+}
+
+void Player::UpdateTuto4(const Input& input)
+{
+	// ヒートゲージを最大にする
+	RecoveryGauge(kMaxRecoveryRate);
+
+	if (input.IsTriggered(InputId::kSpecial) && m_isSpecial)
+	{
+		m_tutorial.currentHeat++;
+		m_tutorial.currentHeat = std::min(kTutoMinNum, m_tutorial.currentHeat);
+
+		if (m_tutorial.currentHeat < kTutoMinNum) return;
+		m_tutorial.isHeat = true;
+	}
+
+	// チュートリアルを終わる
+	if (m_tutorial.isHeat)
+	{
+		m_tutorial.currentNum++;
+	}
 }

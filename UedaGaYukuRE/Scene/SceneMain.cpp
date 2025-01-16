@@ -54,7 +54,7 @@ namespace
 	const VECTOR kShadowDir = VGet(0.5f, -2.0f, -2.0f);
 }
 
-SceneMain::SceneMain():
+SceneMain::SceneMain() :
 	m_currentEnemyNum(0),
 	m_playTime(0),
 	m_enemySpawnTime(0),
@@ -67,7 +67,7 @@ SceneMain::SceneMain():
 	m_isEnding(false),
 	m_isPause(false),
 	m_isLoading(true),
-	m_isTutorial(true),
+	m_isTutorial(false),
 	m_isLastBattle(false)
 {
 	SetUseASyncLoadFlag(true); 	// 非同期読み込み設定に変更
@@ -149,7 +149,13 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	if (m_isTutorial)
 	{
 		// チュートリアル状態にする
-		//m_pPlayer->UpdateTutorial();
+		m_pPlayer->UpdateTutorial(input);
+
+		// チュートリアルを終了する
+		if (m_pPlayer->GetTutoInfo().currentNum >= Player::TutorialNum::kTutoNum)
+		{
+			m_isTutorial = false;
+		}
 	}
 
 	// ゲームオーバー
@@ -190,6 +196,10 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	if (input.IsTriggered(InputId::kDebugClear))
 	{
 		return std::make_shared<SceneClear>();
+	}
+	else if (input.IsTriggered(InputId::kDebugTutorial))
+	{
+		m_isTutorial = true;
 	}
 	else if (input.IsTriggered(InputId::kDebugEnding))
 	{
@@ -268,11 +278,10 @@ void SceneMain::Draw()
 		m_pUiMain->DrawTalk(*m_pPlayer, m_nowTalkId, kClearEnemyNum);
 	}
 
-
 	// チュートリアル表示
 	if (m_isTutorial)
 	{
-		m_pUiMain->DrawTutorial();
+		m_pUiMain->DrawTutorial(m_pPlayer->GetTutoInfo());
 	}
 	// 操作説明表示
 	else
@@ -578,7 +587,7 @@ void SceneMain::CreateEnemy()
 		int enemyIndex = CharacterBase::CharaType::kEnemy_boss;
 
 		auto bossEnemy = std::make_shared<EnemyBase>(m_pUiBar, m_pItem, *m_pPlayer);
-		bossEnemy->SetEnemyInfo("ラスボス", "enemy_boss", enemyIndex, m_modelHandle[enemyIndex]);
+		bossEnemy->SetEnemyInfo("Ohara", "enemy_boss", enemyIndex, m_modelHandle[enemyIndex]);
 		bossEnemy->SetEnemySpawnPos(*m_pPlayer, 0);
 		bossEnemy->Init();
 		m_pEnemy.push_back(bossEnemy);
