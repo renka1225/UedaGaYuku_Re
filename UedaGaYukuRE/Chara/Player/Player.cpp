@@ -29,7 +29,7 @@ namespace
 
 	constexpr int kMaxPossession = 12;	 // アイテムの最大所持数
 	constexpr int kMoneyIncrement = 100; // 一度に増える所持金数
-	constexpr float kMaxRecoveryRate = 100.0f;	// 最大の回復割合
+	constexpr float kMaxRecoveryRate = 10.0f;	// 最大の回復割合
 
 	constexpr float kBattleStartRange = 200.0f;	// バトルが始まる範囲
 	constexpr int kBattleStartTime = 50;		// バトルが開始するまでの時間
@@ -379,8 +379,6 @@ void Player::UpdateTutorial(const Input& input)
 	case TutorialNum::kTuto_5:
 		UpdateTuto5();
 		break;
-	default:
-		break;
 	}
 }
 
@@ -702,7 +700,7 @@ void Player::UpdateTuto3(const Input& input)
 	{
 		if (m_isAttack) return;
 		m_tutorial.currentWeaponAtk++;
-		m_tutorial.currentGrab = std::min(kTutoMidiumNum, m_tutorial.currentGrab);
+		m_tutorial.currentWeaponAtk = std::min(kTutoMidiumNum, m_tutorial.currentWeaponAtk);
 
 		if (m_tutorial.currentWeaponAtk < kTutoMidiumNum) return;
 		m_tutorial.isWeaponAtk = true;
@@ -740,11 +738,11 @@ void Player::UpdateTuto5()
 {
 	// ヒートゲージを最大にする
 	RecoveryGauge(kMaxRecoveryRate);
-
 	
 	// チュートリアルを終了する
 	if (!m_isBattle)
 	{
 		m_tutorial.currentNum++;
+		m_tutorial.isEndTutorial = true;
 	}
 }

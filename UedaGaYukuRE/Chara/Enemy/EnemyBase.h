@@ -72,6 +72,11 @@ public:
 	void SetEnemySpawnPos(const Player& pPlayer, int index);
 
 	/// <summary>
+	/// HP回復処理
+	/// </summary>
+	void RecoveryHp();
+
+	/// <summary>
 	/// 敵からプレイヤーへの位置ベクトルを取得する
 	/// </summary>
 	/// <returns></returns>

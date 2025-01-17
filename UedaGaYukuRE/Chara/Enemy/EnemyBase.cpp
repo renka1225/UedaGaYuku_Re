@@ -14,14 +14,18 @@
 // 定数
 namespace
 {
-	constexpr float kScale = 0.15f;					// モデルの拡大率
+	constexpr float kScale = 0.15f;		// モデルの拡大率
+
 	constexpr float kFirstSpawnMinDist = 150.0f;	// 1体目の敵のスポーン位置の最小距離
 	constexpr float kFirstSpawnRange = 600.0f;		// 1体目のスポーンする範囲
 	constexpr float kSpawnRange = 100.0f;			// 2体目以降のスポーンする範囲
+	const VECTOR kTutoSpwnPos = VGet(8700.0f, 45.0f, 3100.0f); // チュートリアル敵のスポーン位置
 	const VECTOR kBossSpwnPos = VGet(8900.0f, 45.0f, 2900.0f); // ボスのスポーン位置
 
 	constexpr float kDispNameRange = 1000.0f;		// 敵名を表示する範囲
 	const Vec2 kAdjDispNamePos = { 32.0f, 30.0f };	// 敵名の表示位置調整
+
+	constexpr float kRecoveryHp = 5.0f;	// 回復量
 }
 
 EnemyBase::EnemyBase(std::shared_ptr<UiBar> pUi, std::shared_ptr<Item> pItem, Player& pPlayer):
@@ -143,8 +147,13 @@ void EnemyBase::SetEnemyInfo(std::string name, std::string charaId, int index, i
 
 void EnemyBase::SetEnemySpawnPos(const Player& pPlayer, int index)
 {
-	// ボスの場合
-	if (m_enemyIndex == CharacterBase::CharaType::kEnemy_boss)
+	// チュートリアル
+	if (m_enemyIndex == CharacterBase::CharaType::kEnemy_tuto)
+	{
+		m_pos = kTutoSpwnPos;
+	}
+	// ボス
+	else if (m_enemyIndex == CharacterBase::CharaType::kEnemy_boss)
 	{
 		m_pos = kBossSpwnPos;
 	}
@@ -186,6 +195,12 @@ void EnemyBase::SetEnemySpawnPos(const Player& pPlayer, int index)
 	}
 }
 
+void EnemyBase::RecoveryHp()
+{
+	m_hp += kRecoveryHp;
+	m_hp = std::min(m_hp, GetStatus().maxHp);
+}
+
 void EnemyBase::GetFramePos()
 {
 	std::string enemyRig;
@@ -196,6 +211,10 @@ void EnemyBase::GetFramePos()
 	else if(m_enemyIndex == CharaType::kEnemy_03)
 	{
 		enemyRig = "mixamorig10:";
+	}
+	else if (m_enemyIndex == CharaType::kEnemy_tuto)
+	{
+		enemyRig = "mixamorig9:";
 	}
 	else if(m_enemyIndex == CharaType::kEnemy_boss)
 	{

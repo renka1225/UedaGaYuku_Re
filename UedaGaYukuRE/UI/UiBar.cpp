@@ -135,6 +135,10 @@ void UiBar::DrawPlayerHpBar(Player& player, float maxHp)
 	{
 		m_playerDamage = 0.0f;
 	}
+	else if (player.GetHp() >= player.GetStatus().maxHp)
+	{
+		m_playerDamage = 0.0f;
+	}
 
 	// ダメージバーの長さを変える
 	float damageHpRatio = (player.GetHp() + m_playerDamage) / maxHp;

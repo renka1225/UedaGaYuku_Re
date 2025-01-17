@@ -152,7 +152,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		m_pPlayer->UpdateTutorial(input);
 
 		// チュートリアルを終了する
-		if (m_pPlayer->GetTutoInfo().currentNum >= Player::TutorialNum::kTutoNum)
+		if (m_pPlayer->GetTutoInfo().isEndTutorial)
 		{
 			m_isTutorial = false;
 		}
@@ -166,6 +166,12 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 			// バトル終了演出を行う
 			m_isBattleEndStaging = true;
 			m_battleEndStagingTime = kBattleEndStagingTime;
+
+			for (auto& enemy : m_pEnemy)
+			{
+				enemy->SetIsPossibleMove(false);
+			}
+
 			return shared_from_this();
 		}
 		
@@ -199,7 +205,11 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	}
 	else if (input.IsTriggered(InputId::kDebugTutorial))
 	{
+		if (m_isTutorial || m_pPlayer->GetTutoInfo().currentNum >= Player::TutorialNum::kTutoNum) return shared_from_this();
+
 		m_isTutorial = true;
+		m_pPlayer->SetIsBattle(true);
+		CreateEnemy();
 	}
 	else if (input.IsTriggered(InputId::kDebugEnding))
 	{
@@ -323,6 +333,8 @@ void SceneMain::LoadModelHandle()
 		m_modelHandle[(i + 1)] = MV1LoadModel((kEnemyHandlePath + std::string(enemyId) + ".mv1").c_str());
 	}
 
+	// チュートリアル敵
+	m_modelHandle[CharacterBase::CharaType::kEnemy_tuto] = MV1LoadModel((kEnemyHandlePath + "tuto.mv1").c_str());
 	// ラスボス
 	m_modelHandle[CharacterBase::CharaType::kEnemy_boss] = MV1LoadModel((kEnemyHandlePath + "boss.mv1").c_str());
 	// NPC
@@ -390,7 +402,7 @@ void SceneMain::UpdateStaging()
 		// バトル中でない場合、敵を生成する
 		if (!m_pPlayer->GetIsBattle())
 		{
-			CreateEnemy();
+			//CreateEnemy();
 		}
 
 		// 敵の更新
@@ -475,6 +487,7 @@ std::shared_ptr<SceneBase> SceneMain::UpdateBattleEndStaging()
 	// 演出終了後
 	else
 	{
+		m_isTutorial = false;
 		m_isBattleEndStaging = false;
 		m_currentEnemyNum = 0;
 
@@ -557,12 +570,12 @@ void SceneMain::UpdateSound()
 
 void SceneMain::CreateEnemy()
 {
-	// ゲーム開始時、時間が経ってから敵を生成する
-	if (m_playTime < kFirstSpawnTime) return;
-
 	// チュートリアルの場合
-	if (m_isTutorial)
+	if (m_isTutorial && !m_pPlayer->GetTutoInfo().isEndTutorial)
 	{
+		// 敵がいる場合は削除する
+		m_pEnemy.clear();
+
 		// チュートリアル用の敵を生成する
 		int enemyIndex = CharacterBase::CharaType::kEnemy_tuto;
 
@@ -576,6 +589,9 @@ void SceneMain::CreateEnemy()
 	// ラスボス戦でない場合
 	else if (!m_isLastBattle)
 	{
+		// ゲーム開始時、時間が経ってから敵を生成する
+		if (m_playTime < kFirstSpawnTime) return;
+
 		// 会話中は敵を生成しない
 		if (m_pPlayer->GetIsNowTalk()) return;
 
@@ -613,6 +629,15 @@ void SceneMain::UpdateEnemy()
 	for (int i = 0; i < m_pEnemy.size(); i++)
 	{
 		if (m_pEnemy[i] == nullptr) continue;
+
+		if (m_isTutorial)
+		{
+			if (m_pPlayer->GetTutoInfo().currentNum <= Player::TutorialNum::kTuto_4)
+			{
+				// 敵回復
+				m_pEnemy[i]->RecoveryHp();
+			}
+		}
 
 		// 残り1体になった場合
 		if (m_currentEnemyNum == 1)

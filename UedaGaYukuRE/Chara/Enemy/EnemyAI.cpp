@@ -124,7 +124,17 @@ void EnemyAI::DecidePriority(Player& pPlayer)
 	else
 	{
 		if (IsChangeState()) return;
-		DecideBattlePriority(pPlayer);
+
+		// チュートリアル敵
+		if (m_pEnemy->GetEnemyIndex() == CharacterBase::CharaType::kEnemy_tuto)
+		{
+			DecideTutoPriority();
+		}
+		// それ以外
+		else
+		{
+			DecideBattlePriority(pPlayer);
+		}
 	}
 }
 
@@ -240,6 +250,16 @@ void EnemyAI::DecideBattlePriority(Player& pPlayer)
 #endif
 		}
 	}
+}
+
+void EnemyAI::DecideTutoPriority()
+{
+	m_priority[EnemyStateBase::EnemyStateKind::kIdle] += m_probability.highProbability;
+	m_priority[EnemyStateBase::EnemyStateKind::kWalk] += m_probability.highProbability;
+	m_priority[EnemyStateBase::EnemyStateKind::kRun] += m_probability.lowProbability;
+	m_priority[EnemyStateBase::EnemyStateKind::kPunch] += m_probability.veryLowProbability;
+	m_priority[EnemyStateBase::EnemyStateKind::kKick] += m_probability.veryLowProbability;
+	m_priority[EnemyStateBase::EnemyStateKind::kAvoid] += m_probability.lowProbability;
 }
 
 void EnemyAI::DecideRandomPriority()

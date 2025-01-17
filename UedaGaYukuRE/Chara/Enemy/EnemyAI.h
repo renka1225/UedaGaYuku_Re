@@ -49,6 +49,11 @@ public:
 	void DecideBattlePriority(Player& pPlayer);
 
 	/// <summary>
+	/// チュートリアル敵の行動優先度を決める
+	/// </summary>
+	void DecideTutoPriority();
+
+	/// <summary>
 	/// 行動優先度をランダムで決める
 	/// </summary>
 	void DecideRandomPriority();

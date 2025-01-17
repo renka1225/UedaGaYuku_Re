@@ -47,6 +47,7 @@ public:
 		bool isGrab = false;		// 武器を掴んだか
 		bool isWeaponAtk = false;	// 武器で攻撃したか
 		bool isHeat = false;		// ヒートアクションを行ったか
+		bool isEndTutorial = false;	// チュートリアルが終了したか
 	};
 
 	// チュートリアル数
