@@ -160,7 +160,6 @@ private:
 	std::string m_nowTalkId;	// 現在の会話ID
 
 	int m_currentEnemyNum;			// 現在の敵数
-	int m_playTime;					// 現在のプレイ時間
 	int m_enemySpawnTime;			// 敵がスポーンするまでの時間
 	int m_battleStartStagingTime;	// バトル開始演出の時間
 	int m_battleEndStagingTime;		// バトル終了演出の時間

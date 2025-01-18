@@ -23,10 +23,11 @@ namespace
 }
 
 SceneBase::SceneBase():
+	m_playTime(0),
+	m_saveSelect(0),
 	m_select(0),
 	m_fadeAlpha(0),
-	m_isFadeOut(false),
-	m_saveSelect(0)
+	m_isFadeOut(false)
 {
 	m_pItem = std::make_shared<Item>();
 	m_pUi = std::make_shared<UiBase>();

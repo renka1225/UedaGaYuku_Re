@@ -4,6 +4,7 @@
 #include "UiBase.h"
 #include "Camera.h"
 #include "Player.h"
+#include "SceneMain.h"
 #include "SceneSave.h"
 
 namespace
@@ -23,8 +24,9 @@ namespace
 		"data/ui/save/cursor.png",
 	};
 
-	const Vec2 kDispSaveCursorPos = { 438.0f, 296.0f };  // セーブ画面のカーソル表示位置
-	const Vec2 kDispSaveDataPos = { 730.0f, 348.0f };	 // セーブデータ情報表示位置
+	const Vec2 kDispSaveCursorPos = { 438.0f, 296.0f };			// セーブ画面のカーソル表示位置
+	const Vec2 kDispDateSaveDataPos = { 730.0f, 348.0f };		// 保存された現在時刻の表示位置
+	const Vec2 kDispPlayTimeSaveDataPos = { 780.0f, 408.0f };	// 保存されたプレイ時間の表示位置
 }
 
 SceneSave::SceneSave(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer, std::shared_ptr<Camera> pCamera)
@@ -59,7 +61,7 @@ std::shared_ptr<SceneBase> SceneSave::Update(Input& input)
 	// セーブデータを書き込む
 	if (input.IsTriggered(InputId::kA))
 	{
-		SaveData::GetInstance().WriteData(*m_pPlayer, *m_pCamera, m_saveSelect);
+		SaveData::GetInstance().WriteData(*m_pPlayer, *m_pCamera, m_playTime, m_saveSelect);
 	}
 
 	if (input.IsTriggered(InputId::kBack))
@@ -78,5 +80,6 @@ void SceneSave::Draw()
 	DrawMoney(m_pPlayer); // 所持金額表示
 
 	// セーブデータの情報を表示
-	SaveData::GetInstance().DrawSaveData(kDispSaveDataPos);
+	SaveData::GetInstance().DrawDateSaveData(kDispDateSaveDataPos); // 保存時刻
+	SaveData::GetInstance().DrawPlayTimeSaveData(kDispPlayTimeSaveDataPos); // プレイ時間
 }

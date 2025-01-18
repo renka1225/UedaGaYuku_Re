@@ -38,5 +38,7 @@ public:
 
 private:
 	std::shared_ptr<SceneBase> m_pScene; // シーンのポインタ
+
+	int m_playTime;
 };
 

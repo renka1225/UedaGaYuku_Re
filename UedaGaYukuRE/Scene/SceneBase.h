@@ -42,6 +42,12 @@ public:
 	/// </summary>
 	virtual void Draw() = 0;
 
+	/// <summary>
+	/// プレイ時間をセットする
+	/// </summary>
+	/// <param name="playTime">プレイ時間</param>
+	void SetPlayTime(int playTime) { m_playTime = playTime; }
+
 protected:
 	/// <summary>
 	/// ゲーム終了処理
@@ -101,6 +107,12 @@ protected:
 	/// </summary>
 	void DrawFade();
 
+	/// <summary>
+	/// プレイ時間を取得する
+	/// </summary>
+	/// <returns>現在のプレイ時間</returns>
+	int GetPlayTime() const { return m_playTime; }
+
 #ifdef _DEBUG
 	/// <summary>
 	/// 現在のシーンをデバッグ表示する
@@ -116,9 +128,11 @@ protected:
 	std::shared_ptr<Player> m_pPlayer;		 // プレイヤーのポインタ
 	std::shared_ptr<Camera> m_pCamera;		 // カメラのポインタ
 	std::vector<int> m_handle;	// ハンドル
+
+	int m_playTime;		// 現在のプレイ時間
+	int m_saveSelect;	// セーブデータの選択状態
 	int m_select;		// 現在の選択状態
 	int m_fadeAlpha;	// フェードのα値
 	bool m_isFadeOut;	// フェード中かどうか(true:フェード中)
-	int m_saveSelect;	// セーブデータの選択状態
 };
 

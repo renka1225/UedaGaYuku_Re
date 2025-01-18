@@ -33,7 +33,9 @@ private:
 
 		// 時間情報
 		DATEDATA date;		// 現在時刻
-		int mplayTime = 0;	// プレイ時間
+		int playTime = 0;	// プレイ時間
+
+		bool isEndTutorial = false;	// チュートリアル終了済みか(true:終了済み)
 	};
 
 public:
@@ -96,8 +98,9 @@ public:
 	/// </summary>
 	/// <param name="pPlayer">プレイヤー参照</param>
 	/// <param name="pCamera">カメラ参照</param>
+	/// <param name="playTime">プレイ時間</param>
 	/// <param name="slot">選択中のスロット番号</param>
-	void WriteData(const Player& pPlayer, const Camera& pCamera, int slot);
+	void WriteData(const Player& pPlayer, const Camera& pCamera, int playTime, int slot);
 
 	/// <summary>
 	/// 現在時刻を保存する
@@ -105,10 +108,16 @@ public:
 	void SaveDateData();
 
 	/// <summary>
-	/// セーブデータの情報を描画する
+	/// セーブされている現在時刻を表示する
 	/// </summary>
 	/// <param name="pos">表示位置</param>
-	void DrawSaveData(Vec2 pos);
+	void DrawDateSaveData(Vec2 pos);
+
+	/// <summary>
+	/// セーブされている現在時刻を表示する
+	/// </summary>
+	/// <param name="pos">表示位置</param>
+	void DrawPlayTimeSaveData(Vec2 pos);
 
 	/// <summary>
 	/// セーブデータの情報を取得

@@ -37,9 +37,9 @@ namespace
 	constexpr int kEnemyKindNum = 3;		// 敵の種類
 	constexpr int kEnemyNamekind = 31;		// 敵名の種類
 	constexpr int kClearEnemyNum = 1;		// クリア条件
-	constexpr int kFirstSpawnTime = 1200;	// ゲーム開始から最初の敵がスポーンするまでの時間
-	constexpr int kEnemySpawnMinTime = 1200;		// 敵がスポーンするまでの最小時間
-	constexpr int kEnemySpawnMaxTime = 3000;		// 敵がスポーンするまでの最大時間
+	constexpr int kFirstSpawnTime = 600;	// ゲーム開始からチュートリアルが始まるまでの時間
+	constexpr int kEnemySpawnMinTime = 400;		// 敵がスポーンするまでの最小時間
+	constexpr int kEnemySpawnMaxTime = 1800;	// 敵がスポーンするまでの最大時間
 	constexpr float kEnemyExtinctionDist = 2500.0f;	// 敵が消滅する範囲
 
 	constexpr int kBattleStartStagingTime = 120; // バトル開始時の演出時間
@@ -56,7 +56,6 @@ namespace
 
 SceneMain::SceneMain() :
 	m_currentEnemyNum(0),
-	m_playTime(0),
 	m_enemySpawnTime(0),
 	m_battleStartStagingTime(0),
 	m_battleEndStagingTime(0),
@@ -127,21 +126,21 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		return shared_from_this();
 	}
 
-	m_playTime++;
-
 	// メニューを開いたとき
 	if (input.IsTriggered(InputId::kMenu))
 	{
+		m_isPause = true;
+
 		// ガード中の場合、ガード状態を解除する
 		if (m_pPlayer->GetIsGuard())
 		{
 			m_pPlayer->Update(input, *m_pCamera, *m_pStage, *m_pWeapon, m_pEnemy);
 		}
 
-		m_isPause = true;
 		// 移動中SEが再生されないようにする
 		Sound::GetInstance().StopSe(SoundName::kSe_walk);
 		Sound::GetInstance().StopSe(SoundName::kSe_run);
+
 		return std::make_shared<SceneMenu>(shared_from_this(), m_pPlayer, m_pCamera);
 	}
 
@@ -198,13 +197,25 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	m_pCamera->Update(input, *m_pPlayer, *m_pStage);
 	m_pUiBar->Update();
 
+	// チュートリアル敵生成
+	if (m_playTime >= kFirstSpawnTime)
+	{
+		// すでにチュートリアル状態の場合は飛ばす
+		if (m_isTutorial || m_pPlayer->GetTutoInfo().isEndTutorial) return shared_from_this();
+
+		m_isTutorial = true;
+		m_pPlayer->SetIsBattle(true);
+		CreateEnemy();
+	}
+
 #ifdef _DEBUG // デバックコマンド
 	if (input.IsTriggered(InputId::kDebugClear))
 	{
 		return std::make_shared<SceneClear>();
 	}
-	else if (input.IsTriggered(InputId::kDebugTutorial))
+	else if (input.IsTriggered(InputId::kDebugTutorial) || m_playTime >= kFirstSpawnTime)
 	{
+		// すでにチュートリアル状態の場合は飛ばす
 		if (m_isTutorial || m_pPlayer->GetTutoInfo().currentNum >= Player::TutorialNum::kTutoNum) return shared_from_this();
 
 		m_isTutorial = true;
@@ -402,7 +413,7 @@ void SceneMain::UpdateStaging()
 		// バトル中でない場合、敵を生成する
 		if (!m_pPlayer->GetIsBattle())
 		{
-			//CreateEnemy();
+			CreateEnemy();
 		}
 
 		// 敵の更新
@@ -589,6 +600,8 @@ void SceneMain::CreateEnemy()
 	// ラスボス戦でない場合
 	else if (!m_isLastBattle)
 	{
+		if (!m_pPlayer->GetTutoInfo().isEndTutorial) return;
+
 		// ゲーム開始時、時間が経ってから敵を生成する
 		if (m_playTime < kFirstSpawnTime) return;
 
@@ -632,9 +645,9 @@ void SceneMain::UpdateEnemy()
 
 		if (m_isTutorial)
 		{
+			// 敵回復
 			if (m_pPlayer->GetTutoInfo().currentNum <= Player::TutorialNum::kTuto_4)
 			{
-				// 敵回復
 				m_pEnemy[i]->RecoveryHp();
 			}
 		}

@@ -219,13 +219,13 @@ void Weapon::LoadLocationData()
 		loc.name.resize(nameCnt);
 
 		// MEMO:loc.name.data()の部分はC++20だとエラーにならない
-		FileRead_read(loc.name.data(), sizeof(char)* loc.name.size(), m_loadLocationData);
+		FileRead_read(loc.name.data(), static_cast<int>(sizeof(char)* loc.name.size()), m_loadLocationData);
 
 		// タグをロード
 		byte tagCnt = 0;
 		FileRead_read(&tagCnt, sizeof(tagCnt), m_loadLocationData);
 		loc.tag.resize(tagCnt);
-		FileRead_read(loc.tag.data(), sizeof(char) * loc.tag.size(), m_loadLocationData);
+		FileRead_read(loc.tag.data(), static_cast<int>(sizeof(char) * loc.tag.size()), m_loadLocationData);
 
 		// 座標情報
 		FileRead_read(&loc.pos, sizeof(loc.pos), m_loadLocationData);

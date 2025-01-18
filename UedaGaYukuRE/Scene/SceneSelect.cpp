@@ -50,7 +50,8 @@ namespace
 
 	const Vec2 kDispSavePos = { 259.0f, 115.0f };		 // セーブ画面表示位置
 	const Vec2 kDispSaveCursorPos = { 442.0f, 265.0f };  // セーブ画面のカーソル表示位置
-	const Vec2 kDispSaveDataPos = { 730.0f, 305.0f };	 // セーブデータ情報表示位置
+	const Vec2 kDispDateSaveDataPos = { 730.0f, 305.0f };	  // 保存された現在時刻の表示位置
+	const Vec2 kDispPlayTimeSaveDataPos = { 750.0f, 365.0f }; // 保存されたプレイ時間の表示位置
 
 	/*フェード*/
 	constexpr int kStartFadeAlpha = 255; // スタート時のフェード値
@@ -201,7 +202,8 @@ void SceneSelect::DrawSaveData()
 	m_pUi->DrawSaveCursor(kDispSaveCursorPos, m_saveSelect);
 
 	// セーブデータの情報を表示
-	SaveData::GetInstance().DrawSaveData(kDispSaveDataPos);
+	SaveData::GetInstance().DrawDateSaveData(kDispDateSaveDataPos);			// 現在時刻
+	SaveData::GetInstance().DrawPlayTimeSaveData(kDispPlayTimeSaveDataPos);	// プレイ時間
 }
 
 void SceneSelect::DrawCopyright()

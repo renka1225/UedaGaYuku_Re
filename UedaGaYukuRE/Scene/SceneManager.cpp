@@ -5,7 +5,8 @@
 #include "Input.h"
 
 SceneManager::SceneManager():
-	m_pScene(nullptr)
+	m_pScene(nullptr),
+	m_playTime(0)
 {
 }
 
@@ -22,6 +23,9 @@ void SceneManager::Init()
 
 void SceneManager::Update(Input& input)
 {
+	m_playTime++;
+	m_pScene->SetPlayTime(m_playTime);
+
 	std::shared_ptr<SceneBase> pNext = m_pScene->Update(input);
 
 	// 遷移先のシーンの開始処理を行う

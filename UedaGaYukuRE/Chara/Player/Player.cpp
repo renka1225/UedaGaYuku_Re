@@ -35,7 +35,7 @@ namespace
 	constexpr int kBattleStartTime = 50;		// バトルが開始するまでの時間
 
 	constexpr int kInputRetentionFrame = 30;	// 入力の履歴を削除するまでのフレーム数
-	constexpr int kInputTimeAdj = 40;			// 入力受付時間調節
+	constexpr int kInputTimeAdj = 30;			// 入力受付時間調節
 	constexpr float kChangeAngleDot = -0.5f;	// プレイヤーの角度を調節する範囲
 	constexpr float kBattleStartChangeAngleDot = 1.0f; // バトル開始時のプレイヤーの角度を調整する範囲
 
@@ -244,9 +244,11 @@ void Player::UpdateMoney()
 
 void Player::AddMoney(int dropMoney)
 {
-	m_money += dropMoney;
-	m_addMoney = dropMoney;
 	m_beforeMoney = m_money;
+	m_addMoney = dropMoney;
+	m_money += m_addMoney;
+
+	if (m_beforeMoney < m_money) m_addMoney = 0;
 }
 
 void Player::AddItem(int itemType)
@@ -553,7 +555,7 @@ bool Player::CheckCommand(const std::vector<std::string>& command, const std::ve
 	if (inputLog.empty()) return false;
 
 	// コマンドの最終入力を確認する
-	int index = command.size() - 1;
+	int index = static_cast<int>(command.size()) - 1;
 	// 最新の入力時間
 	int currentTime = inputLog.back().frameCount;
 

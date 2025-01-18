@@ -1,5 +1,6 @@
 ﻿#include "Game.h"
 #include "Vec2.h"
+#include "ConversionTime.h"
 #include "Font.h"
 #include "Camera.h"
 #include "SaveData.h"
@@ -64,6 +65,10 @@ void SaveData::Load(int slot)
 		file.read((char*)&m_saveData.date.Hour, sizeof(m_saveData.date.Hour));
 		file.read((char*)&m_saveData.date.Min, sizeof(m_saveData.date.Min));
 		file.read((char*)&m_saveData.date.Sec, sizeof(m_saveData.date.Sec));
+		file.read((char*)&m_saveData.playTime, sizeof(m_saveData.playTime));
+
+		file.read((char*)&m_saveData.isEndTutorial, sizeof(m_saveData.isEndTutorial));
+		
 		file.close();
 	}
 	else
@@ -116,6 +121,10 @@ void SaveData::Write(int slot)
 		file.write((char*)&m_saveData.date.Hour, sizeof(m_saveData.date.Hour));
 		file.write((char*)&m_saveData.date.Min, sizeof(m_saveData.date.Min));
 		file.write((char*)&m_saveData.date.Sec, sizeof(m_saveData.date.Sec));
+		file.write((char*)&m_saveData.playTime, sizeof(m_saveData.playTime));
+
+		file.write((char*)&m_saveData.isEndTutorial, sizeof(m_saveData.isEndTutorial));
+
 		file.close();
 	}
 	else
@@ -155,11 +164,14 @@ void SaveData::CreateNewData(int slot)
 
 	// 時間データを作成
 	SaveDateData();
+	m_saveData.playTime = 0;
+
+	m_saveData.isEndTutorial = false;
 
 	Write(slot); // 初期データを保存する
 }
 
-void SaveData::WriteData(const Player& pPlayer, const Camera& pCamera, int slot)
+void SaveData::WriteData(const Player& pPlayer, const Camera& pCamera, int playTime, int slot)
 {
 	// プレイヤー情報
 	m_saveData.playerPos = pPlayer.GetPos();
@@ -179,6 +191,9 @@ void SaveData::WriteData(const Player& pPlayer, const Camera& pCamera, int slot)
 
 	// 時間データ
 	SaveDateData();
+	m_saveData.playTime = playTime;
+
+	m_saveData.isEndTutorial = pPlayer.GetTutoInfo().isEndTutorial;
 
 	Write(slot); // データを上書きする
 }
@@ -195,25 +210,33 @@ void SaveData::SaveDateData()
 	m_saveData.date.Sec = date.Sec;
 }
 
-void SaveData::DrawSaveData(Vec2 pos)
+void SaveData::DrawDateSaveData(Vec2 pos)
 {
 	auto& saveData = SaveData::GetInstance();
 
-	saveData.Load(SaveData::SelectSaveData::one);
-	DrawFormatStringFToHandle(pos.x, pos.y + (kSaveDataInterval * static_cast<float>(SaveData::SelectSaveData::one)),
-		Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kSave)],
-		"%d/%d/%d %d時:%d分:%d秒", m_saveData.date.Year, m_saveData.date.Mon, m_saveData.date.Day, m_saveData.date.Hour, m_saveData.date.Min, m_saveData.date.Sec);
+	for (int i = 0; i < static_cast<float>(SaveData::SelectSaveData::kSaveNum); i++)
+	{
+		saveData.Load(i);
 
+		DrawFormatStringFToHandle(pos.x, pos.y + (kSaveDataInterval * static_cast<float>(i)),
+			Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kSave)],
+			"%d/%d/%d %d時:%d分:%d秒", m_saveData.date.Year, m_saveData.date.Mon, m_saveData.date.Day, m_saveData.date.Hour, m_saveData.date.Min, m_saveData.date.Sec);
+	}
+}
 
-	saveData.Load(SaveData::SelectSaveData::two);
-	DrawFormatStringFToHandle(pos.x, pos.y + (kSaveDataInterval * static_cast<float>(SaveData::SelectSaveData::two)),
-		Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kSave)],
-		"%d/%d/%d %d時:%d分:%d秒", m_saveData.date.Year, m_saveData.date.Mon, m_saveData.date.Day, m_saveData.date.Hour, m_saveData.date.Min, m_saveData.date.Sec);
+void SaveData::DrawPlayTimeSaveData(Vec2 pos)
+{
+	auto& saveData = SaveData::GetInstance();
 
-	saveData.Load(SaveData::SelectSaveData::three);
-	DrawFormatStringFToHandle(pos.x, pos.y + (kSaveDataInterval * static_cast<float>(SaveData::SelectSaveData::three)),
+	for (int i = 0; i < static_cast<float>(SaveData::SelectSaveData::kSaveNum); i++)
+	{
+		saveData.Load(i);
+		int playTime = m_saveData.playTime;
+
+		DrawFormatStringFToHandle(pos.x, pos.y + (kSaveDataInterval * static_cast<float>(i)),
 		Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kSave)],
-		"%d/%d/%d %d時:%d分:%d秒", m_saveData.date.Year, m_saveData.date.Mon, m_saveData.date.Day, m_saveData.date.Hour, m_saveData.date.Min, m_saveData.date.Sec);
+		"プレイ時間 %d時間:%d分:%d秒", Conversion::ChangeHour(playTime), Conversion::ChangeMin(playTime), Conversion::ChangeSec(playTime));
+	}
 }
 
 std::string SaveData::GetSaveDataPath(int slot)

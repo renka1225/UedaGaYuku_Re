@@ -15,7 +15,7 @@ public:
 	// 武器の情報
 	struct WeaponData
 	{
-		int durability;		// 耐久力
+		int durability = 0;		// 耐久力
 		VECTOR colStartPos = VGet(0.0f ,0.0f, 0.0f); // 武器の当たり判定始点
 		VECTOR colEndPos = VGet(0.0f, 0.0f, 0.0f);	 // 武器の当たり判定終点
 		float colRadius = 0.0f;						 // 武器の当たり判定半径

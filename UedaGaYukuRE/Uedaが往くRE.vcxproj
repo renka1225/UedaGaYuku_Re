@@ -176,6 +176,7 @@
     <ClCompile Include="Scene\SceneGameover.cpp" />
     <ClCompile Include="Scene\SceneClear.cpp" />
     <ClCompile Include="UI\UiMain.cpp" />
+    <ClCompile Include="Util\ConversionTime.cpp" />
     <ClCompile Include="Util\EventData.cpp" />
     <ClCompile Include="Object\Item.cpp" />
     <ClCompile Include="Object\ObjectBase.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="Scene\SceneGameover.h" />
     <ClInclude Include="Scene\SceneClear.h" />
     <ClInclude Include="UI\UiMain.h" />
+    <ClInclude Include="Util\ConversionTime.h" />
     <ClInclude Include="Util\EventData.h" />
     <ClInclude Include="Object\Item.h" />
     <ClInclude Include="Object\ObjectBase.h" />
