@@ -20,6 +20,18 @@ class EventData;
 class SceneMain :public SceneBase
 {
 public:
+	/*会話の選択肢*/
+	enum TalkSelect
+	{
+		kBattle,
+		kDeadEnemyNum,
+		kRecovery,
+		kGetItem,
+		kBack,
+		kTalkNum,
+	};
+
+public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -95,6 +107,16 @@ private:
 	void CreateEnemy();
 
 	/// <summary>
+	/// チュートリアル敵を生成する
+	/// </summary>
+	void CreateTutoEnemy();
+
+	/// <summary>
+	/// ボス敵を生成する
+	/// </summary>
+	void CreateBossEnemy();
+
+	/// <summary>
 	/// 敵を更新する
 	/// </summary>
 	void UpdateEnemy();
@@ -136,6 +158,46 @@ private:
 	void UpdateTalk(const Input& input);
 
 	/// <summary>
+	/// 会話の選択肢を更新する
+	/// </summary>
+	/// <param name="input">入力情報</param>
+	void UpdateTalkSelect(const Input& input);
+
+	/// <summary>
+	/// "戦う"を選択
+	/// </summary>
+	/// <param name="input">入力情報</param>
+	void SelectBattle(const Input& input);
+
+	/// <summary>
+	/// "倒した敵数"を選択
+	/// </summary>
+	/// <param name="input">入力情報</param>
+	void SelectDeadEnemyNum(const Input& input);
+
+	/// <summary>
+	/// "回復"を選択
+	/// </summary>
+	/// <param name="input">入力情報</param>
+	void SelectRecovery(const Input& input);
+
+	/// <summary>
+	/// "アイテム取得"を選択
+	/// </summary>
+	/// <param name="input">入力情報</param>
+	void SelectGetItem(const Input& input);
+
+	/// <summary>
+	/// 会話を終了する
+	/// </summary>
+	void EndTalk();
+
+	/// <summary>
+	/// 会話関係のUIを表示する
+	/// </summary>
+	void DrawTalk();
+
+	/// <summary>
 	/// シャドウマップをセットする
 	/// </summary>
 	void SetShadowMap();
@@ -158,6 +220,7 @@ private:
 	std::vector<int> m_modelHandle;			// モデルのハンドル
 
 	std::string m_nowTalkId;	// 現在の会話ID
+	int m_talkSelect;			// 会話の選択肢
 
 	int m_currentEnemyNum;			// 現在の敵数
 	int m_enemySpawnTime;			// 敵がスポーンするまでの時間
@@ -166,6 +229,8 @@ private:
 	int m_talkDispTime;				// 会話を表示させる最低限の時間
 	int m_endingTime;				// エンディングの時間
 
+	bool m_isTalking;			// 会話が進行中かどうか(true:進行中)
+	bool m_isDispTalkSelect;	// 会話の選択肢UIを表示するかどうか(true:表示中)
 	bool m_isDispBattleStart;	// バトル開始演出中かどうか(true:演出中)
 	bool m_isBattleEndStaging;	// バトル終了演出中か(true:演出中)
 	bool m_isEnding;			// エンディング演出中か(true:演出中)

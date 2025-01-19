@@ -2,6 +2,23 @@
 #include "Player.h"
 #include "UiBase.h"
 
+// 会話用のID
+namespace ConversationID
+{
+	const std::string kTalkStart = "MSG_TALKSTART";
+	const std::string kSelect = "MSG_SELECT_";
+	const std::string kSelect1 = kSelect + "1";
+	const std::string kSelect2 = kSelect + "2";
+	const std::string kSelect3 = kSelect + "3";
+	const std::string kSelect4 = kSelect + "4";
+	const std::string kSelect5 = kSelect + "5";
+	const std::string kBattleOk = "MSG_BATTLE_OK";
+	const std::string kBattleNg = "MSG_BATTLE_NG";
+	const std::string kDeadNum = "MSG_DEADNUM";
+	const std::string kRecovery = "MSG_RECOVERY";
+	const std::string kGetItem = "MSG_GETITEM";
+}
+
 /// <summary>
 /// SceneMainで使うUI
 /// </summary>
@@ -86,6 +103,16 @@ public:
 	/// <param name="id">テキストID</param>
 	/// <param name="clearNum">条件の敵数</param>
 	void DrawTalk(const Player& pPlayer, std::string id, int clearNum);
+
+	/// <summary>
+	/// 会話の選択肢の背景を表示
+	/// </summary>
+	void DrawTalkSelectBg();
+
+	/// <summary>
+	/// 会話の選択肢を表示
+	/// </summary>
+	void DrawTalkSelectText();
 
 	/// <summary>
 	/// チュートリアル表示

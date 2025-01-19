@@ -71,7 +71,7 @@ void SceneBase::DrawSceneText(const char* sceneName)
 }
 #endif
 
-void SceneBase::UpdateSelect(Input& input, int selectNum)
+void SceneBase::UpdateSelect(const Input& input, int selectNum)
 {
 	// 選択状態を1つ下げる
 	if (input.IsTriggered(InputId::kDown))

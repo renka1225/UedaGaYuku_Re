@@ -27,8 +27,8 @@ namespace
 	constexpr float kDistWeaponGrab = 20.0f;	// 武器を掴める距離
 	constexpr float kMoveAttack = 0.3f;			// 攻撃時の移動量
 
-	constexpr int kMaxPossession = 12;	 // アイテムの最大所持数
-	constexpr int kMoneyIncrement = 100; // 一度に増える所持金数
+	constexpr int kMaxPossession = 12;			// アイテムの最大所持数
+	constexpr int kMoneyIncrement = 100;		// 一度に増える所持金数
 	constexpr float kMaxRecoveryRate = 10.0f;	// 最大の回復割合
 
 	constexpr float kBattleStartRange = 200.0f;	// バトルが始まる範囲

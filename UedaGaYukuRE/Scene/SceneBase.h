@@ -75,7 +75,7 @@ protected:
 	/// </summary>
 	/// <param name="input">入力状態</param>
 	/// <param name="selectNum">選択肢の数</param>
-	void UpdateSelect(Input& input, int selectNum);
+	void UpdateSelect(const Input& input, int selectNum);
 
 	/// <summary>
 	///	セーブデータの選択状態を更新 

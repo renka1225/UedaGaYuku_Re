@@ -3,6 +3,7 @@
 #include "LoadCsv.h"
 #include "Font.h"
 #include "EnemyBase.h"
+#include "SceneMain.h"
 #include "UiMain.h"
 #include <algorithm>
 
@@ -20,6 +21,7 @@ namespace
 		kTuto_4,			// チュートリアル4
 		kTuto_5,			// チュートリアル5
 		kTextBox,			// テキストボックス
+		kTalkSelectBg,		// 会話選択肢の背景
 		kMiniMap,			// ミニマップ
 		kIconEnemy,			// ミニマップ上に表示する敵アイコン
 		kIconPlayer,		// ミニマップ上に表示するプレイヤーアイコン
@@ -47,6 +49,7 @@ namespace
 		"data/ui/tutorial/tuto4.png",
 		"data/ui/tutorial/tuto5.png",
 		"data/ui/main/textBox.png",
+		"data/ui/main/talkSelectBg.png",
 		"data/ui/main/minimap.png",
 		"data/ui/main/icon_enemy.png",
 		"data/ui/main/icon_player.png",
@@ -73,10 +76,19 @@ namespace
 		{"grab", {1814.0f, 345.0f}},
 		{"weaponAtk", {1824.0f, 432.0f}},
 		{"heat", {1828.0f, 344.0f}},
-		{"bg", { 1433.0f, 238.0f }},	// 背景位置
-		{"text", { 1433.0f, 237.0f }},	// テキスト位置
-		{"check", { 1450.0f, 339.0f }},	// チェックマーク位置
-		{"ok",{1432.0f, 422.0f}}		// OK表示位置
+		{"bg", { 1433.0f, 238.0f }},			// 背景位置
+		{"text", { 1433.0f, 237.0f }},			// テキスト位置
+		{"check", { 1450.0f, 339.0f }},			// チェックマーク位置
+		{"ok",{1432.0f, 422.0f}}				// OK表示位置
+	};
+
+	const std::map<int, Vec2> kTalkSelectTextPos
+	{
+		{SceneMain::TalkSelect::kBattle, {773.0f, 198.0f}},
+		{SceneMain::TalkSelect::kDeadEnemyNum, {706.0f, 296.0f}},
+		{SceneMain::TalkSelect::kRecovery, {846.0f, 393.0f}},
+		{SceneMain::TalkSelect::kGetItem, {771.0f, 490.0f}},
+		{SceneMain::TalkSelect::kBack, {868.0f, 585.0f}},
 	};
 
 	constexpr float kTutoCheckHeight = 84.0f;	// チェックマーク表示間隔
@@ -87,10 +99,11 @@ namespace
 	const Vec2 kDispBattleOperationPos = { 1584.0f, 700.0f };	// バトル中操作説明表示位置
 
 	/*会話*/
-	const Vec2 kDispTalkUiPos = { -5.0f, 32.0f }; // "話す"テキスト表示位置調整
-	const Vec2 kTextBoxPos = { 116.0f, 766.0f };  // テキストボックス位置
-	const Vec2 kTalkNamePos = { 287.0f, 775.0f }; // 名前表示位置
-	const Vec2 kTalkPos = { 489.0f, 850.0f };	  // テキスト表示位置
+	const Vec2 kDispTalkUiPos = { -5.0f, 32.0f };		// "話す"テキスト表示位置調整
+	const Vec2 kTextBoxPos = { 116.0f, 766.0f };		// テキストボックス位置
+	const Vec2 kTalkNamePos = { 287.0f, 775.0f };		// 名前表示位置
+	const Vec2 kTalkPos = { 489.0f, 850.0f };			// テキスト表示位置
+	const Vec2 kTalkSelectBgPos = { 423.0f, 106.0f };	// 選択肢の背景位置
 
 	/*ミニマップ*/
 	const Vec2 kMapPos = { 180.0f, 900.0f };	// マップ表示位置
@@ -332,16 +345,30 @@ void UiMain::DrawTalk(const Player& pPlayer, std::string id, int clearNum)
 	std::string drawText = LoadCsv::GetInstance().GetConversationText(id);
 	
 	int drawNum = 0;
-	if (id == "BOSS_OK")
-	{
-		drawNum = pPlayer.GetDeadEnemyNum();
-	}
-	else if(id == "BOSS_NG")
+	if(id == ConversationID::kBattleNg)
 	{
 		drawNum = clearNum - pPlayer.GetDeadEnemyNum();
 	}
+	else if (id == ConversationID::kDeadNum)
+	{
+		drawNum = pPlayer.GetDeadEnemyNum();
+	}
 
 	DrawFormatStringFToHandle(kTalkPos.x, kTalkPos.y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kTalk)], drawText.c_str(), drawNum);
+}
+
+void UiMain::DrawTalkSelectBg()
+{
+	DrawGraphF(kTalkSelectBgPos.x, kTalkSelectBgPos.y, m_handle[Handle::kTalkSelectBg], true);
+}
+
+void UiMain::DrawTalkSelectText()
+{
+	for (int i = 0; i < SceneMain::TalkSelect::kTalkNum; i++)
+	{
+		std::string drawText = LoadCsv::GetInstance().GetConversationText(ConversationID::kSelect + std::to_string((i + 1)));
+		DrawStringFToHandle(kTalkSelectTextPos.at(i).x, kTalkSelectTextPos.at(i).y, drawText.c_str(), Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kTalk_select)]);
+	}
 }
 
 void UiMain::DrawTutorial(Player::TutorialInfo tutoInfo)

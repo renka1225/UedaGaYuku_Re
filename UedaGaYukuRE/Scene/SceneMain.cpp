@@ -37,15 +37,21 @@ namespace
 	constexpr int kEnemyKindNum = 3;		// 敵の種類
 	constexpr int kEnemyNamekind = 31;		// 敵名の種類
 	constexpr int kClearEnemyNum = 1;		// クリア条件
-	constexpr int kFirstSpawnTime = 600;	// ゲーム開始からチュートリアルが始まるまでの時間
+
+	constexpr int kFirstSpawnTime = 300;	// ゲーム開始からチュートリアルが始まるまでの時間
 	constexpr int kEnemySpawnMinTime = 400;		// 敵がスポーンするまでの最小時間
 	constexpr int kEnemySpawnMaxTime = 1800;	// 敵がスポーンするまでの最大時間
 	constexpr float kEnemyExtinctionDist = 2500.0f;	// 敵が消滅する範囲
 
+	constexpr float kRecoveryMaxRate = 100.0f;	// 回復の最大割合
+
 	constexpr int kBattleStartStagingTime = 120; // バトル開始時の演出時間
 	constexpr int kBattleEndStagingTime = 120;	 // バトル終了時の演出時間
-	constexpr int kEndingTime = 10;				 // エンディングの時間
-	constexpr int kTalkDispTime = 30;			 // 会話を表示させる最低限の時間
+	constexpr int kEndingTime = 30;				 // エンディングの時間
+	constexpr int kTalkDispTime = 3;			 // 会話を表示させる最低限の時間
+
+	const std::string kCursorId = "cursor_main_talkSelect";	// 会話の選択肢カーソルのID
+	constexpr float kTalkSelectCursorInterval = 98.0f;		// 会話の選択肢カーソルの表示間隔
 
 	/*影*/
 	constexpr int kShadowMapSize = 4096;								// ステージのシャドウマップサイズ
@@ -61,6 +67,9 @@ SceneMain::SceneMain() :
 	m_battleEndStagingTime(0),
 	m_endingTime(0),
 	m_nowTalkId(""),
+	m_talkSelect(TalkSelect::kBattle),
+	m_isTalking(false),
+	m_isDispTalkSelect(false),
 	m_isDispBattleStart(false),
 	m_isBattleEndStaging(false),
 	m_isEnding(false),
@@ -198,14 +207,14 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	m_pUiBar->Update();
 
 	// チュートリアル敵生成
-	if (m_playTime >= kFirstSpawnTime)
+	if (m_playTime == kFirstSpawnTime)
 	{
-		// すでにチュートリアル状態の場合は飛ばす
-		if (m_isTutorial || m_pPlayer->GetTutoInfo().isEndTutorial) return shared_from_this();
+		// すでにクリア済みの場合は生成しない
+		if (m_pPlayer->GetTutoInfo().isEndTutorial) return shared_from_this();
+		// チュートリアル中は場合は飛ばす
+		if (m_isTutorial) return shared_from_this();
 
-		m_isTutorial = true;
-		m_pPlayer->SetIsBattle(true);
-		CreateEnemy();
+		//CreateTutoEnemy();
 	}
 
 #ifdef _DEBUG // デバックコマンド
@@ -213,14 +222,11 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	{
 		return std::make_shared<SceneClear>();
 	}
-	else if (input.IsTriggered(InputId::kDebugTutorial) || m_playTime >= kFirstSpawnTime)
+	else if (input.IsTriggered(InputId::kDebugTutorial))
 	{
-		// すでにチュートリアル状態の場合は飛ばす
-		if (m_isTutorial || m_pPlayer->GetTutoInfo().currentNum >= Player::TutorialNum::kTutoNum) return shared_from_this();
-
-		m_isTutorial = true;
-		m_pPlayer->SetIsBattle(true);
-		CreateEnemy();
+		if (m_pPlayer->GetTutoInfo().isEndTutorial) return shared_from_this();
+		if (m_isTutorial) return shared_from_this();
+		CreateTutoEnemy();
 	}
 	else if (input.IsTriggered(InputId::kDebugEnding))
 	{
@@ -283,32 +289,25 @@ void SceneMain::Draw()
 		m_pUiMain->DrawBattleUi(*m_pPlayer);
 	}
 
-	// 話すUI表示
-	if (m_pPlayer->GetIsTalk())
-	{
-		m_pUiMain->DrawNpcUi(m_pNpc->GetPos());
-	}
-
 	m_pWeapon->DrawWeaponUi();
 	m_pUiBar->DrawPlayerHpBar(*m_pPlayer, m_pPlayer->GetStatus().maxHp);
 	m_pUiBar->DrawPlayerGaugeBar(*m_pPlayer, m_pPlayer->GetStatus().maxGauge);
 
-	// 会話中
-	if (m_pPlayer->GetIsNowTalk())
-	{
-		m_pUiMain->DrawTalk(*m_pPlayer, m_nowTalkId, kClearEnemyNum);
-	}
+	DrawTalk(); // 会話UI表示
 
 	// チュートリアル表示
 	if (m_isTutorial)
 	{
-		m_pUiMain->DrawTutorial(m_pPlayer->GetTutoInfo());
+		if (!m_pPlayer->GetTutoInfo().isEndTutorial)
+		{
+			m_pUiMain->DrawTutorial(m_pPlayer->GetTutoInfo());
+		}
 	}
 	// 操作説明表示
 	else
 	{
 		// 会話中は操作説明を表示しない
-		if ( !m_pPlayer->GetIsNowTalk())
+		if (!m_pPlayer->GetIsNowTalk())
 		{
 			m_pUiMain->DrawOperation(m_pPlayer->GetIsBattle());
 		}
@@ -397,12 +396,12 @@ void SceneMain::UpdateStaging()
 	// 会話中は敵を更新しない
 	if (m_pPlayer->GetIsNowTalk()) return;
 
+	// バトル開始演出
+	UpdateBattleStartStaging();
+
 	// 最終決戦中でない場合
 	if (!m_isLastBattle)
 	{
-		// バトル開始演出
-		UpdateBattleStartStaging();
-
 		// 敵が1体もいなくなった場合
 		if (m_pEnemy.empty() && !m_isBattleEndStaging)
 		{
@@ -581,60 +580,57 @@ void SceneMain::UpdateSound()
 
 void SceneMain::CreateEnemy()
 {
-	// チュートリアルの場合
-	if (m_isTutorial && !m_pPlayer->GetTutoInfo().isEndTutorial)
+	// チュートリアル前は生成しない
+	if (!m_pPlayer->GetTutoInfo().isEndTutorial) return;
+	// 会話中は敵を生成しない
+	if (m_pPlayer->GetIsNowTalk()) return;
+	// ゲーム開始時、時間が経ってから敵を生成する
+	if (m_playTime < kFirstSpawnTime) return;
+
+	// スポーンするまでの時間をランダムで決める
+	const int spawnTime = GetRand(kEnemySpawnMaxTime) + kEnemySpawnMinTime;
+	m_enemySpawnTime++;
+
+	if (m_enemySpawnTime >= spawnTime)
 	{
-		// 敵がいる場合は削除する
-		m_pEnemy.clear();
-
-		// チュートリアル用の敵を生成する
-		int enemyIndex = CharacterBase::CharaType::kEnemy_tuto;
-
-		auto tutoEnemy = std::make_shared<EnemyBase>(m_pUiBar, m_pItem, *m_pPlayer);
-		tutoEnemy->SetEnemyInfo("Saionzi", "enemy_tuto", enemyIndex, m_modelHandle[enemyIndex]);
-		tutoEnemy->SetEnemySpawnPos(*m_pPlayer, 0);
-		tutoEnemy->Init();
-		m_pEnemy.push_back(tutoEnemy);
-		tutoEnemy->GetEnemyAI()->SetEnemyList(m_pEnemy);
+		m_enemySpawnTime = 0;
+		SelectEnemy(); // 出現する敵をランダムで選ぶ
 	}
-	// ラスボス戦でない場合
-	else if (!m_isLastBattle)
-	{
-		if (!m_pPlayer->GetTutoInfo().isEndTutorial) return;
+}
 
-		// ゲーム開始時、時間が経ってから敵を生成する
-		if (m_playTime < kFirstSpawnTime) return;
+void SceneMain::CreateTutoEnemy()
+{
+	m_isTutorial = true;
+	m_pPlayer->SetIsBattle(true);
 
-		// 会話中は敵を生成しない
-		if (m_pPlayer->GetIsNowTalk()) return;
+	// 敵がいる場合は削除する
+	m_pEnemy.clear();
 
-		// スポーンするまでの時間をランダムで決める
-		const int spawnTime = GetRand(kEnemySpawnMaxTime) + kEnemySpawnMinTime;
-		m_enemySpawnTime++;
+	// チュートリアル用の敵を生成する
+	int enemyIndex = CharacterBase::CharaType::kEnemy_tuto;
 
-		if (m_enemySpawnTime >= spawnTime)
-		{
-			m_enemySpawnTime = 0;
-			// 出現する敵をランダムで選ぶ
-			SelectEnemy();
-		}
-	}
-	// ラスボス戦の場合
-	else
-	{
-		// 敵がいる場合は削除する
-		m_pEnemy.clear();
+	auto tutoEnemy = std::make_shared<EnemyBase>(m_pUiBar, m_pItem, *m_pPlayer);
+	tutoEnemy->SetEnemyInfo("Saionzi", "enemy_tuto", enemyIndex, m_modelHandle[enemyIndex]);
+	tutoEnemy->SetEnemySpawnPos(*m_pPlayer, 0);
+	tutoEnemy->Init();
+	m_pEnemy.push_back(tutoEnemy);
+	tutoEnemy->GetEnemyAI()->SetEnemyList(m_pEnemy);
+}
 
-		// ラスボス用の敵を生成する
-		int enemyIndex = CharacterBase::CharaType::kEnemy_boss;
+void SceneMain::CreateBossEnemy()
+{
+	// 敵がいる場合は削除する
+	m_pEnemy.clear();
 
-		auto bossEnemy = std::make_shared<EnemyBase>(m_pUiBar, m_pItem, *m_pPlayer);
-		bossEnemy->SetEnemyInfo("Ohara", "enemy_boss", enemyIndex, m_modelHandle[enemyIndex]);
-		bossEnemy->SetEnemySpawnPos(*m_pPlayer, 0);
-		bossEnemy->Init();
-		m_pEnemy.push_back(bossEnemy);
-		bossEnemy->GetEnemyAI()->SetEnemyList(m_pEnemy);
-	}
+	// ラスボス用の敵を生成する
+	int enemyIndex = CharacterBase::CharaType::kEnemy_boss;
+
+	auto bossEnemy = std::make_shared<EnemyBase>(m_pUiBar, m_pItem, *m_pPlayer);
+	bossEnemy->SetEnemyInfo("Ohara", "enemy_boss", enemyIndex, m_modelHandle[enemyIndex]);
+	bossEnemy->SetEnemySpawnPos(*m_pPlayer, 0);
+	bossEnemy->Init();
+	m_pEnemy.push_back(bossEnemy);
+	bossEnemy->GetEnemyAI()->SetEnemyList(m_pEnemy);
 }
 
 void SceneMain::UpdateEnemy()
@@ -812,7 +808,7 @@ void SceneMain::CheckEventTrigger(const Input& input)
 void SceneMain::StartEvent(const std::string& eventId, const Input& input)
 {
 	// IDに応じて処理を変更する
-	if (eventId == "bossBattle")
+	if (eventId == "TALK_NPC")
 	{
 		// 会話できる状態にする
 		m_pPlayer->SetIsTalk(true);
@@ -823,16 +819,9 @@ void SceneMain::StartEvent(const std::string& eventId, const Input& input)
 			// 会話中にする
 			m_pPlayer->SetIsNowTalk(true);
 			m_pPlayer->SetIsTalk(false);
+			m_isDispTalkSelect = true;
 			m_talkDispTime = kTalkDispTime;
-
-			if (m_pPlayer->GetDeadEnemyNum() < kClearEnemyNum)
-			{
-				m_nowTalkId = "BOSS_NG";
-			}
-			else
-			{
-				m_nowTalkId = "BOSS_OK";
-			}
+			m_nowTalkId = ConversationID::kTalkStart;
 		}
 	}
 }
@@ -844,19 +833,144 @@ void SceneMain::UpdateTalk(const Input& input)
 	m_talkDispTime--;
 	if (m_talkDispTime > 0) return;
 
+	// 選択肢カーソル更新
+	if (m_isDispTalkSelect)
+	{
+		UpdateTalkSelect(input);
+		m_pUi->UpdateCursor(kCursorId);
+	}
+
+	if (m_isTalking)
+	{
+		if (input.IsTriggered(InputId::kOk) || input.IsTriggered(InputId::kBack))
+		{
+			EndTalk();
+			return;
+		}
+	}
 	if (input.IsTriggered(InputId::kOk))
 	{
-		// 条件を満たしている場合、ラスボスを出現させる
-		if (m_pPlayer->GetDeadEnemyNum() >= kClearEnemyNum)
+		if (m_isTalking)
 		{
-			m_isLastBattle = true;
-			CreateEnemy();
-			m_pPlayer->SetIsBattle(true);
+			m_isTalking = false;
+			return;
 		}
 
-		// 会話状態を解除する
-		m_pPlayer->SetIsNowTalk(false);
-		return;
+		m_isTalking = true;
+		m_isDispTalkSelect = false;
+
+		// 選択した状態に更新
+		switch (m_talkSelect)
+		{
+		case TalkSelect::kBattle:
+			SelectBattle(input);
+			break;
+		case TalkSelect::kDeadEnemyNum:
+			SelectDeadEnemyNum(input);
+			break;
+		case TalkSelect::kRecovery:
+			SelectRecovery(input);
+			break;
+		case TalkSelect::kGetItem:
+			SelectGetItem(input);
+			break;
+		case TalkSelect::kBack:
+			EndTalk();
+			break;
+		}
+	}
+}
+
+void SceneMain::UpdateTalkSelect(const Input& input)
+{
+	// 選択状態を1つ下げる
+	if (input.IsTriggered(InputId::kDown))
+	{
+		m_talkSelect = (m_talkSelect + 1) % TalkSelect::kTalkNum;
+		m_pUi->Init();
+
+		Sound::GetInstance().PlayBackSe(SoundName::kSe_cursor);
+	}
+	// 選択状態を1つ上げる
+	if (input.IsTriggered(InputId::kUp))
+	{
+		m_talkSelect = (m_talkSelect + (TalkSelect::kTalkNum - 1)) % TalkSelect::kTalkNum;
+		m_pUi->Init();
+
+		Sound::GetInstance().PlayBackSe(SoundName::kSe_cursor);
+	}
+}
+
+void SceneMain::SelectBattle(const Input& input)
+{
+	// 条件を満たしている場合、ラスボスを出現させる
+	if (m_pPlayer->GetDeadEnemyNum() >= kClearEnemyNum)
+	{
+		m_nowTalkId = ConversationID::kBattleOk;
+
+		if (input.IsTriggered(InputId::kOk))
+		{
+			m_isLastBattle = true;
+			CreateBossEnemy();
+			m_pPlayer->SetIsBattle(true);
+		}
+	}
+	else
+	{
+		m_nowTalkId = ConversationID::kBattleNg;
+	}
+}
+
+void SceneMain::SelectDeadEnemyNum(const Input& input)
+{
+	m_nowTalkId = ConversationID::kDeadNum;
+}
+
+void SceneMain::SelectRecovery(const Input& input)
+{
+	m_nowTalkId = ConversationID::kRecovery;
+
+	// 回復
+	m_pPlayer->RecoveryHp(kRecoveryMaxRate);
+	m_pPlayer->RecoveryGauge(kRecoveryMaxRate);
+
+	// 所持金を減らす
+	m_pPlayer->AddMoney(-300);
+}
+
+void SceneMain::SelectGetItem(const Input& input)
+{
+	m_nowTalkId = ConversationID::kGetItem;
+
+	// アイテム選択
+
+}
+
+void SceneMain::EndTalk()
+{
+	// 会話状態を解除する
+	m_pPlayer->SetIsNowTalk(false);
+	m_talkSelect = TalkSelect::kBattle;
+	m_isTalking = false;
+}
+
+void SceneMain::DrawTalk()
+{
+	// 話すUI表示
+	if (m_pPlayer->GetIsTalk())
+	{
+		m_pUiMain->DrawNpcUi(m_pNpc->GetPos());
+	}
+
+	// 会話中
+	if (m_pPlayer->GetIsNowTalk())
+	{
+		m_pUiMain->DrawTalk(*m_pPlayer, m_nowTalkId, kClearEnemyNum);	// 会話画面
+
+		if (!m_isDispTalkSelect) return;
+		m_pUiMain->DrawTalkSelectBg(); // 選択肢の背景
+		m_pUi->DrawCursor(kCursorId, m_talkSelect, kTalkSelectCursorInterval);	// 選択カーソル
+		m_pUiMain->DrawTalkSelectText(); // 選択肢
 	}
 }
 
