@@ -192,7 +192,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	// バトル中は会話できないようにする
 	if (m_pPlayer->GetIsBattle()) m_pPlayer->SetIsTalk(false);
 
-	UpdateStaging(); // 演出の更新
+	UpdateBattle(); // バトルの更新
 	EffectManager::GetInstance().Update(); 	// エフェクトの更新
 	UpdateSound();				// サウンド更新
 	CheckEventTrigger(input);	// イベントトリガーのチェック
@@ -391,7 +391,7 @@ void SceneMain::InitAfterLoading()
 	m_pItem->Init();
 }
 
-void SceneMain::UpdateStaging()
+void SceneMain::UpdateBattle()
 {
 	// 会話中は敵を更新しない
 	if (m_pPlayer->GetIsNowTalk()) return;
@@ -432,6 +432,8 @@ void SceneMain::UpdateStaging()
 
 void SceneMain::UpdateBattleStartStaging()
 {
+	if (m_battleEndStagingTime) return;
+
 	// プレイヤーがバトル状態の場合
 	if (m_pPlayer->GetIsBattle())
 	{
@@ -600,6 +602,7 @@ void SceneMain::CreateEnemy()
 
 void SceneMain::CreateTutoEnemy()
 {
+	m_currentEnemyNum = 1;
 	m_isTutorial = true;
 	m_pPlayer->SetIsBattle(true);
 
@@ -621,6 +624,8 @@ void SceneMain::CreateBossEnemy()
 {
 	// 敵がいる場合は削除する
 	m_pEnemy.clear();
+
+	m_currentEnemyNum = 1;
 
 	// ラスボス用の敵を生成する
 	int enemyIndex = CharacterBase::CharaType::kEnemy_boss;

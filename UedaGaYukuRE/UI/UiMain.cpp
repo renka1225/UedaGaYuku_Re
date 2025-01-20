@@ -117,7 +117,7 @@ namespace
 	/*バトル*/
 	constexpr float kDispBattleTextMinScale = 1.0f;		 // バトル演出テキストの最小サイズ
 	constexpr float kDispBattleTextMaxScale = 15.0f;	 // バトル演出テキストの最大サイズ
-	constexpr float kDispBattleStartChangeScale = 0.6f;	 // 表示する敵種類のサイズ変化量
+	constexpr float kDispBattleStartChangeScale = 0.8f;	 // 表示する敵種類のサイズ変化量
 	const Vec2 kDispBattleStartPos = { 950.0f, 700.0f }; // 敵種類表示位置
 
 	const Vec2 kBattleEndBgPos = { 200, 0 };		// バトル終了時の背景位置

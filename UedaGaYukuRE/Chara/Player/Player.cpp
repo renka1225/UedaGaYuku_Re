@@ -24,12 +24,16 @@ namespace
 
 	constexpr float kScale = 0.14f;				// モデルの拡大率
 	constexpr float kRangeFoundEnemy = 50.0f;	// 敵を認識する範囲
+	constexpr float kRangeSpecial = 30.0f;		// 必殺技を出せる範囲
 	constexpr float kDistWeaponGrab = 20.0f;	// 武器を掴める距離
 	constexpr float kMoveAttack = 0.3f;			// 攻撃時の移動量
 
 	constexpr int kMaxPossession = 12;			// アイテムの最大所持数
 	constexpr int kMoneyIncrement = 100;		// 一度に増える所持金数
-	constexpr float kMaxRecoveryRate = 10.0f;	// 最大の回復割合
+
+	constexpr float kMaxRecoveryRate = 10.0f;			// 最大の回復割合
+	constexpr float kDecreaseMinSpecialGauge = 2.0f;    // ダメージを受けた際に減るゲージの最小量
+	constexpr float kDecreaseMaxSpecialGauge = 8.0f;   // ダメージを受けた際に減るゲージの最大量
 
 	constexpr float kBattleStartRange = 200.0f;	// バトルが始まる範囲
 	constexpr int kBattleStartTime = 50;		// バトルが開始するまでの時間
@@ -174,6 +178,10 @@ void Player::OnDamage(float damage)
 {
 	CharacterBase::OnDamage(damage);
 	m_pUiBar->SetPlayerDamage(damage);
+
+	// 減らすゲージ量
+	float decreaseGauge = GetRand((kDecreaseMaxSpecialGauge - kDecreaseMinSpecialGauge)) + kDecreaseMinSpecialGauge;
+	UpdateGauge(decreaseGauge);
 }
 
 void Player::AdjPosAttack()
@@ -300,6 +308,13 @@ void Player::RecoveryHpGauge(float hpRecoveryRate, float gaugeRecoveryRate)
 	m_gauge = std::min(m_gauge, m_status.maxGauge);
 }
 
+void Player::UpdateGauge(float changeAmount)
+{
+	m_gauge += changeAmount;
+	m_gauge = std::min(m_gauge, m_status.maxGauge);
+	m_gauge = std::max(0.0f, m_gauge);
+}
+
 void Player::AtkUp(float atkUpRate, int effectTime)
 {
 	m_itemEffectTime = effectTime;
@@ -411,16 +426,22 @@ void Player::UpdateEnemyInfo(std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 		// プレイヤーから敵の位置ベクトルを計算する
 		m_pToEVec[i] = VSub(pEnemy[i]->GetPos(), m_pos);
 
-		// 敵が範囲内にいる場合
-		if (VSize(m_pToEVec[i]) <= 30.0f)
-		{
-			m_isSpecial = true;
-		}
-
 		// 敵との当たり判定をチェックする
 		pEnemy[i]->CheckCharaCol(*this, m_colData[CharaType::kPlayer], pEnemy[i]->GetEnemyIndex());
 
 		UpdateBattle(i); // バトル状態を更新する
+
+		// 敵が範囲内にいる場合
+		if (VSize(m_pToEVec[i]) <= kRangeSpecial)
+		{
+			// チュートリアル前は必殺技を出せないようにする
+			if (m_tutorial.currentNum < TutorialNum::kTuto_4) return;
+
+			// ゲージが溜まっていない場合飛ばす
+			if (m_gauge < GetStatus().maxGauge) break;
+
+			m_isSpecial = true; // 必殺技を出せるようにする
+		}
 	}
 }
 

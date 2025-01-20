@@ -76,9 +76,9 @@ private:
 	void InitAfterLoading();
 
 	/// <summary>
-	/// 演出の更新を行う
+	/// バトルの更新を行う
 	/// </summary>
-	void UpdateStaging();
+	void UpdateBattle();
 
 	/// <summary>
 	/// バトル開始演出の更新を行う

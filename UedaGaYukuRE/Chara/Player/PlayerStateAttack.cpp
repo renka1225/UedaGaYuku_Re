@@ -9,7 +9,9 @@
 
 namespace
 {
-    constexpr float kSpecialAtkPower = 1.5f; // 必殺技の攻撃力
+    constexpr float kSpecialAtkPower = 1.3f;    // 必殺技の攻撃力
+    constexpr float kMinSpecialGauge = 3.0f;    // 攻撃時に溜まるゲージ最小量
+    constexpr float kMaxSpecialGauge = 10.0f;   // 攻撃時に溜まるゲージ最大量
 }
 
 PlayerStateAttack::PlayerStateAttack(const std::shared_ptr<Player>& pPlayer):
@@ -64,9 +66,10 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             if (isHitKickCol)
             {
                 Sound::GetInstance().PlaySe(SoundName::kSe_attack);
+      
+                enemy->SetIsPossibleMove(false); // 敵が動かないようにする
                 enemy->OnDamage(GetAttackPower());
-                // 敵が動かないようにする
-                enemy->SetIsPossibleMove(false);
+                m_pPlayer->UpdateGauge(GetAddGauge());
             }
         }
 
@@ -83,12 +86,10 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             {
                 Sound::GetInstance().PlayBackSe(SoundName::kSe_attack);
 
-                // 片手武器、両手武器によって攻撃力変える
+                enemy->SetIsInvincible(true);  // 敵を無敵状態にする
                 enemy->OnDamage(GetAttackPower());
+                m_pPlayer->UpdateGauge(GetAddGauge());
                 weapon.DecrementDurability();
-
-                // 敵を無敵状態にする
-                enemy->SetIsInvincible(true);
             }
         }
 
@@ -102,9 +103,11 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             if (isHitPunchCol)
             {
                 Sound::GetInstance().PlayBackSe(SoundName::kSe_attack);
+
+                enemy->SetIsInvincible(true); // 敵を無敵状態にする
                 enemy->OnDamage(GetAttackPower());
-                // 敵を無敵状態にする
-                enemy->SetIsInvincible(true);
+                m_pPlayer->UpdateGauge(GetAddGauge());
+             
             }
         }
         // キック攻撃
@@ -115,9 +118,10 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             if (isHitKickCol)
             {
                 Sound::GetInstance().PlayBackSe(SoundName::kSe_attack);
+
+                enemy->SetIsInvincible(true); // 敵を無敵状態にする
                 enemy->OnDamage(GetAttackPower());
-                // 敵を無敵状態にする
-                enemy->SetIsInvincible(true);
+                m_pPlayer->UpdateGauge(GetAddGauge());
             }
         }
     }
@@ -184,6 +188,13 @@ float PlayerStateAttack::GetAttackPower()
     if (m_attackKind == AnimName::kTwoHandWeapon)  return status.atkPowerTwoHandWeapon;
 
     return 0.0f;
+}
+
+float PlayerStateAttack::GetAddGauge()
+{
+    // ゲージを増やす
+    float addGauge = GetRand((kMaxSpecialGauge - kMinSpecialGauge)) + kMinSpecialGauge;
+    return addGauge;
 }
 
 #ifdef _DEBUG

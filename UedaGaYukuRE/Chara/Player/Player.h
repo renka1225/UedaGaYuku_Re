@@ -186,6 +186,12 @@ public:
 	void RecoveryHpGauge(float hpRecoveryRate, float gaugeRecoveryRate);
 
 	/// <summary>
+	/// 必殺技ゲージの更新を行う
+	/// </summary>
+	/// <param name="changeAmount">変化量</param>
+	void UpdateGauge(float changeAmount);
+
+	/// <summary>
 	/// 攻撃力アップ処理
 	/// </summary>
 	/// <param name="atkUpRate">攻撃力アップの割合</param>

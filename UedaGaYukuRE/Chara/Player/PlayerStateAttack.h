@@ -74,6 +74,12 @@ private:
 	/// <returns>攻撃力</returns>
 	float GetAttackPower();
 
+	/// <summary>
+	/// プレイヤーの追加ゲージ量を取得する
+	/// </summary>
+	/// <returns>追加ゲージ量</returns>
+	float GetAddGauge();
+
 private:
 	std::string m_attackKind;	// 入力された攻撃の種類
 	bool m_isAttackEnd;			// 攻撃が終わったかどうか

@@ -48,6 +48,7 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	if (m_pPlayer->GetHp() <= 0.0f)
 	{
 		ChangeStateDeath();
+		return;
 	}
 
 	// 移動できない場合
@@ -79,13 +80,23 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 		return;
 	}
 
-	// ゲージが最大まで溜まっているか
-	bool isSpecial = m_pPlayer->GetGauge() >= m_pPlayer->GetStatus().maxGauge;
-
 	// 掴みのボタンが押された場合
 	if (input.IsTriggered(InputId::kGrab))
 	{
 		ChangeStateGrab(weapon);
+	}
+
+	// 必殺技のボタンが押された場合
+	if (input.IsTriggered(InputId::kSpecial))
+	{
+		// ゲージが最大であれば必殺技を発動する
+		if (m_pPlayer->GetIsSpecial())
+		{
+			ChangeStateSpecialAttack();
+
+			// ゲージを減らす
+			m_pPlayer->SetGauge(0.0f);
+		}
 		return;
 	}
 
@@ -106,19 +117,6 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 	if (input.IsTriggered(InputId::kAvoid))
 	{
 		ChangeStateAvoid();
-		return;
-	}
-	// 必殺技のボタンが押された場合
-	if (input.IsTriggered(InputId::kSpecial))
-	{
-		// 条件を満たしていれば必殺技を発動する
-		if (isSpecial && m_pPlayer->GetIsSpecial())
-		{
-			ChangeStateSpecialAttack();
-
-			// ゲージを減らす
-			m_pPlayer->SetGauge(0.0f);
-		}
 		return;
 	}
 }
