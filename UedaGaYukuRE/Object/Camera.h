@@ -35,13 +35,6 @@ public:
 	void Update(Input& input, const Player& pPlayer, const Stage& pStage);
 
 	/// <summary>
-	/// カメラ情報をセットする
-	/// </summary>
-	/// <param name="pos">カメラ位置</param>
-	/// <param name="target">注視点</param>
-	void SetCameraInfo(VECTOR pos, VECTOR target);
-
-	/// <summary>
 	/// カメラの角度を取得
 	/// </summary>
 	/// <returns>カメラ角度</returns>

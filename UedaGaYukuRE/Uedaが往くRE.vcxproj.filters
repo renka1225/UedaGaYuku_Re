@@ -225,6 +225,9 @@
     <ClCompile Include="Util\ConversionTime.cpp">
       <Filter>ソース ファイル\Util</Filter>
     </ClCompile>
+    <ClCompile Include="Chara\PlayerSelect.cpp">
+      <Filter>ソース ファイル\Chara</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\SceneManager.h">
@@ -394,6 +397,9 @@
     </ClInclude>
     <ClInclude Include="Util\ConversionTime.h">
       <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\PlayerSelect.h">
+      <Filter>ヘッダー ファイル\Chara</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

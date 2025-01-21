@@ -74,13 +74,6 @@ void Camera::Update(Input& input, const Player& pPlayer, const Stage& pStage)
 	SetLightDirectionHandle(m_lightHandle, VNorm(VSub(m_target, m_pos)));
 }
 
-void Camera::SetCameraInfo(VECTOR pos, VECTOR target)
-{
-	m_pos = pos;
-	SetCameraScreenCenter(0.0f, 0.0f);
-	SetCameraPositionAndTarget_UpVecY(m_pos, target);
-}
-
 void Camera::UpdateAngle()
 {
 	// 左入力

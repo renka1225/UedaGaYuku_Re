@@ -7,6 +7,7 @@
 #include "LoadCsv.h"
 #include "SaveData.h"
 #include "Camera.h"
+#include "PlayerSelect.h"
 #include "SceneTitle.h"
 #include "SceneMain.h"
 #include "SceneOption.h"
@@ -29,6 +30,7 @@ namespace
 	enum Handle
 	{
 		kSelectBg,		// 背景
+		kSelectBgUnder,	// 背景の下部分
 		kSaveBg,		// セーブ画面の背景
 		kSelectText,	// テキスト
 		kNum			// ハンドルの数
@@ -38,6 +40,7 @@ namespace
 	const char* kHandlePath[Handle::kNum]
 	{
 		"data/ui/select/bg.png",
+		"data/ui/select/bg_under.png",
 		"data/ui/select/save.png",
 		"data/ui/select/text.png"
 	};
@@ -51,19 +54,20 @@ namespace
 		{SelectScene::kGameEnd, "end"},
 	};
 
-	constexpr float kCameraHeight = 30.0f;		// カメラの高さ
-	const VECTOR kCameraPos = VGet(0.0f, 70.0f, -200.0f); // カメラの位置
-	const VECTOR kPlayerPos = VGet(100.0f, 0.0f, 0.0f); // プレイヤーの位置
+	/*カメラ*/
+	constexpr float kCameraHeight = 50.0f;		// カメラの注視点
+	const VECTOR kCameraPos = VGet(0.0f, 70.0f, -180.0f);	// カメラ位置
+	const VECTOR kCameraTarget = VGet(0.0f, 40.0f, 100.0f);	// カメラの視線方向
 
-	const char* const kPlayerModelPath = "data/model/chara/player_select.mv1"; // プレイヤーのモデルパス
-	constexpr float kPlayerModelScale = 0.6f;		// モデルの拡大率
-
+	/*カーソル*/
 	const std::string kCursorId = "cursor_select";	// カーソルのID
 	constexpr float kCursorInterval = 115.0f;		// カーソルの表示間隔
 	
+	/*UI*/
 	const std::string kExplainId = "EXPLAIN_SELECT_";	 // 選択中テキストの説明ID
 	const Vec2 kDispTextPos = { 156.0f, 210.0f };		 // テキスト表示位置
 	const Vec2 kDispExplainTextPos = { 100.0f, 830.0f }; // 説明テキスト表示位置
+	const Vec2 kDispBgUnderPos  = { 0.0f, 997.0f };		 // 背景下部分表示位置
 
 	const Vec2 kDispSavePos = { 259.0f, 115.0f };		 // セーブ画面表示位置
 	const Vec2 kDispSaveCursorPos = { 442.0f, 265.0f };  // セーブ画面のカーソル表示位置
@@ -83,12 +87,11 @@ SceneSelect::SceneSelect():
 
 	Sound::GetInstance().PlayBgm(SoundName::kBgm_select);
 
-	// カメラ
 	m_pCamera = std::make_shared<Camera>();
+	m_pPlayer = std::make_shared<PlayerSelect>();
 
-	// カメラの注視点を設定する
-	VECTOR target = VAdd(kPlayerPos, VGet(0.0f, kCameraHeight, 0.0f));
-	m_pCamera->SetCameraInfo(kCameraPos, target);
+	// カメラ位置設定
+	SetCameraPositionAndTarget_UpVecY(kCameraPos, kCameraTarget);
 
 	// モデル読み込み
 	m_handle.resize(Handle::kNum);
@@ -97,9 +100,6 @@ SceneSelect::SceneSelect():
 		m_handle[i] = LoadGraph(kHandlePath[i]);
 	}
 
-	m_playerModelHandle = MV1LoadModel(kPlayerModelPath);
-	MV1SetScale(m_playerModelHandle, VGet(kPlayerModelScale, kPlayerModelScale, kPlayerModelScale));
-	MV1SetPosition(m_playerModelHandle, kPlayerPos);
 }
 
 SceneSelect::~SceneSelect()
@@ -108,13 +108,15 @@ SceneSelect::~SceneSelect()
 	{
 		DeleteGraph(handle);
 	}
-	MV1DeleteModel(m_playerModelHandle);
 }
 
 std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 {
 	FadeOut(kFadeFrame); // フェードアウト
 	if (m_isFadeOut) return shared_from_this(); // フェードアウト中は操作できないようにする
+
+	// プレイヤー更新
+	m_pPlayer->Update();
 
 	// セーブデータ選択中
 	if (m_isDispSaveData)
@@ -150,8 +152,15 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 	}
 	else
 	{
+		// 選択状態を更新
 		UpdateSelect(input, SelectScene::kSelectNum);
 		m_pUi->UpdateCursor(kCursorId);
+
+		// アニメーションを更新
+		if (input.IsTriggered(InputId::kDown) || input.IsTriggered(InputId::kUp))
+		{
+			ChangeAnim();
+		}
 	}
 
 	// 遷移
@@ -187,7 +196,19 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 
 void SceneSelect::Draw()
 {
-	DrawGraph(0, 0, m_handle[Handle::kSelectBg], true);		 // 背景表示
+	DrawGraph(0, 0, m_handle[Handle::kSelectBg], true);	 // 背景表示
+
+	if (m_select == SelectScene::kCopyright)
+	{
+		DrawCopyright(); // 権利表記を表示する
+	}
+	else
+	{
+		m_pPlayer->Draw(); // プレイヤー表示
+	}
+
+	DrawGraphF(kDispBgUnderPos.x, kDispBgUnderPos.y, m_handle[Handle::kSelectBgUnder], true); // 背景下部分表示
+
 	m_pUi->DrawCursor(kCursorId, m_select, kCursorInterval); // カーソル表示
 	DrawGraphF(kDispTextPos.x, kDispTextPos.y, m_handle[Handle::kSelectText], true); // テキスト表示
 	DrawExplain();
@@ -204,20 +225,10 @@ void SceneSelect::Draw()
 	DrawSceneText("MSG_DEBUG_SELECT"); // シーン名表示
 #endif
 
-	// 権利表記を表示する
-	if (m_select == SelectScene::kCopyright)
-	{
-		DrawCopyright();
-	}
-	else
-	{
-		MV1DrawModel(m_playerModelHandle); // プレイヤー表示
-	}
-
 	printfDx("X:%.2f,Y:%.2f,Z:%.2f\n", m_pCamera->GetPos().x, m_pCamera->GetPos().y, m_pCamera->GetPos().z);
 }
 
-void SceneSelect::UpdateAnim()
+void SceneSelect::ChangeAnim()
 {
 	if (m_select == SelectScene::kContinue)
 	{
@@ -236,10 +247,10 @@ void SceneSelect::UpdateAnim()
 		m_playAnimName = kPlayAnimName.at(SelectScene::kGameEnd);
 	}
 
+	// プレイヤー位置更新
+	m_pPlayer->ChangePos(m_select);
 	// アニメーション再生
-	int animIndex = MV1GetAnimIndex(m_playerModelHandle, m_playAnimName.c_str());
-	MV1AttachAnim(m_playerModelHandle, animIndex);
-
+	m_pPlayer->ChangeAnim(m_playAnimName);
 }
 
 void SceneSelect::DrawSaveData()

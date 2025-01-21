@@ -2,6 +2,7 @@
 #include "SceneBase.h"
 
 class Camera;
+class PlayerSelect;
 
 /// <summary>
 /// セレクト画面
@@ -40,7 +41,7 @@ private:
 	/// <summary>
 	/// アニメーション更新
 	/// </summary>
-	void UpdateAnim();
+	void ChangeAnim();
 
 	/// <summary>
 	/// セーブデータの表示
@@ -58,10 +59,10 @@ private:
 	void DrawExplain();
 
 private:
-	std::shared_ptr<Camera> m_pCamera;	// カメラのポインタ
+	std::shared_ptr<Camera> m_pCamera;			// カメラのポインタ
+	std::shared_ptr<PlayerSelect> m_pPlayer;	// カメラのポインタ
 
 	std::string m_playAnimName;		// 再生するアニメーション名
-	int m_playerModelHandle;		// プレイヤーの3Dモデル
 
 	bool m_isDispSaveData;	// セーブデータを表示中かどうか(true:表示中)
 };
