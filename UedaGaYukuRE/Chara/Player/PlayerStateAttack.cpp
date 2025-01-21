@@ -9,7 +9,8 @@
 
 namespace
 {
-    constexpr float kSpecialAtkPower = 1.3f;    // 必殺技の攻撃力
+    constexpr float kSpecialRange = 50.0f;		// 必殺技が当たる範囲
+    constexpr float kSpecialAtkPower = 1.2f;    // 必殺技の攻撃力
     constexpr float kMinSpecialGauge = 3.0f;    // 攻撃時に溜まるゲージ最小量
     constexpr float kMaxSpecialGauge = 10.0f;   // 攻撃時に溜まるゲージ最大量
 }
@@ -60,21 +61,22 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
     for (auto& enemy : pEnemy)
     {
         // 必殺技発動中
-        if (m_attackKind == AnimName::kKickHeat)
+        if (m_attackKind == AnimName::kSpecialAtk1 || m_attackKind == AnimName::kSpecialAtk2)
         {
-            bool isHitKickCol = enemy->CheckHitKickCol(m_pPlayer->GetCol(CharacterBase::CharaType::kPlayer), enemy->GetEnemyIndex());
-            if (isHitKickCol)
-            {
-                Sound::GetInstance().PlaySe(SoundName::kSe_attack);
-      
-                enemy->SetIsPossibleMove(false); // 敵が動かないようにする
-                enemy->OnDamage(GetAttackPower());
-                m_pPlayer->UpdateGauge(GetAddGauge());
-            }
+            Sound::GetInstance().PlaySe(SoundName::kSe_attack);
+
+            enemy->SetIsPossibleMove(false); // 敵が動かないようにする
+
+            // プレイヤーと敵の範囲を求める
+            float range = VSize(VSub(m_pPlayer->GetPos(), enemy->GetPos()));
+
+            // 範囲内の敵全員にダメージ
+            if (range > kSpecialRange) break;
+            enemy->OnDamage(GetAttackPower());
         }
 
         // 特定の状態の場合はスキップする
-        bool isSkip = enemy == nullptr || enemy->GetIsInvincible() || m_attackKind == AnimName::kKickHeat;
+        bool isSkip = enemy == nullptr || enemy->GetIsInvincible() || m_attackKind == AnimName::kSpecialAtk1 || m_attackKind == AnimName::kSpecialAtk2;
         if (isSkip) continue;
 
         // 武器掴み中の場合
@@ -133,6 +135,8 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
     // パンチコマンドが入力されている場合
     if (m_pPlayer->CheckCommand({ InputId::kPunch, InputId::kPunch }, m_pPlayer->GetInputLog()))
     {
+        if (m_attackKind == AnimName::kKick)  return;
+
         // 2コンボ目に移行する
         if (m_attackKind == AnimName::kPunch1)
         {
@@ -167,7 +171,8 @@ float PlayerStateAttack::GetAnimEndTime()
     if (m_attackKind == AnimName::kPunch2) return m_pPlayer->GetAnimTotalTime(AnimName::kPunch2);
     if (m_attackKind == AnimName::kPunch3) return m_pPlayer->GetAnimTotalTime(AnimName::kPunch3);
     if (m_attackKind == AnimName::kKick) return m_pPlayer->GetAnimTotalTime(AnimName::kKick);
-    if (m_attackKind == AnimName::kKickHeat) return m_pPlayer->GetAnimTotalTime(AnimName::kKickHeat);
+    if (m_attackKind == AnimName::kSpecialAtk1) return m_pPlayer->GetAnimTotalTime(AnimName::kSpecialAtk1);
+    if (m_attackKind == AnimName::kSpecialAtk2) return m_pPlayer->GetAnimTotalTime(AnimName::kSpecialAtk2);
     if (m_attackKind == AnimName::kOneHandWeapon) return m_pPlayer->GetAnimTotalTime(AnimName::kOneHandWeapon);
     if (m_attackKind == AnimName::kTwoHandWeapon) return m_pPlayer->GetAnimTotalTime(AnimName::kTwoHandWeapon);
 
@@ -183,7 +188,8 @@ float PlayerStateAttack::GetAttackPower()
     if (m_attackKind == AnimName::kPunch2) return status.atkPowerPunch2;
     if (m_attackKind == AnimName::kPunch3) return status.atkPowerPunch3;
     if (m_attackKind == AnimName::kKick)  return status.atkPowerKick;
-    if (m_attackKind == AnimName::kKickHeat)  return status.atkPowerKick * kSpecialAtkPower;
+    if (m_attackKind == AnimName::kSpecialAtk1)  return status.atkPowerKick * kSpecialAtkPower;
+    if (m_attackKind == AnimName::kSpecialAtk2)  return status.atkPowerKick * kSpecialAtkPower;
     if (m_attackKind == AnimName::kOneHandWeapon)  return status.atkPowerOneHandWeapon;
     if (m_attackKind == AnimName::kTwoHandWeapon)  return status.atkPowerTwoHandWeapon;
 
@@ -204,7 +210,8 @@ std::string PlayerStateAttack::GetStateName()
     if (m_attackKind == AnimName::kPunch2) return "パンチ2中";
     if (m_attackKind == AnimName::kPunch3) return "パンチ3中";
     if (m_attackKind == AnimName::kKick)  return "キック中";
-    if (m_attackKind == AnimName::kKickHeat)  return "必殺技発動中";
+    if (m_attackKind == AnimName::kSpecialAtk1)  return "必殺技1発動中";
+    if (m_attackKind == AnimName::kSpecialAtk2)  return "必殺技2発動中";
     if (m_attackKind == AnimName::kOneHandWeapon)  return "片手武器攻撃中";
     if (m_attackKind == AnimName::kTwoHandWeapon)  return "両手武器攻撃中";
 

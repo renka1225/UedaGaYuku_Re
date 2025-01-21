@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "SceneBase.h"
 
+class Camera;
+
 /// <summary>
 /// セレクト画面
 /// </summary>
@@ -36,6 +38,11 @@ public:
 
 private:
 	/// <summary>
+	/// アニメーション更新
+	/// </summary>
+	void UpdateAnim();
+
+	/// <summary>
 	/// セーブデータの表示
 	/// </summary>
 	void DrawSaveData();
@@ -51,7 +58,11 @@ private:
 	void DrawExplain();
 
 private:
+	std::shared_ptr<Camera> m_pCamera;	// カメラのポインタ
+
+	std::string m_playAnimName;		// 再生するアニメーション名
+	int m_playerModelHandle;		// プレイヤーの3Dモデル
+
 	bool m_isDispSaveData;	// セーブデータを表示中かどうか(true:表示中)
-	bool m_isDispCopyright; // 権利表記の表示中かどうか(true:表示中)
 };
 

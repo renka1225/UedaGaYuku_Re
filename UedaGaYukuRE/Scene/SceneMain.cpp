@@ -32,13 +32,16 @@ namespace
 	const std::string kPlayerHandlePath = kHandlePath + "player.mv1"; // プレイヤーのモデルハンドルパス
 	const std::string kEnemyHandlePath = kHandlePath + "enemy_";	  // 敵のモデルハンドルパス
 
-	constexpr int kModelNum = 5;			// 読み込むモデルの数
+	constexpr int kModelNum = 7;			// 読み込むモデルの数
+	constexpr int kMobEnemyNum = 3;			// 読み込むモブ敵の数
+
 	constexpr int kEnemyMaxNum = 3;			// 1度に出現する最大の敵数
 	constexpr int kEnemyKindNum = 3;		// 敵の種類
 	constexpr int kEnemyNamekind = 31;		// 敵名の種類
 	constexpr int kClearEnemyNum = 1;		// クリア条件
 
-	constexpr int kFirstSpawnTime = 300;	// ゲーム開始からチュートリアルが始まるまでの時間
+	constexpr int kLoadingTime = 350;			// ロード時間
+	constexpr int kFirstSpawnTime = 300;		// ゲーム開始からチュートリアルが始まるまでの時間
 	constexpr int kEnemySpawnMinTime = 400;		// 敵がスポーンするまでの最小時間
 	constexpr int kEnemySpawnMaxTime = 1800;	// 敵がスポーンするまでの最大時間
 	constexpr float kEnemyExtinctionDist = 2500.0f;	// 敵が消滅する範囲
@@ -66,6 +69,7 @@ SceneMain::SceneMain() :
 	m_battleStartStagingTime(0),
 	m_battleEndStagingTime(0),
 	m_endingTime(0),
+	m_loadingTime(0),
 	m_nowTalkId(""),
 	m_talkSelect(TalkSelect::kBattle),
 	m_isTalking(false),
@@ -100,6 +104,10 @@ SceneMain::~SceneMain()
 	for (auto& handle : m_handle)
 	{
 		DeleteGraph(handle);
+	}
+	for (auto& handle : m_modelHandle)
+	{
+		MV1DeleteModel(handle);
 	}
 
 	DeleteShadowMap(m_shadowMap); // シャドウマップの削除
@@ -338,18 +346,17 @@ void SceneMain::LoadModelHandle()
 	for (int i = 0; i < m_pEnemy.size(); i++)
 	{
 		// 2桁にそろえる
-		char enemyId[3];
+		char enemyId[kMobEnemyNum];
 		sprintf_s(enemyId, "%02d", (i + 1));
 		m_modelHandle[(i + 1)] = MV1LoadModel((kEnemyHandlePath + std::string(enemyId) + ".mv1").c_str());
 	}
 
-	// チュートリアル敵
-	m_modelHandle[CharacterBase::CharaType::kEnemy_tuto] = MV1LoadModel((kEnemyHandlePath + "tuto.mv1").c_str());
 	// ラスボス
 	m_modelHandle[CharacterBase::CharaType::kEnemy_boss] = MV1LoadModel((kEnemyHandlePath + "boss.mv1").c_str());
+	// チュートリアル敵
+	m_modelHandle[CharacterBase::CharaType::kEnemy_tuto] = MV1LoadModel((kEnemyHandlePath + "tuto.mv1").c_str());
 	// NPC
 	m_modelHandle[CharacterBase::CharaType::kNpc] = MV1LoadModel((kHandlePath + "npc.mv1").c_str());
-
 }
 
 void SceneMain::Loading()
@@ -360,6 +367,11 @@ void SceneMain::Loading()
 	// すべての読み込みが終了した場合
 	if (aSyncLoadNum == 0)
 	{
+		m_loadingTime++;
+
+		// 一定時間経過したら読み込みを終了する
+		if (m_loadingTime < kLoadingTime) return;
+
 		// 同期読み込み設定に変更
 		SetUseASyncLoadFlag(false);
 		m_isLoading = false;
@@ -845,9 +857,15 @@ void SceneMain::UpdateTalk(const Input& input)
 		m_pUi->UpdateCursor(kCursorId);
 	}
 
+	if (input.IsTriggered(InputId::kBack))
+	{
+		EndTalk();
+		return;
+	}
+
 	if (m_isTalking)
 	{
-		if (input.IsTriggered(InputId::kOk) || input.IsTriggered(InputId::kBack))
+		if (input.IsTriggered(InputId::kOk))
 		{
 			EndTalk();
 			return;

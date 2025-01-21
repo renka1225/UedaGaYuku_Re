@@ -156,10 +156,12 @@ Input::Input()
 								{InputType::pad, PAD_INPUT_10} };
 
 	/*デバッグ機能*/
+	m_commandTable[InputId::kDebugAddMoney] = { {InputType::keybd, KEY_INPUT_4},
+								{InputType::pad, PAD_INPUT_Z} };
 	m_commandTable[InputId::kDebugDamage] = { {InputType::keybd, KEY_INPUT_SPACE},
 								{InputType::pad, PAD_INPUT_11} };
 	m_commandTable[InputId::kDebugSpawn] = { {InputType::keybd, KEY_INPUT_LSHIFT},
-								{InputType::pad, PAD_INPUT_Z} };
+								{InputType::pad, PAD_INPUT_11} };
 	m_commandTable[InputId::kDebugEnding] = { {InputType::keybd, KEY_INPUT_1},
 								{InputType::pad, PAD_INPUT_11} };
 	m_commandTable[InputId::kDebugClear] = { {InputType::keybd, KEY_INPUT_2},

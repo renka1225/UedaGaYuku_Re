@@ -41,6 +41,7 @@ namespace InputId
 	const char* const kRotateU = "rotateU";
 	const char* const kRotateD = "rotateD";
 
+	const char* const kDebugAddMoney = "debug_addMoney";
 	const char* const kDebugDamage = "debug_damage";
 	const char* const kDebugSpawn = "debug_spawn";
 	const char* const kDebugEnding = "debug_ending";

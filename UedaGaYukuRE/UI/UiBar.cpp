@@ -143,9 +143,9 @@ void UiBar::DrawPlayerHpBar(Player& player, float maxHp)
 	// ダメージバーの長さを変える
 	float damageHpRatio = (player.GetHp() + m_playerDamage) / maxHp;
 	float damageHpLength = damageData.width * damageHpRatio;
-	damageHpLength = std::max(damageData.LTposX, damageHpLength);
+	damageHpLength = std::clamp(damageHpLength, 0.0f, damageData.width);
 
-	DrawExtendGraphF(damageData.LTposX, damageData.LTposY, damageHpLength, damageData.RBposY, m_handle[Handle::kPlayerHpDamage], true);
+	DrawExtendGraphF(damageData.LTposX, damageData.LTposY, damageData.LTposX + damageHpLength, damageData.RBposY, m_handle[Handle::kPlayerHpDamage], true);
 
 	/*HPバー*/
 	std::string hpId = kBarID.at("playerHp") + enhanceStep; // 最大HPによってIDを変える
@@ -154,9 +154,9 @@ void UiBar::DrawPlayerHpBar(Player& player, float maxHp)
 	// 現在のHP量に応じてバーの長さを変える
 	float hpRatio = player.GetHp() / maxHp;
 	float hpLength = hpData.width * hpRatio;
-	hpLength = std::max(hpData.LTposX, hpLength);
+	hpLength = std::clamp(hpLength, 0.0f, hpData.width);
 
-	DrawExtendGraphF(hpData.LTposX, hpData.LTposY, hpLength, hpData.RBposY, m_handle[Handle::kPlayerHp], true);
+	DrawExtendGraphF(hpData.LTposX, hpData.LTposY, hpData.LTposX + hpLength, hpData.RBposY, m_handle[Handle::kPlayerHp], true);
 }
 
 void UiBar::DrawPlayerGaugeBar(Player& player, float maxGauge)

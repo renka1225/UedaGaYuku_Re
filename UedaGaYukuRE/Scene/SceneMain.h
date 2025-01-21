@@ -223,11 +223,13 @@ private:
 	int m_talkSelect;			// 会話の選択肢
 
 	int m_currentEnemyNum;			// 現在の敵数
+
 	int m_enemySpawnTime;			// 敵がスポーンするまでの時間
 	int m_battleStartStagingTime;	// バトル開始演出の時間
 	int m_battleEndStagingTime;		// バトル終了演出の時間
 	int m_talkDispTime;				// 会話を表示させる最低限の時間
 	int m_endingTime;				// エンディングの時間
+	int m_loadingTime;				// ロードの最低時間
 
 	bool m_isTalking;			// 会話が進行中かどうか(true:進行中)
 	bool m_isDispTalkSelect;	// 会話の選択肢UIを表示するかどうか(true:表示中)

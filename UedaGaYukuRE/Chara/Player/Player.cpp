@@ -31,9 +31,9 @@ namespace
 	constexpr int kMaxPossession = 12;			// アイテムの最大所持数
 	constexpr int kMoneyIncrement = 100;		// 一度に増える所持金数
 
-	constexpr float kMaxRecoveryRate = 10.0f;			// 最大の回復割合
-	constexpr float kDecreaseMinSpecialGauge = 2.0f;    // ダメージを受けた際に減るゲージの最小量
-	constexpr float kDecreaseMaxSpecialGauge = 8.0f;   // ダメージを受けた際に減るゲージの最大量
+	constexpr float kMaxRecoveryRate = 10.0f;		 // 最大の回復割合
+	constexpr float kDecreaseMinSpecialGauge = 2.0f; // ダメージを受けた際に減るゲージの最小量
+	constexpr float kDecreaseMaxSpecialGauge = 8.0f; // ダメージを受けた際に減るゲージの最大量
 
 	constexpr float kBattleStartRange = 200.0f;	// バトルが始まる範囲
 	constexpr int kBattleStartTime = 50;		// バトルが開始するまでの時間
@@ -150,6 +150,14 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 	GetFramePos();					// モデルフレーム位置を取得
 	UpdateItemInfo();				// アイテム情報を更新
 	UpdateMoney();					// 所持金を更新
+
+#ifdef _DEBUG // デバッグ
+	if (input.IsTriggered(InputId::kDebugAddMoney))
+	{
+		AddMoney(1000); // 所持金を追加
+	}
+#endif
+
 }
 
 void Player::Draw()
@@ -438,7 +446,7 @@ void Player::UpdateEnemyInfo(std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 			if (m_tutorial.currentNum < TutorialNum::kTuto_4) return;
 
 			// ゲージが溜まっていない場合飛ばす
-			if (m_gauge < GetStatus().maxGauge) break;
+			if (m_gauge < GetStatus().maxGauge) return;
 
 			m_isSpecial = true; // 必殺技を出せるようにする
 		}
@@ -580,7 +588,7 @@ bool Player::CheckCommand(const std::vector<std::string>& command, const std::ve
 	// 最新の入力時間
 	int currentTime = inputLog.back().frameCount;
 
-	// MEMO;rbegin()は逆イテレータを返す
+	// MEMO:rbegin()は逆イテレータを返す
 	for (auto it = inputLog.rbegin(); it != inputLog.rend(); it++)
 	{
 		if (it->button == command[index])

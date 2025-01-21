@@ -10,12 +10,12 @@ public:
 	// プレイヤーの攻撃種類
 	enum class PlayerAttackType
 	{
-		kPunch1,		// パンチ1コンボ目
-		kPunch2,		// パンチ2コンボ目
-		kPunch3,		// パンチ3コンボ目
-		kKick,			// キック
-		kHeatKick,		// ヒートアクション
-		kSpecialAttack	// ヒートアクション2
+		kPunch1,	// パンチ1コンボ目
+		kPunch2,	// パンチ2コンボ目
+		kPunch3,	// パンチ3コンボ目
+		kKick,		// キック
+		kHeat1,		// ヒートアクション
+		kHeat2		// ヒートアクション2
 	};
 
 public:

@@ -189,7 +189,11 @@ void PlayerStateBase::ChangeStateSpecialAttack()
 	m_pPlayer->SetIsAttack(true);
 	std::shared_ptr<PlayerStateAttack> state = std::make_shared<PlayerStateAttack>(m_pPlayer);
 	m_nextState = state;
-	state->Init(AnimName::kKickHeat);
+
+	// 必殺技アニメーションをランダムで決める
+	int specialAnimNo = GetRand(1) + 1;
+	std::string specialAnimName = AnimName::kSpecialAtk + std::to_string(specialAnimNo);
+	state->Init(specialAnimName);
 }
 
 void PlayerStateBase::ChangeStateGuard()
