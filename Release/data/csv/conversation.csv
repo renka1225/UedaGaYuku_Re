@@ -1,0 +1,12 @@
+ID,名前,表示する文字
+MSG_TALKSTART,Saionzi,何の用だ？
+MSG_SELECT_1,Saionzi,強い奴と戦いたい
+MSG_SELECT_2,Saionzi,倒した敵の数を知りたい
+MSG_SELECT_3,Saionzi,回復したい
+MSG_SELECT_4,Saionzi,アイテムが欲しい
+MSG_SELECT_5,Saionzi,用はない
+MSG_BATTLE_OK,Saionzi,バトル開始
+MSG_BATTLE_NG,Saionzi,後%d人敵を倒してこい
+MSG_DEADNUM,Saionzi,今%d人倒したぞ
+MSG_RECOVERY,Saionzi,%d円で回復させるぞ
+MSG_GETITEM,Saionzi,どのアイテムが欲しいんだ？

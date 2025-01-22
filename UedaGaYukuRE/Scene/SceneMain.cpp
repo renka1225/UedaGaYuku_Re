@@ -40,7 +40,7 @@ namespace
 	constexpr int kEnemyNamekind = 31;		// 敵名の種類
 	constexpr int kClearEnemyNum = 1;		// クリア条件
 
-	constexpr int kLoadingTime = 350;			// ロード時間
+	constexpr int kLoadingTime = 600;			// ロード時間
 	constexpr int kFirstSpawnTime = 300;		// ゲーム開始からチュートリアルが始まるまでの時間
 	constexpr int kEnemySpawnMinTime = 400;		// 敵がスポーンするまでの最小時間
 	constexpr int kEnemySpawnMaxTime = 1800;	// 敵がスポーンするまでの最大時間

@@ -10,6 +10,18 @@ class PlayerSelect;
 class SceneSelect : public SceneBase
 {
 public:
+	// シーンの種類
+	enum SelectScene
+	{
+		kContinue,	// 続きから
+		kFirst,		// 初めから
+		kOption,	// オプション
+		kCopyright,	// 権利表記
+		kGameEnd,	// ゲーム終了
+		kSelectNum,	// 選択数
+	};
+
+public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -23,7 +35,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Init() override {}
+	virtual void Init() override;
 
 	/// <summary>
 	/// 更新
@@ -62,6 +74,7 @@ private:
 	std::shared_ptr<Camera> m_pCamera;			// カメラのポインタ
 	std::shared_ptr<PlayerSelect> m_pPlayer;	// カメラのポインタ
 
+	float m_copyrightPosX;			// 権利表記のX座標の位置
 	std::string m_playAnimName;		// 再生するアニメーション名
 
 	bool m_isDispSaveData;	// セーブデータを表示中かどうか(true:表示中)

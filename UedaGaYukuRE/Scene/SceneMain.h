@@ -223,7 +223,6 @@ private:
 	int m_talkSelect;			// 会話の選択肢
 
 	int m_currentEnemyNum;			// 現在の敵数
-
 	int m_enemySpawnTime;			// 敵がスポーンするまでの時間
 	int m_battleStartStagingTime;	// バトル開始演出の時間
 	int m_battleEndStagingTime;		// バトル終了演出の時間

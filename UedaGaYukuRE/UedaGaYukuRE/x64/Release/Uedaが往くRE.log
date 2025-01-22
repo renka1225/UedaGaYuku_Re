@@ -1,0 +1,65 @@
+﻿  CharacterBase.cpp
+  PlayerStateAttack.cpp
+  PlayerStateBase.cpp
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\UedaGaYukuRE\Chara\Player\PlayerStateAttack.cpp(202,48): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+  PlayerStateHitAttack.cpp
+  PlayerStateIdle.cpp
+  PlayerStateRun.cpp
+  PlayerStateWalk.cpp
+  EnemyBase.cpp
+  EnemyStateBase.cpp
+  EnemyStateIdle.cpp
+  EnemyStateAttack.cpp
+  EnemyStateDeath.cpp
+  EnemyStateHitAttack.cpp
+  EnemyStateAvoid.cpp
+  EnemyStateGuard.cpp
+  EnemyAI.cpp
+  EnemyStateMove.cpp
+  PlayerStateDeath.cpp
+  Npc.cpp
+  PlayerSelect.cpp
+  コンパイル中...
+  SceneGameover.cpp
+  SceneClear.cpp
+  UiMain.cpp
+  ConversionTime.cpp
+  EventData.cpp
+  Item.cpp
+  ObjectBase.cpp
+  PlayerStateGrab.cpp
+  PlayerStateAvoid.cpp
+  PlayerStateGuard.cpp
+  SaveData.cpp
+  SceneSave.cpp
+  SceneEnhance.cpp
+  SceneUseItem.cpp
+  SceneMenu.cpp
+  UiBar.cpp
+  EffectManager.cpp
+  Font.cpp
+  Sound.cpp
+  UiBase.cpp
+  コンパイル中...
+  LoadCsv.cpp
+  DebugDraw.cpp
+  SceneDebug.cpp
+  main.cpp
+  Player.cpp
+C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\UedaGaYukuRE\Chara\Player\Player.cpp(191,58): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+  SceneSelect.cpp
+  SceneOption.cpp
+  SceneTitle.cpp
+  SceneMain.cpp
+  Stage.cpp
+  Camera.cpp
+  SceneBase.cpp
+  SceneManager.cpp
+  Input.cpp
+  Weapon.cpp
+  コード生成しています。
+  Previous IPDB not found, fall back to full compilation.
+  All 5483 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  コード生成が終了しました。
+EffekseerForDXLib_vs2019_x64.lib(EffekseerForDXLib.obj) : warning LNK4099: PDB '' が 'EffekseerForDXLib_vs2019_x64.lib(EffekseerForDXLib.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+  Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\UedaGaYukuRE\x64\Release\UedaGaYukuRE.exe

@@ -15,17 +15,6 @@
 
 namespace
 {
-	// シーンの種類
-	enum SelectScene
-	{
-		kContinue,	// 続きから
-		kFirst,		// 初めから
-		kOption,	// オプション
-		kCopyright,	// 権利表記
-		kGameEnd,	// ゲーム終了
-		kSelectNum,	// 選択数
-	};
-
 	// 画像の種類
 	enum Handle
 	{
@@ -33,6 +22,7 @@ namespace
 		kSelectBgUnder,	// 背景の下部分
 		kSaveBg,		// セーブ画面の背景
 		kSelectText,	// テキスト
+		kCopyright,		// 権利表記
 		kNum			// ハンドルの数
 	};
 
@@ -42,21 +32,22 @@ namespace
 		"data/ui/select/bg.png",
 		"data/ui/select/bg_under.png",
 		"data/ui/select/save.png",
-		"data/ui/select/text.png"
+		"data/ui/select/text.png",
+		"data/ui/select/copyright.png"
 	};
 
 	// 再生するアニメーション
-	const std::map<SelectScene, std::string> kPlayAnimName
+	const std::map<SceneSelect::SelectScene, std::string> kPlayAnimName
 	{
-		{SelectScene::kContinue, "continue"},
-		{SelectScene::kFirst, "first"},
-		{SelectScene::kOption, "option"},
-		{SelectScene::kGameEnd, "end"},
+		{SceneSelect::SelectScene::kContinue, "continue"},
+		{SceneSelect::SelectScene::kFirst, "first"},
+		{SceneSelect::SelectScene::kOption, "option"},
+		{SceneSelect::SelectScene::kGameEnd, "end"},
 	};
 
 	/*カメラ*/
 	constexpr float kCameraHeight = 50.0f;		// カメラの注視点
-	const VECTOR kCameraPos = VGet(0.0f, 70.0f, -180.0f);	// カメラ位置
+	const VECTOR kCameraPos = VGet(0.0f, 70.0f, -170.0f);	// カメラ位置
 	const VECTOR kCameraTarget = VGet(0.0f, 40.0f, 100.0f);	// カメラの視線方向
 
 	/*カーソル*/
@@ -68,6 +59,8 @@ namespace
 	const Vec2 kDispTextPos = { 156.0f, 210.0f };		 // テキスト表示位置
 	const Vec2 kDispExplainTextPos = { 100.0f, 830.0f }; // 説明テキスト表示位置
 	const Vec2 kDispBgUnderPos  = { 0.0f, 997.0f };		 // 背景下部分表示位置
+	const Vec2 kDispCopyrightPos = { 930.0f, 56.0f };	 // 権利表記表示位置
+	constexpr float kMoveCopyright = 80.0f;				 // 権利表記の移動量
 
 	const Vec2 kDispSavePos = { 259.0f, 115.0f };		 // セーブ画面表示位置
 	const Vec2 kDispSaveCursorPos = { 442.0f, 265.0f };  // セーブ画面のカーソル表示位置
@@ -80,7 +73,8 @@ namespace
 }
 
 SceneSelect::SceneSelect():
-	m_playAnimName(""),
+	m_copyrightPosX(Game::kScreenWidth),
+	m_playAnimName(kPlayAnimName.at(SelectScene::kContinue)),
 	m_isDispSaveData(false)
 {
 	m_fadeAlpha = kStartFadeAlpha;
@@ -108,6 +102,12 @@ SceneSelect::~SceneSelect()
 	{
 		DeleteGraph(handle);
 	}
+}
+
+void SceneSelect::Init()
+{
+	m_pPlayer->Init();
+	ChangeAnim(); 	// アニメーション設定
 }
 
 std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
@@ -160,6 +160,17 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 		if (input.IsTriggered(InputId::kDown) || input.IsTriggered(InputId::kUp))
 		{
 			ChangeAnim();
+		}
+
+		// 権利表記の位置調整
+		if (m_select == SelectScene::kCopyright)
+		{
+			m_copyrightPosX -= kMoveCopyright;
+			m_copyrightPosX = std::max(kDispCopyrightPos.x, m_copyrightPosX);
+		}
+		else
+		{
+			m_copyrightPosX = Game::kScreenWidth;
 		}
 	}
 
@@ -224,8 +235,6 @@ void SceneSelect::Draw()
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_SELECT"); // シーン名表示
 #endif
-
-	printfDx("X:%.2f,Y:%.2f,Z:%.2f\n", m_pCamera->GetPos().x, m_pCamera->GetPos().y, m_pCamera->GetPos().z);
 }
 
 void SceneSelect::ChangeAnim()
@@ -265,7 +274,7 @@ void SceneSelect::DrawSaveData()
 
 void SceneSelect::DrawCopyright()
 {
-	DrawBoxAA(930.0f, 56.0f, 1860.0f, 765.0f, 0x000000, true);
+	DrawGraphF(m_copyrightPosX, kDispCopyrightPos.y, m_handle[Handle::kCopyright], true);
 
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_COPYRIGHT"); // シーン名表示

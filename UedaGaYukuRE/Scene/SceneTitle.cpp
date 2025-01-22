@@ -11,6 +11,7 @@ namespace
 	// 画像の種類
 	enum Handle
 	{
+		kSmoke,		// 煙
 		kBg,		// 背景
 		kLogo,		// ロゴ
 		kLogo_RE,	// ロゴのRE部分
@@ -22,6 +23,7 @@ namespace
 	// 画像のパス
 	const char* kHandlePath[Handle::kNum]
 	{
+		"data/ui/title/smoke.mp4",
 		"data/ui/title/bg.png",
 		"data/ui/title/logo.png",
 		"data/ui/title/logo_RE.png",
@@ -42,9 +44,10 @@ namespace
 	constexpr int kTitleTime = 60;						// タイトルを表示するまでの時間
 	constexpr int kTitle_RETime = 80;					// タイトル(RE)を表示するまでの時間
 	constexpr int kPressTime = 150;						// PRESSを表示するまでの時間
+	constexpr int kMovieLoop = 900;						// 動画のループ時間	
 
 	/*テキスト*/
-	const Vec2 kTextPos = { 500.0f, 850.0f };			// "PRESS ANY BUTTON"のテキスト位置
+	const Vec2 kTextPos = { 500.0f, 820.0f };			// "PRESS ANY BUTTON"のテキスト位置
 	constexpr int kTextDisplayTime = 2;					// テキストを表示する間隔
 	constexpr int kTextDisplayAnimTime = 240;			// テキストアニメーションの時間
 	constexpr int kMaxAlpha = 255;						// 最大アルファ値
@@ -96,9 +99,20 @@ std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
 	if (m_isFadeOut) return shared_from_this(); // フェード中は操作できないようにする
 
 	m_time++; // 経過時間を更新
+
 	UpdatePressText();
 	UpdateLogo();
 	UpdateSound();
+
+	if (m_time >= kTitle_RETime)
+	{
+		// 動画をループで再生する
+		PlayMovieToGraph(m_handle[Handle::kSmoke]);
+		if ((m_time % kMovieLoop) == 0)
+		{
+			SeekMovieToGraph(m_handle[Handle::kSmoke], 0);
+		}
+	}
 
 	if (m_time < kPressTime) return shared_from_this(); // 演出中は操作できないようにする
 
@@ -118,7 +132,18 @@ std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
 /// </summary>
 void SceneTitle::Draw()
 {
-	DrawGraph(0, 0, m_handle[Handle::kBg], true);
+	if (m_time < kTitle_RETime)
+	{
+		DrawGraph(0, 0, m_handle[Handle::kSmoke], true);
+	}
+	else
+	{
+		// 煙表示
+		if (GetMovieStateToGraph(m_handle[Handle::kSmoke]) == 1)
+		{
+			DrawGraph(0, 0, m_handle[Handle::kSmoke], true);
+		}
+	}
 
 	// タイトルロゴ表示
 	DrawRectRotaGraphF(kTitleLogoPos.x, kTitleLogoPos.y, 0, 0, Game::kScreenWidth, Game::kScreenHeight, m_titleLogoScale, m_titleLogoRot, m_handle[Handle::kLogo_back], true);
