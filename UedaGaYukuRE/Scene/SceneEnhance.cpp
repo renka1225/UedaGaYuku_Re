@@ -60,7 +60,7 @@ namespace
 	constexpr int kMinAlpha = 100;			 // 最小アルファ値
 
 	const Vec2 kDispSelectSkillNamePos = { 250.0f, 790.0f };	// 選択中のスキル名表示位置
-	const Vec2 kDispSelectSkillExplainPos = { 450.0f, 900.0f };	// 選択中のスキル詳細表示位置
+	const Vec2 kDispSelectSkillExplainPos = { 450.0f, 880.0f };	// 選択中のスキル詳細表示位置
 	const Vec2 kDispSkillNamePos = { 460.0f, 310.0f };			// スキル名表示位置
 	const Vec2 kDispSkillMoneyPos = { 800.0f, 350.0f };			// 必要金額表示位置
 	constexpr float kDispSkillInterval = 167.0f;				// 表示間隔
@@ -258,10 +258,10 @@ void SceneEnhance::DrawSelectSkill()
 
 	// スキル名表示
 	DrawFormatStringFToHandle(kDispSelectSkillNamePos.x, kDispSelectSkillNamePos.y, Color::kColorW, 
-		Font::m_fontHandle[static_cast<int>(Font::FontId::kEnhance_skillName)], "スキル名:%s", skillName.c_str());
+		Font::m_fontHandle[static_cast<int>(Font::FontId::kEnhance_skillName)], "%s", skillName.c_str());
 	// スキル詳細表示
 	DrawFormatStringFToHandle(kDispSelectSkillExplainPos.x, kDispSelectSkillExplainPos.y, Color::kColorW, 
-		Font::m_fontHandle[static_cast<int>(Font::FontId::kEnhance_skillExplain)], "スキル詳細:%s", skillExplain.c_str());
+		Font::m_fontHandle[static_cast<int>(Font::FontId::kEnhance_skillExplain)], "%s", skillExplain.c_str());
 }
 
 int SceneEnhance::GetSelectSkillStep()

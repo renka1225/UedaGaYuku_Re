@@ -3,6 +3,7 @@
 #include "SceneDebug.h"
 #include "SceneTitle.h"
 #include "Input.h"
+#include "DxLib.h"
 
 SceneManager::SceneManager():
 	m_pScene(nullptr),

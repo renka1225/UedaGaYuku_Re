@@ -12,6 +12,7 @@ namespace
 	constexpr float kFar = 18000.0f;						// カメラの奥クリップ距離
 	constexpr float kDist = 30.0f;							// カメラからプレイヤーまでの距離
 	constexpr float kBattleDist = 40.0f;					// バトル中のカメラからプレイヤーまでの距離
+	constexpr float kRunDist = 45.0f;						// 走り中のカメラからプレイヤーまでの距離
 	constexpr float kDistMoveSpeed = 0.5f;					// カメラ距離の移動速度
 	constexpr float kHeight = 23.0f;						// カメラの注視点
 	constexpr float kAngle = 0.03f;							// カメラを動かす角度
@@ -106,12 +107,19 @@ void Camera::FixCameraPos(const Player& pPlayer)
 	m_rotZ = MGetRotZ(m_angleV);	// 垂直方向の回転
 
 	// プレイヤーがバトル中または走り状態の場合
-	bool isCameraMove = pPlayer.GetIsBattle() || pPlayer.GetCurrentAnim() == AnimName::kRun;
+	bool isCameraMove = pPlayer.GetIsBattle();
+	bool isRun = pPlayer.GetCurrentAnim() == AnimName::kRun;
 	if (isCameraMove)
 	{
 		// カメラを離す
 		m_dist += kDistMoveSpeed;
 		m_dist = std::min(m_dist, kBattleDist);
+	}
+	else if(isRun)
+	{
+		// カメラを離す
+		m_dist += kDistMoveSpeed;
+		m_dist = std::min(m_dist, kRunDist);
 	}
 	else
 	{

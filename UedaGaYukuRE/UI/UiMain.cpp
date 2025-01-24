@@ -208,17 +208,6 @@ void UiMain::DrawBattleEnd(int time)
 	SetDrawBlendMode(DX_BLENDMODE_MULA, kMaxBlend);
 	DrawGraphF(kBattleEndBgPos.x, kBattleEndBgPos.y, m_handle[Handle::kBattle_end], true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-	//if (time < kGekihaDispTime)
-	//{
-	//	// テキストのサイズをだんだん小さくする
-	//	m_dispGekihaTextScale -= kGekihaTextChangeScale;
-	//	m_dispGekihaTextScale = std::max(kDispBattleTextMinScale, m_dispGekihaTextScale);
-
-	//	int sizeW, sizeH;
-	//	GetGraphSize(m_handle[Handle::kBattle_gekiha], &sizeW, &sizeH);
-	//	DrawRectRotaGraphF(kGekihaTextPos.x, kGekihaTextPos.y, 0, 0, sizeW, sizeH, m_dispGekihaTextScale, 0.0f, m_handle[Handle::kBattle_gekiha], true);
-	//}
 }
 
 void UiMain::DrawBattleLose()
@@ -354,6 +343,7 @@ void UiMain::DrawTalk(const Player& pPlayer, std::string id, int clearNum)
 		drawNum = pPlayer.GetDeadEnemyNum();
 	}
 
+	// TODO:1文字ずつ表示する
 	DrawFormatStringFToHandle(kTalkPos.x, kTalkPos.y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kTalk)], drawText.c_str(), drawNum);
 }
 

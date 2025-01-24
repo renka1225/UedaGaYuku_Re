@@ -51,6 +51,7 @@ namespace
 
 Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
 	m_saveStatus(m_status),
+	m_deadEnemyNum(0),
 	m_money(0),
 	m_beforeMoney(0),
 	m_addMoney(0),
@@ -70,13 +71,13 @@ Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
 	m_colData[CharaType::kPlayer].bodyUpdateStartPos = m_colData[CharaType::kPlayer].bodyStartPos;
 	m_colData[CharaType::kPlayer].bodyUpdateEndPos = m_colData[CharaType::kPlayer].bodyEndPos;
 
+	// セーブデータの情報を適用する
+	ApplySaveData();
+
 	m_pUiBar = pUi;
 	m_modelHandle = modelHandle;
 	m_saveStatus = m_status;
 	m_possessItem.resize(kMaxPossession, -1);
-
-	// セーブデータの情報を適用する
-	ApplySaveData();
 }
 
 Player::~Player()
@@ -89,6 +90,7 @@ void Player::Init()
 	CharacterBase::Init();
 	MV1SetScale(m_modelHandle, VGet(kScale, kScale, kScale));
 
+	// 状態を適用する
 	m_pState = std::make_shared<PlayerStateIdle>(shared_from_this());
 	m_pState->m_nextState = m_pState;
 	

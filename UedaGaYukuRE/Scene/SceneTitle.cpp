@@ -34,8 +34,8 @@ namespace
 	constexpr int kBGMTime = 150; // BGMを再生しはじめる時間
 
 	/*タイトルロゴ*/
-	const Vec2 kTitleLogoPos = { 900.0f, 400.0f };		// タイトルロゴ表示位置
-	const Vec2 kTitleLogo_REPos = { 1190.0f, 360.0f };	// タイトルロゴ(RE)表示位置
+	const Vec2 kTitleLogoPos = { 700.0f, 400.0f };		// タイトルロゴ表示位置
+	const Vec2 kTitleLogo_REPos = { 990.0f, 360.0f };	// タイトルロゴ(RE)表示位置
 	constexpr float kTitleLogoMinScale = 0.8f;			// タイトルロゴの最小サイズ
 	constexpr float kTitleLogoMaxScale = 12.0f;			// タイトルロゴの最大サイズ
 	constexpr float kTitleLogoChangeScale = 0.5f;		// タイトルロゴのサイズ変化量

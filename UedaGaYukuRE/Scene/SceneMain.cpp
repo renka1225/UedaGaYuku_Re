@@ -40,10 +40,10 @@ namespace
 	constexpr int kEnemyNamekind = 31;		// 敵名の種類
 	constexpr int kClearEnemyNum = 1;		// クリア条件
 
-	constexpr int kLoadingTime = 600;			// ロード時間
-	constexpr int kFirstSpawnTime = 300;		// ゲーム開始からチュートリアルが始まるまでの時間
-	constexpr int kEnemySpawnMinTime = 400;		// 敵がスポーンするまでの最小時間
-	constexpr int kEnemySpawnMaxTime = 1800;	// 敵がスポーンするまでの最大時間
+	constexpr int kLoadingTime = 400;			// ロード時間
+	constexpr int kFirstSpawnTime = 900;		// ゲーム開始からチュートリアルが始まるまでの時間
+	constexpr int kEnemySpawnMinTime = 300;		// 敵がスポーンするまでの最小時間
+	constexpr int kEnemySpawnMaxTime = 1000;	// 敵がスポーンするまでの最大時間
 	constexpr float kEnemyExtinctionDist = 2500.0f;	// 敵が消滅する範囲
 
 	constexpr float kRecoveryMaxRate = 100.0f;	// 回復の最大割合
@@ -128,6 +128,8 @@ void SceneMain::Init()
 
 std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 {
+	printfDx("playTime:%d\n", m_playTime);
+
 	// ロード中の場合
 	if (m_isLoading)
 	{
@@ -222,7 +224,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		// チュートリアル中は場合は飛ばす
 		if (m_isTutorial) return shared_from_this();
 
-		//CreateTutoEnemy();
+		CreateTutoEnemy();
 	}
 
 #ifdef _DEBUG // デバックコマンド
@@ -363,13 +365,12 @@ void SceneMain::Loading()
 {
 	// 非同期読み込み数を確認
 	int aSyncLoadNum = GetASyncLoadNum();
+	m_loadingTime++;
 
 	// すべての読み込みが終了した場合
 	if (aSyncLoadNum == 0)
 	{
-		m_loadingTime++;
-
-		// 一定時間経過したら読み込みを終了する
+		// 一定時間経過したら読み込み演出を終了する
 		if (m_loadingTime < kLoadingTime) return;
 
 		// 同期読み込み設定に変更
@@ -599,7 +600,7 @@ void SceneMain::CreateEnemy()
 	// 会話中は敵を生成しない
 	if (m_pPlayer->GetIsNowTalk()) return;
 	// ゲーム開始時、時間が経ってから敵を生成する
-	if (m_playTime < kFirstSpawnTime) return;
+	if (m_playTime <= kFirstSpawnTime) return;
 
 	// スポーンするまでの時間をランダムで決める
 	const int spawnTime = GetRand(kEnemySpawnMaxTime) + kEnemySpawnMinTime;
@@ -607,8 +608,8 @@ void SceneMain::CreateEnemy()
 
 	if (m_enemySpawnTime >= spawnTime)
 	{
-		m_enemySpawnTime = 0;
 		SelectEnemy(); // 出現する敵をランダムで選ぶ
+		m_enemySpawnTime = 0;
 	}
 }
 
@@ -933,9 +934,11 @@ void SceneMain::SelectBattle(const Input& input)
 
 		if (input.IsTriggered(InputId::kOk))
 		{
+			// TODO:ラスボスの出現演出を行う
 			m_isLastBattle = true;
 			CreateBossEnemy();
 			m_pPlayer->SetIsBattle(true);
+			EndTalk();
 		}
 	}
 	else

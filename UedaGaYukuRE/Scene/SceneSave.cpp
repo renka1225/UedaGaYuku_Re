@@ -26,7 +26,7 @@ namespace
 
 	const Vec2 kDispSaveCursorPos = { 438.0f, 296.0f };			// セーブ画面のカーソル表示位置
 	const Vec2 kDispDateSaveDataPos = { 730.0f, 348.0f };		// 保存された現在時刻の表示位置
-	const Vec2 kDispPlayTimeSaveDataPos = { 780.0f, 408.0f };	// 保存されたプレイ時間の表示位置
+	const Vec2 kDispPlayTimeSaveDataPos = { 750.0f, 408.0f };	// 保存されたプレイ時間の表示位置
 }
 
 SceneSave::SceneSave(std::shared_ptr<SceneBase> pScene, std::shared_ptr<Player> pPlayer, std::shared_ptr<Camera> pCamera)
@@ -48,10 +48,6 @@ SceneSave::~SceneSave()
 	{
 		DeleteGraph(handle);
 	}
-}
-
-void SceneSave::Init()
-{
 }
 
 std::shared_ptr<SceneBase> SceneSave::Update(Input& input)
