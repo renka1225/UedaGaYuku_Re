@@ -104,6 +104,7 @@ namespace
 	const Vec2 kTalkNamePos = { 287.0f, 775.0f };		// 名前表示位置
 	const Vec2 kTalkPos = { 489.0f, 850.0f };			// テキスト表示位置
 	const Vec2 kTalkSelectBgPos = { 423.0f, 106.0f };	// 選択肢の背景位置
+	constexpr int kDrawCountInterval = 2;				// 新たな文字を表示するフレーム数
 
 	/*ミニマップ*/
 	const Vec2 kMapPos = { 180.0f, 900.0f };	// マップ表示位置
@@ -144,7 +145,11 @@ UiMain::UiMain():
 	m_loadingAnimTime(0.0f),
 	m_dispGekihaTextScale(kDispBattleTextMaxScale),
 	m_dispEnemyKindScale(kDispBattleTextMaxScale),
-	m_dispNowBattlePosX(Game::kScreenWidth)
+	m_dispNowBattlePosX(Game::kScreenWidth),
+	m_currentTalkText(""),
+	m_isTalkTextComplete(false),
+	m_currentTalkTextCount(0),
+	m_currentFrame(0)
 {
 	m_handle.resize(Handle::kNum);
 	for (int i = 0; i < m_handle.size(); i++)
@@ -321,29 +326,77 @@ void UiMain::DrawOperation(bool isBattle)
 	}
 }
 
-void UiMain::DrawTalk(const Player& pPlayer, std::string id, int clearNum)
+void UiMain::ResetDispTalk()
+{
+	m_currentTalkTextCount = 0;
+	m_currentFrame = 0;
+	m_isTalkTextComplete = false;
+	m_currentTalkText.clear();
+}
+
+void UiMain::UpdateDispTalk(std::string id)
+{
+	// 会話テキストの表示状態をリセット
+	if (m_currentTalkText.empty())
+	{
+		ResetDispTalk();
+	}
+
+	// 会話IDが変わった場合
+	if (id != m_currentTalkId)
+	{
+		ResetDispTalk();
+		m_currentTalkId = id;
+
+		// 新たな会話テキストを取得
+		m_currentTalkText = LoadCsv::GetInstance().GetConversationText(m_currentTalkId);
+	}
+
+	// テキストを1文字ずつ表示する
+	if (!m_isTalkTextComplete)
+	{
+		m_currentFrame++;
+
+		// 全文字表示された場合
+		if (m_currentTalkTextCount >= m_currentTalkText.size())
+		{
+			m_isTalkTextComplete = true;
+			return;
+		}
+
+		// 表示テキストを1文字追加する
+		bool isAdd = m_currentFrame % kDrawCountInterval == 0;
+		if (isAdd)
+		{
+			m_currentTalkTextCount++;
+		}
+	}
+}
+
+void UiMain::DrawTalk(const Player& pPlayer, int clearNum)
 {
 	// テキストボックス表示
 	DrawGraphF(kTextBoxPos.x, kTextBoxPos.y, m_handle[Handle::kTextBox], true);
 
 	// 名前表示
-	std::string drawName = LoadCsv::GetInstance().GetConversationName(id);
+	std::string drawName = LoadCsv::GetInstance().GetConversationName(m_currentTalkId);
 	DrawFormatStringFToHandle(kTalkNamePos.x, kTalkNamePos.y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kTalk_Name)], drawName.c_str());
 
-	// テキスト表示
-	std::string drawText = LoadCsv::GetInstance().GetConversationText(id);
-	
+	// 敵数の表示
 	int drawNum = 0;
-	if(id == ConversationID::kBattleNg)
+	if (m_currentTalkId == ConversationID::kBattleNg)
 	{
 		drawNum = clearNum - pPlayer.GetDeadEnemyNum();
 	}
-	else if (id == ConversationID::kDeadNum)
+	else if (m_currentTalkId == ConversationID::kDeadNum)
 	{
 		drawNum = pPlayer.GetDeadEnemyNum();
 	}
 
-	// TODO:1文字ずつ表示する
+	// 現在の文字数までのテキストを表示する
+	std::string drawText = m_currentTalkText.substr(0, m_currentTalkTextCount);
+
+	// テキスト表示
 	DrawFormatStringFToHandle(kTalkPos.x, kTalkPos.y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kTalk)], drawText.c_str(), drawNum);
 }
 

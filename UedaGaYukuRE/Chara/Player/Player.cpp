@@ -156,7 +156,7 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 #ifdef _DEBUG // デバッグ
 	if (input.IsTriggered(InputId::kDebugAddMoney))
 	{
-		AddMoney(1000); // 所持金を追加
+		AddDecreaseMoney(1000); // 所持金を追加
 	}
 #endif
 
@@ -190,7 +190,7 @@ void Player::OnDamage(float damage)
 	m_pUiBar->SetPlayerDamage(damage);
 
 	// 減らすゲージ量
-	float decreaseGauge = GetRand((kDecreaseMaxSpecialGauge - kDecreaseMinSpecialGauge)) + kDecreaseMinSpecialGauge;
+	float decreaseGauge = static_cast<float>(GetRand((kDecreaseMaxSpecialGauge - kDecreaseMinSpecialGauge)) + kDecreaseMinSpecialGauge);
 	UpdateGauge(decreaseGauge);
 }
 
@@ -260,7 +260,7 @@ void Player::UpdateMoney()
 	m_money = std::min(m_beforeMoney + m_addMoney, m_money);
 }
 
-void Player::AddMoney(int dropMoney)
+void Player::AddDecreaseMoney(int dropMoney)
 {
 	m_beforeMoney = m_money;
 	m_addMoney = dropMoney;

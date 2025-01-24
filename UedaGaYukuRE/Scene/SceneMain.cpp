@@ -40,13 +40,14 @@ namespace
 	constexpr int kEnemyNamekind = 31;		// 敵名の種類
 	constexpr int kClearEnemyNum = 1;		// クリア条件
 
+	constexpr float kRecoveryMaxRate = 100.0f;	// 回復の最大割合
+	constexpr int kRecoveryMoney = 1000;		// 回復に必要な金額
+
 	constexpr int kLoadingTime = 400;			// ロード時間
-	constexpr int kFirstSpawnTime = 900;		// ゲーム開始からチュートリアルが始まるまでの時間
+	constexpr int kFirstSpawnTime = 300;		// ゲーム開始からチュートリアルが始まるまでの時間
 	constexpr int kEnemySpawnMinTime = 300;		// 敵がスポーンするまでの最小時間
 	constexpr int kEnemySpawnMaxTime = 1000;	// 敵がスポーンするまでの最大時間
 	constexpr float kEnemyExtinctionDist = 2500.0f;	// 敵が消滅する範囲
-
-	constexpr float kRecoveryMaxRate = 100.0f;	// 回復の最大割合
 
 	constexpr int kBattleStartStagingTime = 120; // バトル開始時の演出時間
 	constexpr int kBattleEndStagingTime = 120;	 // バトル終了時の演出時間
@@ -70,6 +71,7 @@ SceneMain::SceneMain() :
 	m_battleEndStagingTime(0),
 	m_endingTime(0),
 	m_loadingTime(0),
+	m_mainSceneTime(0),
 	m_nowTalkId(""),
 	m_talkSelect(TalkSelect::kBattle),
 	m_isTalking(false),
@@ -128,8 +130,6 @@ void SceneMain::Init()
 
 std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 {
-	printfDx("playTime:%d\n", m_playTime);
-
 	// ロード中の場合
 	if (m_isLoading)
 	{
@@ -217,7 +217,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	m_pUiBar->Update();
 
 	// チュートリアル敵生成
-	if (m_playTime == kFirstSpawnTime)
+	if (m_mainSceneTime == kFirstSpawnTime)
 	{
 		// すでにクリア済みの場合は生成しない
 		if (m_pPlayer->GetTutoInfo().isEndTutorial) return shared_from_this();
@@ -303,7 +303,7 @@ void SceneMain::Draw()
 	m_pUiBar->DrawPlayerHpBar(*m_pPlayer, m_pPlayer->GetStatus().maxHp);
 	m_pUiBar->DrawPlayerGaugeBar(*m_pPlayer, m_pPlayer->GetStatus().maxGauge);
 
-	DrawTalk(); // 会話UI表示
+	DrawTalk(); // 会話表示
 
 	// チュートリアル表示
 	if (m_isTutorial)
@@ -600,7 +600,7 @@ void SceneMain::CreateEnemy()
 	// 会話中は敵を生成しない
 	if (m_pPlayer->GetIsNowTalk()) return;
 	// ゲーム開始時、時間が経ってから敵を生成する
-	if (m_playTime <= kFirstSpawnTime) return;
+	if (m_mainSceneTime <= kFirstSpawnTime + kLoadingTime) return;
 
 	// スポーンするまでの時間をランダムで決める
 	const int spawnTime = GetRand(kEnemySpawnMaxTime) + kEnemySpawnMinTime;
@@ -848,6 +848,8 @@ void SceneMain::UpdateTalk(const Input& input)
 {
 	if (!m_pPlayer->GetIsNowTalk() || m_pPlayer->GetIsBattle()) return;
 
+	m_pUiMain->UpdateDispTalk(m_nowTalkId); // 会話表示を更新
+
 	m_talkDispTime--;
 	if (m_talkDispTime > 0) return;
 
@@ -858,9 +860,11 @@ void SceneMain::UpdateTalk(const Input& input)
 		m_pUi->UpdateCursor(kCursorId);
 	}
 
+	// Bボタンを押した場合
 	if (input.IsTriggered(InputId::kBack))
 	{
-		EndTalk();
+		m_pUiMain->ResetDispTalk(); // 会話表示をリセットする
+		EndTalk(); // 会話を終了する
 		return;
 	}
 
@@ -868,7 +872,8 @@ void SceneMain::UpdateTalk(const Input& input)
 	{
 		if (input.IsTriggered(InputId::kOk))
 		{
-			EndTalk();
+			m_pUiMain->ResetDispTalk(); // 会話表示をリセットする
+			EndTalk(); // 会話を終了する
 			return;
 		}
 	}
@@ -954,14 +959,29 @@ void SceneMain::SelectDeadEnemyNum(const Input& input)
 
 void SceneMain::SelectRecovery(const Input& input)
 {
-	m_nowTalkId = ConversationID::kRecovery;
+	// 所持金が足りない場合
+	if (m_pPlayer->GetMoney() < kRecoveryMoney)
+	{
+		m_nowTalkId = ConversationID::kRecoveryNg;
+		return;
+	}
+
+	// HPとゲージが最大の場合は回復しない
+	if (m_pPlayer->GetHp() >= m_pPlayer->GetStatus().maxHp && m_pPlayer->GetGauge() >= m_pPlayer->GetStatus().maxGauge)
+	{
+		m_nowTalkId = ConversationID::kRecoveryMax;
+		return;
+	}
+
+	// 所持金が一定以上ある場合
+	m_nowTalkId = ConversationID::kRecoveryOk;
 
 	// 回復
 	m_pPlayer->RecoveryHp(kRecoveryMaxRate);
 	m_pPlayer->RecoveryGauge(kRecoveryMaxRate);
 
 	// 所持金を減らす
-	m_pPlayer->AddMoney(-300);
+	m_pPlayer->AddDecreaseMoney(-kRecoveryMoney);
 }
 
 void SceneMain::SelectGetItem(const Input& input)
@@ -991,8 +1011,9 @@ void SceneMain::DrawTalk()
 	// 会話中
 	if (m_pPlayer->GetIsNowTalk())
 	{
-		m_pUiMain->DrawTalk(*m_pPlayer, m_nowTalkId, kClearEnemyNum);	// 会話画面
+		m_pUiMain->DrawTalk(*m_pPlayer, kClearEnemyNum); // 会話画面
 
+		// 選択肢表示
 		if (!m_isDispTalkSelect) return;
 		m_pUiMain->DrawTalkSelectBg(); // 選択肢の背景
 		m_pUi->DrawCursor(kCursorId, m_talkSelect, kTalkSelectCursorInterval);	// 選択カーソル

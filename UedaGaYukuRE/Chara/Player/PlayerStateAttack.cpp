@@ -199,7 +199,7 @@ float PlayerStateAttack::GetAttackPower()
 float PlayerStateAttack::GetAddGauge()
 {
     // ゲージを増やす
-    float addGauge = GetRand((kMaxSpecialGauge - kMinSpecialGauge)) + kMinSpecialGauge;
+    float addGauge = static_cast<float>(GetRand((kMaxSpecialGauge - kMinSpecialGauge)) + kMinSpecialGauge);
     return addGauge;
 }
 

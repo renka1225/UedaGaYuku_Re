@@ -8,5 +8,7 @@ MSG_SELECT_5,Saionzi,用はない
 MSG_BATTLE_OK,Saionzi,バトル開始
 MSG_BATTLE_NG,Saionzi,後%d人敵を倒してこい
 MSG_DEADNUM,Saionzi,今%d人倒したぞ
-MSG_RECOVERY,Saionzi,%d円で回復させるぞ
+MSG_RECOVERY_OK,Saionzi,1000円で回復するぞ
+MSG_RECOVERY_NG,Saionzi,金が足りないようだな
+MSG_RECOVERY_MAX,Saionzi,すでに元気そうだな
 MSG_GETITEM,Saionzi,どのアイテムが欲しいんだ？

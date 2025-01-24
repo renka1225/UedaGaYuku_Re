@@ -145,14 +145,13 @@ public:
 	/// <summary>
 	/// 所持金を更新する
 	/// </summary>
-	/// <param name="dropMoney">敵がドロップした金額</param>
 	void UpdateMoney();
 
 	/// <summary>
-	/// 所持金を増やす
+	/// 所持金の増減を行う
 	/// </summary>
-	/// <param name="dropMoney">敵がドロップした金額</param>
-	void AddMoney(int dropMoney);
+	/// <param name="changeMoney">増減させる金額</param>
+	void AddDecreaseMoney(int changeMoney);
 
 	/// <summary>
 	/// 取得アイテムを追加する

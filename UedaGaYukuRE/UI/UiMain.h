@@ -15,7 +15,9 @@ namespace ConversationID
 	const std::string kBattleOk = "MSG_BATTLE_OK";
 	const std::string kBattleNg = "MSG_BATTLE_NG";
 	const std::string kDeadNum = "MSG_DEADNUM";
-	const std::string kRecovery = "MSG_RECOVERY";
+	const std::string kRecoveryOk = "MSG_RECOVERY_OK";
+	const std::string kRecoveryNg = "MSG_RECOVERY_NG";
+	const std::string kRecoveryMax = "MSG_RECOVERY_MAX";
 	const std::string kGetItem = "MSG_GETITEM";
 }
 
@@ -97,12 +99,22 @@ public:
 	void DrawOperation(bool isBattle);
 
 	/// <summary>
+	/// 会話状態をリセットする
+	/// </summary>
+	void ResetDispTalk();
+
+	/// <summary>
+	/// 会話の表示状態を更新する
+	/// <param name="id">現在のテキストID</param>
+	/// </summary>
+	void UpdateDispTalk(std::string id);
+
+	/// <summary>
 	/// 会話画面を表示
 	/// </summary>
 	/// <param name="pPlayer">プレイヤー参照</param>
-	/// <param name="id">テキストID</param>
 	/// <param name="clearNum">条件の敵数</param>
-	void DrawTalk(const Player& pPlayer, std::string id, int clearNum);
+	void DrawTalk(const Player& pPlayer, int clearNum);
 
 	/// <summary>
 	/// 会話の選択肢の背景を表示
@@ -174,5 +186,11 @@ private:
 	float m_dispGekihaTextScale;	// "撃破"テキストの表示サイズ
 	float m_dispEnemyKindScale;		// バトル開始時の敵種類の表示サイズ
 	float m_dispNowBattlePosX;		// バトル中のUI表示位置X
+
+	std::string m_currentTalkId;	// 現在表示している会話ID
+	std::string m_currentTalkText;	// 現在表示している会話テキスト
+	bool m_isTalkTextComplete;		// 全文表示したかどうか
+	int m_currentTalkTextCount;		// 現在表示中の文字数
+	int m_currentFrame;				// テキストを表示してからの経過フレーム数
 };
 

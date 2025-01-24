@@ -6,8 +6,9 @@
 
 namespace
 {
-	constexpr int kMaxItemDrop = 30;	// アイテムがドロップする最大確率
-	constexpr int kMoneyItemDrop = 10;	// お金がドロップする最大確率
+	constexpr int kMaxDrap = 35;		// ドロップの合計確率
+	constexpr int kItemDrop = 20;		// アイテムドロップする最大確率
+	constexpr int kMoneyDrop = 10;		// お金がドロップする最大確率
 	constexpr int kMinDropMoney = 500;	// ドロップする最小金額
 	constexpr int kMaxDropMoney = 2000;	// ドロップする最大金額
 }
@@ -44,16 +45,16 @@ void EnemyStateDeath::DropItem(Player& pPlayer)
 	if (m_pEnemy == nullptr) return;
 
 	// 確率でお金かアイテムをドロップする
-	int randNum = GetRand(kMaxItemDrop);
+	int randNum = GetRand(kMaxDrap);
 
-	if (randNum <= kMoneyItemDrop)
+	if (randNum <= kMoneyDrop)
 	{
 		// ドロップするする金額を決める
 		int dropMoney = GetRand((kMaxDropMoney - kMinDropMoney)) + kMinDropMoney;
 
-		pPlayer.AddMoney(dropMoney);
+		pPlayer.AddDecreaseMoney(dropMoney);
 	}
-	else
+	else if(randNum <= kMoneyDrop + kItemDrop)
 	{
 		// ドロップするアイテムをランダムで決める
 		int itemKind;
@@ -65,4 +66,5 @@ void EnemyStateDeath::DropItem(Player& pPlayer)
 		// ドロップしたアイテムの情報を渡す
 		m_pEnemy->GetItemPointer()->SetDropItem(itemKind, m_pEnemy->GetPos());
 	}
+
 }

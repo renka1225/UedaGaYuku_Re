@@ -229,6 +229,7 @@ private:
 	int m_talkDispTime;				// 会話を表示させる最低限の時間
 	int m_endingTime;				// エンディングの時間
 	int m_loadingTime;				// ロードの最低時間
+	int m_mainSceneTime;			// メインシーンが読み込まれてからの時間
 
 	bool m_isTalking;			// 会話が進行中かどうか(true:進行中)
 	bool m_isDispTalkSelect;	// 会話の選択肢UIを表示するかどうか(true:表示中)
