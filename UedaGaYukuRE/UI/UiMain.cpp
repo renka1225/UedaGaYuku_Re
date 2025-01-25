@@ -22,6 +22,7 @@ namespace
 		kTuto_5,			// チュートリアル5
 		kTextBox,			// テキストボックス
 		kTalkSelectBg,		// 会話選択肢の背景
+		kMoney,				// 所持金
 		kMiniMap,			// ミニマップ
 		kIconEnemy,			// ミニマップ上に表示する敵アイコン
 		kIconPlayer,		// ミニマップ上に表示するプレイヤーアイコン
@@ -50,6 +51,7 @@ namespace
 		"data/ui/tutorial/tuto5.png",
 		"data/ui/main/textBox.png",
 		"data/ui/main/talkSelectBg.png",
+		"data/ui/main/bg_money.png",
 		"data/ui/main/minimap.png",
 		"data/ui/main/icon_enemy.png",
 		"data/ui/main/icon_player.png",
@@ -76,10 +78,10 @@ namespace
 		{"grab", {1814.0f, 345.0f}},
 		{"weaponAtk", {1824.0f, 432.0f}},
 		{"heat", {1828.0f, 344.0f}},
-		{"bg", { 1433.0f, 238.0f }},			// 背景位置
-		{"text", { 1433.0f, 237.0f }},			// テキスト位置
-		{"check", { 1450.0f, 339.0f }},			// チェックマーク位置
-		{"ok",{1432.0f, 422.0f}}				// OK表示位置
+		{"bg", { 1433.0f, 238.0f }},	// 背景位置
+		{"text", { 1433.0f, 237.0f }},	// テキスト位置
+		{"check", { 1450.0f, 339.0f }},	// チェックマーク位置
+		{"ok",{1432.0f, 422.0f}}		// OK表示位置
 	};
 
 	const std::map<int, Vec2> kTalkSelectTextPos
@@ -93,6 +95,13 @@ namespace
 
 	constexpr float kTutoCheckHeight = 84.0f;	// チェックマーク表示間隔
 	constexpr int kBgAlpha = 200;				// 背景のブレンド率
+
+	/*ロード*/
+	const Vec2 kLoadingPos = { 1600.0f, 950.0f };	// ロード中表示位置
+	constexpr float kLoadingMoveSpeed = 1.0f;		// テキストの移動速度
+	constexpr float kLoadingAmplitude = 4.0f;		// テキストの振幅
+	constexpr float kLoadingTextInterval = 20.0f;	// テキストの表示間隔
+	constexpr float kLoadingAnimTime = 0.05f;		// ローディング中のアニメーション時間
 
 	/*操作説明*/
 	const Vec2 kDispOperationPos = { 1635.0f, 905.0f };			// 通常操作説明表示位置
@@ -131,18 +140,19 @@ namespace
 	const Vec2 kBattleNowPos = { 1550.0f, 50.0f };	// バトル中表示位置
 	constexpr float kNowBattleMoveSpeed = 13.0f;	// バトル中UIの移動速度
 
-	constexpr int kMaxBlend = 255; // 最大ブレンド率
+	/*所持金*/
+	const Vec2 kDispMoneyInitPos = { 1329.0f, -120.0f };	// 所持金UI初期位置
+	constexpr float kDispMoneyPosY = 20.0f;					// UI移動後のY座標表示位置
+	constexpr int kMoneyAnimTotalTime = 600;				// 所持金UIの合計アニメーション時間
+	constexpr int kDispMoneyTime = 480;						// 所持金UIを表示する時間
 
-	/*ロード*/
-	const Vec2 kLoadingPos = { 1600.0f, 950.0f };	// ロード中表示位置
-	constexpr float kLoadingMoveSpeed = 1.0f;		// テキストの移動速度
-	constexpr float kLoadingAmplitude = 4.0f;		// テキストの振幅
-	constexpr float kLoadingTextInterval = 20.0f;	// テキストの表示間隔
-	constexpr float kLoadingAnimTime = 0.05f;		// ローディング中のアニメーション時間
+	constexpr int kMaxBlend = 255; // 最大ブレンド率
 }
 
 UiMain::UiMain():
 	m_loadingAnimTime(0.0f),
+	m_dispMoneyPos(kDispMoneyInitPos),
+	m_dispMoneyAnimTime(0),
 	m_dispGekihaTextScale(kDispBattleTextMaxScale),
 	m_dispEnemyKindScale(kDispBattleTextMaxScale),
 	m_dispNowBattlePosX(Game::kScreenWidth),
@@ -260,6 +270,39 @@ void UiMain::DrawBattleUi(const Player& pPlayer)
 	{
 		m_dispNowBattlePosX = Game::kScreenWidth;
 	}
+}
+
+void UiMain::SetAnimMoneyUi()
+{
+	m_dispMoneyAnimTime = kMoneyAnimTotalTime;
+}
+
+void UiMain::DrawMoneyUi()
+{
+	// アニメーション再生中でない場合は飛ばす
+	if (m_dispMoneyAnimTime <= 0) return;
+
+	if (m_dispMoneyPos.y <= kDispMoneyInitPos.y)
+	{
+		m_dispMoneyAnimTime = 0;
+	}
+
+	m_dispMoneyAnimTime--;
+
+	// 所持金UIを下に移動させる
+	if (m_dispMoneyAnimTime < (kMoneyAnimTotalTime - kDispMoneyTime) / 2)
+	{
+		m_dispMoneyPos.y += 10;
+		m_dispMoneyPos.y = std::min(kDispMoneyPosY, m_dispMoneyPos.y);
+	}
+	else if (m_dispMoneyAnimTime > kDispMoneyTime)
+	{
+		m_dispMoneyPos.y -= 10;
+		m_dispMoneyPos.y = std::max(m_dispMoneyPos.y, kDispMoneyInitPos.y);
+	}
+
+	printfDx("%.2f\n", m_dispMoneyPos.y);
+	DrawGraphF(m_dispMoneyPos.x, m_dispMoneyPos.y, m_handle[Handle::kMoney], true);
 }
 
 void UiMain::DrawMiniMap(const Player& pPlayer, std::vector<std::shared_ptr<EnemyBase>> pEnemy)

@@ -7,6 +7,7 @@
 #include "LoadCsv.h"
 #include "SaveData.h"
 #include "UiBar.h"
+#include "UiMain.h"
 #include "Camera.h"
 #include "Stage.h"
 #include "Weapon.h"
@@ -49,7 +50,7 @@ namespace
 	constexpr int kTutoChangeTime = 30;	// チュートリアルの切り替え時間
 }
 
-Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
+Player::Player(std::shared_ptr<UiBar> pUi, std::shared_ptr<UiMain> pUiMain, int modelHandle):
 	m_saveStatus(m_status),
 	m_deadEnemyNum(0),
 	m_money(0),
@@ -75,6 +76,7 @@ Player::Player(std::shared_ptr<UiBar> pUi, int modelHandle):
 	ApplySaveData();
 
 	m_pUiBar = pUi;
+	m_pUiMain = pUiMain;
 	m_modelHandle = modelHandle;
 	m_saveStatus = m_status;
 	m_possessItem.resize(kMaxPossession, -1);
@@ -262,6 +264,8 @@ void Player::UpdateMoney()
 
 void Player::AddDecreaseMoney(int dropMoney)
 {
+	m_pUiMain->SetAnimMoneyUi();
+
 	m_beforeMoney = m_money;
 	m_addMoney = dropMoney;
 	m_money += m_addMoney;
@@ -369,7 +373,7 @@ void Player::EnhanceAtkUp(float upAmount, int money)
 	m_enhanceStep.nowAtkUpStep++;
 }
 
-void Player::UpdateTutorial(const Input& input)
+void Player::UpdateTutorial(const Input& input, EnemyBase& pEnemy)
 {
 #ifdef _DEBUG // デバッグコマンド
 	if (input.IsTriggered(InputId::kDebugTutorial))
@@ -400,7 +404,7 @@ void Player::UpdateTutorial(const Input& input)
 		break;
 	// チュートリアル4
 	case TutorialNum::kTuto_4:
-		UpdateTuto4(input);
+		UpdateTuto4(input, pEnemy);
 		break;
 	// チュートリアル5
 	case TutorialNum::kTuto_5:
@@ -457,7 +461,10 @@ void Player::UpdateEnemyInfo(std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 
 void Player::UpdateWeaponColInfo(Weapon& weapon)
 {
-	bool isHitWeapon = weapon.CheckWeaponCol(m_colData[CharaType::kPlayer], *this);;
+	// チュートリアルの途中までは掴めないようにする
+	if (m_tutorial.currentNum <= TutorialNum::kTuto_2) return;
+
+	bool isHitWeapon = weapon.CheckWeaponCol(m_colData[CharaType::kPlayer], *this);
 
 	// 範囲内に武器がある場合
 	if (isHitWeapon)
@@ -723,7 +730,7 @@ void Player::UpdateTuto3(const Input& input)
 	if (m_isNowGrabWeapon)
 	{
 		m_tutorial.currentGrab++;
-		m_tutorial.currentGrab = std::min(kTutoMinNum, m_tutorial.currentGrab);
+		m_tutorial.currentGrab = std::min(m_tutorial.currentGrab, kTutoMinNum);
 
 		if (m_tutorial.currentPunch < kTutoMinNum) return;
 		m_tutorial.isGrab = true;
@@ -733,7 +740,7 @@ void Player::UpdateTuto3(const Input& input)
 	{
 		if (m_isAttack) return;
 		m_tutorial.currentWeaponAtk++;
-		m_tutorial.currentWeaponAtk = std::min(kTutoMidiumNum, m_tutorial.currentWeaponAtk);
+		m_tutorial.currentWeaponAtk = std::min(m_tutorial.currentWeaponAtk, kTutoMidiumNum);
 
 		if (m_tutorial.currentWeaponAtk < kTutoMidiumNum) return;
 		m_tutorial.isWeaponAtk = true;
@@ -746,7 +753,7 @@ void Player::UpdateTuto3(const Input& input)
 	}
 }
 
-void Player::UpdateTuto4(const Input& input)
+void Player::UpdateTuto4(const Input& input, EnemyBase& pEnemy)
 {
 	// ヒートゲージを最大にする
 	RecoveryGauge(kMaxRecoveryRate);
@@ -754,15 +761,17 @@ void Player::UpdateTuto4(const Input& input)
 	if (input.IsTriggered(InputId::kSpecial) && m_isSpecial)
 	{
 		m_tutorial.currentHeat++;
-		m_tutorial.currentHeat = std::min(kTutoMinNum, m_tutorial.currentHeat);
+		m_tutorial.currentHeat = std::min(m_tutorial.currentHeat, kTutoMinNum);
 
 		if (m_tutorial.currentHeat < kTutoMinNum) return;
 		m_tutorial.isHeat = true;
 	}
 
-	// 次のチュートリアルに移る
-	if (m_tutorial.isHeat)
+	// 必殺技アニメーションが終了したら、次のチュートリアルに移る
+	bool isEndAnim = m_currenAnimName != AnimName::kSpecialAtk1 && m_currenAnimName != AnimName::kSpecialAtk2;
+	if (m_tutorial.isHeat && isEndAnim)
 	{
+		pEnemy.RecoveryMaxHp();
 		ChangeTutorial();
 	}
 }

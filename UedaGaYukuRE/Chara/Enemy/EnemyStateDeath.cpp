@@ -47,7 +47,7 @@ void EnemyStateDeath::DropItem(Player& pPlayer)
 	// 確率でお金かアイテムをドロップする
 	int randNum = GetRand(kMaxDrap);
 
-	if (randNum <= kMoneyDrop)
+	if (randNum <= kMaxDrap)
 	{
 		// ドロップするする金額を決める
 		int dropMoney = GetRand((kMaxDropMoney - kMinDropMoney)) + kMinDropMoney;

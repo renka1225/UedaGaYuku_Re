@@ -86,6 +86,16 @@ public:
 	void DrawBattleUi(const Player& pPlayer);
 
 	/// <summary>
+	/// 所持金UIのアニメーションをセットする
+	/// </summary>
+	void SetAnimMoneyUi();
+
+	/// <summary>
+	/// 所持金のUIを表示
+	/// </summary>
+	void DrawMoneyUi();
+
+	/// <summary>
 	/// ミニマップ表示
 	/// </summary>
 	/// <param name="pPlayer">プレイヤー参照</param>
@@ -182,6 +192,9 @@ public:
 
 private:
 	float m_loadingAnimTime;	// ローディング中のアニメーション時間
+
+	Vec2 m_dispMoneyPos;		// 所持金の表示位置
+	int m_dispMoneyAnimTime;	// 所持金のアニメーションを行う時間
 
 	float m_dispGekihaTextScale;	// "撃破"テキストの表示サイズ
 	float m_dispEnemyKindScale;		// バトル開始時の敵種類の表示サイズ

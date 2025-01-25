@@ -186,6 +186,12 @@ void PlayerStateBase::ChangeStateAttack(const Input& input)
 
 void PlayerStateBase::ChangeStateSpecialAttack()
 {
+	// 武器を持っている場合は武器を離す
+	if (m_pPlayer->GetIsGrabWeapon())
+	{
+		m_pPlayer->SetIsGrabWeapon(false);
+	}
+
 	m_pPlayer->SetIsAttack(true);
 	std::shared_ptr<PlayerStateAttack> state = std::make_shared<PlayerStateAttack>(m_pPlayer);
 	m_nextState = state;

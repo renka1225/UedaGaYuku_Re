@@ -77,6 +77,11 @@ public:
 	void RecoveryHp();
 
 	/// <summary>
+	/// HPを最大まで回復する
+	/// </summary>
+	void RecoveryMaxHp();
+
+	/// <summary>
 	/// 敵からプレイヤーへの位置ベクトルを取得する
 	/// </summary>
 	/// <returns></returns>

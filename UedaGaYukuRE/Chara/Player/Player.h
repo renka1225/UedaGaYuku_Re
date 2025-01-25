@@ -5,6 +5,7 @@
 class DebugDraw;
 class Input;
 class UiBar;
+class UiMain;
 class Camera;
 class Stage;
 class Weapon;
@@ -74,8 +75,9 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="pUi">UIバーのポインタ</param>
+	/// <param name="pUiMain">メインUIのポインタ</param>
 	/// <param name="handle">モデルハンドル</param>
-	Player(std::shared_ptr<UiBar> pUi, int modelHandle);
+	Player(std::shared_ptr<UiBar> pUi, std::shared_ptr<UiMain> pUiMain, int modelHandle);
 
 	/// <summary>
 	/// デスクトップ
@@ -222,7 +224,8 @@ public:
 	/// チュートリアルの情報を更新する
 	/// </summary>
 	/// <param name="input">入力情報</param>
-	void UpdateTutorial(const Input& input);
+	/// <param name="pEnemy">敵参照</param>
+	void UpdateTutorial(const Input& input, EnemyBase& pEnemy);
 
 	/// <summary>
 	/// チュートリアルを切り替える
@@ -404,7 +407,8 @@ private:
 	/// チュートリアル4
 	/// </summary>
 	/// <param name="input">入力情報</param> 
-	void UpdateTuto4(const Input& input);
+	/// <param name="pEnemy">敵参照</param> 
+	void UpdateTuto4(const Input& input, EnemyBase& pEnemy);
 
 	/// <summary>
 	/// チュートリアル5
@@ -413,6 +417,7 @@ private:
 
 private:
 	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
+	std::shared_ptr<UiMain> m_pUiMain;		// メインシーンで仕様するUIポインタ
 	std::vector<VECTOR> m_pToEVec;			// プレイヤーから敵への位置ベクトル
 	std::vector<int> m_possessItem;			// プレイヤーが所持しているアイテム情報を保存しておく
 	std::vector<CommandInput> m_inputLog;	// 入力情報を一時保存する

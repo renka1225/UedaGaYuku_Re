@@ -25,7 +25,7 @@ namespace
 	constexpr float kDispNameRange = 1000.0f;		// 敵名を表示する範囲
 	const Vec2 kAdjDispNamePos = { 32.0f, 30.0f };	// 敵名の表示位置調整
 
-	constexpr float kRecoveryHp = 5.0f;	// 回復量
+	constexpr float kRecoveryHp = 7.0f;	// 回復量
 }
 
 EnemyBase::EnemyBase(std::shared_ptr<UiBar> pUi, std::shared_ptr<Item> pItem, Player& pPlayer):
@@ -61,6 +61,12 @@ void EnemyBase::Init()
 void EnemyBase::Update(Stage& pStage, Player& pPlayer)
 {
 	CharacterBase::Update();
+
+	// チュートリアル中は死亡しない
+	if (pPlayer.GetTutoInfo().currentNum <= Player::TutorialNum::kTuto_4)
+	{
+		m_hp = std::max(1.0f, m_hp);
+	}
 
 	// AIの更新
 	m_pEnemyAI->Update();
@@ -199,6 +205,11 @@ void EnemyBase::RecoveryHp()
 {
 	m_hp += kRecoveryHp;
 	m_hp = std::min(m_hp, GetStatus().maxHp);
+}
+
+void EnemyBase::RecoveryMaxHp()
+{
+	m_hp = std::max(m_hp, GetStatus().maxHp);
 }
 
 void EnemyBase::GetFramePos()

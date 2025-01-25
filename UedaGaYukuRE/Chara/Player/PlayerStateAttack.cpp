@@ -72,7 +72,9 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
 
             // 範囲内の敵全員にダメージ
             if (range > kSpecialRange) break;
+
             enemy->OnDamage(GetAttackPower());
+            enemy->SetIsInvincible(true);  // 敵を無敵状態にする
         }
 
         // 特定の状態の場合はスキップする
@@ -88,8 +90,8 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             {
                 Sound::GetInstance().PlayBackSe(SoundName::kSe_attack);
 
-                enemy->SetIsInvincible(true);  // 敵を無敵状態にする
                 enemy->OnDamage(GetAttackPower());
+                enemy->SetIsInvincible(true);  // 敵を無敵状態にする
                 m_pPlayer->UpdateGauge(GetAddGauge());
                 weapon.DecrementDurability();
             }
@@ -106,8 +108,8 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             {
                 Sound::GetInstance().PlayBackSe(SoundName::kSe_attack);
 
-                enemy->SetIsInvincible(true); // 敵を無敵状態にする
                 enemy->OnDamage(GetAttackPower());
+                enemy->SetIsInvincible(true); // 敵を無敵状態にする
                 m_pPlayer->UpdateGauge(GetAddGauge());
              
             }

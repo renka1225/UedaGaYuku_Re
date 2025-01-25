@@ -43,7 +43,7 @@ namespace
 	constexpr float kRecoveryMaxRate = 100.0f;	// 回復の最大割合
 	constexpr int kRecoveryMoney = 1000;		// 回復に必要な金額
 
-	constexpr int kLoadingTime = 400;			// ロード時間
+	constexpr int kLoadingTime = 500;			// ロード時間
 	constexpr int kFirstSpawnTime = 300;		// ゲーム開始からチュートリアルが始まるまでの時間
 	constexpr int kEnemySpawnMinTime = 300;		// 敵がスポーンするまでの最小時間
 	constexpr int kEnemySpawnMaxTime = 1000;	// 敵がスポーンするまでの最大時間
@@ -163,11 +163,13 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		return std::make_shared<SceneMenu>(shared_from_this(), m_pPlayer, m_pCamera);
 	}
 
+	m_mainSceneTime++;
+
 	// チュートリアル中
 	if (m_isTutorial)
 	{
 		// チュートリアル状態にする
-		m_pPlayer->UpdateTutorial(input);
+		m_pPlayer->UpdateTutorial(input, *m_pEnemy[0]);
 
 		// チュートリアルを終了する
 		if (m_pPlayer->GetTutoInfo().isEndTutorial)
@@ -299,9 +301,11 @@ void SceneMain::Draw()
 		m_pUiMain->DrawBattleUi(*m_pPlayer);
 	}
 
-	m_pWeapon->DrawWeaponUi();
-	m_pUiBar->DrawPlayerHpBar(*m_pPlayer, m_pPlayer->GetStatus().maxHp);
-	m_pUiBar->DrawPlayerGaugeBar(*m_pPlayer, m_pPlayer->GetStatus().maxGauge);
+
+	m_pWeapon->DrawWeaponUi(); // 武器UI表示
+	m_pUiBar->DrawPlayerHpBar(*m_pPlayer, m_pPlayer->GetStatus().maxHp);		// プレイヤーHP表示
+	m_pUiBar->DrawPlayerGaugeBar(*m_pPlayer, m_pPlayer->GetStatus().maxGauge);	// プレイヤーゲージ表示
+	m_pUiMain->DrawMoneyUi(); // 所持金UI表示
 
 	DrawTalk(); // 会話表示
 
@@ -385,7 +389,7 @@ void SceneMain::Loading()
 void SceneMain::InitAfterLoading()
 {
 	m_pUiBar = std::make_shared<UiBar>();
-	m_pPlayer = std::make_shared<Player>(m_pUiBar, m_modelHandle[CharacterBase::CharaType::kPlayer]);
+	m_pPlayer = std::make_shared<Player>(m_pUiBar, m_pUiMain, m_modelHandle[CharacterBase::CharaType::kPlayer]);
 	m_pNpc = std::make_shared<Npc>(m_modelHandle[CharacterBase::CharaType::kNpc]);
 	m_pWeapon = std::make_shared<Weapon>(m_pPlayer);
 	m_pCamera = std::make_shared<Camera>();
@@ -445,7 +449,8 @@ void SceneMain::UpdateBattle()
 
 void SceneMain::UpdateBattleStartStaging()
 {
-	if (m_battleEndStagingTime) return;
+	// バトル終了中はバトルを開始できないようにする
+	if (m_isBattleEndStaging) return;
 
 	// プレイヤーがバトル状態の場合
 	if (m_pPlayer->GetIsBattle())
@@ -595,12 +600,12 @@ void SceneMain::UpdateSound()
 
 void SceneMain::CreateEnemy()
 {
+	// ゲーム開始時、時間が経ってから敵を生成する
+	if (m_mainSceneTime <= kFirstSpawnTime + kLoadingTime) return;
 	// チュートリアル前は生成しない
 	if (!m_pPlayer->GetTutoInfo().isEndTutorial) return;
 	// 会話中は敵を生成しない
 	if (m_pPlayer->GetIsNowTalk()) return;
-	// ゲーム開始時、時間が経ってから敵を生成する
-	if (m_mainSceneTime <= kFirstSpawnTime + kLoadingTime) return;
 
 	// スポーンするまでの時間をランダムで決める
 	const int spawnTime = GetRand(kEnemySpawnMaxTime) + kEnemySpawnMinTime;
