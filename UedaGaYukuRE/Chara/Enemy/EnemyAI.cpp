@@ -6,7 +6,18 @@
 
 namespace
 {
-	constexpr float kMinApproachRange = 20.0f;	// プレイヤーに近づく最小範囲
+	// キャラID
+	const std::map<int, std::string> kCharaId
+	{
+		{CharacterBase::kEnemy_boss, "BOSS"},
+		{CharacterBase::kEnemy_tuto, "TUTO"},
+		{CharacterBase::kEnemy_bob, "BOSS"},
+		{CharacterBase::kEnemy_sato, "SATO"},
+		{CharacterBase::kEnemy_abe, "ABE"}
+	};
+	const std::string kDefaultId = "DEFAULT";	// デフォルトID
+
+	constexpr float kMinApproachRange = 30.0f;	// プレイヤーに近づく最小範囲
 	constexpr float kMinChaseRange = 200.0f;	// プレイヤーを追いかける最小範囲
 	constexpr float kMaxChaseRange = 800.0f;	// プレイヤーを追いかける最大範囲
 	constexpr int kDecisionFrame = 30;			// 行動を更新する時間
@@ -38,6 +49,7 @@ EnemyAI::EnemyAI(std::shared_ptr<EnemyBase> pEnemy):
 	m_pEnemy(pEnemy),
 	m_nextState(EnemyStateBase::EnemyStateKind::kIdle),
 	m_prevState(m_nextState),
+	m_charaId(""),
 	m_decisionFrame(0)
 {
 	for (auto& pair : m_priority)
@@ -237,6 +249,7 @@ void EnemyAI::DecideBattlePriority(Player& pPlayer)
 		// 移動しないようにする
 		m_priority[EnemyStateBase::EnemyStateKind::kRun] = 0;
 		m_priority[EnemyStateBase::EnemyStateKind::kWalk] = 0;
+		m_priority[EnemyStateBase::EnemyStateKind::kIdle] = m_probability.veryLowProbability;
 	}
 
 	// 連続して攻撃する確率を減らす
@@ -260,6 +273,16 @@ void EnemyAI::DecideTutoPriority()
 	m_priority[EnemyStateBase::EnemyStateKind::kPunch] += m_probability.veryLowProbability;
 	m_priority[EnemyStateBase::EnemyStateKind::kKick] += m_probability.veryLowProbability;
 	m_priority[EnemyStateBase::EnemyStateKind::kAvoid] += m_probability.lowProbability;
+
+	float dist = VSize(m_pEnemy->GetEToPVec());  // プレイヤーとの距離
+	// プレイヤーに一定距離近づいた場合
+	if (dist <= kMinApproachRange)
+	{
+		// 移動しないようにする
+		m_priority[EnemyStateBase::EnemyStateKind::kRun] = 0;
+		m_priority[EnemyStateBase::EnemyStateKind::kWalk] = 0;
+		m_priority[EnemyStateBase::EnemyStateKind::kIdle] = m_probability.veryLowProbability;
+	}
 }
 
 void EnemyAI::DecideRandomPriority()
@@ -293,25 +316,11 @@ void EnemyAI::LoadAIData(int enemyIndex)
 	while (std::getline(ifs, line))
 	{
 		strvec = split(line, ',');
-
-		std::string charaID; // 読み込みID名
-
-		// キャラクターのタイプがボスの場合
-		if (enemyIndex == CharacterBase::kEnemy_boss)
-		{
-			charaID = "Boss";
-		}
-		else if (enemyIndex == CharacterBase::kEnemy_tuto)
-		{
-			charaID = "Tuto";
-		}
-		// ボス以外の場合
-		else
-		{
-			charaID = "Default";
-		}
 		
-		if (strvec[0] == charaID)
+		// ID名を取得
+		m_charaId = GetEnemyId(enemyIndex);
+
+		if (strvec[0] == m_charaId)
 		{
 			try
 			{
@@ -326,4 +335,30 @@ void EnemyAI::LoadAIData(int enemyIndex)
 			}
 		}
 	}
+}
+
+std::string EnemyAI::GetEnemyId(int enemyIndex)
+{
+	if (enemyIndex == CharacterBase::kEnemy_boss)
+	{
+		return kCharaId.at(CharacterBase::kEnemy_boss);
+	}
+	else if(enemyIndex == CharacterBase::kEnemy_tuto)
+	{
+		return kCharaId.at(CharacterBase::kEnemy_tuto);
+	}
+	else if (enemyIndex == CharacterBase::kEnemy_bob)
+	{
+		return kCharaId.at(CharacterBase::kEnemy_bob);
+	}
+	else if (enemyIndex == CharacterBase::kEnemy_sato)
+	{
+		return kCharaId.at(CharacterBase::kEnemy_sato);
+	}
+	else if (enemyIndex == CharacterBase::kEnemy_abe)
+	{
+		return kCharaId.at(CharacterBase::kEnemy_abe);
+	}
+
+	return kDefaultId;
 }

@@ -14,7 +14,7 @@
 // 定数
 namespace
 {
-	constexpr float kScale = 0.15f;		// モデルの拡大率
+	constexpr float kScale = 0.15f;	// モデルの拡大率
 
 	constexpr float kFirstSpawnMinDist = 150.0f;	// 1体目の敵のスポーン位置の最小距離
 	constexpr float kFirstSpawnRange = 600.0f;		// 1体目のスポーンする範囲
@@ -63,7 +63,7 @@ void EnemyBase::Update(Stage& pStage, Player& pPlayer)
 	CharacterBase::Update();
 
 	// チュートリアル中は死亡しない
-	if (pPlayer.GetTutoInfo().currentNum <= Player::TutorialNum::kTuto_4)
+	if (!pPlayer.GetTutoInfo().isEndTutorial && pPlayer.GetTutoInfo().currentNum <= Player::TutorialNum::kTuto_4)
 	{
 		m_hp = std::max(1.0f, m_hp);
 	}
@@ -110,8 +110,8 @@ void EnemyBase::Draw(Player& player)
 	debug.DrawEnemyInfo(m_pos, m_hp, m_enemyIndex, m_pState->GetStateName()); // 敵の情報を描画
 	// 当たり判定描画
 	debug.DrawBodyCol(m_colData[m_enemyIndex]);// 全身(紫色)
-	//debug.DrawArmCol(m_colData[m_enemyIndex]);	// 腕(水色)
-	//debug.DrawLegCol(m_colData[m_enemyIndex]);	// 脚(黄色)
+	debug.DrawArmCol(m_colData[m_enemyIndex]);	// 腕(水色)
+	debug.DrawLegCol(m_colData[m_enemyIndex]);	// 脚(黄色)
 #endif
 }
 

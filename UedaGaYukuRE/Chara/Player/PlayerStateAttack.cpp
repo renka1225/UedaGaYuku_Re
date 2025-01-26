@@ -9,10 +9,10 @@
 
 namespace
 {
-    constexpr float kSpecialRange = 50.0f;		// 必殺技が当たる範囲
-    constexpr float kSpecialAtkPower = 1.2f;    // 必殺技の攻撃力
-    constexpr float kMinSpecialGauge = 3.0f;    // 攻撃時に溜まるゲージ最小量
-    constexpr float kMaxSpecialGauge = 10.0f;   // 攻撃時に溜まるゲージ最大量
+    constexpr float kSpecialRange = 50.0f;	 // 必殺技が当たる範囲
+    constexpr float kSpecialAtkPower = 1.2f; // 必殺技の攻撃力
+    constexpr int kMinSpecialGauge = 3;      // 攻撃時に溜まるゲージ最小量
+    constexpr int kMaxSpecialGauge = 10;     // 攻撃時に溜まるゲージ最大量
 }
 
 PlayerStateAttack::PlayerStateAttack(const std::shared_ptr<Player>& pPlayer):

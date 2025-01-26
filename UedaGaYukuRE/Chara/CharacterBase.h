@@ -52,6 +52,9 @@ public:
 		kEnemy_03,	 // 敵3
 		kEnemy_boss, // ボス
 		kEnemy_tuto, // チュートリアル敵
+		kEnemy_bob,	 // Bob
+		kEnemy_sato, // Sato
+		kEnemy_abe,  // Abe
 		kNpc,		 // NPC
 		kCharaNum,	 // 合計のキャラ数
 	};

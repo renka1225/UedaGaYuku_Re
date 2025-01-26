@@ -127,6 +127,7 @@ protected:
 	VECTOR m_moveVec;		// 移動ベクトル
 	float m_animEndTime;	// アニメーションが終わるまでの時間
 	bool m_isGuardEffect;	// ガードエフェクト再生中かどうか
+	bool m_isNowBattleEnd;	// バトル終了演出中かどうか
 
 	DINPUT_JOYSTATE m_analogInput; 	// アナログスティック情報取得
 	int m_analogX;					// アナログスティックの左右の入力状態

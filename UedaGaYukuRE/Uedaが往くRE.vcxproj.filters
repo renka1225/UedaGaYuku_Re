@@ -229,7 +229,7 @@
       <Filter>ソース ファイル\Chara</Filter>
     </ClCompile>
     <ClCompile Include="UI\UiConversation.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -405,7 +405,7 @@
       <Filter>ヘッダー ファイル\Chara</Filter>
     </ClInclude>
     <ClInclude Include="UI\UiConversation.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

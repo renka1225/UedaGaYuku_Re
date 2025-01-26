@@ -33,7 +33,7 @@ namespace
 	const std::string kPlayerHandlePath = kHandlePath + "player.mv1"; // プレイヤーのモデルハンドルパス
 	const std::string kEnemyHandlePath = kHandlePath + "enemy_";	  // 敵のモデルハンドルパス
 
-	constexpr int kModelNum = 7;			// 読み込むモデルの数
+	constexpr int kModelNum = 10;			// 読み込むモデルの数
 	constexpr int kMobEnemyNum = 3;			// 読み込むモブ敵の数
 
 	constexpr int kEnemyMaxNum = 3;			// 1度に出現する最大の敵数
@@ -362,6 +362,12 @@ void SceneMain::LoadModelHandle()
 	m_modelHandle[CharacterBase::CharaType::kEnemy_boss] = MV1LoadModel((kEnemyHandlePath + "boss.mv1").c_str());
 	// チュートリアル敵
 	m_modelHandle[CharacterBase::CharaType::kEnemy_tuto] = MV1LoadModel((kEnemyHandlePath + "tuto.mv1").c_str());
+	// Bob
+	m_modelHandle[CharacterBase::CharaType::kEnemy_bob] = MV1LoadModel((kEnemyHandlePath + "bob.mv1").c_str());
+	// Sato
+	m_modelHandle[CharacterBase::CharaType::kEnemy_sato] = MV1LoadModel((kEnemyHandlePath + "sato.mv1").c_str());
+	// Abe
+	m_modelHandle[CharacterBase::CharaType::kEnemy_abe] = MV1LoadModel((kEnemyHandlePath + "abe.mv1").c_str());
 	// NPC
 	m_modelHandle[CharacterBase::CharaType::kNpc] = MV1LoadModel((kHandlePath + "npc.mv1").c_str());
 }
@@ -622,6 +628,9 @@ void SceneMain::CreateEnemy()
 
 void SceneMain::CreateTutoEnemy()
 {
+	// すでにクリア済みの場合は生成しない
+	if (m_pPlayer->GetTutoInfo().isEndTutorial) return;
+
 	m_currentEnemyNum = 1;
 	m_isTutorial = true;
 	m_pPlayer->SetIsBattle(true);
@@ -666,8 +675,8 @@ void SceneMain::UpdateEnemy()
 
 		if (m_isTutorial)
 		{
-			// 敵回復
-			if (m_pPlayer->GetTutoInfo().currentNum <= Player::TutorialNum::kTuto_4)
+			// チュートリアル中は回復させる
+			if (!m_pPlayer->GetTutoInfo().isEndTutorial && m_pPlayer->GetTutoInfo().currentNum <= Player::TutorialNum::kTuto_4)
 			{
 				m_pEnemy[i]->RecoveryHp();
 			}

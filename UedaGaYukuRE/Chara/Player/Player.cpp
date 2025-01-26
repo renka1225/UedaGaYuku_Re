@@ -375,6 +375,9 @@ void Player::EnhanceAtkUp(float upAmount, int money)
 
 void Player::UpdateTutorial(const Input& input, EnemyBase& pEnemy)
 {
+	// チュートリアル終了していたら飛ばす
+	if (m_tutorial.isEndTutorial) return;
+
 #ifdef _DEBUG // デバッグコマンド
 	if (input.IsTriggered(InputId::kDebugTutorial))
 	{
@@ -467,7 +470,7 @@ void Player::UpdateEnemyInfo(std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 void Player::UpdateWeaponColInfo(Weapon& weapon)
 {
 	// チュートリアルの途中までは掴めないようにする
-	if (m_tutorial.currentNum <= TutorialNum::kTuto_2) return;
+	if (!m_tutorial.isEndTutorial && m_tutorial.currentNum <= TutorialNum::kTuto_2) return;
 
 	bool isHitWeapon = weapon.CheckWeaponCol(m_colData[CharaType::kPlayer], *this);
 
@@ -652,6 +655,7 @@ void Player::ApplySaveData()
 	m_enhanceStep = saveData.enhanceStep;
 	m_possessItem = saveData.possessItem;
 	m_deadEnemyNum = saveData.deadEnemyNum;
+	m_tutorial.isEndTutorial = saveData.isEndTutorial;
 }
 
 void Player::UpdateTuto1()

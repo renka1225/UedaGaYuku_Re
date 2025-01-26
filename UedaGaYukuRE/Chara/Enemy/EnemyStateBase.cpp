@@ -47,7 +47,7 @@ void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
 	if (m_pEnemy->GetHp() <= kMinHp)
 	{
 		// チュートリアル中は死なないようにする
-		if (pPlayer.GetTutoInfo().currentNum <= Player::TutorialNum::kTuto_4) return;
+		if (!pPlayer.GetTutoInfo().isEndTutorial && pPlayer.GetTutoInfo().currentNum <= Player::TutorialNum::kTuto_4) return;
 
 		ChangeStateDeath();
 		return;

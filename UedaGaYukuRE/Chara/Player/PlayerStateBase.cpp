@@ -24,6 +24,7 @@ PlayerStateBase::PlayerStateBase(const std::shared_ptr<Player>& pPlayer):
 	m_moveVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_animEndTime(0.0f),
 	m_isGuardEffect(false),
+	m_isNowBattleEnd(false),
 	m_analogInput({}),
 	m_analogX(0),
 	m_analogY(0)
@@ -60,6 +61,8 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 
 	// 特定の状態中は更新しない
 	if (IsStateInterrupt()) return;
+
+	m_isNowBattleEnd = false;
 
 	// バトル中でない場合
 	if (!m_pPlayer->GetIsBattle()) return;
@@ -124,6 +127,7 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 void PlayerStateBase::UpdateBattleEnd()
 {
 	ChangeStateIdle();
+	m_isNowBattleEnd = true;
 }
 
 bool PlayerStateBase::IsStateInterrupt()
@@ -138,6 +142,8 @@ bool PlayerStateBase::IsStateInterrupt()
 	if (GetKind() == PlayerStateKind::kAttack) return true;
 	// 死亡時
 	if (GetKind() == PlayerStateKind::kDeath) return true;
+	// バトル終了演出中
+	if (m_isNowBattleEnd) return true;
 
 	return false;
 }
@@ -189,6 +195,7 @@ void PlayerStateBase::ChangeStateSpecialAttack()
 	// 武器を持っている場合は武器を離す
 	if (m_pPlayer->GetIsGrabWeapon())
 	{
+		m_pPlayer->SetIsPossibleGrabWeapon(false);
 		m_pPlayer->SetIsGrabWeapon(false);
 	}
 
