@@ -20,8 +20,6 @@ namespace
 		kTuto_3,			// チュートリアル3
 		kTuto_4,			// チュートリアル4
 		kTuto_5,			// チュートリアル5
-		kTextBox,			// テキストボックス
-		kTalkSelectBg,		// 会話選択肢の背景
 		kMoney,				// 所持金
 		kMiniMap,			// ミニマップ
 		kIconEnemy,			// ミニマップ上に表示する敵アイコン
@@ -49,9 +47,7 @@ namespace
 		"data/ui/tutorial/tuto3.png",
 		"data/ui/tutorial/tuto4.png",
 		"data/ui/tutorial/tuto5.png",
-		"data/ui/main/textBox.png",
-		"data/ui/main/talkSelectBg.png",
-		"data/ui/main/bg_money.png",
+		"data/ui/bg_money.png",
 		"data/ui/main/minimap.png",
 		"data/ui/main/icon_enemy.png",
 		"data/ui/main/icon_player.png",
@@ -84,15 +80,6 @@ namespace
 		{"ok",{1432.0f, 422.0f}}		// OK表示位置
 	};
 
-	const std::map<int, Vec2> kTalkSelectTextPos
-	{
-		{SceneMain::TalkSelect::kBattle, {773.0f, 198.0f}},
-		{SceneMain::TalkSelect::kDeadEnemyNum, {706.0f, 296.0f}},
-		{SceneMain::TalkSelect::kRecovery, {846.0f, 393.0f}},
-		{SceneMain::TalkSelect::kGetItem, {771.0f, 490.0f}},
-		{SceneMain::TalkSelect::kBack, {868.0f, 585.0f}},
-	};
-
 	constexpr float kTutoCheckHeight = 84.0f;	// チェックマーク表示間隔
 	constexpr int kBgAlpha = 200;				// 背景のブレンド率
 
@@ -109,11 +96,6 @@ namespace
 
 	/*会話*/
 	const Vec2 kDispTalkUiPos = { -5.0f, 32.0f };		// "話す"テキスト表示位置調整
-	const Vec2 kTextBoxPos = { 116.0f, 766.0f };		// テキストボックス位置
-	const Vec2 kTalkNamePos = { 287.0f, 775.0f };		// 名前表示位置
-	const Vec2 kTalkPos = { 489.0f, 850.0f };			// テキスト表示位置
-	const Vec2 kTalkSelectBgPos = { 423.0f, 106.0f };	// 選択肢の背景位置
-	constexpr int kDrawCountInterval = 2;				// 新たな文字を表示するフレーム数
 
 	/*ミニマップ*/
 	const Vec2 kMapPos = { 180.0f, 900.0f };	// マップ表示位置
@@ -141,10 +123,12 @@ namespace
 	constexpr float kNowBattleMoveSpeed = 13.0f;	// バトル中UIの移動速度
 
 	/*所持金*/
-	const Vec2 kDispMoneyInitPos = { 1329.0f, -120.0f };	// 所持金UI初期位置
-	constexpr float kDispMoneyPosY = 20.0f;					// UI移動後のY座標表示位置
-	constexpr int kMoneyAnimTotalTime = 600;				// 所持金UIの合計アニメーション時間
-	constexpr int kDispMoneyTime = 480;						// 所持金UIを表示する時間
+	const Vec2 kDispMoneyInitPos = { 1329.0f, -120.0f }; // 所持金UI初期位置
+	const Vec2 kDispMoneyText = { 470.0f, 30.0f };		 // 所持金テキスト表示位置
+	constexpr float kDispMoneyPosY = 18.0f;				 // UI移動後のY座標表示位置
+	constexpr int kMoneyAnimTotalTime = 150;			 // 所持金UIの合計アニメーション時間
+	constexpr int kDispMoneyTime = 110;					 // 所持金UIを表示する時間
+	constexpr int kDispMoneyMoveSpeed = 15;				 // 所持金UIを移動させるスピード
 
 	constexpr int kMaxBlend = 255; // 最大ブレンド率
 }
@@ -155,11 +139,7 @@ UiMain::UiMain():
 	m_dispMoneyAnimTime(0),
 	m_dispGekihaTextScale(kDispBattleTextMaxScale),
 	m_dispEnemyKindScale(kDispBattleTextMaxScale),
-	m_dispNowBattlePosX(Game::kScreenWidth),
-	m_currentTalkText(""),
-	m_isTalkTextComplete(false),
-	m_currentTalkTextCount(0),
-	m_currentFrame(0)
+	m_dispNowBattlePosX(Game::kScreenWidth)
 {
 	m_handle.resize(Handle::kNum);
 	for (int i = 0; i < m_handle.size(); i++)
@@ -274,35 +254,59 @@ void UiMain::DrawBattleUi(const Player& pPlayer)
 
 void UiMain::SetAnimMoneyUi()
 {
+	// アニメーション再生中の場合は初期化しない
+	if (m_dispMoneyAnimTime > 0) return;
+
 	m_dispMoneyAnimTime = kMoneyAnimTotalTime;
+	m_dispMoneyPos = kDispMoneyInitPos;
 }
 
-void UiMain::DrawMoneyUi()
+void UiMain::DrawMoneyUi(int money)
 {
 	// アニメーション再生中でない場合は飛ばす
 	if (m_dispMoneyAnimTime <= 0) return;
 
-	if (m_dispMoneyPos.y <= kDispMoneyInitPos.y)
-	{
-		m_dispMoneyAnimTime = 0;
-	}
-
 	m_dispMoneyAnimTime--;
 
 	// 所持金UIを下に移動させる
-	if (m_dispMoneyAnimTime < (kMoneyAnimTotalTime - kDispMoneyTime) / 2)
+	if (m_dispMoneyAnimTime >= kMoneyAnimTotalTime - kDispMoneyTime)
 	{
-		m_dispMoneyPos.y += 10;
+		m_dispMoneyPos.y += kDispMoneyMoveSpeed;
 		m_dispMoneyPos.y = std::min(kDispMoneyPosY, m_dispMoneyPos.y);
 	}
-	else if (m_dispMoneyAnimTime > kDispMoneyTime)
+	else
 	{
-		m_dispMoneyPos.y -= 10;
+		m_dispMoneyPos.y -= kDispMoneyMoveSpeed;
 		m_dispMoneyPos.y = std::max(m_dispMoneyPos.y, kDispMoneyInitPos.y);
 	}
 
-	printfDx("%.2f\n", m_dispMoneyPos.y);
 	DrawGraphF(m_dispMoneyPos.x, m_dispMoneyPos.y, m_handle[Handle::kMoney], true);
+
+	// 現在の所持金額を取得
+	int man = money / 10000; // 万単位
+	int yen = money % 10000; // 円単位
+
+	// 表示用のテキスト
+	std::string moneyText;
+
+	// 万の表示
+	if (man > 0)
+	{
+		moneyText += std::to_string(man) + "万";
+		moneyText += std::to_string(yen) + "円";
+	}
+	// 円の表示のみ
+	else
+	{
+		moneyText = std::to_string(yen) + "円";
+	}
+
+	// 金額部分を右詰めにする
+	int moneyWidth = GetDrawStringWidthToHandle(moneyText.c_str(), static_cast<int>(moneyText.size()), Font::m_fontHandle[static_cast<int>(Font::FontId::kMoney)]);
+	float dispX = m_dispMoneyPos.x - moneyWidth + kDispMoneyText.x;
+
+	// 現在の所持金額を表示
+	DrawStringFToHandle(dispX, m_dispMoneyPos.y + kDispMoneyText.y, moneyText.c_str(), Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kMoney)]);
 }
 
 void UiMain::DrawMiniMap(const Player& pPlayer, std::vector<std::shared_ptr<EnemyBase>> pEnemy)
@@ -366,94 +370,6 @@ void UiMain::DrawOperation(bool isBattle)
 	else
 	{
 		DrawGraphF(kDispOperationPos.x, kDispOperationPos.y, m_handle[Handle::kOperation_normal], true);
-	}
-}
-
-void UiMain::ResetDispTalk()
-{
-	m_currentTalkTextCount = 0;
-	m_currentFrame = 0;
-	m_isTalkTextComplete = false;
-	m_currentTalkText.clear();
-}
-
-void UiMain::UpdateDispTalk(std::string id)
-{
-	// 会話テキストの表示状態をリセット
-	if (m_currentTalkText.empty())
-	{
-		ResetDispTalk();
-	}
-
-	// 会話IDが変わった場合
-	if (id != m_currentTalkId)
-	{
-		ResetDispTalk();
-		m_currentTalkId = id;
-
-		// 新たな会話テキストを取得
-		m_currentTalkText = LoadCsv::GetInstance().GetConversationText(m_currentTalkId);
-	}
-
-	// テキストを1文字ずつ表示する
-	if (!m_isTalkTextComplete)
-	{
-		m_currentFrame++;
-
-		// 全文字表示された場合
-		if (m_currentTalkTextCount >= m_currentTalkText.size())
-		{
-			m_isTalkTextComplete = true;
-			return;
-		}
-
-		// 表示テキストを1文字追加する
-		bool isAdd = m_currentFrame % kDrawCountInterval == 0;
-		if (isAdd)
-		{
-			m_currentTalkTextCount++;
-		}
-	}
-}
-
-void UiMain::DrawTalk(const Player& pPlayer, int clearNum)
-{
-	// テキストボックス表示
-	DrawGraphF(kTextBoxPos.x, kTextBoxPos.y, m_handle[Handle::kTextBox], true);
-
-	// 名前表示
-	std::string drawName = LoadCsv::GetInstance().GetConversationName(m_currentTalkId);
-	DrawFormatStringFToHandle(kTalkNamePos.x, kTalkNamePos.y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kTalk_Name)], drawName.c_str());
-
-	// 敵数の表示
-	int drawNum = 0;
-	if (m_currentTalkId == ConversationID::kBattleNg)
-	{
-		drawNum = clearNum - pPlayer.GetDeadEnemyNum();
-	}
-	else if (m_currentTalkId == ConversationID::kDeadNum)
-	{
-		drawNum = pPlayer.GetDeadEnemyNum();
-	}
-
-	// 現在の文字数までのテキストを表示する
-	std::string drawText = m_currentTalkText.substr(0, m_currentTalkTextCount);
-
-	// テキスト表示
-	DrawFormatStringFToHandle(kTalkPos.x, kTalkPos.y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kTalk)], drawText.c_str(), drawNum);
-}
-
-void UiMain::DrawTalkSelectBg()
-{
-	DrawGraphF(kTalkSelectBgPos.x, kTalkSelectBgPos.y, m_handle[Handle::kTalkSelectBg], true);
-}
-
-void UiMain::DrawTalkSelectText()
-{
-	for (int i = 0; i < SceneMain::TalkSelect::kTalkNum; i++)
-	{
-		std::string drawText = LoadCsv::GetInstance().GetConversationText(ConversationID::kSelect + std::to_string((i + 1)));
-		DrawStringFToHandle(kTalkSelectTextPos.at(i).x, kTalkSelectTextPos.at(i).y, drawText.c_str(), Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kTalk_select)]);
 	}
 }
 

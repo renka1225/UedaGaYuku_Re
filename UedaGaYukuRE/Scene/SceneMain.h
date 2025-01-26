@@ -6,6 +6,7 @@
 class UiBase;
 class UiMain;
 class UiBar;
+class UiConversation;
 class EnemyBase;
 class Player;
 class Npc;
@@ -208,16 +209,17 @@ private:
 	void DrawSetUpShadow();
 
 private:
-	std::vector<std::shared_ptr<EnemyBase>> m_pEnemy; // 敵のポインタ
-	std::shared_ptr<Player> m_pPlayer;		// プレイヤーのポインタ
-	std::shared_ptr<Npc> m_pNpc;			// NPCのポインタ
-	std::shared_ptr<Weapon> m_pWeapon;		// 武器のポインタ
-	std::shared_ptr<Camera> m_pCamera;		// カメラのポインタ
-	std::shared_ptr<Stage> m_pStage;		// ステージのポインタ
-	std::shared_ptr<UiMain> m_pUiMain;		// メイン用UIのポインタ
-	std::shared_ptr<UiBar> m_pUiBar;		// キャラクターバーUIのポインタ
-	std::shared_ptr<EventData> m_pEventData;// イベントデータのポインタ
-	std::vector<int> m_modelHandle;			// モデルのハンドル
+	std::vector<std::shared_ptr<EnemyBase>> m_pEnemy;	// 敵のポインタ
+	std::shared_ptr<Player> m_pPlayer;					// プレイヤーのポインタ
+	std::shared_ptr<Npc> m_pNpc;						// NPCのポインタ
+	std::shared_ptr<Weapon> m_pWeapon;					// 武器のポインタ
+	std::shared_ptr<Camera> m_pCamera;					// カメラのポインタ
+	std::shared_ptr<Stage> m_pStage;					// ステージのポインタ
+	std::shared_ptr<UiMain> m_pUiMain;					// メイン用UIのポインタ
+	std::shared_ptr<UiBar> m_pUiBar;					// キャラクターバーUIのポインタ
+	std::shared_ptr<UiConversation> m_pUiConversation;	// 会話UIのポインタ
+	std::shared_ptr<EventData> m_pEventData;			// イベントデータのポインタ
+	std::vector<int> m_modelHandle;						// モデルのハンドル
 
 	std::string m_nowTalkId;	// 現在の会話ID
 	int m_talkSelect;			// 会話の選択肢

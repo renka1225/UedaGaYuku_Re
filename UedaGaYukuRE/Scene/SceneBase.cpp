@@ -125,12 +125,7 @@ void SceneBase::DrawMoney(std::shared_ptr<Player> pPlayer)
 	if (man > 0)
 	{
 		moneyText += std::to_string(man) + "万";
-
-		// 円の表示
-		if (yen > 0)
-		{
-			moneyText += std::to_string(yen) + "円";
-		}
+		moneyText += std::to_string(yen) + "円";
 	}
 	// 円の表示のみ
 	else

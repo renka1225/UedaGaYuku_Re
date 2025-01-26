@@ -1,58 +1,12 @@
-﻿  CharacterBase.cpp
-  EnemyAI.cpp
-  EnemyBase.cpp
-  EnemyStateAttack.cpp
-  EnemyStateAvoid.cpp
-  EnemyStateBase.cpp
-  EnemyStateDeath.cpp
-  EnemyStateGuard.cpp
-  EnemyStateHitAttack.cpp
-  EnemyStateIdle.cpp
-  EnemyStateMove.cpp
-  Npc.cpp
-  Player.cpp
-C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Player\Player.cpp(195,77): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-  PlayerStateAttack.cpp
-C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Player\PlayerStateAttack.cpp(204,67): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-  PlayerStateAvoid.cpp
-  PlayerStateBase.cpp
-  PlayerStateDeath.cpp
-  PlayerStateGrab.cpp
-  PlayerStateGuard.cpp
-  PlayerStateHitAttack.cpp
-  コードを生成中...
-  コンパイル中...
-  PlayerStateIdle.cpp
-  PlayerStateRun.cpp
-  PlayerStateWalk.cpp
-  SceneDebug.cpp
-  Camera.cpp
-  Item.cpp
-  Stage.cpp
-  Weapon.cpp
-  SceneBase.cpp
-  SceneEnhance.cpp
-  SceneMain.cpp
-  SceneMenu.cpp
-  SceneOption.cpp
-  SceneSave.cpp
-  SceneSelect.cpp
-  SceneUseItem.cpp
-  UiBar.cpp
-  UiBase.cpp
+﻿  SceneBase.cpp
   UiMain.cpp
-  EffectManager.cpp
   コードを生成中...
-  コンパイル中...
-  LoadCsv.cpp
-  SaveData.cpp
-  main.cpp
-  コードを生成中...
-Effekseer_vs2019_x64_d.lib(Effekseer.EffectNodeRibbon.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(Effekseer.EffectNodeRibbon.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-Effekseer_vs2019_x64_d.lib(Effekseer.EffectNodeSprite.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(Effekseer.EffectNodeSprite.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Effekseer_vs2019_x64_d.lib(Effekseer.Instance.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(Effekseer.Instance.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Effekseer_vs2019_x64_d.lib(Easing.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(Easing.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Effekseer_vs2019_x64_d.lib(CurlNoise.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(CurlNoise.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Effekseer_vs2019_x64_d.lib(ForceFields.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(ForceFields.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Effekseer_vs2019_x64_d.lib(ProceduralModelGenerator.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(ProceduralModelGenerator.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Effekseer_vs2019_x64_d.lib(SplineGenerator.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(SplineGenerator.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 EffekseerRendererDX9_vs2019_x64_d.lib(EffekseerRendererDX9.Renderer.obj) : warning LNK4099: PDB '' が 'EffekseerRendererDX9_vs2019_x64_d.lib(EffekseerRendererDX9.Renderer.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 EffekseerRendererDX11_vs2019_x64_d.lib(EffekseerRendererDX11.Renderer.obj) : warning LNK4099: PDB '' が 'EffekseerRendererDX11_vs2019_x64_d.lib(EffekseerRendererDX11.Renderer.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
   Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\UedaGaYukuRE.exe

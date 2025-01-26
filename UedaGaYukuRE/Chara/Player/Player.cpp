@@ -379,6 +379,11 @@ void Player::UpdateTutorial(const Input& input, EnemyBase& pEnemy)
 	if (input.IsTriggered(InputId::kDebugTutorial))
 	{
 		m_tutorial.currentNum++;
+		if (m_tutorial.currentNum >= TutorialNum::kTuto_5)
+		{
+			m_tutorial.isEndTutorial = true;
+			m_isBattle = false;
+		}
 	}
 #endif // _DEBUG
 

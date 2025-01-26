@@ -5,6 +5,7 @@
 #include "EffectManager.h"
 #include "UiMain.h"
 #include "UiBar.h"
+#include "UiConversation.h"
 #include "Camera.h"
 #include "CharacterBase.h"
 #include "Player.h"
@@ -43,7 +44,7 @@ namespace
 	constexpr float kRecoveryMaxRate = 100.0f;	// 回復の最大割合
 	constexpr int kRecoveryMoney = 1000;		// 回復に必要な金額
 
-	constexpr int kLoadingTime = 500;			// ロード時間
+	constexpr int kLoadingTime = 600;			// ロード時間
 	constexpr int kFirstSpawnTime = 300;		// ゲーム開始からチュートリアルが始まるまでの時間
 	constexpr int kEnemySpawnMinTime = 300;		// 敵がスポーンするまでの最小時間
 	constexpr int kEnemySpawnMaxTime = 1000;	// 敵がスポーンするまでの最大時間
@@ -305,7 +306,7 @@ void SceneMain::Draw()
 	m_pWeapon->DrawWeaponUi(); // 武器UI表示
 	m_pUiBar->DrawPlayerHpBar(*m_pPlayer, m_pPlayer->GetStatus().maxHp);		// プレイヤーHP表示
 	m_pUiBar->DrawPlayerGaugeBar(*m_pPlayer, m_pPlayer->GetStatus().maxGauge);	// プレイヤーゲージ表示
-	m_pUiMain->DrawMoneyUi(); // 所持金UI表示
+	m_pUiMain->DrawMoneyUi(m_pPlayer->GetMoney()); // 所持金UI表示
 
 	DrawTalk(); // 会話表示
 
@@ -389,6 +390,7 @@ void SceneMain::Loading()
 void SceneMain::InitAfterLoading()
 {
 	m_pUiBar = std::make_shared<UiBar>();
+	m_pUiConversation = std::make_shared<UiConversation>();
 	m_pPlayer = std::make_shared<Player>(m_pUiBar, m_pUiMain, m_modelHandle[CharacterBase::CharaType::kPlayer]);
 	m_pNpc = std::make_shared<Npc>(m_modelHandle[CharacterBase::CharaType::kNpc]);
 	m_pWeapon = std::make_shared<Weapon>(m_pPlayer);
@@ -631,7 +633,7 @@ void SceneMain::CreateTutoEnemy()
 	int enemyIndex = CharacterBase::CharaType::kEnemy_tuto;
 
 	auto tutoEnemy = std::make_shared<EnemyBase>(m_pUiBar, m_pItem, *m_pPlayer);
-	tutoEnemy->SetEnemyInfo("Saionzi", "enemy_tuto", enemyIndex, m_modelHandle[enemyIndex]);
+	tutoEnemy->SetEnemyInfo("Tanaka", "enemy_tuto", enemyIndex, m_modelHandle[enemyIndex]);
 	tutoEnemy->SetEnemySpawnPos(*m_pPlayer, 0);
 	tutoEnemy->Init();
 	m_pEnemy.push_back(tutoEnemy);
@@ -853,7 +855,7 @@ void SceneMain::UpdateTalk(const Input& input)
 {
 	if (!m_pPlayer->GetIsNowTalk() || m_pPlayer->GetIsBattle()) return;
 
-	m_pUiMain->UpdateDispTalk(m_nowTalkId); // 会話表示を更新
+	m_pUiConversation->UpdateDispTalk(m_nowTalkId); // 会話表示を更新
 
 	m_talkDispTime--;
 	if (m_talkDispTime > 0) return;
@@ -868,7 +870,7 @@ void SceneMain::UpdateTalk(const Input& input)
 	// Bボタンを押した場合
 	if (input.IsTriggered(InputId::kBack))
 	{
-		m_pUiMain->ResetDispTalk(); // 会話表示をリセットする
+		m_pUiConversation->ResetDispTalk(); // 会話表示をリセットする
 		EndTalk(); // 会話を終了する
 		return;
 	}
@@ -877,7 +879,7 @@ void SceneMain::UpdateTalk(const Input& input)
 	{
 		if (input.IsTriggered(InputId::kOk))
 		{
-			m_pUiMain->ResetDispTalk(); // 会話表示をリセットする
+			m_pUiConversation->ResetDispTalk(); // 会話表示をリセットする
 			EndTalk(); // 会話を終了する
 			return;
 		}
@@ -993,7 +995,7 @@ void SceneMain::SelectGetItem(const Input& input)
 {
 	m_nowTalkId = ConversationID::kGetItem;
 
-	// アイテム選択
+	// TODO:ランダムでアイテム取得
 
 }
 
@@ -1016,13 +1018,13 @@ void SceneMain::DrawTalk()
 	// 会話中
 	if (m_pPlayer->GetIsNowTalk())
 	{
-		m_pUiMain->DrawTalk(*m_pPlayer, kClearEnemyNum); // 会話画面
+		m_pUiConversation->DrawTalk(*m_pPlayer, kClearEnemyNum); // 会話画面
 
 		// 選択肢表示
 		if (!m_isDispTalkSelect) return;
-		m_pUiMain->DrawTalkSelectBg(); // 選択肢の背景
+		m_pUiConversation->DrawTalkSelectBg(); // 選択肢の背景
 		m_pUi->DrawCursor(kCursorId, m_talkSelect, kTalkSelectCursorInterval);	// 選択カーソル
-		m_pUiMain->DrawTalkSelectText(); // 選択肢
+		m_pUiConversation->DrawTalkSelectText(); // 選択肢
 	}
 }
 
