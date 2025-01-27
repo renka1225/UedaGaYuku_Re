@@ -1,7 +1,8 @@
 ﻿#include "DxLib.h"
 #include "Game.h"
-#include "LoadCsv.h"
+#include "Input.h"
 #include "Font.h"
+#include "LoadCsv.h"
 #include "EnemyBase.h"
 #include "SceneMain.h"
 #include "UiMain.h"
@@ -12,6 +13,11 @@ namespace
 	/*画像の種類*/
 	enum Handle
 	{
+		kLoading_introduceText,	// 紹介文
+		kLoading_bg_back,		// ローディング背景
+		kLoading_bg_front,		// ローディング背景
+		kLoading_triangle_L,	// ローディングの三角形左側
+		kLoading_triangle_R,	// ローディングの三角形右側
 		kTuto_bg,			// チュートリアル背景
 		kTuto_check,		// チュートリアルチェック
 		kTuto_ok,			// チュートリアル完了
@@ -39,6 +45,11 @@ namespace
 
 	const char* kHandle[Handle::kNum]
 	{
+		"data/ui/load/introduceText.png",
+		"data/ui/load/bg_back.png",
+		"data/ui/load/bg_front.png",
+		"data/ui/load/triangle_L.png",
+		"data/ui/load/triangle_R.png",
 		"data/ui/tutorial/bg.png",
 		"data/ui/tutorial/check.png",
 		"data/ui/tutorial/ok.png",
@@ -84,11 +95,16 @@ namespace
 	constexpr int kBgAlpha = 200;				// 背景のブレンド率
 
 	/*ロード*/
-	const Vec2 kLoadingPos = { 1600.0f, 950.0f };	// ロード中表示位置
-	constexpr float kLoadingMoveSpeed = 1.0f;		// テキストの移動速度
-	constexpr float kLoadingAmplitude = 4.0f;		// テキストの振幅
-	constexpr float kLoadingTextInterval = 20.0f;	// テキストの表示間隔
-	constexpr float kLoadingAnimTime = 0.05f;		// ローディング中のアニメーション時間
+	const Vec2 kLoadingPos = { 1600.0f, 950.0f };				// "NowLoading..."表示位置
+	const Vec2 kLoadingTrianglePos = { 370.0f, 517.0f };		// 三角形表示位置
+	const Vec2 kLoadingDispIntroduceSize = { 571.0f, 357.0f };	// キャラクター紹介表示サイズ
+	constexpr int kLoadingIntroduceNum = 5;						// キャラクター紹介文数
+	constexpr int kLoadingIntroduceChangeTime = 180;			// キャラクター紹介の変更時間
+	constexpr float kLoadingTriangleMove = 10.0f;				// 三角形の動く幅
+	constexpr float kLoadingMoveSpeed = 1.0f;					// テキストの移動速度
+	constexpr float kLoadingAmplitude = 4.0f;					// テキストの振幅
+	constexpr float kLoadingTextInterval = 20.0f;				// テキストの表示間隔
+	constexpr float kLoadingAnimTime = 0.05f;					// ローディング中のアニメーション時間
 
 	/*操作説明*/
 	const Vec2 kDispOperationPos = { 1635.0f, 905.0f };			// 通常操作説明表示位置
@@ -135,8 +151,11 @@ namespace
 	constexpr int kMaxBlend = 255; // 最大ブレンド率
 }
 
-UiMain::UiMain():
+UiMain::UiMain() :
+	m_dispIntroducePos({ kLoadingDispIntroduceSize.x, kLoadingDispIntroduceSize.y }),
+	m_loadingTime(0),
 	m_loadingAnimTime(0.0f),
+	m_nowLoadingIntroduce(0),
 	m_dispMoneyPos(kDispMoneyInitPos),
 	m_dispMoneyAnimTime(0),
 	m_dispGekihaTextScale(kDispBattleTextMaxScale),
@@ -150,6 +169,7 @@ UiMain::UiMain():
 	}
 }
 
+
 UiMain::~UiMain()
 {
 	for (auto& handle : m_handle)
@@ -158,8 +178,73 @@ UiMain::~UiMain()
 	}
 }
 
+void UiMain::UpdateLoading(const Input& input)
+{
+	m_loadingTime++;
+
+	// カーソルで画像を切り替える
+	if (input.IsTriggered(InputId::kLeft))
+	{
+		// 画像を左側に移動させる
+		if (m_nowLoadingIntroduce == 0)
+		{
+			m_nowLoadingIntroduce = kLoadingIntroduceNum - 1; // 最後の画像に移動
+		}
+		else
+		{
+			m_nowLoadingIntroduce--;
+		}
+
+		m_loadingTime = 0;
+	}
+	else if (input.IsTriggered(InputId::kRight))
+	{
+		// 画像を右側に移動させる
+		if (m_nowLoadingIntroduce == kLoadingIntroduceNum - 1)
+		{
+			m_nowLoadingIntroduce = 0; // 最初の画像に移動
+		}
+		else
+		{
+			m_nowLoadingIntroduce++;
+		}
+
+		m_loadingTime = 0;
+	}
+
+	// 数秒ごとに紹介画像を切り替える
+	if (m_loadingTime >= kLoadingIntroduceChangeTime)
+	{
+		// 次の画像に変える
+		m_nowLoadingIntroduce = (m_nowLoadingIntroduce + 1) % kLoadingIntroduceNum;
+		m_loadingTime = 0;
+	}
+
+	// テキストを左に移動させる
+	//m_dispIntroducePos.x = kLoadingTextPos.x;
+
+}
+
 void UiMain::DrawLoading()
 {
+	/*背景表示*/
+	// 最背面
+	DrawGraph(0, 0, m_handle[Handle::kLoading_bg_back], true);
+
+	// 紹介テキスト
+	DrawRectGraphF(m_dispIntroducePos.x, m_dispIntroducePos.y, 
+		kLoadingDispIntroduceSize.x * m_nowLoadingIntroduce, 0, kLoadingDispIntroduceSize.x, kLoadingDispIntroduceSize.y,
+		m_handle[Handle::kLoading_introduceText], true);
+
+	// 最前面
+	DrawGraph(0, 0, m_handle[Handle::kLoading_bg_front], true);
+
+	// 三角形
+	float movePos = sinf(m_loadingAnimTime) * kLoadingTriangleMove; // 左右に動かす
+	DrawGraphF(kLoadingTrianglePos.x - movePos, kLoadingTrianglePos.y, m_handle[Handle::kLoading_triangle_L], true);
+	DrawGraphF((Game::kScreenWidth - kLoadingTrianglePos.x) + movePos, kLoadingTrianglePos.y, m_handle[Handle::kLoading_triangle_R], true);
+
+	/*Loadingの文字表示*/
 	m_loadingAnimTime += kLoadingAnimTime;
 
 	// 表示する文字
@@ -186,6 +271,8 @@ void UiMain::DrawLoading()
 		// 次の文字の描画位置を計算
 		charPosX += charWidth;
 	}
+
+	DrawFormatString(0, 20, Color::kColorW, "表示画像:%d", m_nowLoadingIntroduce);
 }
 
 void UiMain::DrawBattleStart()

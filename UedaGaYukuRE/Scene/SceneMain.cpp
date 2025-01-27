@@ -153,6 +153,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	if (m_isLoading)
 	{
 		Loading();
+		m_pUiMain->UpdateLoading(input);
 		return shared_from_this();
 	}
 
