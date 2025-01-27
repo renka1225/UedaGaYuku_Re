@@ -18,6 +18,7 @@ namespace
 		kPlayerGauge,		// プレイヤーのゲージ
 		kPlayerGaugeCircle, // プレイヤーのゲージ円部分
 		kPlayerGaugeMax,	// プレイヤーのゲージが溜まったとき
+		kPlayerSpecial,		// 必殺技のアイコン
 		kEnemyHpBg,			// 敵のHP背景部分
 		kEnemyHp,			// 敵のHP
 		kEnemyHpDamage,		// 敵のダメージHP
@@ -35,6 +36,7 @@ namespace
 		kBarHandleFile + "player_gauge.png",
 		kBarHandleFile + "player_gauge_circle.png",
 		kBarHandleFile + "player_gauge_max.png",
+		"data/ui/battle/special.png",
 		kBarHandleFile + "enemy_hp_bg.png",
 		kBarHandleFile + "enemy_hp.png",
 		kBarHandleFile + "enemy_hp_damage.png",
@@ -56,6 +58,8 @@ namespace
 	constexpr float kAdjDispBarPosY = 30.0f;			// 敵HPバーの表示位置調整
 	const Vec2 kBackBarEnemyHpSize = { 80.0f, 10.0f };	// 敵HPバーのバック部分のサイズ
 	const Vec2 kBarEnemyHpSize = { 66.0f, 5.0f };		// 敵HPバーのサイズ
+
+	const Vec2 kSpecialPos = { 55.0f, 30.0f };			// 必殺技の表示位置
 
 	constexpr int kIntervalTime = 100;			// HPバーが減少するまでの時間
 	constexpr float kHpDecreaseSpeed = 5.0f;	// HPが減少する速度
@@ -116,10 +120,10 @@ void UiBar::LoadHandle()
 	}
 }
 
-void UiBar::DrawPlayerHpBar(Player& player, float maxHp)
+void UiBar::DrawPlayerHpBar(const Player& pPlayer, float maxHp)
 {
 	// 現在の強化段階を取得
-	std::string enhanceStep = std::to_string(player.GetEnhanceStep().nowHpUpStep);
+	std::string enhanceStep = std::to_string(pPlayer.GetEnhanceStep().nowHpUpStep);
 
 	/*バック部分*/
 	std::string bgId = kBarID.at("playerHpBack") + enhanceStep; // 最大HPによってIDを変える
@@ -131,17 +135,17 @@ void UiBar::DrawPlayerHpBar(Player& player, float maxHp)
 	auto damageData = LoadCsv::GetInstance().GetUiData(damageId);
 
 	// プレイヤーのHPが0以下になる場合、ダメージ部分を表示しない
-	if (player.GetHp() - m_playerDamage <= 0.0f)
+	if (pPlayer.GetHp() - m_playerDamage <= 0.0f)
 	{
 		m_playerDamage = 0.0f;
 	}
-	else if (player.GetHp() >= player.GetStatus().maxHp)
+	else if (pPlayer.GetHp() >= pPlayer.GetStatus().maxHp)
 	{
 		m_playerDamage = 0.0f;
 	}
 
 	// ダメージバーの長さを変える
-	float damageHpRatio = (player.GetHp() + m_playerDamage) / maxHp;
+	float damageHpRatio = (pPlayer.GetHp() + m_playerDamage) / maxHp;
 	float damageHpLength = damageData.width * damageHpRatio;
 	damageHpLength = std::clamp(damageHpLength, 0.0f, damageData.width);
 
@@ -152,17 +156,17 @@ void UiBar::DrawPlayerHpBar(Player& player, float maxHp)
 	auto hpData = LoadCsv::GetInstance().GetUiData(hpId);
 
 	// 現在のHP量に応じてバーの長さを変える
-	float hpRatio = player.GetHp() / maxHp;
+	float hpRatio = pPlayer.GetHp() / maxHp;
 	float hpLength = hpData.width * hpRatio;
 	hpLength = std::clamp(hpLength, 0.0f, hpData.width);
 
 	DrawExtendGraphF(hpData.LTposX, hpData.LTposY, hpData.LTposX + hpLength, hpData.RBposY, m_handle[Handle::kPlayerHp], true);
 }
 
-void UiBar::DrawPlayerGaugeBar(Player& player, float maxGauge)
+void UiBar::DrawPlayerGaugeBar(const Player& pPlayer, float maxGauge)
 {
 	// 現在の強化段階を取得
-	std::string enhanceStep = std::to_string(player.GetEnhanceStep().nowGaugeUpStep);
+	std::string enhanceStep = std::to_string(pPlayer.GetEnhanceStep().nowGaugeUpStep);
 
 	// バック部分
 	std::string bgId = kBarID.at("playerGaugeBack") + enhanceStep; // 最大ゲージ量によってIDを変える
@@ -174,21 +178,19 @@ void UiBar::DrawPlayerGaugeBar(Player& player, float maxGauge)
 	auto gaugeData = LoadCsv::GetInstance().GetUiData(gaugeId);
 
 	// 現在のゲージ量に応じてバーの長さを変える
-	float gaugeRatio = player.GetGauge() / maxGauge;
-	float gaugeLength = gaugeData.RBposX * gaugeRatio;
+	float gaugeRatio = pPlayer.GetGauge() / maxGauge;
+	float gaugeLength = gaugeData.width * gaugeRatio;
 	DrawExtendGraphF(gaugeData.LTposX, gaugeData.LTposY, gaugeData.LTposX + gaugeLength, gaugeData.RBposY, m_handle[Handle::kPlayerGauge], true);
+}
 
-	//// ゲージの円部分
-	//auto gaugeCircleData = LoadCsv::GetInstance().GetUiData(kBarID.at("playerGaugeCircle"));
-	//DrawExtendGraphF(gaugeCircleData.LTposX, gaugeCircleData.LTposY, gaugeCircleData.RBposX, gaugeCircleData.RBposY, m_handle[Handle::kPlayerGaugeCircle], true);
-
-	//// ゲージが最大まで溜まっている場合
-	//if (player.GetGauge() >= maxGauge)
-	//{
-	//	// 円の色を変える
-	//	auto gaugeMaxData = LoadCsv::GetInstance().GetUiData(kBarID.at("playerGaugeMax"));
-	//	DrawExtendGraphF(gaugeMaxData.LTposX, gaugeMaxData.LTposY, gaugeMaxData.RBposX, gaugeMaxData.RBposY, m_handle[Handle::kPlayerGaugeMax], true);
-	//}
+void UiBar::DrawPlayerSpecial(const Player& pPlayer)
+{
+	// ゲージが溜まっていない場合、バトルでない場合は飛ばす
+	if (!pPlayer.GetIsBattle()) return;
+	if (pPlayer.GetGauge() < pPlayer.GetStatus().maxGauge) return;
+	
+	// "闘"の文字表示
+	DrawGraphF(kSpecialPos.x, kSpecialPos.y, m_handle[Handle::kPlayerSpecial], true);
 }
 
 void UiBar::DrawEnemyHpBar(EnemyBase& pEnemy)

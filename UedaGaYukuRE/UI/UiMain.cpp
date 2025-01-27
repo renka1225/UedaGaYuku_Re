@@ -73,7 +73,7 @@ namespace
 		{"guard", {1698.0f, 604.0f}},
 		{"grab", {1814.0f, 345.0f}},
 		{"weaponAtk", {1824.0f, 432.0f}},
-		{"heat", {1828.0f, 344.0f}},
+		{"heat", {1768.0f, 344.0f}},
 		{"bg", { 1433.0f, 238.0f }},	// 背景位置
 		{"text", { 1433.0f, 237.0f }},	// テキスト位置
 		{"check", { 1450.0f, 339.0f }},	// チェックマーク位置
@@ -114,13 +114,15 @@ namespace
 
 	const Vec2 kBattleEndBgPos = { 200, 0 };		// バトル終了時の背景位置
 	const Vec2 kGekihaTextPos = { 950, 500 };		// "撃破"テキスト位置
-	constexpr int kGekihaDispTime = 80;				// "撃破"テキストを表示しはじめる時間
+	constexpr int kGekihaDispTime = 90;				// "撃破"テキストを表示しはじめる時間
 	constexpr float kGekihaTextMinScale = 1.0f;		// "撃破"テキスト最小サイズ
 	constexpr float kGekihaTextMaxScale = 10.0f;	// "撃破"テキスト最大サイズ
 	constexpr float kGekihaTextChangeScale = 0.6f;	// "撃破"テキストサイズ
 
 	const Vec2 kBattleNowPos = { 1550.0f, 50.0f };	// バトル中表示位置
 	constexpr float kNowBattleMoveSpeed = 13.0f;	// バトル中UIの移動速度
+
+	const Vec2 kSpecialPos = {};
 
 	/*所持金*/
 	const Vec2 kDispMoneyInitPos = { 1329.0f, -120.0f }; // 所持金UI初期位置
@@ -199,6 +201,7 @@ void UiMain::DrawBattleStart()
 
 void UiMain::DrawBattleEnd(int time)
 {
+	if (time > kGekihaDispTime) return; // 一定時間経ったら表示する
 	// 乗算で表示する
 	SetDrawBlendMode(DX_BLENDMODE_MULA, kMaxBlend);
 	DrawGraphF(kBattleEndBgPos.x, kBattleEndBgPos.y, m_handle[Handle::kBattle_end], true);

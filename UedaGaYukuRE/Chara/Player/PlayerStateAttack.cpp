@@ -9,10 +9,10 @@
 
 namespace
 {
-    constexpr float kSpecialRange = 50.0f;	 // 必殺技が当たる範囲
-    constexpr float kSpecialAtkPower = 1.2f; // 必殺技の攻撃力
-    constexpr int kMinSpecialGauge = 3;      // 攻撃時に溜まるゲージ最小量
-    constexpr int kMaxSpecialGauge = 10;     // 攻撃時に溜まるゲージ最大量
+    constexpr float kSpecialRange = 32.0f;	  // 必殺技が当たる範囲
+    constexpr float kSpecialAtkPower = 10.0f; // 必殺技の攻撃力
+    constexpr int kMinSpecialGauge = 3;       // 攻撃時に溜まるゲージ最小量
+    constexpr int kMaxSpecialGauge = 10;      // 攻撃時に溜まるゲージ最大量
 }
 
 PlayerStateAttack::PlayerStateAttack(const std::shared_ptr<Player>& pPlayer):
@@ -60,6 +60,10 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
 {
     for (auto& enemy : pEnemy)
     {
+        // 特定の状態の場合はスキップする
+        bool isSkip = enemy == nullptr || enemy->GetIsInvincible();
+        if (isSkip) continue;
+
         // 必殺技発動中
         if (m_attackKind == AnimName::kSpecialAtk1 || m_attackKind == AnimName::kSpecialAtk2)
         {
@@ -76,10 +80,6 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             enemy->OnDamage(GetAttackPower());
             enemy->SetIsInvincible(true);  // 敵を無敵状態にする
         }
-
-        // 特定の状態の場合はスキップする
-        bool isSkip = enemy == nullptr || enemy->GetIsInvincible() || m_attackKind == AnimName::kSpecialAtk1 || m_attackKind == AnimName::kSpecialAtk2;
-        if (isSkip) continue;
 
         // 武器掴み中の場合
         if (m_pPlayer->GetIsGrabWeapon())

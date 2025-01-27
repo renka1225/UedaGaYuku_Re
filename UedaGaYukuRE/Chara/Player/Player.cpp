@@ -25,7 +25,7 @@ namespace
 
 	constexpr float kScale = 0.14f;				// モデルの拡大率
 	constexpr float kRangeFoundEnemy = 50.0f;	// 敵を認識する範囲
-	constexpr float kRangeSpecial = 30.0f;		// 必殺技を出せる範囲
+	constexpr float kRangeSpecial = 20.0f;		// 必殺技を出せる範囲
 	constexpr float kDistWeaponGrab = 20.0f;	// 武器を掴める距離
 	constexpr float kMoveAttack = 0.3f;			// 攻撃時の移動量
 
@@ -453,16 +453,23 @@ void Player::UpdateEnemyInfo(std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 
 		UpdateBattle(i); // バトル状態を更新する
 
+		printfDx("%.2f\n", VSize(m_pToEVec[i]));
 		// 敵が範囲内にいる場合
 		if (VSize(m_pToEVec[i]) <= kRangeSpecial)
 		{
 			// チュートリアル前は必殺技を出せないようにする
-			if (m_tutorial.currentNum < TutorialNum::kTuto_4) return;
+			if (!m_tutorial.isEndTutorial && m_tutorial.currentNum < TutorialNum::kTuto_4) return;
 
-			// ゲージが溜まっていない場合飛ばす
-			if (m_gauge < GetStatus().maxGauge) return;
-
-			m_isSpecial = true; // 必殺技を出せるようにする
+			// ゲージが溜まっている場合
+			if (m_gauge >= GetStatus().maxGauge)
+			{
+				m_isSpecial = true; // 必殺技を出せるようにする
+			}
+			else
+			{
+				m_isSpecial = false;
+			}
+			
 		}
 	}
 }
@@ -778,7 +785,7 @@ void Player::UpdateTuto4(const Input& input, EnemyBase& pEnemy)
 
 	// 必殺技アニメーションが終了したら、次のチュートリアルに移る
 	bool isEndAnim = m_currenAnimName != AnimName::kSpecialAtk1 && m_currenAnimName != AnimName::kSpecialAtk2;
-	if (m_tutorial.isHeat && isEndAnim)
+	if (m_tutorial.isHeat && !m_isAttack && isEndAnim)
 	{
 		pEnemy.RecoveryMaxHp();
 		ChangeTutorial();
@@ -787,9 +794,6 @@ void Player::UpdateTuto4(const Input& input, EnemyBase& pEnemy)
 
 void Player::UpdateTuto5()
 {
-	// ヒートゲージを最大にする
-	RecoveryGauge(kMaxRecoveryRate);
-	
 	// チュートリアルを終了する
 	if (!m_isBattle)
 	{

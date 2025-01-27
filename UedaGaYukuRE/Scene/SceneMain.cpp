@@ -29,9 +29,20 @@
 // 定数
 namespace
 {
+	/*モデルハンドル*/
 	const std::string kHandlePath = "data/model/chara/";			  // モデルハンドルパス
 	const std::string kPlayerHandlePath = kHandlePath + "player.mv1"; // プレイヤーのモデルハンドルパス
 	const std::string kEnemyHandlePath = kHandlePath + "enemy_";	  // 敵のモデルハンドルパス
+
+	/*敵名*/
+	const std::map<int, std::string> kEnemyName
+	{
+		{CharacterBase::CharaType::kEnemy_tuto, "Tanaka"},
+		{CharacterBase::CharaType::kEnemy_boss, "Ohara"},
+		{CharacterBase::CharaType::kEnemy_bob, "Bob"},
+		{CharacterBase::CharaType::kEnemy_sato, "Sato"},
+		{CharacterBase::CharaType::kEnemy_abe, "Abe"}
+	};
 
 	constexpr int kModelNum = 10;			// 読み込むモデルの数
 	constexpr int kMobEnemyNum = 3;			// 読み込むモブ敵の数
@@ -45,13 +56,13 @@ namespace
 	constexpr int kRecoveryMoney = 1000;		// 回復に必要な金額
 
 	constexpr int kLoadingTime = 600;			// ロード時間
-	constexpr int kFirstSpawnTime = 300;		// ゲーム開始からチュートリアルが始まるまでの時間
+	constexpr int kFirstSpawnTime = 180;		// ゲーム開始からチュートリアルが始まるまでの時間
 	constexpr int kEnemySpawnMinTime = 300;		// 敵がスポーンするまでの最小時間
 	constexpr int kEnemySpawnMaxTime = 1000;	// 敵がスポーンするまでの最大時間
 	constexpr float kEnemyExtinctionDist = 2500.0f;	// 敵が消滅する範囲
 
 	constexpr int kBattleStartStagingTime = 120; // バトル開始時の演出時間
-	constexpr int kBattleEndStagingTime = 120;	 // バトル終了時の演出時間
+	constexpr int kBattleEndStagingTime = 240;	 // バトル終了時の演出時間
 	constexpr int kEndingTime = 30;				 // エンディングの時間
 	constexpr int kTalkDispTime = 3;			 // 会話を表示させる最低限の時間
 
@@ -127,6 +138,13 @@ void SceneMain::Init()
 	m_pUiBar->Init();
 	m_pItem->Init();
 	m_isPause = false;
+
+	// チュートリアルが終了していない場合
+	if (!m_pPlayer->GetTutoInfo().isEndTutorial)
+	{
+		m_isTutorial = true;
+		m_pPlayer->SetIsBattle(true);
+	}
 }
 
 std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
@@ -224,8 +242,6 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	{
 		// すでにクリア済みの場合は生成しない
 		if (m_pPlayer->GetTutoInfo().isEndTutorial) return shared_from_this();
-		// チュートリアル中は場合は飛ばす
-		if (m_isTutorial) return shared_from_this();
 
 		CreateTutoEnemy();
 	}
@@ -302,8 +318,17 @@ void SceneMain::Draw()
 		m_pUiMain->DrawBattleUi(*m_pPlayer);
 	}
 
+	// チュートリアル中かどうか
+	bool isTuto = m_pPlayer->GetTutoInfo().currentNum >= Player::TutorialNum::kTuto_3;
+	// 必殺技中かどうか
+	bool isSpecial = m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk1 || m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk2;
+	// 特定の状態中のみ表示する
+	if (!m_isBattleEndStaging || isTuto && isSpecial)
+	{
+		m_pWeapon->DrawWeaponUi(); // 武器UI表示
+	}
 
-	m_pWeapon->DrawWeaponUi(); // 武器UI表示
+	m_pUiBar->DrawPlayerSpecial(*m_pPlayer); // 必殺技表示
 	m_pUiBar->DrawPlayerHpBar(*m_pPlayer, m_pPlayer->GetStatus().maxHp);		// プレイヤーHP表示
 	m_pUiBar->DrawPlayerGaugeBar(*m_pPlayer, m_pPlayer->GetStatus().maxGauge);	// プレイヤーゲージ表示
 	m_pUiMain->DrawMoneyUi(m_pPlayer->GetMoney()); // 所持金UI表示
@@ -611,7 +636,7 @@ void SceneMain::CreateEnemy()
 	// ゲーム開始時、時間が経ってから敵を生成する
 	if (m_mainSceneTime <= kFirstSpawnTime + kLoadingTime) return;
 	// チュートリアル前は生成しない
-	if (!m_pPlayer->GetTutoInfo().isEndTutorial) return;
+	if (!m_pPlayer->GetTutoInfo().isEndTutorial && m_isTutorial) return;
 	// 会話中は敵を生成しない
 	if (m_pPlayer->GetIsNowTalk()) return;
 
@@ -642,7 +667,7 @@ void SceneMain::CreateTutoEnemy()
 	int enemyIndex = CharacterBase::CharaType::kEnemy_tuto;
 
 	auto tutoEnemy = std::make_shared<EnemyBase>(m_pUiBar, m_pItem, *m_pPlayer);
-	tutoEnemy->SetEnemyInfo("Tanaka", "enemy_tuto", enemyIndex, m_modelHandle[enemyIndex]);
+	tutoEnemy->SetEnemyInfo(kEnemyName.at(enemyIndex), "enemy_tuto", enemyIndex, m_modelHandle[enemyIndex]);
 	tutoEnemy->SetEnemySpawnPos(*m_pPlayer, 0);
 	tutoEnemy->Init();
 	m_pEnemy.push_back(tutoEnemy);
@@ -660,7 +685,7 @@ void SceneMain::CreateBossEnemy()
 	int enemyIndex = CharacterBase::CharaType::kEnemy_boss;
 
 	auto bossEnemy = std::make_shared<EnemyBase>(m_pUiBar, m_pItem, *m_pPlayer);
-	bossEnemy->SetEnemyInfo("Ohara", "enemy_boss", enemyIndex, m_modelHandle[enemyIndex]);
+	bossEnemy->SetEnemyInfo(kEnemyName.at(enemyIndex), "enemy_boss", enemyIndex, m_modelHandle[enemyIndex]);
 	bossEnemy->SetEnemySpawnPos(*m_pPlayer, 0);
 	bossEnemy->Init();
 	m_pEnemy.push_back(bossEnemy);
@@ -688,6 +713,10 @@ void SceneMain::UpdateEnemy()
 			// 敵のHPが0以下になった場合
 			if (!m_isBattleEndStaging && m_pEnemy[i]->GetHp() <= 0.0f)
 			{
+				// 必殺アニメーション中が終わるまでバトル終了演出を行わない
+				bool isSpecial = m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk1 || m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk2;
+				if (isSpecial) return;
+
 				// バトル終了演出を行う
 				m_isBattleEndStaging = true;
 				m_battleEndStagingTime = kBattleEndStagingTime;
@@ -862,7 +891,8 @@ void SceneMain::StartEvent(const std::string& eventId, const Input& input)
 
 void SceneMain::UpdateTalk(const Input& input)
 {
-	if (!m_pPlayer->GetIsNowTalk() || m_pPlayer->GetIsBattle()) return;
+	// 特定の状態中は会話できないようにする
+	if (!m_pPlayer->GetIsNowTalk() || m_pPlayer->GetIsBattle() || m_isBattleEndStaging) return;
 
 	m_pUiConversation->UpdateDispTalk(m_nowTalkId); // 会話表示を更新
 

@@ -89,18 +89,17 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 		ChangeStateGrab(weapon);
 	}
 
-	// 必殺技のボタンが押された場合
-	if (input.IsTriggered(InputId::kSpecial))
+
+	// ゲージが最大の場合
+	bool isMaxGauge = m_pPlayer->GetGauge() >= m_pPlayer->GetStatus().maxGauge;
+	if (isMaxGauge && m_pPlayer->GetIsSpecial())
 	{
-		// ゲージが最大であれば必殺技を発動する
-		if (m_pPlayer->GetIsSpecial())
+		// ボタンが押された場合
+		if (input.IsTriggered(InputId::kSpecial))
 		{
 			ChangeStateSpecialAttack();
-
-			// ゲージを減らす
-			m_pPlayer->SetGauge(0.0f);
+			return;
 		}
-		return;
 	}
 
 	// ガードのボタンが押された場合
@@ -128,6 +127,7 @@ void PlayerStateBase::UpdateBattleEnd()
 {
 	ChangeStateIdle();
 	m_isNowBattleEnd = true;
+	m_pPlayer->SetIsBattle(false);
 }
 
 bool PlayerStateBase::IsStateInterrupt()
@@ -199,6 +199,7 @@ void PlayerStateBase::ChangeStateSpecialAttack()
 		m_pPlayer->SetIsGrabWeapon(false);
 	}
 
+	m_pPlayer->SetGauge(0.0f); // ゲージを減らす
 	m_pPlayer->SetIsAttack(true);
 	std::shared_ptr<PlayerStateAttack> state = std::make_shared<PlayerStateAttack>(m_pPlayer);
 	m_nextState = state;
@@ -242,7 +243,7 @@ void PlayerStateBase::ChangeStateGrab(Weapon& pWeapon)
 	}
 
 	// 武器を掴んでいない場合かつ範囲内に武器がある場合
-	if (!m_pPlayer->GetIsGrabWeapon() && m_pPlayer->GetIsPossibleGrabWeapon())
+	if (m_pPlayer->GetIsPossibleGrabWeapon())
 	{
 		// 拾った武器の情報を取得する
 		std::string weaponTag = pWeapon.GetNearWeaponTag();

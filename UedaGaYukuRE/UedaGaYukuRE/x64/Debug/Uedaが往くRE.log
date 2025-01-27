@@ -1,3 +1,2 @@
-﻿  Player.cpp
-C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Player\Player.cpp(195,77): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-  Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\UedaGaYukuRE.exe
+﻿  SceneMain.cpp
+  Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\UedaGaYukuRE\x64\Debug\UedaGaYukuRE.exe

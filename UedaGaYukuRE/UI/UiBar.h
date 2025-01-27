@@ -40,16 +40,22 @@ public:
 	/// <summary>
 	/// プレイヤーのHPバーを表示
 	/// </summary>
-	/// <param name="player">プレイヤー参照</param>
+	/// <param name="pPlayer">プレイヤー参照</param>
 	/// <param name="maxHp">最大HP</param>
-	void DrawPlayerHpBar(Player& player, float maxHp);
+	void DrawPlayerHpBar(const Player& pPlayer, float maxHp);
 
 	/// <summary>
 	/// プレイヤーのゲージバーを表示
 	/// </summary>
-	/// <param name="player">プレイヤー参照</param>
+	/// <param name="pPlayer">プレイヤー参照</param>
 	/// <param name="maxGauge">最大ゲージ量</param>
-	void DrawPlayerGaugeBar(Player& player, float maxGauge);
+	void DrawPlayerGaugeBar(const Player& pPlayer, float maxGauge);
+
+	/// <summary>
+	/// 必殺技の表示
+	/// </summary>
+	/// <param name="pPlayer">プレイヤー参照</param>
+	void DrawPlayerSpecial(const Player& pPlayer);
 
 	/// <summary>
 	/// 敵のHPバーを表示

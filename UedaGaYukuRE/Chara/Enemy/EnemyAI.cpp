@@ -11,7 +11,7 @@ namespace
 	{
 		{CharacterBase::kEnemy_boss, "BOSS"},
 		{CharacterBase::kEnemy_tuto, "TUTO"},
-		{CharacterBase::kEnemy_bob, "BOSS"},
+		{CharacterBase::kEnemy_bob, "BOB"},
 		{CharacterBase::kEnemy_sato, "SATO"},
 		{CharacterBase::kEnemy_abe, "ABE"}
 	};
@@ -315,11 +315,9 @@ void EnemyAI::LoadAIData(int enemyIndex)
 
 	while (std::getline(ifs, line))
 	{
-		strvec = split(line, ',');
-		
-		// ID名を取得
-		m_charaId = GetEnemyId(enemyIndex);
+		m_charaId = GetEnemyId(enemyIndex); // ID名を取得
 
+		strvec = split(line, ',');
 		if (strvec[0] == m_charaId)
 		{
 			try
