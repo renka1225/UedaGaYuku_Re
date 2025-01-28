@@ -115,6 +115,13 @@ protected:
 	/// 死亡状態に変更する
 	// </summary>
 	void ChangeStateDeath();
+	
+	/// <summary>
+	/// パッドを振動させる
+	/// </summary>
+	/// <param name="vibrationPower">振動の強さ</param>
+	/// <param name="vibrationTime">振動する時間</param>
+	void VibrationPad(int vibrationPower, int vibrationTime);
 
 public:
 	std::shared_ptr<PlayerStateBase> m_nextState;	// 次のStateを保存する

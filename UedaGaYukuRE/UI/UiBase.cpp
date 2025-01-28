@@ -15,6 +15,7 @@ namespace
 	{
 		kCursor,		// カーソル
 		kSaveCursor,	// セーブ用のカーソル
+		kChoiceBg,		// 選択肢の背景
 		kNum			// 画像の種類
 	};
 
@@ -22,6 +23,7 @@ namespace
 	{
 		"data/ui/cursor.png",
 		"data/ui/save/cursor.png",
+		"data/ui/bg_choice.png",
 	};
 
 	/*カーソル*/
@@ -91,4 +93,14 @@ void UiBase::DrawSaveCursor(Vec2 pos, int select)
 {
 	pos.y = pos.y + (select * kSaveCursorMove);
 	DrawGraphF(pos.x, pos.y, m_handle[Handle::kSaveCursor], true);
+}
+
+void UiBase::DrawChoiceBg(std::string selectId)
+{
+	Vec2 dispLTPos = { m_uiData[selectId].LTposX, m_uiData[selectId].LTposY};
+	Vec2 dispRBPos = { m_uiData[selectId].RBposX, m_uiData[selectId].RBposY };
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, kMaxCursorAlpha);
+	DrawExtendGraphF(dispLTPos.x, dispLTPos.y, dispRBPos.x, dispRBPos.y, m_handle[Handle::kChoiceBg], true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

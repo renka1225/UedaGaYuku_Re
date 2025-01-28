@@ -138,13 +138,6 @@ void SceneMain::Init()
 	m_pUiBar->Init();
 	m_pItem->Init();
 	m_isPause = false;
-
-	// チュートリアルが終了していない場合
-	if (!m_pPlayer->GetTutoInfo().isEndTutorial)
-	{
-		m_isTutorial = true;
-		m_pPlayer->SetIsBattle(true);
-	}
 }
 
 std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
@@ -188,14 +181,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	// チュートリアル中
 	if (m_isTutorial)
 	{
-		// チュートリアル状態にする
-		m_pPlayer->UpdateTutorial(input, *m_pEnemy[0]);
-
-		// チュートリアルを終了する
-		if (m_pPlayer->GetTutoInfo().isEndTutorial)
-		{
-			m_isTutorial = false;
-		}
+		UpdateTutorial(input);
 	}
 
 	// ゲームオーバー
@@ -440,6 +426,25 @@ void SceneMain::InitAfterLoading()
 	m_pCamera->Init();
 	m_pUiBar->Init();
 	m_pItem->Init();
+
+	// チュートリアルが終了していない場合
+	if (!m_pPlayer->GetTutoInfo().isEndTutorial)
+	{
+		m_isTutorial = true;
+		m_pPlayer->SetIsBattle(true);
+	}
+}
+
+void SceneMain::UpdateTutorial(const Input& input)
+{
+	// チュートリアル状態にする
+	m_pPlayer->UpdateTutorial(input, *m_pEnemy[0]);
+
+	// チュートリアルを終了する
+	if (m_pPlayer->GetTutoInfo().isEndTutorial)
+	{
+		m_isTutorial = false;
+	}
 }
 
 void SceneMain::UpdateBattle()

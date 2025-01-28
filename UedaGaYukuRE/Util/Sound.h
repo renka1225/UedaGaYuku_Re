@@ -22,6 +22,7 @@ namespace SoundName
 	constexpr const char* kSe_tuto_change = "tuto_change.mp3";
 	constexpr const char* kSe_useItem = "useItem.mp3";
 	constexpr const char* kSe_getItem = "getItem.mp3";
+	constexpr const char* kSe_getMoney = "getMoney.mp3";
 	constexpr const char* kSe_walk = "walk.mp3";
 	constexpr const char* kSe_run = "run.mp3";
 	constexpr const char* kSe_avoid = "avoid.mp3";

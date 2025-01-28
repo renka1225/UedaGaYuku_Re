@@ -72,7 +72,10 @@ public:
 	/// <param name="select">選択状態</param>
 	void DrawSaveCursor(Vec2 pos, int select);
 
-	
+	/// <summary>
+	/// 選択肢の背景を表示
+	/// </summary>
+	void DrawChoiceBg(std::string selectId);
 
 protected:
 	std::map<std::string, UiData> m_uiData;	// UIのデータ

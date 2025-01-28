@@ -15,6 +15,15 @@ class Camera;
 class SceneBase : public std::enable_shared_from_this<SceneBase>
 {
 public:
+	// 2択の選択肢
+	enum Choice
+	{
+		kYes,
+		kNo,
+		kChoiceNum
+	};
+
+public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -78,6 +87,13 @@ protected:
 	void UpdateSelect(const Input& input, int selectNum);
 
 	/// <summary>
+	/// 2択の選択状態を更新
+	/// </summary>
+	/// <param name="input"></param>
+	/// <param name="selectNum"></param>
+	void UpdateChoice(const Input& input);
+
+	/// <summary>
 	///	セーブデータの選択状態を更新 
 	/// </summary>
 	/// <param name="input">入力状態</param>
@@ -132,7 +148,9 @@ protected:
 	int m_playTime;		// 現在のプレイ時間
 	int m_saveSelect;	// セーブデータの選択状態
 	int m_select;		// 現在の選択状態
+	int m_choiceSelect;	// 選択肢の選択状態
 	int m_fadeAlpha;	// フェードのα値
+	bool m_isChoice;	// 選択肢を表示中どうか(true;表示中)
 	bool m_isFadeOut;	// フェード中かどうか(true:フェード中)
 };
 

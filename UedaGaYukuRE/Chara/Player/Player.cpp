@@ -33,8 +33,8 @@ namespace
 	constexpr int kMoneyIncrement = 100;		// 一度に増える所持金数
 
 	constexpr float kMaxRecoveryRate = 10.0f;		 // 最大の回復割合
-	constexpr float kDecreaseMinSpecialGauge = 2.0f; // ダメージを受けた際に減るゲージの最小量
-	constexpr float kDecreaseMaxSpecialGauge = 8.0f; // ダメージを受けた際に減るゲージの最大量
+	constexpr int kDecreaseMinSpecialGauge = 2;		// ダメージを受けた際に減るゲージの最小量
+	constexpr int kDecreaseMaxSpecialGauge = 8;		// ダメージを受けた際に減るゲージの最大量
 
 	constexpr float kBattleStartRange = 200.0f;	// バトルが始まる範囲
 	constexpr int kBattleStartTime = 50;		// バトルが開始するまでの時間
@@ -197,8 +197,8 @@ void Player::OnDamage(float damage)
 	m_pUiBar->SetPlayerDamage(damage);
 
 	// 減らすゲージ量
-	float decreaseGauge = static_cast<float>(GetRand((kDecreaseMaxSpecialGauge - kDecreaseMinSpecialGauge)) + kDecreaseMinSpecialGauge);
-	UpdateGauge(decreaseGauge);
+	int decreaseGauge = GetRand((kDecreaseMaxSpecialGauge - kDecreaseMinSpecialGauge)) + kDecreaseMinSpecialGauge;
+	UpdateGauge(static_cast<float>(decreaseGauge));
 }
 
 void Player::AdjPosAttack()
@@ -270,6 +270,8 @@ void Player::UpdateMoney()
 void Player::AddDecreaseMoney(int dropMoney)
 {
 	m_pUiMain->SetAnimMoneyUi();
+
+	Sound::GetInstance().PlaySe(SoundName::kSe_getMoney); // SE再生
 
 	m_beforeMoney = m_money;
 	m_addMoney = dropMoney;

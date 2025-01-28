@@ -23,6 +23,7 @@ namespace
 		kSaveBg,		// セーブ画面の背景
 		kSelectText,	// テキスト
 		kCopyright,		// 権利表記
+		kEndSelect,		// ゲームを終了するかの選択肢
 		kNum			// ハンドルの数
 	};
 
@@ -33,7 +34,8 @@ namespace
 		"data/ui/select/bg_under.png",
 		"data/ui/select/save.png",
 		"data/ui/select/text.png",
-		"data/ui/select/copyright.png"
+		"data/ui/select/copyright.png",
+		"data/ui/select/endSelect.png"
 	};
 
 	// 再生するアニメーション
@@ -51,19 +53,22 @@ namespace
 	const VECTOR kCameraTarget = VGet(0.0f, 40.0f, 100.0f);	// カメラの視線方向
 
 	/*カーソル*/
-	const std::string kCursorId = "cursor_select";	// カーソルのID
-	constexpr float kCursorInterval = 115.0f;		// カーソルの表示間隔
+	const std::string kCursorId = "cursor_select";				// カーソルのID
+	const std::string kEndSelectCursorId = "cursor_endSelect";	// ゲーム終了選択肢カーソルのID
+	constexpr float kCursorInterval = 115.0f;					// カーソルの表示間隔
+	constexpr float kEndSelectCursorInterval = 157.0f;			// ゲーム終了選択肢カーソル表示間隔
 	
 	/*UI*/
-	const std::string kExplainId = "EXPLAIN_SELECT_";	 // 選択中テキストの説明ID
-	const Vec2 kDispTextPos = { 156.0f, 210.0f };		 // テキスト表示位置
-	const Vec2 kDispExplainTextPos = { 100.0f, 830.0f }; // 説明テキスト表示位置
-	const Vec2 kDispBgUnderPos  = { 0.0f, 997.0f };		 // 背景下部分表示位置
-	const Vec2 kDispCopyrightPos = { 930.0f, 56.0f };	 // 権利表記表示位置
-	constexpr float kMoveCopyright = 80.0f;				 // 権利表記の移動量
-
-	const Vec2 kDispSavePos = { 259.0f, 115.0f };		 // セーブ画面表示位置
-	const Vec2 kDispSaveCursorPos = { 442.0f, 265.0f };  // セーブ画面のカーソル表示位置
+	const std::string kExplainId = "EXPLAIN_SELECT_";		// 選択中テキストの説明ID
+	const std::string kEndSelectBgId= "bg_endSelect";		// ゲーム終了選択肢の背景ID
+	const Vec2 kDispEndSelectPos = { 528.0f, 279.0f };		// ゲーム終了選択肢の表示位置
+	const Vec2 kDispTextPos = { 156.0f, 210.0f };			// テキスト表示位置
+	const Vec2 kDispExplainTextPos = { 100.0f, 830.0f };	// 説明テキスト表示位置
+	const Vec2 kDispBgUnderPos = { 0.0f, 997.0f };			// 背景下部分表示位置
+	const Vec2 kDispCopyrightPos = { 930.0f, 56.0f };		// 権利表記表示位置
+	constexpr float kMoveCopyright = 80.0f;					// 権利表記の移動量
+	const Vec2 kDispSavePos = { 259.0f, 115.0f };			// セーブ画面表示位置
+	const Vec2 kDispSaveCursorPos = { 442.0f, 265.0f };		// セーブ画面のカーソル表示位置
 	const Vec2 kDispDateSaveDataPos = { 730.0f, 305.0f };	  // 保存された現在時刻の表示位置
 	const Vec2 kDispPlayTimeSaveDataPos = { 750.0f, 365.0f }; // 保存されたプレイ時間の表示位置
 
@@ -150,6 +155,30 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 			return shared_from_this();
 		}
 	}
+	// 終了選択肢
+	else if (m_isChoice)
+	{
+		// 選択状態を更新
+		UpdateChoice(input);
+		m_pUi->UpdateCursor(kEndSelectCursorId);
+
+		if (input.IsTriggered(InputId::kOk))
+		{
+			if (m_choiceSelect == Choice::kYes)
+			{
+				// ゲームを終了する
+				SceneChangeSound(SoundName::kBgm_select);
+				EndGame();
+			}
+			else if(m_choiceSelect == Choice::kNo)
+			{
+				// 選択肢を閉じる
+				m_isChoice = false;
+				m_choiceSelect = Choice::kYes;
+				return shared_from_this();
+			}
+		}
+	}
 	else
 	{
 		// 選択状態を更新
@@ -189,14 +218,14 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 		}
 		else if (m_select == SelectScene::kGameEnd)
 		{
-			SceneChangeSound(SoundName::kBgm_select);
-
-			// ゲームを終了する
-			EndGame();
+			m_isChoice = true;
 		}
 	}
 	else if (input.IsTriggered(InputId::kBack))
 	{
+		// 選択肢表示中は飛ばす
+		if (m_isChoice) return shared_from_this();
+
 		SceneChangeSound(SoundName::kBgm_select);
 		// タイトル画面に戻る
 		return std::make_shared<SceneTitle>();
@@ -228,6 +257,14 @@ void SceneSelect::Draw()
 	if (m_isDispSaveData)
 	{
 		DrawSaveData();
+	}
+
+	// ゲーム終了の選択肢を表示
+	if (m_isChoice)
+	{
+		m_pUi->DrawChoiceBg(kEndSelectBgId); // 背景表示
+		m_pUi->DrawCursor(kEndSelectCursorId, m_choiceSelect, kEndSelectCursorInterval); // カーソル表示
+		DrawGraphF(kDispEndSelectPos.x, kDispEndSelectPos.y, m_handle[Handle::kEndSelect], true); // テキスト表示
 	}
 
 	DrawFade();	// フェードインアウト描画

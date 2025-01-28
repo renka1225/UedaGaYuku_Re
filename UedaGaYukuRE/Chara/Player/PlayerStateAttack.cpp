@@ -13,6 +13,12 @@ namespace
     constexpr float kSpecialAtkPower = 10.0f; // 必殺技の攻撃力
     constexpr int kMinSpecialGauge = 3;       // 攻撃時に溜まるゲージ最小量
     constexpr int kMaxSpecialGauge = 10;      // 攻撃時に溜まるゲージ最大量
+
+    /*コントローラー*/
+    constexpr int kVibrationPower = 1000;		// 振動の強さ
+    constexpr int kVibrationTime = 150;			// 振動させる時間
+    constexpr int kSpecialVibrationPower = 150;	// 必殺技時の振動の強さ
+    constexpr int kSpecialVibrationTime = 10;	// 必殺技時の振動させる時間
 }
 
 PlayerStateAttack::PlayerStateAttack(const std::shared_ptr<Player>& pPlayer):
@@ -77,6 +83,8 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             // 範囲内の敵全員にダメージ
             if (range > kSpecialRange) break;
 
+            VibrationPad(kVibrationPower, kVibrationTime); // パッド振動
+
             enemy->OnDamage(GetAttackPower());
             enemy->SetIsInvincible(true);  // 敵を無敵状態にする
         }
@@ -89,6 +97,8 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             if (isHitWeaponCol)
             {
                 Sound::GetInstance().PlayBackSe(SoundName::kSe_attack);
+
+                VibrationPad(kVibrationPower, kVibrationTime); // パッド振動
 
                 enemy->OnDamage(GetAttackPower());
                 enemy->SetIsInvincible(true);  // 敵を無敵状態にする
@@ -108,6 +118,8 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             {
                 Sound::GetInstance().PlayBackSe(SoundName::kSe_attack);
 
+                VibrationPad(kVibrationPower, kVibrationTime); // パッド振動
+
                 enemy->OnDamage(GetAttackPower());
                 enemy->SetIsInvincible(true); // 敵を無敵状態にする
                 m_pPlayer->UpdateGauge(GetAddGauge());
@@ -123,8 +135,10 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             {
                 Sound::GetInstance().PlayBackSe(SoundName::kSe_attack);
 
-                enemy->SetIsInvincible(true); // 敵を無敵状態にする
+                VibrationPad(kVibrationPower, kVibrationTime); // パッド振動
+
                 enemy->OnDamage(GetAttackPower());
+                enemy->SetIsInvincible(true); // 敵を無敵状態にする
                 m_pPlayer->UpdateGauge(GetAddGauge());
             }
         }

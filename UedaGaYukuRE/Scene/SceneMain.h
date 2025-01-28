@@ -77,6 +77,12 @@ private:
 	void InitAfterLoading();
 
 	/// <summary>
+	/// チュートリアルの更新を行う
+	/// </summary>
+	/// <param name="input">入力状態</param>
+	void UpdateTutorial(const Input& input);
+
+	/// <summary>
 	/// バトルの更新を行う
 	/// </summary>
 	void UpdateBattle();

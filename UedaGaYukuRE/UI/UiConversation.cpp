@@ -37,7 +37,7 @@ namespace
 	const Vec2 kTalkNamePos = { 287.0f, 775.0f };		// 名前表示位置
 	const Vec2 kTalkPos = { 489.0f, 850.0f };			// テキスト表示位置
 	const Vec2 kTalkSelectBgPos = { 423.0f, 106.0f };	// 選択肢の背景位置
-	constexpr int kDrawCountInterval = 2;				// 新たな文字を表示するフレーム数
+	constexpr int kDrawCountInterval = 3;				// 新たな文字を表示するフレーム数
 
 }
 

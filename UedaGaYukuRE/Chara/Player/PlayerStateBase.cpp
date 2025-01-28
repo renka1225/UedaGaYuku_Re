@@ -270,6 +270,7 @@ void PlayerStateBase::ChangeStateDamage()
 {
 	// ダメージエフェクトを表示
 	EffectManager::GetInstance().Add(EffectName::kAttack, m_pPlayer->GetPos(), kDamageEffectAdjY);
+
 	std::shared_ptr<PlayerStateHitAttack> state = std::make_shared<PlayerStateHitAttack>(m_pPlayer);
 	m_nextState = state;
 	state->Init();
@@ -282,4 +283,9 @@ void PlayerStateBase::ChangeStateDeath()
 	std::shared_ptr<PlayerStateDeath> state = std::make_shared<PlayerStateDeath>(m_pPlayer);
 	m_nextState = state;
 	state->Init();
+}
+
+void PlayerStateBase::VibrationPad(int vibrationPower, int vibrationTime)
+{
+	StartJoypadVibration(DX_INPUT_PAD1, vibrationPower, vibrationTime, -1);
 }

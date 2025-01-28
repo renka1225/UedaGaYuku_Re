@@ -26,7 +26,9 @@ SceneBase::SceneBase():
 	m_playTime(0),
 	m_saveSelect(0),
 	m_select(0),
+	m_choiceSelect(Choice::kYes),
 	m_fadeAlpha(0),
+	m_isChoice(false),
 	m_isFadeOut(false)
 {
 	m_pItem = std::make_shared<Item>();
@@ -85,6 +87,26 @@ void SceneBase::UpdateSelect(const Input& input, int selectNum)
 	if (input.IsTriggered(InputId::kUp))
 	{
 		m_select = (m_select + (selectNum - 1)) % selectNum;
+		m_pUi->Init();
+
+		Sound::GetInstance().PlayBackSe(SoundName::kSe_cursor);
+	}
+}
+
+void SceneBase::UpdateChoice(const Input& input)
+{
+	// 選択状態を1つ下げる
+	if (input.IsTriggered(InputId::kDown))
+	{
+		m_choiceSelect = (m_choiceSelect + 1) % Choice::kChoiceNum;
+		m_pUi->Init();
+
+		Sound::GetInstance().PlayBackSe(SoundName::kSe_cursor);
+	}
+	// 選択状態を1つ上げる
+	if (input.IsTriggered(InputId::kUp))
+	{
+		m_choiceSelect = (m_choiceSelect + (Choice::kChoiceNum - 1)) % Choice::kChoiceNum;
 		m_pUi->Init();
 
 		Sound::GetInstance().PlayBackSe(SoundName::kSe_cursor);
