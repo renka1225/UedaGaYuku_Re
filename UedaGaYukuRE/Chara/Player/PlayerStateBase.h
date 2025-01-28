@@ -88,7 +88,7 @@ protected:
 	/// <summary>
 	/// 必殺技発動状態に変更する
 	/// </summary>
-	void ChangeStateSpecialAttack();
+	void ChangeStateSpecialAttack(Weapon& pWeapon);
 
 	/// <summary>
 	/// ガード状態に変更する

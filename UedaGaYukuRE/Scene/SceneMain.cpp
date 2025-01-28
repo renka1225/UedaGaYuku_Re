@@ -44,27 +44,27 @@ namespace
 		{CharacterBase::CharaType::kEnemy_abe, "Abe"}
 	};
 
-	constexpr int kModelNum = 10;			// 読み込むモデルの数
-	constexpr int kMobEnemyNum = 3;			// 読み込むモブ敵の数
+	constexpr int kModelNum = 10;		// 読み込むモデルの数
+	constexpr int kMobEnemyNum = 3;		// 読み込むモブ敵の数
 
-	constexpr int kEnemyMaxNum = 3;			// 1度に出現する最大の敵数
-	constexpr int kEnemyKindNum = 3;		// 敵の種類
-	constexpr int kEnemyNamekind = 31;		// 敵名の種類
-	constexpr int kClearEnemyNum = 1;		// クリア条件
+	constexpr int kEnemyMaxNum = 3;		// 1度に出現する最大の敵数
+	constexpr int kEnemyKindNum = 3;	// 敵の種類
+	constexpr int kEnemyNamekind = 31;	// 敵名の種類
+	constexpr int kClearEnemyNum = 1;	// クリア条件
 
 	constexpr float kRecoveryMaxRate = 100.0f;	// 回復の最大割合
 	constexpr int kRecoveryMoney = 1000;		// 回復に必要な金額
 
-	constexpr int kLoadingTime = 600;			// ロード時間
-	constexpr int kFirstSpawnTime = 180;		// ゲーム開始からチュートリアルが始まるまでの時間
-	constexpr int kEnemySpawnMinTime = 300;		// 敵がスポーンするまでの最小時間
-	constexpr int kEnemySpawnMaxTime = 1000;	// 敵がスポーンするまでの最大時間
+	constexpr int kLoadingTime = 600;				// ロード時間
+	constexpr int kFirstSpawnTime = 120;			// ゲーム開始からチュートリアルが始まるまでの時間
+	constexpr int kEnemySpawnMinTime = 300;			// 敵がスポーンするまでの最小時間
+	constexpr int kEnemySpawnMaxTime = 1000;		// 敵がスポーンするまでの最大時間
 	constexpr float kEnemyExtinctionDist = 2500.0f;	// 敵が消滅する範囲
 
-	constexpr int kBattleStartStagingTime = 120; // バトル開始時の演出時間
-	constexpr int kBattleEndStagingTime = 240;	 // バトル終了時の演出時間
-	constexpr int kEndingTime = 30;				 // エンディングの時間
-	constexpr int kTalkDispTime = 3;			 // 会話を表示させる最低限の時間
+	constexpr int kBattleStartStagingTime = 120;	// バトル開始時の演出時間
+	constexpr int kBattleEndStagingTime = 240;		// バトル終了時の演出時間
+	constexpr int kEndingTime = 30;					// エンディングの時間
+	constexpr int kTalkDispTime = 3;				// 会話を表示させる最低限の時間
 
 	const std::string kCursorId = "cursor_main_talkSelect";	// 会話の選択肢カーソルのID
 	constexpr float kTalkSelectCursorInterval = 98.0f;		// 会話の選択肢カーソルの表示間隔
@@ -73,7 +73,7 @@ namespace
 	constexpr int kShadowMapSize = 4096;								// ステージのシャドウマップサイズ
 	const VECTOR kShadowAreaMinPos = VGet(2000.0f, 0.0f, 2000.0f);		// シャドウマップに描画する最小範囲
 	const VECTOR kShadowAreaMaxPos = VGet(10000.0f, 30.0f, 12000.0f);	// シャドウマップに描画する最大範囲
-	const VECTOR kShadowDir = VGet(0.5f, -2.0f, -2.0f);
+	const VECTOR kShadowDir = VGet(0.5f, -2.0f, -2.0f);					// ライト方向
 }
 
 SceneMain::SceneMain() :
@@ -319,12 +319,12 @@ void SceneMain::Draw()
 		m_pUiMain->DrawBattleUi(*m_pPlayer);
 	}
 
-	// チュートリアル中かどうか
-	bool isTuto = m_pPlayer->GetTutoInfo().currentNum >= Player::TutorialNum::kTuto_3;
+	// チュートリアルが終わったかどうか
+	bool isEndTuto = m_pPlayer->GetTutoInfo().isEndTutorial || m_pPlayer->GetTutoInfo().currentNum >= Player::TutorialNum::kTuto_3;
 	// 必殺技中かどうか
 	bool isSpecial = m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk1 || m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk2;
 	// 特定の状態中のみ表示する
-	if (!m_isBattleEndStaging || isTuto && isSpecial)
+	if (!m_isBattleEndStaging || isEndTuto && isSpecial)
 	{
 		m_pWeapon->DrawWeaponUi(); // 武器UI表示
 	}
@@ -576,7 +576,7 @@ std::shared_ptr<SceneBase> SceneMain::UpdateBattleEndStaging()
 std::shared_ptr<SceneBase> SceneMain::UpdateEndingStaging()
 {
 	// エンディング中でない場合は表示しない
-	if(!m_isEnding) return shared_from_this();
+	if(!m_isEnding && m_isBattleEndStaging) return shared_from_this();
 
 	// 演出中
 	if (m_endingTime > 0)
@@ -761,9 +761,25 @@ void SceneMain::UpdateBossEnemy()
 	// HPが0になった場合
 	if (m_pEnemy[0]->GetHp() <= 0.0f)
 	{
-		// クリア演出を行う
-		m_endingTime = kEndingTime;
-		m_isEnding = true;
+		// 必殺アニメーション中が終わるまでバトル終了演出を行わない
+		bool isSpecial = m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk1 || m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk2;
+		if (isSpecial) return;
+
+		// 終了演出が終わったらクリア演出に移行
+		if (m_battleEndStagingTime <= 0 && !m_isEnding)
+		{
+			// クリア演出を行う
+			m_endingTime = kEndingTime;
+			m_isEnding = true;
+			return;
+		}
+
+		if (m_isBattleEndStaging) return;
+
+		// バトル終了演出を行う
+		m_isBattleEndStaging = true;
+		m_battleEndStagingTime = kBattleEndStagingTime;
+		return;
 	}
 }
 

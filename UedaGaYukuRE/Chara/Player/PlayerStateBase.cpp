@@ -97,7 +97,7 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 		// ボタンが押された場合
 		if (input.IsTriggered(InputId::kSpecial))
 		{
-			ChangeStateSpecialAttack();
+			ChangeStateSpecialAttack(weapon);
 			return;
 		}
 	}
@@ -190,13 +190,14 @@ void PlayerStateBase::ChangeStateAttack(const Input& input)
 	}
 }
 
-void PlayerStateBase::ChangeStateSpecialAttack()
+void PlayerStateBase::ChangeStateSpecialAttack(Weapon& pWeapon)
 {
 	// 武器を持っている場合は武器を離す
 	if (m_pPlayer->GetIsGrabWeapon())
 	{
 		m_pPlayer->SetIsPossibleGrabWeapon(false);
 		m_pPlayer->SetIsGrabWeapon(false);
+		pWeapon.UpdateIsGrab(false);
 	}
 
 	m_pPlayer->SetGauge(0.0f); // ゲージを減らす
@@ -233,6 +234,9 @@ void PlayerStateBase::ChangeStateAvoid()
 
 void PlayerStateBase::ChangeStateGrab(Weapon& pWeapon)
 {
+	// 必殺技中は飛ばす
+	if (m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk1 || m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk2) return;
+
 	// すでに武器を掴んでいる場合
 	if (m_pPlayer->GetIsGrabWeapon())
 	{

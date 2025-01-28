@@ -13,7 +13,6 @@ namespace
 	/*画像の種類*/
 	enum Handle
 	{
-		kLoading_introduceText,	// 紹介文
 		kLoading_bg_back,		// ローディング背景
 		kLoading_bg_front,		// ローディング背景
 		kLoading_triangle_L,	// ローディングの三角形左側
@@ -43,9 +42,20 @@ namespace
 		kNum				// 画像の種類
 	};
 
+	/*紹介画像*/
+	enum IntroduceHandle
+	{
+		kUeda,
+		kSaionzi,
+		kBob,
+		kSato,
+		kAbe,
+		kOhara,
+		kIntroduceNum
+	};
+
 	const char* kHandle[Handle::kNum]
 	{
-		"data/ui/load/introduceText.png",
 		"data/ui/load/bg_back.png",
 		"data/ui/load/bg_front.png",
 		"data/ui/load/triangle_L.png",
@@ -74,6 +84,16 @@ namespace
 		"data/ui/battle/narikin.png",
 	};
 
+	const char* kIntroduceHandle[IntroduceHandle::kIntroduceNum]
+	{
+		"data/ui/load/text_ueda.png",
+		"data/ui/load/text_saionzi.png",
+		"data/ui/load/text_bob.png",
+		"data/ui/load/text_sato.png",
+		"data/ui/load/text_abe.png",
+		"data/ui/load/text_ohara.png"
+	};
+
 	/*チュートリアル*/
 	// 表示位置
 	const std::map<std::string, Vec2> kDispTutoPos
@@ -97,7 +117,8 @@ namespace
 	/*ロード*/
 	const Vec2 kLoadingPos = { 1600.0f, 950.0f };				// "NowLoading..."表示位置
 	const Vec2 kLoadingTrianglePos = { 370.0f, 517.0f };		// 三角形表示位置
-	const Vec2 kLoadingDispIntroduceSize = { 571.0f, 357.0f };	// キャラクター紹介表示サイズ
+	const Vec2 kLoadingDispIntroducePos = { 549.0f, 347.0f };	// キャラクター紹介表示位置
+	const Vec2 kLoadingDispIntroduceSize = { 571.0f, 357.0f };	// キャラクター紹介文表示サイズ
 	constexpr int kLoadingIntroduceNum = 5;						// キャラクター紹介文数
 	constexpr int kLoadingIntroduceChangeTime = 180;			// キャラクター紹介の変更時間
 	constexpr float kLoadingTriangleMove = 10.0f;				// 三角形の動く幅
@@ -111,7 +132,7 @@ namespace
 	const Vec2 kDispBattleOperationPos = { 1584.0f, 700.0f };	// バトル中操作説明表示位置
 
 	/*会話*/
-	const Vec2 kDispTalkUiPos = { -5.0f, 32.0f };		// "話す"テキスト表示位置調整
+	const Vec2 kDispTalkUiPos = { -5.0f, 32.0f }; // "話す"テキスト表示位置調整
 
 	/*ミニマップ*/
 	const Vec2 kMapPos = { 180.0f, 900.0f };	// マップ表示位置
@@ -130,15 +151,13 @@ namespace
 
 	const Vec2 kBattleEndBgPos = { 200, 0 };		// バトル終了時の背景位置
 	const Vec2 kGekihaTextPos = { 950, 500 };		// "撃破"テキスト位置
-	constexpr int kGekihaDispTime = 90;				// "撃破"テキストを表示しはじめる時間
+	constexpr int kGekihaDispTime = 100;			//  撃破UIを表示しはじめる時間
 	constexpr float kGekihaTextMinScale = 1.0f;		// "撃破"テキスト最小サイズ
 	constexpr float kGekihaTextMaxScale = 10.0f;	// "撃破"テキスト最大サイズ
 	constexpr float kGekihaTextChangeScale = 0.6f;	// "撃破"テキストサイズ
 
 	const Vec2 kBattleNowPos = { 1550.0f, 50.0f };	// バトル中表示位置
 	constexpr float kNowBattleMoveSpeed = 13.0f;	// バトル中UIの移動速度
-
-	const Vec2 kSpecialPos = {};
 
 	/*所持金*/
 	const Vec2 kDispMoneyInitPos = { 1329.0f, -120.0f }; // 所持金UI初期位置
@@ -155,7 +174,7 @@ UiMain::UiMain() :
 	m_dispIntroducePos({ kLoadingDispIntroduceSize.x, kLoadingDispIntroduceSize.y }),
 	m_loadingTime(0),
 	m_loadingAnimTime(0.0f),
-	m_nowLoadingIntroduce(0),
+	m_nowLoadingIntroduce(IntroduceHandle::kSaionzi),
 	m_dispMoneyPos(kDispMoneyInitPos),
 	m_dispMoneyAnimTime(0),
 	m_dispGekihaTextScale(kDispBattleTextMaxScale),
@@ -167,12 +186,22 @@ UiMain::UiMain() :
 	{
 		m_handle[i] = LoadGraph(kHandle[i]);
 	}
+
+	m_introduceHandle.resize(IntroduceHandle::kIntroduceNum);
+	for (int i = 0; i < m_introduceHandle.size(); i++)
+	{
+		m_introduceHandle[i] = LoadGraph(kIntroduceHandle[i]);
+	}
 }
 
 
 UiMain::~UiMain()
 {
 	for (auto& handle : m_handle)
+	{
+		DeleteGraph(handle);
+	}
+	for (auto& handle : m_introduceHandle)
 	{
 		DeleteGraph(handle);
 	}
@@ -232,9 +261,11 @@ void UiMain::DrawLoading()
 	DrawGraph(0, 0, m_handle[Handle::kLoading_bg_back], true);
 
 	// 紹介テキスト
-	DrawRectGraphF(m_dispIntroducePos.x, m_dispIntroducePos.y, 
-		kLoadingDispIntroduceSize.x * m_nowLoadingIntroduce, 0, kLoadingDispIntroduceSize.x, kLoadingDispIntroduceSize.y,
-		m_handle[Handle::kLoading_introduceText], true);
+	//DrawRectGraphF(m_dispIntroducePos.x, m_dispIntroducePos.y, 
+	//	kLoadingDispIntroduceSize.x * m_nowLoadingIntroduce, 0, kLoadingDispIntroduceSize.x, kLoadingDispIntroduceSize.y,
+	//	m_handle[Handle::kLoading_introduceText], true);
+
+	DrawGraphF(kLoadingDispIntroducePos.x, kLoadingDispIntroducePos.y, m_introduceHandle[m_nowLoadingIntroduce], true);
 
 	// 最前面
 	DrawGraph(0, 0, m_handle[Handle::kLoading_bg_front], true);
@@ -272,7 +303,9 @@ void UiMain::DrawLoading()
 		charPosX += charWidth;
 	}
 
+#ifdef _DEBUG
 	DrawFormatString(0, 20, Color::kColorW, "表示画像:%d", m_nowLoadingIntroduce);
+#endif
 }
 
 void UiMain::DrawBattleStart()

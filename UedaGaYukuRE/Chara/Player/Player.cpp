@@ -118,6 +118,12 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 		m_isNowGrabWeapon = false;
 		m_isOnDamage = false;
 	}
+	// バトル中の場合
+	else
+	{
+		m_isTalk = false;
+		m_isNowTalk = false;
+	}
 
 	// 会話中の場合
 	if (m_isNowTalk)
@@ -161,7 +167,6 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 		AddDecreaseMoney(1000); // 所持金を追加
 	}
 #endif
-
 }
 
 void Player::Draw()
@@ -453,7 +458,6 @@ void Player::UpdateEnemyInfo(std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 
 		UpdateBattle(i); // バトル状態を更新する
 
-		printfDx("%.2f\n", VSize(m_pToEVec[i]));
 		// 敵が範囲内にいる場合
 		if (VSize(m_pToEVec[i]) <= kRangeSpecial)
 		{
@@ -495,6 +499,9 @@ void Player::UpdateWeaponColInfo(Weapon& weapon)
 
 bool Player::IsNearWeapon(const VECTOR& weaponPos)
 {
+	// 必殺技中は飛ばす
+	if (GetCurrentAnim() == AnimName::kSpecialAtk1 || GetCurrentAnim() == AnimName::kSpecialAtk2) return false;
+
 	const float kNearDist = kDistWeaponGrab;
 	float dist = VSize(VSub(weaponPos, m_pos));
 

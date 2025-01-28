@@ -17,7 +17,7 @@ namespace
 	};
 	const std::string kDefaultId = "DEFAULT";	// デフォルトID
 
-	constexpr float kMinApproachRange = 30.0f;	// プレイヤーに近づく最小範囲
+	constexpr float kMinApproachRange = 20.0f;	// プレイヤーに近づく最小範囲
 	constexpr float kMinChaseRange = 200.0f;	// プレイヤーを追いかける最小範囲
 	constexpr float kMaxChaseRange = 800.0f;	// プレイヤーを追いかける最大範囲
 	constexpr int kDecisionFrame = 30;			// 行動を更新する時間
@@ -52,10 +52,7 @@ EnemyAI::EnemyAI(std::shared_ptr<EnemyBase> pEnemy):
 	m_charaId(""),
 	m_decisionFrame(0)
 {
-	for (auto& pair : m_priority)
-	{
-		pair.second = 0;
-	}
+	ResetPriority();
 }
 
 void EnemyAI::Init(int enemyIndex)
@@ -67,6 +64,13 @@ void EnemyAI::Update()
 {
 	m_decisionFrame--;
 	m_decisionFrame = std::max(0, m_decisionFrame);
+
+#ifdef _DEBUG
+	for (const auto& pair : m_priority)
+	{
+		printfDx("State:%d, Priority:%d\n", pair.first, pair.second);
+	}
+#endif
 }
 
 void EnemyAI::DecideNextAction(Player& pPlayer)
@@ -74,10 +78,11 @@ void EnemyAI::DecideNextAction(Player& pPlayer)
 	// 特定の状態中は更新しない
 	if (IsChangeState()) return;
 
+	// 数フレームごとに更新する
 	if (m_decisionFrame > 0) return;
 	m_decisionFrame = kDecisionFrame;
 
-	DecidePriority(pPlayer);
+	DecidePriority(pPlayer); // 行動優先度を決める
 
 	// 優先度から次の行動を決定する
 	int totalPriority = 0;
@@ -85,6 +90,8 @@ void EnemyAI::DecideNextAction(Player& pPlayer)
 	{
 		totalPriority += pair.second;
 	}
+
+	if (totalPriority == 0) return; // 優先度が全て0の場合は行動しない
 
 	int randomValue = GetRand(totalPriority - 1);
 	int currenSum = 0;
@@ -104,209 +111,6 @@ void EnemyAI::DecideNextAction(Player& pPlayer)
 	}
 }
 
-void EnemyAI::DecidePriority(Player& pPlayer)
-{
-	for (auto& pair : m_priority)
-	{
-		pair.second = 0;
-	}
-
-	float dist = VSize(m_pEnemy->GetEToPVec());	// 敵からプレイヤーまでの距離
-
-	// バトル中でない場合
-	if (!pPlayer.GetIsBattle())
-	{
-		// プレイヤーを追いかける範囲内に入っている場合
-		bool isChaseRange = dist > kMinChaseRange && dist < kMaxChaseRange;
-		if (isChaseRange)
-		{
-			m_priority[EnemyStateBase::EnemyStateKind::kRun] += m_probability.highProbability;
-			m_priority[EnemyStateBase::EnemyStateKind::kWalk] += m_probability.mediumProbability;
-			m_priority[EnemyStateBase::EnemyStateKind::kIdle] += m_probability.lowProbability;
-		}
-		else
-		{
-			m_priority[EnemyStateBase::EnemyStateKind::kIdle] += m_probability.highProbability;
-			m_priority[EnemyStateBase::EnemyStateKind::kWalk] += m_probability.lowProbability;
-
-			pPlayer.SetIsBattle(false);
-		}
-	}
-	// バトル中の場合
-	else
-	{
-		if (IsChangeState()) return;
-
-		// チュートリアル敵
-		if (m_pEnemy->GetEnemyIndex() == CharacterBase::CharaType::kEnemy_tuto)
-		{
-			DecideTutoPriority();
-		}
-		// それ以外
-		else
-		{
-			DecideBattlePriority(pPlayer);
-		}
-	}
-}
-
-void EnemyAI::DecideBattlePriority(Player& pPlayer)
-{
-	/*MEMO*/
-	// 他2体が攻撃中の場合は待機か移動のみ
-	// 1体のみ攻撃中の場合はランダム
-	// 1体も攻撃していない場合は攻撃優先
-
-	float dist = VSize(m_pEnemy->GetEToPVec());  // プレイヤーとの距離
-	auto playerState = pPlayer.GetCurrentAnim(); // プレイヤーの状態
-
-	// 他の敵の攻撃状態を取得
-	int attackEnemyNum = 0;
-	for (const auto& enemy : m_pEnemyList)
-	{
-		if (enemy == nullptr) continue;
-
-		if (enemy->GetIsAttack())
-		{
-			attackEnemyNum++;
-		}
-#ifdef _DEBUG
-		printfDx("攻撃中敵数:%d\n", attackEnemyNum);
-#endif
-	}
-	
-	// バトル中プレイヤーから離れた場合
-	if (pPlayer.GetIsBattle() && dist >= kMaxChaseRange)
-	{
-		// バトルを終了状態にする
-		pPlayer.SetIsBattle(false);
-		return;
-	}
-
-	// プレイヤーとの距離が離れている場合
-	if (dist > kMinChaseRange)
-	{
-		// 歩きor走りでプレイヤーに近づく
-		m_priority[EnemyStateBase::EnemyStateKind::kRun] += m_probability.lowProbability;
-	}
-	// 距離が近い場合
-	else
-	{
-		// 他の敵が攻撃中の場合
-		if (attackEnemyNum >= kMaxAttackEnemyNum)
-		{
-			m_priority[EnemyStateBase::EnemyStateKind::kIdle] += m_probability.lowProbability;
-			m_priority[EnemyStateBase::EnemyStateKind::kWalk] += 0;
-		}
-		else if (attackEnemyNum == 0)
-		{
-			// 攻撃優先
-			m_priority[EnemyStateBase::EnemyStateKind::kPunch] += m_probability.lowProbability;
-			m_priority[EnemyStateBase::EnemyStateKind::kKick] += m_probability.lowProbability;
-			m_priority[EnemyStateBase::EnemyStateKind::kRun] += m_probability.veryLowProbability;
-			m_priority[EnemyStateBase::EnemyStateKind::kAvoid] += m_probability.veryLowProbability;
-			m_priority[EnemyStateBase::EnemyStateKind::kGuard] += m_probability.veryLowProbability;
-		}
-		else
-		{
-			// ランダム
-			DecideRandomPriority();
-		}
-
-		// プレイヤーが攻撃中の場合
-		if (pPlayer.GetIsAttack())
-		{
-			m_priority[EnemyStateBase::EnemyStateKind::kGuard] += m_probability.lowProbability;
-			m_priority[EnemyStateBase::EnemyStateKind::kAvoid] += m_probability.veryLowProbability;
-		}
-		// プレイヤーが回避中の場合
-		else if (playerState == AnimName::kAvoid)
-		{
-			m_priority[EnemyStateBase::EnemyStateKind::kIdle] += m_probability.lowProbability;
-			m_priority[EnemyStateBase::EnemyStateKind::kWalk] += m_probability.lowProbability;
-			m_priority[EnemyStateBase::EnemyStateKind::kPunch] += m_probability.veryLowProbability;
-			m_priority[EnemyStateBase::EnemyStateKind::kKick] += m_probability.veryLowProbability;
-		}
-		// プレイヤーがガード中の場合
-		else if (playerState == AnimName::kGuard)
-		{
-			m_priority[EnemyStateBase::EnemyStateKind::kIdle] += m_probability.lowProbability;
-			m_priority[EnemyStateBase::EnemyStateKind::kWalk] += m_probability.lowProbability;
-			m_priority[EnemyStateBase::EnemyStateKind::kPunch] += m_probability.veryLowProbability;
-			m_priority[EnemyStateBase::EnemyStateKind::kKick] += m_probability.veryLowProbability;
-		}
-		// その他
-		else
-		{
-			// ランダム
-			DecideRandomPriority();
-		}
-	}
-
-	// プレイヤーに一定距離近づいた場合
-	if (dist <= kMinApproachRange)
-	{
-		// 移動しないようにする
-		m_priority[EnemyStateBase::EnemyStateKind::kRun] = 0;
-		m_priority[EnemyStateBase::EnemyStateKind::kWalk] = 0;
-		m_priority[EnemyStateBase::EnemyStateKind::kIdle] = m_probability.veryLowProbability;
-	}
-
-	// 連続して攻撃する確率を減らす
-	if (m_prevState == EnemyStateBase::EnemyStateKind::kPunch || m_prevState == EnemyStateBase::EnemyStateKind::kKick || m_prevState == EnemyStateBase::EnemyStateKind::kAvoid)
-	{
-		if (m_priority.find(m_prevState) != m_priority.end())
-		{
-			m_priority[m_prevState] = static_cast<int>(std::max(0, m_priority[m_prevState] - m_probability.veryLowProbability) * kProbabilityRate);
-#ifdef _DEBUG
-			printfDx("%dの攻撃確率減少:%d\n", static_cast<int>(m_prevState), m_priority[m_prevState]);
-#endif
-		}
-	}
-}
-
-void EnemyAI::DecideTutoPriority()
-{
-	m_priority[EnemyStateBase::EnemyStateKind::kIdle] += m_probability.highProbability;
-	m_priority[EnemyStateBase::EnemyStateKind::kWalk] += m_probability.highProbability;
-	m_priority[EnemyStateBase::EnemyStateKind::kRun] += m_probability.lowProbability;
-	m_priority[EnemyStateBase::EnemyStateKind::kPunch] += m_probability.veryLowProbability;
-	m_priority[EnemyStateBase::EnemyStateKind::kKick] += m_probability.veryLowProbability;
-	m_priority[EnemyStateBase::EnemyStateKind::kAvoid] += m_probability.lowProbability;
-
-	float dist = VSize(m_pEnemy->GetEToPVec());  // プレイヤーとの距離
-	// プレイヤーに一定距離近づいた場合
-	if (dist <= kMinApproachRange)
-	{
-		// 移動しないようにする
-		m_priority[EnemyStateBase::EnemyStateKind::kRun] = 0;
-		m_priority[EnemyStateBase::EnemyStateKind::kWalk] = 0;
-		m_priority[EnemyStateBase::EnemyStateKind::kIdle] = m_probability.veryLowProbability;
-	}
-}
-
-void EnemyAI::DecideRandomPriority()
-{
-	m_priority[EnemyStateBase::EnemyStateKind::kIdle] += m_probability.mediumProbability;
-	m_priority[EnemyStateBase::EnemyStateKind::kWalk] += m_probability.mediumProbability;
-	m_priority[EnemyStateBase::EnemyStateKind::kRun] += m_probability.lowProbability;
-	m_priority[EnemyStateBase::EnemyStateKind::kPunch] += m_probability.lowProbability;
-	m_priority[EnemyStateBase::EnemyStateKind::kKick] += m_probability.lowProbability;
-	m_priority[EnemyStateBase::EnemyStateKind::kAvoid] += m_probability.lowProbability;
-	m_priority[EnemyStateBase::EnemyStateKind::kGuard] += m_probability.lowProbability;
-}
-
-bool EnemyAI::IsChangeState()
-{
-	if (m_pEnemy->GetIsAttack()) return true;
-	if (m_pEnemy->GetCurrentAnim() == AnimName::kDamage) return true;
-	if (m_pEnemy->GetCurrentAnim() == AnimName::kDown) return true;
-	if(m_pEnemy->GetCurrentAnim() == AnimName::kAvoid) return true;
-	if(m_pEnemy->GetCurrentAnim() == AnimName::kGuard) return true;
-
-	return false;
-}
-
 void EnemyAI::LoadAIData(int enemyIndex)
 {
 	std::ifstream ifs(kLoadFilePath);
@@ -322,10 +126,13 @@ void EnemyAI::LoadAIData(int enemyIndex)
 		{
 			try
 			{
-				m_probability.veryLowProbability = stoi(strvec[1]);
-				m_probability.lowProbability = stoi(strvec[2]);
-				m_probability.mediumProbability = stoi(strvec[3]);
-				m_probability.highProbability = stoi(strvec[4]);
+				m_acitonProbaility[m_charaId].idle = stoi(strvec[1]);
+				m_acitonProbaility[m_charaId].walk = stoi(strvec[2]);
+				m_acitonProbaility[m_charaId].run = stoi(strvec[3]);
+				m_acitonProbaility[m_charaId].punch = stoi(strvec[4]);
+				m_acitonProbaility[m_charaId].kick = stoi(strvec[5]);
+				m_acitonProbaility[m_charaId].avoid = stoi(strvec[6]);
+				m_acitonProbaility[m_charaId].guard = stoi(strvec[7]);
 			}
 			catch (const std::invalid_argument&)
 			{
@@ -333,6 +140,213 @@ void EnemyAI::LoadAIData(int enemyIndex)
 			}
 		}
 	}
+}
+
+void EnemyAI::DecidePriority(Player& pPlayer)
+{
+	// 確率をリセット
+	ResetPriority();
+
+	float dist = VSize(m_pEnemy->GetEToPVec());	// 敵からプレイヤーまでの距離
+	bool isChaseRange = dist > kMinChaseRange && dist < kMaxChaseRange; // プレイヤーを追いかける範囲内に入っているかどうか
+
+	// プレイヤーに一定距離近づいた場合
+	if (dist <= kMinApproachRange)
+	{
+		// 移動しないようにする
+		AddIdlePriority();
+		return;
+	}
+
+	// バトル中でない場合
+	if (!pPlayer.GetIsBattle())
+	{
+		// 範囲内の場合
+		if (isChaseRange)
+		{
+			AddMovePriority();
+		}
+		// 離れた場合
+		else
+		{
+			UpdatePriority(EnemyStateBase::EnemyStateKind::kIdle, m_acitonProbaility[m_charaId].idle);
+			UpdatePriority(EnemyStateBase::EnemyStateKind::kWalk, m_acitonProbaility[m_charaId].walk);
+		}
+	}
+	// バトル中の場合
+	else
+	{
+		if (IsChangeState()) return;
+		DecideBattlePriority(pPlayer);
+	}
+}
+
+void EnemyAI::DecideBattlePriority(Player& pPlayer)
+{
+	/*MEMO*/
+	// 他2体が攻撃中の場合は待機か移動のみ
+	// 1体のみ攻撃中の場合はランダム
+	// 1体も攻撃していない場合は攻撃優先
+
+	float dist = VSize(m_pEnemy->GetEToPVec());  // プレイヤーとの距離
+	auto playerState = pPlayer.GetCurrentAnim(); // プレイヤーの状態
+
+	// 攻撃中の敵数を取得
+	int attackEnemyNum = 0;
+	for (const auto& enemy : m_pEnemyList)
+	{
+		if (enemy == nullptr) continue;
+
+		if (enemy->GetIsAttack())
+		{
+			attackEnemyNum++;
+		}
+#ifdef _DEBUG
+		printfDx("攻撃中敵数:%d\n", attackEnemyNum);
+#endif
+	}
+
+	// バトル中プレイヤーから離れた場合
+	if (pPlayer.GetIsBattle() && dist >= kMaxChaseRange)
+	{
+		// バトルを終了状態にする
+		pPlayer.SetIsBattle(false);
+		return;
+	}
+
+	// プレイヤーとの距離が離れている場合
+	if (dist > kMinChaseRange)
+	{
+		// プレイヤーに近づく
+		AddMovePriority();
+	}
+	// 距離が近い場合
+	else
+	{
+		// 他の敵が攻撃中の場合
+		if (attackEnemyNum >= kMaxAttackEnemyNum)
+		{
+			UpdatePriority(EnemyStateBase::EnemyStateKind::kIdle, m_acitonProbaility[m_charaId].idle);
+			UpdatePriority(EnemyStateBase::EnemyStateKind::kWalk, m_acitonProbaility[m_charaId].walk);
+			UpdatePriority(EnemyStateBase::EnemyStateKind::kRun, m_acitonProbaility[m_charaId].run);
+		}
+		// 1体も攻撃していない場合
+		else if (attackEnemyNum == 0)
+		{
+			// 攻撃優先
+			AddAttackPriority();
+		}
+		else
+		{
+			// ランダム
+			AddRandomPriority();
+		}
+
+		// プレイヤーが攻撃中の場合
+		if (pPlayer.GetIsAttack())
+		{
+			UpdatePriority(EnemyStateBase::EnemyStateKind::kGuard, m_acitonProbaility[m_charaId].guard);
+			UpdatePriority(EnemyStateBase::EnemyStateKind::kAvoid, m_acitonProbaility[m_charaId].avoid);
+		}
+		// プレイヤーが回避中の場合
+		else if (playerState == AnimName::kAvoid)
+		{
+			AddMovePriority();
+			AddAttackPriority();
+		}
+		// プレイヤーがガード中の場合
+		else if (playerState == AnimName::kGuard)
+		{
+			AddMovePriority();
+		}
+		// その他
+		else
+		{
+			// ランダム
+			AddRandomPriority();
+		}
+	}
+
+	// 連続して攻撃する確率を減らす
+	if (m_prevState == EnemyStateBase::EnemyStateKind::kPunch || m_prevState == EnemyStateBase::EnemyStateKind::kKick || m_prevState == EnemyStateBase::EnemyStateKind::kAvoid)
+	{
+		if (m_priority.find(m_prevState) != m_priority.end())
+		{
+			m_priority[m_prevState] = static_cast<int>(m_priority[m_prevState] * kProbabilityRate);
+#ifdef _DEBUG
+			printfDx("%dの攻撃確率減少:%d\n", static_cast<int>(m_prevState), m_priority[m_prevState]);
+#endif
+		}
+	}
+}
+
+bool EnemyAI::IsChangeState()
+{
+	if (m_pEnemy->GetIsAttack()) return true;
+	if (m_pEnemy->GetCurrentAnim() == AnimName::kDamage) return true;
+	if (m_pEnemy->GetCurrentAnim() == AnimName::kDown) return true;
+	if (m_pEnemy->GetCurrentAnim() == AnimName::kAvoid) return true;
+	if (m_pEnemy->GetCurrentAnim() == AnimName::kGuard) return true;
+
+	return false;
+}
+
+void EnemyAI::UpdatePriority(EnemyStateBase::EnemyStateKind state, int value)
+{
+	if (m_priority.find(state) != m_priority.end())
+	{
+		m_priority[state] += value;
+	}
+}
+
+void EnemyAI::ResetPriority()
+{
+	for (auto& pair : m_priority)
+	{
+		pair.second = m_acitonProbaility[m_charaId].idle;
+	}
+
+	m_priority[EnemyStateBase::EnemyStateKind::kIdle] = 0;
+	m_priority[EnemyStateBase::EnemyStateKind::kWalk] = 0;
+	m_priority[EnemyStateBase::EnemyStateKind::kRun] = 0;
+	m_priority[EnemyStateBase::EnemyStateKind::kPunch] = 0;
+	m_priority[EnemyStateBase::EnemyStateKind::kKick] = 0;
+	m_priority[EnemyStateBase::EnemyStateKind::kAvoid] = 0;
+	m_priority[EnemyStateBase::EnemyStateKind::kGuard] = 0;
+}
+
+void EnemyAI::AddIdlePriority()
+{
+	UpdatePriority(EnemyStateBase::EnemyStateKind::kRun, 0);
+	UpdatePriority(EnemyStateBase::EnemyStateKind::kWalk, 0);
+	UpdatePriority(EnemyStateBase::EnemyStateKind::kIdle, m_acitonProbaility[m_charaId].idle);
+}
+
+void EnemyAI::AddMovePriority()
+{
+	UpdatePriority(EnemyStateBase::EnemyStateKind::kIdle, m_acitonProbaility[m_charaId].idle);
+	UpdatePriority(EnemyStateBase::EnemyStateKind::kWalk, m_acitonProbaility[m_charaId].walk);
+	UpdatePriority(EnemyStateBase::EnemyStateKind::kRun, m_acitonProbaility[m_charaId].run);
+}
+
+void EnemyAI::AddAttackPriority()
+{
+	UpdatePriority(EnemyStateBase::EnemyStateKind::kPunch, m_acitonProbaility[m_charaId].punch);
+	UpdatePriority(EnemyStateBase::EnemyStateKind::kKick, m_acitonProbaility[m_charaId].kick);
+	UpdatePriority(EnemyStateBase::EnemyStateKind::kRun, m_acitonProbaility[m_charaId].run);
+	UpdatePriority(EnemyStateBase::EnemyStateKind::kAvoid, m_acitonProbaility[m_charaId].avoid);
+	UpdatePriority(EnemyStateBase::EnemyStateKind::kGuard, m_acitonProbaility[m_charaId].guard);
+}
+
+void EnemyAI::AddRandomPriority()
+{
+	UpdatePriority(EnemyStateBase::EnemyStateKind::kIdle, m_acitonProbaility[m_charaId].idle);
+	UpdatePriority(EnemyStateBase::EnemyStateKind::kWalk, m_acitonProbaility[m_charaId].walk);
+	UpdatePriority(EnemyStateBase::EnemyStateKind::kRun, m_acitonProbaility[m_charaId].run);
+	UpdatePriority(EnemyStateBase::EnemyStateKind::kPunch, m_acitonProbaility[m_charaId].punch);
+	UpdatePriority(EnemyStateBase::EnemyStateKind::kKick, m_acitonProbaility[m_charaId].kick);
+	UpdatePriority(EnemyStateBase::EnemyStateKind::kAvoid, m_acitonProbaility[m_charaId].avoid);
+	UpdatePriority(EnemyStateBase::EnemyStateKind::kGuard, m_acitonProbaility[m_charaId].guard);
 }
 
 std::string EnemyAI::GetEnemyId(int enemyIndex)

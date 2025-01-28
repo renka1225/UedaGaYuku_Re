@@ -18,7 +18,7 @@ namespace
 
 	constexpr float kFirstSpawnMinDist = 150.0f;	// 1体目の敵のスポーン位置の最小距離
 	constexpr float kFirstSpawnRange = 600.0f;		// 1体目のスポーンする範囲
-	constexpr float kSpawnRange = 100.0f;			// 2体目以降のスポーンする範囲
+	constexpr float kSpawnRange = 50.0f;			// 2体目以降のスポーンする範囲
 	const VECTOR kTutoSpwnPos = VGet(8700.0f, 45.0f, 3100.0f); // チュートリアル敵のスポーン位置
 	const VECTOR kBossSpwnPos = VGet(8900.0f, 45.0f, 2900.0f); // ボスのスポーン位置
 

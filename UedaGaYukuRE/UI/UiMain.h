@@ -150,10 +150,11 @@ public:
 	void DrawTutorialCurrentNum(Vec2 pos, int currentNum);
 
 private:
+	std::vector<int> m_introduceHandle;	// 紹介テキストの画像
+	int m_nowLoadingIntroduce;			// 現在表示している紹介画像
 	Vec2 m_dispIntroducePos;	// 紹介テキストの表示位置
 	float m_loadingTime;		// ローディングが開始してからの時間
 	float m_loadingAnimTime;	// ローディング中のアニメーション時間
-	int m_nowLoadingIntroduce;	// 現在表示している紹介画像
 
 	Vec2 m_dispMoneyPos;		// 所持金の表示位置
 	int m_dispMoneyAnimTime;	// 所持金のアニメーションを行う時間

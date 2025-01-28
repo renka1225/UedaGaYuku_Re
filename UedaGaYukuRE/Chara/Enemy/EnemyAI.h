@@ -39,26 +39,6 @@ public:
 	void DecideNextAction(Player& pPlayer);
 
 	/// <summary>
-	/// 行動優先度を決める
-	/// </summary>
-	void DecidePriority(Player& pPlayer);
-
-	/// <summary>
-	/// バトル中の場合の行動優先度を決める
-	/// </summary>
-	void DecideBattlePriority(Player& pPlayer);
-
-	/// <summary>
-	/// チュートリアル敵の行動優先度を決める
-	/// </summary>
-	void DecideTutoPriority();
-
-	/// <summary>
-	/// 行動優先度をランダムで決める
-	/// </summary>
-	void DecideRandomPriority();
-
-	/// <summary>
 	/// 状態を更新するかチェックする
 	/// </summary>
 	/// <returns>状態を更新するかどうか</returns>
@@ -84,6 +64,48 @@ private:
 	void LoadAIData(int enemyIndex);
 
 	/// <summary>
+	/// 行動優先度を決める
+	/// </summary>
+	void DecidePriority(Player& pPlayer);
+
+	/// <summary>
+	/// バトル中の場合の行動優先度を決める
+	/// </summary>
+	void DecideBattlePriority(Player& pPlayer);
+
+	/// <summary>
+	/// 優先度を更新する
+	/// </summary>
+	/// <param name="state">追加する状態</param>
+	/// <param name="value">優先度</param>
+	void UpdatePriority(EnemyStateBase::EnemyStateKind state, int value);
+
+	/// <summary>
+	/// 優先度をリセットする
+	/// </summary>
+	void ResetPriority();
+
+	/// <summary>
+	/// 待機の優先度を追加する
+	/// </summary>
+	void AddIdlePriority();
+
+	/// <summary>
+	/// 移動系の優先度を追加する
+	/// </summary>
+	void AddMovePriority();
+
+	/// <summary>
+	/// 攻撃系の優先度を追加する
+	/// </summary>
+	void AddAttackPriority();
+
+	/// <summary>
+	/// 行動優先度をランダムで追加する
+	/// </summary>
+	void AddRandomPriority();
+
+	/// <summary>
 	/// 敵のIDを取得する
 	/// </summary>
 	/// <param name="enemyIndex">使用する敵番号</param>
@@ -91,19 +113,22 @@ private:
 	std::string GetEnemyId(int enemyIndex);
 
 private:
-	// 行動の確率情報
-	struct Probability
+	// 優先度をリセットする
+	struct ActionProbability
 	{
-		int veryLowProbability = 0; // 超低確率
-		int lowProbability = 0;		// 低確率
-		int mediumProbability = 0;	// 中確率
-		int highProbability = 0;	// 高確率
+		int idle = 0;	// 待機
+		int walk = 0;	// 歩き
+		int run = 0;	// 走り
+		int punch = 0;	// パンチ
+		int kick = 0;	// キック
+		int avoid = 0;	// 回避
+		int guard = 0;	// ガード
 	};
-	Probability m_probability; // 行動の確率
+	std::map<std::string, ActionProbability> m_acitonProbaility;
 
 	std::shared_ptr<EnemyBase> m_pEnemy;						// 敵ポインタ
 	std::vector<std::shared_ptr<EnemyBase>> m_pEnemyList;		// 敵のリスト
-	std::map<EnemyStateBase::EnemyStateKind, int> m_priority;	// 攻撃の優先度
+	std::map<EnemyStateBase::EnemyStateKind, int> m_priority;	// 行動の優先度
 	EnemyStateBase::EnemyStateKind m_nextState;					// 次の状態
 	EnemyStateBase::EnemyStateKind m_prevState;					// 1つ前の状態
 	
