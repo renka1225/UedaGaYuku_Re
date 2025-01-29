@@ -115,9 +115,19 @@ namespace
 	constexpr int kBgAlpha = 200;				// 背景のブレンド率
 
 	/*ロード*/
+	// 紹介画像表示位置
+	const Vec2 kIntroducePos[IntroduceHandle::kIntroduceNum]
+	{
+		{ 542.0f, 329.0f },
+		{ 476.0f, 329.0f },
+		{ 473.0f, 329.0f },
+		{ 462.0f, 329.0f },
+		{ 459.0f, 329.0f },
+		{ 432.0f, 326.0f }
+	};
+
 	const Vec2 kLoadingPos = { 1600.0f, 950.0f };				// "NowLoading..."表示位置
 	const Vec2 kLoadingTrianglePos = { 370.0f, 517.0f };		// 三角形表示位置
-	const Vec2 kLoadingDispIntroducePos = { 549.0f, 347.0f };	// キャラクター紹介表示位置
 	const Vec2 kLoadingDispIntroduceSize = { 571.0f, 357.0f };	// キャラクター紹介文表示サイズ
 	constexpr int kLoadingIntroduceNum = 5;						// キャラクター紹介文数
 	constexpr int kLoadingIntroduceChangeTime = 180;			// キャラクター紹介の変更時間
@@ -151,7 +161,7 @@ namespace
 
 	const Vec2 kBattleEndBgPos = { 200, 0 };		// バトル終了時の背景位置
 	const Vec2 kGekihaTextPos = { 950, 500 };		// "撃破"テキスト位置
-	constexpr int kGekihaDispTime = 100;			//  撃破UIを表示しはじめる時間
+	constexpr int kGekihaDispTime = 80;				//  撃破UIを表示しはじめる時間
 	constexpr float kGekihaTextMinScale = 1.0f;		// "撃破"テキスト最小サイズ
 	constexpr float kGekihaTextMaxScale = 10.0f;	// "撃破"テキスト最大サイズ
 	constexpr float kGekihaTextChangeScale = 0.6f;	// "撃破"テキストサイズ
@@ -174,7 +184,7 @@ UiMain::UiMain() :
 	m_dispIntroducePos({ kLoadingDispIntroduceSize.x, kLoadingDispIntroduceSize.y }),
 	m_loadingTime(0),
 	m_loadingAnimTime(0.0f),
-	m_nowLoadingIntroduce(IntroduceHandle::kSaionzi),
+	m_nowLoadingIntroduce(GetRand(IntroduceHandle::kIntroduceNum)),
 	m_dispMoneyPos(kDispMoneyInitPos),
 	m_dispMoneyAnimTime(0),
 	m_dispGekihaTextScale(kDispBattleTextMaxScale),
@@ -260,12 +270,7 @@ void UiMain::DrawLoading()
 	// 最背面
 	DrawGraph(0, 0, m_handle[Handle::kLoading_bg_back], true);
 
-	// 紹介テキスト
-	//DrawRectGraphF(m_dispIntroducePos.x, m_dispIntroducePos.y, 
-	//	kLoadingDispIntroduceSize.x * m_nowLoadingIntroduce, 0, kLoadingDispIntroduceSize.x, kLoadingDispIntroduceSize.y,
-	//	m_handle[Handle::kLoading_introduceText], true);
-
-	DrawGraphF(kLoadingDispIntroducePos.x, kLoadingDispIntroducePos.y, m_introduceHandle[m_nowLoadingIntroduce], true);
+	DrawGraphF(kIntroducePos[m_nowLoadingIntroduce].x, kIntroducePos[m_nowLoadingIntroduce].y, m_introduceHandle[m_nowLoadingIntroduce], true);
 
 	// 最前面
 	DrawGraph(0, 0, m_handle[Handle::kLoading_bg_front], true);
@@ -314,6 +319,7 @@ void UiMain::DrawBattleStart()
 	m_dispEnemyKindScale -= kDispBattleStartChangeScale;
 	m_dispEnemyKindScale = std::max(kDispBattleTextMinScale, m_dispEnemyKindScale);
 
+	// TODO:敵の種類によって表示を変える
 	int sizeW, sizeH;
 	GetGraphSize(m_handle[Handle::kEnemy_tinpira], &sizeW, &sizeH);
 	DrawRectRotaGraphF(kDispBattleStartPos.x, kDispBattleStartPos.y, 0, 0, sizeW, sizeH, m_dispEnemyKindScale, 0.0f, m_handle[Handle::kEnemy_tinpira], true);
@@ -486,6 +492,7 @@ void UiMain::DrawMiniMap(const Player& pPlayer, std::vector<std::shared_ptr<Enem
 
 void UiMain::DrawOperation(bool isBattle)
 {
+	// バトル中
 	if (isBattle)
 	{
 		DrawGraphF(kDispBattleOperationPos.x, kDispBattleOperationPos.y, m_handle[Handle::kOperation_battle], true);

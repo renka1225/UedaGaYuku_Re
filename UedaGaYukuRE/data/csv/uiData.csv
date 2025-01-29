@@ -5,8 +5,8 @@ bar_playerHpBack_2,180,60,915,100,735,40,1
 bar_playerHpBack_3,180,60,1170,100,980,40,1
 bar_playerHp_0,181,65,423,95,242,30,1
 bar_playerHp_1,181,65,668,95,487,30,1
-bar_playerHp_2,181,65,931,95,730,30,1
-bar_playerHp_3,181,64,1166,95,984,30,1
+bar_playerHp_2,181,65,913,95,732,30,1
+bar_playerHp_3,181,65,1158,95,977,30,1
 bar_playerGaugeBack_0,180,105,352,141,172,36,1
 bar_playerGaugeBack_1,180,105,524,141,344,36,1
 bar_playerGaugeBack_2,180,105,696,141,516,36,1
@@ -15,10 +15,10 @@ bar_playerGauge_0,181,110,351,136,170,26,1
 bar_playerGauge_1,181,110,523,136,342,26,1
 bar_playerGauge_2,181,110,695,136,514,26,1
 bar_playerGauge_3,181,110,867,136,686,26,1
-bar_playerGaugeCircle,30,30,174,174,144,144,1
-bar_playerGaugeMax,39,39,165,165,126,126,1
 bar_enemyHpBack,0,0,0,0,43,8,1
 bar_enemyHp,0,0,0,0,42,6,1
+bar_specialEnemyHpBack,392,969,1528,1009,1136,40,1
+bar_specialEnemyHp,395,973,1524,1003,1129,30,1
 bar_sound,802,382,1597,408,795,26,1
 cursor_select,100,187,800,287,700,100,1
 cursor_endSelect,521,463,1399,553,878,90,1

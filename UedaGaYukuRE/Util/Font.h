@@ -38,10 +38,11 @@ namespace Font
 		kTutorial = kSize28_4,
 
 		// メイン画面
-		kEnemyName = kDebug_EDGE,		// 敵名
-		kTalk_Name = kSize30_4_EDGE,	// 会話の名前画面
-		kTalk = kSize36_4_EDGE,			// 会話部分
-		kTalk_select = kSize48_4_EDGE,	// 会話選択肢
+		kEnemyName = kDebug_EDGE,			// 敵名
+		kSpecialEnemyName = kSize36_4_EDGE,	// 特殊敵名
+		kTalk_Name = kSize30_4_EDGE,		// 会話の名前画面
+		kTalk = kSize36_4_EDGE,				// 会話部分
+		kTalk_select = kSize48_4_EDGE,		// 会話選択肢
 
 		// メニュー画面
 		kMoney = kSize36_4,				// 所持金額

@@ -11,18 +11,18 @@ namespace
 	// ハンドル情報
 	enum Handle
 	{
-		kPlayerHpBg,		// プレイヤーのHP背景
-		kPlayerHp,			// プレイヤーのHP
-		kPlayerHpDamage,	// プレイヤーのダメージHP
-		kPlayerGaugeBg,		// プレイヤーのゲージ背景
-		kPlayerGauge,		// プレイヤーのゲージ
-		kPlayerGaugeCircle, // プレイヤーのゲージ円部分
-		kPlayerGaugeMax,	// プレイヤーのゲージが溜まったとき
-		kPlayerSpecial,		// 必殺技のアイコン
-		kEnemyHpBg,			// 敵のHP背景部分
-		kEnemyHp,			// 敵のHP
-		kEnemyHpDamage,		// 敵のダメージHP
-		kNum,				// ハンドルの種類
+		kPlayerHpBg,			// プレイヤーのHP背景
+		kPlayerHp,				// プレイヤーのHP
+		kPlayerHpDamage,		// プレイヤーのダメージHP
+		kPlayerGaugeBg,			// プレイヤーのゲージ背景
+		kPlayerGauge,			// プレイヤーのゲージ
+		kPlayerSpecial,			// 必殺技のアイコン
+		kEnemyHpBg,				// 敵のHP背景部分
+		kEnemyHp,				// 敵のHP
+		kEnemyHpDamage,			// 敵のダメージHP
+		kSpecialEnemyHp,		// 特殊敵のHP
+		kSpecialEnemyHpDamage,	// 特殊敵のダメージHP
+		kNum,					// ハンドルの種類
 	};
 
 	// 画像のファイル名
@@ -34,12 +34,12 @@ namespace
 		kBarHandleFile + "player_hp_damage.png",
 		kBarHandleFile + "player_gauge_bg.png",
 		kBarHandleFile + "player_gauge.png",
-		kBarHandleFile + "player_gauge_circle.png",
-		kBarHandleFile + "player_gauge_max.png",
 		"data/ui/battle/special.png",
 		kBarHandleFile + "enemy_hp_bg.png",
 		kBarHandleFile + "enemy_hp.png",
 		kBarHandleFile + "enemy_hp_damage.png",
+		kBarHandleFile + "specialEnemy_hp.png",
+		kBarHandleFile + "specialEnemy_hp_damage.png",
 	};
 
 	// バーのID
@@ -49,10 +49,10 @@ namespace
 		{"playerHp", "bar_playerHp_"},
 		{"playerGaugeBack", "bar_playerGaugeBack_"},
 		{"playerGauge", "bar_playerGauge_"},
-		{"playerGaugeCircle", "bar_playerGaugeCircle"},
-		{"playerGaugeMax", "bar_playerGaugeMax"},
 		{"enemyHpBack", "bar_enemyHpBack"},
 		{"enemyHp", "bar_enemyHp"},
+		{"specialEnemyHpBack", "bar_specialEnemyHpBack"},
+		{"specialEnemyHp", "bar_specialEnemyHp"},
 	};
 
 	constexpr float kAdjDispBarPosY = 30.0f;			// 敵HPバーの表示位置調整
@@ -61,7 +61,7 @@ namespace
 
 	const Vec2 kSpecialPos = { 55.0f, 30.0f };			// 必殺技の表示位置
 
-	constexpr int kIntervalTime = 100;			// HPバーが減少するまでの時間
+	constexpr int kIntervalTime = 80;			// HPバーが減少するまでの時間
 	constexpr float kHpDecreaseSpeed = 5.0f;	// HPが減少する速度
 }
 
@@ -92,6 +92,7 @@ void UiBar::Update()
 	{
 		m_playerHpDecreaseTime--;
 	}
+
 	// 一定時間経ったら、ダメージ分のHPバーを徐々に減らす
 	else if (m_playerDamage > 0 && m_playerHpDecreaseTime <= 0)
 	{
@@ -188,12 +189,13 @@ void UiBar::DrawPlayerSpecial(const Player& pPlayer)
 	// ゲージが溜まっていない場合、バトルでない場合は飛ばす
 	if (!pPlayer.GetIsBattle()) return;
 	if (pPlayer.GetGauge() < pPlayer.GetStatus().maxGauge) return;
+	if (!pPlayer.GetIsSpecial()) return;
 	
 	// "闘"の文字表示
 	DrawGraphF(kSpecialPos.x, kSpecialPos.y, m_handle[Handle::kPlayerSpecial], true);
 }
 
-void UiBar::DrawEnemyHpBar(EnemyBase& pEnemy)
+void UiBar::DrawEnemyHpBar(const EnemyBase& pEnemy)
 {
 	// スクリーン座標に変換する
 	VECTOR barDispPos = VAdd(pEnemy.GetPos(), VGet(0.0f, kAdjDispBarPosY, 0.0f));
@@ -231,6 +233,44 @@ void UiBar::DrawEnemyHpBar(EnemyBase& pEnemy)
 
 	DrawExtendGraphF(screenPos.x - hpData.width, screenPos.y - hpData.height,
 		(screenPos.x - hpData.width) + hpLength, screenPos.y + hpData.height, m_handle[Handle::kEnemyHp], true);
+}
+
+void UiBar::DrawSpecialEnemyHpBar(const EnemyBase& pEnemy)
+{
+	/*バック部分*/
+	auto bgData = LoadCsv::GetInstance().GetUiData(kBarID.at("specialEnemyHpBack"));
+	DrawExtendGraphF(bgData.LTposX, bgData.LTposY, bgData.RBposX, bgData.RBposY, m_handle[Handle::kPlayerHpBg], true);
+
+	/*ダメージバー*/
+	auto damageData = LoadCsv::GetInstance().GetUiData(kBarID.at("specialEnemyHp"));
+
+	// HPが0以下になる場合、ダメージ部分を表示しない
+	if (pEnemy.GetHp() - m_enemyDamage <= 0.0f)
+	{
+		m_playerDamage = 0.0f;
+	}
+	else if (pEnemy.GetHp() >= pEnemy.GetStatus().maxHp)
+	{
+		m_playerDamage = 0.0f;
+	}
+
+	// ダメージバーの長さを変える
+	float damageHpRatio = (pEnemy.GetHp() + m_enemyDamage) / pEnemy.GetStatus().maxHp;
+	float damageHpLength = damageData.width * damageHpRatio;
+	damageHpLength = std::clamp(damageHpLength, 0.0f, damageData.width);
+
+	DrawExtendGraphF(damageData.LTposX, damageData.LTposY, damageData.LTposX + damageHpLength, damageData.RBposY, m_handle[Handle::kSpecialEnemyHpDamage], true);
+
+	// HPバー
+	auto hpData = LoadCsv::GetInstance().GetUiData(kBarID.at("specialEnemyHp"));
+
+	// HPバーの長さを変える
+	float hpRatio = pEnemy.GetHp() / pEnemy.GetStatus().maxHp;
+	float hpLength = hpData.width * hpRatio;
+	hpLength = std::clamp(hpLength, 0.0f, hpData.width);
+
+	DrawExtendGraphF(hpData.LTposX, hpData.LTposY, hpData.LTposX + hpLength, hpData.RBposY, m_handle[Handle::kSpecialEnemyHp], true);
+
 }
 
 void UiBar::SetPlayerDamage(float damage)

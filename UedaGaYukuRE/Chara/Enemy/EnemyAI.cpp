@@ -17,7 +17,7 @@ namespace
 	};
 	const std::string kDefaultId = "DEFAULT";	// デフォルトID
 
-	constexpr float kMinApproachRange = 20.0f;	// プレイヤーに近づく最小範囲
+	constexpr float kMinApproachRange = 30.0f;	// プレイヤーに近づく最小範囲
 	constexpr float kMinChaseRange = 200.0f;	// プレイヤーを追いかける最小範囲
 	constexpr float kMaxChaseRange = 800.0f;	// プレイヤーを追いかける最大範囲
 	constexpr int kDecisionFrame = 30;			// 行動を更新する時間
@@ -150,14 +150,6 @@ void EnemyAI::DecidePriority(Player& pPlayer)
 	float dist = VSize(m_pEnemy->GetEToPVec());	// 敵からプレイヤーまでの距離
 	bool isChaseRange = dist > kMinChaseRange && dist < kMaxChaseRange; // プレイヤーを追いかける範囲内に入っているかどうか
 
-	// プレイヤーに一定距離近づいた場合
-	if (dist <= kMinApproachRange)
-	{
-		// 移動しないようにする
-		AddIdlePriority();
-		return;
-	}
-
 	// バトル中でない場合
 	if (!pPlayer.GetIsBattle())
 	{
@@ -214,13 +206,19 @@ void EnemyAI::DecideBattlePriority(Player& pPlayer)
 		return;
 	}
 
+	// プレイヤーに一定距離近づいた場合
+	if (dist < kMinApproachRange)
+	{
+		AddRandomPriority();
+		// 移動しない
+		AddIdlePriority();
+	}
 	// プレイヤーとの距離が離れている場合
-	if (dist > kMinChaseRange)
+	else if (dist > kMinChaseRange)
 	{
 		// プレイヤーに近づく
 		AddMovePriority();
 	}
-	// 距離が近い場合
 	else
 	{
 		// 他の敵が攻撃中の場合
@@ -324,7 +322,6 @@ void EnemyAI::AddIdlePriority()
 
 void EnemyAI::AddMovePriority()
 {
-	UpdatePriority(EnemyStateBase::EnemyStateKind::kIdle, m_acitonProbaility[m_charaId].idle);
 	UpdatePriority(EnemyStateBase::EnemyStateKind::kWalk, m_acitonProbaility[m_charaId].walk);
 	UpdatePriority(EnemyStateBase::EnemyStateKind::kRun, m_acitonProbaility[m_charaId].run);
 }

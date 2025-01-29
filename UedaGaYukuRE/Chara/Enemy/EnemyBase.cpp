@@ -14,7 +14,7 @@
 // 定数
 namespace
 {
-	constexpr float kScale = 0.15f;	// モデルの拡大率
+	constexpr float kScale = 0.15f;		// モデルの拡大率
 
 	constexpr float kFirstSpawnMinDist = 150.0f;	// 1体目の敵のスポーン位置の最小距離
 	constexpr float kFirstSpawnRange = 600.0f;		// 1体目のスポーンする範囲
@@ -24,6 +24,7 @@ namespace
 
 	constexpr float kDispNameRange = 1000.0f;		// 敵名を表示する範囲
 	const Vec2 kAdjDispNamePos = { 32.0f, 30.0f };	// 敵名の表示位置調整
+	const Vec2 kSpecialEnemyNamePos = { 392.0f, 928.0f }; // 特殊敵の名前表示位置
 
 	constexpr float kRecoveryHp = 5.0f;	// 回復量
 }
@@ -56,6 +57,7 @@ void EnemyBase::Init()
 
 	m_pEnemyAI = std::make_shared<EnemyAI>(shared_from_this());
 	m_pEnemyAI->Init(m_enemyIndex);
+
 }
 
 void EnemyBase::Update(Stage& pStage, Player& pPlayer)
@@ -117,17 +119,32 @@ void EnemyBase::Draw(Player& player)
 
 void EnemyBase::DrawUi()
 {
-	// プレイヤーに近づいたら敵名を表示する
-	VECTOR modelTopPos = VAdd(m_pos, VGet(0.0f, kAdjDispNamePos.y, 0.0f));
-	VECTOR screenPos = ConvWorldPosToScreenPos(modelTopPos);
-	bool isViewClip = CheckCameraViewClip(modelTopPos); // カメラの視界内に入っているか(true:視界に入っていない)
-
-	bool isDispName = VSize(m_eToPVec) < kDispNameRange && !isViewClip;
-	if (isDispName)
+	// 特殊敵
+	bool isSpecialEnemy = (m_enemyIndex == CharacterBase::CharaType::kEnemy_boss) || (m_enemyIndex == CharacterBase::CharaType::kEnemy_bob) ||
+		(m_enemyIndex == CharacterBase::CharaType::kEnemy_sato) || (m_enemyIndex == CharacterBase::CharaType::kEnemy_abe);
+	if (isSpecialEnemy)
 	{
-		m_pUiBar->DrawEnemyHpBar(*this);
-		DrawFormatStringFToHandle(screenPos.x - kAdjDispNamePos.x, screenPos.y - kAdjDispNamePos.y, Color::kColorW,
-			Font::m_fontHandle[static_cast<int>(Font::FontId::kEnemyName)], "%s", m_enemyName.c_str());
+		// 専用のHPバーを表示
+		m_pUiBar->DrawSpecialEnemyHpBar(*this);
+		// 名前表示
+		DrawFormatStringFToHandle(kSpecialEnemyNamePos.x, kSpecialEnemyNamePos.y, Color::kColorW,
+				Font::m_fontHandle[static_cast<int>(Font::FontId::kSpecialEnemyName)], "%s", m_enemyName.c_str());
+	}
+	// 通常敵
+	else
+	{
+		// プレイヤーに近づいたら敵名を表示する
+		VECTOR modelTopPos = VAdd(m_pos, VGet(0.0f, kAdjDispNamePos.y, 0.0f));
+		VECTOR screenPos = ConvWorldPosToScreenPos(modelTopPos);
+		bool isViewClip = CheckCameraViewClip(modelTopPos); // カメラの視界内に入っているか(true:視界に入っていない)
+
+		bool isDispName = VSize(m_eToPVec) < kDispNameRange && !isViewClip;
+		if (isDispName)
+		{
+			m_pUiBar->DrawEnemyHpBar(*this);
+			DrawFormatStringFToHandle(screenPos.x - kAdjDispNamePos.x, screenPos.y - kAdjDispNamePos.y, Color::kColorW,
+				Font::m_fontHandle[static_cast<int>(Font::FontId::kEnemyName)], "%s", m_enemyName.c_str());
+		}
 	}
 }
 
@@ -226,10 +243,6 @@ void EnemyBase::GetFramePos()
 	else if (m_enemyIndex == CharaType::kEnemy_tuto)
 	{
 		enemyRig = "mixamorig9:";
-	}
-	else if(m_enemyIndex == CharaType::kEnemy_boss)
-	{
-		enemyRig = "mixamorig7:";
 	}
 	else
 	{

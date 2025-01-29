@@ -16,6 +16,7 @@
 namespace
 {
 	constexpr float kDamageEffectAdjY = -20.0f; // ダメージエフェクトの表示位置調整
+	constexpr float kDecreaseGauge = -100.0f;	// 減らすゲージ量
 }
 
 PlayerStateBase::PlayerStateBase(const std::shared_ptr<Player>& pPlayer):
@@ -89,10 +90,8 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 		ChangeStateGrab(weapon);
 	}
 
-
-	// ゲージが最大の場合
-	bool isMaxGauge = m_pPlayer->GetGauge() >= m_pPlayer->GetStatus().maxGauge;
-	if (isMaxGauge && m_pPlayer->GetIsSpecial())
+	// 必殺技を出せる状態
+	if (m_pPlayer->GetIsSpecial())
 	{
 		// ボタンが押された場合
 		if (input.IsTriggered(InputId::kSpecial))
@@ -200,7 +199,7 @@ void PlayerStateBase::ChangeStateSpecialAttack(Weapon& pWeapon)
 		pWeapon.UpdateIsGrab(false);
 	}
 
-	m_pPlayer->SetGauge(0.0f); // ゲージを減らす
+	m_pPlayer->UpdateGauge(kDecreaseGauge); // ゲージを減らす
 	m_pPlayer->SetIsAttack(true);
 	std::shared_ptr<PlayerStateAttack> state = std::make_shared<PlayerStateAttack>(m_pPlayer);
 	m_nextState = state;

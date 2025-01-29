@@ -455,8 +455,21 @@ void SceneMain::UpdateBattle()
 	// バトル開始演出
 	UpdateBattleStartStaging();
 
-	// 最終決戦中でない場合
-	if (!m_isLastBattle)
+	// チュートリアル中
+	if (m_isTutorial)
+	{
+		// チュートリアル敵の更新
+		UpdateTutoEnemy();
+	}
+	// 最終決戦中
+	else if (m_isLastBattle)
+	{
+		// ラスボスの更新
+		UpdateBossEnemy();
+		// エンディング演出
+		UpdateEndingStaging();	
+	}
+	else
 	{
 		// 敵が1体もいなくなった場合
 		if (m_pEnemy.empty() && !m_isBattleEndStaging)
@@ -473,13 +486,6 @@ void SceneMain::UpdateBattle()
 
 		// 敵の更新
 		UpdateEnemy();
-	}
-	else
-	{
-		// ラスボスの更新
-		UpdateBossEnemy();
-		// エンディング演出
-		UpdateEndingStaging();
 	}
 
 	// バトル終了演出
@@ -704,15 +710,6 @@ void SceneMain::UpdateEnemy()
 	{
 		if (m_pEnemy[i] == nullptr) continue;
 
-		if (m_isTutorial)
-		{
-			// チュートリアル中は回復させる
-			if (!m_pPlayer->GetTutoInfo().isEndTutorial && m_pPlayer->GetTutoInfo().currentNum <= Player::TutorialNum::kTuto_4)
-			{
-				m_pEnemy[i]->RecoveryHp();
-			}
-		}
-
 		// 残り1体になった場合
 		if (m_currentEnemyNum == 1)
 		{
@@ -755,6 +752,38 @@ void SceneMain::UpdateEnemy()
 		}
 
 		m_pEnemy.erase(std::remove(m_pEnemy.begin(), m_pEnemy.end(), nullptr), m_pEnemy.end());
+	}
+}
+
+void SceneMain::UpdateTutoEnemy()
+{
+	// 途中まで回復させる
+	if (!m_pPlayer->GetTutoInfo().isEndTutorial && m_pPlayer->GetTutoInfo().currentNum <= Player::TutorialNum::kTuto_4)
+	{
+		m_pEnemy[0]->RecoveryHp();
+	}
+
+	// 更新
+	m_pEnemy[0]->Update(*m_pStage, *m_pPlayer);
+
+	// HPが0になった場合
+	if (m_pEnemy[0]->GetHp() <= 0.0f)
+	{
+		// 必殺アニメーション中が終わるまでバトル終了演出を行わない
+		bool isSpecial = m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk1 || m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk2;
+		if (isSpecial) return;
+
+		// バトル終了演出を行う
+		m_isBattleEndStaging = true;
+		m_battleEndStagingTime = kBattleEndStagingTime;
+		return;
+	}
+
+	// 敵が1体もいなくなった場合
+	if (m_pEnemy.empty() && !m_isBattleEndStaging)
+	{
+		// バトル終了状態にする
+		m_pPlayer->SetIsBattle(false);
 	}
 }
 

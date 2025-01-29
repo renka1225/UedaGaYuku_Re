@@ -239,12 +239,6 @@ public:
 	void SetIsBattle(bool isBattle) { m_isBattle = isBattle; }
 
 	/// <summary>
-	/// ゲージ量をセットする
-	/// </summary>
-	/// <param name="gauge">変更するゲージ量</param>
-	void SetGauge(float gauge) { m_gauge = gauge; }
-
-	/// <summary>
 	/// NPCとの会話状態をセットする
 	/// </summary>
 	/// <param name="isTalk">会話できるかどうか</param>

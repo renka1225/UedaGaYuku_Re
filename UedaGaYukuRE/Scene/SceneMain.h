@@ -129,6 +129,11 @@ private:
 	void UpdateEnemy();
 
 	/// <summary>
+	/// チュートリアル敵の更新を行う
+	/// </summary>
+	void UpdateTutoEnemy();
+
+	/// <summary>
 	/// ボス敵の更新を行う
 	/// </summary>
 	void UpdateBossEnemy();

@@ -25,12 +25,12 @@ namespace
 
 	constexpr float kScale = 0.14f;				// モデルの拡大率
 	constexpr float kRangeFoundEnemy = 50.0f;	// 敵を認識する範囲
-	constexpr float kRangeSpecial = 20.0f;		// 必殺技を出せる範囲
+	constexpr float kRangeSpecial = 30.0f;		// 必殺技を出せる範囲
 	constexpr float kDistWeaponGrab = 20.0f;	// 武器を掴める距離
 	constexpr float kMoveAttack = 0.3f;			// 攻撃時の移動量
 
 	constexpr int kMaxPossession = 12;			// アイテムの最大所持数
-	constexpr int kMoneyIncrement = 100;		// 一度に増える所持金数
+	constexpr int kMoneyIncrement = 50;			// 一度に増える所持金数
 
 	constexpr float kMaxRecoveryRate = 10.0f;		 // 最大の回復割合
 	constexpr int kDecreaseMinSpecialGauge = 2;		// ダメージを受けた際に減るゲージの最小量
@@ -264,7 +264,7 @@ void Player::UpdateMoney()
 {
 	if (m_addMoney <= 0) return;
 	m_money += kMoneyIncrement;
-	m_money = std::min(m_beforeMoney + m_addMoney, m_money);
+	m_money = std::min(m_money, m_beforeMoney + m_addMoney);
 }
 
 void Player::AddDecreaseMoney(int dropMoney)
@@ -275,9 +275,6 @@ void Player::AddDecreaseMoney(int dropMoney)
 
 	m_beforeMoney = m_money;
 	m_addMoney = dropMoney;
-	m_money += m_addMoney;
-
-	if (m_beforeMoney < m_money) m_addMoney = 0;
 }
 
 void Player::AddItem(int itemType)
@@ -470,13 +467,11 @@ void Player::UpdateEnemyInfo(std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 			if (m_gauge >= GetStatus().maxGauge)
 			{
 				m_isSpecial = true; // 必殺技を出せるようにする
+				continue;
 			}
-			else
-			{
-				m_isSpecial = false;
-			}
-			
 		}
+		
+		m_isSpecial = false;
 	}
 }
 

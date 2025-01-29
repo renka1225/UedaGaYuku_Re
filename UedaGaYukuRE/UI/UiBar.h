@@ -61,7 +61,13 @@ public:
 	/// 敵のHPバーを表示
 	/// </summary>
 	/// <param name="pEnemy">敵ポインタ</param>
-	void DrawEnemyHpBar(EnemyBase& pEnemy);
+	void DrawEnemyHpBar(const EnemyBase& pEnemy);
+
+	/// <summary>
+	/// 特殊敵のHPバーを表示
+	/// </summary>
+	/// <param name="pEnemy">敵ポインタ</param>
+	void DrawSpecialEnemyHpBar(const EnemyBase& pEnemy);
 
 	/// <summary>
 	/// プレイヤーが受けたダメージ量を設定
