@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "SceneMain.h"
 #include "UiConversation.h"
+#include <sstream>
 
 namespace
 {
@@ -37,8 +38,8 @@ namespace
 	const Vec2 kTalkNamePos = { 287.0f, 775.0f };		// 名前表示位置
 	const Vec2 kTalkPos = { 489.0f, 850.0f };			// テキスト表示位置
 	const Vec2 kTalkSelectBgPos = { 423.0f, 106.0f };	// 選択肢の背景位置
-	constexpr int kDrawCountInterval = 3;				// 新たな文字を表示するフレーム数
-
+	constexpr int kDrawCountInterval = 1;				// 新たな文字を表示するフレーム数
+	constexpr float kTextInteval = 30.0f;				// テキストの表示間隔
 }
 
 UiConversation::UiConversation():
@@ -129,11 +130,26 @@ void UiConversation::DrawTalk(const Player& pPlayer, int clearNum)
 		drawNum = pPlayer.GetDeadEnemyNum();
 	}
 
-	// 現在の文字数までのテキストを表示する
+	// 改行を適用する
 	std::string drawText = m_currentTalkText.substr(0, m_currentTalkTextCount);
+	std::stringstream ss(drawText);
+	std::string line;
+	float yOffset = 0.0f; // Y軸の表示位置調整
 
-	// テキスト表示
-	DrawFormatStringFToHandle(kTalkPos.x, kTalkPos.y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kTalk)], drawText.c_str(), drawNum);
+	// \nを分割
+	while (std::getline(ss, line, '\\'))
+	{
+		// \nを検出
+		if (!line.empty() && line[0] == 'n')
+		{
+			yOffset += kTextInteval; // テキストを1行分下にずらす
+			line.erase(0, 1); // 'n'を削除
+		}
+
+		// テキスト表示
+		DrawFormatStringFToHandle(kTalkPos.x, kTalkPos.y + yOffset, Color::kColorW,
+			Font::m_fontHandle[static_cast<int>(Font::FontId::kTalk)], line.c_str(), drawNum);
+	}
 }
 
 void UiConversation::DrawTalkSelectBg()

@@ -54,6 +54,17 @@ namespace
 		kIntroduceNum
 	};
 
+	/*心得*/
+	enum Knowledge
+	{
+		kOne,
+		kTwo,
+		kThree,
+		kFour,
+		kKnowledgeNum
+	};
+
+	/*画像パス*/
 	const char* kHandle[Handle::kNum]
 	{
 		"data/ui/load/bg_back.png",
@@ -84,6 +95,7 @@ namespace
 		"data/ui/battle/narikin.png",
 	};
 
+	/*ロード画像パス*/
 	const char* kIntroduceHandle[IntroduceHandle::kIntroduceNum]
 	{
 		"data/ui/load/text_ueda.png",
@@ -93,6 +105,16 @@ namespace
 		"data/ui/load/text_abe.png",
 		"data/ui/load/text_ohara.png"
 	};
+	
+	/*心得画像パス*/
+	const char* kKnowledgeHandle[Knowledge::kKnowledgeNum]
+	{
+		"data/ui/tutorial/knowledge_1.png",
+		"data/ui/tutorial/knowledge_2.png",
+		"data/ui/tutorial/knowledge_3.png",
+		"data/ui/tutorial/knowledge_4.png",
+	};
+
 
 	/*チュートリアル*/
 	// 表示位置
@@ -105,10 +127,11 @@ namespace
 		{"grab", {1814.0f, 345.0f}},
 		{"weaponAtk", {1824.0f, 432.0f}},
 		{"heat", {1768.0f, 344.0f}},
-		{"bg", { 1433.0f, 238.0f }},	// 背景位置
-		{"text", { 1433.0f, 237.0f }},	// テキスト位置
-		{"check", { 1450.0f, 339.0f }},	// チェックマーク位置
-		{"ok",{1432.0f, 422.0f}}		// OK表示位置
+		{"bg", { 1433.0f, 238.0f }},	// 背景
+		{"text", { 1433.0f, 237.0f }},	// テキスト
+		{"check", { 1450.0f, 339.0f }},	// チェックマーク
+		{"ok",{1432.0f, 422.0f}},		// OK
+		{"knowledge", {352.0f,164.0f}}	// 心得
 	};
 
 	constexpr float kTutoCheckHeight = 84.0f;	// チェックマーク表示間隔
@@ -129,7 +152,7 @@ namespace
 	const Vec2 kLoadingPos = { 1600.0f, 950.0f };				// "NowLoading..."表示位置
 	const Vec2 kLoadingTrianglePos = { 370.0f, 517.0f };		// 三角形表示位置
 	const Vec2 kLoadingDispIntroduceSize = { 571.0f, 357.0f };	// キャラクター紹介文表示サイズ
-	constexpr int kLoadingIntroduceNum = 5;						// キャラクター紹介文数
+	constexpr int kLoadingIntroduceNum = 6;						// キャラクター紹介文数
 	constexpr int kLoadingIntroduceChangeTime = 180;			// キャラクター紹介の変更時間
 	constexpr float kLoadingTriangleMove = 10.0f;				// 三角形の動く幅
 	constexpr float kLoadingMoveSpeed = 1.0f;					// テキストの移動速度
@@ -202,6 +225,12 @@ UiMain::UiMain() :
 	{
 		m_introduceHandle[i] = LoadGraph(kIntroduceHandle[i]);
 	}
+
+	m_knowledgeHandle.resize(Knowledge::kKnowledgeNum);
+	for (int i = 0; i < m_knowledgeHandle.size(); i++)
+	{
+		m_knowledgeHandle[i] = LoadGraph(kKnowledgeHandle[i]);
+	}
 }
 
 
@@ -212,6 +241,10 @@ UiMain::~UiMain()
 		DeleteGraph(handle);
 	}
 	for (auto& handle : m_introduceHandle)
+	{
+		DeleteGraph(handle);
+	}
+	for (auto& handle : m_knowledgeHandle)
 	{
 		DeleteGraph(handle);
 	}
@@ -632,4 +665,9 @@ void UiMain::DrawTutorialOk()
 void UiMain::DrawTutorialCurrentNum(Vec2 pos, int currentNum)
 {
 	DrawFormatStringFToHandle(pos.x, pos.y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kTutorial)], "%d", currentNum);
+}
+
+void UiMain::DrawTutoKnowledge(int currentTutoNum)
+{
+	DrawGraphF(kDispTutoPos.at("knowledge").x, kDispTutoPos.at("knowledge").y, m_knowledgeHandle[currentTutoNum], true);
 }

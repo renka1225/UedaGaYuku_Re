@@ -77,6 +77,9 @@ namespace
 }
 
 SceneMain::SceneMain() :
+	m_nowTalkId(""),
+	m_talkSelect(TalkSelect::kBattle),
+	m_knowledge(0),
 	m_currentEnemyNum(0),
 	m_enemySpawnTime(0),
 	m_battleStartStagingTime(0),
@@ -84,8 +87,6 @@ SceneMain::SceneMain() :
 	m_endingTime(0),
 	m_loadingTime(0),
 	m_mainSceneTime(0),
-	m_nowTalkId(""),
-	m_talkSelect(TalkSelect::kBattle),
 	m_isTalking(false),
 	m_isDispTalkSelect(false),
 	m_isDispBattleStart(false),
@@ -347,6 +348,8 @@ void SceneMain::Draw()
 		// ミニマップを表示
 		//m_pUi->DrawMiniMap(*m_pPlayer, m_pEnemy);
 	}
+
+	m_pUiMain->DrawTutoKnowledge(m_knowledge);
 	
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_PLAYING");
@@ -777,13 +780,6 @@ void SceneMain::UpdateTutoEnemy()
 		m_isBattleEndStaging = true;
 		m_battleEndStagingTime = kBattleEndStagingTime;
 		return;
-	}
-
-	// 敵が1体もいなくなった場合
-	if (m_pEnemy.empty() && !m_isBattleEndStaging)
-	{
-		// バトル終了状態にする
-		m_pPlayer->SetIsBattle(false);
 	}
 }
 

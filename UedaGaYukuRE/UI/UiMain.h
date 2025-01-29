@@ -149,8 +149,15 @@ public:
 	/// <param name="currentNum">現在の実行回数</param>
 	void DrawTutorialCurrentNum(Vec2 pos, int currentNum);
 
+	/// <summary>
+	/// チュートリアルの心得表示
+	/// </summary>
+	/// <param name="currentTutoNum">現在のチュートリアル数</param>
+	void DrawTutoKnowledge(int currentTutoNum);
+
 private:
 	std::vector<int> m_introduceHandle;	// 紹介テキストの画像
+	std::vector<int> m_knowledgeHandle;	// 心得の画像
 	int m_nowLoadingIntroduce;			// 現在表示している紹介画像
 	Vec2 m_dispIntroducePos;	// 紹介テキストの表示位置
 	float m_loadingTime;		// ローディングが開始してからの時間
