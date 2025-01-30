@@ -234,7 +234,6 @@ private:
 
 	std::string m_nowTalkId;	// 現在の会話ID
 	int m_talkSelect;			// 会話の選択肢
-	int m_knowledge;			// 現在の心得表示数		
 
 	int m_currentEnemyNum;			// 現在の敵数
 	int m_enemySpawnTime;			// 敵がスポーンするまでの時間

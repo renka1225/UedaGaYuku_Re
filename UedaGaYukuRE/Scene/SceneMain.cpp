@@ -79,7 +79,6 @@ namespace
 SceneMain::SceneMain() :
 	m_nowTalkId(""),
 	m_talkSelect(TalkSelect::kBattle),
-	m_knowledge(0),
 	m_currentEnemyNum(0),
 	m_enemySpawnTime(0),
 	m_battleStartStagingTime(0),
@@ -349,7 +348,7 @@ void SceneMain::Draw()
 		//m_pUi->DrawMiniMap(*m_pPlayer, m_pEnemy);
 	}
 
-	m_pUiMain->DrawTutoKnowledge(m_knowledge);
+	//m_pUiMain->DrawTutoKnowledge(m_knowledge);
 	
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_PLAYING");

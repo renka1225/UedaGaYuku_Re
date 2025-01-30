@@ -223,8 +223,12 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 	}
 	else if (input.IsTriggered(InputId::kBack))
 	{
-		// 選択肢表示中は飛ばす
-		if (m_isChoice) return shared_from_this();
+		// 選択肢表示中
+		if (m_isChoice)
+		{
+			m_isChoice = false;
+			return shared_from_this();
+		}
 
 		SceneChangeSound(SoundName::kBgm_select);
 		// タイトル画面に戻る

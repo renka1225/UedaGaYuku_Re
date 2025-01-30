@@ -57,6 +57,7 @@ namespace
 	/*心得*/
 	enum Knowledge
 	{
+		kZero,
 		kOne,
 		kTwo,
 		kThree,
@@ -109,6 +110,7 @@ namespace
 	/*心得画像パス*/
 	const char* kKnowledgeHandle[Knowledge::kKnowledgeNum]
 	{
+		"data/ui/tutorial/synopsis.png",
 		"data/ui/tutorial/knowledge_1.png",
 		"data/ui/tutorial/knowledge_2.png",
 		"data/ui/tutorial/knowledge_3.png",
@@ -205,14 +207,16 @@ namespace
 
 UiMain::UiMain() :
 	m_dispIntroducePos({ kLoadingDispIntroduceSize.x, kLoadingDispIntroduceSize.y }),
-	m_loadingTime(0),
-	m_loadingAnimTime(0.0f),
-	m_nowLoadingIntroduce(GetRand(IntroduceHandle::kIntroduceNum)),
 	m_dispMoneyPos(kDispMoneyInitPos),
+	m_loadingTime(0.0f),
+	m_loadingAnimTime(0.0f),
 	m_dispMoneyAnimTime(0),
 	m_dispGekihaTextScale(kDispBattleTextMaxScale),
 	m_dispEnemyKindScale(kDispBattleTextMaxScale),
-	m_dispNowBattlePosX(Game::kScreenWidth)
+	m_dispNowBattlePosX(Game::kScreenWidth),
+	m_nowLoadingIntroduce(GetRand(IntroduceHandle::kIntroduceNum - 1)),
+	m_knowledgeNum(0),
+	m_isDispknowledge(false)
 {
 	m_handle.resize(Handle::kNum);
 	for (int i = 0; i < m_handle.size(); i++)
@@ -295,6 +299,15 @@ void UiMain::UpdateLoading(const Input& input)
 	// テキストを左に移動させる
 	//m_dispIntroducePos.x = kLoadingTextPos.x;
 
+}
+
+void UiMain::UpdateTutoKnowledge(const Input& input)
+{
+	// 更新
+	if (input.IsTriggered(InputId::kA))
+	{
+		m_isDispknowledge = false;
+	}
 }
 
 void UiMain::DrawLoading()
@@ -667,7 +680,10 @@ void UiMain::DrawTutorialCurrentNum(Vec2 pos, int currentNum)
 	DrawFormatStringFToHandle(pos.x, pos.y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kTutorial)], "%d", currentNum);
 }
 
-void UiMain::DrawTutoKnowledge(int currentTutoNum)
+void UiMain::DrawTutoKnowledge()
 {
-	DrawGraphF(kDispTutoPos.at("knowledge").x, kDispTutoPos.at("knowledge").y, m_knowledgeHandle[currentTutoNum], true);
+	// 表示しない場合飛ばす
+	if (!m_isDispknowledge) return;
+
+	DrawGraphF(kDispTutoPos.at("knowledge").x, kDispTutoPos.at("knowledge").y, m_knowledgeHandle[m_knowledgeNum], true);
 }
