@@ -11,9 +11,9 @@ SaveData* SaveData::m_instance = nullptr;
 namespace
 {
 	const char* const kSaveDataPath = "data/saveData/savedata."; // セーブデータの保存を行うパス名
-	constexpr float kSaveDataInterval = 212.0f;	// セーブデータ情報表示位置間隔
+	constexpr float kSaveDataInterval = 212.0f;					 // セーブデータ情報表示位置間隔
 
-	const VECTOR kInitPos = VGet(8957.0f, 40.0f, 2827.0f);	// プレイヤーの初期位置
+	const VECTOR kInitPos = VGet(8759.0f, 40.0f, 3109.0f);	// プレイヤーの初期位置
 	constexpr float kInitHp = 10000.0f;						// プレイヤーの初期HP
 	constexpr int kMaxPossession = 12;						// アイテムの最大所持数
 

@@ -35,12 +35,6 @@ public:
 	void UpdateLoading(const Input& input);
 
 	/// <summary>
-	/// 心得の表示を更新
-	/// </summary>
-	/// <param name="input">入力情報</param>
-	void UpdateTutoKnowledge(const Input& input);
-
-	/// <summary>
 	/// ロード中の演出を表示
 	/// </summary>
 	void DrawLoading();
@@ -160,12 +154,7 @@ public:
 	/// チュートリアルの心得表示
 	/// </summary>
 	/// <param name="currentTutoNum">現在のチュートリアル数</param>
-	void DrawTutoKnowledge();
-
-	/// <summary>
-	/// 現在の心得表示数を取得
-	/// </summary>
-	int GetNowKnowledgeNum() const { return m_knowledgeNum; }
+	void DrawTutoKnowledge(Player::TutorialInfo tutoInfo);
 
 private:
 	std::vector<int> m_introduceHandle;	// 紹介テキストの画像
@@ -180,7 +169,5 @@ private:
 	float m_dispEnemyKindScale;	 // バトル開始時の敵種類の表示サイズ
 	float m_dispNowBattlePosX;	 // バトル中のUI表示位置X
 	int m_nowLoadingIntroduce;	 // 現在表示している紹介画像
-	int m_knowledgeNum;			 // 現在の心得表示数
-	bool m_isDispknowledge;		 // 現在心得を表示しているかどうか
 };
 

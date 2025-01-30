@@ -29,7 +29,9 @@ public:
 	struct TutorialInfo
 	{
 		int tutorialChangeTime = 0;	// チュートリアルの切り替え時間
+		int talkNum = 0;			// 現在のチュートリアル会話数
 		int currentNum = 0;			// 現在のチュートリアル数
+		int currentKnowledge = 0;	// 現在の心得表示数
 		int currentPunch = 0;		// 現在のパンチ回数
 		int currentKick = 0;		// 現在のキック回数
 		int currentAvoid = 0;		// 現在回避回数
@@ -37,6 +39,8 @@ public:
 		int currentGrab = 0;		// 現在の掴み回数
 		int currentWeaponAtk = 0;	// 現在の武器攻撃回数
 		int currentHeat = 0;		// 現在のヒートアクション回数
+		bool isNowKnowledge = true;	// 心得を表示中か
+		bool isTalk = false;		// 会話中かどうか
 		bool isNowChange = false;	// チュートリアル切り替え中か
 		bool isMove = false;		// 移動したか
 		bool isDush = false;		// ダッシュしたか
@@ -54,6 +58,7 @@ public:
 	// チュートリアル数
 	enum TutorialNum
 	{
+		kTuto_0,
 		kTuto_1,
 		kTuto_2,
 		kTuto_3,
@@ -230,7 +235,8 @@ public:
 	/// <summary>
 	/// チュートリアルを切り替える
 	/// </summary>
-	void ChangeTutorial();
+	/// <param name="input">入力情報</param>
+	void ChangeTutorial(const Input& input);
 
 	/// <summary>
 	/// バトル状態をセットする
@@ -381,9 +387,16 @@ private:
 	void UpdateInputLog(const Input& input, int currentFrame);
 
 	/// <summary>
+	/// チュートリアル0
+	/// </summary>
+	/// <param name="input">入力情報</param>
+	void UpdateTuto0(const Input& input);
+
+	/// <summary>
 	/// チュートリアル1
 	/// </summary>
-	void UpdateTuto1();
+	/// <param name="input">入力情報</param>
+	void UpdateTuto1(const Input& input);
 
 	/// <summary>
 	/// チュートリアル2
@@ -407,11 +420,12 @@ private:
 	/// <summary>
 	/// チュートリアル5
 	/// </summary>
-	void UpdateTuto5();
+	/// <param name="input">入力情報</param>
+	void UpdateTuto5(const Input& input);
 
 private:
 	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
-	std::shared_ptr<UiMain> m_pUiMain;		// メインシーンで仕様するUIポインタ
+	std::shared_ptr<UiMain> m_pUiMain;		// メインシーンで使用するUIポインタ
 	std::vector<VECTOR> m_pToEVec;			// プレイヤーから敵への位置ベクトル
 	std::vector<int> m_possessItem;			// プレイヤーが所持しているアイテム情報を保存しておく
 	std::vector<CommandInput> m_inputLog;	// 入力情報を一時保存する

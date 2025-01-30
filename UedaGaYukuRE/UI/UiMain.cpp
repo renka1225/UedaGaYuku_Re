@@ -214,9 +214,7 @@ UiMain::UiMain() :
 	m_dispGekihaTextScale(kDispBattleTextMaxScale),
 	m_dispEnemyKindScale(kDispBattleTextMaxScale),
 	m_dispNowBattlePosX(Game::kScreenWidth),
-	m_nowLoadingIntroduce(GetRand(IntroduceHandle::kIntroduceNum - 1)),
-	m_knowledgeNum(0),
-	m_isDispknowledge(false)
+	m_nowLoadingIntroduce(GetRand(IntroduceHandle::kIntroduceNum - 1))
 {
 	m_handle.resize(Handle::kNum);
 	for (int i = 0; i < m_handle.size(); i++)
@@ -299,15 +297,6 @@ void UiMain::UpdateLoading(const Input& input)
 	// テキストを左に移動させる
 	//m_dispIntroducePos.x = kLoadingTextPos.x;
 
-}
-
-void UiMain::UpdateTutoKnowledge(const Input& input)
-{
-	// 更新
-	if (input.IsTriggered(InputId::kA))
-	{
-		m_isDispknowledge = false;
-	}
 }
 
 void UiMain::DrawLoading()
@@ -551,29 +540,31 @@ void UiMain::DrawOperation(bool isBattle)
 
 void UiMain::DrawTutorial(Player::TutorialInfo tutoInfo)
 {
-	SetDrawBlendMode(DX_BLENDMODE_MULA, kBgAlpha);
-	DrawGraphF(kDispTutoPos.at("bg").x, kDispTutoPos.at("bg").y, m_handle[Handle::kTuto_bg], true);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	// チュートリアル背景
+	if (tutoInfo.currentNum >= Player::TutorialNum::kTuto_1)
+	{
+		SetDrawBlendMode(DX_BLENDMODE_MULA, kBgAlpha);
+		DrawGraphF(kDispTutoPos.at("bg").x, kDispTutoPos.at("bg").y, m_handle[Handle::kTuto_bg], true);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
 
 	switch (tutoInfo.currentNum)
 	{
-	// チュートリアル1
+	case Player::TutorialNum::kTuto_0:
+		DrawTutoKnowledge(tutoInfo);
+		break;
 	case Player::TutorialNum::kTuto_1:
 		DrawTuto1(tutoInfo);
 		break;
-	// チュートリアル2
 	case Player::TutorialNum::kTuto_2:
 		DrawTuto2(tutoInfo);
 		break;
-	// チュートリアル3
 	case Player::TutorialNum::kTuto_3:
 		DrawTuto3(tutoInfo);
 		break;
-	// チュートリアル4
 	case Player::TutorialNum::kTuto_4:
 		DrawTuto4(tutoInfo);
 		break;
-		// チュートリアル4
 	case Player::TutorialNum::kTuto_5:
 		DrawTuto5(tutoInfo);
 		break;
@@ -602,6 +593,8 @@ void UiMain::DrawTuto1(Player::TutorialInfo tutoInfo)
 	{
 		DrawTutorialCheck(kDispTutoPos.at("check").y + kTutoCheckHeight * 2);
 	}
+
+	DrawTutoKnowledge(tutoInfo);
 }
 
 void UiMain::DrawTuto2(Player::TutorialInfo tutoInfo)
@@ -646,6 +639,8 @@ void UiMain::DrawTuto3(Player::TutorialInfo tutoInfo)
 	{
 		DrawTutorialCheck(kDispTutoPos.at("check").y + kTutoCheckHeight);
 	}
+
+	DrawTutoKnowledge(tutoInfo);
 }
 
 void UiMain::DrawTuto4(Player::TutorialInfo tutoInfo)
@@ -680,10 +675,9 @@ void UiMain::DrawTutorialCurrentNum(Vec2 pos, int currentNum)
 	DrawFormatStringFToHandle(pos.x, pos.y, Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kTutorial)], "%d", currentNum);
 }
 
-void UiMain::DrawTutoKnowledge()
+void UiMain::DrawTutoKnowledge(Player::TutorialInfo tutoInfo)
 {
-	// 表示しない場合飛ばす
-	if (!m_isDispknowledge) return;
+	if (!tutoInfo.isNowKnowledge) return;
 
-	DrawGraphF(kDispTutoPos.at("knowledge").x, kDispTutoPos.at("knowledge").y, m_knowledgeHandle[m_knowledgeNum], true);
+	DrawGraphF(kDispTutoPos.at("knowledge").x, kDispTutoPos.at("knowledge").y, m_knowledgeHandle[tutoInfo.currentKnowledge], true);
 }

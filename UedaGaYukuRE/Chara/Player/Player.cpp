@@ -48,6 +48,8 @@ namespace
 	constexpr int kTutoMidiumNum = 3;	// チュートリアルの中回数
 	constexpr int kTutoMaxNum = 5;		// チュートリアルの最大回数
 	constexpr int kTutoChangeTime = 30;	// チュートリアルの切り替え時間
+	constexpr int kKnowledgeNum = 4;	// 心得の最大表示数
+	constexpr int kTutoTalkNum = 2;		// チュートリアル時の会話数
 }
 
 Player::Player(std::shared_ptr<UiBar> pUi, std::shared_ptr<UiMain> pUiMain, int modelHandle):
@@ -126,7 +128,7 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 	}
 
 	// 会話中の場合
-	if (m_isNowTalk)
+	if (m_isNowTalk || m_tutorial.isNowKnowledge || m_tutorial.isTalk)
 	{
 		m_isPossibleMove = false;
 	}
@@ -386,7 +388,7 @@ void Player::UpdateTutorial(const Input& input, EnemyBase& pEnemy)
 	if (input.IsTriggered(InputId::kDebugTutorial))
 	{
 		m_tutorial.currentNum++;
-		if (m_tutorial.currentNum >= TutorialNum::kTuto_5)
+		if (m_tutorial.currentNum > TutorialNum::kTutoNum)
 		{
 			m_tutorial.isEndTutorial = true;
 			m_isBattle = false;
@@ -402,31 +404,34 @@ void Player::UpdateTutorial(const Input& input, EnemyBase& pEnemy)
 
 	switch (m_tutorial.currentNum)
 	{
-	// チュートリアル1
-	case TutorialNum::kTuto_1:
-		UpdateTuto1();
+	case TutorialNum::kTuto_0:
+		UpdateTuto0(input);
 		break;
-	// チュートリアル2
+	case TutorialNum::kTuto_1:
+		UpdateTuto1(input);
+		break;
 	case TutorialNum::kTuto_2:
 		UpdateTuto2(input);
 		break;
-	// チュートリアル3
 	case TutorialNum::kTuto_3:
 		UpdateTuto3(input);
 		break;
-	// チュートリアル4
 	case TutorialNum::kTuto_4:
 		UpdateTuto4(input, pEnemy);
 		break;
-	// チュートリアル5
 	case TutorialNum::kTuto_5:
-		UpdateTuto5();
+		UpdateTuto5(input);
 		break;
 	}
+
+	m_isTalk = false;
+
+	printfDx("チュートリアル数:%d\n", m_tutorial.currentNum);
 }
 
-void Player::ChangeTutorial()
+void Player::ChangeTutorial(const Input& input)
 {
+	// 切り替えの演出を行う
 	if (!m_tutorial.isNowChange)
 	{
 		m_tutorial.isNowChange = true;
@@ -434,10 +439,34 @@ void Player::ChangeTutorial()
 		Sound::GetInstance().PlaySe(SoundName::kSe_tuto_change);
 	}
 
+	// 心得表示
+	if (m_tutorial.isNowKnowledge)
+	{
+		// バトル終了後
+		if (!m_isBattle)
+		{
+			// Aボタンを押したら次を表示
+			if (input.IsTriggered(InputId::kA))
+			{
+				m_tutorial.currentKnowledge++;
+
+				// すべて表示し終わった場合
+				if(m_tutorial.currentKnowledge >= kKnowledgeNum) m_tutorial.isNowKnowledge = false;
+			}
+		}
+		return;
+	}
+
+	// 次のチュートリアルに切り替える
 	if (m_tutorial.tutorialChangeTime < 0)
 	{
 		m_tutorial.isNowChange = false;
 		m_tutorial.currentNum++;
+
+		if (m_tutorial.currentNum == TutorialNum::kTuto_3)
+		{
+			m_tutorial.isNowKnowledge = true;
+		}
 	}
 }
 
@@ -667,10 +696,63 @@ void Player::ApplySaveData()
 	m_possessItem = saveData.possessItem;
 	m_deadEnemyNum = saveData.deadEnemyNum;
 	m_tutorial.isEndTutorial = saveData.isEndTutorial;
+
+	if (m_tutorial.isEndTutorial)
+	{
+		m_tutorial.isNowKnowledge = false;
+	}
 }
 
-void Player::UpdateTuto1()
+void Player::UpdateTuto0(const Input& input)
 {
+	// 会話中
+	if (m_tutorial.isTalk)
+	{
+		if (input.IsTriggered(InputId::kA))
+		{
+			// 次の会話に移行
+			m_tutorial.talkNum++;
+
+			// 会話がすべて終わったらチュートリアルへ
+			if (m_tutorial.talkNum >= kTutoTalkNum)
+			{
+				m_tutorial.isTalk = false;
+				m_tutorial.isNowKnowledge = true;
+				m_tutorial.currentNum++;
+			}
+		}
+		return;
+	}
+
+	// Aボタンを押したら、会話開始
+	if (input.IsTriggered(InputId::kA))
+	{
+		// 会話状態に移行
+		m_tutorial.isTalk = true;
+		// 心得を非表示にする
+		m_tutorial.isNowKnowledge = false;
+		m_tutorial.currentKnowledge++;
+
+		return;
+	}
+
+	// 心得を表示
+	m_tutorial.isNowKnowledge = true;
+}
+
+void Player::UpdateTuto1(const Input& input)
+{
+	// 心得表示
+	if (m_tutorial.isNowKnowledge)
+	{
+		if (input.IsTriggered(InputId::kA))
+		{
+			m_tutorial.currentKnowledge++;
+			m_tutorial.isNowKnowledge = false;
+		}
+		return;
+	}
+
 	// 移動
 	if (GetCurrentAnim() == AnimName::kWalk)
 	{
@@ -692,7 +774,7 @@ void Player::UpdateTuto1()
 	// 次のチュートリアルに移る
 	if (m_tutorial.isMove && m_tutorial.isDush && m_tutorial.isCameraMove)
 	{
-		ChangeTutorial();
+		ChangeTutorial(input);
 	}
 }
 
@@ -740,12 +822,23 @@ void Player::UpdateTuto2(const Input& input)
 	// 次のチュートリアルに移る
 	if (m_tutorial.isPunch && m_tutorial.isKick && m_tutorial.isAvoid && m_tutorial.isGuard)
 	{
-		ChangeTutorial();
+		ChangeTutorial(input);
 	}
 }
 
 void Player::UpdateTuto3(const Input& input)
 {
+	// 心得表示
+	if (m_tutorial.isNowKnowledge)
+	{
+		if (input.IsTriggered(InputId::kA))
+		{
+			m_tutorial.currentKnowledge++;
+			m_tutorial.isNowKnowledge = false;
+		}
+		return;
+	}
+
 	// 武器掴み
 	if (m_isNowGrabWeapon)
 	{
@@ -769,7 +862,7 @@ void Player::UpdateTuto3(const Input& input)
 	// 次のチュートリアルに移る
 	if (m_tutorial.currentGrab && m_tutorial.currentWeaponAtk)
 	{
-		ChangeTutorial();
+		ChangeTutorial(input);
 	}
 }
 
@@ -792,16 +885,24 @@ void Player::UpdateTuto4(const Input& input, EnemyBase& pEnemy)
 	if (m_tutorial.isHeat && !m_isAttack && isEndAnim)
 	{
 		pEnemy.RecoveryMaxHp();
-		ChangeTutorial();
+		ChangeTutorial(input);
 	}
 }
 
-void Player::UpdateTuto5()
+void Player::UpdateTuto5(const Input& input)
 {
-	// チュートリアルを終了する
+	// 心得を表示中は飛ばす
+	if (m_tutorial.isNowKnowledge) return;
+
+	// バトル終了
 	if (!m_isBattle)
 	{
-		m_tutorial.currentNum++;
-		m_tutorial.isEndTutorial = true;
+		// 心得を表示
+		m_tutorial.isNowKnowledge = true;
 	}
+
+	// 表示が終わったらチュートリアルを終了する
+	m_tutorial.isEndTutorial = true;
+
+	// TODO:会話パートに入る
 }

@@ -44,8 +44,9 @@ namespace
 		{CharacterBase::CharaType::kEnemy_abe, "Abe"}
 	};
 
-	constexpr int kModelNum = 10;		// 読み込むモデルの数
-	constexpr int kMobEnemyNum = 3;		// 読み込むモブ敵の数
+	constexpr int kModelNum = 10;				// 読み込むモデルの数
+	constexpr int kMobEnemyNum = 3;				// 読み込むモブ敵の数
+	constexpr int kCreateTutoEnemyTalkNum = 2;	// チュートリアル敵を生成するタイミング
 
 	constexpr int kEnemyMaxNum = 3;		// 1度に出現する最大の敵数
 	constexpr int kEnemyKindNum = 3;	// 敵の種類
@@ -66,6 +67,7 @@ namespace
 	constexpr int kEndingTime = 30;					// エンディングの時間
 	constexpr int kTalkDispTime = 3;				// 会話を表示させる最低限の時間
 
+	const std::string kTutoTalkId = "TUTO_";				// チュートリアル会話のID
 	const std::string kCursorId = "cursor_main_talkSelect";	// 会話の選択肢カーソルのID
 	constexpr float kTalkSelectCursorInterval = 98.0f;		// 会話の選択肢カーソルの表示間隔
 
@@ -94,6 +96,7 @@ SceneMain::SceneMain() :
 	m_isPause(false),
 	m_isLoading(true),
 	m_isTutorial(false),
+	m_isCreateTutoEnemy(false),
 	m_isLastBattle(false)
 {
 	SetUseASyncLoadFlag(true); 	// 非同期読み込み設定に変更
@@ -224,15 +227,6 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	m_pCamera->Update(input, *m_pPlayer, *m_pStage);
 	m_pUiBar->Update();
 
-	// チュートリアル敵生成
-	if (m_mainSceneTime == kFirstSpawnTime)
-	{
-		// すでにクリア済みの場合は生成しない
-		if (m_pPlayer->GetTutoInfo().isEndTutorial) return shared_from_this();
-
-		CreateTutoEnemy();
-	}
-
 #ifdef _DEBUG // デバックコマンド
 	if (input.IsTriggered(InputId::kDebugClear))
 	{
@@ -325,9 +319,13 @@ void SceneMain::Draw()
 	// チュートリアル表示
 	if (m_isTutorial)
 	{
-		if (!m_pPlayer->GetTutoInfo().isEndTutorial)
+		if (m_pPlayer->GetTutoInfo().isEndTutorial) return;
+		m_pUiMain->DrawTutorial(m_pPlayer->GetTutoInfo());
+
+		// 会話表示
+		if (m_pPlayer->GetTutoInfo().isTalk)
 		{
-			m_pUiMain->DrawTutorial(m_pPlayer->GetTutoInfo());
+			m_pUiConversation->DrawTalk(*m_pPlayer, 0);
 		}
 	}
 	// 操作説明表示
@@ -347,8 +345,6 @@ void SceneMain::Draw()
 		// ミニマップを表示
 		//m_pUi->DrawMiniMap(*m_pPlayer, m_pEnemy);
 	}
-
-	//m_pUiMain->DrawTutoKnowledge(m_knowledge);
 	
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_PLAYING");
@@ -433,7 +429,6 @@ void SceneMain::InitAfterLoading()
 	if (!m_pPlayer->GetTutoInfo().isEndTutorial)
 	{
 		m_isTutorial = true;
-		m_pPlayer->SetIsBattle(true);
 	}
 }
 
@@ -442,26 +437,47 @@ void SceneMain::UpdateTutorial(const Input& input)
 	// チュートリアル状態にする
 	m_pPlayer->UpdateTutorial(input, *m_pEnemy[0]);
 
+	bool isTalk = m_pPlayer->GetTutoInfo().isTalk;
+	bool isNowKnowledge = m_pPlayer->GetTutoInfo().isNowKnowledge;
+	bool isCurrentTuto = m_pPlayer->GetTutoInfo().currentNum == Player::TutorialNum::kTuto_1;
+
+	// 会話が終わったらチュートリアル敵を生成する
+	if (!isTalk && !isNowKnowledge && isCurrentTuto)
+	{
+		// すでにクリア済みの場合は生成しない
+		if (m_pPlayer->GetTutoInfo().isEndTutorial) return;
+
+		CreateTutoEnemy();
+	}
+
 	// チュートリアルを終了する
 	if (m_pPlayer->GetTutoInfo().isEndTutorial)
 	{
 		m_isTutorial = false;
+		return;
 	}
+
+	m_nowTalkId = kTutoTalkId + std::to_string(m_pPlayer->GetTutoInfo().talkNum);
+	m_pUiConversation->UpdateDispTalk(m_nowTalkId); // 会話表示を更新
 }
 
 void SceneMain::UpdateBattle()
 {
 	// 会話中は敵を更新しない
-	if (m_pPlayer->GetIsNowTalk()) return;
+	bool isTuto = m_pPlayer->GetTutoInfo().isNowKnowledge || m_pPlayer->GetTutoInfo().isTalk;
+	if (m_pPlayer->GetIsNowTalk() || isTuto) return;
 
 	// バトル開始演出
 	UpdateBattleStartStaging();
+	// バトル終了演出
+	UpdateBattleEndStaging();
 
 	// チュートリアル中
 	if (m_isTutorial)
 	{
 		// チュートリアル敵の更新
 		UpdateTutoEnemy();
+		return;
 	}
 	// 最終決戦中
 	else if (m_isLastBattle)
@@ -489,15 +505,12 @@ void SceneMain::UpdateBattle()
 		// 敵の更新
 		UpdateEnemy();
 	}
-
-	// バトル終了演出
-	UpdateBattleEndStaging();
 }
 
 void SceneMain::UpdateBattleStartStaging()
 {
 	// バトル終了中はバトルを開始できないようにする
-	if (m_isBattleEndStaging) return;
+	if (m_isBattleEndStaging || m_pPlayer->GetTutoInfo().isTalk) return;
 
 	// プレイヤーがバトル状態の場合
 	if (m_pPlayer->GetIsBattle())
@@ -647,10 +660,10 @@ void SceneMain::UpdateSound()
 
 void SceneMain::CreateEnemy()
 {
-	// ゲーム開始時、時間が経ってから敵を生成する
-	if (m_mainSceneTime <= kFirstSpawnTime + kLoadingTime) return;
 	// チュートリアル前は生成しない
 	if (!m_pPlayer->GetTutoInfo().isEndTutorial && m_isTutorial) return;
+	// ゲーム開始時、時間が経ってから敵を生成する
+	if (m_mainSceneTime <= kFirstSpawnTime + kLoadingTime) return;
 	// 会話中は敵を生成しない
 	if (m_pPlayer->GetIsNowTalk()) return;
 
@@ -669,9 +682,11 @@ void SceneMain::CreateTutoEnemy()
 {
 	// すでにクリア済みの場合は生成しない
 	if (m_pPlayer->GetTutoInfo().isEndTutorial) return;
+	if (m_isCreateTutoEnemy) return;
+
+	m_isCreateTutoEnemy = true;
 
 	m_currentEnemyNum = 1;
-	m_isTutorial = true;
 	m_pPlayer->SetIsBattle(true);
 
 	// 敵がいる場合は削除する
@@ -686,6 +701,7 @@ void SceneMain::CreateTutoEnemy()
 	tutoEnemy->Init();
 	m_pEnemy.push_back(tutoEnemy);
 	tutoEnemy->GetEnemyAI()->SetEnemyList(m_pEnemy);
+	return;
 }
 
 void SceneMain::CreateBossEnemy()
@@ -1094,6 +1110,9 @@ void SceneMain::EndTalk()
 
 void SceneMain::DrawTalk()
 {
+	// チュートリアル中は表示しない
+	if (m_isTutorial) return;
+
 	// 話すUI表示
 	if (m_pPlayer->GetIsTalk())
 	{

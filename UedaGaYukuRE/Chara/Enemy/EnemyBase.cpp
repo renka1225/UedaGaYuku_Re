@@ -70,6 +70,12 @@ void EnemyBase::Update(Stage& pStage, Player& pPlayer)
 		m_hp = std::max(1.0f, m_hp);
 	}
 
+	// 会話中は動けないようにする
+	if (pPlayer.GetTutoInfo().isNowKnowledge || pPlayer.GetTutoInfo().isTalk)
+	{
+		m_isPossibleMove = false;
+	}
+
 	// AIの更新
 	m_pEnemyAI->Update();
 	m_pEnemyAI->DecideNextAction(pPlayer);
