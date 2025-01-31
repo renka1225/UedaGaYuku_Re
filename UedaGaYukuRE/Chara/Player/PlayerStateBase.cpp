@@ -126,7 +126,6 @@ void PlayerStateBase::UpdateBattleEnd()
 {
 	ChangeStateIdle();
 	m_isNowBattleEnd = true;
-	m_pPlayer->SetIsBattle(false);
 }
 
 bool PlayerStateBase::IsStateInterrupt()

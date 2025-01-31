@@ -14,6 +14,8 @@ namespace SoundName
 	constexpr const char* kBgm_bossBattle = "bossBattle.mp3";
 	constexpr const char* kBgm_battleEnd = "battleEnd.mp3";
 	constexpr const char* kBgm_congestion = "congestion.mp3";
+	constexpr const char* kBgm_clear = "clear.mp3";
+	constexpr const char* kBgm_gameover = "gameover.mp3";
 	constexpr const char* kSe_sampleSE = "sampleSE.mp3";
 	constexpr const char* kSe_logo = "logo.mp3";
 	constexpr const char* kSe_cursor = "cursor.mp3";
@@ -27,7 +29,10 @@ namespace SoundName
 	constexpr const char* kSe_run = "run.mp3";
 	constexpr const char* kSe_avoid = "avoid.mp3";
 	constexpr const char* kSe_attack = "attack.mp3";
+	constexpr const char* kSe_specialAttack = "specialAttack.mp3";
 	constexpr const char* kSe_guardAttack = "guardAttack.mp3";
+	constexpr const char* kSe_special = "special.mp3";
+	constexpr const char* kSe_recovery = "recovery.mp3";
 }
 
 /// <summary>

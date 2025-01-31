@@ -238,6 +238,16 @@ void CharacterBase::UpdateAnim()
 		return;
 	}
 
+	// セレクトの最初から
+	if (m_currenAnimName == "first")
+	{
+		if (m_currentAnimTime >= m_animLoopEndTime)
+		{
+			ChangeAnim("continue");
+			return;
+		}
+	}
+
 	// アニメーションの再生時間を進める
 	m_currentAnimTime += m_animPlaySpeed;
 

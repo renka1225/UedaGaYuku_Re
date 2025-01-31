@@ -22,3 +22,5 @@ SELECT_BATTLE_2,Ueda,Sato
 SELECT_BATTLE_3,Ueda,Abe
 SELECT_BATTLE_YES,Ueda,バトルに往く
 SELECT_BATTLE_NO,Ueda,やっぱやめる
+TUTO_0,Saionzi,俺の名前はSaionzi。\n君のことは前から知っている。
+TUTO_1,Saionzi,ちょっと頼みがあるんだが......。\nまずは、君の腕前を見せてもらおうか。

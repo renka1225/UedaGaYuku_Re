@@ -2,6 +2,7 @@
 #include "Vec2.h"
 #include "Game.h"
 #include "Input.h"
+#include "Sound.h"
 #include "UiBase.h"
 #include "SceneTitle.h"
 #include "SceneClear.h"
@@ -54,6 +55,8 @@ namespace
 
 SceneClear::SceneClear()
 {
+	Sound::GetInstance().PlayBgm(SoundName::kBgm_clear);
+
 	m_fadeAlpha = kStartFadeAlpha;
 
 	m_select = Select::kTitle;
@@ -110,6 +113,7 @@ std::shared_ptr<SceneBase> SceneClear::Update(Input& input)
 		if (m_select == Select::kTitle)
 		{
 			FadeIn(kFadeFrame); // フェードイン
+			SceneChangeSound(SoundName::kBgm_clear);
 			return std::make_shared<SceneTitle>();
 		}
 		else if (m_select == Select::kGameEnd)

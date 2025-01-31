@@ -2,6 +2,7 @@
 #include "Vec2.h"
 #include "Game.h"
 #include "Input.h"
+#include "Sound.h"
 #include "UiBase.h"
 #include "SceneMain.h"
 #include "SceneTitle.h"
@@ -45,6 +46,8 @@ namespace
 
 SceneGameover::SceneGameover()
 {
+	Sound::GetInstance().PlayBgm(SoundName::kBgm_gameover);
+
 	m_select = Select::kMainScene;
 	m_fadeAlpha = kStartFadeAlpha;
 
@@ -76,11 +79,13 @@ std::shared_ptr<SceneBase> SceneGameover::Update(Input& input)
 	{
 		if (m_select == Select::kMainScene)
 		{
+			SceneChangeSound(SoundName::kBgm_gameover);
 			FadeIn(kFadeFrame); // フェードイン
 			return std::make_shared<SceneMain>();
 		}
 		else if (m_select == Select::kTitle)
 		{
+			SceneChangeSound(SoundName::kBgm_gameover);
 			FadeIn(kFadeFrame); // フェードイン
 			return std::make_shared<SceneTitle>();
 		}

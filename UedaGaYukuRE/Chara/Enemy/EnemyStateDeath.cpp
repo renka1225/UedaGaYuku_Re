@@ -31,7 +31,7 @@ void EnemyStateDeath::Update(Stage& pStage, Player& pPlayer)
 	m_pEnemy->Move(VGet(0.0f, 0.0f, 0.0f), pStage);   // 移動情報を反映する
 
 	m_deathTime--;
-	if (m_deathTime <= 0.0f)
+	if (m_deathTime <= 0.0f && !m_pEnemy->GetIsDead())
 	{
 		DropItem(pPlayer); // アイテムをドロップする
 

@@ -6,6 +6,8 @@ battle.mp3,BGM,200
 bossBattle.mp3,BGM,200
 battleEnd.mp3,BGM,200
 congestion.mp3,BGM,150
+clear.mp3,BGM,255
+gameover.mp3,BGM,255
 sampleSE.mp3,SE,255
 logo.mp3,SE,255
 cursor.mp3,SE,255
@@ -14,8 +16,12 @@ cancel.mp3,SE,255
 tuto_change.mp3,SE,255
 useItem.mp3,SE,255
 getItem.mp3,SE,255
+getMoney.mp3,SE,255
 walk.mp3,SE,255
 run.mp3,SE,255
 avoid.mp3,SE,255
 attack.mp3,SE,255
+specialAttack.mp3,SE,255
 guardAttack.mp3,SE,255
+special.mp3,SE,255
+recovery.mp3,SE,255

@@ -59,6 +59,7 @@ private:
 // 会話用のID
 namespace ConversationID
 {
+	const std::string kNone = "";
 	const std::string kTalkStart = "TALKSTART";
 	const std::string kSelect = "SELECT_";
 	const std::string kSelect1 = kSelect + "1";

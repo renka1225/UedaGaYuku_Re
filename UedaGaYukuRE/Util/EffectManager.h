@@ -68,6 +68,11 @@ public:
 	void Delete(const std::string& name);
 
 	/// <summary>
+	/// エフェクトを全削除する
+	/// </summary>
+	void AllDelete();
+
+	/// <summary>
 	/// 初期化
 	/// </summary>
 	void Init();

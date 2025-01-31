@@ -1,65 +1,10 @@
-﻿  CharacterBase.cpp
+﻿  Player.cpp
   PlayerStateAttack.cpp
-  PlayerStateBase.cpp
-  PlayerStateHitAttack.cpp
-  PlayerStateIdle.cpp
-  PlayerStateRun.cpp
-  PlayerStateWalk.cpp
-  EnemyBase.cpp
-  EnemyStateBase.cpp
-  EnemyStateIdle.cpp
-  EnemyStateAttack.cpp
-  EnemyStateDeath.cpp
-  EnemyStateHitAttack.cpp
-  EnemyStateAvoid.cpp
-  EnemyStateGuard.cpp
-  EnemyAI.cpp
-  EnemyStateMove.cpp
-  PlayerStateDeath.cpp
-  Npc.cpp
-  PlayerSelect.cpp
-  コンパイル中...
-  SceneGameover.cpp
-  SceneClear.cpp
-  UiConversation.cpp
-  UiMain.cpp
-  ConversionTime.cpp
-  EventData.cpp
-  Item.cpp
-  ObjectBase.cpp
-  PlayerStateGrab.cpp
-  PlayerStateAvoid.cpp
-  PlayerStateGuard.cpp
-  SaveData.cpp
-  SceneSave.cpp
-  SceneEnhance.cpp
-  SceneUseItem.cpp
-  SceneMenu.cpp
-  UiBar.cpp
   EffectManager.cpp
-  Font.cpp
-  Sound.cpp
-  コンパイル中...
-  UiBase.cpp
-  LoadCsv.cpp
-  DebugDraw.cpp
-  SceneDebug.cpp
-  main.cpp
-  Player.cpp
-  SceneSelect.cpp
-  SceneOption.cpp
-  SceneTitle.cpp
-  SceneMain.cpp
-  Stage.cpp
-  Camera.cpp
-  SceneBase.cpp
-  SceneManager.cpp
-  Input.cpp
-  Weapon.cpp
   コード生成しています。
-  5614 of 5643 functions (99.5%) were compiled, the rest were copied from previous compilation.
-    372 functions were new in current compilation
-    3 functions had inline decision re-evaluated but remain unchanged
+  1 of 5656 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    15 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
 EffekseerForDXLib_vs2019_x64.lib(EffekseerForDXLib.obj) : warning LNK4099: PDB '' が 'EffekseerForDXLib_vs2019_x64.lib(EffekseerForDXLib.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
   Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\UedaGaYukuRE\x64\Release\UedaGaYukuRE.exe

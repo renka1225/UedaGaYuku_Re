@@ -73,7 +73,7 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
         // 必殺技発動中
         if (m_attackKind == AnimName::kSpecialAtk1 || m_attackKind == AnimName::kSpecialAtk2)
         {
-            Sound::GetInstance().PlaySe(SoundName::kSe_attack);
+            Sound::GetInstance().PlaySe(SoundName::kSe_specialAttack);
 
             enemy->SetIsPossibleMove(false); // 敵が動かないようにする
 

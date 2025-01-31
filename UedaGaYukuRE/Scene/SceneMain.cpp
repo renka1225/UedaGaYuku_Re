@@ -117,6 +117,9 @@ SceneMain::~SceneMain()
 	Sound::GetInstance().StopBgm(SoundName::kBgm_bossBattle);
 	Sound::GetInstance().StopBgm(SoundName::kBgm_battleEnd);
 
+	// エフェクトを削除する
+	EffectManager::GetInstance().AllDelete();
+
 	m_pEnemy.clear();
 	for (auto& handle : m_handle)
 	{
@@ -497,7 +500,7 @@ void SceneMain::UpdateBattle()
 		}
 
 		// バトル中でない場合、敵を生成する
-		if (!m_pPlayer->GetIsBattle())
+		if (!m_pPlayer->GetIsBattle() && m_pEnemy.empty())
 		{
 			CreateEnemy();
 		}
@@ -577,23 +580,23 @@ std::shared_ptr<SceneBase> SceneMain::UpdateBattleEndStaging()
 	// 演出終了後
 	else
 	{
-		m_isTutorial = false;
-		m_isBattleEndStaging = false;
-		m_currentEnemyNum = 0;
-
 		for (auto& enemy : m_pEnemy)
 		{
 			if (enemy == nullptr) continue;
 
 			// 死亡アニメーション終了後、敵を消滅させる
-			if (enemy->GetIsDead()) enemy = nullptr;
-
-			enemy->ResetAnim();
+			if (enemy->GetIsDead())
+			{
+				enemy->ResetAnim();
+				enemy = nullptr;
+			}
 		}
-
-		// プレイヤーは移動できるようにする
-		m_pPlayer->SetIsPossibleMove(true);
 		m_pPlayer->ResetAnim();
+		m_pPlayer->SetIsBattle(false);
+		m_pPlayer->SetIsPossibleMove(true); // プレイヤーは移動できるようにする
+
+		m_isBattleEndStaging = false;
+		m_currentEnemyNum = 0;
 	}
 
 	return shared_from_this();
@@ -734,9 +737,9 @@ void SceneMain::UpdateEnemy()
 			// 敵のHPが0以下になった場合
 			if (!m_isBattleEndStaging && m_pEnemy[i]->GetHp() <= 0.0f)
 			{
-				// 必殺アニメーション中が終わるまでバトル終了演出を行わない
-				bool isSpecial = m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk1 || m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk2;
-				if (isSpecial) return;
+				// 攻撃アニメーション中が終わるまでバトル終了演出を行わない
+				bool isAttack = m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk1 || m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk2 || m_pPlayer->GetIsAttack();
+				if (isAttack) return;
 
 				// バトル終了演出を行う
 				m_isBattleEndStaging = true;
@@ -775,26 +778,43 @@ void SceneMain::UpdateEnemy()
 
 void SceneMain::UpdateTutoEnemy()
 {
+	if (m_pEnemy[0] == nullptr) return;
+
 	// 途中まで回復させる
 	if (!m_pPlayer->GetTutoInfo().isEndTutorial && m_pPlayer->GetTutoInfo().currentNum <= Player::TutorialNum::kTuto_4)
 	{
 		m_pEnemy[0]->RecoveryHp();
 	}
-
-	// 更新
-	m_pEnemy[0]->Update(*m_pStage, *m_pPlayer);
-
+	
 	// HPが0になった場合
-	if (m_pEnemy[0]->GetHp() <= 0.0f)
+	if (!m_isBattleEndStaging && m_pEnemy[0]->GetHp() <= 0.0f)
 	{
-		// 必殺アニメーション中が終わるまでバトル終了演出を行わない
-		bool isSpecial = m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk1 || m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk2;
-		if (isSpecial) return;
+		// 攻撃アニメーション中が終わるまでバトル終了演出を行わない
+		bool isAttack = m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk1 || m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk2 || m_pPlayer->GetIsAttack();
+		if (isAttack) return;
 
 		// バトル終了演出を行う
 		m_isBattleEndStaging = true;
 		m_battleEndStagingTime = kBattleEndStagingTime;
 		return;
+	}
+
+	// 特定の状態の場合、敵を消滅させる
+	if (IsExtinction(0))
+	{
+		m_pEnemy[0] = nullptr;
+
+		// バトル中の場合は、倒した敵数を増やす
+		if (m_pPlayer->GetIsBattle())
+		{
+			m_pPlayer->AddDeadEnemyNum();
+			m_currentEnemyNum--;
+		}
+	}
+	else
+	{
+		// 更新
+		m_pEnemy[0]->Update(*m_pStage, *m_pPlayer);
 	}
 }
 
@@ -890,6 +910,11 @@ bool SceneMain::IsExtinction(int index)
 
 	// 敵が地面の下に落ちた場合
 	if (m_pEnemy[index]->GetPos().y <= 0.0f) return true;
+
+	// 特定の敵の場合は飛ばす
+	bool isTuto = m_pEnemy[index]->GetEnemyIndex() == CharacterBase::CharaType::kEnemy_tuto;
+	bool isBoss = m_pEnemy[index]->GetEnemyIndex() == CharacterBase::CharaType::kEnemy_boss;
+	if (isTuto || isBoss) return false;
 
 	// プレイヤーと敵の距離を求める
 	float pToEDist = VSize(VSub(m_pPlayer->GetPos(), m_pEnemy[index]->GetPos()));
@@ -1085,6 +1110,7 @@ void SceneMain::SelectRecovery(const Input& input)
 	m_nowTalkId = ConversationID::kRecoveryOk;
 
 	// 回復
+	Sound::GetInstance().PlaySe(SoundName::kSe_recovery);
 	m_pPlayer->RecoveryHp(kRecoveryMaxRate);
 	m_pPlayer->RecoveryGauge(kRecoveryMaxRate);
 
@@ -1105,6 +1131,8 @@ void SceneMain::EndTalk()
 	// 会話状態を解除する
 	m_pPlayer->SetIsNowTalk(false);
 	m_talkSelect = TalkSelect::kBattle;
+	m_nowTalkId = ConversationID::kNone;
+	m_pUiConversation->UpdateDispTalk(m_nowTalkId); // 会話表示を更新
 	m_isTalking = false;
 }
 

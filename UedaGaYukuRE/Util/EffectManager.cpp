@@ -74,6 +74,12 @@ void EffectManager::Delete(const std::string& name)
 	}
 }
 
+void EffectManager::AllDelete()
+{
+	m_effectData.clear();
+	m_effects.clear();
+}
+
 void EffectManager::Init()
 {
 	Effekseer_InitDistortion();	// エフェクトの歪みを適用する

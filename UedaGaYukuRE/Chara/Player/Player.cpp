@@ -163,12 +163,12 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 	UpdateItemInfo();				// アイテム情報を更新
 	UpdateMoney();					// 所持金を更新
 
-#ifdef _DEBUG // デバッグ
-	if (input.IsTriggered(InputId::kDebugAddMoney))
+//#ifdef _DEBUG // デバッグ
+	if (input.IsPressing(InputId::kDebugAddMoney) && input.IsTriggered(InputId::kA))
 	{
 		AddDecreaseMoney(1000); // 所持金を追加
 	}
-#endif
+//#endif
 }
 
 void Player::Draw()
@@ -239,7 +239,6 @@ void Player::UpdateAngleNearEnemy()
 
 void Player::UpdateBattleEnd()
 {
-	m_isBattle = false;
 	m_isPossibleMove = false;
 
 	m_pState->UpdateBattleEnd();
@@ -425,8 +424,6 @@ void Player::UpdateTutorial(const Input& input, EnemyBase& pEnemy)
 	}
 
 	m_isTalk = false;
-
-	printfDx("チュートリアル数:%d\n", m_tutorial.currentNum);
 }
 
 void Player::ChangeTutorial(const Input& input)
@@ -442,18 +439,6 @@ void Player::ChangeTutorial(const Input& input)
 	// 心得表示
 	if (m_tutorial.isNowKnowledge)
 	{
-		// バトル終了後
-		if (!m_isBattle)
-		{
-			// Aボタンを押したら次を表示
-			if (input.IsTriggered(InputId::kA))
-			{
-				m_tutorial.currentKnowledge++;
-
-				// すべて表示し終わった場合
-				if(m_tutorial.currentKnowledge >= kKnowledgeNum) m_tutorial.isNowKnowledge = false;
-			}
-		}
 		return;
 	}
 
@@ -725,7 +710,7 @@ void Player::UpdateTuto0(const Input& input)
 	}
 
 	// Aボタンを押したら、会話開始
-	if (input.IsTriggered(InputId::kA))
+	if (input.IsTriggered(InputId::kTuto))
 	{
 		// 会話状態に移行
 		m_tutorial.isTalk = true;
@@ -745,7 +730,7 @@ void Player::UpdateTuto1(const Input& input)
 	// 心得表示
 	if (m_tutorial.isNowKnowledge)
 	{
-		if (input.IsTriggered(InputId::kA))
+		if (input.IsTriggered(InputId::kTuto))
 		{
 			m_tutorial.currentKnowledge++;
 			m_tutorial.isNowKnowledge = false;
@@ -831,7 +816,7 @@ void Player::UpdateTuto3(const Input& input)
 	// 心得表示
 	if (m_tutorial.isNowKnowledge)
 	{
-		if (input.IsTriggered(InputId::kA))
+		if (input.IsTriggered(InputId::kTuto))
 		{
 			m_tutorial.currentKnowledge++;
 			m_tutorial.isNowKnowledge = false;
@@ -891,18 +876,30 @@ void Player::UpdateTuto4(const Input& input, EnemyBase& pEnemy)
 
 void Player::UpdateTuto5(const Input& input)
 {
-	// 心得を表示中は飛ばす
-	if (m_tutorial.isNowKnowledge) return;
-
 	// バトル終了
-	if (!m_isBattle)
+	if (!m_isBattle && !m_tutorial.isNowKnowledge && !m_tutorial.isEndTutorial)
 	{
-		// 心得を表示
 		m_tutorial.isNowKnowledge = true;
 	}
 
-	// 表示が終わったらチュートリアルを終了する
-	m_tutorial.isEndTutorial = true;
+	// 心得表示
+	if (m_tutorial.isNowKnowledge)
+	{
+		// Aボタンを押したら次を表示
+		if (input.IsTriggered(InputId::kTuto))
+		{
+			m_tutorial.currentKnowledge++;
+
+			// すべて表示し終わった場合
+			if (m_tutorial.currentKnowledge > kKnowledgeNum)
+			{
+				// チュートリアルを終了する
+				m_tutorial.isNowKnowledge = false;
+				m_tutorial.isEndTutorial = true;
+			}
+		}
+		return;
+	}
 
 	// TODO:会話パートに入る
 }

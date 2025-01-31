@@ -186,7 +186,7 @@ namespace
 
 	const Vec2 kBattleEndBgPos = { 200, 0 };		// バトル終了時の背景位置
 	const Vec2 kGekihaTextPos = { 950, 500 };		// "撃破"テキスト位置
-	constexpr int kGekihaDispTime = 80;				//  撃破UIを表示しはじめる時間
+	constexpr int kGekihaDispTime = 120;			//  撃破UIを表示しはじめる時間
 	constexpr float kGekihaTextMinScale = 1.0f;		// "撃破"テキスト最小サイズ
 	constexpr float kGekihaTextMaxScale = 10.0f;	// "撃破"テキスト最大サイズ
 	constexpr float kGekihaTextChangeScale = 0.6f;	// "撃破"テキストサイズ
@@ -658,6 +658,8 @@ void UiMain::DrawTuto4(Player::TutorialInfo tutoInfo)
 void UiMain::DrawTuto5(Player::TutorialInfo tutoInfo)
 {
 	DrawGraphF(kDispTutoPos.at("text").x, kDispTutoPos.at("text").y, m_handle[Handle::kTuto_5], true);
+
+	DrawTutoKnowledge(tutoInfo);
 }
 
 void UiMain::DrawTutorialCheck(float posY)

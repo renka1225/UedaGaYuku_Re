@@ -46,6 +46,8 @@ void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
 	// HPが0以下になった場合
 	if (m_pEnemy->GetHp() <= kMinHp)
 	{
+		if (m_pEnemy->GetIsDead()) return;
+
 		// チュートリアル中は死なないようにする
 		if (!pPlayer.GetTutoInfo().isEndTutorial && pPlayer.GetTutoInfo().currentNum <= Player::TutorialNum::kTuto_4) return;
 
@@ -182,6 +184,8 @@ void EnemyStateBase::ChangeStateDamage(Player& pPlayer)
 
 void EnemyStateBase::ChangeStateDeath()
 {
+	if (GetKind() == EnemyStateKind::kDeath) return;
+
 	std::shared_ptr<EnemyStateDeath> state = std::make_shared<EnemyStateDeath>(m_pEnemy);
 	m_nextState = state;
 	state->Init();
