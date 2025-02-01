@@ -1,6 +1,7 @@
 ﻿#include "Input.h"
 #include "Sound.h"
 #include "EffectManager.h"
+#include "ModelFrameName.h"
 #include "SceneBase.h"
 #include "Weapon.h"
 #include "Player.h"
@@ -60,19 +61,14 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 		return;
 	}
 
-	// 特定の状態中は更新しない
-	if (IsStateInterrupt()) return;
-
-	m_isNowBattleEnd = false;
-
-	// バトル中でない場合
-	if (!m_pPlayer->GetIsBattle()) return;
-
 	// ダメージを受けた場合
 	if (m_pPlayer->GetIsOnDamage())
 	{
 		if (m_pPlayer->GetIsGuard())
 		{
+			// すでに再生中の場合は飛ばす
+			if (Sound::GetInstance().GetIsPlaySe(SoundName::kSe_guardAttack)) return;
+
 			Sound::GetInstance().PlaySe(SoundName::kSe_guardAttack);
 			EffectManager::GetInstance().Add(EffectName::kGuard, m_pPlayer->GetPos());
 			return;
@@ -83,6 +79,14 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 		}
 		return;
 	}
+
+	// 特定の状態中は更新しない
+	if (IsStateInterrupt()) return;
+
+	m_isNowBattleEnd = false;
+
+	// バトル中でない場合
+	if (!m_pPlayer->GetIsBattle()) return;
 
 	// 掴みのボタンが押された場合
 	if (input.IsTriggered(InputId::kGrab))
@@ -198,6 +202,10 @@ void PlayerStateBase::ChangeStateSpecialAttack(Weapon& pWeapon)
 		pWeapon.UpdateIsGrab(false);
 	}
 
+	// エフェクト
+	const VECTOR effectPos = m_pPlayer->GetModelFramePos(PlayerFrameName::kRightEnd.c_str());
+	EffectManager::GetInstance().Add(EffectName::kSpecialAttack, effectPos, 0.0f, m_pPlayer.get());
+
 	m_pPlayer->UpdateGauge(kDecreaseGauge); // ゲージを減らす
 	m_pPlayer->SetIsAttack(true);
 	std::shared_ptr<PlayerStateAttack> state = std::make_shared<PlayerStateAttack>(m_pPlayer);
@@ -266,7 +274,9 @@ void PlayerStateBase::ChangeStateGrab(Weapon& pWeapon)
 
 void PlayerStateBase::ChangeStateDamage()
 {
-	// ダメージエフェクトを表示
+	// すでに再生中の場合は飛ばす
+	if (EffectManager::GetInstance().GetIsPlaying(EffectName::kAttack)) return;
+
 	EffectManager::GetInstance().Add(EffectName::kAttack, m_pPlayer->GetPos(), kDamageEffectAdjY);
 
 	std::shared_ptr<PlayerStateHitAttack> state = std::make_shared<PlayerStateHitAttack>(m_pPlayer);
@@ -277,6 +287,8 @@ void PlayerStateBase::ChangeStateDamage()
 void PlayerStateBase::ChangeStateDeath()
 {
 	if (GetKind() == PlayerStateKind::kDeath) return;
+
+	Sound::GetInstance().PlaySe(SoundName::kSe_down);
 
 	std::shared_ptr<PlayerStateDeath> state = std::make_shared<PlayerStateDeath>(m_pPlayer);
 	m_nextState = state;

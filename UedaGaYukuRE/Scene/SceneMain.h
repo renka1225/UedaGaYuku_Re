@@ -72,6 +72,11 @@ private:
 	void Loading();
 
 	/// <summary>
+	/// バトル前のローディング処理
+	/// </summary>
+	void LoadingBeforeBattle();
+
+	/// <summary>
 	/// ローディング後の初期化
 	/// </summary>
 	void InitAfterLoading();
@@ -88,17 +93,27 @@ private:
 	void UpdateBattle();
 
 	/// <summary>
-	/// バトル開始演出の更新を行う
+	/// 特殊バトルの更新を行う
+	/// </summary>
+	void UpdateSpecialBattle();
+
+	/// <summary>
+	/// 特殊バトルの開始演出を行う
+	/// </summary>
+	void UpdateSpecialBattleStartStaging();
+
+	/// <summary>
+	/// バトル開始演出を行う
 	/// </summary>
 	void UpdateBattleStartStaging();
 
 	/// <summary>
-	/// バトル終了演出の更新を行う
+	/// バトル終了演出を行う
 	/// </summary>
 	std::shared_ptr<SceneBase> UpdateBattleEndStaging();
 
 	/// <summary>
-	/// エンディング演出の更新を行う
+	/// エンディング演出を行う
 	/// </summary>
 	/// <returns>遷移するシーン</returns>
 	std::shared_ptr<SceneBase> UpdateEndingStaging();

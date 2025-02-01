@@ -200,7 +200,7 @@ void Player::OnDamage(float damage)
 
 	// 減らすゲージ量
 	int decreaseGauge = GetRand((kDecreaseMaxSpecialGauge - kDecreaseMinSpecialGauge)) + kDecreaseMinSpecialGauge;
-	UpdateGauge(static_cast<float>(decreaseGauge));
+	UpdateGauge(static_cast<float>(-decreaseGauge));
 }
 
 void Player::AdjPosAttack()

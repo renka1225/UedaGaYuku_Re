@@ -1,5 +1,6 @@
 ﻿#include "EffekseerForDXLib.h"
 #include "Input.h"
+#include "ModelFrameName.h"
 #include "Player.h"
 #include "EnemyBase.h"
 #include "EffectManager.h"
@@ -76,6 +77,15 @@ void EffectManager::Delete(const std::string& name)
 
 void EffectManager::AllDelete()
 {
+	for (auto& data : m_effects)
+	{
+		if (data.isPlaying)
+		{
+			StopEffekseer3DEffect(data.playingHandle);
+			data.isPlaying = false;
+		}
+	}
+
 	m_effectData.clear();
 	m_effects.clear();
 }
@@ -93,6 +103,12 @@ void EffectManager::Update()
 	for (auto it = m_effects.begin(); it != m_effects.end();)
 	{
 		EffectData& data = *it;
+
+		// プレイヤーに追従させる
+		if (data.pPlayer)
+		{
+			data.pos = data.pPlayer->GetModelFramePos(PlayerFrameName::kRightEnd.c_str());
+		}
 
 		if (!data.isPlaying)
 		{
@@ -133,12 +149,14 @@ void EffectManager::Draw()
 	DrawEffekseer3D();
 }
 
-void EffectManager::Add(const std::string& name, const VECTOR& pos, float adjust)
+void EffectManager::Add(const std::string& name, const VECTOR& pos, float adjust, Player* pPlayer)
 {
 	auto it = m_effectData.find(name);
 	if (it != m_effectData.end())
 	{
 		EffectData& data = it->second;
+
+		data.pPlayer = pPlayer;
 
 		// エフェクトの位置を調整
 		data.pos = VAdd(data.adjPos, pos);

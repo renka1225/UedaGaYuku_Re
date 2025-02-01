@@ -23,5 +23,7 @@ avoid.mp3,SE,255
 attack.mp3,SE,255
 specialAttack.mp3,SE,255
 guardAttack.mp3,SE,255
+damage.mp3,SE,255
+down.mp3,SE,255
 special.mp3,SE,255
 recovery.mp3,SE,255

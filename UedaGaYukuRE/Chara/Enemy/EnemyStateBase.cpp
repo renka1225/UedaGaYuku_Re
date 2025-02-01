@@ -186,6 +186,8 @@ void EnemyStateBase::ChangeStateDeath()
 {
 	if (GetKind() == EnemyStateKind::kDeath) return;
 
+	Sound::GetInstance().PlaySe(SoundName::kSe_down);
+
 	std::shared_ptr<EnemyStateDeath> state = std::make_shared<EnemyStateDeath>(m_pEnemy);
 	m_nextState = state;
 	state->Init();

@@ -12,7 +12,7 @@ void PlayerStateDeath::Update(const Input& input, const Camera& camera, Stage& s
 	PlayerStateBase::Update(input, camera, stage, weapon, pEnemy);
 
 	m_animEndTime--;
-	if (m_animEndTime < 0.0f)
+	if (m_animEndTime < 0.0f && !m_pPlayer->GetIsDead())
 	{
 		m_pPlayer->SetIsDead(true);
 	}

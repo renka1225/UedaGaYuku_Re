@@ -31,6 +31,8 @@ namespace SoundName
 	constexpr const char* kSe_attack = "attack.mp3";
 	constexpr const char* kSe_specialAttack = "specialAttack.mp3";
 	constexpr const char* kSe_guardAttack = "guardAttack.mp3";
+	constexpr const char* kSe_damage = "damage.mp3";
+	constexpr const char* kSe_down = "down.mp3";
 	constexpr const char* kSe_special = "special.mp3";
 	constexpr const char* kSe_recovery = "recovery.mp3";
 }

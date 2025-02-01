@@ -13,6 +13,7 @@ namespace EffectName
 	const std::string kAttack = "attack";
 	const std::string kGuard = "guard";
 	const std::string kItemDrop = "itemDrop";
+	const std::string kSpecialAttack = "specialAttack";
 }
 
 /// <summary>
@@ -34,6 +35,7 @@ public:
 		int elapsedTime = 0;	// 現在の再生時間
 		bool isPlaying = false;	// エフェクトを再生中か
 		bool isLoop = false;	// ループ再生するかどうか
+		Player* pPlayer;		// プレイヤーのポインタ
 	};
 
 	// コピーコンストラクタの禁止
@@ -93,7 +95,7 @@ public:
 	/// <param name="name">追加するエフェクト名</param>
 	/// <param name="enemyPos">キャラクターの位置</param>
 	/// <param name="adjust">表示位置調整</param>
-	void Add(const std::string& name, const VECTOR& pos, float adjust = 0.0f);
+	void Add(const std::string& name, const VECTOR& pos, float adjust = 0.0f, Player* pPlayer = nullptr);
 
 	/// <summary>
 	/// ドロップアイテムをのエフェクトを停止する

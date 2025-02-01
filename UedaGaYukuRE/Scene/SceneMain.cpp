@@ -57,6 +57,7 @@ namespace
 	constexpr int kRecoveryMoney = 1000;		// 回復に必要な金額
 
 	constexpr int kLoadingTime = 600;				// ロード時間
+	constexpr int kLoadingBeforeBattleTime = 120;	// バトル前のロード時間
 	constexpr int kFirstSpawnTime = 120;			// ゲーム開始からチュートリアルが始まるまでの時間
 	constexpr int kEnemySpawnMinTime = 300;			// 敵がスポーンするまでの最小時間
 	constexpr int kEnemySpawnMaxTime = 1000;		// 敵がスポーンするまでの最大時間
@@ -64,7 +65,7 @@ namespace
 
 	constexpr int kBattleStartStagingTime = 120;	// バトル開始時の演出時間
 	constexpr int kBattleEndStagingTime = 240;		// バトル終了時の演出時間
-	constexpr int kEndingTime = 30;					// エンディングの時間
+	constexpr int kEndingTime = 150;					// エンディングの時間
 	constexpr int kTalkDispTime = 3;				// 会話を表示させる最低限の時間
 
 	const std::string kTutoTalkId = "TUTO_";				// チュートリアル会話のID
@@ -151,13 +152,21 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	// ロード中の場合
 	if (m_isLoading)
 	{
-		Loading();
+		if (m_isLastBattle)
+		{
+			LoadingBeforeBattle();
+		}
+		else
+		{
+			Loading();
+		}
+		
 		m_pUiMain->UpdateLoading(input);
 		return shared_from_this();
 	}
 
 	// エンディング中の場合
-	if (m_isEnding)
+	if (m_isEnding && !m_isBattleEndStaging)
 	{
 		auto nextScene = UpdateEndingStaging();
 		if (nextScene != shared_from_this()) return nextScene;
@@ -216,7 +225,16 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	// バトル中は会話できないようにする
 	if (m_pPlayer->GetIsBattle()) m_pPlayer->SetIsTalk(false);
 
-	UpdateBattle(); // バトルの更新
+	// バトル更新
+	if (m_isLastBattle)
+	{
+		UpdateSpecialBattle(); // 特殊敵の場合
+	}
+	else
+	{
+		UpdateBattle();	// 通常敵の場合
+	}
+	
 	EffectManager::GetInstance().Update(); 	// エフェクトの更新
 	UpdateSound();				// サウンド更新
 	CheckEventTrigger(input);	// イベントトリガーのチェック
@@ -264,7 +282,7 @@ void SceneMain::Draw()
 	}
 
 	// エンディング演出を表示
-	if (m_isEnding)
+	if (m_isEnding && !m_isBattleEndStaging)
 	{
 		m_pUiMain->DrawEnding();
 		return;
@@ -348,6 +366,9 @@ void SceneMain::Draw()
 		// ミニマップを表示
 		//m_pUi->DrawMiniMap(*m_pPlayer, m_pEnemy);
 	}
+
+	// フェード
+	DrawFade();
 	
 #ifdef _DEBUG
 	DrawSceneText("MSG_DEBUG_PLAYING");
@@ -400,10 +421,24 @@ void SceneMain::Loading()
 		// 同期読み込み設定に変更
 		SetUseASyncLoadFlag(false);
 		m_isLoading = false;
+		m_loadingTime = 0;
 
 		// ロード完了後の処理を行う
 		InitAfterLoading();
 	}
+}
+
+void SceneMain::LoadingBeforeBattle()
+{
+	m_loadingTime++;
+	if (m_loadingTime < kLoadingBeforeBattleTime) return;
+
+	m_isLoading = false;
+	m_loadingTime = 0;
+
+	// ロードが終わったら敵を生成する
+	CreateBossEnemy();
+	m_pPlayer->SetIsBattle(true);
 }
 
 void SceneMain::InitAfterLoading()
@@ -482,14 +517,6 @@ void SceneMain::UpdateBattle()
 		UpdateTutoEnemy();
 		return;
 	}
-	// 最終決戦中
-	else if (m_isLastBattle)
-	{
-		// ラスボスの更新
-		UpdateBossEnemy();
-		// エンディング演出
-		UpdateEndingStaging();	
-	}
 	else
 	{
 		// 敵が1体もいなくなった場合
@@ -507,6 +534,48 @@ void SceneMain::UpdateBattle()
 
 		// 敵の更新
 		UpdateEnemy();
+	}
+}
+
+void SceneMain::UpdateSpecialBattle()
+{
+	// ラスボスの更新
+	UpdateBossEnemy();
+	// バトル開始演出
+	UpdateSpecialBattleStartStaging();
+	// バトル終了演出
+	UpdateBattleEndStaging();
+	// エンディング演出
+	UpdateEndingStaging();
+}
+
+void SceneMain::UpdateSpecialBattleStartStaging()
+{
+	if (m_isBattleEndStaging) return;
+
+	// TODO:プレイヤー位置変更
+	// TODO:カメラ位置変更
+	
+	// バトル中の場合
+	if (m_pPlayer->GetIsBattle())
+	{
+		if (m_battleStartStagingTime > 0)
+		{
+			m_battleStartStagingTime--;
+			m_pEnemy[0]->SetIsPossibleMove(false);
+			m_pPlayer->SetIsPossibleMove(false);
+		}
+		else
+		{
+			m_pEnemy[0]->SetIsPossibleMove(true);
+			m_pPlayer->SetIsPossibleMove(true);
+		}
+	}
+	// バトルが終了している場合
+	else
+	{
+		m_battleStartStagingTime = 0;
+		m_isDispBattleStart = false;
 	}
 }
 
@@ -580,6 +649,9 @@ std::shared_ptr<SceneBase> SceneMain::UpdateBattleEndStaging()
 	// 演出終了後
 	else
 	{
+		// エンディング中の場合は飛ばす
+		if (m_isEnding) shared_from_this();
+
 		for (auto& enemy : m_pEnemy)
 		{
 			if (enemy == nullptr) continue;
@@ -605,7 +677,9 @@ std::shared_ptr<SceneBase> SceneMain::UpdateBattleEndStaging()
 std::shared_ptr<SceneBase> SceneMain::UpdateEndingStaging()
 {
 	// エンディング中でない場合は表示しない
-	if(!m_isEnding && m_isBattleEndStaging) return shared_from_this();
+	if(!m_isEnding) return shared_from_this();
+	// バトル終了演出中は飛ばす
+	if (m_isBattleEndStaging) return shared_from_this();
 
 	// 演出中
 	if (m_endingTime > 0)
@@ -642,6 +716,7 @@ void SceneMain::UpdateSound()
 		{
 			sound.PlayLoopBgm(SoundName::kBgm_bossBattle);
 
+			if (m_pEnemy[0] == nullptr) return;
 			if (m_pEnemy[0]->GetHp() <= 0.0f)
 			{
 				sound.StopBgm(SoundName::kBgm_bossBattle);
@@ -820,31 +895,38 @@ void SceneMain::UpdateTutoEnemy()
 
 void SceneMain::UpdateBossEnemy()
 {
-	// ラスボスの更新
-	m_pEnemy[0]->Update(*m_pStage, *m_pPlayer);
+	if (m_pEnemy[0] == nullptr) return;
 
 	// HPが0になった場合
-	if (m_pEnemy[0]->GetHp() <= 0.0f)
+	if (!m_isBattleEndStaging && m_pEnemy[0]->GetHp() <= 0.0f)
 	{
-		// 必殺アニメーション中が終わるまでバトル終了演出を行わない
-		bool isSpecial = m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk1 || m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk2;
-		if (isSpecial) return;
-
-		// 終了演出が終わったらクリア演出に移行
-		if (m_battleEndStagingTime <= 0 && !m_isEnding)
-		{
-			// クリア演出を行う
-			m_endingTime = kEndingTime;
-			m_isEnding = true;
-			return;
-		}
-
-		if (m_isBattleEndStaging) return;
+		// 攻撃アニメーション中が終わるまでバトル終了演出を行わない
+		bool isAttack = m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk1 || m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk2 || m_pPlayer->GetIsAttack();
+		if (isAttack) return;
 
 		// バトル終了演出を行う
 		m_isBattleEndStaging = true;
+		m_isEnding = true;
 		m_battleEndStagingTime = kBattleEndStagingTime;
 		return;
+	}
+
+	// 特定の状態の場合、敵を消滅させる
+	if (IsExtinction(0))
+	{
+		m_pEnemy[0] = nullptr;
+
+		// バトル中の場合は、倒した敵数を増やす
+		if (m_pPlayer->GetIsBattle())
+		{
+			m_pPlayer->AddDeadEnemyNum();
+			m_currentEnemyNum--;
+		}
+	}
+	else
+	{
+		// 更新
+		m_pEnemy[0]->Update(*m_pStage, *m_pPlayer);
 	}
 }
 
@@ -1072,10 +1154,9 @@ void SceneMain::SelectBattle(const Input& input)
 
 		if (input.IsTriggered(InputId::kOk))
 		{
-			// TODO:ラスボスの出現演出を行う
+			// ラスボスの出現演出を行う
 			m_isLastBattle = true;
-			CreateBossEnemy();
-			m_pPlayer->SetIsBattle(true);
+			m_isLoading = true;
 			EndTalk();
 		}
 	}
