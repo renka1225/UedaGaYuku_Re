@@ -21,6 +21,7 @@ namespace
 	// 画像の種類
 	enum Handle
 	{
+		kBg,
 		kGameover,
 		kText,
 		kNum
@@ -29,11 +30,12 @@ namespace
 	// 画像のパス
 	const char* kHandlePath[Handle::kNum]
 	{
+		"data/ui/gameover/bg.png",
 		"data/ui/gameover/gameover.png",
 		"data/ui/gameover/text.png"
 	};
 
-	const Vec2 kClearPos = { 400.0f, 100.0f }; // ゲームオーバー表示位置
+	const Vec2 kClearPos = { 470.0f, 129.0f }; // ゲームオーバー表示位置
 	const Vec2 kTextPos = { 743.0f, 633.0f };  // テキスト表示位置
 	constexpr int kBgColor = 0x1c1c1c;		   // 背景色
 	const std::string kCursorId = "cursor_gameover"; // カーソルのID
@@ -96,7 +98,7 @@ std::shared_ptr<SceneBase> SceneGameover::Update(Input& input)
 
 void SceneGameover::Draw()
 {
-	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, kBgColor, true);
+	DrawGraph(0, 0, m_handle[Handle::kBg], true);
 	DrawGraphF(kClearPos.x, kClearPos.y, m_handle[Handle::kGameover], true);
 	m_pUi->DrawCursor(kCursorId, m_select, kCursorInterval);
 	DrawGraphF(kTextPos.x, kTextPos.y, m_handle[Handle::kText], true);

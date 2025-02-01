@@ -20,7 +20,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Init() {}
+	virtual void Init();
 
 	/// <summary>
 	/// 更新
@@ -33,5 +33,8 @@ public:
 	/// 描画
 	/// </summary>
 	virtual void Draw();
+
+private:
+	int m_clearBgModel;	// クリア背景の3Dモデル
 };
 

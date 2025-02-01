@@ -30,12 +30,12 @@ public:
 		VECTOR pos = VGet(0.0f, 0.0f, 0.0f);	// 表示位置
 		VECTOR adjPos = VGet(0.0f, 0.0f, 0.0f);	// 表示位置の調整量
 		VECTOR rotate = VGet(0.0f, 0.0f, 0.0f);	// 回転率
-		float scale = 0.0f;		// 拡大率
-		int playTime = 0;		// トータルの再生時間
-		int elapsedTime = 0;	// 現在の再生時間
-		bool isPlaying = false;	// エフェクトを再生中か
-		bool isLoop = false;	// ループ再生するかどうか
-		Player* pPlayer;		// プレイヤーのポインタ
+		float scale = 0.0f;			// 拡大率
+		int playTime = 0;			// トータルの再生時間
+		int elapsedTime = 0;		// 現在の再生時間
+		bool isPlaying = false;		// エフェクトを再生中か
+		bool isLoop = false;		// ループ再生するかどうか
+		Player* pPlayer = nullptr;	// プレイヤーのポインタ
 	};
 
 	// コピーコンストラクタの禁止

@@ -302,23 +302,19 @@ void SceneMain::Draw()
 	// エフェクト表示
 	EffectManager::GetInstance().Draw();
 
-	// 最終決戦でない場合
-	if (!m_isLastBattle)
+	// バトル開始の演出を表示
+	if (m_battleStartStagingTime > 0)
 	{
-		// バトル開始の演出を表示
-		if (m_battleStartStagingTime > 0)
-		{
-			m_pUiMain->DrawBattleStart();
-		}
-		// バトル終了の演出を表示
-		if (m_battleEndStagingTime > 0)
-		{
-			m_pUiMain->DrawBattleEnd(m_battleEndStagingTime);
-		}
-
-		// バトル中UI表示
-		m_pUiMain->DrawBattleUi(*m_pPlayer);
+		m_pUiMain->DrawBattleStart(m_pEnemy[0]->GetEnemyIndex());
 	}
+	// バトル終了の演出を表示
+	if (m_battleEndStagingTime > 0)
+	{
+		m_pUiMain->DrawBattleEnd(m_battleEndStagingTime);
+	}
+
+	// バトル中UI表示
+	m_pUiMain->DrawBattleUi(*m_pPlayer);
 
 	// チュートリアルが終わったかどうか
 	bool isEndTuto = m_pPlayer->GetTutoInfo().isEndTutorial || m_pPlayer->GetTutoInfo().currentNum >= Player::TutorialNum::kTuto_3;

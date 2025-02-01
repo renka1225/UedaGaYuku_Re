@@ -35,10 +35,13 @@ namespace
 		kBattle_now,		// バトル中
 		kBattle_end,		// バトル終了
 		kBattle_lose,		// バトルで負けた
-		kBattle_gekiha,		// 撃破
-		kEnemy_yanki,		// ヤンキー
-		kEnemy_tinpira,		// チンピラ
-		kEnemy_narikin,		// 成金
+		kBattle_gekiha,
+		kEnemy_yanki,
+		kEnemy_tinpira,
+		kEnemy_bob,
+		kEnemy_sato,
+		kEnemy_abe,
+		kEnemy_ohara,
 		kNum				// 画像の種類
 	};
 
@@ -93,7 +96,10 @@ namespace
 		"data/ui/battle/gekiha.png",
 		"data/ui/battle/yanki.png",
 		"data/ui/battle/tinpira.png",
-		"data/ui/battle/narikin.png",
+		"data/ui/battle/bob.png",
+		"data/ui/battle/sato.png",
+		"data/ui/battle/abe.png",
+		"data/ui/battle/ohara.png"
 	};
 
 	/*ロード画像パス*/
@@ -348,16 +354,39 @@ void UiMain::DrawLoading()
 #endif
 }
 
-void UiMain::DrawBattleStart()
+void UiMain::DrawBattleStart(int enemyIndex)
 {
 	// 画像のサイズをだんだん小さくする
 	m_dispEnemyKindScale -= kDispBattleStartChangeScale;
 	m_dispEnemyKindScale = std::max(kDispBattleTextMinScale, m_dispEnemyKindScale);
 
-	// TODO:敵の種類によって表示を変える
+	// 敵の種類によって表示を変える
+	int handle = -1;
+	if (enemyIndex == CharacterBase::CharaType::kEnemy_bob)
+	{
+		handle = m_handle[Handle::kEnemy_tinpira];
+	}
+	else if (enemyIndex == CharacterBase::CharaType::kEnemy_sato)
+	{
+		handle = m_handle[Handle::kEnemy_bob];
+	}
+	else if (enemyIndex == CharacterBase::CharaType::kEnemy_abe)
+	{
+		handle = m_handle[Handle::kEnemy_abe];
+	}
+	else if (enemyIndex == CharacterBase::CharaType::kEnemy_boss)
+	{
+		handle = m_handle[Handle::kEnemy_ohara];
+	}
+	// 通常敵
+	else
+	{
+		handle = m_handle[Handle::kEnemy_tinpira];
+	}
+
 	int sizeW, sizeH;
 	GetGraphSize(m_handle[Handle::kEnemy_tinpira], &sizeW, &sizeH);
-	DrawRectRotaGraphF(kDispBattleStartPos.x, kDispBattleStartPos.y, 0, 0, sizeW, sizeH, m_dispEnemyKindScale, 0.0f, m_handle[Handle::kEnemy_tinpira], true);
+	DrawRectRotaGraphF(kDispBattleStartPos.x, kDispBattleStartPos.y, 0, 0, sizeW, sizeH, m_dispEnemyKindScale, 0.0f, handle, true);
 }
 
 void UiMain::DrawBattleEnd(int time)

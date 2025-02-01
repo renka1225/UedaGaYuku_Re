@@ -42,7 +42,8 @@ public:
 	/// <summary>
 	/// バトル開始時の演出を表示
 	/// </summary>
-	void DrawBattleStart();
+	/// <param name="enemyIndex">敵番号</param>
+	void DrawBattleStart(int enemyIndex);
 
 	/// <summary>
 	/// バトル終了時の演出を表示

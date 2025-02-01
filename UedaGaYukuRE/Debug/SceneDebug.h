@@ -1,27 +1,29 @@
-#pragma once
+ï»¿#pragma once
 #include "SceneBase.h"
 
 /// <summary>
-/// ƒfƒoƒbƒO—pƒV[ƒ“
+/// ãƒ‡ãƒãƒƒã‚°ç”¨ã‚·ãƒ¼ãƒ³
 /// </summary>
 class SceneDebug : public SceneBase
 {
 public:
 	SceneDebug();
-	virtual ~SceneDebug() {};
+	virtual ~SceneDebug();
 	virtual void Init() {};
 	virtual std::shared_ptr<SceneBase> Update(Input& input);
 	virtual void Draw();
 
 private:
-	// ƒV[ƒ“‚Ìí—Ş
+	// ã‚·ãƒ¼ãƒ³ã®ç¨®é¡
 	enum SelectScene
 	{
-		kTitle,			// ƒ^ƒCƒgƒ‹
-		kSelect,		// ƒZƒŒƒNƒg‰æ–Ê
-		kMain,			// ƒvƒŒƒC
-		kOption,		// ƒIƒvƒVƒ‡ƒ“
-		kSelectNum		// ƒV[ƒ“‚Ì”
+		kTitle,			// ã‚¿ã‚¤ãƒˆãƒ«
+		kSelect,		// ã‚»ãƒ¬ã‚¯ãƒˆç”»é¢
+		kMain,			// ãƒ—ãƒ¬ã‚¤
+		kOption,		// ã‚ªãƒ—ã‚·ãƒ§ãƒ³
+		kClear,			// ã‚¯ãƒªã‚¢
+		kGameover,		// ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼
+		kSelectNum		// ã‚·ãƒ¼ãƒ³ã®æ•°
 	};
 };
 

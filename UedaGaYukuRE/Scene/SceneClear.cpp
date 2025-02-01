@@ -34,9 +34,9 @@ namespace
 		"data/ui/select/endSelect.png"
 	};
 
-	const Vec2 kGameoverPos = { 560.0f, 100.0f }; // クリア表示位置
-	const Vec2 kTextPos = { 743.0f, 633.0f }; // テキスト表示位置
-	constexpr int kBgColor = 0x9a9a9a; // 背景色
+	const Vec2 kGameoverPos = { 470.0f, 150.0f }; // クリア表示位置
+	const Vec2 kTextPos = { 743.0f, 633.0f };	  // テキスト表示位置
+	constexpr int kBgColor = 0xb3b3b3; // 背景色
 
 	/*カーソル*/
 	const std::string kCursorId = "cursor_clear"; // カーソルのID
@@ -51,9 +51,17 @@ namespace
 	constexpr int kStartFadeAlpha = 255; // スタート時のフェード値
 	constexpr int kFadeFrame = 8;		 // フェード変化量
 
+	/*モデル*/
+	const VECTOR kCaseModelPos = VGet(0.0f, -45.0f, 0.0f);		// モデル位置
+	const VECTOR kCaseModelScale = VGet(0.8f, 0.8f, 0.8f);		// モデル拡大率
+	const VECTOR kCaseModelAngle = VGet(0.0f, 0.0f, 0.0f);		// モデル角度
+	const VECTOR kCameraPos = VGet(0.0f, 50.0f, -120.0f);		// カメラの位置
+	const VECTOR kCameraTarget = VGet(0.0f, 0.0f, 0.0f);		// カメラの注視点
+
 }
 
-SceneClear::SceneClear()
+SceneClear::SceneClear():
+	m_clearBgModel(-1)
 {
 	Sound::GetInstance().PlayBgm(SoundName::kBgm_clear);
 
@@ -66,6 +74,8 @@ SceneClear::SceneClear()
 	{
 		m_handle[i] = LoadGraph(kHandlePath[i]);
 	}
+
+	m_clearBgModel = MV1LoadModel("data/model/clearBg.mv1");
 }
 
 SceneClear::~SceneClear()
@@ -74,6 +84,18 @@ SceneClear::~SceneClear()
 	{
 		DeleteGraph(handle);
 	}
+
+	MV1DeleteModel(m_clearBgModel);
+}
+
+void SceneClear::Init()
+{
+	// 3Dモデル更新
+	MV1SetPosition(m_clearBgModel, kCaseModelPos);
+	MV1SetScale(m_clearBgModel, kCaseModelScale);
+	MV1SetRotationXYZ(m_clearBgModel, kCaseModelAngle);
+	// カメラ位置更新
+	SetCameraPositionAndTarget_UpVecY(VAdd(kCaseModelPos, kCameraPos), kCameraTarget);
 }
 
 std::shared_ptr<SceneBase> SceneClear::Update(Input& input)
@@ -127,9 +149,16 @@ std::shared_ptr<SceneBase> SceneClear::Update(Input& input)
 
 void SceneClear::Draw()
 {
+	// 背景表示
 	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, kBgColor, true);
+
+	MV1DrawModel(m_clearBgModel); // 3Dモデル表示
+
+	// クリアテキスト表示
 	DrawGraphF(kGameoverPos.x, kGameoverPos.y, m_handle[Handle::kClear], true);
+
 	m_pUi->DrawCursor(kCursorId, m_select, kCursorInterval);
+
 	DrawGraphF(kTextPos.x, kTextPos.y, m_handle[Handle::kText], true);
 
 	DrawFade();	// フェードインアウト描画

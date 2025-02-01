@@ -7,6 +7,8 @@
 #include "SceneSelect.h"
 #include "SceneMain.h"
 #include "SceneOption.h"
+#include "SceneClear.h"
+#include "SceneGameover.h"
 #include "SceneDebug.h"
 
 /// <summary>
@@ -15,6 +17,14 @@
 SceneDebug::SceneDebug()
 {
 	m_select = SelectScene::kMain;
+}
+
+SceneDebug::~SceneDebug()
+{
+	for (auto& handle : m_handle)
+	{
+		DeleteGraph(handle);
+	}
 }
 
 /// <summary>
@@ -49,6 +59,15 @@ std::shared_ptr<SceneBase> SceneDebug::Update(Input& input)
 		{
 			return std::make_shared<SceneOption>(shared_from_this());
 		}
+		else if (m_select == SelectScene::kClear)
+		{
+			// MEMO:デバッグからクリアに遷移するとアクセス違反のエラーが出るためコメントアウト
+			//return std::make_shared<SceneClear>();
+		}
+		else if (m_select == SelectScene::kGameover)
+		{
+			return std::make_shared<SceneGameover>();
+		}
 	}
 
 	return shared_from_this();
@@ -63,14 +82,20 @@ void SceneDebug::Draw()
 	int selectColor = Color::kColorW;
 	int playColor = Color::kColorW;
 	int optionColor = Color::kColorW;
+	int clearColor = Color::kColorW;
+	int gameoverColor = Color::kColorW;
 
 	if (m_select == SelectScene::kTitle) titleColor = Color::kColorR;
 	if (m_select == SelectScene::kSelect) selectColor = Color::kColorR;
 	if (m_select == SelectScene::kMain) playColor = Color::kColorR;
 	if (m_select == SelectScene::kOption) optionColor = Color::kColorR;
+	if (m_select == SelectScene::kClear) clearColor = Color::kColorR;
+	if (m_select == SelectScene::kGameover) gameoverColor = Color::kColorR;
 
 	DrawString(0, 20, LoadCsv::GetInstance().Get_cMessage("MSG_DEBUG_TITLE"), titleColor);
 	DrawString(0, 40, LoadCsv::GetInstance().Get_cMessage("MSG_DEBUG_SELECT"), selectColor);
 	DrawString(0, 60, LoadCsv::GetInstance().Get_cMessage("MSG_DEBUG_PLAYING"), playColor);
 	DrawString(0, 80, LoadCsv::GetInstance().Get_cMessage("MSG_DEBUG_OPTION"), optionColor);
+	DrawString(0, 100, LoadCsv::GetInstance().Get_cMessage("MSG_DEBUG_CLEAR"), clearColor);
+	DrawString(0, 120, LoadCsv::GetInstance().Get_cMessage("MSG_DEBUG_GAMEOVER"), gameoverColor);
 }

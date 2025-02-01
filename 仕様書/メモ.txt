@@ -7,12 +7,9 @@
 　話しかける→ロード数秒挟む→バトル開始演出(前回のものを使用)
 
 ・クリア時の処理
-　BGM入れる
-　クリアのテキスト変える
-　　討伐完了とか
-　クリアでプレイヤーアニメーションを表示する
 
 ・ゲームオーバー時の演出
+BGM変えたい
 
 ・技術紹介のポートフォリオを作る
 
@@ -38,8 +35,10 @@
 ------------------------------------------------------
 ▼クレジット
 ・タイトル画面の煙
-<a href="https://jp.freepik.com/free-video/haze-smoke-swirling-black-background-16_2830514#fromView=keyword&page=1&position=6&uuid=aa9fef6e-20f7-4778-96ff-6a7d1f25952d">Video: freepik</a>
+https://jp.freepik.com/free-video/haze-smoke-swirling-black-background-16_2830514#fromView=keyword&page=1&position=6&uuid=aa9fef6e-20f7-4778-96ff-6a7d1f25952d
 
+・サウンド
+OtoLogic
 --------------------------------------
 ■メモ
 キャラクターの明るさを明るくする。
