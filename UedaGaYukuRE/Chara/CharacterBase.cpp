@@ -10,7 +10,7 @@ namespace
 	constexpr int kColDataNum = 19; // 当たり判定情報数
 	constexpr float kAdj = 1.5f;	// 敵に当たった際の位置調整量
 
-	constexpr int kAvoidCoolTime = 60;	// 回避のクールタイム
+	constexpr int kAvoidCoolTime = 40;	// 回避のクールタイム
 	constexpr int kAvoidMaxNum = 3;		// 1度に回避できる回数
 
 	// アニメーション情報
@@ -233,6 +233,15 @@ void CharacterBase::UpdateAnim()
 
 		// 再生時間を更新
 		MV1SetAttachAnimTime(m_modelHandle, m_currentPlayAnim, m_currentAnimTime);
+		// アニメーションのブレンド率を設定する
+		MV1SetAttachAnimBlendRate(m_modelHandle, m_prevPlayAnim, kAnimBlendMax - m_animBlendRate);
+		return;
+	}
+	// 死亡時
+	else if(m_isDead)
+	{
+		// 再生時間を更新
+		MV1SetAttachAnimTime(m_modelHandle, m_currentPlayAnim, m_animLoopEndTime);
 		// アニメーションのブレンド率を設定する
 		MV1SetAttachAnimBlendRate(m_modelHandle, m_prevPlayAnim, kAnimBlendMax - m_animBlendRate);
 		return;

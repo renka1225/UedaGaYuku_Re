@@ -47,17 +47,20 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 		ChangeStateIdle();
 	}
 
-	// 死亡処理
-	if (m_pPlayer->GetHp() <= 0.0f)
-	{
-		ChangeStateDeath();
-		return;
-	}
+	// ダウン状態中は状態を更新しない
+	if (GetKind() == PlayerStateKind::kDeath) return;
 
 	// 移動できない場合
 	if (!m_pPlayer->GetIsPossibleMove())
 	{
 		ChangeStateIdle();
+		return;
+	}
+
+	// 死亡処理
+	if (m_pPlayer->GetHp() <= 0.0f)
+	{
+		ChangeStateDeath();
 		return;
 	}
 
@@ -128,8 +131,10 @@ void PlayerStateBase::Update(const Input& input, const Camera& camera, Stage& st
 
 void PlayerStateBase::UpdateBattleEnd()
 {
-	ChangeStateIdle();
 	m_isNowBattleEnd = true;
+
+	if (m_pPlayer->GetIsDead()) return;
+	ChangeStateIdle();
 }
 
 bool PlayerStateBase::IsStateInterrupt()
@@ -144,6 +149,7 @@ bool PlayerStateBase::IsStateInterrupt()
 	if (GetKind() == PlayerStateKind::kAttack) return true;
 	// 死亡時
 	if (GetKind() == PlayerStateKind::kDeath) return true;
+	if (m_pPlayer->GetIsDead()) return true;
 	// バトル終了演出中
 	if (m_isNowBattleEnd) return true;
 
@@ -274,10 +280,15 @@ void PlayerStateBase::ChangeStateGrab(Weapon& pWeapon)
 
 void PlayerStateBase::ChangeStateDamage()
 {
-	// すでに再生中の場合は飛ばす
-	if (EffectManager::GetInstance().GetIsPlaying(EffectName::kAttack)) return;
+	m_pPlayer->SetIsAttack(false);
 
-	EffectManager::GetInstance().Add(EffectName::kAttack, m_pPlayer->GetPos(), kDamageEffectAdjY);
+	// すでに再生中の場合は飛ばす
+	if (!EffectManager::GetInstance().GetIsPlaying(EffectName::kAttack))
+	{
+		EffectManager::GetInstance().Add(EffectName::kAttack, m_pPlayer->GetPos(), kDamageEffectAdjY);
+	}
+
+	if (GetKind() == PlayerStateKind::kDamage) return;
 
 	std::shared_ptr<PlayerStateHitAttack> state = std::make_shared<PlayerStateHitAttack>(m_pPlayer);
 	m_nextState = state;

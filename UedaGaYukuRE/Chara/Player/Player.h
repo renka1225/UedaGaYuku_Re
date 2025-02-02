@@ -365,11 +365,6 @@ private:
 	void UpdateBattle(int enemyIndex);
 
 	/// <summary>
-	/// ダウンした場合
-	/// </summary>
-	void Down();
-
-	/// <summary>
 	/// アイテム情報を更新する
 	/// </summary>
 	void UpdateItemInfo();

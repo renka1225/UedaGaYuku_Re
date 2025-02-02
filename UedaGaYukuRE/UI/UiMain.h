@@ -48,8 +48,9 @@ public:
 	/// <summary>
 	/// バトル終了時の演出を表示
 	/// </summary>
+	/// <param name="pPlayer">プレイヤー参照</param>
 	/// <param name="time">現在の演出時間</param>
-	void DrawBattleEnd(int time);
+	void DrawBattleEnd(const Player& pPlayer, int time);
 
 	/// <summary>
 	/// バトルに負けた場合の演出を表示

@@ -198,6 +198,7 @@ namespace
 	constexpr float kGekihaTextMinScale = 1.0f;		// "撃破"テキスト最小サイズ
 	constexpr float kGekihaTextMaxScale = 10.0f;	// "撃破"テキスト最大サイズ
 	constexpr float kGekihaTextChangeScale = 0.6f;	// "撃破"テキストサイズ
+	constexpr int kGameoverBgColor = 0x2b4066;		// ゲームオーバー演出時の背景色
 
 	const Vec2 kBattleNowPos = { 1550.0f, 50.0f };	// バトル中表示位置
 	constexpr float kNowBattleMoveSpeed = 13.0f;	// バトル中UIの移動速度
@@ -211,7 +212,7 @@ namespace
 	constexpr int kDispMoneyMoveSpeed = 15;				 // 所持金UIを移動させるスピード
 
 	const VECTOR kDispMaxItemPos = { 585.0f, 821.0f };	 // アイテム最大表示位置
-	constexpr int kDispMaxItemTime = 100;				 // 表示する時間
+	constexpr int kDispMaxItemTime = 60;				 // 表示する時間
 
 	constexpr int kMaxBlend = 255; // 最大ブレンド率
 }
@@ -392,17 +393,26 @@ void UiMain::DrawBattleStart(int enemyIndex)
 
 	int sizeW, sizeH;
 	GetGraphSize(handle, &sizeW, &sizeH);
-	DrawRectRotaGraphF(kDispBattleStartPos.x, kDispBattleStartPos.y, 
-		0, 0, sizeW, sizeH, m_dispEnemyKindScale, 0.0f, handle, true);
+	DrawRectRotaGraphF(kDispBattleStartPos.x, kDispBattleStartPos.y, 0, 0, sizeW, sizeH, m_dispEnemyKindScale, 0.0f, handle, true);
 }
 
-void UiMain::DrawBattleEnd(int time)
+void UiMain::DrawBattleEnd(const Player& pPlayer, int time)
 {
-	if (time > kGekihaDispTime) return; // 一定時間経ったら表示する
-	// 乗算で表示する
-	SetDrawBlendMode(DX_BLENDMODE_MULA, kMaxBlend);
-	DrawGraphF(kBattleEndBgPos.x, kBattleEndBgPos.y, m_handle[Handle::kBattle_end], true);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	// プレイヤー死亡の場合
+	if (pPlayer.GetHp() <= 0.0f)
+	{
+		SetDrawBlendMode(DX_BLENDMODE_MULA, kMaxBlend);
+		DrawGraph(0, 0, m_handle[Handle::kBattle_lose], true);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
+	else
+	{
+		if (time > kGekihaDispTime) return; // 一定時間経ったら表示する
+		// 乗算で表示する
+		SetDrawBlendMode(DX_BLENDMODE_MULA, kMaxBlend);
+		DrawGraphF(kBattleEndBgPos.x, kBattleEndBgPos.y, m_handle[Handle::kBattle_end], true);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
 }
 
 void UiMain::DrawBattleLose()

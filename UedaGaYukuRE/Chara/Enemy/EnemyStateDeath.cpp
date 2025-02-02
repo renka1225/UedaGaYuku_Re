@@ -43,6 +43,8 @@ void EnemyStateDeath::Update(Stage& pStage, Player& pPlayer)
 void EnemyStateDeath::DropItem(Player& pPlayer)
 {
 	if (m_pEnemy == nullptr) return;
+	// ボスの場合はドロップしない
+	if (m_pEnemy->GetEnemyIndex() == EnemyBase::CharaType::kEnemy_boss) return;
 
 	// 確率でお金かアイテムをドロップする
 	int randNum = GetRand(kMaxDrap);

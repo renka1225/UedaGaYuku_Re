@@ -36,7 +36,7 @@ namespace
 	constexpr int kDecreaseMinSpecialGauge = 2;	// ダメージを受けた際に減るゲージの最小量
 	constexpr int kDecreaseMaxSpecialGauge = 8;	// ダメージを受けた際に減るゲージの最大量
 
-	constexpr float kBattleStartRange = 200.0f;	// バトルが始まる範囲
+	constexpr float kBattleStartRange = 150.0f;	// バトルが始まる範囲
 	constexpr int kBattleStartTime = 50;		// バトルが開始するまでの時間
 
 	/*攻撃*/
@@ -144,13 +144,6 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 		UpdateEnemyInfo(pEnemy);
 	}
 
-	// HPが0以下の場合
-	if (m_hp <= 0.0f)
-	{
-		// ダウン処理を行う
-		Down();
-	}
-
 	m_currentInputFrame++;
 
 	m_pState->Update(input, camera, stage, weapon, pEnemy);	// stateの更新
@@ -241,7 +234,6 @@ void Player::UpdateAngleNearEnemy()
 void Player::UpdateBattleEnd()
 {
 	m_isPossibleMove = false;
-
 	m_pState->UpdateBattleEnd();
 
 	// アニメーションをスローモーションで再生
@@ -553,12 +545,6 @@ void Player::UpdateBattle(int enemyIndex)
 			m_battleStartCount = kBattleStartTime;
 		}
 	}
-}
-
-void Player::Down()
-{
-	// バトルを終了する
-	m_isBattle = false;
 }
 
 void Player::UpdateItemInfo()

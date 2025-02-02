@@ -15,6 +15,8 @@ void PlayerStateIdle::Update(const Input& input, const Camera& camera, Stage& st
 {
 	PlayerStateBase::Update(input, camera, stage, weapon, pEnemy);
 
+	if (!m_pPlayer->GetIsPossibleMove()) return;
+
 	// 移動ボタンが押されている場合
 	if (input.IsPressing(InputId::kA) && (m_analogX != 0 || m_analogY != 0))
 	{

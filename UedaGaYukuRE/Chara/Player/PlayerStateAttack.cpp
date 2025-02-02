@@ -89,8 +89,8 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             enemy->SetIsInvincible(true);  // 敵を無敵状態にする
         }
 
-        // 武器掴み中の場合
-        if (m_pPlayer->GetIsGrabWeapon())
+        // 武器攻撃の場合
+        if (m_attackKind == AnimName::kOneHandWeapon)
         {
             // 武器と敵の当たり判定を取得
             bool isHitWeaponCol = weapon.CheckWeaponCol(enemy->GetCol(enemy->GetEnemyIndex()), *m_pPlayer);

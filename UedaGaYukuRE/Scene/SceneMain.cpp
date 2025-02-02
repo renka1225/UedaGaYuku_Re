@@ -312,7 +312,7 @@ void SceneMain::Draw()
 	// バトル終了の演出を表示
 	if (m_battleEndStagingTime > 0)
 	{
-		m_pUiMain->DrawBattleEnd(m_battleEndStagingTime);
+		m_pUiMain->DrawBattleEnd(*m_pPlayer, m_battleEndStagingTime);
 	}
 
 	// バトル中UI表示
@@ -719,9 +719,11 @@ void SceneMain::UpdateSound()
 
 	if (m_battleEndStagingTime > 0)
 	{
-		// 終了BGMを流す
-		Sound::GetInstance().PlayBgm(SoundName::kBgm_battleEnd);
 		sound.StopBgm(SoundName::kBgm_battle);
+
+		// 終了BGMを流す
+		if (m_pPlayer->GetHp() <= 0.0f) return;
+		Sound::GetInstance().PlayBgm(SoundName::kBgm_battleEnd);
 	}
 	// バトル中BGMを再生する
 	else if (m_pPlayer->GetIsBattle())
