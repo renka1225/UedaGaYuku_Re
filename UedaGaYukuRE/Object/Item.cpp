@@ -120,11 +120,12 @@ void Item::CheckPlayerCol(Player& pPlayer)
 		// 当たった場合
 		if (isHit)
 		{
+			// プレイヤーのアイテムを追加する
+			pPlayer.AddItem(it->itemType);
+
 			// すでに所持アイテム数が上限に達している場合は飛ばす
 			if (!pPlayer.GetIsAddItem()) return;
 
-			// プレイヤーのアイテムを追加する
-			pPlayer.AddItem(it->itemType);
 			// 取得したアイテムを削除する
 			EffectManager::GetInstance().StopItemEffect(EffectName::kItemDrop, it->pos);
 			it = m_dropItem.erase(it);

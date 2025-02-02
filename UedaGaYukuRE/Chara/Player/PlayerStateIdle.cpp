@@ -14,9 +14,6 @@ void PlayerStateIdle::Init()
 void PlayerStateIdle::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 {
 	PlayerStateBase::Update(input, camera, stage, weapon, pEnemy);
-	
-	// 移動できない状態の場合は飛ばす
-	if (!m_pPlayer->GetIsPossibleMove()) return;
 
 	// 移動ボタンが押されている場合
 	if (input.IsPressing(InputId::kA) && (m_analogX != 0 || m_analogY != 0))

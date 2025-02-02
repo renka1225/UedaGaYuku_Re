@@ -14,6 +14,9 @@ void PlayerStateWalk::Update(const Input& input, const Camera& camera, Stage& st
 {
     PlayerStateBase::Update(input, camera, stage, weapon, pEnemy);
 
+    // 移動できない状態の場合は飛ばす
+    if (!m_pPlayer->GetIsPossibleMove()) return;
+
     m_moveVec = VGet(static_cast<float>(-m_analogX), 0.0f, static_cast<float>(m_analogY)); // 移動ベクトル
 
     // プレイヤーの移動方向ベクトルを求める

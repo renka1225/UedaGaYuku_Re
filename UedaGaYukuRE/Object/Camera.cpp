@@ -22,6 +22,7 @@ namespace
 	constexpr float kMaxAngleV = -DX_PI_F * 0.5f + 0.6f;	// 最大の垂直角度
 	constexpr float kColSize = 3.0f;						// カメラの当たり判定サイズ
 	constexpr float kHitLength = 0.1f;						// カメラがステージに当たったか判定する距離
+	constexpr float kRotateSpeedBattleStart = 0.025f;		// バトル開始時のカメラ回転速度
 }
 
 Camera::Camera() :
@@ -33,7 +34,8 @@ Camera::Camera() :
 	m_angleV(kInitAngleV),
 	m_rotY(),
 	m_rotZ(),
-	m_lightHandle(-1)
+	m_lightHandle(-1),
+	m_isMove(true)
 {
 	m_analogInput.Rx = 0;
 	m_analogInput.Ry = 0;
@@ -56,10 +58,13 @@ void Camera::Update(Input& input, const Player& pPlayer, const Stage& pStage)
 {
 	GetJoypadDirectInputState(DX_INPUT_PAD1, &m_analogInput); // 入力状態を取得
 	
-	// プレイヤーがカメラを手動で動かした場合
-	if (m_analogInput.Rx != 0.0f || m_analogInput.Ry != 0.0f)
+	if (m_isMove)
 	{
-		UpdateAngle(); // カメラ角度を更新する
+		// プレイヤーがカメラを手動で動かした場合
+		if (m_analogInput.Rx != 0.0f || m_analogInput.Ry != 0.0f)
+		{
+			UpdateAngle(); // カメラ角度を更新する
+		}
 	}
 
 	// カメラの当たり判定をチェック
@@ -73,6 +78,19 @@ void Camera::Update(Input& input, const Player& pPlayer, const Stage& pStage)
 
 	//カメラの見ている方向にディレクションライトを設定する
 	SetLightDirectionHandle(m_lightHandle, VNorm(VSub(m_target, m_pos)));
+}
+
+void Camera::SetSpecialBattleInit()
+{
+	m_angleH = kInitAngleH;
+	m_angleV = kInitAngleV;
+
+	SetCameraPositionAndTarget_UpVecY(m_pos, m_target);
+}
+
+void Camera::BattleStartProduction()
+{
+	m_angleH += kRotateSpeedBattleStart;
 }
 
 void Camera::UpdateAngle()

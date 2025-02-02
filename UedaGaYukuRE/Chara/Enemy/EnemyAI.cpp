@@ -20,7 +20,7 @@ namespace
 	constexpr float kMinApproachRange = 30.0f;	// プレイヤーに近づく最小範囲
 	constexpr float kMinChaseRange = 200.0f;	// プレイヤーを追いかける最小範囲
 	constexpr float kMaxChaseRange = 800.0f;	// プレイヤーを追いかける最大範囲
-	constexpr int kDecisionFrame = 30;			// 行動を更新する時間
+	constexpr int kDecisionFrame = 10;			// 行動を更新する時間
 	constexpr int kMaxAttackEnemyNum = 2;		// 1度に攻撃する敵数
 	constexpr float kProbabilityRate = 0.7f;	// 確率を減少させる割合
 	

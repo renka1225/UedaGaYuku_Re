@@ -89,6 +89,9 @@ std::shared_ptr<SceneBase> SceneUseItem::Update(Input& input)
 	// 決定ボタンを場合
 	if (input.IsTriggered(InputId::kA))
 	{
+		// アイテムがない場合は飛ばす
+		if (m_possessItem[m_select] == -1) return shared_from_this();
+
 		Sound::GetInstance().PlayBackSe(SoundName::kSe_useItem);
 		UseItem(); // アイテムを使用する
 	}

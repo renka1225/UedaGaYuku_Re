@@ -26,6 +26,7 @@ namespace
 		kTuto_4,			// チュートリアル4
 		kTuto_5,			// チュートリアル5
 		kMoney,				// 所持金
+		kMaxItem,			// アイテム最大所持
 		kMiniMap,			// ミニマップ
 		kIconEnemy,			// ミニマップ上に表示する敵アイコン
 		kIconPlayer,		// ミニマップ上に表示するプレイヤーアイコン
@@ -84,6 +85,7 @@ namespace
 		"data/ui/tutorial/tuto4.png",
 		"data/ui/tutorial/tuto5.png",
 		"data/ui/bg_money.png",
+		"data/ui/main/maxItem.png",
 		"data/ui/main/minimap.png",
 		"data/ui/main/icon_enemy.png",
 		"data/ui/main/icon_player.png",
@@ -188,7 +190,7 @@ namespace
 	constexpr float kDispBattleTextMinScale = 1.0f;		 // バトル演出テキストの最小サイズ
 	constexpr float kDispBattleTextMaxScale = 15.0f;	 // バトル演出テキストの最大サイズ
 	constexpr float kDispBattleStartChangeScale = 0.8f;	 // 表示する敵種類のサイズ変化量
-	const Vec2 kDispBattleStartPos = { 950.0f, 700.0f }; // 敵種類表示位置
+	const Vec2 kDispBattleStartPos = { 950.0f, 580.0f }; // バトル開始の敵名表示位置
 
 	const Vec2 kBattleEndBgPos = { 200, 0 };		// バトル終了時の背景位置
 	const Vec2 kGekihaTextPos = { 950, 500 };		// "撃破"テキスト位置
@@ -208,6 +210,9 @@ namespace
 	constexpr int kDispMoneyTime = 110;					 // 所持金UIを表示する時間
 	constexpr int kDispMoneyMoveSpeed = 15;				 // 所持金UIを移動させるスピード
 
+	const VECTOR kDispMaxItemPos = { 585.0f, 821.0f };	 // アイテム最大表示位置
+	constexpr int kDispMaxItemTime = 100;				 // 表示する時間
+
 	constexpr int kMaxBlend = 255; // 最大ブレンド率
 }
 
@@ -217,6 +222,7 @@ UiMain::UiMain() :
 	m_loadingTime(0.0f),
 	m_loadingAnimTime(0.0f),
 	m_dispMoneyAnimTime(0),
+	m_dispMaxItemTime(0),
 	m_dispGekihaTextScale(kDispBattleTextMaxScale),
 	m_dispEnemyKindScale(kDispBattleTextMaxScale),
 	m_dispNowBattlePosX(Game::kScreenWidth),
@@ -385,8 +391,9 @@ void UiMain::DrawBattleStart(int enemyIndex)
 	}
 
 	int sizeW, sizeH;
-	GetGraphSize(m_handle[Handle::kEnemy_tinpira], &sizeW, &sizeH);
-	DrawRectRotaGraphF(kDispBattleStartPos.x, kDispBattleStartPos.y, 0, 0, sizeW, sizeH, m_dispEnemyKindScale, 0.0f, handle, true);
+	GetGraphSize(handle, &sizeW, &sizeH);
+	DrawRectRotaGraphF(kDispBattleStartPos.x, kDispBattleStartPos.y, 
+		0, 0, sizeW, sizeH, m_dispEnemyKindScale, 0.0f, handle, true);
 }
 
 void UiMain::DrawBattleEnd(int time)
@@ -500,6 +507,22 @@ void UiMain::DrawMoneyUi(int money)
 
 	// 現在の所持金額を表示
 	DrawStringFToHandle(dispX, m_dispMoneyPos.y + kDispMoneyText.y, moneyText.c_str(), Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kMoney)]);
+}
+
+void UiMain::SetMaxItemUi()
+{
+	// アニメーション再生中の場合は初期化しない
+	if (m_dispMaxItemTime > 0) return;
+
+	m_dispMaxItemTime = kDispMaxItemTime;
+}
+
+void UiMain::DrawMaxItem()
+{
+	if (m_dispMaxItemTime <= 0) return;
+	m_dispMaxItemTime--;
+
+	DrawGraphF(kDispMaxItemPos.x, kDispMaxItemPos.y, m_handle[Handle::kMaxItem], true);
 }
 
 void UiMain::DrawMiniMap(const Player& pPlayer, std::vector<std::shared_ptr<EnemyBase>> pEnemy)

@@ -239,6 +239,11 @@ public:
 	void ChangeTutorial(const Input& input);
 
 	/// <summary>
+	/// 特殊バトルの開始状態をセットする
+	/// </summary>
+	void SetSpecialBattleInit();
+
+	/// <summary>
 	/// バトル状態をセットする
 	/// </summary>
 	/// <param name="isBattle">バトル中かどうか</param>
@@ -271,7 +276,7 @@ public:
 	/// <summary>
 	/// アイテムを追加で入手できるかどうか取得する
 	/// </summary>
-	/// <returns></returns>
+	/// <returns>アイテムを取得できるかどうか</returns>
 	bool GetIsAddItem() const { return m_isAddItem; }
 
 	/// <summary>
@@ -289,7 +294,7 @@ public:
 	/// <summary>
 	/// 倒した敵数を取得する
 	/// </summary>
-	/// <returns></returns>
+	/// <returns>倒した敵数</returns>
 	int GetDeadEnemyNum() const { return m_deadEnemyNum; }
 
 	/// <summary>

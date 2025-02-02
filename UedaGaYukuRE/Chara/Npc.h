@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "CharacterBase.h"
 
+class Player;
+
 /// <summary>
 /// NPCの管理を行う
 /// </summary>
@@ -26,8 +28,9 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	/// <param name="stage">ステージ参照</param>
-	virtual void Update(Stage& stage);
+	/// <param name="pStage">ステージ参照</param>
+	/// <param name="pPlayer">プレイヤー参照</param>
+	virtual void Update(Stage& pStage, const Player& pPlayer);
 
 	/// <summary>
 	/// 描画

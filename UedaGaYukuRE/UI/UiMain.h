@@ -85,6 +85,16 @@ public:
 	void DrawMoneyUi(int money);
 
 	/// <summary>
+	/// アイテムが上限に達している場合の演出を更新
+	/// </summary>
+	void SetMaxItemUi();
+
+	/// <summary>
+	/// アイテムが上限に達している場合の演出を表示
+	/// </summary>
+	void DrawMaxItem();
+
+	/// <summary>
 	/// ミニマップ表示
 	/// </summary>
 	/// <param name="pPlayer">プレイヤー参照</param>
@@ -166,6 +176,7 @@ private:
 	float m_loadingTime;		 // ローディングが開始してからの時間
 	float m_loadingAnimTime;	 // ローディング中のアニメーション時間
 	int m_dispMoneyAnimTime;	 // 所持金のアニメーションを行う時間
+	int m_dispMaxItemTime;		 // アイテム最大所持のUIを表示する時間
 	float m_dispGekihaTextScale; // "撃破"テキストの表示サイズ
 	float m_dispEnemyKindScale;	 // バトル開始時の敵種類の表示サイズ
 	float m_dispNowBattlePosX;	 // バトル中のUI表示位置X

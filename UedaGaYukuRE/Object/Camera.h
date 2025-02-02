@@ -35,6 +35,22 @@ public:
 	void Update(Input& input, const Player& pPlayer, const Stage& pStage);
 
 	/// <summary>
+	/// 特殊バトルのカメラをセットする
+	/// </summary>
+	void SetSpecialBattleInit();
+
+	/// <summary>
+	/// バトル開始時のカメラ演出
+	/// </summary>
+	void BattleStartProduction();
+
+	/// <summary>
+	/// カメラを動かせるかどうかセットする
+	/// </summary>
+	/// <param name="isMove">カメラを移動できるかどうか</param>
+	void SetIsCameraMove(bool isMove) { m_isMove = isMove; }
+
+	/// <summary>
 	/// カメラの角度を取得
 	/// </summary>
 	/// <returns>カメラ角度</returns>
@@ -93,4 +109,5 @@ private:
 	MATRIX m_rotZ;					// Z軸回転行列
 	DINPUT_JOYSTATE m_analogInput; 	// アナログパッド情報取得
 	int m_lightHandle;				// ライトハンドル
+	bool m_isMove;					// カメラを動かせるかどうか
 };

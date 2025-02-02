@@ -32,24 +32,29 @@ namespace
 	constexpr int kMaxPossession = 12;			// アイテムの最大所持数
 	constexpr int kMoneyIncrement = 50;			// 一度に増える所持金数
 
-	constexpr float kMaxRecoveryRate = 10.0f;		 // 最大の回復割合
-	constexpr int kDecreaseMinSpecialGauge = 2;		// ダメージを受けた際に減るゲージの最小量
-	constexpr int kDecreaseMaxSpecialGauge = 8;		// ダメージを受けた際に減るゲージの最大量
+	constexpr float kMaxRecoveryRate = 10.0f;	// 最大の回復割合
+	constexpr int kDecreaseMinSpecialGauge = 2;	// ダメージを受けた際に減るゲージの最小量
+	constexpr int kDecreaseMaxSpecialGauge = 8;	// ダメージを受けた際に減るゲージの最大量
 
 	constexpr float kBattleStartRange = 200.0f;	// バトルが始まる範囲
 	constexpr int kBattleStartTime = 50;		// バトルが開始するまでの時間
 
-	constexpr int kInputRetentionFrame = 30;	// 入力の履歴を削除するまでのフレーム数
+	/*攻撃*/
+	constexpr int kInputRetentionFrame = 20;	// 入力の履歴を削除するまでのフレーム数
 	constexpr int kInputTimeAdj = 30;			// 入力受付時間調節
 	constexpr float kChangeAngleDot = -0.5f;	// プレイヤーの角度を調節する範囲
 	constexpr float kBattleStartChangeAngleDot = 1.0f; // バトル開始時のプレイヤーの角度を調整する範囲
 
+	/*チュートリアル*/
 	constexpr int kTutoMinNum = 1;		// チュートリアルの最小回数
 	constexpr int kTutoMidiumNum = 3;	// チュートリアルの中回数
 	constexpr int kTutoMaxNum = 5;		// チュートリアルの最大回数
 	constexpr int kTutoChangeTime = 30;	// チュートリアルの切り替え時間
 	constexpr int kKnowledgeNum = 4;	// 心得の最大表示数
 	constexpr int kTutoTalkNum = 2;		// チュートリアル時の会話数
+
+	/*特殊バトル*/
+	const VECTOR kSpecialBattleInitPos = VGet(8876.0f, 40.0f, 2767.0f);	 // バトル開始位置
 }
 
 Player::Player(std::shared_ptr<UiBar> pUi, std::shared_ptr<UiMain> pUiMain, int modelHandle):
@@ -131,10 +136,6 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 	if (m_isNowTalk || m_tutorial.isNowKnowledge || m_tutorial.isTalk)
 	{
 		m_isPossibleMove = false;
-	}
-	else
-	{
-		m_isPossibleMove = true;
 	}
 
 	// 敵がいる場合のみ処理を行う
@@ -284,6 +285,10 @@ void Player::AddItem(int itemType)
 	auto result = std::find(m_possessItem.begin(), m_possessItem.end(), -1);
 	if (result == m_possessItem.end())
 	{
+		if (!m_isNowTalk)
+		{
+			m_pUiMain->SetMaxItemUi();
+		}
 		m_isAddItem = false;
 		return;
 	}
@@ -455,6 +460,13 @@ void Player::ChangeTutorial(const Input& input)
 	}
 }
 
+void Player::SetSpecialBattleInit()
+{
+	m_pos = kSpecialBattleInitPos;
+	m_moveDir = m_pToEVec[0];
+	MV1SetRotationXYZ(m_modelHandle, m_moveDir);
+}
+
 void Player::UpdateEnemyInfo(std::vector<std::shared_ptr<EnemyBase>> pEnemy)
 {
 	m_pToEVec.resize(pEnemy.size());
@@ -559,6 +571,14 @@ void Player::UpdateItemInfo()
 	else
 	{
 		DeleteItemEffect(); // アイテムの効果を消す
+	}
+
+	// アイテムを取得できる場合
+	auto result = std::find(m_possessItem.begin(), m_possessItem.end(), -1);
+	if (result != m_possessItem.end())
+	{
+		m_isAddItem = true;
+		return;
 	}
 }
 

@@ -55,17 +55,19 @@ namespace
 
 	constexpr float kRecoveryMaxRate = 100.0f;	// 回復の最大割合
 	constexpr int kRecoveryMoney = 1000;		// 回復に必要な金額
+	constexpr int kGetItemMoney = 2000;			// アイテム購入に必要な金額
 
-	constexpr int kLoadingTime = 600;				// ロード時間
+	constexpr int kLoadingTime = 400;				// ロード時間
 	constexpr int kLoadingBeforeBattleTime = 120;	// バトル前のロード時間
 	constexpr int kFirstSpawnTime = 120;			// ゲーム開始からチュートリアルが始まるまでの時間
 	constexpr int kEnemySpawnMinTime = 300;			// 敵がスポーンするまでの最小時間
 	constexpr int kEnemySpawnMaxTime = 1000;		// 敵がスポーンするまでの最大時間
 	constexpr float kEnemyExtinctionDist = 2500.0f;	// 敵が消滅する範囲
 
-	constexpr int kBattleStartStagingTime = 120;	// バトル開始時の演出時間
+	constexpr int kBattleStartStagingTime = 120;		// バトル開始時の演出時間
+	constexpr int kSpecialBattleStartStagingTime = 250;	// 特殊バトル開始時の演出時間
 	constexpr int kBattleEndStagingTime = 240;		// バトル終了時の演出時間
-	constexpr int kEndingTime = 150;					// エンディングの時間
+	constexpr int kEndingTime = 150;				// エンディングの時間
 	constexpr int kTalkDispTime = 3;				// 会話を表示させる最低限の時間
 
 	const std::string kTutoTalkId = "TUTO_";				// チュートリアル会話のID
@@ -242,7 +244,7 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 
 	m_pStage->Update();
 	m_pPlayer->Update(input, *m_pCamera, *m_pStage, *m_pWeapon, m_pEnemy);
-	m_pNpc->Update(*m_pStage);
+	m_pNpc->Update(*m_pStage, *m_pPlayer);
 	m_pItem->Update(*m_pPlayer);
 	m_pWeapon->Update(*m_pStage);
 	m_pCamera->Update(input, *m_pPlayer, *m_pStage);
@@ -315,6 +317,8 @@ void SceneMain::Draw()
 
 	// バトル中UI表示
 	m_pUiMain->DrawBattleUi(*m_pPlayer);
+	// アイテム最大所持UI表示
+	m_pUiMain->DrawMaxItem();
 
 	// チュートリアルが終わったかどうか
 	bool isEndTuto = m_pPlayer->GetTutoInfo().isEndTutorial || m_pPlayer->GetTutoInfo().currentNum >= Player::TutorialNum::kTuto_3;
@@ -329,7 +333,11 @@ void SceneMain::Draw()
 	m_pUiBar->DrawPlayerSpecial(*m_pPlayer); // 必殺技表示
 	m_pUiBar->DrawPlayerHpBar(*m_pPlayer, m_pPlayer->GetStatus().maxHp);		// プレイヤーHP表示
 	m_pUiBar->DrawPlayerGaugeBar(*m_pPlayer, m_pPlayer->GetStatus().maxGauge);	// プレイヤーゲージ表示
-	m_pUiMain->DrawMoneyUi(m_pPlayer->GetMoney()); // 所持金UI表示
+	
+	if (!m_isLastBattle)
+	{
+		m_pUiMain->DrawMoneyUi(m_pPlayer->GetMoney()); // 所持金UI表示
+	}
 
 	DrawTalk(); // 会話表示
 
@@ -431,6 +439,11 @@ void SceneMain::LoadingBeforeBattle()
 
 	m_isLoading = false;
 	m_loadingTime = 0;
+
+	// プレイヤー位置変更
+	m_pPlayer->SetSpecialBattleInit();
+	// カメラ位置変更
+	m_pCamera->SetSpecialBattleInit();
 
 	// ロードが終わったら敵を生成する
 	CreateBossEnemy();
@@ -548,23 +561,31 @@ void SceneMain::UpdateSpecialBattle()
 void SceneMain::UpdateSpecialBattleStartStaging()
 {
 	if (m_isBattleEndStaging) return;
-
-	// TODO:プレイヤー位置変更
-	// TODO:カメラ位置変更
 	
 	// バトル中の場合
 	if (m_pPlayer->GetIsBattle())
 	{
+		if (!m_isDispBattleStart)
+		{
+			m_battleStartStagingTime = kSpecialBattleStartStagingTime;
+			m_isDispBattleStart = true;
+		}
+
 		if (m_battleStartStagingTime > 0)
 		{
 			m_battleStartStagingTime--;
 			m_pEnemy[0]->SetIsPossibleMove(false);
 			m_pPlayer->SetIsPossibleMove(false);
+			m_pCamera->SetIsCameraMove(false);
+
+			// カメラを回転させる
+			m_pCamera->BattleStartProduction();
 		}
 		else
 		{
 			m_pEnemy[0]->SetIsPossibleMove(true);
 			m_pPlayer->SetIsPossibleMove(true);
+			m_pCamera->SetIsCameraMove(true);
 		}
 	}
 	// バトルが終了している場合
@@ -645,8 +666,11 @@ std::shared_ptr<SceneBase> SceneMain::UpdateBattleEndStaging()
 	// 演出終了後
 	else
 	{
+		m_isBattleEndStaging = false;
+		m_currentEnemyNum = 0;
+
 		// エンディング中の場合は飛ばす
-		if (m_isEnding) shared_from_this();
+		if (m_isEnding) return shared_from_this();
 
 		for (auto& enemy : m_pEnemy)
 		{
@@ -662,9 +686,6 @@ std::shared_ptr<SceneBase> SceneMain::UpdateBattleEndStaging()
 		m_pPlayer->ResetAnim();
 		m_pPlayer->SetIsBattle(false);
 		m_pPlayer->SetIsPossibleMove(true); // プレイヤーは移動できるようにする
-
-		m_isBattleEndStaging = false;
-		m_currentEnemyNum = 0;
 	}
 
 	return shared_from_this();
@@ -1199,14 +1220,34 @@ void SceneMain::SelectGetItem(const Input& input)
 {
 	m_nowTalkId = ConversationID::kGetItem;
 
-	// TODO:ランダムでアイテム取得
+	if (m_pPlayer->GetIsAddItem())
+	{
+		// 所持金が足りない場合
+		if (m_pPlayer->GetMoney() < kGetItemMoney)
+		{
+			m_nowTalkId = ConversationID::kGetItemNg_money;
+			return;
+		}
 
+		// ランダムでアイテムを取得
+		m_nowTalkId = ConversationID::kGetItemOk;
+		m_pPlayer->AddItem(GetRand(Item::ItemType::kItemKind));
+
+		// 所持金を減らす
+		m_pPlayer->AddDecreaseMoney(-kGetItemMoney);
+	}
+	else
+	{
+		// 専用会話を表示
+		m_nowTalkId = ConversationID::kGetItemNg_itemMax;
+	}
 }
 
 void SceneMain::EndTalk()
 {
 	// 会話状態を解除する
 	m_pPlayer->SetIsNowTalk(false);
+	m_pPlayer->SetIsPossibleMove(true);
 	m_talkSelect = TalkSelect::kBattle;
 	m_nowTalkId = ConversationID::kNone;
 	m_pUiConversation->UpdateDispTalk(m_nowTalkId); // 会話表示を更新

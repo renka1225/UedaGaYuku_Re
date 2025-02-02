@@ -20,7 +20,7 @@ namespace
 	constexpr float kFirstSpawnRange = 600.0f;		// 1体目のスポーンする範囲
 	constexpr float kSpawnRange = 50.0f;			// 2体目以降のスポーンする範囲
 	const VECTOR kTutoSpwnPos = VGet(8700.0f, 45.0f, 3100.0f); // チュートリアル敵のスポーン位置
-	const VECTOR kBossSpwnPos = VGet(8900.0f, 45.0f, 2900.0f); // ボスのスポーン位置
+	const VECTOR kBossSpwnPos = VGet(9026.0f, 45.0f, 2882.0f); // ボスのスポーン位置
 
 	constexpr float kDispNameRange = 1000.0f;		// 敵名を表示する範囲
 	const Vec2 kAdjDispNamePos = { 32.0f, 30.0f };	// 敵名の表示位置調整

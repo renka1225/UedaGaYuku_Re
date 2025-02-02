@@ -151,7 +151,12 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
     // パンチコマンドが入力されている場合
     if (m_pPlayer->CheckCommand({ InputId::kPunch, InputId::kPunch }, m_pPlayer->GetInputLog()))
     {
-        if (m_attackKind == AnimName::kKick)  return;
+        // パンチに移行
+        if (m_attackKind == AnimName::kKick)
+        {
+            Init(AnimName::kPunch1);
+            return;
+        }
 
         // 2コンボ目に移行する
         if (m_attackKind == AnimName::kPunch1)

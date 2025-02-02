@@ -74,4 +74,7 @@ namespace ConversationID
 	const std::string kRecoveryNg = "RECOVERY_NG";
 	const std::string kRecoveryMax = "RECOVERY_MAX";
 	const std::string kGetItem = "GETITEM";
+	const std::string kGetItemOk = "GETITEM_OK";
+	const std::string kGetItemNg_money = "GETITEM_NG_MONEY";
+	const std::string kGetItemNg_itemMax = "GETITEM_NG_ITEMMAX";
 }

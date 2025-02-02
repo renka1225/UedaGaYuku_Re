@@ -1,4 +1,5 @@
 ﻿#include "LoadCsv.h"
+#include "Player.h"
 #include "Npc.h"
 
 namespace
@@ -31,15 +32,23 @@ void Npc::Init()
 	ChangeAnim(AnimName::kIdleStand);
 }
 
-void Npc::Update(Stage& stage)
+void Npc::Update(Stage& pStage, const Player& pPlayer)
 {
 	CharacterBase::Update();
 
 	// ステージと当たり判定を行って座標を保存する
-	m_pos = stage.CheckObjectCol(*this, VGet(0.0f, 0.0f, 0.0f));
+	m_pos = pStage.CheckObjectCol(*this, VGet(0.0f, 0.0f, 0.0f));
 
 	UpdateAnim();				// アニメーションを更新
 	UpdateCol(CharaType::kNpc);	// 当たり判定の位置更新
+
+	if (!pPlayer.GetIsBattle())
+	{
+		m_moveDir = VSub(pPlayer.GetPos(), m_pos); // プレイヤーの方を向く
+	}
+
+	UpdateAngle();
+	
 	MV1SetPosition(m_modelHandle, m_pos);
 }
 
