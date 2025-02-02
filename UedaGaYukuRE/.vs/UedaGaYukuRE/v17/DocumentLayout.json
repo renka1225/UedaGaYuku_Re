@@ -86,8 +86,7 @@
               "RelativeToolTip": "Chara\\Player\\PlayerStateDeath.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-02-02T12:47:40.506Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-02T12:47:40.506Z"
             },
             {
               "$type": "Document",
@@ -99,8 +98,7 @@
               "RelativeToolTip": "Chara\\CharacterBase.h",
               "ViewState": "AgIAACoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-02-02T12:33:35.19Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-02T12:33:35.19Z"
             },
             {
               "$type": "Document",
@@ -112,8 +110,7 @@
               "RelativeToolTip": "Chara\\CharacterBase.cpp",
               "ViewState": "AgIAAOcAAAAAAAAAAAAAAO4AAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-02-02T10:41:24.5Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-02T10:41:24.5Z"
             },
             {
               "$type": "Document",
@@ -125,8 +122,7 @@
               "RelativeToolTip": "Chara\\Player\\PlayerStateAttack.h",
               "ViewState": "AgIAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-02-02T09:40:26.64Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-02T09:40:26.64Z"
             },
             {
               "$type": "Document",
@@ -138,8 +134,7 @@
               "RelativeToolTip": "Chara\\Player\\PlayerStateAttack.cpp",
               "ViewState": "AgIAAGAAAAAAAAAAAAAWwHIAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-02-02T09:40:07.581Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-02T09:40:07.581Z"
             },
             {
               "$type": "Document",
@@ -176,8 +171,7 @@
               "RelativeToolTip": "Chara\\Enemy\\EnemyAI.cpp",
               "ViewState": "AgIAAD8AAAAAAAAAAAAAABYAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-02-02T06:45:39.745Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-02T06:45:39.745Z"
             },
             {
               "$type": "Document",
@@ -189,8 +183,7 @@
               "RelativeToolTip": "UI\\UiMain.h",
               "ViewState": "AgIAACYAAAAAAAAAAAAWwDIAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-01-27T11:40:09.628Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-27T11:40:09.628Z"
             },
             {
               "$type": "Document",
@@ -202,8 +195,7 @@
               "RelativeToolTip": "UI\\UiMain.cpp",
               "ViewState": "AgIAALgAAAAAAAAAAAAcwNYAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-01-27T11:40:10.261Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-27T11:40:10.261Z"
             },
             {
               "$type": "Document",
@@ -215,8 +207,7 @@
               "RelativeToolTip": "Chara\\Player\\Player.h",
               "ViewState": "AgIAAEgBAAAAAAAAAAApwGwBAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-01-20T00:59:35.272Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-20T00:59:35.272Z"
             },
             {
               "$type": "Document",
@@ -228,8 +219,7 @@
               "RelativeToolTip": "Chara\\Player\\Player.cpp",
               "ViewState": "AgIAALAAAAAAAAAAAAAAAOwAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-01-20T00:59:35.272Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-20T00:59:35.272Z"
             },
             {
               "$type": "Document",
@@ -241,8 +231,7 @@
               "RelativeToolTip": "Scene\\SceneMain.h",
               "ViewState": "AgIAABgAAAAAAAAAAAAAAGEAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-01-20T00:59:35.273Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-20T00:59:35.273Z"
             },
             {
               "$type": "Document",
@@ -254,8 +243,7 @@
               "RelativeToolTip": "Scene\\SceneMain.cpp",
               "ViewState": "AgIAAIECAAAAAAAAAAAcwJECAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-01-20T00:59:35.273Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-20T00:59:35.273Z"
             },
             {
               "$type": "Document",
@@ -267,8 +255,7 @@
               "RelativeToolTip": "Scene\\SceneUseItem.cpp",
               "ViewState": "AgIAAEoAAAAAAAAAAAApwFwAAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-02-02T07:16:19.824Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-02T07:16:19.824Z"
             },
             {
               "$type": "Document",
@@ -280,8 +267,7 @@
               "RelativeToolTip": "Chara\\Enemy\\EnemyBase.cpp",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAABYAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-01-29T07:19:40.163Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-29T07:19:40.163Z"
             }
           ]
         }
