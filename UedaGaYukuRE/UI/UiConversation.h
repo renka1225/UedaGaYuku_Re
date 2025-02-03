@@ -48,7 +48,14 @@ public:
 	/// </summary>
 	void DrawTalkSelectText();
 
+	/// <summary>
+	/// 2択表示
+	/// </summary>
+	/// <param name="select"></param>
+	void DrawChoice(int select);
+
 private:
+	std::vector<int> m_choiceHandle;	// 選択肢の画像
 	std::string m_currentTalkId;	// 現在表示している会話ID
 	std::string m_currentTalkText;	// 現在表示している会話テキスト
 	bool m_isTalkTextComplete;		// 全文表示したかどうか

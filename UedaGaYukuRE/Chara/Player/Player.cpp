@@ -180,8 +180,8 @@ void Player::Draw()
 	debug.DrawPlayerInfo(m_pos, m_hp, m_status, m_pState->GetStateName(), m_isNowGrabWeapon); // プレイヤーの情報を描画
 	// 当たり判定描画
 	debug.DrawBodyCol(m_colData[CharaType::kPlayer]);	// 全身(紫色)
-	//debug.DrawArmCol(m_colData[CharaType::kPlayer]);	// 腕(水色)
-	//debug.DrawLegCol(m_colData[CharaType::kPlayer]);	// 脚(黄色)
+	debug.DrawArmCol(m_colData[CharaType::kPlayer]);	// 腕(水色)
+	debug.DrawLegCol(m_colData[CharaType::kPlayer]);	// 脚(黄色)
 	// アニメーションのフレーム数表示
 	debug.DrawAnimFrame(m_totalAnimTime, m_currenAnimName, m_animData);
 #endif
@@ -578,6 +578,7 @@ void Player::GetFramePos()
 	m_colData[CharaType::kPlayer].leftShoulderPos = GetModelFramePos(PlayerFrameName::kLeftShoulder.c_str());	// 左肩
 	m_colData[CharaType::kPlayer].leftForeArmPos = GetModelFramePos(PlayerFrameName::kLeftForeArm.c_str());		// 左肘
 	m_colData[CharaType::kPlayer].leftHandPos = GetModelFramePos(PlayerFrameName::kLeftHandPos.c_str());		// 左手首
+
 	m_colData[CharaType::kPlayer].rightShoulderPos = GetModelFramePos(PlayerFrameName::kRightShoulder.c_str()); // 右肩
 	m_colData[CharaType::kPlayer].rightForeArmPos = GetModelFramePos(PlayerFrameName::kRightForeArm.c_str());	// 右肘
 	m_colData[CharaType::kPlayer].rightHandPos = GetModelFramePos(PlayerFrameName::kRightHand.c_str());			// 右手首
@@ -586,6 +587,7 @@ void Player::GetFramePos()
 	m_colData[CharaType::kPlayer].leftLegPos = GetModelFramePos(PlayerFrameName::kLeftLeg.c_str());				// 左膝
 	m_colData[CharaType::kPlayer].leftFootPos = GetModelFramePos(PlayerFrameName::kLeftFoot.c_str());			// 左足首
 	m_colData[CharaType::kPlayer].leftEndPos = GetModelFramePos(PlayerFrameName::kLeftEnd.c_str());				// 左足終点
+
 	m_colData[CharaType::kPlayer].rightUpLegPos = GetModelFramePos(PlayerFrameName::kRightUpLeg.c_str());		// 右もも
 	m_colData[CharaType::kPlayer].rightLegPos = GetModelFramePos(PlayerFrameName::kRightLeg.c_str());			// 右膝
 	m_colData[CharaType::kPlayer].rightFootPos = GetModelFramePos(PlayerFrameName::kRightFoot.c_str());			// 右足首

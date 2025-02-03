@@ -16,12 +16,12 @@ namespace PlayerFrameName
 
 	const std::string kLeftUpLeg = kPlayerRig + "LeftUpLeg";		// 左もも
 	const std::string kLeftLeg = kPlayerRig + "LeftLeg";			// 左膝
-	const std::string kLeftFoot = kPlayerRig + "LeftFoot";			// 左足首
+	const std::string kLeftFoot = kPlayerRig + "LeftToeBase";		// 左足首
 	const std::string kLeftEnd = kPlayerRig + "LeftToe_End_end";	// 左足終点
 
 	const std::string kRightUpLeg = kPlayerRig + "RightUpLeg";		// 右もも
 	const std::string kRightLeg = kPlayerRig + "RightLeg";			// 右膝
-	const std::string kRightFoot = kPlayerRig + "RightFoot";		// 右足首
+	const std::string kRightFoot = kPlayerRig + "RightToeBase";		// 右足首
 	const std::string kRightEnd = kPlayerRig + "RightToe_End_end";	// 右足終点
 }
 

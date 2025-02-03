@@ -89,7 +89,7 @@ namespace
 		"data/ui/main/minimap.png",
 		"data/ui/main/icon_enemy.png",
 		"data/ui/main/icon_player.png",
-		"data/ui/text/hanasu.png",
+		"data/ui/main/hanasu.png",
 		"data/ui/main/operation_normal.png",
 		"data/ui/main/operation_battle.png",
 		"data/ui/battle/battleNow.png",
@@ -124,7 +124,6 @@ namespace
 		"data/ui/tutorial/knowledge_3.png",
 		"data/ui/tutorial/knowledge_4.png",
 	};
-
 
 	/*チュートリアル*/
 	// 表示位置
@@ -170,12 +169,12 @@ namespace
 	constexpr float kLoadingTextInterval = 20.0f;				// テキストの表示間隔
 	constexpr float kLoadingAnimTime = 0.05f;					// ローディング中のアニメーション時間
 
+	/*会話*/
+	const Vec2 kDispTalkUiPos = { -5.0f, 32.0f }; // "話す"テキスト表示位置調整
+
 	/*操作説明*/
 	const Vec2 kDispOperationPos = { 1635.0f, 905.0f };			// 通常操作説明表示位置
 	const Vec2 kDispBattleOperationPos = { 1584.0f, 700.0f };	// バトル中操作説明表示位置
-
-	/*会話*/
-	const Vec2 kDispTalkUiPos = { -5.0f, 32.0f }; // "話す"テキスト表示位置調整
 
 	/*ミニマップ*/
 	const Vec2 kMapPos = { 180.0f, 900.0f };	// マップ表示位置

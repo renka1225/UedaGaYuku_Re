@@ -6,7 +6,8 @@
 namespace
 {
 	constexpr int kTextInterval = 60;	// 文字列の表示間隔
-	const Vec2 kAnimFramePos = { 400.0f, 900.0f };	// アニメーションフレーム表示位置
+	const Vec2 kAnimFramePos = { 350.0f, 900.0f };	// アニメーションフレーム表示位置
+	constexpr float kAnimFrameInterval = 20.0f;		// アニメーションフレーム表示間隔
 }
 
 void DebugDraw::DrawPlayerInfo(const VECTOR pos, float hp, CharacterBase::Status status, std::string state, bool isGrabWeapon)
@@ -108,13 +109,13 @@ void DebugDraw::DrawAnimFrame(float animTotalTime, std::string animName, std::ma
 	DrawFormatStringFToHandle(kAnimFramePos.x, kAnimFramePos.y, Color::kColorW,
 		Font::m_fontHandle[static_cast<int>(Font::FontId::kDebug_animFrame)], "合計フレーム数:%.2f\n", animTotalTime);
 
-	DrawFormatStringFToHandle(kAnimFramePos.x, 920.0f, Color::kColorW,
+	DrawFormatStringFToHandle(kAnimFramePos.x, kAnimFramePos.y + kAnimFrameInterval, Color::kColorW,
 		Font::m_fontHandle[static_cast<int>(Font::FontId::kDebug_animFrame)], "発生フレーム数:%d\n", animData[animName].startupFrame);
 
-	DrawFormatStringFToHandle(kAnimFramePos.x, 940.0f, Color::kColorW,
+	DrawFormatStringFToHandle(kAnimFramePos.x, kAnimFramePos.y + kAnimFrameInterval * 2, Color::kColorW,
 		Font::m_fontHandle[static_cast<int>(Font::FontId::kDebug_animFrame)], "攻撃フレーム数:%d\n", animData[animName].activeFrame);
 
-	DrawFormatStringFToHandle(kAnimFramePos.x, 960.0f, Color::kColorW,
+	DrawFormatStringFToHandle(kAnimFramePos.x, kAnimFramePos.y + kAnimFrameInterval * 3, Color::kColorW,
 		Font::m_fontHandle[static_cast<int>(Font::FontId::kDebug_animFrame)], "硬直フレーム:%d\n", animData[animName].recoveryFrame);
 }
 

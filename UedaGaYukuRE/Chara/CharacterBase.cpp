@@ -237,15 +237,15 @@ void CharacterBase::UpdateAnim()
 		MV1SetAttachAnimBlendRate(m_modelHandle, m_prevPlayAnim, kAnimBlendMax - m_animBlendRate);
 		return;
 	}
-	// 死亡時
-	else if(m_isDead)
-	{
-		// 再生時間を更新
-		MV1SetAttachAnimTime(m_modelHandle, m_currentPlayAnim, m_animLoopEndTime);
-		// アニメーションのブレンド率を設定する
-		MV1SetAttachAnimBlendRate(m_modelHandle, m_prevPlayAnim, kAnimBlendMax - m_animBlendRate);
-		return;
-	}
+	//// 死亡時
+	//else if(m_isDead)
+	//{
+	//	// 再生時間を更新
+	//	MV1SetAttachAnimTime(m_modelHandle, m_currentPlayAnim, m_animLoopEndTime);
+	//	// アニメーションのブレンド率を設定する
+	//	MV1SetAttachAnimBlendRate(m_modelHandle, m_prevPlayAnim, kAnimBlendMax - m_animBlendRate);
+	//	return;
+	//}
 
 	// セレクトの最初から
 	if (m_currenAnimName == "first")

@@ -281,14 +281,9 @@ void PlayerStateBase::ChangeStateGrab(Weapon& pWeapon)
 void PlayerStateBase::ChangeStateDamage()
 {
 	m_pPlayer->SetIsAttack(false);
-
-	// すでに再生中の場合は飛ばす
-	if (!EffectManager::GetInstance().GetIsPlaying(EffectName::kAttack))
-	{
-		EffectManager::GetInstance().Add(EffectName::kAttack, m_pPlayer->GetPos(), kDamageEffectAdjY);
-	}
-
 	if (GetKind() == PlayerStateKind::kDamage) return;
+
+	EffectManager::GetInstance().Add(EffectName::kAttack, m_pPlayer->GetPos(), kDamageEffectAdjY);
 
 	std::shared_ptr<PlayerStateHitAttack> state = std::make_shared<PlayerStateHitAttack>(m_pPlayer);
 	m_nextState = state;

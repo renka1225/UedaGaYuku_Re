@@ -17,12 +17,30 @@ namespace
 		kNum				// 画像の種類
 	};
 
+	/*2択*/
+	enum Choice
+	{
+		kBattle,
+		kRecovery,
+		kGetItem,
+		kChoiceNum
+	};
+
 	/*画像のパス*/
 	const char* kHandle[Handle::kNum]
 	{
 		"data/ui/main/textBox.png",
 		"data/ui/main/talkSelectBg.png",
 	};
+
+	/*2択画像パス*/
+	const char* kChoiceHandle[Choice::kChoiceNum]
+	{
+		"data/ui/main/battle.png",
+		"data/ui/main/recovery.png",
+		"data/ui/main/getItem.png"
+	};
+
 
 	/*選択肢表示位置*/
 	const std::map<int, Vec2> kTalkSelectTextPos
@@ -32,6 +50,14 @@ namespace
 		{SceneMain::TalkSelect::kRecovery, {846.0f, 393.0f}},
 		{SceneMain::TalkSelect::kGetItem, {771.0f, 490.0f}},
 		{SceneMain::TalkSelect::kBack, {868.0f, 585.0f}},
+	};
+
+	// 2択表示位置
+	const std::map<int, Vec2> kChoicePos
+	{
+		{Choice::kBattle, {523.0f, 218.0f}},
+		{Choice::kRecovery, {565.0f, 218.0f}},
+		{Choice::kGetItem, {506.0f, 218.0f}}
 	};
 
 	const Vec2 kTextBoxPos = { 116.0f, 766.0f };		// テキストボックス位置
@@ -53,11 +79,21 @@ UiConversation::UiConversation():
 	{
 		m_handle[i] = LoadGraph(kHandle[i]);
 	}
+
+	m_choiceHandle.resize(Choice::kChoiceNum);
+	for (int i = 0; i < m_choiceHandle.size(); i++)
+	{
+		m_choiceHandle[i] = LoadGraph(kChoiceHandle[i]);
+	}
 }
 
 UiConversation::~UiConversation()
 {
 	for (auto& handle : m_handle)
+	{
+		DeleteGraph(handle);
+	}
+	for (auto& handle : m_choiceHandle)
 	{
 		DeleteGraph(handle);
 	}
@@ -164,4 +200,28 @@ void UiConversation::DrawTalkSelectText()
 		std::string drawText = LoadCsv::GetInstance().GetConversationText(ConversationID::kSelect + std::to_string((i + 1)));
 		DrawStringFToHandle(kTalkSelectTextPos.at(i).x, kTalkSelectTextPos.at(i).y, drawText.c_str(), Color::kColorW, Font::m_fontHandle[static_cast<int>(Font::FontId::kTalk_select)]);
 	}
+}
+
+void UiConversation::DrawChoice(int select)
+{
+	int handle = -1; // 表示する画像
+	int num = -1;	 // 表示位置
+
+	if (select == SceneMain::TalkSelect::kBattle)
+	{
+		handle = m_choiceHandle[Choice::kBattle];
+		num = Choice::kBattle;
+	}
+	else if (select == SceneMain::TalkSelect::kRecovery)
+	{
+		handle = m_choiceHandle[Choice::kRecovery];
+		num = Choice::kRecovery;
+	}
+	else if (select == SceneMain::TalkSelect::kGetItem)
+	{
+		handle = m_choiceHandle[Choice::kGetItem];
+		num = Choice::kGetItem;
+	}
+
+	DrawGraphF(kChoicePos.at(num).x, kChoicePos.at(num).y, handle, true); // テキスト表示
 }

@@ -103,6 +103,7 @@ void EnemyAI::DecideNextAction(Player& pPlayer)
 		{
 			m_prevState = m_nextState;
 			m_nextState = pair.first;
+
 #ifdef _DEBUG
 			printfDx("次行動:%d\n", m_nextState);
 #endif
