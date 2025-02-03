@@ -110,6 +110,7 @@ SceneMain::SceneMain() :
 	m_pEnemy.resize(kEnemyKindNum);
 
 	m_pUiMain = std::make_shared<UiMain>();
+	m_choiceSelect = Choice::kYes;
 
 	LoadModelHandle();	// モデルを読み込む
 }
@@ -1320,6 +1321,7 @@ void SceneMain::EndTalk()
 	m_pPlayer->SetIsNowTalk(false);
 	m_pPlayer->SetIsPossibleMove(true);
 	m_talkSelect = TalkSelect::kBattle;
+	m_choiceSelect = Choice::kYes;
 	m_nowTalkId = ConversationID::kNone;
 	m_pUiConversation->UpdateDispTalk(m_nowTalkId); // 会話表示を更新
 	m_isTalking = false;
