@@ -2,6 +2,7 @@
 #include "SceneBase.h"
 #include <memory>
 #include <vector>
+#include <functional>
 
 class UiBase;
 class UiMain;
@@ -189,6 +190,11 @@ private:
 	/// </summary>
 	/// <param name="input">入力情報</param>
 	void UpdateTalkSelect(const Input& input);
+
+	/// <summary>
+	/// 選択肢を決める
+	/// </summary>
+	void DecideChoice();
 
 	/// <summary>
 	/// "戦う"を選択

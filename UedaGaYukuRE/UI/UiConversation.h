@@ -77,6 +77,7 @@ namespace ConversationID
 	const std::string kBattleOk = "BATTLE_OK";
 	const std::string kBattleNg = "BATTLE_NG";
 	const std::string kDeadNum = "DEADNUM";
+	const std::string kRecovery = "RECOVERY";
 	const std::string kRecoveryOk = "RECOVERY_OK";
 	const std::string kRecoveryNg = "RECOVERY_NG";
 	const std::string kRecoveryMax = "RECOVERY_MAX";

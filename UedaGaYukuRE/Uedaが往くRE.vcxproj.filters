@@ -225,11 +225,11 @@
     <ClCompile Include="Util\ConversionTime.cpp">
       <Filter>ソース ファイル\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Chara\PlayerSelect.cpp">
-      <Filter>ソース ファイル\Chara</Filter>
-    </ClCompile>
     <ClCompile Include="UI\UiConversation.cpp">
       <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Player\PlayerSelect.cpp">
+      <Filter>ソース ファイル\Chara\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -401,11 +401,11 @@
     <ClInclude Include="Util\ConversionTime.h">
       <Filter>ヘッダー ファイル\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Chara\PlayerSelect.h">
-      <Filter>ヘッダー ファイル\Chara</Filter>
-    </ClInclude>
     <ClInclude Include="UI\UiConversation.h">
       <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player\PlayerSelect.h">
+      <Filter>ヘッダー ファイル\Chara\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

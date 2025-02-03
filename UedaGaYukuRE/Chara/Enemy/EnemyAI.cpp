@@ -66,10 +66,10 @@ void EnemyAI::Update()
 	m_decisionFrame = std::max(0, m_decisionFrame);
 
 #ifdef _DEBUG
-	for (const auto& pair : m_priority)
+	/*for (const auto& pair : m_priority)
 	{
 		printfDx("State:%d, Priority:%d\n", pair.first, pair.second);
-	}
+	}*/
 #endif
 }
 

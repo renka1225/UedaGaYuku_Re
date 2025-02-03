@@ -23,7 +23,7 @@ bar_sound,802,382,1597,408,795,26,1
 cursor_select,100,187,800,287,700,100,1
 cursor_endSelect,521,463,1399,553,878,90,1
 cursor_main_talkSelect,547,190,1379,260,832,70,1
-cursor_main_choice,521,381,1399,471,878,90,1
+cursor_main_choice,524,365,1402,455,878,90,1
 cursor_menu,75,260,800,360,700,100,1
 cursor_enhance,364,280,1602,400,1238,120,1
 cursor_option,95,250,618,332,523,82,1

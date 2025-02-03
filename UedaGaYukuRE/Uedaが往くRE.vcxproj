@@ -173,7 +173,7 @@
     <ClCompile Include="Chara\Enemy\EnemyStateMove.cpp" />
     <ClCompile Include="Chara\Player\PlayerStateDeath.cpp" />
     <ClCompile Include="Chara\Npc.cpp" />
-    <ClCompile Include="Chara\PlayerSelect.cpp" />
+    <ClCompile Include="Chara\Player\PlayerSelect.cpp" />
     <ClCompile Include="Scene\SceneGameover.cpp" />
     <ClCompile Include="Scene\SceneClear.cpp" />
     <ClCompile Include="UI\UiConversation.cpp" />
@@ -232,7 +232,7 @@
     <ClInclude Include="Chara\Enemy\EnemyStateMove.h" />
     <ClInclude Include="Chara\Player\PlayerStateDeath.h" />
     <ClInclude Include="Chara\Npc.h" />
-    <ClInclude Include="Chara\PlayerSelect.h" />
+    <ClInclude Include="Chara\Player\PlayerSelect.h" />
     <ClInclude Include="Scene\SceneGameover.h" />
     <ClInclude Include="Scene\SceneClear.h" />
     <ClInclude Include="UI\UiConversation.h" />

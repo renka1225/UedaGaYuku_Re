@@ -1089,11 +1089,44 @@ void SceneMain::UpdateTalk(const Input& input)
 	m_talkDispTime--;
 	if (m_talkDispTime > 0) return;
 
+	// 会話中
+	if (m_isTalking && !m_isChoice)
+	{
+		if (input.IsTriggered(InputId::kOk))
+		{
+			m_pUiConversation->ResetDispTalk(); // 会話表示をリセットする
+			EndTalk(); // 会話を終了する
+			return;
+		}
+	}
+
 	// 選択肢カーソル更新
 	if (m_isDispTalkSelect)
 	{
 		UpdateTalkSelect(input);
 		m_pUi->UpdateCursor(kCursorId);
+	}
+
+	// 2択表示中
+	if (m_isChoice)
+	{
+		// 選択状態を更新
+		UpdateChoice(input);
+		m_pUi->UpdateCursor(kChoiceCursorId);
+
+		if (input.IsTriggered(InputId::kA))
+		{
+			// 選択肢を決める
+			DecideChoice();
+			return;
+		}
+
+		if (input.IsTriggered(InputId::kBack))
+		{
+			m_isChoice = false;
+			m_pUiConversation->ResetDispTalk(); // 会話表示をリセットする
+			EndTalk(); // 会話を終了する
+		}
 	}
 
 	// Bボタンを押した場合
@@ -1104,26 +1137,9 @@ void SceneMain::UpdateTalk(const Input& input)
 		return;
 	}
 
-	if (m_isTalking)
-	{
-		// 選択肢表示中は会話を終了させない
-		if (m_isChoice) return;
-
-		if (input.IsTriggered(InputId::kOk))
-		{
-			m_pUiConversation->ResetDispTalk(); // 会話表示をリセットする
-			EndTalk(); // 会話を終了する
-			return;
-		}
-	}
+	// 選択肢決定
 	if (input.IsTriggered(InputId::kOk))
 	{
-		if (m_isTalking)
-		{
-			m_isTalking = false;
-			return;
-		}
-
 		m_isTalking = true;
 		m_isDispTalkSelect = false;
 
@@ -1169,33 +1185,21 @@ void SceneMain::UpdateTalkSelect(const Input& input)
 	}
 }
 
-void SceneMain::SelectBattle(const Input& input)
+void SceneMain::DecideChoice()
 {
-	m_isChoice = true;
-	m_isDispTalkSelect = false;
-
-	// 2択表示
-	if (!m_isChoice) return;
-	
-	if (input.IsTriggered(InputId::kA))
+	switch (m_talkSelect)
 	{
-		//m_isChoice = false;
-
+	case TalkSelect::kBattle:
 		// 「戦いに往く」を選んだ場合
 		if (m_choiceSelect == Choice::kYes)
 		{
-			// 条件を満たしている場合、ラスボスを出現させる
+			// ボスと戦う条件を満たしている場合
 			if (m_pPlayer->GetDeadEnemyNum() >= kClearEnemyNum)
 			{
 				m_nowTalkId = ConversationID::kBattleOk;
-
-				if (input.IsTriggered(InputId::kOk))
-				{
-					// ラスボスの出現演出を行う
-					m_isLastBattle = true;
-					m_isLoading = true;
-					EndTalk();
-				}
+				m_isLastBattle = true;
+				m_isLoading = true;
+				EndTalk();
 			}
 			else
 			{
@@ -1205,11 +1209,80 @@ void SceneMain::SelectBattle(const Input& input)
 		// 「やめる」を選んだ場合
 		else
 		{
-			m_isTalking = false;
-			m_pUiConversation->ResetDispTalk(); // 会話表示をリセットする
-			EndTalk(); // 会話を終了する
+			EndTalk();
 		}
+		break;
+
+	case TalkSelect::kRecovery:
+		// 「回復する」を選んだ場合
+		if (m_choiceSelect == Choice::kYes)
+		{
+			// 金額が足りない場合
+			if (m_pPlayer->GetMoney() < kRecoveryMoney)
+			{
+				m_nowTalkId = ConversationID::kRecoveryNg;
+				return;
+			}
+
+			// HPが最大の場合
+			if (m_pPlayer->GetHp() >= m_pPlayer->GetStatus().maxHp && m_pPlayer->GetGauge() >= m_pPlayer->GetStatus().maxGauge)
+			{
+				m_nowTalkId = ConversationID::kRecoveryMax;
+				return;
+			}
+
+			m_nowTalkId = ConversationID::kRecoveryOk;
+			Sound::GetInstance().PlaySe(SoundName::kSe_recovery);
+			m_pPlayer->RecoveryHp(kRecoveryMaxRate);
+			m_pPlayer->RecoveryGauge(kRecoveryMaxRate);
+			m_pPlayer->AddDecreaseMoney(-kRecoveryMoney);
+		}
+		// 「回復しない」を選んだ場合
+		else
+		{
+			EndTalk();
+		}
+		break;
+
+	case TalkSelect::kGetItem:
+		// 「アイテム購入」を選んだ場合
+		if (m_choiceSelect == Choice::kYes)
+		{
+			if (m_pPlayer->GetIsAddItem())
+			{
+				if (m_pPlayer->GetMoney() < kGetItemMoney)
+				{
+					m_nowTalkId = ConversationID::kGetItemNg_money;
+					return;
+				}
+
+				m_nowTalkId = ConversationID::kGetItemOk;
+				m_pPlayer->AddItem(GetRand(Item::ItemType::kItemKind));
+				m_pPlayer->AddDecreaseMoney(-kGetItemMoney);
+			}
+			else
+			{
+				m_nowTalkId = ConversationID::kGetItemNg_itemMax;
+			}
+		}
+		// 「やめる」を選んだ場合
+		else
+		{
+			EndTalk();
+		}
+		break;
+
+	default:
+		break;
 	}
+
+	m_isChoice = false; // 選択状態を解除
+}
+
+void SceneMain::SelectBattle(const Input& input)
+{
+	m_isChoice = true;
+	m_isDispTalkSelect = false;
 }
 
 void SceneMain::SelectDeadEnemyNum(const Input& input)
@@ -1219,100 +1292,16 @@ void SceneMain::SelectDeadEnemyNum(const Input& input)
 
 void SceneMain::SelectRecovery(const Input& input)
 {
+	m_nowTalkId = ConversationID::kRecovery;
 	m_isChoice = true;
 	m_isDispTalkSelect = false;
-	m_nowTalkId = ConversationID::kRecoveryOk;
-
-	// 2択表示
-	if (!m_isChoice) return;
-
-	if (input.IsTriggered(InputId::kA))
-	{
-		//m_isChoice = false;
-
-		// 「回復する」を選んだ場合
-		if (m_choiceSelect == Choice::kYes)
-		{
-			// 所持金が足りない場合
-			if (m_pPlayer->GetMoney() < kRecoveryMoney)
-			{
-				m_nowTalkId = ConversationID::kRecoveryNg;
-				return;
-			}
-
-			// HPとゲージが最大の場合は回復しない
-			if (m_pPlayer->GetHp() >= m_pPlayer->GetStatus().maxHp && m_pPlayer->GetGauge() >= m_pPlayer->GetStatus().maxGauge)
-			{
-				m_nowTalkId = ConversationID::kRecoveryMax;
-				return;
-			}
-
-			// 所持金が一定以上ある場合
-			m_nowTalkId = ConversationID::kRecoveryOk;
-
-			// 回復
-			Sound::GetInstance().PlaySe(SoundName::kSe_recovery);
-			m_pPlayer->RecoveryHp(kRecoveryMaxRate);
-			m_pPlayer->RecoveryGauge(kRecoveryMaxRate);
-
-			// 所持金を減らす
-			m_pPlayer->AddDecreaseMoney(-kRecoveryMoney);
-		}
-		// 「回復しない」を選んだ場合
-		else
-		{
-			m_isTalking = false;
-			m_pUiConversation->ResetDispTalk(); // 会話表示をリセットする
-			EndTalk(); // 会話を終了する
-		}
-	}
 }
 
 void SceneMain::SelectGetItem(const Input& input)
 {
 	m_nowTalkId = ConversationID::kGetItem;
-
 	m_isChoice = true;
 	m_isDispTalkSelect = false;
-
-	// 2択表示
-	if (!m_isChoice) return;
-
-	if (input.IsTriggered(InputId::kA))
-	{
-		// 「購入する」を選んだ場合
-		if (m_choiceSelect == Choice::kYes)
-		{
-			if (m_pPlayer->GetIsAddItem())
-			{
-				// 所持金が足りない場合
-				if (m_pPlayer->GetMoney() < kGetItemMoney)
-				{
-					m_nowTalkId = ConversationID::kGetItemNg_money;
-					return;
-				}
-
-				// ランダムでアイテムを取得
-				m_nowTalkId = ConversationID::kGetItemOk;
-				m_pPlayer->AddItem(GetRand(Item::ItemType::kItemKind));
-
-				// 所持金を減らす
-				m_pPlayer->AddDecreaseMoney(-kGetItemMoney);
-			}
-			else
-			{
-				// 専用会話を表示
-				m_nowTalkId = ConversationID::kGetItemNg_itemMax;
-			}
-		}
-		// 「購入しない」を選んだ場合
-		else
-		{
-			m_isTalking = false;
-			m_pUiConversation->ResetDispTalk(); // 会話表示をリセットする
-			EndTalk(); // 会話を終了する
-		}
-	}
 }
 
 void SceneMain::EndTalk()
@@ -1325,6 +1314,7 @@ void SceneMain::EndTalk()
 	m_nowTalkId = ConversationID::kNone;
 	m_pUiConversation->UpdateDispTalk(m_nowTalkId); // 会話表示を更新
 	m_isTalking = false;
+	m_isChoice = false;
 }
 
 void SceneMain::DrawTalk()
@@ -1348,7 +1338,7 @@ void SceneMain::DrawTalk()
 		{
 			m_pUiConversation->DrawTalkSelectBg(); // 選択肢の背景
 			m_pUi->DrawCursor(kChoiceCursorId, m_choiceSelect, kChoiceCursorInterval);	// 選択カーソル
-			m_pUiConversation->DrawChoice(m_choiceSelect); // 選択肢テキスト
+			m_pUiConversation->DrawChoice(m_talkSelect); // 選択肢テキスト
 		}
 		// 選択肢表示
 		else if (m_isDispTalkSelect)

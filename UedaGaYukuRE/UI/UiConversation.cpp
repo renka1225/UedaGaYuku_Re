@@ -36,9 +36,9 @@ namespace
 	/*2択画像パス*/
 	const char* kChoiceHandle[Choice::kChoiceNum]
 	{
-		"data/ui/main/battle.png",
-		"data/ui/main/recovery.png",
-		"data/ui/main/getItem.png"
+		"data/ui/main/talkSelect/battle.png",
+		"data/ui/main/talkSelect/recovery.png",
+		"data/ui/main/talkSelect/getItem.png"
 	};
 
 
@@ -55,9 +55,9 @@ namespace
 	// 2択表示位置
 	const std::map<int, Vec2> kChoicePos
 	{
-		{Choice::kBattle, {523.0f, 218.0f}},
-		{Choice::kRecovery, {565.0f, 218.0f}},
-		{Choice::kGetItem, {506.0f, 218.0f}}
+		{Choice::kBattle, {523.0f, 193.0f}},
+		{Choice::kRecovery, {565.0f, 193.0f}},
+		{Choice::kGetItem, {506.0f, 193.0f}}
 	};
 
 	const Vec2 kTextBoxPos = { 116.0f, 766.0f };		// テキストボックス位置
