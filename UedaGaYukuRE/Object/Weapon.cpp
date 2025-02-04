@@ -22,6 +22,8 @@ Weapon::Weapon(std::shared_ptr<Player> pPlayer) :
 {
 	m_pPlayer = pPlayer;
 	m_handle = LoadGraph(kTextHandleFileName);
+
+	LoadCsv::GetInstance().LoadWeaponData(m_weaponData); // 武器データの読み込み
 	LoadLocationData(); // 配置データの読み込み
 }
 
@@ -36,15 +38,13 @@ Weapon::~Weapon()
 
 void Weapon::Init()
 {
-	LoadCsv::GetInstance().LoadWeaponData(m_weaponData);
-
 	// サイズや位置の調整
 	for (auto& loc : m_locationData)
 	{
-		loc.durability = m_weaponData[loc.name].durability;
-		loc.updateCol.colRadius = m_weaponData[loc.name].colRadius;
-		MV1SetPosition(m_objHandle[loc.name], loc.pos);
-		MV1SetScale(m_objHandle[loc.name], loc.scale);
+		loc.durability = m_weaponData[loc.id].durability;
+		loc.updateCol.colRadius = m_weaponData[loc.id].colRadius;
+		MV1SetPosition(m_objHandle[loc.id], loc.pos);
+		MV1SetScale(m_objHandle[loc.id], loc.scale);
 	}
 }
 
@@ -61,11 +61,11 @@ void Weapon::Update(Stage& stage)
 			// 武器の位置を初期位置にリセット
 			loc.pos = loc.initPos;
 			loc.rot = loc.initRot;
-			loc.durability = m_weaponData[loc.name].durability;
+			loc.durability = m_weaponData[loc.id].durability;
 			loc.isGrab = false;
 			loc.rot = VGet(0.0f, 0.0f, 0.0f); // 回転を初期化
 			frameMatrix = MGetIdent();		  // 単位行列を設定
-			MV1SetMatrix(m_objHandle[loc.name], frameMatrix);
+			MV1SetMatrix(m_objHandle[loc.id], frameMatrix);
 		}
 		// バトル中の場合
 		else
@@ -74,14 +74,14 @@ void Weapon::Update(Stage& stage)
 			if (loc.durability <= 0)
 			{
 				// モデルを非表示し、当たり判定を消す
-				MV1SetFrameVisible(m_objHandle[loc.name], 0, false);
+				MV1SetFrameVisible(m_objHandle[loc.id], 0, false);
 				m_pPlayer->SetIsGrabWeapon(false); // プレイヤーの武器掴み状態を解除する
 				loc.isGrab = false;
 				loc.durability = std::max(loc.durability, 0);
 			}
 			else
 			{
-				MV1SetFrameVisible(m_objHandle[loc.name], 0, true);
+				MV1SetFrameVisible(m_objHandle[loc.id], 0, true);
 			}
 
 			// プレイヤーが武器を掴んだ場合、プレイヤーの手の位置に武器を移動させる
@@ -93,7 +93,7 @@ void Weapon::Update(Stage& stage)
 			{
 				loc.rot = VGet(0.0f, 0.0f, 0.0f); // 回転を初期化
 				frameMatrix = MGetIdent();		  // 単位行列を設定
-				MV1SetMatrix(m_objHandle[loc.name], frameMatrix);
+				MV1SetMatrix(m_objHandle[loc.id], frameMatrix);
 			}
 		}
 
@@ -102,9 +102,9 @@ void Weapon::Update(Stage& stage)
 		loc.pos.y = std::max(kGroundHeight, loc.pos.y);
 		
 		UpdateCol(loc); // 当たり判定位置更新
-		MV1SetPosition(m_objHandle[loc.name], loc.pos);
-		MV1SetRotationXYZ(m_objHandle[loc.name], loc.rot);
-		MV1SetScale(m_objHandle[loc.name], loc.scale);
+		MV1SetPosition(m_objHandle[loc.id], loc.pos);
+		MV1SetRotationXYZ(m_objHandle[loc.id], loc.rot);
+		MV1SetScale(m_objHandle[loc.id], loc.scale);
 	}
 }
 
@@ -112,7 +112,7 @@ void Weapon::Draw()
 {
 	for (auto& loc : m_locationData)
 	{
-		MV1DrawModel(m_objHandle[loc.name]); // モデル表示
+		MV1DrawModel(m_objHandle[loc.id]); // モデル表示
 	}
 
 	// バトル中でない場合は表示しない
@@ -124,7 +124,7 @@ void Weapon::Draw()
 	for (const auto& loc : m_locationData)
 	{
 		// 武器情報描画
-		//debug.DrawWeaponInfo(loc.name.c_str(), loc.tag.c_str(), loc.pos, loc.rot, loc.scale, loc.durability, dispY);
+		//debug.DrawWeaponInfo(loc.id.c_str(), loc.tag.c_str(), loc.pos, loc.rot, loc.scale, loc.durability, dispY);
 		dispY += 20;
 
 		if (loc.durability <= 0) continue;
@@ -214,13 +214,13 @@ void Weapon::LoadLocationData()
 
 	for (auto& loc : m_locationData)
 	{
-		// オブジェクト名をロード
+		// オブジェクトIDをロード
 		byte nameCnt = 0;
 		FileRead_read(&nameCnt, sizeof(nameCnt), m_loadLocationData);
-		loc.name.resize(nameCnt);
+		loc.id.resize(nameCnt);
 
-		// MEMO:loc.name.data()の部分はC++20だとエラーにならない
-		FileRead_read(loc.name.data(), static_cast<int>(sizeof(char)* loc.name.size()), m_loadLocationData);
+		// MEMO:loc.id.data()の部分はC++20だとエラーにならない
+		FileRead_read(loc.id.data(), static_cast<int>(sizeof(char)* loc.id.size()), m_loadLocationData);
 
 		// タグをロード
 		byte tagCnt = 0;
@@ -236,17 +236,20 @@ void Weapon::LoadLocationData()
 		loc.initRot = loc.rot;
 		// スケール情報
 		FileRead_read(&loc.scale, sizeof(loc.scale), m_loadLocationData);
+
+		// 武器名
+		loc.name = m_weaponData[loc.id].name;
 	}
 	FileRead_close(m_loadLocationData);
 
 	// モデルのパスを設定
 	for (auto& loc : m_locationData)
 	{
-		if (m_objHandle.find(loc.name) == m_objHandle.end())
+		if (m_objHandle.find(loc.id) == m_objHandle.end())
 		{
 			std::string modelPath = kWeaponFileName + loc.name + ".mv1";
 			int modelHandle = MV1LoadModel(modelPath.c_str());
-			m_objHandle[loc.name] = modelHandle;
+			m_objHandle[loc.id] = modelHandle;
 		}
 	}
 }
@@ -257,8 +260,8 @@ void Weapon::UpdateCol(auto& loc)
 	MATRIX rotationMatrix = MGetRotY(loc.rot.z);
 
 	// 当たり判定位置を更新
-	loc.updateCol.colStartPos = VAdd(loc.pos, (VTransform(m_weaponData[loc.name].colStartPos, rotationMatrix)));
-	loc.updateCol.colEndPos = VAdd(loc.updateCol.colStartPos, (VTransform(m_weaponData[loc.name].colEndPos, rotationMatrix)));
+	loc.updateCol.colStartPos = VAdd(loc.pos, (VTransform(m_weaponData[loc.id].colStartPos, rotationMatrix)));
+	loc.updateCol.colEndPos = VAdd(loc.updateCol.colStartPos, (VTransform(m_weaponData[loc.id].colEndPos, rotationMatrix)));
 }
 
 bool Weapon::CheckWeaponCol(const CharacterBase::ColData& colData, Player& player)
@@ -282,5 +285,5 @@ void Weapon::SetModelFramePos(auto& loc, MATRIX frameMatrix)
 	loc.pos = VTransform(VGet(0.0f, 0.0f, 0.0f), frameMatrix);
 	loc.rot = VTransform(VGet(0.0f, 0.0f, 0.0f), frameMatrix);
 
-	MV1SetMatrix(m_objHandle[loc.name], frameMatrix);
+	MV1SetMatrix(m_objHandle[loc.id], frameMatrix);
 }

@@ -15,6 +15,8 @@ public:
 	// 武器の情報
 	struct WeaponData
 	{
+		std::string id = "";	// 武器ID
+		std::string name = "";	// 武器名
 		int durability = 0;		// 耐久力
 		VECTOR colStartPos = VGet(0.0f ,0.0f, 0.0f); // 武器の当たり判定始点
 		VECTOR colEndPos = VGet(0.0f, 0.0f, 0.0f);	 // 武器の当たり判定終点
@@ -33,6 +35,7 @@ private:
 	// 配置情報データ
 	struct LocationData
 	{
+		std::string id = "";	// 武器ID
 		std::string name = "";	// 名前
 		std::string tag = "";	// タグ
 		VECTOR pos = VGet(0.0f, 0.0f, 0.0f);		// 座標

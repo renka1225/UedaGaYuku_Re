@@ -200,14 +200,16 @@ void LoadCsv::LoadWeaponData(std::map<std::string, Weapon::WeaponData>& data)
 		try
 		{
 			// 外部ファイルの情報を入れる
-			data[weaponId].durability = std::stoi(strvec[1]);
-			data[weaponId].colStartPos.x = std::stof(strvec[2]);
-			data[weaponId].colStartPos.y = std::stof(strvec[3]);
-			data[weaponId].colStartPos.z = std::stof(strvec[4]);
-			data[weaponId].colEndPos.x = std::stof(strvec[5]);
-			data[weaponId].colEndPos.y = std::stof(strvec[6]);
-			data[weaponId].colEndPos.z = std::stof(strvec[7]);
-			data[weaponId].colRadius = std::stof(strvec[8]);
+			data[weaponId].id = weaponId;
+			data[weaponId].name = strvec[1];
+			data[weaponId].durability = std::stoi(strvec[2]);
+			data[weaponId].colStartPos.x = std::stof(strvec[3]);
+			data[weaponId].colStartPos.y = std::stof(strvec[4]);
+			data[weaponId].colStartPos.z = std::stof(strvec[5]);
+			data[weaponId].colEndPos.x = std::stof(strvec[6]);
+			data[weaponId].colEndPos.y = std::stof(strvec[7]);
+			data[weaponId].colEndPos.z = std::stof(strvec[8]);
+			data[weaponId].colRadius = std::stof(strvec[9]);
 		}
 		catch (const std::invalid_argument&)
 		{
