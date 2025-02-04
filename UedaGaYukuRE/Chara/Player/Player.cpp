@@ -904,6 +904,7 @@ void Player::UpdateTuto5(const Input& input)
 				// チュートリアルを終了する
 				m_tutorial.isNowKnowledge = false;
 				m_tutorial.isEndTutorial = true;
+				m_isPossibleMove = true;
 			}
 		}
 		return;

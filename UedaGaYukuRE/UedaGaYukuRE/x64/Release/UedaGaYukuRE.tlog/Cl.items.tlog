@@ -17,7 +17,7 @@ C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Enemy\EnemyAI.cpp;C:\GitHub\UedaGaYuk
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Enemy\EnemyStateMove.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\UedaGaYukuRE\x64\Release\EnemyStateMove.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Player\PlayerStateDeath.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\UedaGaYukuRE\x64\Release\PlayerStateDeath.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Npc.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\UedaGaYukuRE\x64\Release\Npc.obj
-C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\PlayerSelect.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\UedaGaYukuRE\x64\Release\PlayerSelect.obj
+C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Chara\Player\PlayerSelect.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\UedaGaYukuRE\x64\Release\PlayerSelect.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Scene\SceneGameover.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\UedaGaYukuRE\x64\Release\SceneGameover.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\Scene\SceneClear.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\UedaGaYukuRE\x64\Release\SceneClear.obj
 C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\UI\UiConversation.cpp;C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\UedaGaYukuRE\x64\Release\UiConversation.obj

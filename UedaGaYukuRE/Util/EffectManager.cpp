@@ -92,8 +92,8 @@ void EffectManager::AllDelete()
 		if (data.isPlaying)
 		{
 			StopEffekseer3DEffect(data.playingHandle);
+			data.isPlaying = false;
 		}
-		DeleteEffekseerEffect(data.effectHandle);
 	}
 
 	m_effectData.clear();
