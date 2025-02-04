@@ -99,6 +99,19 @@ public:
 	void Add(const std::string& name, const VECTOR& pos, float adjust = 0.0f, Player* pPlayer = nullptr);
 
 	/// <summary>
+	/// 武器エフェクトを追加する
+	/// </summary>
+	/// <param name="id">武器ID</param>
+	/// <param name="pos">表示位置</param>
+	void AddWeaponEffect(const std::string id, const VECTOR& pos);
+
+	/// <summary>
+	/// 武器エフェクトを停止する
+	/// </summary>
+	/// <param name="id">停止する武器ID</param>
+	void StopWeaponEffect(const std::string id);
+
+	/// <summary>
 	/// ドロップアイテムをのエフェクトを停止する
 	/// </summary>
 	/// <param name="pos">エフェクト位置</param>
@@ -109,6 +122,13 @@ public:
 	/// </summary>
 	/// <param name="name">確認したいエフェクト名</param>
 	bool GetIsPlaying(const std::string& name) { return m_effectData[name].isPlaying; }
+
+	/// <summary>
+	/// 武器エフェクトが再生中か取得する
+	/// </summary>
+	/// <param name="name">確認したいエフェクト名</param>
+	bool GetIsPlayingWeaponEffect(const std::string& id);
+
 
 private:
 	EffectManager() = default;

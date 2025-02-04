@@ -14,6 +14,7 @@ namespace
 	constexpr int kPlayerHandFrameNum = 51;	// 武器をアタッチするフレーム番号
 	constexpr float kGroundHeight = 42.0f;  // 地面の高さ
 	const float kDispTextAdjY = 25.0f;		// 拾うのテキスト調整位置
+	const float kDispEffectRange = 25.0f;	// エフェクトを表示する範囲
 }
 
 Weapon::Weapon(std::shared_ptr<Player> pPlayer) :
@@ -55,6 +56,16 @@ void Weapon::Update(Stage& stage)
 	// 武器位置更新
 	for (auto& loc : m_locationData)
 	{
+		// チュートリアル中はエフェクトを表示しない
+		bool isTuto = !m_pPlayer->GetTutoInfo().isEndTutorial && m_pPlayer->GetTutoInfo().currentNum <= Player::TutorialNum::kTuto_2;
+		// プレイヤーが近くにいるかどうか
+		bool isNearPlayer = VSize(VSub(m_pPlayer->GetPos(), loc.pos)) <= kDispEffectRange;
+		if (isTuto || !isNearPlayer)
+		{
+			// エフェクトを停止する
+			EffectManager::GetInstance().StopWeaponEffect(loc.id);
+		}
+
 		// バトル中でない場合
 		if (!m_pPlayer->GetIsBattle())
 		{
@@ -66,6 +77,9 @@ void Weapon::Update(Stage& stage)
 			loc.rot = VGet(0.0f, 0.0f, 0.0f); // 回転を初期化
 			frameMatrix = MGetIdent();		  // 単位行列を設定
 			MV1SetMatrix(m_objHandle[loc.id], frameMatrix);
+
+			// エフェクトを停止
+			EffectManager::GetInstance().StopWeaponEffect(loc.id);
 		}
 		// バトル中の場合
 		else
@@ -78,9 +92,13 @@ void Weapon::Update(Stage& stage)
 				m_pPlayer->SetIsGrabWeapon(false); // プレイヤーの武器掴み状態を解除する
 				loc.isGrab = false;
 				loc.durability = std::max(loc.durability, 0);
+
+				// エフェクトを停止
+				EffectManager::GetInstance().StopWeaponEffect(loc.id);
 			}
 			else
 			{
+				// モデルを表示する
 				MV1SetFrameVisible(m_objHandle[loc.id], 0, true);
 			}
 
@@ -88,9 +106,18 @@ void Weapon::Update(Stage& stage)
 			if (loc.isGrab)
 			{
 				SetModelFramePos(loc, frameMatrix);
+
+				// エフェクトを停止
+				EffectManager::GetInstance().StopWeaponEffect(loc.id);
 			}
 			else
 			{
+				// エフェクトを再生
+				if (!EffectManager::GetInstance().GetIsPlayingWeaponEffect(loc.id) && isNearPlayer)
+				{
+					EffectManager::GetInstance().AddWeaponEffect(loc.id, loc.pos);
+				}
+
 				loc.rot = VGet(0.0f, 0.0f, 0.0f); // 回転を初期化
 				frameMatrix = MGetIdent();		  // 単位行列を設定
 				MV1SetMatrix(m_objHandle[loc.id], frameMatrix);

@@ -86,8 +86,19 @@ void EffectManager::AllDelete()
 		}
 	}
 
+	for (auto& pair : m_weaponEffects)
+	{
+		EffectData& data = pair.second;
+		if (data.isPlaying)
+		{
+			StopEffekseer3DEffect(data.playingHandle);
+		}
+		DeleteEffekseerEffect(data.effectHandle);
+	}
+
 	m_effectData.clear();
 	m_effects.clear();
+	m_weaponEffects.clear();
 }
 
 void EffectManager::Init()
@@ -142,6 +153,34 @@ void EffectManager::Update()
 
 		it++;
 	}
+
+	// 武器エフェクト
+	for (auto it = m_weaponEffects.begin(); it != m_weaponEffects.end();)
+	{
+		EffectData& data = it->second;
+
+		// 再生中でない場合
+		if (!data.isPlaying)
+		{
+			StopEffekseer3DEffect(data.playingHandle);
+			continue;
+		}
+
+		data.elapsedTime++;
+		// 再生時間を超えた場合
+		if (data.elapsedTime >= data.playTime)
+		{
+			// ループ再生
+			data.elapsedTime = 0;
+			data.playingHandle = PlayEffekseer3DEffect(data.effectHandle);
+		}
+
+		SetPosPlayingEffekseer3DEffect(data.playingHandle, data.pos.x, data.pos.y, data.pos.z);
+		SetScalePlayingEffekseer3DEffect(data.playingHandle, data.scale, data.scale, data.scale);
+		SetRotationPlayingEffekseer3DEffect(data.playingHandle, data.rotate.x, data.rotate.y, data.rotate.z);
+
+		it++;
+	}
 }
 
 void EffectManager::Draw()
@@ -175,6 +214,35 @@ void EffectManager::Add(const std::string& name, const VECTOR& pos, float adjust
 	}
 }
 
+void EffectManager::AddWeaponEffect(const std::string id, const VECTOR& pos)
+{
+	// すでに追加されている場合飛ばす
+	if (m_weaponEffects.find(id) != m_weaponEffects.end()) return;
+
+
+	auto it = m_effectData.find(EffectName::kWeapon);
+	if (it == m_effectData.end()) return;
+
+	EffectData data = it->second;
+	data.isPlaying = true;
+	data.isLoop = true;
+	data.pos = pos;
+	data.playingHandle = PlayEffekseer3DEffect(data.effectHandle);
+
+	m_weaponEffects[id] = data;
+}
+
+void EffectManager::StopWeaponEffect(const std::string id)
+{
+	auto it = m_weaponEffects.find(id);
+	if (it != m_weaponEffects.end())
+	{
+		StopEffekseer3DEffect(it->second.playingHandle);
+		it->second.isPlaying = false;
+		m_weaponEffects.erase(it);
+	}
+}
+
 void EffectManager::StopItemEffect(const std::string& name, const VECTOR& pos)
 {
 	for (auto it = m_effects.begin(); it != m_effects.end();)
@@ -193,4 +261,10 @@ void EffectManager::StopItemEffect(const std::string& name, const VECTOR& pos)
 			it++;
 		}
 	}
+}
+
+bool EffectManager::GetIsPlayingWeaponEffect(const std::string& id)
+{
+	auto it = m_weaponEffects.find(id);
+	return (it != m_weaponEffects.end() && it->second.isPlaying);
 }
