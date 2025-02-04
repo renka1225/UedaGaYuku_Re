@@ -1196,7 +1196,9 @@ void SceneMain::DecideChoice()
 			// ボスと戦う条件を満たしている場合
 			if (m_pPlayer->GetDeadEnemyNum() >= kClearEnemyNum)
 			{
+				// ボス戦開始
 				m_nowTalkId = ConversationID::kBattleOk;
+				m_pItem->DeleteDropItem(); // ドロップアイテムを削除
 				m_isLastBattle = true;
 				m_isLoading = true;
 				EndTalk();

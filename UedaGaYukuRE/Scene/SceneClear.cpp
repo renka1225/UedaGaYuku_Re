@@ -35,7 +35,7 @@ namespace
 	};
 
 	const Vec2 kGameoverPos = { 470.0f, 150.0f }; // クリア表示位置
-	const Vec2 kTextPos = { 743.0f, 633.0f };	  // テキスト表示位置
+	const Vec2 kTextPos = { 743.0f, 683.0f };	  // テキスト表示位置
 	constexpr int kBgColor = 0xb3b3b3; // 背景色
 
 	/*カーソル*/
@@ -44,19 +44,19 @@ namespace
 
 	const std::string kEndSelectCursorId = "cursor_endSelect";	// ゲーム終了選択肢カーソルのID
 	constexpr float kEndSelectCursorInterval = 157.0f;			// ゲーム終了選択肢カーソル表示間隔
-	const std::string kEndSelectBgId = "bg_endSelect";		// ゲーム終了選択肢の背景ID
-	const Vec2 kDispEndSelectPos = { 528.0f, 279.0f };		// ゲーム終了選択肢の表示位置
+	const std::string kEndSelectBgId = "bg_endSelect";			// ゲーム終了選択肢の背景ID
+	const Vec2 kDispEndSelectPos = { 528.0f, 279.0f };			// ゲーム終了選択肢の表示位置
 
 	/*フェード*/
 	constexpr int kStartFadeAlpha = 255; // スタート時のフェード値
 	constexpr int kFadeFrame = 8;		 // フェード変化量
 
 	/*モデル*/
-	const VECTOR kCaseModelPos = VGet(0.0f, -45.0f, 0.0f);		// モデル位置
-	const VECTOR kCaseModelScale = VGet(0.8f, 0.8f, 0.8f);		// モデル拡大率
-	const VECTOR kCaseModelAngle = VGet(0.0f, 0.0f, 0.0f);		// モデル角度
-	const VECTOR kCameraPos = VGet(0.0f, 50.0f, -120.0f);		// カメラの位置
-	const VECTOR kCameraTarget = VGet(0.0f, 0.0f, 0.0f);		// カメラの注視点
+	const VECTOR kCaseModelPos = VGet(0.0f, -45.0f, 0.0f);	// モデル位置
+	const VECTOR kCaseModelScale = VGet(0.8f, 0.8f, 0.8f);	// モデル拡大率
+	const VECTOR kCaseModelAngle = VGet(0.0f, 0.0f, 0.0f);	// モデル角度
+	const VECTOR kCameraPos = VGet(0.0f, 50.0f, -120.0f);	// カメラの位置
+	const VECTOR kCameraTarget = VGet(0.0f, 0.0f, 0.0f);	// カメラの注視点
 
 }
 
@@ -125,10 +125,12 @@ std::shared_ptr<SceneBase> SceneClear::Update(Input& input)
 			}
 		}
 	}
-
-	// 選択状態を更新
-	UpdateSelect(input, Select::kSelectNum);
-	m_pUi->UpdateCursor(kCursorId);
+	else
+	{
+		// 選択状態を更新
+		UpdateSelect(input, Select::kSelectNum);
+		m_pUi->UpdateCursor(kCursorId);
+	}
 
 	if (input.IsTriggered(InputId::kOk))
 	{

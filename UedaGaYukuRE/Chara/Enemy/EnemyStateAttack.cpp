@@ -58,7 +58,7 @@ void EnemyStateAttack::Update(Stage& pStage, Player& pPlayer)
                 pPlayer.SetIsInvincible(true);
             }
         }
-        else if (m_attackKind == AnimName::kKick)
+        else if (m_attackKind == AnimName::kKickRound)
         {
             bool isHitKickCol = pPlayer.CheckHitKickCol(m_pEnemy->GetCol(m_pEnemy->GetEnemyIndex()), 0);
             if (isHitKickCol)
@@ -77,7 +77,7 @@ EnemyStateBase::EnemyStateKind EnemyStateAttack::GetKind()
     {
         return EnemyStateKind::kPunch;
     }
-    else if (m_attackKind == AnimName::kKick)
+    else if (m_attackKind == AnimName::kKickRound)
     {
         return EnemyStateKind::kKick;
     }
@@ -98,10 +98,9 @@ float EnemyStateAttack::GetAttackPower(Player& pPlayer)
     // ステータス取得
     auto status = m_pEnemy->GetStatus();
 
-    // プレイヤーがガード中はダメージが入らないようにする
-    if (pPlayer.GetIsGuard()) return 0.0f;
+    if (pPlayer.GetIsGuard()) return 0.0f; // プレイヤーがガード中はダメージが入らないようにする
     if (m_attackKind == AnimName::kPunch) return status.atkPowerPunch1;
-    if (m_attackKind == AnimName::kKick)  return status.atkPowerKick;
+    if (m_attackKind == AnimName::kKickRound)  return status.atkPowerKick;
 
     return 0.0f;
 }

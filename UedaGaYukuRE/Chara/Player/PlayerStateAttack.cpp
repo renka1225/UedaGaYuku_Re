@@ -9,8 +9,8 @@
 
 namespace
 {
-    constexpr float kSpecialRange = 35.0f;	  // 必殺技が当たる範囲
-    constexpr float kSpecialAtkPower = 10.0f; // 必殺技の攻撃力追加割合
+    constexpr float kSpecialRange = 40.0f;	  // 必殺技が当たる範囲
+    constexpr float kSpecialAtkPower = 7.0f;  // 必殺技の攻撃力追加割合
     constexpr int kMinSpecialGauge = 3;       // 攻撃時に溜まるゲージ最小量
     constexpr int kMaxSpecialGauge = 10;      // 攻撃時に溜まるゲージ最大量
 

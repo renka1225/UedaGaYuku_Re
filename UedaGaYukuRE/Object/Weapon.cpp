@@ -1,6 +1,7 @@
 ﻿#include "DxLib.h"
 #include "DebugDraw.h"
 #include "LoadCsv.h"
+#include "EffectManager.h"
 #include "Stage.h"
 #include "Player.h"
 #include "Weapon.h"
@@ -11,8 +12,8 @@ namespace
 	const char* kTextHandleFileName = "data/ui/text/hirou.png";		// 画像ハンドルのパス名
 	const std::string kWeaponFileName = "data/model/weapon/";		// モデルのファイルパス名
 	constexpr int kPlayerHandFrameNum = 51;	// 武器をアタッチするフレーム番号
-	constexpr float kGroundHeight = 41.0f;  // 地面の高さ
-	const float kDispTextAdjY = 25.0f; // 拾うのテキスト調整位置
+	constexpr float kGroundHeight = 42.0f;  // 地面の高さ
+	const float kDispTextAdjY = 25.0f;		// 拾うのテキスト調整位置
 }
 
 Weapon::Weapon(std::shared_ptr<Player> pPlayer) :
@@ -124,7 +125,7 @@ void Weapon::Draw()
 	{
 		// 武器情報描画
 		//debug.DrawWeaponInfo(loc.name.c_str(), loc.tag.c_str(), loc.pos, loc.rot, loc.scale, loc.durability, dispY);
-		//dispY += 20;
+		dispY += 20;
 
 		if (loc.durability <= 0) continue;
 		
@@ -253,7 +254,6 @@ void Weapon::LoadLocationData()
 void Weapon::UpdateCol(auto& loc)
 {
 	// 向きをもとに当たり判定の位置を調整する
-	//MATRIX rotationMatrix = MMult(MMult(MGetRotX(loc.rot.x), MGetRotY(loc.rot.y)), MGetRotZ(loc.rot.z));
 	MATRIX rotationMatrix = MGetRotY(loc.rot.z);
 
 	// 当たり判定位置を更新

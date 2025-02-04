@@ -1,7 +1,7 @@
 キャラクターID,idle,walk,run,punch,kick,avoid,guard
 DEFAULT,25,8,5,5,4,6,5
 TUTO,20,8,5,5,3,8,10
-BOSS,10,8,5,20,15,5,3
+BOSS,10,8,5,20,15,10,3
 BOB,15,8,5,5,3,8,10
 SATO,15,8,5,5,3,8,10
 ABE,15,8,5,5,3,8,10

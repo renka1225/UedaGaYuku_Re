@@ -47,7 +47,7 @@ void EffectManager::Load()
 
 		try
 		{
-			data.effektHandle = LoadEffekseerEffect((kEffectFilePath + strvec[0] + ".efk").c_str());
+			data.effectHandle = LoadEffekseerEffect((kEffectFilePath + strvec[0] + ".efk").c_str());
 			data.adjPos.x = stof(strvec[1]);
 			data.adjPos.y = stof(strvec[2]);
 			data.adjPos.z = stof(strvec[3]);
@@ -125,7 +125,7 @@ void EffectManager::Update()
 			if (data.isLoop)
 			{
 				data.elapsedTime = 0;
-				data.playingHandle = PlayEffekseer3DEffect(data.effektHandle);
+				data.playingHandle = PlayEffekseer3DEffect(data.effectHandle);
 			}
 			else
 			{
@@ -164,7 +164,7 @@ void EffectManager::Add(const std::string& name, const VECTOR& pos, float adjust
 
 		data.elapsedTime = 0;
 		data.isPlaying = true;
-		data.playingHandle = PlayEffekseer3DEffect(data.effektHandle);
+		data.playingHandle = PlayEffekseer3DEffect(data.effectHandle);
 
 		if (name == EffectName::kItemDrop)
 		{

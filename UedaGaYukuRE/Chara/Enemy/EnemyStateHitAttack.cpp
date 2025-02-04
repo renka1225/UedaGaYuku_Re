@@ -15,7 +15,7 @@ void EnemyStateHitAttack::Update(Stage& pStage, Player& pPlayer)
 
 	m_animEndTime--;
 
-	// 硬直フレーム時に無敵状態を解除する
+	// 無敵状態を解除する
 	if (m_animEndTime <= 0.0f)
 	{
 		m_pEnemy->SetIsOnDamage(false);

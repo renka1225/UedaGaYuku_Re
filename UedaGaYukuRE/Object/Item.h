@@ -77,6 +77,11 @@ public:
 	void SetDropItem(int itemType, VECTOR enemyPos);
 
 	/// <summary>
+	/// ドロップアイテムを削除する
+	/// </summary>
+	void DeleteDropItem();
+
+	/// <summary>
 	/// プレイヤーとの当たり判定をチェックする
 	/// </summary>
 	/// <param name="pPlayer">プレイヤー参照</param>

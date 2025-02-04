@@ -138,7 +138,7 @@ void EnemyStateBase::ChangeStateKick()
 {
 	std::shared_ptr<EnemyStateAttack> state = std::make_shared<EnemyStateAttack>(m_pEnemy);
 	m_nextState = state;
-	state->SetAttackKind(AnimName::kKick);
+	state->SetAttackKind(AnimName::kKickRound);
 	state->Init();
 }
 
@@ -162,6 +162,7 @@ void EnemyStateBase::ChangeStateAvoid()
 
 void EnemyStateBase::ChangeStateDamage(Player& pPlayer)
 {
+	// 無敵中は飛ばす
 	if (GetKind() == EnemyStateKind::kDamage) return;
 
 	// ガード中の場合

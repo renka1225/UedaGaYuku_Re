@@ -14,6 +14,7 @@ namespace EffectName
 	const std::string kGuard = "guard";
 	const std::string kItemDrop = "itemDrop";
 	const std::string kSpecialAttack = "specialAttack";
+	const std::string kWeapon = "weapon";
 }
 
 /// <summary>
@@ -25,7 +26,7 @@ public:
 	// エフェクトの情報
 	struct EffectData
 	{
-		int effektHandle = -1;	// エフェクトのハンドル
+		int effectHandle = -1;	// エフェクトのハンドル
 		int playingHandle = -1;	// 再生中のハンドル
 		VECTOR pos = VGet(0.0f, 0.0f, 0.0f);	// 表示位置
 		VECTOR adjPos = VGet(0.0f, 0.0f, 0.0f);	// 表示位置の調整量
@@ -117,4 +118,5 @@ private:
 private:
 	std::map<std::string, EffectData> m_effectData; // エフェクトのデータ
 	std::vector<EffectData> m_effects; // エフェクトを複数管理する
+	std::map<std::string, EffectData> m_weaponEffects; // 武器のエフェクトを管理する
 };

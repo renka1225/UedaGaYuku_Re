@@ -14,6 +14,7 @@ void PlayerStateHitAttack::Update(const Input& input, const Camera& camera, Stag
 	m_pPlayer->Move(m_moveVec, stage, false);   // 移動情報を反映する
 
 	m_animEndTime--;
+
 	if (m_animEndTime < 0.0f)
 	{
 		// StateをIdleに変更する

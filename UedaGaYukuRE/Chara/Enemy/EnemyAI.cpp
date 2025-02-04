@@ -17,7 +17,7 @@ namespace
 	};
 	const std::string kDefaultId = "DEFAULT";	// デフォルトID
 
-	constexpr float kMinApproachRange = 30.0f;	// プレイヤーに近づく最小範囲
+	constexpr float kMinApproachRange = 20.0f;	// プレイヤーに近づく最小範囲
 	constexpr float kMinChaseRange = 200.0f;	// プレイヤーを追いかける最小範囲
 	constexpr float kMaxChaseRange = 800.0f;	// プレイヤーを追いかける最大範囲
 	constexpr int kDecisionFrame = 10;			// 行動を更新する時間
@@ -103,10 +103,6 @@ void EnemyAI::DecideNextAction(Player& pPlayer)
 		{
 			m_prevState = m_nextState;
 			m_nextState = pair.first;
-
-#ifdef _DEBUG
-			printfDx("次行動:%d\n", m_nextState);
-#endif
 			break;
 		}
 	}
@@ -195,7 +191,7 @@ void EnemyAI::DecideBattlePriority(Player& pPlayer)
 			attackEnemyNum++;
 		}
 #ifdef _DEBUG
-		printfDx("攻撃中敵数:%d\n", attackEnemyNum);
+		//printfDx("攻撃中敵数:%d\n", attackEnemyNum);
 #endif
 	}
 

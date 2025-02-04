@@ -92,6 +92,7 @@ void Item::Draw()
 		MV1DrawModel(m_modelHandle[item.itemType]);
 
 #ifdef _DEBUG
+		// 当たり判定表示
 		DebugDraw debug;
 		for (auto& item : m_dropItem)
 		{
@@ -105,6 +106,15 @@ void Item::SetDropItem(int itemType, VECTOR enemyPos)
 {
 	EffectManager::GetInstance().Add(EffectName::kItemDrop, enemyPos);
 	m_dropItem.push_back({ itemType, enemyPos });
+}
+
+void Item::DeleteDropItem()
+{
+	for (auto it = m_dropItem.begin(); it != m_dropItem.end();)
+	{
+		EffectManager::GetInstance().StopItemEffect(EffectName::kItemDrop, it->pos);
+		it = m_dropItem.erase(it);
+	}
 }
 
 void Item::CheckPlayerCol(Player& pPlayer)
