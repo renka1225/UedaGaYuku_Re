@@ -8,7 +8,8 @@ BATTLE_1,Saionzi,Bobだな。\nあいつは、パンチが強い。
 BATTLE_2,Saionzi,Satoだな。\nあいつは、キックが強い。当たると結構なダメージになるぞ。
 BATTLE_3,Saionzi,Abeだな。\n
 DEADNUM,Saionzi,今%d人倒したぞ
-RECOVERY_OK,Saionzi,1000円で回復するぞ
+RECOVERY,Saionzi,1000円で回復するぞ
+RECOVERY_OK,Saionzi,よし、回復完了だ。
 RECOVERY_NG,Saionzi,金が足りないようだな
 RECOVERY_MAX,Saionzi,すでに元気そうだな
 GETITEM,Saionzi,2000円で1つやるよ
