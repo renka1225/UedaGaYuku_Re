@@ -80,6 +80,14 @@ void Camera::Update(Input& input, const Player& pPlayer, const Stage& pStage)
 	SetLightDirectionHandle(m_lightHandle, VNorm(VSub(m_target, m_pos)));
 }
 
+void Camera::BattleStart()
+{
+	m_angleH = kInitAngleH;
+	m_angleV = kInitAngleV;
+
+	SetCameraPositionAndTarget_UpVecY(m_pos, m_target);
+}
+
 void Camera::SetSpecialBattleInit()
 {
 	m_angleH = kInitAngleH;

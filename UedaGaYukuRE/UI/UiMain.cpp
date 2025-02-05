@@ -89,7 +89,7 @@ namespace
 		"data/ui/main/minimap.png",
 		"data/ui/main/icon_enemy.png",
 		"data/ui/main/icon_player.png",
-		"data/ui/main/hanasu.png",
+		"data/ui/text/hanasu.png",
 		"data/ui/main/operation_normal.png",
 		"data/ui/main/operation_battle.png",
 		"data/ui/battle/battleNow.png",
@@ -411,6 +411,15 @@ void UiMain::DrawBattleEnd(const Player& pPlayer, int time)
 		SetDrawBlendMode(DX_BLENDMODE_MULA, kMaxBlend);
 		DrawGraphF(kBattleEndBgPos.x, kBattleEndBgPos.y, m_handle[Handle::kBattle_end], true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+		// 撃破のテキスト表示
+		// テキストのサイズをだんだん小さくする
+		m_dispGekihaTextScale -= kGekihaTextChangeScale;
+		m_dispGekihaTextScale = std::max(kGekihaTextMinScale, m_dispGekihaTextScale);
+
+		int sizeW, sizeH;
+		GetGraphSize(m_handle[Handle::kBattle_gekiha], &sizeW, &sizeH);
+		DrawRectRotaGraphF(kGekihaTextPos.x, kGekihaTextPos.y, 0, 0, sizeW, sizeH, m_dispGekihaTextScale, 0.0f, m_handle[Handle::kBattle_gekiha], true);
 	}
 }
 

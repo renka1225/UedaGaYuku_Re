@@ -149,6 +149,12 @@ void SaveData::CreateNewData(int slot)
 	m_saveData.money = 0;
 	m_saveData.deadEnemyNum = 0;
 
+	/*強化段階をリセット*/
+	m_saveData.isEndTutorial = false;
+	m_saveData.enhanceStep.nowAtkUpStep = 0;
+	m_saveData.enhanceStep.nowGaugeUpStep = 0;
+	m_saveData.enhanceStep.nowHpUpStep = 0;
+
 	// アイテムデータを作成
 	m_saveData.possessItem.resize(kMaxPossession);
 	for (auto& item : m_saveData.possessItem)

@@ -14,11 +14,14 @@ namespace
     constexpr int kMinSpecialGauge = 3;       // 攻撃時に溜まるゲージ最小量
     constexpr int kMaxSpecialGauge = 10;      // 攻撃時に溜まるゲージ最大量
 
+    constexpr float kKickEndAddTime = 2;     // キックの攻撃終了時間を調節      
+
     /*コントローラー*/
-    constexpr int kVibrationPower = 1000;		// 振動の強さ
-    constexpr int kVibrationTime = 150;			// 振動させる時間
-    constexpr int kSpecialVibrationPower = 150;	// 必殺技時の振動の強さ
-    constexpr int kSpecialVibrationTime = 10;	// 必殺技時の振動させる時間
+    constexpr int kVibrationPower = 800;		    // 攻撃時の振動の強さ
+    constexpr int kWeaponVibrationPower = 900;		// 武器攻撃時の振動の強さ
+    constexpr int kVibrationTime = 150;			    // 振動させる時間
+    constexpr int kSpecialVibrationPower = 1000;	// 必殺技時の振動の強さ
+    constexpr int kSpecialVibrationTime = 200;	    // 必殺技時の振動させる時間
 }
 
 PlayerStateAttack::PlayerStateAttack(const std::shared_ptr<Player>& pPlayer):
@@ -34,6 +37,12 @@ void PlayerStateAttack::Init(std::string attackName)
 
     // 現在のアニメーション終了時間を取得する
     m_animEndTime = GetAnimEndTime();
+
+    // キックの場合のみ時間を調整する
+    if (m_attackKind == AnimName::kKick)
+    {
+        m_animEndTime += kKickEndAddTime;
+    }
 }
 
 void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::vector<std::shared_ptr<EnemyBase>> pEnemy)
@@ -42,7 +51,7 @@ void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& 
     m_pPlayer->Move(VGet(0.0f, 0.0f, 0.0f), stage);   // 移動情報を反映する
 
 	// 攻撃終了した場合
-    if (m_isAttackEnd)
+    if (m_isAttackEnd && m_animEndTime <= 0.0f)
     {
         weapon.SetIsHitAttack(false);
         for (auto& enemy : pEnemy)
@@ -83,7 +92,7 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             // 範囲内の敵全員にダメージ
             if (range > kSpecialRange) break;
 
-            VibrationPad(kVibrationPower, kVibrationTime); // パッド振動
+            VibrationPad(kSpecialVibrationPower, kSpecialVibrationTime); // パッド振動
 
             enemy->OnDamage(GetAttackPower());
             enemy->SetIsInvincible(true);  // 敵を無敵状態にする
@@ -98,7 +107,7 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             {
                 Sound::GetInstance().PlayBackSe(SoundName::kSe_attack);
 
-                VibrationPad(kVibrationPower, kVibrationTime); // パッド振動
+                VibrationPad(kWeaponVibrationPower, kVibrationTime); // パッド振動
 
                 enemy->OnDamage(GetAttackPower());
                 enemy->SetIsInvincible(true);  // 敵を無敵状態にする

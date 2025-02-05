@@ -66,14 +66,19 @@ public:
 	void Load();
 
 	/// <summary>
+	/// エフェクトを削除する
+	/// </summary>
+	void UnLoad();
+
+	/// <summary>
 	/// 画面上のエフェクトを削除する
 	/// </summary>
 	void Delete(const std::string& name);
 
 	/// <summary>
-	/// エフェクトを全削除する
+	/// エフェクトを全停止する
 	/// </summary>
-	void AllDelete();
+	void AllStop();
 
 	/// <summary>
 	/// 初期化

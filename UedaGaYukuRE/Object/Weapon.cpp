@@ -14,7 +14,7 @@ namespace
 	constexpr int kPlayerHandFrameNum = 51;	// 武器をアタッチするフレーム番号
 	constexpr float kGroundHeight = 42.0f;  // 地面の高さ
 	const float kDispTextAdjY = 25.0f;		// 拾うのテキスト調整位置
-	const float kDispEffectRange = 25.0f;	// エフェクトを表示する範囲
+	const float kDispEffectRange = 60.0f;	// エフェクトを表示する範囲
 }
 
 Weapon::Weapon(std::shared_ptr<Player> pPlayer) :
@@ -35,6 +35,7 @@ Weapon::~Weapon()
 	{
 		MV1DeleteModel(pair.second);
 	}
+	m_objHandle.clear();
 }
 
 void Weapon::Init()
@@ -275,8 +276,7 @@ void Weapon::LoadLocationData()
 		if (m_objHandle.find(loc.id) == m_objHandle.end())
 		{
 			std::string modelPath = kWeaponFileName + loc.name + ".mv1";
-			int modelHandle = MV1LoadModel(modelPath.c_str());
-			m_objHandle[loc.id] = modelHandle;
+			m_objHandle[loc.id] = MV1LoadModel(modelPath.c_str());
 		}
 	}
 }

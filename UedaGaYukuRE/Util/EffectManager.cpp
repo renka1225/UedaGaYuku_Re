@@ -66,6 +66,12 @@ void EffectManager::Load()
 	}
 }
 
+void EffectManager::UnLoad()
+{
+	m_effects.clear();
+	m_weaponEffects.clear();
+}
+
 void EffectManager::Delete(const std::string& name)
 {
 	auto it = m_effectData.find(name);
@@ -75,7 +81,7 @@ void EffectManager::Delete(const std::string& name)
 	}
 }
 
-void EffectManager::AllDelete()
+void EffectManager::AllStop()
 {
 	for (auto& data : m_effects)
 	{
@@ -95,10 +101,6 @@ void EffectManager::AllDelete()
 			data.isPlaying = false;
 		}
 	}
-
-	m_effectData.clear();
-	m_effects.clear();
-	m_weaponEffects.clear();
 }
 
 void EffectManager::Init()

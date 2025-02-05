@@ -58,10 +58,11 @@ void Load()
 /// <returns>正常に終了したか</returns>
 void EndGame()
 {
-	Sound::GetInstance().UnLoad(); // サウンドの解放
-	Font::UnLoad();				   // フォントの解放
-	Effkseer_End();				   // Effekseerの終了処理
-	DxLib_End();				   // Dxライブラリ使用の終了処理
+	Sound::GetInstance().UnLoad();			// サウンドの解放
+	Font::UnLoad();							// フォントの解放
+	EffectManager::GetInstance().UnLoad();	// エフェクトの解放
+	Effkseer_End();							// Effekseerの終了処理
+	DxLib_End();							// Dxライブラリ使用の終了処理
 }
 
 /// <summary>
@@ -88,6 +89,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	Load();		 // 読み込み処理
 	Input input; // 入力情報
+
+	EffectManager::GetInstance().Init(); // エフェクトの初期化
 
 	// SceneManagerを生成
 	std::shared_ptr<SceneManager> pScene = std::make_shared<SceneManager>();

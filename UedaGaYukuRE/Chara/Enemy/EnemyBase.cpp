@@ -76,6 +76,12 @@ void EnemyBase::Update(Stage& pStage, Player& pPlayer)
 		m_isPossibleMove = false;
 	}
 
+	// プレイヤーが必殺技を出している最中は動けない
+	if (pPlayer.GetCurrentAnim() == AnimName::kSpecialAtk1 || pPlayer.GetCurrentAnim() == AnimName::kSpecialAtk1)
+	{
+		m_isPossibleMove = false;
+	}
+
 	// AIの更新
 	m_pEnemyAI->Update();
 	m_pEnemyAI->DecideNextAction(pPlayer);

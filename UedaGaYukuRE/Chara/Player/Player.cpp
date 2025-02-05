@@ -256,7 +256,7 @@ int Player::FindNearEnemy(float range)
 
 void Player::UpdateMoney()
 {
-	if (m_addMoney <= 0) return;
+	if (m_addMoney == 0) return;
 	m_money += kMoneyIncrement;
 	m_money = std::min(m_money, m_beforeMoney + m_addMoney);
 }
@@ -436,7 +436,12 @@ void Player::ChangeTutorial(const Input& input)
 	// 心得表示
 	if (m_tutorial.isNowKnowledge)
 	{
+		m_isPossibleMove = false;
 		return;
+	}
+	else
+	{
+		m_isPossibleMove = true;
 	}
 
 	// 次のチュートリアルに切り替える
@@ -701,6 +706,8 @@ void Player::UpdateTuto0(const Input& input)
 	// 会話中
 	if (m_tutorial.isTalk)
 	{
+		m_isPossibleMove = false;
+
 		if (input.IsTriggered(InputId::kA))
 		{
 			// 次の会話に移行
@@ -738,10 +745,13 @@ void Player::UpdateTuto1(const Input& input)
 	// 心得表示
 	if (m_tutorial.isNowKnowledge)
 	{
+		m_isPossibleMove = false;
+
 		if (input.IsTriggered(InputId::kTuto))
 		{
 			m_tutorial.currentKnowledge++;
 			m_tutorial.isNowKnowledge = false;
+			m_isPossibleMove = true;
 		}
 		return;
 	}
@@ -824,10 +834,13 @@ void Player::UpdateTuto3(const Input& input)
 	// 心得表示
 	if (m_tutorial.isNowKnowledge)
 	{
+		m_isPossibleMove = false;
+
 		if (input.IsTriggered(InputId::kTuto))
 		{
 			m_tutorial.currentKnowledge++;
 			m_tutorial.isNowKnowledge = false;
+			m_isPossibleMove = true;
 		}
 		return;
 	}
@@ -887,7 +900,9 @@ void Player::UpdateTuto5(const Input& input)
 	// バトル終了
 	if (!m_isBattle && !m_tutorial.isNowKnowledge && !m_tutorial.isEndTutorial)
 	{
+		m_isPossibleMove = false;
 		m_tutorial.isNowKnowledge = true;
+		m_isBattle = false;
 	}
 
 	// 心得表示
@@ -902,6 +917,7 @@ void Player::UpdateTuto5(const Input& input)
 			if (m_tutorial.currentKnowledge > kKnowledgeNum)
 			{
 				// チュートリアルを終了する
+				m_isBattle = false;
 				m_tutorial.isNowKnowledge = false;
 				m_tutorial.isEndTutorial = true;
 				m_isPossibleMove = true;
@@ -909,6 +925,4 @@ void Player::UpdateTuto5(const Input& input)
 		}
 		return;
 	}
-
-	// TODO:会話パートに入る
 }

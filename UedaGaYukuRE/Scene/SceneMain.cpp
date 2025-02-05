@@ -123,8 +123,8 @@ SceneMain::~SceneMain()
 	Sound::GetInstance().StopBgm(SoundName::kBgm_bossBattle);
 	Sound::GetInstance().StopBgm(SoundName::kBgm_battleEnd);
 
-	// エフェクトを削除する
-	EffectManager::GetInstance().AllDelete();
+	// 全エフェクトを停止する
+	EffectManager::GetInstance().AllStop();
 
 	m_pEnemy.clear();
 	for (auto& handle : m_handle)
@@ -240,8 +240,6 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 		UpdateBattle();	// 通常敵の場合
 	}
 	
-	EffectManager::GetInstance().Update(); 	// エフェクトの更新
-	UpdateSound();				// サウンド更新
 	CheckEventTrigger(input);	// イベントトリガーのチェック
 	UpdateTalk(input);			// 会話状態を更新
 
@@ -252,6 +250,9 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	m_pWeapon->Update(*m_pStage);
 	m_pCamera->Update(input, *m_pPlayer, *m_pStage);
 	m_pUiBar->Update();
+
+	EffectManager::GetInstance().Update(); 	// エフェクトの更新
+	UpdateSound();	// サウンド更新
 
 #ifdef _DEBUG // デバックコマンド
 	if (input.IsTriggered(InputId::kDebugClear))
@@ -484,6 +485,13 @@ void SceneMain::InitAfterLoading()
 
 void SceneMain::UpdateTutorial(const Input& input)
 {
+	// チュートリアルを終了する
+	if (m_pPlayer->GetTutoInfo().isEndTutorial)
+	{
+		m_isTutorial = false;
+		return;
+	}
+
 	// チュートリアル状態にする
 	m_pPlayer->UpdateTutorial(input, *m_pEnemy[0]);
 
@@ -498,13 +506,6 @@ void SceneMain::UpdateTutorial(const Input& input)
 		if (m_pPlayer->GetTutoInfo().isEndTutorial) return;
 
 		CreateTutoEnemy();
-	}
-
-	// チュートリアルを終了する
-	if (m_pPlayer->GetTutoInfo().isEndTutorial)
-	{
-		m_isTutorial = false;
-		return;
 	}
 
 	m_nowTalkId = kTutoTalkId + std::to_string(m_pPlayer->GetTutoInfo().talkNum);
@@ -609,6 +610,7 @@ void SceneMain::UpdateBattleStartStaging()
 	{
 		if (!m_isDispBattleStart)
 		{
+			//m_pCamera->BattleStart(); // カメラを敵の方に向ける
 			m_battleStartStagingTime = kBattleStartStagingTime;
 			m_isDispBattleStart = true;
 		}
@@ -898,20 +900,22 @@ void SceneMain::UpdateTutoEnemy()
 	// 特定の状態の場合、敵を消滅させる
 	if (IsExtinction(0))
 	{
-		m_pEnemy[0] = nullptr;
-
 		// バトル中の場合は、倒した敵数を増やす
 		if (m_pPlayer->GetIsBattle())
 		{
 			m_pPlayer->AddDeadEnemyNum();
 			m_currentEnemyNum--;
 		}
+
+		m_pEnemy[0] = nullptr;
 	}
 	else
 	{
 		// 更新
 		m_pEnemy[0]->Update(*m_pStage, *m_pPlayer);
 	}
+
+	m_pEnemy.erase(std::remove(m_pEnemy.begin(), m_pEnemy.end(), nullptr), m_pEnemy.end());
 }
 
 void SceneMain::UpdateBossEnemy()
@@ -949,6 +953,8 @@ void SceneMain::UpdateBossEnemy()
 		// 更新
 		m_pEnemy[0]->Update(*m_pStage, *m_pPlayer);
 	}
+
+	m_pEnemy.erase(std::remove(m_pEnemy.begin(), m_pEnemy.end(), nullptr), m_pEnemy.end());
 }
 
 void SceneMain::SelectEnemy()
@@ -1199,6 +1205,7 @@ void SceneMain::DecideChoice()
 				// ボス戦開始
 				m_nowTalkId = ConversationID::kBattleOk;
 				m_pItem->DeleteDropItem(); // ドロップアイテムを削除
+				EffectManager::GetInstance().AllStop(); // 全エフェクトを停止する
 				m_isLastBattle = true;
 				m_isLoading = true;
 				EndTalk();
@@ -1259,6 +1266,7 @@ void SceneMain::DecideChoice()
 				}
 
 				m_nowTalkId = ConversationID::kGetItemOk;
+				Sound::GetInstance().PlaySe(SoundName::kSe_getItem);
 				m_pPlayer->AddItem(GetRand(Item::ItemType::kItemKind));
 				m_pPlayer->AddDecreaseMoney(-kGetItemMoney);
 			}
@@ -1360,6 +1368,9 @@ void SceneMain::SetShadowMap()
 	SetShadowMapDrawArea(m_shadowMap, kShadowAreaMinPos, kShadowAreaMaxPos);
 	// シャドウマップが想定するライトの方向をセット
 	SetShadowMapLightDirection(m_shadowMap, kShadowDir);
+	
+	// 影色を調整
+	SetLightAmbColor(GetColorF(0.7f, 0.7f, 0.7f, 0.0f));
 }
 
 void SceneMain::DrawSetUpShadow()

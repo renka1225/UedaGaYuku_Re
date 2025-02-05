@@ -130,10 +130,10 @@ private:
 	void SetModelFramePos(auto& loc, MATRIX frameMatrix);
 
 protected:
-	std::vector<LocationData> m_locationData;	// 配置データ
-	std::shared_ptr<Player> m_pPlayer;			// プレイヤーのポインタ
-	std::unordered_map<std::string, int> m_objHandle; // 読み込むオブジェクトのハンドル
-	std::map<std::string, WeaponData> m_weaponData;	  // 武器のデータ
+	std::vector<LocationData> m_locationData;		// 配置データ
+	std::shared_ptr<Player> m_pPlayer;				// プレイヤーのポインタ
+	std::map<std::string, int> m_objHandle;			// 読み込むオブジェクトのハンドル
+	std::map<std::string, WeaponData> m_weaponData; // 武器のデータ
 	int m_loadLocationData;	// 読み込む配置データ
 	bool m_isHitAttack;		// 攻撃中に当たっているかどうか
 	int m_handle;			// 画像ハンドル

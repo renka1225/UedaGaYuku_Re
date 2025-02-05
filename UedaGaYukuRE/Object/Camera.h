@@ -35,6 +35,11 @@ public:
 	void Update(Input& input, const Player& pPlayer, const Stage& pStage);
 
 	/// <summary>
+	/// バトル開始時カメラ位置を更新する
+	/// </summary>
+	void BattleStart();
+
+	/// <summary>
 	/// 特殊バトルのカメラをセットする
 	/// </summary>
 	void SetSpecialBattleInit();
