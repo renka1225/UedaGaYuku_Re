@@ -14,7 +14,7 @@ namespace
     constexpr int kMinSpecialGauge = 3;       // 攻撃時に溜まるゲージ最小量
     constexpr int kMaxSpecialGauge = 10;      // 攻撃時に溜まるゲージ最大量
 
-    constexpr float kKickEndAddTime = 2;     // キックの攻撃終了時間を調節      
+    constexpr float kKickEndAddTime = 0;     // キックの攻撃終了時間を調節      
 
     /*コントローラー*/
     constexpr int kVibrationPower = 800;		    // 攻撃時の振動の強さ
