@@ -2,6 +2,7 @@
 #include "Vec2.h"
 #include "Game.h"
 #include "Input.h"
+#include "EffectManager.h"
 #include "Font.h"
 #include "Sound.h"
 #include "LoadCsv.h"
@@ -226,13 +227,13 @@ void SceneOption::UpdateWindowMode(Input& input)
 	if (input.IsTriggered(InputId::kLeft))
 	{
 		m_afterSelect = (m_afterSelect + 1) % SelectWindow::kSelectWinNum;
-		//PlaySoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kCursor)], DX_PLAYTYPE_BACK);
+		EffectManager::GetInstance().Init();
 	}
 	// 選択状態を1つ右にずらす
 	if (input.IsTriggered(InputId::kRight))
 	{
 		m_afterSelect = (m_afterSelect + (SelectWindow::kSelectWinNum - 1)) % SelectWindow::kSelectWinNum;
-		//PlaySoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kCursor)], DX_PLAYTYPE_BACK);
+		EffectManager::GetInstance().Init();
 	}
 
 	// 画面サイズを変更する

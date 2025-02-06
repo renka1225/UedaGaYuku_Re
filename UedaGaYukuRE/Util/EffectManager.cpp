@@ -105,7 +105,12 @@ void EffectManager::AllStop()
 
 void EffectManager::Init()
 {
-	Effekseer_InitDistortion();	// エフェクトの歪みを適用する
+	// フルスクリーンウィンドウの切り替えでリソースが消えるのを防ぐ
+	SetChangeScreenModeGraphicsSystemResetFlag(false);
+	// DXライブラリのデバイスロストした時のコールバックを設定する
+	Effekseer_SetGraphicsDeviceLostCallbackFunctions();
+	// エフェクトの歪みを適用する
+	Effekseer_InitDistortion();
 }
 
 void EffectManager::Update()

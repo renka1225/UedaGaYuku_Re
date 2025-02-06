@@ -362,6 +362,7 @@ void UiMain::DrawLoading()
 
 void UiMain::DrawBattleStart(int enemyIndex)
 {
+	m_dispGekihaTextScale = kGekihaTextMaxScale;
 	// 画像のサイズをだんだん小さくする
 	m_dispEnemyKindScale -= kDispBattleStartChangeScale;
 	m_dispEnemyKindScale = std::max(kDispBattleTextMinScale, m_dispEnemyKindScale);
