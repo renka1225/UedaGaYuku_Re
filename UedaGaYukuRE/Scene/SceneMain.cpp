@@ -1205,7 +1205,7 @@ void SceneMain::DecideChoice()
 				// ボス戦開始
 				m_nowTalkId = ConversationID::kBattleOk;
 				m_pItem->DeleteDropItem(); // ドロップアイテムを削除
-				EffectManager::GetInstance().AllStop(); // 全エフェクトを停止する
+				//EffectManager::GetInstance().AllStop(); // 全エフェクトを停止する
 				m_isLastBattle = true;
 				m_isLoading = true;
 				EndTalk();

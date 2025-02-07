@@ -61,4 +61,4 @@
   All 5843 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   コード生成が終了しました。
 EffekseerForDXLib_vs2019_x64.lib(EffekseerForDXLib.obj) : warning LNK4099: PDB '' が 'EffekseerForDXLib_vs2019_x64.lib(EffekseerForDXLib.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-  Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Release\UedaGaYukuRE.exe
+  Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\UedaGaYukuRE\x64\Release\UedaGaYukuRE.exe
