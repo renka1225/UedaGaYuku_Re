@@ -55,7 +55,7 @@ namespace
 	const VECTOR kCaseModelPos = VGet(0.0f, -45.0f, 0.0f);	// モデル位置
 	const VECTOR kCaseModelScale = VGet(0.8f, 0.8f, 0.8f);	// モデル拡大率
 	const VECTOR kCaseModelAngle = VGet(0.0f, 0.0f, 0.0f);	// モデル角度
-	const VECTOR kCameraPos = VGet(0.0f, 50.0f, -120.0f);	// カメラの位置
+	const VECTOR kCameraPos = VGet(0.0f, 50.0f, -180.0f);	// カメラの位置
 	const VECTOR kCameraTarget = VGet(0.0f, 0.0f, 0.0f);	// カメラの注視点
 
 }

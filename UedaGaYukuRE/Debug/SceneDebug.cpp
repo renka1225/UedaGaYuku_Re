@@ -61,8 +61,7 @@ std::shared_ptr<SceneBase> SceneDebug::Update(Input& input)
 		}
 		else if (m_select == SelectScene::kClear)
 		{
-			// MEMO:デバッグからクリアに遷移するとアクセス違反のエラーが出るためコメントアウト
-			//return std::make_shared<SceneClear>();
+			return std::make_shared<SceneClear>();
 		}
 		else if (m_select == SelectScene::kGameover)
 		{

@@ -19,9 +19,5 @@ void EnemyStateAvoid::Update(Stage& pStage, Player& pPlayer)
 		return;
 	}
 
-	// 背後に移動する
-	m_moveVec = VScale(m_pEnemy->GetDir(), -1.0f);
-	m_moveVec = VScale(VNorm(m_moveVec), m_pEnemy->GetStatus().avoidDist);
-	m_moveVec.y = 0.0f;
 	m_pEnemy->Move(m_moveVec, pStage, false);   // 移動情報を反映する
 }

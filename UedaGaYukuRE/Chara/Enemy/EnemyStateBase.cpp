@@ -58,7 +58,7 @@ void EnemyStateBase::Update(Stage& pStage, Player& pPlayer)
 	// 攻撃を受けた場合
 	if (m_pEnemy->GetIsOnDamage())
 	{	
-		ChangeStateDamage(pPlayer);
+		ChangeStateDamage(pStage, pPlayer);
 		return;
 	}
 
@@ -158,9 +158,14 @@ void EnemyStateBase::ChangeStateAvoid()
 	std::shared_ptr<EnemyStateAvoid> state = std::make_shared<EnemyStateAvoid>(m_pEnemy);
 	m_nextState = state;
 	state->Init();
+
+	// 背後に移動する
+	m_moveVec = VScale(m_pEnemy->GetDir(), -1.0f);
+	m_moveVec = VScale(VNorm(m_moveVec), m_pEnemy->GetStatus().avoidDist);
+	m_moveVec.y = 0.0f;
 }
 
-void EnemyStateBase::ChangeStateDamage(Player& pPlayer)
+void EnemyStateBase::ChangeStateDamage(Stage& pStage, Player& pPlayer)
 {
 	// 無敵中は飛ばす
 	if (GetKind() == EnemyStateKind::kDamage) return;

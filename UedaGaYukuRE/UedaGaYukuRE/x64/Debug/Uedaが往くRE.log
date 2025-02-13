@@ -1,65 +1,4 @@
-﻿  CharacterBase.cpp
-  PlayerStateAttack.cpp
-  PlayerStateBase.cpp
-  PlayerStateHitAttack.cpp
-  PlayerStateIdle.cpp
-  PlayerStateRun.cpp
-  PlayerStateWalk.cpp
-  EnemyBase.cpp
-  EnemyStateBase.cpp
-  EnemyStateIdle.cpp
-  EnemyStateAttack.cpp
-  EnemyStateDeath.cpp
-  EnemyStateHitAttack.cpp
-  EnemyStateAvoid.cpp
-  EnemyStateGuard.cpp
-  EnemyAI.cpp
-  EnemyStateMove.cpp
-  PlayerStateDeath.cpp
-  Npc.cpp
-  PlayerSelect.cpp
-  コードを生成中...
-  コンパイル中...
-  SceneGameover.cpp
-  SceneClear.cpp
-  UiConversation.cpp
-  UiMain.cpp
-  ConversionTime.cpp
-  EventData.cpp
-  Item.cpp
-  ObjectBase.cpp
-  PlayerStateGrab.cpp
-  PlayerStateAvoid.cpp
-  PlayerStateGuard.cpp
-  SaveData.cpp
-  SceneSave.cpp
-  SceneEnhance.cpp
-  SceneUseItem.cpp
-  SceneMenu.cpp
-  UiBar.cpp
-  EffectManager.cpp
-  Font.cpp
-  Sound.cpp
-  コードを生成中...
-  コンパイル中...
-  UiBase.cpp
-  LoadCsv.cpp
-  DebugDraw.cpp
-  SceneDebug.cpp
-  main.cpp
-  Player.cpp
-  SceneSelect.cpp
-  SceneOption.cpp
-  SceneTitle.cpp
-  SceneMain.cpp
-  Stage.cpp
-  Camera.cpp
-  SceneBase.cpp
-  SceneManager.cpp
-  Input.cpp
-  Weapon.cpp
-  コードを生成中...
-  LINK : 前回のインクリメンタル リンクで C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\UedaGaYukuRE\x64\Debug\UedaGaYukuRE.exe が見つからなかったか、ビルドされませんでした。フル リンクを行います。
+﻿  SceneClear.cpp
 EffekseerForDXLib_vs2019_x64_d.lib(EffekseerForDXLib.obj) : warning LNK4099: PDB '' が 'EffekseerForDXLib_vs2019_x64_d.lib(EffekseerForDXLib.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Effekseer_vs2019_x64_d.lib(Effekseer.Vector3D.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(Effekseer.Vector3D.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Effekseer_vs2019_x64_d.lib(Effekseer.Color.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(Effekseer.Color.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
@@ -140,4 +79,4 @@ EffekseerRendererDX11_vs2019_x64_d.lib(EffekseerMaterialCompilerDX11.obj) : warn
 Effekseer_vs2019_x64_d.lib(ModelLoader.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(ModelLoader.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Effekseer_vs2019_x64_d.lib(Effekseer.MaterialFile.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(Effekseer.MaterialFile.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Effekseer_vs2019_x64_d.lib(Effekseer.CompiledMaterial.obj) : warning LNK4099: PDB '' が 'Effekseer_vs2019_x64_d.lib(Effekseer.CompiledMaterial.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-  Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\UedaGaYukuRE\x64\Debug\UedaGaYukuRE.exe
+  Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_RE\UedaGaYukuRE\x64\Debug\UedaGaYukuRE.exe

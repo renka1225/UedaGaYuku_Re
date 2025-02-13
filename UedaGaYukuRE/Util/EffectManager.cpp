@@ -226,7 +226,6 @@ void EffectManager::AddWeaponEffect(const std::string id, const VECTOR& pos)
 	// すでに追加されている場合飛ばす
 	if (m_weaponEffects.find(id) != m_weaponEffects.end()) return;
 
-
 	auto it = m_effectData.find(EffectName::kWeapon);
 	if (it == m_effectData.end()) return;
 
