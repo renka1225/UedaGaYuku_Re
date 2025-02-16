@@ -454,6 +454,10 @@ void Player::ChangeTutorial(const Input& input)
 		{
 			m_tutorial.isNowKnowledge = true;
 		}
+		else
+		{
+			m_tutorial.isNowKnowledge = false;
+		}
 	}
 }
 

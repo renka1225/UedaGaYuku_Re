@@ -488,12 +488,10 @@ void SceneMain::UpdateTutorial(const Input& input)
 	// チュートリアルを終了する
 	if (m_pPlayer->GetTutoInfo().isEndTutorial)
 	{
+		m_pEnemy.clear();
 		m_isTutorial = false;
 		return;
 	}
-
-	// チュートリアル状態にする
-	m_pPlayer->UpdateTutorial(input, *m_pEnemy[0]);
 
 	bool isTalk = m_pPlayer->GetTutoInfo().isTalk;
 	bool isNowKnowledge = m_pPlayer->GetTutoInfo().isNowKnowledge;
@@ -510,6 +508,9 @@ void SceneMain::UpdateTutorial(const Input& input)
 
 	m_nowTalkId = kTutoTalkId + std::to_string(m_pPlayer->GetTutoInfo().talkNum);
 	m_pUiConversation->UpdateDispTalk(m_nowTalkId); // 会話表示を更新
+
+	// チュートリアル状態にする
+	m_pPlayer->UpdateTutorial(input, *m_pEnemy[0]);
 }
 
 void SceneMain::UpdateBattle()
@@ -900,22 +901,20 @@ void SceneMain::UpdateTutoEnemy()
 	// 特定の状態の場合、敵を消滅させる
 	if (IsExtinction(0))
 	{
-		// バトル中の場合は、倒した敵数を増やす
+		m_pEnemy[0] = nullptr;
+
+		// 倒した敵数を増やす
 		if (m_pPlayer->GetIsBattle())
 		{
 			m_pPlayer->AddDeadEnemyNum();
 			m_currentEnemyNum--;
 		}
-
-		m_pEnemy[0] = nullptr;
 	}
 	else
 	{
 		// 更新
 		m_pEnemy[0]->Update(*m_pStage, *m_pPlayer);
 	}
-
-	m_pEnemy.erase(std::remove(m_pEnemy.begin(), m_pEnemy.end(), nullptr), m_pEnemy.end());
 }
 
 void SceneMain::UpdateBossEnemy()

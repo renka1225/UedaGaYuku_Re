@@ -131,6 +131,9 @@ void EffectManager::Update()
 		if (!data.isPlaying)
 		{
 			it = m_effects.erase(it); // エフェクトを削除する
+#ifdef _DEBUG
+			printfDx("エフェクト削除\n");
+#endif // _DEBUG
 			continue;
 		}
 
@@ -170,7 +173,7 @@ void EffectManager::Update()
 		if (!data.isPlaying)
 		{
 			StopEffekseer3DEffect(data.playingHandle);
-			continue;
+			//continue;
 		}
 
 		data.elapsedTime++;
