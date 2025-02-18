@@ -1,0 +1,411 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\Scene">
+      <UniqueIdentifier>{47f80f34-2c35-4fe9-9da4-487df16989e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Scene">
+      <UniqueIdentifier>{293e1e88-86ba-4bd2-baab-72644f175486}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Util">
+      <UniqueIdentifier>{8593df31-9f92-4b97-8818-c81fcff0b6db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Util">
+      <UniqueIdentifier>{7ce83247-8897-42dd-8423-d72f966ca8d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Debug">
+      <UniqueIdentifier>{86816b1b-4b67-4196-a2cb-d7459adccddc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Debug">
+      <UniqueIdentifier>{02cd0dbc-d106-4729-8fba-3e7ac4183520}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Chara">
+      <UniqueIdentifier>{6ec99d4f-d8ce-4a95-8a30-5c4fc2dad223}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Chara\Player">
+      <UniqueIdentifier>{9b89826c-d58f-4100-a218-2972f0c840cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Chara\Enemy">
+      <UniqueIdentifier>{ffce7a40-d574-4db2-a606-69cbd55e8f4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Chara">
+      <UniqueIdentifier>{e45248d9-2f00-47e0-9ef6-15e6f820c367}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Chara\Player">
+      <UniqueIdentifier>{646be3cc-5e64-470f-a054-b18177e77848}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Chara\Enemy">
+      <UniqueIdentifier>{0a9aed9a-cefb-4b71-9b2d-20c5dab04855}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Object">
+      <UniqueIdentifier>{9ea54125-cf2b-4194-ab94-3ac9480aa158}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Object">
+      <UniqueIdentifier>{6b9e0a3d-98cd-4a24-8bad-6c22d9d26a5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\UI">
+      <UniqueIdentifier>{9e0cc558-5109-4d77-b04d-632e06cbc54b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\UI">
+      <UniqueIdentifier>{2dbe15b8-6525-444a-a506-ca6ab62f59e3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Scene\SceneManager.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\Input.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneBase.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\SceneDebug.cpp">
+      <Filter>ソース ファイル\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneMain.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneTitle.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneOption.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Player\Player.cpp">
+      <Filter>ソース ファイル\Chara\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Stage.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneSelect.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\DebugDraw.cpp">
+      <Filter>ソース ファイル\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\LoadCsv.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Camera.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Player\PlayerStateBase.cpp">
+      <Filter>ソース ファイル\Chara\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Player\PlayerStateIdle.cpp">
+      <Filter>ソース ファイル\Chara\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Player\PlayerStateRun.cpp">
+      <Filter>ソース ファイル\Chara\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Player\PlayerStateWalk.cpp">
+      <Filter>ソース ファイル\Chara\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\ObjectBase.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Enemy\EnemyBase.cpp">
+      <Filter>ソース ファイル\Chara\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Enemy\EnemyStateBase.cpp">
+      <Filter>ソース ファイル\Chara\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Enemy\EnemyStateIdle.cpp">
+      <Filter>ソース ファイル\Chara\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Player\PlayerStateAttack.cpp">
+      <Filter>ソース ファイル\Chara\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Player\PlayerStateHitAttack.cpp">
+      <Filter>ソース ファイル\Chara\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Enemy\EnemyStateAttack.cpp">
+      <Filter>ソース ファイル\Chara\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Enemy\EnemyStateHitAttack.cpp">
+      <Filter>ソース ファイル\Chara\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Enemy\EnemyStateDeath.cpp">
+      <Filter>ソース ファイル\Chara\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UiBase.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Weapon.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Player\PlayerStateGrab.cpp">
+      <Filter>ソース ファイル\Chara\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\CharacterBase.cpp">
+      <Filter>ソース ファイル\Chara</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Player\PlayerStateAvoid.cpp">
+      <Filter>ソース ファイル\Chara\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Player\PlayerStateGuard.cpp">
+      <Filter>ソース ファイル\Chara\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Enemy\EnemyStateGuard.cpp">
+      <Filter>ソース ファイル\Chara\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Enemy\EnemyStateAvoid.cpp">
+      <Filter>ソース ファイル\Chara\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\Sound.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneMenu.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UiBar.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Item.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneSave.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneEnhance.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneUseItem.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\EffectManager.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\Font.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\EventData.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\SaveData.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneGameover.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneClear.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Enemy\EnemyAI.cpp">
+      <Filter>ソース ファイル\Chara\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Enemy\EnemyStateMove.cpp">
+      <Filter>ソース ファイル\Chara\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Player\PlayerStateDeath.cpp">
+      <Filter>ソース ファイル\Chara\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Npc.cpp">
+      <Filter>ソース ファイル\Chara</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UiMain.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\ConversionTime.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UiConversation.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Player\PlayerSelect.cpp">
+      <Filter>ソース ファイル\Chara\Player</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Scene\SceneManager.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\Vec2.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\Game.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\Input.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneBase.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug\SceneDebug.h">
+      <Filter>ヘッダー ファイル\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneMain.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneTitle.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneOption.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\CharacterBase.h">
+      <Filter>ヘッダー ファイル\Chara</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneSelect.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player\Player.h">
+      <Filter>ヘッダー ファイル\Chara\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Stage.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug\DebugDraw.h">
+      <Filter>ヘッダー ファイル\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\LoadCsv.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Camera.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player\PlayerStateBase.h">
+      <Filter>ヘッダー ファイル\Chara\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player\PlayerStateIdle.h">
+      <Filter>ヘッダー ファイル\Chara\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player\PlayerStateRun.h">
+      <Filter>ヘッダー ファイル\Chara\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player\PlayerStateWalk.h">
+      <Filter>ヘッダー ファイル\Chara\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\ObjectBase.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Enemy\EnemyBase.h">
+      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Enemy\EnemyStateBase.h">
+      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Enemy\EnemyStateIdle.h">
+      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player\PlayerStateAttack.h">
+      <Filter>ヘッダー ファイル\Chara\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player\PlayerStateHitAttack.h">
+      <Filter>ヘッダー ファイル\Chara\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Enemy\EnemyStateAttack.h">
+      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Enemy\EnemyStateHitAttack.h">
+      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Enemy\EnemyStateDeath.h">
+      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UiBase.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Weapon.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player\PlayerStateGrab.h">
+      <Filter>ヘッダー ファイル\Chara\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\ModelFrameName.h">
+      <Filter>ヘッダー ファイル\Chara</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player\PlayerStateAvoid.h">
+      <Filter>ヘッダー ファイル\Chara\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player\PlayerStateGuard.h">
+      <Filter>ヘッダー ファイル\Chara\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Enemy\EnemyStateAvoid.h">
+      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Enemy\EnemyStateGuard.h">
+      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\Sound.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneMenu.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UiBar.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Item.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\EffectManager.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneEnhance.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneSave.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneUseItem.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\Font.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\EventData.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\SaveData.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneClear.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneGameover.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Enemy\EnemyAI.h">
+      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Enemy\EnemyStateMove.h">
+      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player\PlayerStateDeath.h">
+      <Filter>ヘッダー ファイル\Chara\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Npc.h">
+      <Filter>ヘッダー ファイル\Chara</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UiMain.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\ConversionTime.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UiConversation.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player\PlayerSelect.h">
+      <Filter>ヘッダー ファイル\Chara\Player</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
