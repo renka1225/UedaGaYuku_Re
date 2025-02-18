@@ -154,92 +154,33 @@ void SceneMain::Init()
 
 std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 {
-	// ロード中の場合
+	// ロード中
 	if (m_isLoading)
 	{
-		if (m_isLastBattle)
-		{
-			LoadingBeforeBattle();
-		}
-		else
-		{
-			Loading();
-		}
-		
-		m_pUiMain->UpdateLoading(input);
+		UpdateLoading(input);
 		return shared_from_this();
 	}
-
-	// エンディング中の場合
+	// エンディング中
 	if (m_isEnding && !m_isBattleEndStaging)
 	{
-		auto nextScene = UpdateEndingStaging();
-		if (nextScene != shared_from_this()) return nextScene;
+		UpdateEndingStaging();
 		return shared_from_this();
 	}
 
-	// メニューを開いたとき
-	if (input.IsTriggered(InputId::kMenu))
-	{
-		m_isPause = true;
-
-		// ガード中の場合、ガード状態を解除する
-		if (m_pPlayer->GetIsGuard())
-		{
-			m_pPlayer->Update(input, *m_pCamera, *m_pStage, *m_pWeapon, m_pEnemy);
-		}
-
-		// 移動中SEが再生されないようにする
-		Sound::GetInstance().StopSe(SoundName::kSe_walk);
-		Sound::GetInstance().StopSe(SoundName::kSe_run);
-
-		return std::make_shared<SceneMenu>(shared_from_this(), m_pPlayer, m_pCamera);
-	}
+	UpdateMenu(input); 	// メニュー表示
 
 	m_mainSceneTime++;
 
 	// チュートリアル中
-	if (m_isTutorial)
-	{
-		UpdateTutorial(input);
-	}
+	if (m_isTutorial) UpdateTutorial(input);
 
 	// ゲームオーバー
-	if (m_pPlayer->GetIsDead())
-	{
-		if (!m_isBattleEndStaging)
-		{
-			// バトル終了演出を行う
-			m_isBattleEndStaging = true;
-			m_battleEndStagingTime = kBattleEndStagingTime;
-
-			for (auto& enemy : m_pEnemy)
-			{
-				enemy->SetIsPossibleMove(false);
-			}
-
-			return shared_from_this();
-		}
-		
-		if (m_battleEndStagingTime <= 0)
-		{
-			return std::make_shared<SceneGameover>();
-		}
-	}
+	if (m_pPlayer->GetIsDead()) UpdateGameover();
 
 	// バトル中は会話できないようにする
 	if (m_pPlayer->GetIsBattle()) m_pPlayer->SetIsTalk(false);
 
-	// バトル更新
-	if (m_isLastBattle)
-	{
-		UpdateSpecialBattle(); // 特殊敵の場合
-	}
-	else
-	{
-		UpdateBattle();	// 通常敵の場合
-	}
-	
+	UpdateBattle();				// バトル更新
 	CheckEventTrigger(input);	// イベントトリガーのチェック
 	UpdateTalk(input);			// 会話状態を更新
 
@@ -254,25 +195,8 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	EffectManager::GetInstance().Update(); 	// エフェクトの更新
 	UpdateSound();	// サウンド更新
 
-#ifdef _DEBUG // デバックコマンド
-	if (input.IsTriggered(InputId::kDebugClear))
-	{
-		return std::make_shared<SceneClear>();
-	}
-	else if (input.IsTriggered(InputId::kDebugTutorial))
-	{
-		if (m_pPlayer->GetTutoInfo().isEndTutorial) return shared_from_this();
-		if (m_isTutorial) return shared_from_this();
-		CreateTutoEnemy();
-	}
-	else if (input.IsTriggered(InputId::kDebugEnding))
-	{
-		m_isEnding = true;
-	}
-	else if (input.IsTriggered(InputId::kDebugGameover))
-	{
-		return std::make_shared<SceneGameover>();
-	}
+#ifdef _DEBUG
+	DebugCommand(input); // デバックコマンド
 #endif
 
 	return shared_from_this();
@@ -414,6 +338,29 @@ void SceneMain::LoadModelHandle()
 	m_modelHandle[CharacterBase::CharaType::kNpc] = MV1LoadModel((kHandlePath + "npc.mv1").c_str());
 }
 
+#ifdef _DEBUG
+std::shared_ptr<SceneBase> SceneMain::DebugCommand(const Input& input)
+{
+	// クリア画面に遷移
+	if (input.IsTriggered(InputId::kDebugClear))
+	{
+		return std::make_shared<SceneClear>();
+	}
+	// エンディングに遷移
+	else if (input.IsTriggered(InputId::kDebugEnding))
+	{
+		m_isEnding = true;
+	}
+	// ゲームオーバー画面に遷移
+	else if (input.IsTriggered(InputId::kDebugGameover))
+	{
+		return std::make_shared<SceneGameover>();
+	}
+
+	return shared_from_this();
+}
+#endif
+
 void SceneMain::Loading()
 {
 	// 非同期読み込み数を確認
@@ -454,6 +401,22 @@ void SceneMain::LoadingBeforeBattle()
 	m_pPlayer->SetIsBattle(true);
 }
 
+std::shared_ptr<SceneBase> SceneMain::UpdateLoading(const Input& input)
+{
+	if (m_isLastBattle)
+	{
+		LoadingBeforeBattle();
+	}
+	else
+	{
+		Loading();
+	}
+
+	m_pUiMain->UpdateLoading(input);
+
+	return shared_from_this();
+}
+
 void SceneMain::InitAfterLoading()
 {
 	m_pUiBar = std::make_shared<UiBar>();
@@ -480,6 +443,51 @@ void SceneMain::InitAfterLoading()
 	if (!m_pPlayer->GetTutoInfo().isEndTutorial)
 	{
 		m_isTutorial = true;
+	}
+}
+
+std::shared_ptr<SceneBase> SceneMain::UpdateMenu(const Input& input)
+{
+	// メニューを開いたとき
+	if (input.IsTriggered(InputId::kMenu))
+	{
+		m_isPause = true;
+
+		// ガード中の場合、ガード状態を解除する
+		if (m_pPlayer->GetIsGuard())
+		{
+			m_pPlayer->Update(input, *m_pCamera, *m_pStage, *m_pWeapon, m_pEnemy);
+		}
+
+		// 移動中SEが再生されないようにする
+		Sound::GetInstance().StopSe(SoundName::kSe_walk);
+		Sound::GetInstance().StopSe(SoundName::kSe_run);
+
+		return std::make_shared<SceneMenu>(shared_from_this(), m_pPlayer, m_pCamera);
+	}
+
+	return shared_from_this();
+}
+
+std::shared_ptr<SceneBase> SceneMain::UpdateGameover()
+{
+	if (!m_isBattleEndStaging)
+	{
+		// バトル終了演出を行う
+		m_isBattleEndStaging = true;
+		m_battleEndStagingTime = kBattleEndStagingTime;
+
+		for (auto& enemy : m_pEnemy)
+		{
+			enemy->SetIsPossibleMove(false);
+		}
+
+		return shared_from_this();
+	}
+
+	if (m_battleEndStagingTime <= 0)
+	{
+		return std::make_shared<SceneGameover>();
 	}
 }
 
@@ -515,6 +523,13 @@ void SceneMain::UpdateTutorial(const Input& input)
 
 void SceneMain::UpdateBattle()
 {
+	// 特殊敵の場合
+	if (m_isLastBattle)
+	{
+		UpdateSpecialBattle();
+		return;
+	}
+
 	// 会話中は敵を更新しない
 	bool isTuto = m_pPlayer->GetTutoInfo().isNowKnowledge || m_pPlayer->GetTutoInfo().isTalk;
 	if (m_pPlayer->GetIsNowTalk() || isTuto) return;

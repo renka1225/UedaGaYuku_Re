@@ -7,12 +7,8 @@
       "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Scene\\SceneMain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Object\\Weapon.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Object\\Weapon.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyBase.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Chara\\Enemy\\EnemyBase.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyAI.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Chara\\Enemy\\EnemyAI.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Player\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -21,6 +17,14 @@
     {
       "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Scene\\SceneMain.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Scene\\SceneMain.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyBase.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Chara\\Enemy\\EnemyBase.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Object\\Weapon.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Object\\Weapon.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyStateBase.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -54,11 +58,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
+              "Title": "EnemyAI.cpp",
+              "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyAI.cpp",
+              "RelativeDocumentMoniker": "Chara\\Enemy\\EnemyAI.cpp",
+              "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyAI.cpp",
+              "RelativeToolTip": "Chara\\Enemy\\EnemyAI.cpp",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAAD4BAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-02-18T06:45:33.534Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "EnemyBase.cpp",
               "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyBase.cpp",
               "RelativeDocumentMoniker": "Chara\\Enemy\\EnemyBase.cpp",
@@ -71,7 +88,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "EnemyStateBase.h",
               "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyStateBase.h",
               "RelativeDocumentMoniker": "Chara\\Enemy\\EnemyStateBase.h",
@@ -83,7 +100,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "EnemyStateBase.cpp",
               "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyStateBase.cpp",
               "RelativeDocumentMoniker": "Chara\\Enemy\\EnemyStateBase.cpp",
@@ -95,7 +112,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "UiMain.h",
               "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\UI\\UiMain.h",
               "RelativeDocumentMoniker": "UI\\UiMain.h",
@@ -107,7 +124,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "UiMain.cpp",
               "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\UI\\UiMain.cpp",
               "RelativeDocumentMoniker": "UI\\UiMain.cpp",
@@ -119,7 +136,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Weapon.h",
               "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Object\\Weapon.h",
               "RelativeDocumentMoniker": "Object\\Weapon.h",
@@ -131,20 +148,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "Weapon.cpp",
               "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Object\\Weapon.cpp",
               "RelativeDocumentMoniker": "Object\\Weapon.cpp",
               "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Object\\Weapon.cpp",
               "RelativeToolTip": "Object\\Weapon.cpp",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAAADsAAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADsAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-02-04T05:05:15.304Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-04T05:05:15.304Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "Player.h",
               "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Player\\Player.h",
               "RelativeDocumentMoniker": "Chara\\Player\\Player.h",
@@ -156,27 +172,29 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "Player.cpp",
               "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Player\\Player.cpp",
               "RelativeDocumentMoniker": "Chara\\Player\\Player.cpp",
               "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Player\\Player.cpp",
               "RelativeToolTip": "Chara\\Player\\Player.cpp",
-              "ViewState": "AgIAAM4AAAAAAAAAAAAhwHkBAAAbAAAAAAAAAA==",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAAAIEAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-01-20T00:59:35.272Z"
+              "WhenOpened": "2025-01-20T00:59:35.272Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "SceneMain.h",
               "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Scene\\SceneMain.h",
               "RelativeDocumentMoniker": "Scene\\SceneMain.h",
               "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Scene\\SceneMain.h",
               "RelativeToolTip": "Scene\\SceneMain.h",
-              "ViewState": "AgIAAEYAAAAAAAAAAAAhwFgAAAAUAAAAAAAAAA==",
+              "ViewState": "AgIAADgAAAAAAAAAAAAlwE0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-01-20T00:59:35.273Z"
+              "WhenOpened": "2025-01-20T00:59:35.273Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -186,7 +204,7 @@
               "RelativeDocumentMoniker": "Scene\\SceneMain.cpp",
               "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Scene\\SceneMain.cpp",
               "RelativeToolTip": "Scene\\SceneMain.cpp",
-              "ViewState": "AgIAAGUBAAAAAAAAAAAAACMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAMoAAAAAAAAAAAAWwFsBAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-01-20T00:59:35.273Z",
               "EditorCaption": ""

@@ -67,6 +67,15 @@ public:
 	void LoadModelHandle();
 
 private:
+#ifdef _DEBUG
+	/// <summary>
+	/// デバッグ用コマンドの実行
+	/// </summary>
+	/// <param name="input">入力処理</param>
+	/// <returns>遷移後のシーン</returns>
+	std::shared_ptr<SceneBase> DebugCommand(const Input& input);
+#endif
+
 	/// <summary>
 	///	ローディング中の処理
 	/// </summary>
@@ -78,9 +87,29 @@ private:
 	void LoadingBeforeBattle();
 
 	/// <summary>
+	/// ローディング処理の更新
+	/// </summary>
+	/// <param name="input">入力処理</param>
+	/// <returns>遷移するシーン</returns>
+	std::shared_ptr<SceneBase> UpdateLoading(const Input& input);
+
+	/// <summary>
 	/// ローディング後の初期化
 	/// </summary>
 	void InitAfterLoading();
+
+	/// <summary>
+	/// メニューを開いた際の処理を更新
+	/// </summary>
+	/// <param name="input">入力処理</param>
+	/// <returns>遷移するシーン</returns>
+	std::shared_ptr<SceneBase> UpdateMenu(const Input& input);
+
+	/// <summary>
+	/// ゲームオーバーの処理を更新
+	/// </summary>
+	/// <returns>遷移するシーン</returns>
+	std::shared_ptr<SceneBase> UpdateGameover();
 
 	/// <summary>
 	/// チュートリアルの更新を行う
