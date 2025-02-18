@@ -325,11 +325,11 @@ void SceneMain::Draw()
 	m_pUiMain->DrawMaxItem();
 
 	// チュートリアルが終わったかどうか
-	bool isEndTuto = m_pPlayer->GetTutoInfo().isEndTutorial || m_pPlayer->GetTutoInfo().currentNum >= Player::TutorialNum::kTuto_3;
+	bool isTuto = !m_pPlayer->GetTutoInfo().isEndTutorial && m_pPlayer->GetTutoInfo().currentNum <= Player::TutorialNum::kTuto_2;
 	// 必殺技中かどうか
 	bool isSpecial = m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk1 || m_pPlayer->GetCurrentAnim() == AnimName::kSpecialAtk2;
 	// 特定の状態中のみ表示する
-	if (!m_isBattleEndStaging || isEndTuto && isSpecial)
+	if (!m_isBattleEndStaging || !isTuto && isSpecial)
 	{
 		m_pWeapon->DrawWeaponUi(); // 武器UI表示
 	}
