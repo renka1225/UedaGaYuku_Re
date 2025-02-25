@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "Npc.h"
 #include "EnemyBase.h"
+#include "EnemySpecial.h"
 #include "EnemyAI.h"
 #include "ObjectBase.h"
 #include "Weapon.h"
@@ -50,6 +51,7 @@ namespace
 
 	constexpr int kEnemyMaxNum = 3;		// 1度に出現する最大の敵数
 	constexpr int kEnemyKindNum = 3;	// 敵の種類
+	constexpr int kEnemySpecialNum = 3;	// 特殊敵の数
 	constexpr int kEnemyNamekind = 31;	// 敵名の種類
 	constexpr int kClearEnemyNum = 1;	// クリア条件
 
@@ -108,6 +110,7 @@ SceneMain::SceneMain() :
 
 	m_modelHandle.resize(CharacterBase::CharaType::kCharaNum);
 	m_pEnemy.resize(kEnemyKindNum);
+	m_pEnemySpecial.resize(kEnemySpecialNum);
 
 	m_pUiMain = std::make_shared<UiMain>();
 	m_choiceSelect = Choice::kYes;
@@ -427,6 +430,11 @@ void SceneMain::InitAfterLoading()
 	m_pCamera = std::make_shared<Camera>();
 	m_pStage = std::make_shared<Stage>(m_pPlayer);
 	m_pEventData = std::make_shared<EventData>();
+
+	for (auto& enemy : m_pEnemySpecial)
+	{
+		enemy = std::make_shared<EnemySpecial>(m_pPlayer, m_pUiBar);
+	}
 
 	SetShadowMap();	// シャドウマップをセットする
 	SelectEnemy();	// 敵の種類を決める

@@ -9,6 +9,7 @@ class UiMain;
 class UiBar;
 class UiConversation;
 class EnemyBase;
+class EnemySpecial;
 class Player;
 class Npc;
 class Weapon;
@@ -270,7 +271,8 @@ private:
 	void DrawSetUpShadow();
 
 private:
-	std::vector<std::shared_ptr<EnemyBase>> m_pEnemy;	// 敵のポインタ
+	std::vector<std::shared_ptr<EnemyBase>> m_pEnemy;			// 敵のポインタ
+	std::vector<std::shared_ptr<EnemySpecial>> m_pEnemySpecial;	// 特殊敵のポインタ
 	std::shared_ptr<Player> m_pPlayer;					// プレイヤーのポインタ
 	std::shared_ptr<Npc> m_pNpc;						// NPCのポインタ
 	std::shared_ptr<Weapon> m_pWeapon;					// 武器のポインタ

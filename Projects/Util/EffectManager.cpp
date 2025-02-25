@@ -133,7 +133,7 @@ void EffectManager::Update()
 			it = m_effects.erase(it); // エフェクトを削除する
 #ifdef _DEBUG
 			printfDx("エフェクト削除\n");
-#endif // _DEBUG
+#endif
 			continue;
 		}
 

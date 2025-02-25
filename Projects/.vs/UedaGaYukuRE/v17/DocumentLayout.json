@@ -3,22 +3,6 @@
   "WorkspaceRootPath": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Player\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Chara\\Player\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyAI.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Chara\\Enemy\\EnemyAI.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyStateBase.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Chara\\Enemy\\EnemyStateBase.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyStateBase.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Chara\\Enemy\\EnemyStateBase.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Scene\\SceneMain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Scene\\SceneMain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -27,24 +11,44 @@
       "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Scene\\SceneMain.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyStateBase.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Chara\\Enemy\\EnemyStateBase.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemySpecial.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Chara\\Enemy\\EnemySpecial.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyStateBase.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Chara\\Enemy\\EnemyStateBase.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Player\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Chara\\Player\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyBase.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Chara\\Enemy\\EnemyBase.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Object\\Weapon.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Object\\Weapon.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemySpecial.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Chara\\Enemy\\EnemySpecial.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\UI\\UiMain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:UI\\UiMain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyBase.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Chara\\Enemy\\EnemyBase.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\UI\\UiMain.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:UI\\UiMain.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Util\\EffectManager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Util\\EffectManager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Object\\Weapon.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Object\\Weapon.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Npc.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Chara\\Npc.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Util\\EffectManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|solutionrelative:Util\\EffectManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DD6C6F56-8014-419E-9B57-0A8391421CC0}|Ueda\u304C\u5F80\u304FRE.vcxproj|C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Player\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -58,19 +62,45 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 12,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "EnemyAI.cpp",
-              "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyAI.cpp",
-              "RelativeDocumentMoniker": "Chara\\Enemy\\EnemyAI.cpp",
-              "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyAI.cpp",
-              "RelativeToolTip": "Chara\\Enemy\\EnemyAI.cpp",
-              "ViewState": "AgIAAGYAAAAAAAAAAAAAAD4BAAABAAAAAAAAAA==",
+              "DocumentIndex": 7,
+              "Title": "EnemySpecial.h",
+              "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemySpecial.h",
+              "RelativeDocumentMoniker": "Chara\\Enemy\\EnemySpecial.h",
+              "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemySpecial.h",
+              "RelativeToolTip": "Chara\\Enemy\\EnemySpecial.h",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAACgAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-02-25T05:35:05.247Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "EnemySpecial.cpp",
+              "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemySpecial.cpp",
+              "RelativeDocumentMoniker": "Chara\\Enemy\\EnemySpecial.cpp",
+              "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemySpecial.cpp",
+              "RelativeToolTip": "Chara\\Enemy\\EnemySpecial.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-02-18T06:45:33.534Z",
+              "WhenOpened": "2025-02-25T05:36:48.985Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "EnemyBase.h",
+              "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyBase.h",
+              "RelativeDocumentMoniker": "Chara\\Enemy\\EnemyBase.h",
+              "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyBase.h",
+              "RelativeToolTip": "Chara\\Enemy\\EnemyBase.h",
+              "ViewState": "AgIAADYAAAAAAAAAAAAAAEcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-02-25T05:07:58.591Z",
               "EditorCaption": ""
             },
             {
@@ -81,88 +111,79 @@
               "RelativeDocumentMoniker": "Chara\\Enemy\\EnemyBase.cpp",
               "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyBase.cpp",
               "RelativeToolTip": "Chara\\Enemy\\EnemyBase.cpp",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAAAB0AAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAN4AAAAAAAAAAAAAAOcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-02-18T00:32:25.678Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 10,
+              "Title": "Npc.cpp",
+              "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Npc.cpp",
+              "RelativeDocumentMoniker": "Chara\\Npc.cpp",
+              "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Npc.cpp",
+              "RelativeToolTip": "Chara\\Npc.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-02-25T05:15:08.924Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "EffectManager.h",
+              "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Util\\EffectManager.h",
+              "RelativeDocumentMoniker": "Util\\EffectManager.h",
+              "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Util\\EffectManager.h",
+              "RelativeToolTip": "Util\\EffectManager.h",
+              "ViewState": "AgIAAF0AAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-02-25T01:12:04.754Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "EffectManager.cpp",
+              "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Util\\EffectManager.cpp",
+              "RelativeDocumentMoniker": "Util\\EffectManager.cpp",
+              "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Util\\EffectManager.cpp",
+              "RelativeToolTip": "Util\\EffectManager.cpp",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAIcAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-02-25T01:12:05.9Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "EnemyStateBase.h",
               "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyStateBase.h",
               "RelativeDocumentMoniker": "Chara\\Enemy\\EnemyStateBase.h",
               "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyStateBase.h",
               "RelativeToolTip": "Chara\\Enemy\\EnemyStateBase.h",
-              "ViewState": "AgIAAFQAAAAAAAAAAADwv24AAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAAFoAAAAAAAAAAADwv0EAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-02-07T00:35:11.845Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "EnemyStateBase.cpp",
               "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyStateBase.cpp",
               "RelativeDocumentMoniker": "Chara\\Enemy\\EnemyStateBase.cpp",
               "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Enemy\\EnemyStateBase.cpp",
               "RelativeToolTip": "Chara\\Enemy\\EnemyStateBase.cpp",
-              "ViewState": "AgIAAEAAAAAAAAAAAAD4v1sAAAACAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEYAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-02-07T00:31:40.63Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "UiMain.h",
-              "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\UI\\UiMain.h",
-              "RelativeDocumentMoniker": "UI\\UiMain.h",
-              "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\UI\\UiMain.h",
-              "RelativeToolTip": "UI\\UiMain.h",
-              "ViewState": "AgIAAJwAAAAAAAAAAAAAALQAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-02-05T14:53:01.037Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "UiMain.cpp",
-              "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\UI\\UiMain.cpp",
-              "RelativeDocumentMoniker": "UI\\UiMain.cpp",
-              "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\UI\\UiMain.cpp",
-              "RelativeToolTip": "UI\\UiMain.cpp",
-              "ViewState": "AgIAAFIBAAAAAAAAAAAhwGwBAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-02-05T14:52:05.678Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Weapon.h",
-              "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Object\\Weapon.h",
-              "RelativeDocumentMoniker": "Object\\Weapon.h",
-              "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Object\\Weapon.h",
-              "RelativeToolTip": "Object\\Weapon.h",
-              "ViewState": "AgIAAHEAAAAAAAAAAAAhwIQAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-02-04T10:42:53.256Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Weapon.cpp",
-              "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Object\\Weapon.cpp",
-              "RelativeDocumentMoniker": "Object\\Weapon.cpp",
-              "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Object\\Weapon.cpp",
-              "RelativeToolTip": "Object\\Weapon.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADsAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-02-04T05:05:15.304Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "Player.h",
               "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Player\\Player.h",
               "RelativeDocumentMoniker": "Chara\\Player\\Player.h",
@@ -174,39 +195,39 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "Player.cpp",
               "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Player\\Player.cpp",
               "RelativeDocumentMoniker": "Chara\\Player\\Player.cpp",
               "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Chara\\Player\\Player.cpp",
               "RelativeToolTip": "Chara\\Player\\Player.cpp",
-              "ViewState": "AgIAAGAAAAAAAAAAAAAAAH0AAAAXAAAAAAAAAA==",
+              "ViewState": "AgIAAMYAAAAAAAAAAAAAAH0AAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-01-20T00:59:35.272Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
               "Title": "SceneMain.h",
               "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Scene\\SceneMain.h",
               "RelativeDocumentMoniker": "Scene\\SceneMain.h",
               "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Scene\\SceneMain.h",
               "RelativeToolTip": "Scene\\SceneMain.h",
-              "ViewState": "AgIAADgAAAAAAAAAAAAlwE0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAA4BAAAAAAAAAAAAAAsAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-01-20T00:59:35.273Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "SceneMain.cpp",
               "DocumentMoniker": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Scene\\SceneMain.cpp",
               "RelativeDocumentMoniker": "Scene\\SceneMain.cpp",
               "ToolTip": "C:\\Users\\fko2347058\\Desktop\\ueda\\GitHub\\UedaGaYuku_Re\\Projects\\Scene\\SceneMain.cpp",
               "RelativeToolTip": "Scene\\SceneMain.cpp",
-              "ViewState": "AgIAAIgAAAAAAAAAAAAWwFgBAAAtAAAAAAAAAA==",
+              "ViewState": "AgIAAKMBAAAAAAAAAAAAAK4BAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-01-20T00:59:35.273Z",
               "EditorCaption": ""
