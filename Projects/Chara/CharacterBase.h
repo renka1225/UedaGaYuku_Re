@@ -291,6 +291,13 @@ public:
 	std::string GetCurrentAnim() const { return m_currenAnimName; }
 
 	/// <summary>
+	/// アニメーション情報を取得する
+	/// </summary>
+	/// <param name="animName">アニメーション名</param>
+	/// <returns>アニメーション情報</returns>
+	AnimInfo GetAnimData(std::string animName) const;
+
+	/// <summary>
 	/// 当たり判定情報を取得
 	/// </summary>
 	/// <param name="charType">キャラクターの種類</param>

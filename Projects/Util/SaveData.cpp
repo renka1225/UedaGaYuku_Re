@@ -67,7 +67,11 @@ void SaveData::Load(int slot)
 		file.read((char*)&m_saveData.date.Sec, sizeof(m_saveData.date.Sec));
 		file.read((char*)&m_saveData.playTime, sizeof(m_saveData.playTime));
 
+		// 終了状態を読み込む
 		file.read((char*)&m_saveData.isEndTutorial, sizeof(m_saveData.isEndTutorial));
+		file.read((char*)&m_saveData.isDestoryBob, sizeof(m_saveData.isDestoryBob));
+		file.read((char*)&m_saveData.isDestorySato, sizeof(m_saveData.isDestorySato));
+		file.read((char*)&m_saveData.isDestoryAbe, sizeof(m_saveData.isDestoryAbe));
 		
 		file.close();
 	}
@@ -123,7 +127,11 @@ void SaveData::Write(int slot)
 		file.write((char*)&m_saveData.date.Sec, sizeof(m_saveData.date.Sec));
 		file.write((char*)&m_saveData.playTime, sizeof(m_saveData.playTime));
 
+		// 終了状態を書き込む
 		file.write((char*)&m_saveData.isEndTutorial, sizeof(m_saveData.isEndTutorial));
+		file.write((char*)&m_saveData.isDestoryBob, sizeof(m_saveData.isDestoryBob));
+		file.write((char*)&m_saveData.isDestorySato, sizeof(m_saveData.isDestorySato));
+		file.write((char*)&m_saveData.isDestoryAbe, sizeof(m_saveData.isDestoryAbe));
 
 		file.close();
 	}
@@ -173,6 +181,9 @@ void SaveData::CreateNewData(int slot)
 	m_saveData.playTime = 0;
 
 	m_saveData.isEndTutorial = false;
+	m_saveData.isDestoryBob = false;
+	m_saveData.isDestorySato = false;
+	m_saveData.isDestoryAbe = false;
 
 	Write(slot); // 初期データを保存する
 }
@@ -199,7 +210,11 @@ void SaveData::WriteData(const Player& pPlayer, const Camera& pCamera, int playT
 	SaveDateData();
 	m_saveData.playTime = playTime;
 
+	// 終了状態
 	m_saveData.isEndTutorial = pPlayer.GetTutoInfo().isEndTutorial;
+	m_saveData.isDestoryBob = pPlayer.GetDestroySpecialEnemy().isBob;
+	m_saveData.isDestorySato = pPlayer.GetDestroySpecialEnemy().isSato;
+	m_saveData.isDestoryAbe = pPlayer.GetDestroySpecialEnemy().isAbe;
 
 	Write(slot); // データを上書きする
 }

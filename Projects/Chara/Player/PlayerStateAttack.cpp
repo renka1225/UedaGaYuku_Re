@@ -14,8 +14,6 @@ namespace
     constexpr int kMinSpecialGauge = 3;       // 攻撃時に溜まるゲージ最小量
     constexpr int kMaxSpecialGauge = 10;      // 攻撃時に溜まるゲージ最大量
 
-    constexpr float kKickEndAddTime = 0;     // キックの攻撃終了時間を調節      
-
     /*コントローラー*/
     constexpr int kVibrationPower = 800;		    // 攻撃時の振動の強さ
     constexpr int kWeaponVibrationPower = 900;		// 武器攻撃時の振動の強さ
@@ -37,12 +35,6 @@ void PlayerStateAttack::Init(std::string attackName)
 
     // 現在のアニメーション終了時間を取得する
     m_animEndTime = GetAnimEndTime();
-
-    // キックの場合のみ時間を調整する
-    if (m_attackKind == AnimName::kKick)
-    {
-        m_animEndTime += kKickEndAddTime;
-    }
 }
 
 void PlayerStateAttack::Update(const Input& input, const Camera& camera, Stage& stage, Weapon& weapon, std::vector<std::shared_ptr<EnemyBase>> pEnemy)
@@ -97,6 +89,9 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             enemy->OnDamage(GetAttackPower());
             enemy->SetIsInvincible(true);  // 敵を無敵状態にする
         }
+
+        // 攻撃開始フレームより前の場合はスキップ
+        if (m_animEndTime <= m_pPlayer->GetAnimData(m_attackKind).startupFrame) return;
 
         // 武器攻撃の場合
         if (m_attackKind == AnimName::kOneHandWeapon)
@@ -193,6 +188,11 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
         // 攻撃を終了する
         m_isAttackEnd = true;
     }
+}
+
+void PlayerStateAttack::HitStop()
+{
+    m_pPlayer->SlowAnim();
 }
 
 float PlayerStateAttack::GetAnimEndTime()

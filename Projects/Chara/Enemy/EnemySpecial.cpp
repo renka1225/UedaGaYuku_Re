@@ -2,7 +2,7 @@
 
 namespace
 {
-	const VECTOR kBobSpwnPos = VGet(8994.0f, 45.0f, 2854.0f);  // Bobのスポーン位置
+	const VECTOR kBobSpwnPos = VGet(9500.0f, 45.0f, 2854.0f);  // Bobのスポーン位置
 	const VECTOR kSatoSpwnPos = VGet(8994.0f, 45.0f, 2854.0f); // Satoのスポーン位置
 	const VECTOR kAbeSpwnPos = VGet(8994.0f, 45.0f, 2854.0f);  // Abeのスポーン位置
 }

@@ -689,7 +689,9 @@ void Player::UpdateAngle()
 
 void Player::ApplySaveData()
 {
+	// セーブデータを取得
 	auto saveData = SaveData::GetInstance().GetSaveData();
+
 	m_pos = saveData.playerPos;
 	m_hp = saveData.hp;
 	m_gauge = saveData.gauge;
@@ -698,6 +700,9 @@ void Player::ApplySaveData()
 	m_possessItem = saveData.possessItem;
 	m_deadEnemyNum = saveData.deadEnemyNum;
 	m_tutorial.isEndTutorial = saveData.isEndTutorial;
+	m_destroySpecialEnemy.isBob = saveData.isDestoryBob;
+	m_destroySpecialEnemy.isSato = saveData.isDestorySato;
+	m_destroySpecialEnemy.isAbe = saveData.isDestoryAbe;
 
 	if (m_tutorial.isEndTutorial)
 	{

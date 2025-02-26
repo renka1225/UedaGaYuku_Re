@@ -368,3 +368,13 @@ int CharacterBase::GetAnimIndex(std::string animName)
 {
 	return MV1GetAnimIndex(m_modelHandle, ("Armature|" + animName).c_str());
 }
+
+CharacterBase::AnimInfo CharacterBase::GetAnimData(std::string animName) const
+{
+	auto it = m_animData.find(animName);
+	if (it != m_animData.end())
+	{
+		return it->second;
+	}
+	return AnimInfo();
+}

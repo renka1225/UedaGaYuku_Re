@@ -433,7 +433,7 @@ void SceneMain::InitAfterLoading()
 
 	for (auto& enemy : m_pEnemySpecial)
 	{
-		enemy = std::make_shared<EnemySpecial>(m_pPlayer, m_pUiBar);
+		enemy = std::make_shared<EnemySpecial>(m_pUi, m_pItem, *m_pPlayer);
 	}
 
 	SetShadowMap();	// シャドウマップをセットする

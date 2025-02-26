@@ -64,6 +64,11 @@ private:
 	void UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr<EnemyBase>> pEnemy);
 
 	/// <summary>
+	/// ヒットストップの処理
+	/// </summary>
+	void HitStop();
+
+	/// <summary>
 	/// アニメーションの終了時間を取得する
 	/// </summary>
 	float GetAnimEndTime();

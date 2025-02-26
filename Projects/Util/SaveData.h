@@ -36,6 +36,9 @@ private:
 		int playTime = 0;	// プレイ時間
 
 		bool isEndTutorial = false;	// チュートリアル終了済みか(true:終了済み)
+		bool isDestoryBob = false;	// Bob撃破状態
+		bool isDestorySato = false;	// Sato撃破状態
+		bool isDestoryAbe = false;	// Abe撃破状態
 	};
 
 public:

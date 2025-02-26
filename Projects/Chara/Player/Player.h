@@ -25,6 +25,18 @@ private:
 	};
 
 public:
+	// チュートリアル数
+	enum TutorialNum
+	{
+		kTuto_0,
+		kTuto_1,
+		kTuto_2,
+		kTuto_3,
+		kTuto_4,
+		kTuto_5,
+		kTutoNum
+	};
+
 	// チュートリアル情報
 	struct TutorialInfo
 	{
@@ -55,24 +67,20 @@ public:
 		bool isEndTutorial = false;	// チュートリアルが終了したか
 	};
 
-	// チュートリアル数
-	enum TutorialNum
-	{
-		kTuto_0,
-		kTuto_1,
-		kTuto_2,
-		kTuto_3,
-		kTuto_4,
-		kTuto_5,
-		kTutoNum
-	};
-
 	// 現在の強化段階
 	struct EnhanceStep
 	{
 		int nowHpUpStep = 0;	// 最大HP強化段階
 		int nowGaugeUpStep = 0;	// ゲージ量強化段階
 		int nowAtkUpStep = 0;	// 攻撃力強化段階
+	};
+
+	// 特殊敵の撃破状態
+	struct DestroySpecialEnemy
+	{
+		bool isBob = false;	 // Bob撃破状態
+		bool isSato = false; // Sato撃破状態
+		bool isAbe = false;	 // Abe撃破状態
 	};
 
 public:
@@ -292,6 +300,12 @@ public:
 	EnhanceStep GetEnhanceStep() const { return m_enhanceStep; }
 
 	/// <summary>
+	/// 特殊敵の撃破状態を取得する
+	/// </summary>
+	/// <returns>特殊敵の撃破状態</returns>
+	DestroySpecialEnemy GetDestroySpecialEnemy() const { return m_destroySpecialEnemy; }
+
+	/// <summary>
 	/// 倒した敵数を取得する
 	/// </summary>
 	/// <returns>倒した敵数</returns>
@@ -432,6 +446,7 @@ private:
 	Status m_saveStatus;					// ステータスを一時保存する
 	TutorialInfo m_tutorial;				// チュートリアルの情報
 	EnhanceStep m_enhanceStep;				// 現在の強化段階
+	DestroySpecialEnemy m_destroySpecialEnemy;	// 特殊敵の撃破状態
 
 	int m_deadEnemyNum;		 // 倒した敵数
 	int m_money;			 // 所持金額
