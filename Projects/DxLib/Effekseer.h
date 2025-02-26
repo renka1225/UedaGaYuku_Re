@@ -879,9 +879,7 @@ struct Gradient
 
 	float GetAlpha(float x) const;
 
-	Gradient():
-		Colors{},
-		Alphas{}
+	Gradient()
 	{
 		for (auto& c : Colors)
 		{

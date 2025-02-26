@@ -1,3 +1,41 @@
-﻿  SceneMain.cpp
-C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Projects\Scene\SceneMain.cpp(492,1): warning C4715: 'SceneMain::UpdateGameover': 値を返さないコントロール パスがあります。
-  Uedaが往くRE.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\UedaGaYuku_Re\Projects\x64\Debug\UedaGaYukuRE.exe
+﻿  EnemyAI.cpp
+  EnemyBase.cpp
+  EnemyStateAttack.cpp
+  EnemyStateBase.cpp
+  EnemyStateDeath.cpp
+  EnemyStateHitAttack.cpp
+  EnemyStateMove.cpp
+  Npc.cpp
+  Player.cpp
+  PlayerStateAttack.cpp
+  PlayerStateAvoid.cpp
+  PlayerStateBase.cpp
+  PlayerStateDeath.cpp
+  PlayerStateGrab.cpp
+  PlayerStateGuard.cpp
+  PlayerStateHitAttack.cpp
+  PlayerStateIdle.cpp
+  PlayerStateRun.cpp
+  PlayerStateWalk.cpp
+  SceneDebug.cpp
+  コードを生成中...
+  コンパイル中...
+  Camera.cpp
+  Item.cpp
+  Stage.cpp
+  Weapon.cpp
+  SceneBase.cpp
+  SceneEnhance.cpp
+  SceneMain.cpp
+  SceneMenu.cpp
+  SceneSave.cpp
+  SceneSelect.cpp
+  SceneUseItem.cpp
+  UiBar.cpp
+  UiBase.cpp
+  UiConversation.cpp
+  UiMain.cpp
+  EffectManager.cpp
+  SaveData.cpp
+  コードを生成中...
+  Uedaが往くRE.vcxproj -> C:\GitHub\UedaGaYuku_RE\Projects\x64\Debug\UedaGaYukuRE.exe

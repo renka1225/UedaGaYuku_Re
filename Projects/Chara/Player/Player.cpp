@@ -381,6 +381,7 @@ void Player::UpdateTutorial(const Input& input, EnemyBase& pEnemy)
 	if (m_tutorial.isEndTutorial) return;
 
 #ifdef _DEBUG // デバッグコマンド
+	// チュートリアルを1つ進める
 	if (input.IsTriggered(InputId::kDebugTutorial))
 	{
 		m_tutorial.currentNum++;
@@ -390,7 +391,14 @@ void Player::UpdateTutorial(const Input& input, EnemyBase& pEnemy)
 			m_isBattle = false;
 		}
 	}
-#endif // _DEBUG
+#endif
+
+	// チュートリアルを終了する
+	if (input.IsTriggered(InputId::kTutoEnd))
+	{
+		m_tutorial.currentNum = TutorialNum::kTutoNum;
+		EndTutorial();
+	}
 
 	// HPを回復し続ける
 	m_hp = std::min(m_hp, m_status.maxHp);
@@ -926,12 +934,17 @@ void Player::UpdateTuto5(const Input& input)
 			if (m_tutorial.currentKnowledge > kKnowledgeNum)
 			{
 				// チュートリアルを終了する
-				m_isBattle = false;
-				m_tutorial.isNowKnowledge = false;
-				m_tutorial.isEndTutorial = true;
-				m_isPossibleMove = true;
+				EndTutorial();
 			}
 		}
 		return;
 	}
+}
+
+void Player::EndTutorial()
+{
+	m_isBattle = false;
+	m_tutorial.isNowKnowledge = false;
+	m_tutorial.isEndTutorial = true;
+	m_isPossibleMove = true;
 }

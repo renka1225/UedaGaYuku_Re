@@ -128,6 +128,9 @@ Input::Input()
 	m_commandTable[InputId::kTuto] = { {InputType::keybd, KEY_INPUT_TAB},
 								{InputType::pad, PAD_INPUT_Z} };
 
+	m_commandTable[InputId::kTutoEnd] = { {InputType::keybd, KEY_INPUT_LSHIFT},
+							{InputType::pad, PAD_INPUT_L} };
+
 	/*攻撃*/
 	m_commandTable[InputId::kPunch] = { {InputType::keybd, KEY_INPUT_Z},
 								{InputType::pad, PAD_INPUT_C} };

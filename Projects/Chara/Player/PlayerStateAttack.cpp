@@ -90,9 +90,6 @@ void PlayerStateAttack::UpdateAttack(Weapon& weapon, std::vector<std::shared_ptr
             enemy->SetIsInvincible(true);  // 敵を無敵状態にする
         }
 
-        // 攻撃開始フレームより前の場合はスキップ
-        if (m_animEndTime <= m_pPlayer->GetAnimData(m_attackKind).startupFrame) return;
-
         // 武器攻撃の場合
         if (m_attackKind == AnimName::kOneHandWeapon)
         {

@@ -431,10 +431,10 @@ void SceneMain::InitAfterLoading()
 	m_pStage = std::make_shared<Stage>(m_pPlayer);
 	m_pEventData = std::make_shared<EventData>();
 
-	for (auto& enemy : m_pEnemySpecial)
-	{
-		enemy = std::make_shared<EnemySpecial>(m_pUi, m_pItem, *m_pPlayer);
-	}
+	//for (auto& enemy : m_pEnemySpecial)
+	//{
+	//	enemy = std::make_shared<EnemySpecial>(m_pUi, m_pItem, *m_pPlayer);
+	//}
 
 	SetShadowMap();	// シャドウマップをセットする
 	SelectEnemy();	// 敵の種類を決める
@@ -497,6 +497,8 @@ std::shared_ptr<SceneBase> SceneMain::UpdateGameover()
 	{
 		return std::make_shared<SceneGameover>();
 	}
+
+	return shared_from_this();
 }
 
 void SceneMain::UpdateTutorial(const Input& input)

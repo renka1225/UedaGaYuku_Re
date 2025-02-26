@@ -437,6 +437,11 @@ private:
 	/// <param name="input">入力情報</param>
 	void UpdateTuto5(const Input& input);
 
+	/// <summary>
+	/// チュートリアルを終了する
+	/// </summary>
+	void EndTutorial();
+
 private:
 	std::shared_ptr<PlayerStateBase> m_pState;	// stateパターン
 	std::shared_ptr<UiMain> m_pUiMain;		// メインシーンで使用するUIポインタ
