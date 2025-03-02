@@ -158,25 +158,16 @@ void SceneMain::Init()
 std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 {
 	// ロード中
-	if (m_isLoading)
-	{
-		UpdateLoading(input);
-		return shared_from_this();
-	}
+	if (m_isLoading) return UpdateLoading(input);
 	// エンディング中
-	if (m_isEnding && !m_isBattleEndStaging)
-	{
-		UpdateEndingStaging();
-		return shared_from_this();
-	}
-
-	UpdateMenu(input); 	// メニュー表示
+	if (m_isEnding && !m_isBattleEndStaging) return UpdateEndingStaging();
+	// メニュー表示
+	if (input.IsTriggered(InputId::kMenu)) return UpdateMenu(input);
 
 	m_mainSceneTime++;
 
 	// チュートリアル中
 	if (m_isTutorial) UpdateTutorial(input);
-
 	// ゲームオーバー
 	if (m_pPlayer->GetIsDead()) UpdateGameover();
 
@@ -456,25 +447,19 @@ void SceneMain::InitAfterLoading()
 
 std::shared_ptr<SceneBase> SceneMain::UpdateMenu(const Input& input)
 {
-	// メニューを開いたとき
-	if (input.IsTriggered(InputId::kMenu))
+	m_isPause = true;
+
+	// ガード中の場合、ガード状態を解除する
+	if (m_pPlayer->GetIsGuard())
 	{
-		m_isPause = true;
-
-		// ガード中の場合、ガード状態を解除する
-		if (m_pPlayer->GetIsGuard())
-		{
-			m_pPlayer->Update(input, *m_pCamera, *m_pStage, *m_pWeapon, m_pEnemy);
-		}
-
-		// 移動中SEが再生されないようにする
-		Sound::GetInstance().StopSe(SoundName::kSe_walk);
-		Sound::GetInstance().StopSe(SoundName::kSe_run);
-
-		return std::make_shared<SceneMenu>(shared_from_this(), m_pPlayer, m_pCamera);
+		m_pPlayer->Update(input, *m_pCamera, *m_pStage, *m_pWeapon, m_pEnemy);
 	}
 
-	return shared_from_this();
+	// 移動中SEが再生されないようにする
+	Sound::GetInstance().StopSe(SoundName::kSe_walk);
+	Sound::GetInstance().StopSe(SoundName::kSe_run);
+
+	return std::make_shared<SceneMenu>(shared_from_this(), m_pPlayer, m_pCamera);
 }
 
 std::shared_ptr<SceneBase> SceneMain::UpdateGameover()

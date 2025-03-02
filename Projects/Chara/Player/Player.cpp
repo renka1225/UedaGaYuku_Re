@@ -119,24 +119,7 @@ void Player::Update(const Input& input, const Camera& camera, Stage& stage, Weap
 		m_pState->m_nextState = m_pState;
 	}
 
-	// バトル中でない場合
-	if (!m_isBattle)
-	{
-		m_isNowGrabWeapon = false;
-		m_isOnDamage = false;
-	}
-	// バトル中の場合
-	else
-	{
-		m_isTalk = false;
-		m_isNowTalk = false;
-	}
-
-	// 会話中の場合
-	if (m_isNowTalk || m_tutorial.isNowKnowledge || m_tutorial.isTalk)
-	{
-		m_isPossibleMove = false;
-	}
+	UpdateFlag(); // フラグを更新
 
 	// 敵がいる場合のみ処理を行う
 	if (!pEnemy.empty())
@@ -715,6 +698,28 @@ void Player::ApplySaveData()
 	if (m_tutorial.isEndTutorial)
 	{
 		m_tutorial.isNowKnowledge = false;
+	}
+}
+
+void Player::UpdateFlag()
+{
+	// バトル中でない場合
+	if (!m_isBattle)
+	{
+		m_isNowGrabWeapon = false;
+		m_isOnDamage = false;
+	}
+	// バトル中の場合
+	else
+	{
+		m_isTalk = false;
+		m_isNowTalk = false;
+	}
+
+	// 会話中の場合
+	if (m_isNowTalk || m_tutorial.isNowKnowledge || m_tutorial.isTalk)
+	{
+		m_isPossibleMove = false;
 	}
 }
 

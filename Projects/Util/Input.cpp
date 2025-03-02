@@ -163,7 +163,7 @@ Input::Input()
 
 	/*デバッグ機能*/
 	m_commandTable[InputId::kDebugAddMoney] = { {InputType::keybd, KEY_INPUT_4},
-								{InputType::pad, PAD_INPUT_Z} };
+								{InputType::pad, PAD_INPUT_L} };
 	m_commandTable[InputId::kDebugDamage] = { {InputType::keybd, KEY_INPUT_SPACE},
 								{InputType::pad, PAD_INPUT_11} };
 	m_commandTable[InputId::kDebugSpawn] = { {InputType::keybd, KEY_INPUT_LSHIFT},

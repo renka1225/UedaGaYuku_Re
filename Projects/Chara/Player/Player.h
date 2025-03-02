@@ -359,6 +359,11 @@ private:
 	/// セーブデータの情報を適用する
 	/// </summary>
 	void ApplySaveData();
+	
+	/// <summary>
+	/// フラグの更新を行う
+	/// </summary>
+	void UpdateFlag();
 
 	/// <summary>
 	/// 敵の情報を更新する
