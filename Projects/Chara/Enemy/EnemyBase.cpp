@@ -58,7 +58,6 @@ void EnemyBase::Init()
 
 	m_pEnemyAI = std::make_shared<EnemyAI>(shared_from_this());
 	m_pEnemyAI->Init(m_enemyIndex);
-
 }
 
 void EnemyBase::Update(Stage& pStage, Player& pPlayer)
@@ -87,27 +86,7 @@ void EnemyBase::Update(Stage& pStage, Player& pPlayer)
 	m_pEnemyAI->Update();
 	m_pEnemyAI->DecideNextAction(pPlayer);
 
-	// stateを更新する
-	if (m_pState->GetKind() != m_pState->m_nextState->GetKind())
-	{
-		// stateを変更する
-		m_pState = m_pState->m_nextState;
-		m_pState->m_nextState = m_pState;
-	}
-	m_pState->Update(pStage, pPlayer);
-
-	m_eToPVec = VSub(pPlayer.GetPos(), m_pos);
-
-	// 当たり判定をチェックする
-	pPlayer.CheckCharaCol(*this, m_colData[m_enemyIndex], CharaType::kPlayer);
-
-	UpdateAngle();				// 向きを更新
-	UpdateAnim();				// アニメーションを更新
-	UpdateCol(m_enemyIndex);	// 当たり判定位置更新
-	UpdatePosLog();				// 位置ログを更新
-	GetFramePos();				// モデルフレーム位置を取得
-
-	m_pUiBar->Update(); // HPバーの更新
+	CommonUpdate(pStage, pPlayer);
 }
 
 void EnemyBase::Draw(Player& player)
@@ -240,6 +219,31 @@ void EnemyBase::RecoveryHp()
 void EnemyBase::RecoveryMaxHp()
 {
 	m_hp = std::max(m_hp, GetStatus().maxHp);
+}
+
+void EnemyBase::CommonUpdate(Stage& pStage, Player& pPlayer)
+{
+	// stateを更新する
+	if (m_pState->GetKind() != m_pState->m_nextState->GetKind())
+	{
+		// stateを変更する
+		m_pState = m_pState->m_nextState;
+		m_pState->m_nextState = m_pState;
+	}
+	m_pState->Update(pStage, pPlayer);
+
+	m_eToPVec = VSub(pPlayer.GetPos(), m_pos);
+
+	// 当たり判定をチェックする
+	pPlayer.CheckCharaCol(*this, m_colData[m_enemyIndex], CharaType::kPlayer);
+
+	UpdateAngle();				// 向きを更新
+	UpdateAnim();				// アニメーションを更新
+	UpdateCol(m_enemyIndex);	// 当たり判定位置更新
+	UpdatePosLog();				// 位置ログを更新
+	GetFramePos();				// モデルフレーム位置を取得
+
+	m_pUiBar->Update(); // HPバーの更新
 }
 
 void EnemyBase::GetFramePos()

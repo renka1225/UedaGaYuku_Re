@@ -38,16 +38,25 @@ namespace
 	/*敵名*/
 	const std::map<int, std::string> kEnemyName
 	{
-		{CharacterBase::CharaType::kEnemy_tuto, "Tanaka"},
 		{CharacterBase::CharaType::kEnemy_boss, "Ohara"},
+		{CharacterBase::CharaType::kEnemy_tuto, "Tanaka"},
 		{CharacterBase::CharaType::kEnemy_bob, "Bob"},
 		{CharacterBase::CharaType::kEnemy_sato, "Sato"},
 		{CharacterBase::CharaType::kEnemy_abe, "Abe"}
 	};
 
+	/*特殊敵のID*/
+	const std::map<int, std::string> kSpecialEnemyId
+	{
+		{CharacterBase::CharaType::kEnemy_bob, "enemy_bob"},
+		{CharacterBase::CharaType::kEnemy_sato, "enemy_sato"},
+		{CharacterBase::CharaType::kEnemy_abe, "enemy_abe"}
+	};
+
 	constexpr int kModelNum = 10;				// 読み込むモデルの数
 	constexpr int kMobEnemyNum = 3;				// 読み込むモブ敵の数
 	constexpr int kCreateTutoEnemyTalkNum = 2;	// チュートリアル敵を生成するタイミング
+	constexpr int kSpecialEnemyAddIndex = 6;	// 特殊敵の番号を調整
 
 	constexpr int kEnemyMaxNum = 3;		// 1度に出現する最大の敵数
 	constexpr int kEnemyKindNum = 3;	// 敵の種類
@@ -186,6 +195,12 @@ std::shared_ptr<SceneBase> SceneMain::Update(Input& input)
 	m_pCamera->Update(input, *m_pPlayer, *m_pStage);
 	m_pUiBar->Update();
 
+	for (auto& enemy : m_pEnemySpecial)
+	{
+		if (enemy == nullptr) continue;
+		enemy->Update(*m_pStage, *m_pPlayer);
+	}
+
 	EffectManager::GetInstance().Update(); 	// エフェクトの更新
 	UpdateSound();	// サウンド更新
 
@@ -261,31 +276,10 @@ void SceneMain::Draw()
 		m_pUiMain->DrawMoneyUi(m_pPlayer->GetMoney()); // 所持金UI表示
 	}
 
-	DrawTalk(); // 会話表示
+	DrawTalk();		// 会話表示
+	DrawExplain();	// 説明表示
 
-	// チュートリアル表示
-	if (m_isTutorial)
-	{
-		if (m_pPlayer->GetTutoInfo().isEndTutorial) return;
-		m_pUiMain->DrawTutorial(m_pPlayer->GetTutoInfo());
-
-		// 会話表示
-		if (m_pPlayer->GetTutoInfo().isTalk)
-		{
-			m_pUiConversation->DrawTalk(*m_pPlayer, 0);
-		}
-	}
-	// 操作説明表示
-	else
-	{
-		// 会話中は操作説明を表示しない
-		if (!m_pPlayer->GetIsNowTalk())
-		{
-			m_pUiMain->DrawOperation(m_pPlayer->GetIsBattle());
-		}
-	}
-
-	// 特定の状態の場合は表示しない
+	// 特定の状態の場合はミニマップを表示しない
 	bool isNotDrawMap = !m_isBattleEndStaging || !m_isLastBattle || m_isEnding || m_isTutorial || m_pPlayer->GetIsNowTalk();
 	if (!isNotDrawMap)
 	{
@@ -422,13 +416,9 @@ void SceneMain::InitAfterLoading()
 	m_pStage = std::make_shared<Stage>(m_pPlayer);
 	m_pEventData = std::make_shared<EventData>();
 
-	//for (auto& enemy : m_pEnemySpecial)
-	//{
-	//	enemy = std::make_shared<EnemySpecial>(m_pUi, m_pItem, *m_pPlayer);
-	//}
-
 	SetShadowMap();	// シャドウマップをセットする
 	SelectEnemy();	// 敵の種類を決める
+	CreateSpecialEnemy(); 	// 特殊敵を生成
 
 	// 初期化を行う
 	m_pPlayer->Init();
@@ -787,6 +777,19 @@ void SceneMain::CreateEnemy()
 	{
 		SelectEnemy(); // 出現する敵をランダムで選ぶ
 		m_enemySpawnTime = 0;
+	}
+}
+
+void SceneMain::CreateSpecialEnemy()
+{
+	for (int i = 0; i < m_pEnemySpecial.size(); i++)
+	{
+		int index = i + kSpecialEnemyAddIndex; // 特殊敵の番号を調整
+
+		m_pEnemySpecial[i] = std::make_shared<EnemySpecial>(m_pUiBar, m_pItem, *m_pPlayer);
+		m_pEnemySpecial[i]->SetEnemyInfo(kEnemyName.at(index), kSpecialEnemyId.at(index),
+			index, m_modelHandle[index]);
+		m_pEnemySpecial[i]->Init();
 	}
 }
 
@@ -1369,6 +1372,31 @@ void SceneMain::DrawTalk()
 	}
 }
 
+void SceneMain::DrawExplain()
+{
+	// チュートリアル表示
+	if (m_isTutorial)
+	{
+		if (m_pPlayer->GetTutoInfo().isEndTutorial) return;
+		m_pUiMain->DrawTutorial(m_pPlayer->GetTutoInfo());
+
+		// 会話表示
+		if (m_pPlayer->GetTutoInfo().isTalk)
+		{
+			m_pUiConversation->DrawTalk(*m_pPlayer, 0);
+		}
+	}
+	// 操作説明表示
+	else
+	{
+		// 会話中は操作説明を表示しない
+		if (!m_pPlayer->GetIsNowTalk())
+		{
+			m_pUiMain->DrawOperation(m_pPlayer->GetIsBattle());
+		}
+	}
+}
+
 void SceneMain::SetShadowMap()
 {
 	m_shadowMap = MakeShadowMap(kShadowMapSize, kShadowMapSize);
@@ -1397,6 +1425,12 @@ void SceneMain::DrawSetUpShadow()
 		enemy->Draw(*m_pPlayer);
 	}
 
+	for (auto& enemy : m_pEnemySpecial)
+	{
+		if (enemy == nullptr) continue;
+		enemy->Draw(*m_pPlayer);
+	}
+
 	m_pWeapon->Draw();
 	ShadowMap_DrawEnd(); /*シャドウマップへの描画を終了*/
 
@@ -1408,6 +1442,12 @@ void SceneMain::DrawSetUpShadow()
 	m_pNpc->Draw();
 
 	for (auto& enemy : m_pEnemy)
+	{
+		if (enemy == nullptr) continue;
+		enemy->Draw(*m_pPlayer);
+	}
+
+	for (auto& enemy : m_pEnemySpecial)
 	{
 		if (enemy == nullptr) continue;
 		enemy->Draw(*m_pPlayer);

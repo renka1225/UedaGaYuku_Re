@@ -105,6 +105,14 @@ public:
 	/// <returns>敵AIのポインタ</returns>
 	std::shared_ptr<EnemyAI> GetEnemyAI() const { return m_pEnemyAI; }
 
+protected:
+	/// <summary>
+	/// 敵クラス共通の更新処理
+	/// </summary>
+	/// <param name="pStage">ステージ参照</param>
+	/// <param name="pPlayer">プレイヤー参照</param>
+	void CommonUpdate(Stage& pStage, Player& pPlayer);
+
 private:
 	/// <summary>
 	/// 敵のフレーム位置を取得する

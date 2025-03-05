@@ -160,6 +160,11 @@ private:
 	void CreateEnemy();
 
 	/// <summary>
+	/// 特殊敵を生成する
+	/// </summary>
+	void CreateSpecialEnemy();
+
+	/// <summary>
 	/// チュートリアル敵を生成する
 	/// </summary>
 	void CreateTutoEnemy();
@@ -259,6 +264,11 @@ private:
 	/// 会話関係のUIを表示する
 	/// </summary>
 	void DrawTalk();
+
+	/// <summary>
+	/// 説明関連のUIを表示する
+	/// </summary>
+	void DrawExplain();
 
 	/// <summary>
 	/// シャドウマップをセットする

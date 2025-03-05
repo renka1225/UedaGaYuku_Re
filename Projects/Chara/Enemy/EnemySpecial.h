@@ -23,20 +23,20 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Init();
+	virtual void Init() override;
 
 	/// <summary>
 	/// 更新
 	/// </summary>
 	/// <param name="pStage">ステージ参照</param>
 	/// <param name="pPlayer">プレイヤー参照</param>
-	virtual void Update(Stage& pStage, Player& pPlayer);
+	virtual void Update(Stage& pStage, Player& pPlayer) override;
 	
 	/// <summary>
 	/// 描画
 	/// </summary>
 	/// <param name="player">プレイヤー参照</param>
-	virtual void Draw(Player& player);
+	virtual void Draw(Player& player) override;
 
 private:
 	/// <summary>
