@@ -1,4 +1,5 @@
 ﻿#include "EnemySpecial.h"
+#include <assert.h>
 
 namespace
 {
@@ -27,13 +28,11 @@ void EnemySpecial::Update(Stage& pStage, Player& pPlayer)
 {
 	CharacterBase::Update();
 	CommonUpdate(pStage, pPlayer);
-	m_isPossibleMove = false;
 }
 
 void EnemySpecial::Draw(Player& player)
-{
+{	
 	EnemyBase::Draw(player);
-	CharacterBase::Draw();
 }
 
 void EnemySpecial::SetEnemySpawnInitPos()

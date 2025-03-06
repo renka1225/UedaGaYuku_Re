@@ -135,8 +135,7 @@ SceneMain::~SceneMain()
 	Sound::GetInstance().StopBgm(SoundName::kBgm_bossBattle);
 	Sound::GetInstance().StopBgm(SoundName::kBgm_battleEnd);
 
-	// 全エフェクトを停止する
-	EffectManager::GetInstance().AllStop();
+	DeleteShadowMap(m_shadowMap); // シャドウマップの削除
 
 	m_pEnemy.clear();
 	for (auto& handle : m_handle)
@@ -148,7 +147,8 @@ SceneMain::~SceneMain()
 		MV1DeleteModel(handle);
 	}
 
-	DeleteShadowMap(m_shadowMap); // シャドウマップの削除
+	// 全エフェクトを停止する
+	EffectManager::GetInstance().AllStop();
 }
 
 void SceneMain::Init()

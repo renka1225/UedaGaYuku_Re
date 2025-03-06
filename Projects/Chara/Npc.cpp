@@ -39,8 +39,11 @@ void Npc::Update(Stage& pStage, const Player& pPlayer)
 	// ステージと当たり判定を行って座標を保存する
 	m_pos = pStage.CheckObjectCol(*this, VGet(0.0f, 0.0f, 0.0f));
 
-	UpdateAnim();				// アニメーションを更新
-	UpdateCol(CharaType::kNpc);	// 当たり判定の位置更新
+	UpdateAnim();	// アニメーションを更新
+
+	// 当たり判定を更新
+	UpdateCol(CharaType::kNpc);
+	CheckCharaCol(*this, m_colData[CharaType::kNpc], CharaType::kPlayer);
 
 	if (!pPlayer.GetIsBattle())
 	{
