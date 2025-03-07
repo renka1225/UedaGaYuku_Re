@@ -77,7 +77,7 @@ namespace
 
 	constexpr int kBattleStartStagingTime = 120;		// バトル開始時の演出時間
 	constexpr int kSpecialBattleStartStagingTime = 250;	// 特殊バトル開始時の演出時間
-	constexpr int kBattleEndStagingTime = 240;			// バトル終了時の演出時間
+	constexpr int kBattleEndStagingTime = 180;			// バトル終了時の演出時間
 	constexpr int kEndingTime = 150;					// エンディングの時間
 	constexpr int kTalkDispTime = 3;					// 会話を表示させる最低限の時間
 
@@ -573,6 +573,7 @@ void SceneMain::UpdateSpecialBattleStartStaging()
 		if (!m_isDispBattleStart)
 		{
 			m_battleStartStagingTime = kSpecialBattleStartStagingTime;
+			m_pWeapon->SetIsResetPos(true);
 			m_isDispBattleStart = true;
 		}
 
@@ -613,6 +614,7 @@ void SceneMain::UpdateBattleStartStaging()
 		{
 			//m_pCamera->BattleStart(); // カメラを敵の方に向ける
 			m_battleStartStagingTime = kBattleStartStagingTime;
+			m_pWeapon->SetIsResetPos(true);
 			m_isDispBattleStart = true;
 		}
 
@@ -722,7 +724,8 @@ void SceneMain::UpdateSound()
 {
 	auto& sound = Sound::GetInstance();
 
-	if (m_battleEndStagingTime > 0)
+	// バトル終了演出中
+	if (m_battleEndStagingTime > 0 && m_isBattleEndStaging)
 	{
 		sound.StopBgm(SoundName::kBgm_battle);
 

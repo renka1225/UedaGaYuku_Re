@@ -101,6 +101,12 @@ public:
 	void SetIsHitAttack(bool isHit) { m_isHitAttack = isHit; }
 
 	/// <summary>
+	/// 武器の位置をリセットする
+	/// </summary>
+	/// <param name="isReset"></param>
+	void SetIsResetPos(bool isReset) { m_isResetPos = isReset; }
+
+	/// <summary>
 	/// 武器の掴み状態を更新
 	/// </summary>
 	/// <param name="isGrab">掴み状態</param>
@@ -129,12 +135,26 @@ private:
 	/// <param name="frameMatrix">モデルの行列</param>
 	void SetModelFramePos(auto& loc, MATRIX frameMatrix);
 
+	/// <summary>
+	/// 武器情報をリセットする
+	/// </summary>
+	/// <param name="frameMatrix">武器の回転行列</param>
+	/// <param name="loc">配置データ</param>
+	void ResetWeapon(MATRIX frameMatrix, auto& loc);
+
+	/// <summary>
+	/// 武器を非表示にする
+	/// </summary>
+	/// <param name="loc">配置データ</param>
+	void InvisibleWeapon(auto& loc);
+
 protected:
 	std::vector<LocationData> m_locationData;		// 配置データ
 	std::shared_ptr<Player> m_pPlayer;				// プレイヤーのポインタ
 	std::map<std::string, int> m_objHandle;			// 読み込むオブジェクトのハンドル
 	std::map<std::string, WeaponData> m_weaponData; // 武器のデータ
 	int m_loadLocationData;	// 読み込む配置データ
-	bool m_isHitAttack;		// 攻撃中に当たっているかどうか
 	int m_handle;			// 画像ハンドル
+	bool m_isResetPos;		// 武器位置をリセットするかどうか
+	bool m_isHitAttack;		// 攻撃中に当たっているかどうか
 };

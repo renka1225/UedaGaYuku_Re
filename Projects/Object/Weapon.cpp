@@ -9,8 +9,8 @@
 // 定数
 namespace
 {
-	const char* kTextHandleFileName = "data/ui/text/hirou.png";		// 画像ハンドルのパス名
-	const std::string kWeaponFileName = "data/model/weapon/";		// モデルのファイルパス名
+	const char* kTextHandleFileName = "data/ui/text/hirou.png";	// 画像ハンドルのパス名
+	const std::string kWeaponFileName = "data/model/weapon/";	// モデルのファイルパス名
 	constexpr int kPlayerHandFrameNum = 51;	// 武器をアタッチするフレーム番号
 	constexpr float kGroundHeight = 42.0f;  // 地面の高さ
 	const float kDispTextAdjY = 25.0f;		// 拾うのテキスト調整位置
@@ -19,6 +19,7 @@ namespace
 
 Weapon::Weapon(std::shared_ptr<Player> pPlayer) :
 	m_loadLocationData(-1),
+	m_isResetPos(false),
 	m_isHitAttack(false)
 {
 	m_pPlayer = pPlayer;
@@ -57,30 +58,24 @@ void Weapon::Update(Stage& stage)
 	// 武器位置更新
 	for (auto& loc : m_locationData)
 	{
-		// チュートリアル中はエフェクトを表示しない
+		// チュートリアル中
 		bool isTuto = !m_pPlayer->GetTutoInfo().isEndTutorial && m_pPlayer->GetTutoInfo().currentNum <= Player::TutorialNum::kTuto_2;
 		// プレイヤーが近くにいるかどうか
 		bool isNearPlayer = VSize(VSub(m_pPlayer->GetPos(), loc.pos)) <= kDispEffectRange;
 		if (isTuto || !isNearPlayer)
 		{
-			// エフェクトを停止する
+			// エフェクト、武器を表示しない
 			EffectManager::GetInstance().StopWeaponEffect(loc.id);
+			MV1SetFrameVisible(m_objHandle[loc.id], 0, false);
 		}
+
+		// 武器位置をリセットする
+		ResetWeapon(frameMatrix, loc);
 
 		// バトル中でない場合
 		if (!m_pPlayer->GetIsBattle())
 		{
-			// 武器の位置を初期位置にリセット
-			loc.pos = loc.initPos;
-			loc.rot = loc.initRot;
-			loc.durability = m_weaponData[loc.id].durability;
-			loc.isGrab = false;
-			loc.rot = VGet(0.0f, 0.0f, 0.0f); // 回転を初期化
-			frameMatrix = MGetIdent();		  // 単位行列を設定
-			MV1SetMatrix(m_objHandle[loc.id], frameMatrix);
-
-			// エフェクトを停止
-			EffectManager::GetInstance().StopWeaponEffect(loc.id);
+			InvisibleWeapon(loc); // 武器を非表示にする
 		}
 		// バトル中の場合
 		else
@@ -88,11 +83,7 @@ void Weapon::Update(Stage& stage)
 			// 耐久力が0になった場合
 			if (loc.durability <= 0)
 			{
-				// モデルを非表示し、当たり判定を消す
-				MV1SetFrameVisible(m_objHandle[loc.id], 0, false);
-				m_pPlayer->SetIsGrabWeapon(false); // プレイヤーの武器掴み状態を解除する
-				loc.isGrab = false;
-				loc.durability = std::max(loc.durability, 0);
+				InvisibleWeapon(loc); // 武器を非表示にする
 
 				// エフェクトを停止
 				EffectManager::GetInstance().StopWeaponEffect(loc.id);
@@ -159,7 +150,6 @@ void Weapon::Draw()
 		
 		// 当たり判定描画
 		debug.DrawWeaponCol(loc.updateCol.colStartPos, loc.updateCol.colEndPos, loc.updateCol.colRadius);
-	
 	}
 #endif
 }
@@ -313,4 +303,31 @@ void Weapon::SetModelFramePos(auto& loc, MATRIX frameMatrix)
 	loc.rot = VTransform(VGet(0.0f, 0.0f, 0.0f), frameMatrix);
 
 	MV1SetMatrix(m_objHandle[loc.id], frameMatrix);
+}
+
+void Weapon::ResetWeapon(MATRIX frameMatrix, auto& loc)
+{
+	if (!m_isResetPos) return;
+	
+	loc.pos = VAdd(loc.initPos, m_pPlayer->GetPos());
+	loc.pos.y = loc.initPos.y;
+	loc.rot = loc.initRot;
+	loc.durability = m_weaponData[loc.id].durability;
+	loc.isGrab = false;
+	frameMatrix = MGetIdent();		  // 単位行列を設定
+	MV1SetMatrix(m_objHandle[loc.id], frameMatrix);
+
+	m_isResetPos = false;
+}
+
+void Weapon::InvisibleWeapon(auto& loc)
+{
+	// モデルを非表示し、当たり判定を消す
+	MV1SetFrameVisible(m_objHandle[loc.id], 0, false);
+	m_pPlayer->SetIsGrabWeapon(false); // プレイヤーの武器掴み状態を解除する
+	loc.isGrab = false;
+	loc.durability = std::max(loc.durability, 0);
+
+	// エフェクトを停止
+	EffectManager::GetInstance().StopWeaponEffect(loc.id);
 }
