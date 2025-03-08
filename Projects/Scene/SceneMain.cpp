@@ -1346,11 +1346,16 @@ void SceneMain::DrawTalk()
 {
 	// チュートリアル中は表示しない
 	if (m_isTutorial) return;
+	if (m_pPlayer->GetIsBattle()) return;
 
 	// 話すUI表示
 	if (m_pPlayer->GetIsTalk())
 	{
 		m_pUiMain->DrawNpcUi(m_pNpc->GetPos());
+	}
+	else if(!m_pPlayer->GetIsTalk())
+	{
+		m_pUiMain->DrawTalkIcon(m_pPlayer->GetPos(), m_pNpc->GetPos());
 	}
 
 	// 会話中

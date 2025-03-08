@@ -62,6 +62,7 @@ void Weapon::Update(Stage& stage)
 		bool isTuto = !m_pPlayer->GetTutoInfo().isEndTutorial && m_pPlayer->GetTutoInfo().currentNum <= Player::TutorialNum::kTuto_2;
 		// プレイヤーが近くにいるかどうか
 		bool isNearPlayer = VSize(VSub(m_pPlayer->GetPos(), loc.pos)) <= kDispEffectRange;
+
 		if (isTuto || !isNearPlayer)
 		{
 			// エフェクト、武器を表示しない
@@ -314,7 +315,7 @@ void Weapon::ResetWeapon(MATRIX frameMatrix, auto& loc)
 	loc.rot = loc.initRot;
 	loc.durability = m_weaponData[loc.id].durability;
 	loc.isGrab = false;
-	frameMatrix = MGetIdent();		  // 単位行列を設定
+	frameMatrix = MGetIdent();	// 単位行列を設定
 	MV1SetMatrix(m_objHandle[loc.id], frameMatrix);
 
 	m_isResetPos = false;

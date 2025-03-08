@@ -30,6 +30,7 @@ namespace
 		kMiniMap,			// ミニマップ
 		kIconEnemy,			// ミニマップ上に表示する敵アイコン
 		kIconPlayer,		// ミニマップ上に表示するプレイヤーアイコン
+		kIconTalk,			// 会話のUI
 		kNpcTalk,			// 話すのUI
 		kOperation_normal,	// 操作説明
 		kOperation_battle,	// バトル時操作説明
@@ -89,6 +90,7 @@ namespace
 		"data/ui/main/minimap.png",
 		"data/ui/main/icon_enemy.png",
 		"data/ui/main/icon_player.png",
+		"data/ui/main/icon_talk.png",
 		"data/ui/text/hanasu.png",
 		"data/ui/main/operation_normal.png",
 		"data/ui/main/operation_battle.png",
@@ -170,7 +172,9 @@ namespace
 	constexpr float kLoadingAnimTime = 0.05f;					// ローディング中のアニメーション時間
 
 	/*会話*/
-	const Vec2 kDispTalkUiPos = { -5.0f, 32.0f }; // "話す"テキスト表示位置調整
+	const Vec2 kDispTalkUiPos = { -5.0f, 32.0f };	// "話す"テキスト表示位置調整
+	const Vec2 kDispTalkIconPos = { 0.0f, 35.0f };	// 会話アイコン表示位置調整
+	constexpr float kDispTalkIconDisp = 300.0f;		// 会話アイコン表示範囲
 
 	/*操作説明*/
 	const Vec2 kDispOperationPos = { 1635.0f, 905.0f };			// 通常操作説明表示位置
@@ -451,6 +455,23 @@ void UiMain::DrawNpcUi(VECTOR pos)
 	if (!isViewClip)
 	{
 		DrawGraphF(screenPos.x, screenPos.y, m_handle[Handle::kNpcTalk], true);
+	}
+}
+
+void UiMain::DrawTalkIcon(VECTOR playerPos, VECTOR npcPos)
+{
+	// 遠くにいる場合は表示しない
+	float dir = VSize(VSub(npcPos, playerPos));
+	if (dir >= kDispTalkIconDisp) return;
+
+	// キャラの位置からUIの位置を決める
+	VECTOR modelTopPos = VAdd(npcPos, VGet(kDispTalkIconPos.x, kDispTalkIconPos.y, 0.0f));
+	VECTOR screenPos = ConvWorldPosToScreenPos(modelTopPos);
+	bool isViewClip = CheckCameraViewClip(modelTopPos); // カメラの視界内に入っているか(true:視界に入っていない)
+
+	if (!isViewClip)
+	{
+		DrawGraphF(screenPos.x, screenPos.y, m_handle[Handle::kIconTalk], true);
 	}
 }
 

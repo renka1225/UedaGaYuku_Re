@@ -69,6 +69,13 @@ public:
 	void DrawNpcUi(VECTOR pos);
 
 	/// <summary>
+	/// 会話アイコンを表示
+	/// </summary>
+	/// <param name="playerPos">プレイヤーの座標</param>
+	/// <param name="npcPos">NPCの座標</param>
+	void DrawTalkIcon(VECTOR playerPos, VECTOR npcPos);
+
+	/// <summary>
 	/// バトル中のUIを表示
 	/// </summary>
 	/// <param name="pPlayer">プレイヤー参照</param>
