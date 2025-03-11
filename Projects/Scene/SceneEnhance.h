@@ -16,11 +16,11 @@ public:
 	/// </summary>
 	struct EnhanceData
 	{
-		std::string id;				// ID
-		std::string skillName;		// スキル名
-		std::string skillExplain;	// スキル説明
-		float upAmount;				// 上昇する倍率
-		int requiredMoney;			// 必要金額
+		std::string id = "";			// ID
+		std::string skillName = "";		// スキル名
+		std::string skillExplain = "";	// スキル説明
+		float upAmount = 0.0f;			// 上昇する倍率
+		int requiredMoney = 0;			// 必要金額
 	};
 
 	/// <summary>

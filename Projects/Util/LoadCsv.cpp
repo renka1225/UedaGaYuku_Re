@@ -210,6 +210,12 @@ void LoadCsv::LoadWeaponData(std::map<std::string, Weapon::WeaponData>& data)
 			data[weaponId].colEndPos.y = std::stof(strvec[7]);
 			data[weaponId].colEndPos.z = std::stof(strvec[8]);
 			data[weaponId].colRadius = std::stof(strvec[9]);
+			data[weaponId].grabPos.x = std::stof(strvec[10]);
+			data[weaponId].grabPos.y = std::stof(strvec[11]);
+			data[weaponId].grabPos.z = std::stof(strvec[12]);
+			data[weaponId].grabRot.x = std::stof(strvec[13]);
+			data[weaponId].grabRot.y = std::stof(strvec[14]);
+			data[weaponId].grabRot.z = std::stof(strvec[15]);
 		}
 		catch (const std::invalid_argument&)
 		{

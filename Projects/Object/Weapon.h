@@ -21,6 +21,8 @@ public:
 		VECTOR colStartPos = VGet(0.0f ,0.0f, 0.0f); // 武器の当たり判定始点
 		VECTOR colEndPos = VGet(0.0f, 0.0f, 0.0f);	 // 武器の当たり判定終点
 		float colRadius = 0.0f;						 // 武器の当たり判定半径
+		VECTOR grabPos = VGet(0.0f, 0.0f, 0.0f);	 // 武器を掴んだ際の位置
+		VECTOR grabRot = VGet(0.0f, 0.0f, 0.0f);	 // 武器を掴んだ際の回転
 	};
 
 	// 当たり判定更新データ

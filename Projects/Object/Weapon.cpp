@@ -297,11 +297,18 @@ bool Weapon::CheckWeaponCol(const CharacterBase::ColData& colData, Player& playe
 
 void Weapon::SetModelFramePos(auto& loc, MATRIX frameMatrix)
 {
+	// プレイヤーの手の位置を取得
 	frameMatrix = MV1GetFrameLocalWorldMatrix(m_pPlayer->GetHandle(), kPlayerHandFrameNum);
 
 	// 武器位置を更新
-	loc.pos = VTransform(VGet(0.0f, 0.0f, 0.0f), frameMatrix);
-	loc.rot = VTransform(VGet(0.0f, 0.0f, 0.0f), frameMatrix);
+	loc.pos = VTransform(m_weaponData[loc.id].grabPos, frameMatrix);
+
+	// 武器の回転行列を作成
+	MATRIX rotX = MGetRotX(m_weaponData[loc.id].grabRot.x);
+	MATRIX rotY = MGetRotY(m_weaponData[loc.id].grabRot.y);
+	MATRIX rotZ = MGetRotZ(m_weaponData[loc.id].grabRot.z);
+	MATRIX rotMatrix = MMult(MMult(rotX, rotY), rotZ);
+	frameMatrix = MMult(frameMatrix, rotMatrix);
 
 	MV1SetMatrix(m_objHandle[loc.id], frameMatrix);
 }
