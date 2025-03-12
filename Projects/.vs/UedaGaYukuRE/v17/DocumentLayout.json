@@ -94,8 +94,7 @@
               "RelativeToolTip": "Scene\\SceneEnhance.h",
               "ViewState": "AgIAAAYAAAAAAAAAAAAiwBcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-03-11T13:48:35.987Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-11T13:48:35.987Z"
             },
             {
               "$type": "Document",
@@ -107,8 +106,7 @@
               "RelativeToolTip": "Util\\LoadCsv.cpp",
               "ViewState": "AgIAAL0AAAAAAAAAAAAAANYAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-03-11T13:41:15.639Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-11T13:41:15.639Z"
             },
             {
               "$type": "Document",
@@ -144,8 +142,7 @@
               "RelativeToolTip": "Object\\Weapon.h",
               "ViewState": "AgIAAB4AAAAAAAAAAAAAAJwAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-03-08T03:28:25.181Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-08T03:28:25.181Z"
             },
             {
               "$type": "Document",
@@ -155,7 +152,7 @@
               "RelativeDocumentMoniker": "Object\\Weapon.cpp",
               "ToolTip": "C:\\GitHub\\UedaGaYuku_RE\\Projects\\Object\\Weapon.cpp",
               "RelativeToolTip": "Object\\Weapon.cpp",
-              "ViewState": "AgIAACUBAAAAAAAAAAAiwDwBAAABAAAAAAAAAA==",
+              "ViewState": "AgIAACQBAAAAAAAAAAAiwDcBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-03-08T03:28:26.31Z",
               "EditorCaption": ""
@@ -278,8 +275,7 @@
               "RelativeToolTip": "Chara\\Player\\Player.cpp",
               "ViewState": "AgIAAHEAAAAAAAAAAAAQwJEAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-01-20T00:59:35.272Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-20T00:59:35.272Z"
             },
             {
               "$type": "Document",
@@ -301,7 +297,7 @@
               "RelativeDocumentMoniker": "Scene\\SceneMain.cpp",
               "ToolTip": "C:\\GitHub\\UedaGaYuku_RE\\Projects\\Scene\\SceneMain.cpp",
               "RelativeToolTip": "Scene\\SceneMain.cpp",
-              "ViewState": "AgIAAEkDAAAAAAAAAAAQwEEFAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAHwDAAAAAAAAAAAQwEEFAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-01-20T00:59:35.273Z",
               "EditorCaption": ""
